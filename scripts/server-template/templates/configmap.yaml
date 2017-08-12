@@ -1,0 +1,49 @@
+# TODO defaults would be a good practice
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "fullname" . }}-common
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  ENV: {{ .Values.env | quote }}
+  DEBUG: {{ .Values.debug | quote }}
+  PROJECT: {{ .Values.project.name | quote }}
+  CUSTOMER: {{ .Values.project.customer | quote }}
+  VERSION: {{ .Values.build.version | quote }}
+  COMMIT: {{ .Values.build.commit | quote }}
+  IMAGE_TAG: {{ .Values.build.imageTag | quote }}
+  DEPLOY_TIME: {{ now | htmlDate }}
+
+{{ if ne .Values.env "local" }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "fullname" . }}-database # {{ .Values.stack.database }}
+data:
+  HOST: '127.0.0.1'
+  PORT: '5432'
+  ID: '{{ .Release.Name | replace "-" "_" }}'
+  DB: '{{ .Release.Name | replace "-" "_" }}'
+  USER: '{{ .Chart.Name | replace "-" "_" }}_{{ .Values.env }}_app'
+  POOL_MIN: {{ .Values.database.poolMin | quote }}
+  POOL_MAX: {{ .Values.database.poolMax | quote }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "fullname" . }}-bucket # {{ .Values.stack.bucket }}
+data:
+  HOST: {{ .Values.bucket.host | quote }}
+  PORT: {{ .Values.bucket.port | quote }}
+  ID: '{{ .Release.Name | replace "-" "_" }}'
+  REGION: {{ .Values.bucket.region | quote }}
+  PROTOCOL: {{ .Values.bucket.protocol | quote }}
+{{ else }}
+# TODO HOST: database/bucket for local... also port...
+{{ end }}

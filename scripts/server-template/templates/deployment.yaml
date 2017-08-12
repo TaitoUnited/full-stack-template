@@ -1,0 +1,364 @@
+{{ if .Values.stack.admin }}
+{{ if .Values.admin.autoscale }}
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ template "fullname" . }}-{{ .Values.stack.admin }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: {{ template "fullname" . }}-{{ .Values.stack.admin }}
+  minReplicas: {{ .Values.admin.minReplicas }}
+  maxReplicas: {{ .Values.admin.maxReplicas }}
+  targetCPUUtilizationPercentage: {{ .Values.admin.targetCPUUtilizationPercentage }}
+{{ end }}
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}-{{ .Values.stack.admin }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.admin.replicas }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+        tier: frontend
+        role: admin
+    spec:
+      containers:
+        - name: {{ template "fullname" . }}-{{ .Values.stack.admin }}
+          image: {{ .Values.repository -}} / {{- .Values.stack.admin -}} : {{- .Values.build.imageTag }}
+          imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+          ports:
+            - containerPort: {{ .Values.admin.port }}
+          envFrom:
+            - prefix: COMMON_
+              configMapRef:
+                name: {{ template "fullname" . }}-common
+            - prefix: APP_
+              configMapRef:
+                name: {{ template "fullname" . }}-app
+        # NOTE: logging not needed. serves only static files. log on ingress.
+        # - name: {{ template "fullname" . }}-{{ .Values.stack.admin }}-monitor
+        #   image: wikiwi/stackdriver-agent
+        #   imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+        #   env:
+        #     - name: NGINX_STATUS_URL
+        #       value: 'http://localhost/nginx_status'
+          # TODO
+          # livenessProbe:
+          #   httpGet:
+          #     path: /status
+          #     port: {{ .Values.admin.http }}
+          #   initialDelaySeconds: 15
+          #   periodSeconds: 3
+          #   timeoutSeconds: 1
+          # readinessProbe:
+          #   httpGet:
+          #     path: /status
+          #     port: {{ .Values.admin.http }}
+{{ end }}
+
+{{ if .Values.stack.client }}
+{{ if .Values.client.autoscale }}
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ template "fullname" . }}-{{ .Values.stack.client }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: {{ template "fullname" . }}-{{ .Values.stack.client }}
+  minReplicas: {{ .Values.client.minReplicas }}
+  maxReplicas: {{ .Values.client.maxReplicas }}
+  targetCPUUtilizationPercentage: {{ .Values.client.targetCPUUtilizationPercentage }}
+{{ end }}
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}-{{ .Values.stack.client }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.client.replicas }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+        tier: frontend
+        role: client
+    spec:
+      containers:
+        - name: {{ template "fullname" . }}-{{ .Values.stack.client }}
+          image: {{ .Values.repository -}} / {{- .Values.stack.client -}} : {{- .Values.build.imageTag }}
+          imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+          ports:
+            - containerPort: {{ .Values.client.port }}
+          envFrom:
+            - prefix: COMMON_
+              configMapRef:
+                name: {{ template "fullname" . }}-common
+            - prefix: APP_
+              configMapRef:
+                name: {{ template "fullname" . }}-app
+        # NOTE: logging not needed. serves only static files. log on ingress.
+        # - name: {{ template "fullname" . }}-{{ .Values.stack.client }}-monitor
+        #   image: wikiwi/stackdriver-agent
+        #   imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+        #   env:
+        #     - name: NGINX_STATUS_URL
+        #       value: 'http://localhost/nginx_status'
+          # TODO
+          # livenessProbe:
+          #   httpGet:
+          #     path: /status
+          #     port: {{ .Values.client.http }}
+          #   initialDelaySeconds: 15
+          #   periodSeconds: 3
+          #   timeoutSeconds: 1
+          # readinessProbe:
+          #   httpGet:
+          #     path: /status
+          #     port: {{ .Values.client.http }}
+{{ end }}
+
+{{ if .Values.stack.server }}
+{{ if .Values.server.autoscale }}
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ template "fullname" . }}-{{ .Values.stack.server }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: {{ template "fullname" . }}-{{ .Values.stack.server }}
+  minReplicas: {{ .Values.server.minReplicas }}
+  maxReplicas: {{ .Values.server.maxReplicas }}
+  targetCPUUtilizationPercentage: {{ .Values.server.targetCPUUtilizationPercentage }}
+{{ end }}
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}-{{ .Values.stack.server }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.server.replicas }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+        tier: backend
+        role: server
+    spec:
+      containers:
+        - name: {{ template "fullname" . }}-{{ .Values.stack.server }}
+          image: {{ .Values.repository -}} / {{- .Values.stack.server -}} : {{- .Values.build.imageTag }}
+          imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+          ports:
+            - containerPort: {{ .Values.server.port }}
+          envFrom:
+            - prefix: COMMON_
+              configMapRef:
+                name: {{ template "fullname" . }}-common
+            - prefix: APP_
+              configMapRef:
+                name: {{ template "fullname" . }}-app
+            # - prefix: BUCKET_
+            #   configMapRef:
+            #     name: {{ template "fullname" . }}-bucket # {{ .Values.stack.bucket }}
+            # - prefix: BUCKET_
+            #   secretRef:
+            #     name: {{ template "fullname" . }}-bucket # {{ .Values.stack.bucket }}
+            - prefix: DATABASE_
+              configMapRef:
+                name: {{ template "fullname" . }}-database # {{ .Values.stack.database }}
+            - prefix: DATABASE_
+              secretRef:
+                name: db.{{ template "fullname" . }}.app # {{ .Values.stack.database }}
+          env:
+            - name: API_BINDADDR
+              value: '0.0.0.0'
+            - name: API_PORT
+              value: '3332'
+            - name: ENV
+              value: {{ .Values.env | quote }}
+            - name: DEBUG
+              value: {{ .Values.debug | quote }}
+        - name: {{ template "fullname" . }}-{{ .Values.stack.server }}-monitor
+          image: wikiwi/stackdriver-agent
+          imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+  {{ if not .Values.stack.database }}
+        - name: cloudsql-proxy
+          image: gcr.io/cloudsql-docker/gce-proxy:1.09
+          command: ["/cloud_sql_proxy", "--dir=/cloudsql",
+        "-instances={{ .Values.database.db }}=tcp:{{ .Values.database.port }}",
+        "-credential_file=/secrets/cloudsql/SECRET"]
+          volumeMounts:
+            - name: cloudsql-instance-credentials
+              mountPath: /secrets/cloudsql
+              readOnly: true
+            - name: ssl-certs
+              mountPath: /etc/ssl/certs
+            - name: cloudsql
+              mountPath: /cloudsql
+      # Could these be common volumes for all apps?
+      volumes:
+        - name: cloudsql-instance-credentials
+          secret:
+            secretName: ext.google-cloudsql.proxy
+        - name: ssl-certs
+          hostPath:
+            path: /etc/ssl/certs
+        - name: cloudsql
+          emptyDir:
+  {{ end }}
+
+{{ end }}
+
+{{ if .Values.stack.cache }}
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}-{{ .Values.stack.cache }} # NOTE: was cache
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.cache.replicas }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+        tier: backend
+        role: cache
+    spec:
+      containers:
+        - name: {{ template "fullname" . }}-{{ .Values.stack.cache }}
+          image: {{ .Values.cache.image | quote }}
+          imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+          ports:
+            - containerPort: {{ .Values.cache.port }}
+        - name: {{ template "fullname" . }}-{{ .Values.stack.cache }}-monitor
+          image: wikiwi/stackdriver-agent
+          imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+{{ end }}
+
+{{ if .Values.stack.database }}
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}-{{ .Values.stack.database }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.database.replicas }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+        tier: backend
+        role: database
+    spec:
+      containers:
+        - name: {{ template "fullname" . }}-{{ .Values.stack.database }}
+          image: {{ .Values.database.image | quote }}
+          imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+          ports:
+            - containerPort: {{ .Values.database.port }}
+          envFrom:
+            - prefix: POSTGRES_
+              configMapRef:
+                name: {{ template "fullname" . }}-{{ .Values.stack.database }}
+            - prefix: POSTGRES_
+              secretRef:
+                name: {{ template "fullname" . }}-{{ .Values.stack.database }}
+{{ end }}
+
+{{ if .Values.stack.bucket }}
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}-{{ .Values.stack.bucket }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.bucket.replicas }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+        tier: backend
+        role: bucket
+    spec:
+      containers:
+        - name: {{ template "fullname" . }}-{{ .Values.stack.bucket }}
+          image: {{ .Values.bucket.image | quote }}
+          imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+          command:
+            - server /export
+          ports:
+            - containerPort: {{ .Values.bucket.port }}
+          env:
+            - name: MINIO_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "fullname" . }}-{{ .Values.stack.bucket }}
+                  key: ACCESS_KEY
+            - name: MINIO_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "fullname" . }}-{{ .Values.stack.bucket }}
+                  key: SECRET_KEY
+{{ end }}

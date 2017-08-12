@@ -1,0 +1,87 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "fullname" . }}-ingress
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+    kubernetes.io/ingress.class: {{ .Values.ingress.class | quote }}
+    ingress.kubernetes.io/rewrite-target: /
+{{- if .Values.ingress.basicAuth }}
+    ingress.kubernetes.io/auth-type: "basic"
+    ingress.kubernetes.io/auth-realm: {{ .Chart.Name | quote }}
+    ingress.kubernetes.io/auth-secret: {{ template "fullname" . }}-basic-auth
+{{- end -}}
+{{ if .Values.ingress.tls }}
+    kubernetes.io/tls-acme: "true"
+    ingress.kubernetes.io/ssl-redirect: "true"
+    ingress.kubernetes.io/force-ssl-redirect: "true"
+{{ end }}
+    # NOTE: see https://github.com/kubernetes/ingress/blob/master/controllers/nginx/configuration.md
+    # TODO ingress.kubernetes.io/limit-connections
+    # TODO ingress.kubernetes.io/limit-rps
+spec:
+{{ if .Values.ingress.tls }}
+  tls:
+  - hosts:
+    - {{ template "fullname" . -}} .g.taitodev.com
+    secretName: {{ template "fullname" . }}-ssl
+
+  {{- range $domain := .Values.domains }}
+  - hosts:
+    - {{ $domain }}
+    secretName: {{ $domain }}-ssl
+  {{- end -}}
+
+{{ end }}
+  rules:
+    - host: {{ template "fullname" . -}} .g.taitodev.com
+      http:
+        paths:
+          {{ if .Values.stack.server }}
+          - path: /api
+            backend:
+              serviceName: {{ template "fullname" . }}-{{ .Values.stack.server }}
+              servicePort: {{ .Values.server.port }}
+          {{ end }}
+          {{ if .Values.stack.admin }}
+          - path: /admin
+            backend:
+              serviceName: {{ template "fullname" . }}-{{ .Values.stack.admin }}
+              servicePort: {{ .Values.admin.port }}
+          {{ end }}
+          {{ if .Values.stack.client }}
+          - path: /
+            backend:
+              serviceName: {{ template "fullname" . }}-{{ .Values.stack.client }}
+              servicePort: {{ .Values.client.port }}
+          {{ end }}
+{{ if (eq .Values.env "prod") }}
+    {{- $root := . -}}
+    {{- range $domain := .Values.domains }}
+    - host: {{ $domain }}
+      http:
+        paths:
+          {{ if $root.Values.stack.server }}
+          - path: /api
+            backend:
+              serviceName: server-template- {{- $root.Values.env -}} -{{ .Values.stack.server }}
+              servicePort: {{ $root.Values.server.port }}
+          {{ end }}
+          {{ if $root.Values.stack.admin }}
+          - path: /
+            backend:
+              serviceName: server-template- {{- $root.Values.env -}} -{{ .Values.stack.admin }}
+              servicePort: {{ $root.Values.admin.port }}
+          {{ end }}
+          {{ if $root.Values.stack.client }}
+          - path: /
+            backend:
+              serviceName: server-template- {{- $root.Values.env -}} -{{ .Values.stack.client }}
+              servicePort: {{ $root.Values.client.port }}
+          {{ end }}
+    {{- end -}}
+{{ end }}

@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "fullname" . }}-app
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  # TODO configure these in values.yaml
+  {{ if (or (eq .Values.env "prod") (eq .Values.env "staging")) }}
+  EXAMPLE: 'configs for prod and staging'
+  {{ else if eq .Values.env "local" }}
+  EXAMPLE: 'configs for local development'
+  {{ else }}
+  EXAMPLE: 'configs for dev, test, feature branches'
+  {{ end }}
