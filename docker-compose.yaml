@@ -1,0 +1,104 @@
+# NOTE: Remove all extra containers that you don't need.
+
+# webapp-template-admin:
+#   container_name: webapp-template-admin
+#   build: ./admin
+#   restart: always
+#   ports:
+#     - "3333:3333"
+#   volumes:
+#     - "./admin:/app"
+#     - "/app/node_modules"
+#   links:
+#     - webapp-template-server:webapp-template-server
+#   environment:
+#     COMMON_ENV: local
+#     API_ROOT: 'http://0.0.0.0:3331'
+#     API_URL: ''
+
+webapp-template-client:
+  container_name: webapp-template-client
+  build: ./client
+  restart: always
+  ports:
+    - "3333:3333"
+  volumes:
+    - "./client:/app"
+    - "/app/node_modules"
+  links:
+    - webapp-template-server:webapp-template-server
+  environment:
+    COMMON_ENV: local
+    API_ROOT: 'http://0.0.0.0:3332'
+    API_URL: ''
+
+webapp-template-server:
+  container_name: webapp-template-server
+  build: ./server
+  restart: always
+  ports:
+    - "3332:3332"
+  volumes:
+    - "./server:/app"
+    - "/app/node_modules"
+  links:
+    - webapp-template-cache:webapp-template-cache
+    - webapp-template-database:webapp-template-database
+    - webapp-template-bucket:webapp-template-bucket
+  environment:
+    COMMON_ENV: local
+    COMMON_DEBUG: 'true'
+    COMMON_PROJECT: webapp-template
+    COMMON_CUSTOMER: customername
+    APP_EXAMPLE: example
+    ENV: dev
+    DEBUG: 'true'
+    API_BINDADDR: 0.0.0.0
+    API_PORT: 3332
+    BUCKET_HOST: webapp-template-bucket
+    BUCKET_ID: webapp_template_local
+    BUCKET_REGION: europe-west1-c
+    BUCKET_PROTOCOL: http
+    BUCKET_ACCESS_KEY: 070UEOQR6LX4YPZLFU0V
+    BUCKET_SECRET_KEY: CVQVa33NekSiOJGnevSY5ITr8Rql8lFkp22WhLQ+
+    DATABASE_HOST: webapp-template-database
+    DATABASE_ID: webapp_template_local
+    DATABASE_DB: webapp_template_local
+    DATABASE_USER: webapp_template_local_app
+    DATABASE_SECRET: secret
+    DATABASE_POOL_MAX: '10'
+    # TODO remove obsolete env variables
+
+webapp-template-cache:
+  container_name: webapp-template-cache
+  image: redis
+  restart: always
+  ports:
+    - "6379:6379"
+
+# "EXTERNAL RESOURCES"
+
+webapp-template-database:
+  container_name: webapp-template-database
+  image: kiasaki/alpine-postgres:9.5
+  restart: always
+  ports:
+    - "5432:5432"
+  environment:
+    POSTGRES_DB: webapp_template_local
+    POSTGRES_USER: webapp_template_local_app
+    POSTGRES_PASSWORD: secret
+  volumes:
+    # TODO init needs its own folder?
+    - "./database:/docker-entrypoint-initdb.d"
+
+webapp-template-bucket:
+  container_name: webapp-template-bucket
+  image: minio/minio
+  restart: always
+  command: server /export
+  ports:
+    - "9000:9000"
+  environment:
+    MINIO_ACCESS_KEY: 070UEOQR6LX4YPZLFU0V
+    MINIO_SECRET_KEY: CVQVa33NekSiOJGnevSY5ITr8Rql8lFkp22WhLQ+
