@@ -34,17 +34,17 @@ See [General Software Design](https://github.com/TaitoUnited/taito/wiki/General-
 
 ### Production
 
-* Site: https://webapp-template-prod.g.taitodev.com
+* Site: https://server-template-prod.g.taitodev.com
 * TODO Request an user account from...
 
 ### Staging
 
-* Site: https://webapp-template-staging.g.taitodev.com
+* Site: https://server-template-staging.g.taitodev.com
 * TODO Request an user account from...
 
 ### Dev
 
-* Site: https://webapp-template-dev.g.taitodev.com
+* Site: https://server-template-dev.g.taitodev.com
 * User accounts: TODO
 
 ## Recurring Issues and Solutions

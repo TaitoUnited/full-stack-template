@@ -1,5 +1,5 @@
 {
-  "name": "webapp-template",
+  "name": "server-template",
   "description": "",
   "private": false,
   "scripts": {
@@ -32,13 +32,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com:TaitoUnited/webapp-template.git"
+    "url": "git+ssh://git@github.com:TaitoUnited/server-template.git"
   },
   "bugs": {
-    "url": "https://github.com/TaitoUnited/webapp-template/issues"
+    "url": "https://github.com/TaitoUnited/server-template/issues"
   },
   "keywords": [
-    "webapp-template",
+    "server-template",
     "wepapp",
     "react",
     "node.js",
@@ -48,7 +48,7 @@
   ],
   "author": "Taito United Oy <support@taitounited.fi>",
   "license": "MIT",
-  "homepage": "https://github.com/TaitoUnited/webapp-template#readme",
+  "homepage": "https://github.com/TaitoUnited/server-template#readme",
   "devDependencies": {
     "babel-eslint": "^6.1.0",
     "eslint": "^3.4.0",

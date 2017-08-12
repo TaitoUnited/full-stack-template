@@ -1,6 +1,6 @@
-> Create a new project from this template by running `taito template-create webapp-template`. You can also migrate an existing project to this template by running `taito template-migrate webapp-template` in your project root folder. Later you can upgrade your project to the latest version of the template by running `taito template-upgrade`. To ensure flawless upgrade, do not modify files that have **do not modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files in the template instead, and then upgrade.
+> Create a new project from this template by running `taito template-create server-template`. You can also migrate an existing project to this template by running `taito template-migrate server-template` in your project root folder. Later you can upgrade your project to the latest version of the template by running `taito template-upgrade`. To ensure flawless upgrade, do not modify files that have **do not modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files in the template instead, and then upgrade.
 
-# webapp-template
+# server-template
 
 ## Prerequisites
 
@@ -10,7 +10,7 @@
 
 ## Conventions
 
-* [GitHub projects:](https://github.com/TaitoUnited/webapp-template/projects) Project management
+* [GitHub projects:](https://github.com/TaitoUnited/server-template/projects) Project management
 * [Taito conventions:](https://github.com/TaitoUnited/taito/wiki/Conventions) General conventions
 * [TaitoFlow:](https://github.com/TaitoUnited/taito/wiki/Git-and-GitHub#taitoflow) Version control workflow
 * [Airbnb Style Guide:](https://github.com/airbnb/javascript) ES6 conventions
@@ -121,11 +121,11 @@ NOTE: You might not have rights to execute some of the advanced operations (e.g.
 
 The following tools are currently used for this project. You can open any of the tools quickly from command line with taito-cli. Run `taito help` and see the links section provided by the link plugin.
 
-* See all builds on [Google Build History](https://console.cloud.google.com/gcr/builds?project=gcloud-temp1&organizationId=ORG_ID&query=source.repo_source.repo_name%3D%22github-taitounited-webapp-template%22).
-* See all build artifacts on [Google Container Registry](https://console.cloud.google.com/gcr/images/gcloud-temp1/EU/github-taitounited-webapp-template?project=gcloud-temp1&organizationId=ORG_ID).
+* See all builds on [Google Build History](https://console.cloud.google.com/gcr/builds?project=gcloud-temp1&organizationId=ORG_ID&query=source.repo_source.repo_name%3D%22github-taitounited-server-template%22).
+* See all build artifacts on [Google Container Registry](https://console.cloud.google.com/gcr/images/gcloud-temp1/EU/github-taitounited-server-template?project=gcloud-temp1&organizationId=ORG_ID).
 * Deployed on Kubernetes. See  [instructions](https://github.com/TaitoUnited/taito/wiki/Kubernetes). The most common Kubernetes operations are available as taito commands: `taito help`.
 *  All [dev](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&organizationId=ORG_ID&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fcustomername-dev), [staging](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&organizationId=ORG_ID&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fcustomername-staging) and [prod](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&organizationId=ORG_ID&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fcustomername-prod) logs are gathered to Google Stackdriver. See [instructions](https://github.com/TaitoUnited/taito/wiki/Stackdriver).
-* [Sentry](https://sentry.io/taitounited/webapp-template/) is used for error tracking. See [instructions](https://github.com/TaitoUnited/taito/wiki/Sentry).
+* [Sentry](https://sentry.io/taitounited/server-template/) is used for error tracking. See [instructions](https://github.com/TaitoUnited/taito/wiki/Sentry).
 * [Stackdriver Monitor](https://app.google.stackdriver.com/uptime/688a5d6cbd2d48af88f05c5d46f73376?project=gcloud-temp1) is used for monitoring production environment.
 * See performance on: TODO new relic?
 * See customer feedback: on TODO zendesk?
