@@ -1,0 +1,7 @@
+
+- id: build-#NAME
+  waitFor: ['-']
+  name: 'taitounited/taito-cli:latest'
+  args: ['build', '#NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
+  env:
+    - taito_mode=ci
