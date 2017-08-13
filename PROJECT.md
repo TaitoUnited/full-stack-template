@@ -47,7 +47,7 @@ Development:
 * Site: https://server-template-dev.g.taitodev.com
 * User accounts: TODO
 
-Basic authentication is enabled on non-production environments by default. The username is #USER and the password is #PASSWORD.
+Basic authentication is enabled on non-production environments by default. The username is #username and the password is #password.
 
 It's common that idle applications are run down to save resources on non-production environments . If your application seems to be down, you can (re)start it by running `taito restart:ENV`, or by pushing some changes to git.
 

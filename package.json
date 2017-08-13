@@ -4,8 +4,8 @@
   "private": false,
   "scripts": {
     "users:local": "echo TODO: add local users to package.json",
-    "users:dev": "echo Basic auth: #USER/#PASSWORD; echo TODO: add dev users to package.json",
-    "users:test": "echo Basic auth: #USER/#PASSWORD; echo TODO: add test users to package.json",
+    "users:dev": "echo Basic auth: #username/#password; echo TODO: add dev users to package.json",
+    "users:test": "echo Basic auth: #username/#password; echo TODO: add test users to package.json",
     "scan": "echo TODO: lint code in package.json",
     "test-unit": "echo TODO: implement test:unit in package.json",
     "test-api": "echo TODO: implement test:api in package.json. Env=${taito_env} url=${taito_app_url} user=${test_api_user} password=${test_api_password}",

@@ -123,11 +123,11 @@ echo "${auth_password}" | htpasswd -c scripts/${template_repo_name}/.htpasswd ${
 
 # Replace user and password in files
 if [ "$(uname)" = "Darwin" ]; then
-  sed -i '' -- "s/#USER/${auth_username}/g" README.md PROJECT.md package.json
-  sed -i '' -- "s/#PASSWORD/${auth_password}/g" README.md PROJECT.md package.json
+  sed -i '' -- "s/#username/${auth_username}/g" README.md PROJECT.md package.json
+  sed -i '' -- "s/#password/${auth_password}/g" README.md PROJECT.md package.json
 else
-  sed -i -- "s/#USER/${auth_username}/g" README.md PROJECT.md package.json
-  sed -i -- "s/#PASSWORD/${auth_password}/g" README.md PROJECT.md package.json
+  sed -i -- "s/#username/${auth_username}/g" README.md PROJECT.md package.json
+  sed -i -- "s/#password/${auth_password}/g" README.md PROJECT.md package.json
 fi
 
 # Replace first line of README.md with a 'do not modify' note
