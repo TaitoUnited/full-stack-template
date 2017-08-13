@@ -1,0 +1,154 @@
+steps:
+
+# NOTE: This first ugly step is an optimization. We execute cancel with
+# the google provided kubectl container instead of taito-cli, because it
+# doesn't need to be pulled before execution -> cancel executes immediately.
+- id: cancel
+  waitFor: ['-']
+  name: 'gcr.io/cloud-builders/kubectl'
+  entrypoint: 'bash'
+  env:
+    - branch_name=$BRANCH_NAME
+    - commit_sha=$COMMIT_SHA
+    - build_id=$BUILD_ID
+    - full_repo_name=$REPO_NAME
+    - image_path=eu.gcr.io/$PROJECT_ID/$REPO_NAME/client:$COMMIT_SHA
+  args:
+  - '-c'
+  - |
+    export taito_env
+    taito_env="$${branch_name}"
+    if [[ "$${taito_env}" == "master" ]]; then
+      taito_env="prod"
+    fi
+    source ./taito-config.sh
+
+    echo "- Get gcloud credentials"
+    gcloud container clusters get-credentials "$${kubectl_name}" \
+      --zone "$${gcloud_zone}"
+    if [[ $$? -gt 0 ]]; then
+      exit 1
+    fi
+
+    echo "- Cancel all previous ongoing builds targetting the same branch"
+    # TODO just in case: filter builds that are newer than this build
+    # --> remeber to implement it also in the taito-cli cancel plugin
+    gcloud beta container builds list --ongoing | \
+      grep "$${full_repo_name}@$${branch_name}" | \
+      grep -v "$${build_id}" | \
+      cut -d ' ' -f 1 | \
+      xargs -L1 gcloud container builds cancel
+
+    echo "- We ignore all fails during cancel (hence the last echo)"
+
+
+# ----------------------- Taito-cli ----------------------------------
+
+- id: install
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/taito-cli:0.1.1'
+  args: ['install:$BRANCH_NAME']
+  env:
+    - taito_mode=ci
+
+- id: release-pre
+  waitFor: ['install']
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/taito-cli:0.1.1'
+  args: ['release-pre:$BRANCH_NAME']
+  env:
+    - taito_mode=ci
+    - commit_sha=$COMMIT_SHA
+
+- id: test-unit
+  waitFor: ['install']
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/taito-cli:0.1.1'
+  args: ['test-unit:$BRANCH_NAME']
+  env:
+    - taito_mode=ci
+
+- id: scan
+  waitFor: ['install']
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/taito-cli:0.1.1'
+  args: ['scan:$BRANCH_NAME']
+  env:
+    - taito_mode=ci
+
+- id: docs
+  waitFor: ['install']
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/taito-cli:0.1.1'
+  args: ['docs:$BRANCH_NAME']
+  env:
+    - taito_mode=ci
+
+# STACK START
+
+- id: build-client
+  waitFor: ['install']
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/taito-cli:0.1.1'
+  args: ['build:$BRANCH_NAME', 'client', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
+  env:
+    - taito_mode=ci
+
+- id: build-server
+  waitFor: ['install']
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/taito-cli:0.1.1'
+  args: ['build:$BRANCH_NAME', 'server', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
+  env:
+    - taito_mode=ci
+
+# STACK END
+
+- id: db-deploy
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/taito-cli:0.1.1'
+  args: ['db-deploy:$BRANCH_NAME']
+  env:
+    - taito_mode=ci
+
+- id: deploy
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/taito-cli:0.1.1'
+  args: ['deploy:$BRANCH_NAME', '$COMMIT_SHA']
+  env:
+    - taito_mode=ci
+
+- id: deployment-wait
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/taito-cli:0.1.1'
+  args: ['deployment-wait:$BRANCH_NAME']
+  env:
+    - taito_mode=ci
+
+- id: test-api
+  waitFor: ['deployment-wait']
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/taito-cli:0.1.1'
+  args: ['test-api:$BRANCH_NAME']
+  env:
+    - taito_mode=ci
+
+- id: test-e2e
+  waitFor: ['deployment-wait']
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/taito-cli:0.1.1'
+  args: ['test-e2e:$BRANCH_NAME']
+  env:
+    - taito_mode=ci
+
+# - id: deployment-verify
+#   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/taito-cli:0.1.1'
+#   args: ['deployment-verify:$BRANCH_NAME']
+#   env:
+#     - taito_mode=ci
+
+- id: publish
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/taito-cli:0.1.1'
+  args: ['publish:$BRANCH_NAME']
+  env:
+    - taito_mode=ci
+
+- id: release-post
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/taito-cli:0.1.1'
+  args: ['release-post:$BRANCH_NAME']
+  env:
+    - taito_mode=ci
+
+timeout: 720s
+images: [
+  'eu.gcr.io/$PROJECT_ID/$REPO_NAME/client:$COMMIT_SHA',
+  'eu.gcr.io/$PROJECT_ID/$REPO_NAME/server:$COMMIT_SHA'
+]
