@@ -12,8 +12,9 @@
     "test-e2e": "echo TODO: implement test:e2e in package.json. Env=${taito_env} url=${taito_app_url} user=${test_e2e_user} password=${test_e2e_password}",
     "verify": "npm-run-all --parallel scan test-unit",
     "docs": "echo TODO: generate docs in package.json",
-    "support-incident": "ENV=prod echo TODO: define incident contacts in package.json",
-    "support-maintenance": "ENV=prod echo TODO: define maintenance contacts in package.json",
+    "contacts-development": "cat contacts.md | sed -n -e '/^## Development.*$/,/^#.*$/{ /^## Development.*$/d; /^#.*$/d; p; }'",
+    "contacts-incident": "cat contacts.md | sed -n -e '/^## Incident.*$/,/^#.*$/{ /^## Incident.*$/d; /^#.*$/d; p; }'",
+    "contacts-maintenance": "cat contacts.md | sed -n -e '/^## Maintenance.*$/,/^#.*$/{ /^## Maintenance.*$/d; /^#.*$/d; p; }'",
     "release-pre:prod": "semantic-release pre",
     "release-post:prod": "semantic-release post"
   },
