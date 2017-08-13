@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Taito-cli settings
-export taito_version="0.1.0"
+export taito_version="0.2.0"
 export taito_extensions=""
 # Enabled taito-cli plugins
 # - 'docker:local' means that docker is used only in local environment
