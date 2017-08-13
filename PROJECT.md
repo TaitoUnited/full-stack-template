@@ -32,20 +32,24 @@ See [General Software Design](https://github.com/TaitoUnited/taito/wiki/General-
 
 ## Environments
 
-### Production
+Production:
 
 * Site: https://server-template-prod.g.taitodev.com
 * TODO Request an user account from...
 
-### Staging
+Staging:
 
 * Site: https://server-template-staging.g.taitodev.com
 * TODO Request an user account from...
 
-### Dev
+Development:
 
 * Site: https://server-template-dev.g.taitodev.com
 * User accounts: TODO
+
+Basic authentication is enabled on non-production environments by default. The username is #USER and the password is #PASSWORD.
+
+It's common that idle applications are run down to save resources on non-production environments . If your application seems to be down, you can (re)start it by running `taito restart:ENV`, or by pushing some changes to git.
 
 ## Recurring Issues and Solutions
 
