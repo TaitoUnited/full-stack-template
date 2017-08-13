@@ -1,7 +1,5 @@
 #!/bin/sh
 
-# : "${taito_env:?}"
-
 # Taito-cli settings
 export taito_version="0.1.0"
 export taito_extensions=""
@@ -14,7 +12,7 @@ export taito_plugins=" \
 
 # Common project settings for all plugins
 export taito_organization="taitounited"
-export taito_zone="gcloud-temp1" # rename to gcloud-temp1
+export taito_zone="gcloud-temp1" # rename to taito-gcloud-open1
 export taito_repo_location="github-${taito_organization}"
 export taito_repo_name="server-template"
 export taito_customer="customername"
@@ -110,9 +108,9 @@ export link_urls="\
   open[:ENV]#app=${taito_app_url} \
   boards=https://github.com/${taito_organization}/${taito_repo_name}/projects \
   issues=https://github.com/${taito_organization}/${taito_repo_name}/issues \
-  builds=https://console.cloud.google.com/gcr/builds?project=${taito_zone}&organizationId=${gcloud_organization}&query=source.repo_source.repo_name%3D%22${taito_repo_location}-${taito_repo_name}%22 \
+  builds=https://console.cloud.google.com/gcr/builds?project=${taito_zone}&query=source.repo_source.repo_name%3D%22${taito_repo_location}-${taito_repo_name}%22 \
   artifacts=https://console.cloud.google.com/gcr/images/${taito_zone}/EU/${taito_repo_location}-${taito_repo_name}?project=${taito_zone} \
-  logs:ENV=https://console.cloud.google.com/logs/viewer?project=${taito_zone}&organizationId=${gcloud_organization}&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F${kubectl_name}%2Fnamespace_id%2F${taito_namespace} \
+  logs:ENV=https://console.cloud.google.com/logs/viewer?project=${taito_zone}&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F${kubectl_name}%2Fnamespace_id%2F${taito_namespace} \
   errors:ENV=https://sentry.io/${taito_organization}/${taito_project}/ \
   uptime=https://app.google.stackdriver.com/uptime?project=${taito_zone} \
   performance=https://TODO-NOT-IMPLEMENTED \
