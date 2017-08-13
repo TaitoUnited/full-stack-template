@@ -13,7 +13,6 @@
     "verify": "npm-run-all --parallel scan test-unit",
     "docs": "echo TODO: generate docs in package.json",
     "contacts-development": "cat CONTACTS.md | sed -n -e '/^## Development.*$/,/^#.*$/{ /^## Development.*$/d; /^#.*$/d; p; }'",
-    "contacts-incident": "cat CONTACTS.md | sed -n -e '/^## Incident.*$/,/^#.*$/{ /^## Incident.*$/d; /^#.*$/d; p; }'",
     "contacts-maintenance": "cat CONTACTS.md | sed -n -e '/^## Maintenance.*$/,/^#.*$/{ /^## Maintenance.*$/d; /^#.*$/d; p; }'",
     "release-pre:prod": "semantic-release pre",
     "release-post:prod": "semantic-release post"

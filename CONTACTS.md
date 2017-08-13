@@ -1,6 +1,6 @@
 # Contacts
 
-> NOTE: Do not modify the headers of the development, maintenance and incident chapters, and do not add any extra content in them either.
+> NOTE: Do not modify the headers of the development and maintenance chapters, and do not add any extra content in them either.
 
 ## Development
 
@@ -9,11 +9,7 @@
 
 ## Maintenance
 
-* ...
-
-## Incident
-
-* ...
+* Project Manager: John Doe, john.doe@domain.com, 050 1234 567
 
 ## Miscellaneous notes
 
