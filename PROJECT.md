@@ -57,8 +57,7 @@ See CONTACTS.md.
 
 ## Recurring Issues and Solutions
 
-* ...
-* ...
+See trouble.txt.
 
 ## Architecture Overview
 
