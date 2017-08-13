@@ -51,9 +51,18 @@ Basic authentication is enabled on non-production environments by default. The u
 
 It's common that idle applications are run down to save resources on non-production environments . If your application seems to be down, you can (re)start it by running `taito restart:ENV`, or by pushing some changes to git.
 
-## Contacts
+# Contacts
 
-See CONTACTS.md.
+> NOTE: Contacts are read in package.json. Do not modify the headers of the development and maintenance chapters, and do not add any extra content in them either.
+
+## Development
+
+* Project Manager: John Doe, john.doe@domain.com, 050 1234 567
+* Designer: Jane Doe, jane.doe@domain.com, 050 1234 567
+
+## Maintenance
+
+* Project Manager: John Doe, john.doe@domain.com, 050 1234 567
 
 ## Recurring Issues and Solutions
 
