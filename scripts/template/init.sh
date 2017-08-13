@@ -112,6 +112,24 @@ else
     -e "s/orig-template/server-template/g" 2> /dev/null {} \;
 fi
 
+echo
+echo "--- Choose basic auth credentials ---"
+echo
+echo "Simple basic auth username:"
+read -r auth_username
+echo "Simple basic auth password:"
+read -r auth_password
+echo "${auth_password}" | htpasswd -c scripts/${template_repo_name}/.htpasswd ${auth_username}
+
+# Replace user and password in files
+if [ "$(uname)" = "Darwin" ]; then
+  sed -i '' -- "s/#USER/${auth_username}/g" README.md PROJECT.md package.json
+  sed -i '' -- "s/#PASSWORD/${auth_password}/g" README.md PROJECT.md package.json
+else
+  sed -i -- "s/#USER/${auth_username}/g" README.md PROJECT.md package.json
+  sed -i -- "s/#PASSWORD/${auth_password}/g" README.md PROJECT.md package.json
+fi
+
 # Replace first line of README.md with a 'do not modify' note
 tail -n +2 "README.md" > "README.md.tmp" && mv -f "README.md.tmp" "README.md"
 echo \

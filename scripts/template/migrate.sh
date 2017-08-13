@@ -20,6 +20,5 @@ yes | cp -- .* "${template_project_path}" 2> /dev/null
 
 echo "- migrate: Copy files from scripts folder"
 cp scripts/* "${template_project_path}/scripts" 2> /dev/null
-cp scripts/.* "${template_project_path}/scripts" 2> /dev/null
 
 echo
