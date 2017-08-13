@@ -8,7 +8,7 @@ export taito_extensions=""
 # - 'kubectl:-local' means that kubernetes is used in all other environments
 export taito_plugins=" \
   npm postgres link docker:local kubectl:-local gcloud:-local \
-  sentry secret:-local semantic:prod"
+  sentry secret:-local semantic"
 
 # Common project settings for all plugins
 export taito_organization="taitounited"
