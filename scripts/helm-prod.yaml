@@ -5,7 +5,7 @@ domains:
   # TODO set production domain
 
 ingress:
-  basicAuth: false
+  basicAuth: true
 
 client:
   replicas: 2
