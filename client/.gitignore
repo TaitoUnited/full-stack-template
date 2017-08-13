@@ -1,0 +1,8 @@
+node_modules
+credentials
+*.log
+.DS_Store
+_build
+_build_git
+build
+*.swp
