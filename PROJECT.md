@@ -51,11 +51,14 @@ Basic authentication is enabled on non-production environments by default. The u
 
 It's common that idle applications are run down to save resources on non-production environments . If your application seems to be down, you can (re)start it by running `taito restart:ENV`, or by pushing some changes to git.
 
+## Contacts
+
+See CONTACTS.md.
+
 ## Recurring Issues and Solutions
 
 * ...
 * ...
-
 
 ## Architecture Overview
 
