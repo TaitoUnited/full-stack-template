@@ -1,0 +1,28 @@
+FROM nodesource/jessie:6.3.1
+ARG BUILD_VERSION
+ARG BUILD_IMAGE_TAG
+ENV BUILD_VERSION ${BUILD_VERSION}
+ENV BUILD_IMAGE_TAG ${BUILD_IMAGE_TAG}
+
+RUN apt-get update && apt-get install -y \
+  build-essential \
+  libfontconfig
+
+WORKDIR /app
+
+ENV NODE_ENV prod
+
+COPY ./package.json /app/package.json
+RUN npm install
+
+COPY . /app
+
+RUN npm run build:prod
+
+# TODO Remove obsolete files
+# RUN rm -rf ./*/
+# RUN npm install --only=dev
+
+EXPOSE 3332
+
+CMD ["npm", "run", "start:prod"]

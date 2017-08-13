@@ -1,0 +1,18 @@
+// TODO generate swagger docs using npm only?
+
+module.exports = function(grunt) {
+
+  grunt.initConfig({
+    'swagger-docs': {
+      dev: {
+        src: ['./**/*.js'],
+        dest: 'docs/swagger.json',
+        versionFile: 'package.json'
+      }
+    }
+  });
+
+  grunt.loadNpmTasks('grunt-swagger-docs');
+
+  grunt.registerTask('default', ['swagger-docs']);
+};

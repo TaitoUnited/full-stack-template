@@ -1,0 +1,41 @@
+# Swagger: http://swagger.io/docs/specification/what-is-swagger/
+
+# NOTE: Swagger is optional. Alternatively you can just copy paste json
+# examples in a markdown file and add some documentation.
+
+# NOTE: Concentrate especially on defining request parameters and response codes
+# (OK, not found, ...). Describing response content is not that important,
+# since api user can browse the returned response himself.
+
+# TODO Create swagger definitions with some tool that supports generating
+#   Swagger definitions from json? API2Swagger?
+# TODO Use Swagger for request validation?
+# TODO Deploy swagger-ui: helps developers, testers, etc. Supports calling
+#   real APIs?
+
+definitions:
+  User:
+    type: object
+    properties:
+      id:
+        type: string
+      username:
+        type: string
+      email:
+        type: string
+
+paths:
+  /users/{id}:
+    get:
+      summary: Read a user
+      parameters:
+        - name: id
+          type: string
+      responses:
+        200:
+          description: A user
+          schema:
+            type: object
+            $ref: '#/definitions/User'
+        404:
+          description: Not found

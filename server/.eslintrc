@@ -1,0 +1,33 @@
+---
+extends:
+  airbnb/base
+
+env:
+  node: true
+  es6: true
+  mocha: true
+  jquery: true
+
+parser: "babel-eslint"
+
+# 0: off, 1: warning, 2: error
+rules:
+  # single quotes
+  quotes: [2, "single"]
+  jsx-quotes: [2, "prefer-single"]
+  # 2 space indentation
+  indent: [2, 2]
+  # Allow _function/variable names (to show privateness)
+  no-underscore-dangle: 0
+  # Commas always at the end of line
+  comma-style: [2, "last"]
+  # 80 char line length
+  max-len: [2, 80, 1]
+  # console is fine
+  no-console: 0
+  # allow assigning to function params because of koa ctx.body
+  no-param-reassign: 0
+  # causes weird stuff with promise arrays and then
+  arrow-body-style: 0
+  # allow empty block statements, useful for catching sometimes
+  no-empty: 0
