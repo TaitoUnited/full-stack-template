@@ -89,7 +89,6 @@ server-template-database:
     POSTGRES_USER: server_template_local_app
     POSTGRES_PASSWORD: secret
   volumes:
-    # TODO init needs its own folder?
     - "./database:/docker-entrypoint-initdb.d"
 
 server-template-bucket:
