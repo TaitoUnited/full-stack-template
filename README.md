@@ -89,6 +89,7 @@ You can use any of the following types in your commit message. Use at least type
 * `refactor`: Refactoring
 * `perf`: Performance tuning
 * `test`: Implementing missing tests or correcting existing ones
+* `revert`: Revert previous commit.
 * `build`: Build system changes
 * `ci`: Continuous integration changes (cloudbuild.yaml)
 * `chore`: maintenance
