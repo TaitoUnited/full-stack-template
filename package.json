@@ -21,7 +21,8 @@
     "contacts-maintenance": "cat PROJECT.md | sed -n -e '/^## Maintenance.*$/,/^#.*$/{ /^## Maintenance.*$/d; /^#.*$/d; p; }'",
     "release-pre:prod": "semantic-release pre",
     "release-post:prod": "semantic-release post",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "commitmsg": "validate-commit-msg"
   },
   "pre-commit": [
     "scan"
@@ -66,10 +67,12 @@
     "eslint-plugin-import": "^1.10.0",
     "eslint-plugin-jsx-a11y": "^2.1.0",
     "eslint-plugin-react": "^6.0.0",
+    "husky": "^0.14.3",
     "last-release-git": "0.0.3",
     "npm-run-all": "^4.0.2",
     "pre-commit": "^1.2.2",
     "pre-push": "^0.1.1",
-    "semantic-release": "^6.3.6"
+    "semantic-release": "^6.3.6",
+    "validate-commit-msg": "^2.14.0"
   }
 }
