@@ -2,6 +2,11 @@
   "name": "server-template",
   "description": "",
   "private": false,
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
   "scripts": {
     "users:local": "echo TODO: add local users to package.json",
     "users:dev": "echo Basic auth: #username/#password; echo TODO: add dev users to package.json",
@@ -15,7 +20,8 @@
     "contacts-development": "cat PROJECT.md | sed -n -e '/^## Development.*$/,/^#.*$/{ /^## Development.*$/d; /^#.*$/d; p; }'",
     "contacts-maintenance": "cat PROJECT.md | sed -n -e '/^## Maintenance.*$/,/^#.*$/{ /^## Maintenance.*$/d; /^#.*$/d; p; }'",
     "release-pre:prod": "semantic-release pre",
-    "release-post:prod": "semantic-release post"
+    "release-post:prod": "semantic-release post",
+    "commit": "git-cz"
   },
   "pre-commit": [
     "scan"
@@ -51,6 +57,8 @@
   "homepage": "https://github.com/TaitoUnited/server-template#readme",
   "devDependencies": {
     "babel-eslint": "^6.1.0",
+    "commitizen": "^2.9.6",
+    "cz-conventional-changelog": "^2.0.0",
     "eslint": "^3.4.0",
     "eslint-config-airbnb": "^10.0.1",
     "eslint-loader": "^1.3.0",

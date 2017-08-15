@@ -90,6 +90,8 @@ You can use any of the following types in your commit message. Use at least type
 * `test`: implementing missing tests
 * `chore`: maintenance
 
+> TIP: Optionally you can use `npm run commit` to write your commit messages using commitizen, though often it is quicker to write commit messages by hand in code editor.
+
 TODO some tips for keeping the commit history clean (link some article?)
 
 ## Database Migration
