@@ -82,12 +82,15 @@ increase the major version number.
 
 You can use any of the following types in your commit message. Use at least types `fix` and `feat`.
 
-* `feat`: feature
-* `fix`: bug fix
-* `docs`: documentation
-* `style`: code formatting
-* `refactor`: refactoring
-* `test`: implementing missing tests
+* `feat`: A new feature
+* `fix`: A bug fix
+* `docs`: Documentation only changes
+* `style`: Code formatting
+* `refactor`: Refactoring
+* `perf`: Performance tuning
+* `test`: Implementing missing tests or correcting existing ones
+* `build`: Build system changes
+* `ci`: Continuous integration changes (cloudbuild.yaml)
 * `chore`: maintenance
 
 > TIP: Optionally you can use `npm run commit` to write your commit messages using commitizen, though often it is quicker to write commit messages by hand in code editor.
