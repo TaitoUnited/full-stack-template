@@ -175,7 +175,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /infra/healthz
-              port: 80
+              port: 3332
               scheme: HTTP
             initialDelaySeconds: 30
             periodSeconds: 15
