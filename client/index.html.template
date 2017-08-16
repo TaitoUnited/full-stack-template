@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="version" content="<%= htmlWebpackPlugin.options.version %>-<%= htmlWebpackPlugin.options.imageTag %>">
+    <meta name="version" content="<%= htmlWebpackPlugin.options.version %>+<%= htmlWebpackPlugin.options.imageTag %>">
     <meta name="viewport" content="width=device-width, initial-scale=1 , maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
