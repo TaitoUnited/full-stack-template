@@ -1,5 +1,3 @@
-import koaRouter from 'koa-router';
-
 import BaseRoute from '../common/base.route';
 
 export default class UserRoute extends BaseRoute {
