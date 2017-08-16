@@ -9,7 +9,7 @@ export default class UserRoute extends BaseRoute {
       // Check that database is up
       await ctx.myappCtx.getTx().any(`
         SELECT *
-        FROM example_userr
+        FROM example_user
         LIMIT 1
       `);
       ctx.body = {
