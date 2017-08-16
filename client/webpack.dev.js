@@ -39,6 +39,8 @@ webpackConfig.plugins.push(
     'process.env.DEBUG': true,
     'process.env.API_ROOT': JSON.stringify(process.env.API_ROOT),
     'process.env.API_URL': JSON.stringify(process.env.API_URL),
+    'process.env.BUILD_VERSION': JSON.stringify(process.env.BUILD_VERSION),
+    'process.env.BUILD_IMAGE_TAG': JSON.stringify(process.env.BUILD_IMAGE_TAG),
     'process.env.COMMON_ENV': JSON.stringify(process.env.COMMON_ENV),
     'process.env.NODE_ENV': "'dev'",
     __CLIENT__: true,
