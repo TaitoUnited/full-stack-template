@@ -10,11 +10,6 @@ metadata:
 data:
   SENTRY_DSN: {{ .Values.sentryDSN | quote }}
   SENTRY_PUBLIC_DSN: {{ .Values.sentryPublicDSN | quote }}
-  # TODO configure these in values.yaml
-  {{ if (or (eq .Values.env "prod") (eq .Values.env "staging")) }}
-  EXAMPLE: 'configs for prod and staging'
-  {{ else if eq .Values.env "local" }}
-  EXAMPLE: 'configs for local development'
-  {{ else }}
-  EXAMPLE: 'configs for dev, test, feature branches'
-  {{ end }}
+{{- range $name, $value := .Values.app }}
+  {{ $name }}: {{ $value | quote }}
+{{- end }}

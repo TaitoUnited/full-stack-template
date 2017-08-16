@@ -18,6 +18,13 @@ sentryDSN: https://a10a67301f9547a6861aafdb12bd6db9:affdaae6624b4ddeb38d08e4bf12
 sentryPublicDSN: https://a10a67301f9547a6861aafdb12bd6db9@sentry.io/176268
 # SENTRY END
 
+# Enviroment variables for app (APP_EXAMPLE, ...)
+app:
+  EXAMPLE: value
+  EXAMPLE2: value
+
+# Stack settings
+
 ingress:
   tls: true
   basicAuth: true
