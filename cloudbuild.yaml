@@ -82,14 +82,14 @@ steps:
 # STACK START
 
 - id: build-client
-  waitFor: ['install']
+  waitFor: ['release-pre']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:0.4.0'
   args: ['build:$BRANCH_NAME', 'client', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
   env:
     - taito_mode=ci
 
 - id: build-server
-  waitFor: ['install']
+  waitFor: ['release-pre']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:0.4.0'
   args: ['build:$BRANCH_NAME', 'server', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
   env:
