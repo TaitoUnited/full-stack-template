@@ -44,6 +44,14 @@ spec:
           imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
           ports:
             - containerPort: {{ .Values.admin.port }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            timeoutSeconds: 5
           envFrom:
             - prefix: COMMON_
               configMapRef:
@@ -51,25 +59,6 @@ spec:
             - prefix: APP_
               configMapRef:
                 name: {{ template "fullname" . }}-app
-        # NOTE: logging not needed. serves only static files. log on ingress.
-        # - name: {{ template "fullname" . }}-{{ .Values.stack.admin }}-monitor
-        #   image: wikiwi/stackdriver-agent
-        #   imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
-        #   env:
-        #     - name: NGINX_STATUS_URL
-        #       value: 'http://localhost/nginx_status'
-          # TODO
-          # livenessProbe:
-          #   httpGet:
-          #     path: /status
-          #     port: {{ .Values.admin.http }}
-          #   initialDelaySeconds: 15
-          #   periodSeconds: 3
-          #   timeoutSeconds: 1
-          # readinessProbe:
-          #   httpGet:
-          #     path: /status
-          #     port: {{ .Values.admin.http }}
 {{ end }}
 
 {{ if .Values.stack.client }}
@@ -119,6 +108,14 @@ spec:
           imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
           ports:
             - containerPort: {{ .Values.client.port }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            timeoutSeconds: 5
           envFrom:
             - prefix: COMMON_
               configMapRef:
@@ -126,25 +123,6 @@ spec:
             - prefix: APP_
               configMapRef:
                 name: {{ template "fullname" . }}-app
-        # NOTE: logging not needed. serves only static files. log on ingress.
-        # - name: {{ template "fullname" . }}-{{ .Values.stack.client }}-monitor
-        #   image: wikiwi/stackdriver-agent
-        #   imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
-        #   env:
-        #     - name: NGINX_STATUS_URL
-        #       value: 'http://localhost/nginx_status'
-          # TODO
-          # livenessProbe:
-          #   httpGet:
-          #     path: /status
-          #     port: {{ .Values.client.http }}
-          #   initialDelaySeconds: 15
-          #   periodSeconds: 3
-          #   timeoutSeconds: 1
-          # readinessProbe:
-          #   httpGet:
-          #     path: /status
-          #     port: {{ .Values.client.http }}
 {{ end }}
 
 {{ if .Values.stack.server }}
@@ -194,6 +172,14 @@ spec:
           imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
           ports:
             - containerPort: {{ .Values.server.port }}
+          livenessProbe:
+            httpGet:
+              path: /infra/healthz
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            timeoutSeconds: 5
           envFrom:
             - prefix: COMMON_
               configMapRef:
@@ -280,6 +266,7 @@ spec:
           imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
           ports:
             - containerPort: {{ .Values.cache.port }}
+          # TODO liveness and readiness probe
         - name: {{ template "fullname" . }}-{{ .Values.stack.cache }}-monitor
           image: wikiwi/stackdriver-agent
           imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
