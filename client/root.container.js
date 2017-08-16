@@ -1,6 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom';
 
 // Lazy-load helper
 import LoadComponent from '~core-components/load.component';
