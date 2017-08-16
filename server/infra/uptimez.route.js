@@ -17,6 +17,9 @@ export default class UserRoute extends BaseRoute {
         FROM example_user
         LIMIT 1
       `);
+      ctx.body = {
+        status: 'OK',
+      };
       next();
     });
 
