@@ -14,10 +14,9 @@ import FileService from './file.service';
 export default class FileRoute extends BaseRoute {
 
   constructor(router, fileService) {
-    super();
+    super(router);
     // Make component testable by using primarily dependencies
     // given as constuctor args.
-    this.router = router || koaRouter();
     this.fileService = fileService || new FileService();
   }
 

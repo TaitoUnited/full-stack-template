@@ -14,10 +14,9 @@ import UserService from './user.service';
 export default class UserRoute extends BaseRoute {
 
   constructor(router, userService) {
-    super();
+    super(router);
     // Make component testable by using primarily dependencies
     // given as constuctor args.
-    this.router = router || koaRouter();
     this.userService = userService || new UserService();
   }
 

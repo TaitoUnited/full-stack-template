@@ -4,11 +4,6 @@ import BaseRoute from '../common/base.route';
 
 export default class UserRoute extends BaseRoute {
 
-  constructor(router) {
-    super();
-    this.router = router || koaRouter();
-  }
-
   routes() {
     this.router.get('/', async (ctx, next) => {
       // Check that database is up

@@ -1,8 +1,8 @@
 import koaRouter from 'koa-router';
 
 export default class BaseRoute {
-  constructor() {
-    this.router = koaRouter();
+  constructor(router) {
+    this.router = router || koaRouter();
   }
 
   allowedMethods() {
