@@ -12,6 +12,10 @@ ENV NODE_ENV prod
 ENV API_ROOT ''
 ENV API_URL /api
 
+# SENTRY START
+ENV APP_SENTRY_PUBLIC_DSN  https://a10a67301f9547a6861aafdb12bd6db9@sentry.io/176268
+# SENTRY END
+
 COPY ./package.json /app/package.json
 RUN npm install
 

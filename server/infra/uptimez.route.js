@@ -7,10 +7,9 @@ export default class UserRoute extends BaseRoute {
   routes() {
     this.router.get('/', async (ctx, next) => {
       // Check that database is up
-      console.log('----------- uptimez ----------');
       await ctx.myappCtx.getTx().any(`
         SELECT *
-        FROM example_user
+        FROM example_userr
         LIMIT 1
       `);
       ctx.body = {
