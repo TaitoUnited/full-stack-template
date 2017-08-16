@@ -208,9 +208,9 @@ spec:
               value: {{ .Values.env | quote }}
             - name: DEBUG
               value: {{ .Values.debug | quote }}
-        - name: {{ template "fullname" . }}-{{ .Values.stack.server }}-monitor
-          image: wikiwi/stackdriver-agent
-          imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+        # - name: {{ template "fullname" . }}-{{ .Values.stack.server }}-monitor
+        #   image: wikiwi/stackdriver-agent
+        #   imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
   {{ if not .Values.stack.database }}
         - name: cloudsql-proxy
           image: gcr.io/cloudsql-docker/gce-proxy:1.09
@@ -267,9 +267,9 @@ spec:
           ports:
             - containerPort: {{ .Values.cache.port }}
           # TODO liveness and readiness probe
-        - name: {{ template "fullname" . }}-{{ .Values.stack.cache }}-monitor
-          image: wikiwi/stackdriver-agent
-          imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+        # - name: {{ template "fullname" . }}-{{ .Values.stack.cache }}-monitor
+        #   image: wikiwi/stackdriver-agent
+        #   imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
 {{ end }}
 
 {{ if .Values.stack.database }}
