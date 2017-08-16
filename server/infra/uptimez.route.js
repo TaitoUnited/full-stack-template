@@ -26,8 +26,4 @@ export default class UserRoute extends BaseRoute {
     return this.router.routes();
   }
 
-  allowedMethods() {
-    return this.router.allowedMethods();
-  }
-
 }
