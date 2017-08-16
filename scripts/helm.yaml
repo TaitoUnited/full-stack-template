@@ -13,6 +13,11 @@ repository: eu.gcr.io/gcloud-temp1/github-taitounited-server-template
 debug: 'false'
 imagePullPolicy: ''
 
+# SENTRY START
+sentryDSN: https://a10a67301f9547a6861aafdb12bd6db9:affdaae6624b4ddeb38d08e4bf123f96@sentry.io/176268
+sentryPublicDSN: https://a10a67301f9547a6861aafdb12bd6db9@sentry.io/176268
+# SENTRY END
+
 ingress:
   tls: true
   basicAuth: true

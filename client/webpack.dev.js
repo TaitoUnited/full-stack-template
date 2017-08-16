@@ -41,6 +41,7 @@ webpackConfig.plugins.push(
     'process.env.API_URL': JSON.stringify(process.env.API_URL),
     'process.env.BUILD_VERSION': JSON.stringify(process.env.BUILD_VERSION),
     'process.env.BUILD_IMAGE_TAG': JSON.stringify(process.env.BUILD_IMAGE_TAG),
+    'process.env.APP_SENTRY_PUBLIC_DSN': JSON.stringify(process.env.APP_SENTRY_PUBLIC_DSN),
     'process.env.COMMON_ENV': JSON.stringify(process.env.COMMON_ENV),
     'process.env.NODE_ENV': "'dev'",
     __CLIENT__: true,

@@ -19,7 +19,7 @@ const logger = {
 
 // Setup Sentry
 if (process.env.COMMON_ENV !== 'local') {
-  Raven.config('https://a10a67301f9547a6861aafdb12bd6db9@sentry.io/176268', {
+  Raven.config(process.env.APP_SENTRY_PUBLIC_DSN, {
     release: `${process.env.BUILD_VERSION}+${process.env.BUILD_IMAGE_TAG}`,
     environment: process.env.COMMON_ENV,
   }).install();

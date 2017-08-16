@@ -8,6 +8,8 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 data:
+  SENTRY_DSN: {{ .Values.sentryDSN | quote }}
+  SENTRY_PUBLIC_DSN: {{ .Values.sentryPublicDSN | quote }}
   # TODO configure these in values.yaml
   {{ if (or (eq .Values.env "prod") (eq .Values.env "staging")) }}
   EXAMPLE: 'configs for prod and staging'
