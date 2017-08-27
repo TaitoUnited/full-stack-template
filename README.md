@@ -129,8 +129,8 @@ Deploying to different environments:
 
 Advanced features:
 
-* **Feature branch**: You can create also an environment for a feature branch: Delete the old environment if it exists (`taito delete:feature`) and create new environment for your feature branch (`taito create:feature BRANCH`). Currently only one feature environment can exist at a time and therefore the old one needs to be deleted before new one is created.
-* **Copy prod to staging**: Many times it's a good idea to copy production database to staging before merging changes to staging: `taito db-copy:prod staging`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db-copyquick:prod staging`), but it disconnects all other users connected to the production database until copying is finished.
+* **Feature branch**: You can create also an environment for a feature branch: Delete the old environment if it exists (`taito env-delete:feature`) and create new environment for your feature branch (`taito env-create:feature BRANCH`). Currently only one feature environment can exist at a time and therefore the old one needs to be deleted before new one is created.
+* **Copy prod to staging**: Often it's a good idea to copy production database to staging before merging changes to staging: `taito db-copy:prod staging`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db-copyquick:prod staging`), but it disconnects all other users connected to the production database until copying is finished.
 * **Canary release**: Run `taito canary` and follow instructions. It will release the current staging version to production as a canary release. Canary release means that only a subset of users will be forwarded to the new release and most users will still use the old version. Afterwards you can do a full production release normally by merging changes to master.
 * **Revert app**: Revert application to the previous revision by running `taito revert:ENV`. If you need to revert to a specific revision, check current revision by running `taito revision:ENV` first and then revert to a specific revision by running `taito revert:ENV REVISION`. NOTE: Command does not revert database changes.
 * **Revert database changes**: Revert the previous migration batch by running `taito db-revert[:ENV]`. If you would like to revert to a specific revision instead, view the db change log first (`taito db-log[:ENV]`) and then run `taito db-revert[:ENV] CHANGE`.
@@ -158,13 +158,13 @@ The following tools are currently used for this project. You can open any of the
 ### Initial project configuration
 
 1. Configure `taito-config.sh`
-2. Run `taito config`
+2. Run `taito env-config`
 
 ### Creating an environment
 
 Execute the following steps for an environment (`feature`, `dev`, `test`, `staging` or `prod`):
 
-1. Run `taito create:ENV` and follow instructions.
+1. Run `taito env-create:ENV` and follow instructions.
 2. For production: configure `helm-prod.yaml`
 
 ### Upgrading to the latest version of the project template
