@@ -3,7 +3,7 @@
 # : "${taito_env:?}"
 
 # Taito-cli settings
-export taito_image="eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli:latest"
+export taito_image="taitounited/taito-cli:latest"
 export taito_extensions=""
 # Enabled taito-cli plugins
 # - 'docker:local' means that docker is used only in local environment

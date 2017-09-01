@@ -112,7 +112,7 @@ Add a new migration:
 
 3. Deploy the change to your local db:
 
-    `taito db-deploy`
+    `taito ci-db-deploy`
 
 The CI/CD tool will deploy your database changes automatically to servers once you push your changes to git. Database migrations are executed using sqitch. More instructions on sqitch: [Sqitch tutorial](https://metacpan.org/pod/sqitchtutorial)
 
@@ -129,11 +129,11 @@ Deploying to different environments:
 
 Advanced features:
 
-* **Feature branch**: You can create also an environment for a feature branch: Delete the old environment if it exists (`taito env-delete:feature`) and create new environment for your feature branch (`taito env-create:feature BRANCH`). Currently only one feature environment can exist at a time and therefore the old one needs to be deleted before new one is created.
-* **Copy prod to staging**: Often it's a good idea to copy production database to staging before merging changes to staging: `taito db-copy:prod staging`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db-copyquick:prod staging`), but it disconnects all other users connected to the production database until copying is finished.
-* **Canary release**: Run `taito canary` and follow instructions. It will release the current staging version to production as a canary release. Canary release means that only a subset of users will be forwarded to the new release and most users will still use the old version. Afterwards you can do a full production release normally by merging changes to master.
-* **Revert app**: Revert application to the previous revision by running `taito revert:ENV`. If you need to revert to a specific revision, check current revision by running `taito revision:ENV` first and then revert to a specific revision by running `taito revert:ENV REVISION`. NOTE: Command does not revert database changes.
-* **Revert database changes**: Revert the previous migration batch by running `taito db-revert[:ENV]`. If you would like to revert to a specific revision instead, view the db change log first (`taito db-log[:ENV]`) and then run `taito db-revert[:ENV] CHANGE`.
+* **Feature branch**: You can create also an environment for a feature branch: Delete the old environment if it exists (`taito env-delete:feature`) and create new environment for your feature branch (`taito env-create:feature BRANCH`). Currently only one feature environment can exist at a time and therefore the old one needs to be deleted before the new one is created.
+* **Copy prod to staging**: Often it's a good idea to copy production database to staging before merging changes to the staging branch: `taito db-copy:prod staging`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db-copyquick:prod staging`), but it disconnects all other users connected to the production database until copying is finished and also requires that both databases are located in the same database cluster.
+* **Canary release**: Run `taito ci-canary` and follow instructions. It will release the current staging version to production as a canary release. Canary release means that only a subset of users will be forwarded to the new release and most users will still use the old version. Afterwards you can do a full production release normally by merging changes to master.
+* **Revert app**: Revert application to the previous revision by running `taito ci-revert:ENV`. If you need to revert to a specific revision, check current revision by running `taito ci-revision:ENV` first and then revert to a specific revision by running `taito ci-revert:ENV REVISION`. NOTE: Command does not revert database changes.
+* **Revert database changes**: Revert the previous migration batch by running `taito ci-db-revert[:ENV]`. If you would like to revert to a specific revision instead, view the db change log first (`taito ci-db-log[:ENV]`) and then run `taito ci-db-revert[:ENV] CHANGE`.
 
 NOTE: You might not have rights to execute some of the advanced operations (e.g. staging/production database operations). In such case, ask devops personnel to execute the operation for you.
 
