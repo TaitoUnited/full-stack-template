@@ -116,14 +116,14 @@ steps:
     - taito_mode=ci
 
 - id: test-api
-  waitFor: ['deployment-wait']
+  waitFor: ['wait']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['ci-test-api:$BRANCH_NAME']
   env:
     - taito_mode=ci
 
 - id: test-e2e
-  waitFor: ['deployment-wait']
+  waitFor: ['wait']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['ci-test-e2e:$BRANCH_NAME']
   env:
