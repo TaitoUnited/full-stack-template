@@ -127,6 +127,8 @@ Deploying to different environments:
 * staging: Merge changes to staging branch. NOTE: Staging environment is not mandatory.
 * prod: Merge changes to master branch. Version number and release notes are generated automatically by the CI/CD tool.
 
+> TIP: If container build fails, you can execute a dry-run yourself by running `taito ci-build [NAME]` e.g. `taito ci-build client`.
+
 Advanced features:
 
 * **Feature branch**: You can create also an environment for a feature branch: Delete the old environment if it exists (`taito env-delete:feature`) and create new environment for your feature branch (`taito env-create:feature BRANCH`). Currently only one feature environment can exist at a time and therefore the old one needs to be deleted before the new one is created.
