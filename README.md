@@ -25,15 +25,15 @@
 
 Install linters locally (all developers use the same linter version):
 
-    $ taito install
+    $ taito o-install
 
 Start containers:
 
-    $ taito start
+    $ taito o-start
 
 Make sure that everything has been initialized (database populated, etc.):
 
-    $ taito init
+    $ taito o-init
 
 Open app in browser:
 
@@ -41,7 +41,7 @@ Open app in browser:
 
 Show user accounts that you can use to log in:
 
-    $ taito users
+    $ taito o-users
 
 Connect to local database:
 
@@ -49,13 +49,13 @@ Connect to local database:
 
 Stop:
 
-    $ taito stop
+    $ taito o-stop
 
-For more commands run `taito help`. For troubleshooting run `taito trouble`. See PROJECT.md for project specific conventions and documentation.
+For more commands run `taito b-help` or write `taito` and press TAB. For troubleshooting run `taito b-trouble`. See PROJECT.md for project specific conventions and documentation.
 
 > Basic authentication is enabled on all environments by default. The username is #username and the password is #password. You can turn basic authentication off by modifying the `scripts/helm-prod.yaml` and `scripts/helm.yaml` files.
 
-> It's common that idle applications are run down to save resources on non-production environments . If your application seems to be down, you can (re)start it by running `taito restart:ENV`, or by pushing some changes to git.
+> It's common that idle applications are run down to save resources on non-production environments . If your application seems to be down, you can (re)start it by running `taito o-restart:ENV`, or by pushing some changes to git.
 
 ## Version Control
 
@@ -112,7 +112,7 @@ Add a new migration:
 
 3. Deploy the change to your local db:
 
-    `taito ci-db-deploy`
+    `taito db-deploy`
 
 The CI/CD tool will deploy your database changes automatically to servers once you push your changes to git. Database migrations are executed using sqitch. More instructions on sqitch: [Sqitch tutorial](https://metacpan.org/pod/sqitchtutorial)
 
@@ -127,7 +127,7 @@ Deploying to different environments:
 * staging: Merge changes to staging branch. NOTE: Staging environment is not mandatory.
 * prod: Merge changes to master branch. Version number and release notes are generated automatically by the CI/CD tool.
 
-> TIP: If container build fails, you can execute a dry-run yourself by running `taito ci-build [NAME]` e.g. `taito ci-build client`.
+> TIP: You can debug container builds locally by running `taito ci-build [NAME]` e.g. `taito ci-build client`.
 
 Advanced features:
 
@@ -135,18 +135,18 @@ Advanced features:
 * **Copy prod to staging**: Often it's a good idea to copy production database to staging before merging changes to the staging branch: `taito db-copy:prod staging`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db-copyquick:prod staging`), but it disconnects all other users connected to the production database until copying is finished and also requires that both databases are located in the same database cluster.
 * **Canary release**: Run `taito ci-canary` and follow instructions. It will release the current staging version to production as a canary release. Canary release means that only a subset of users will be forwarded to the new release and most users will still use the old version. Afterwards you can do a full production release normally by merging changes to master.
 * **Revert app**: Revert application to the previous revision by running `taito ci-revert:ENV`. If you need to revert to a specific revision, check current revision by running `taito ci-revision:ENV` first and then revert to a specific revision by running `taito ci-revert:ENV REVISION`. NOTE: Command does not revert database changes.
-* **Revert database changes**: Revert the previous migration batch by running `taito ci-db-revert[:ENV]`. If you would like to revert to a specific revision instead, view the db change log first (`taito ci-db-log[:ENV]`) and then run `taito ci-db-revert[:ENV] CHANGE`.
+* **Revert database changes**: Revert the previous migration batch by running `taito db-revert[:ENV]`. If you would like to revert to a specific revision instead, view the db change log first (`taito db-log[:ENV]`) and then run `taito db-revert[:ENV] CHANGE`.
 
 NOTE: You might not have rights to execute some of the advanced operations (e.g. staging/production database operations). In such case, ask devops personnel to execute the operation for you.
 
 ## Tools
 
-The following tools are currently used for this project. You can open any of the tools quickly from command line with taito-cli. Run `taito help` and see the links section provided by the link plugin.
+The following tools are currently used for this project. You can open any of the tools quickly from command line by using the `taito open-NAME` commands provided by the taito-cli link plugin.
 
 * See issue boards on [GitHub projects](https://github.com/TaitoUnited/server-template/projects) and issues on [GitHub issues](https://github.com/TaitoUnited/server-template/issues).
 * See all builds on [Google Build History](https://console.cloud.google.com/gcr/builds?project=gcloud-temp1&query=source.repo_source.repo_name%3D%22github-taitounited-server-template%22).
 * See all build artifacts on [Google Container Registry](https://console.cloud.google.com/gcr/images/gcloud-temp1/EU/github-taitounited-server-template?project=gcloud-temp1).
-* Deployed on Kubernetes. See  [instructions](https://github.com/TaitoUnited/taito/wiki/Kubernetes). The most common Kubernetes operations are available as taito commands: `taito help`.
+* Deployed on Kubernetes. See  [instructions](https://github.com/TaitoUnited/taito/wiki/Kubernetes). The most common Kubernetes operations are available as taito commands: `taito b-help`.
 *  All [dev](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fcustomername-dev), [staging](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fcustomername-staging) and [prod](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fcustomername-prod) logs are gathered to Google Stackdriver. See [instructions](https://github.com/TaitoUnited/taito/wiki/Stackdriver).
 * [Sentry](https://sentry.io/taitounited/server-template/) is used for error tracking. See [instructions](https://github.com/TaitoUnited/taito/wiki/Sentry).
 * [Stackdriver uptime monitoring](https://app.google.stackdriver.com/uptime?project=gcloud-temp1) is used for monitoring production environment uptime status.

@@ -46,7 +46,7 @@ steps:
 
 - id: install
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
-  args: ['install:$BRANCH_NAME']
+  args: ['o-install:$BRANCH_NAME']
   env:
     - taito_mode=ci
 
@@ -147,7 +147,7 @@ steps:
   env:
     - taito_mode=ci
 
-timeout: 720s
+timeout: 900s
 images: [
   'eu.gcr.io/$PROJECT_ID/$REPO_NAME/client:$COMMIT_SHA',
   'eu.gcr.io/$PROJECT_ID/$REPO_NAME/server:$COMMIT_SHA'
