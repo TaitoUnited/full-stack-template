@@ -1,6 +1,7 @@
 FROM mhart/alpine-node:latest
 ARG BUILD_VERSION
 ARG BUILD_IMAGE_TAG
+ENV NODE_ENV development
 ENV BUILD_VERSION ${BUILD_VERSION}
 ENV BUILD_IMAGE_TAG ${BUILD_IMAGE_TAG}
 
@@ -8,7 +9,6 @@ RUN apk add --update-cache build-base python git nginx
 
 WORKDIR /app
 
-ENV NODE_ENV prod
 ENV API_ROOT ''
 ENV API_URL /api
 
@@ -39,5 +39,7 @@ EXPOSE 443
 # TODO Remove obsolete files
 # WORKDIR /build
 # RUN rm -rf /app
+
+ENV NODE_ENV production
 
 CMD ["nginx", "-g", "daemon off;"]
