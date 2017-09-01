@@ -99,7 +99,7 @@ steps:
 
 - id: db-deploy
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
-  args: ['ci-db-deploy:$BRANCH_NAME']
+  args: ['db-deploy:$BRANCH_NAME']
   env:
     - taito_mode=ci
 
