@@ -6,7 +6,7 @@ TODO Short description...
 
 ### Directory hierarchy
 
-The app is divided in loosely coupled features that communicate through a directory named `common`. The `common` directory provides a common contract and state for them, and also some shared utils. In the followin example user, search and report features communicate through common, and root directory binds all features together to a full blown app.
+The app is divided in loosely coupled features that communicate through a directory named `common`. The `common` directory provides a common contract and state for them, and also some shared utils. In the following example the user, search and report features communicate through common. And root directory binds all features together to a full blown app.
 
     /common             # common logic shared by all the features of the app
     /user               # user features
@@ -14,7 +14,7 @@ The app is divided in loosely coupled features that communicate through a direct
     /report             # report features
     ...bind app together...
 
-Similarly a large feature set may be split into multiple subfeatures. In the following example search contains multiple subfeatures (search/basic, search/advanced and search/results) that communicate with each other through search/common. Root of the search feature binds the subfeatures together to a full blown search.
+Similarly a large feature set may be split into multiple subfeatures. In the following example the search directory contains multiple subfeatures (search/basic, search/advanced and search/results) that communicate with each other through search/common. The root of the search directory binds the subfeatures together to a full blown search.
 
     /search
       /common           # common logic shared by basic, advanced and results
@@ -26,7 +26,7 @@ Similarly a large feature set may be split into multiple subfeatures. In the fol
 Tips:
 * The root directory of an app or a feature initializes it by binding all features or subfeatures together. Thus root directory may refer to any subdirectories, but subdirectories should not refer back to root, because that would be an ugly circular dependency.
 * Keep all `common` directories as small as possible. Each feature or subfeature contains its own private set of actions, state, services and utils. A `common` directory contains only such logic that is actually being used in multiple features.
-* Especially in GUI implementation it's often best to avoid direct dependencies between parallel features by always communicating through a `common` directory by using events. This way contracts remain clear and you avoid running into a tightly coupled circular dependency mess. The `always communicate through common` approach might not work that well in the backend, because implementation usually consist of direct method calls instead of indirect events.
+* Especially in GUI implementation it's often best to try to avoid direct dependencies between parallel features by communicating through a `common` directory by using events. This way contracts remain clear and you avoid running into a tightly coupled circular dependency mess. The `always communicate through common` approach might not work that well in the backend, because backend implementation usually consist of direct method calls instead of indirect events.
 
 See [General Software Design](https://github.com/TaitoUnited/taito/wiki/General-Software-Design) article for more information on how to structure your app.
 
@@ -53,7 +53,7 @@ It's common that idle applications are run down to save resources on non-product
 
 # Contacts
 
-> NOTE: Contacts are read in package.json. Do not modify the headers of the development and maintenance chapters, and do not add any extra content in them either.
+> NOTE: Contacts are used in package.json. Do not modify the headers of the development and maintenance chapters, and do not add any extra content in the chapters either.
 
 ## Development
 
