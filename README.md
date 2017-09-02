@@ -37,7 +37,7 @@ Make sure that everything has been initialized (database populated, etc.):
 
 Open app in browser:
 
-    $ taito open
+    $ taito open-app
 
 Show user accounts that you can use to log in:
 
@@ -51,7 +51,7 @@ Stop:
 
     $ taito o-stop
 
-For more commands run `taito b-help` or write `taito` and press TAB. For troubleshooting run `taito b-trouble`. See PROJECT.md for project specific conventions and documentation.
+Write `taito o` and press TAB to get the list of most important commands for operating your project. Run `taito b-help` to get detailed instructions for all commands. For troubleshooting run `taito b-trouble`. See PROJECT.md for project specific conventions and documentation.
 
 > Basic authentication is enabled on all environments by default. The username is #username and the password is #password. You can turn basic authentication off by modifying the `scripts/helm-prod.yaml` and `scripts/helm.yaml` files.
 
@@ -126,6 +126,8 @@ Deploying to different environments:
 * test: Merge changes to test branch. NOTE: Test environment is not mandatory.
 * staging: Merge changes to staging branch. NOTE: Staging environment is not mandatory.
 * prod: Merge changes to master branch. Version number and release notes are generated automatically by the CI/CD tool.
+
+> TIP: You can quickly merge remote branches without affecting your local workspace by running `git fetch origin SOURCE:DEST` e.g `git fetch origin dev:prod`. Note that this does not work for feature branches as they may contain some conflicts that need to be resolved first.
 
 > TIP: You can debug container builds locally by running `taito ci-build [NAME]` e.g. `taito ci-build client`.
 

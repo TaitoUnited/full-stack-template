@@ -107,7 +107,7 @@ export taito_secrets="
 
 # Link plugin
 export link_urls="\
-  open[:ENV]#app=${taito_app_url} \
+  open-app[:ENV]=${taito_app_url} \
   open-boards=https://github.com/${taito_organization}/${taito_repo_name}/projects \
   open-issues=https://github.com/${taito_organization}/${taito_repo_name}/issues \
   open-builds=https://console.cloud.google.com/gcr/builds?project=${taito_zone}&query=source.repo_source.repo_name%3D%22${taito_repo_location}-${taito_repo_name}%22 \
