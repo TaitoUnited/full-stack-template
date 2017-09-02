@@ -70,13 +70,7 @@ See trouble.txt.
 
 ## Architecture Overview
 
-![Architecture](http://static3.creately.com/blog/wp-content/uploads/2012/07/AWS-architecture-basic.png)
-
-> NOTE: Include architecture overview in README.md ONLY if it is short and simple. Otherwise use a separate markdown file or wiki page.
-
-> NOTE: Architecture diagram is not mandatory if architecture is very simple.
-
-> TIP: [Gravizo](www.gravizo.com)
+> TIP: You can use [Gravizo](www.gravizo.com) for making a architecture diagram if the diagram does not contain any confidential information. Note that architecture diagram is not mandatory if the architecture is very simple.
 
 ### Containers
 

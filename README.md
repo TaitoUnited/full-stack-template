@@ -151,7 +151,7 @@ The following tools are currently used for this project. You can open any of the
 * [Sentry](https://sentry.io/taitounited/server-template/) is used for error tracking. See [instructions](https://github.com/TaitoUnited/taito/wiki/Sentry).
 * [Stackdriver uptime monitoring](https://app.google.stackdriver.com/uptime?project=gcloud-temp1) is used for monitoring production environment uptime status.
 * See performance on: TODO new relic?
-* See customer feedback: on TODO zendesk?
+* See customer feedback on: TODO zendesk?
 
 ## Configuration
 
@@ -175,6 +175,6 @@ Run `taito template-upgrade`. The command copies the latest versions of reusable
 
 ### Kubernetes configuration
 
-The `scripts/heml.yaml` file contains default Kubernetes settings for all environments and the `scripts/helm:ENV.yaml` files contain environment specific overrides for them. By Modying them you can easily configure environment variables, resource requirements and autoscaling for your containers.
+The `scripts/heml.yaml` file contains default Kubernetes settings for all environments and the `scripts/helm:ENV.yaml` files contain environment specific overrides for them. By modying them you can easily configure environment variables, resource requirements and autoscaling for your containers.
 
 If you want to change your stack in some way (e.g. add/remove cache or function), run `taito template-upgrade` and it will do it for you.
