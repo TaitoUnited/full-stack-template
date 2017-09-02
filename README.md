@@ -61,9 +61,9 @@ Write `taito o` and press TAB to get the list of most important commands for ope
 
 ### Development branches
 
-Development is done in dev and feature branches. Feature branches are useful for code reviews, cleaning up commit history and keeping unfinished work separate, but they are not mandatory for small projects. Note that most feature branches should be short-lived, and located only on your local repository unless it will be reviewed by someone else.
+Development is done in dev and feature branches. Feature branches are useful for code reviews, cleaning up commit history and keeping unfinished work separate, but they are not mandatory for small projects. Note that most feature branches should be short-lived, and located only on local git repository unless the branch will be reviewed by someone else before merge.
 
-Use the `taito git-squash-feat SOURCE` and `taito git-merge-feat SOURCE` commands to merge a feature branch to dev branch according to taito conventions.
+Use the `taito git-squash-feat SOURCE` and `taito git-merge-feat SOURCE` commands to merge a feature branch to the dev branch according to taito conventions.
 
 ### Commit messages
 
