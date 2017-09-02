@@ -127,9 +127,9 @@ Deploying to different environments:
 * staging: Merge changes to staging branch. NOTE: Staging environment is not mandatory.
 * prod: Merge changes to master branch. Version number and release notes are generated automatically by the CI/CD tool.
 
-> TIP: You can quickly merge remote branches without affecting your local workspace by running `git fetch origin SOURCE:DEST` e.g `git fetch origin dev:prod`. Note that this does not work for feature branches as they may contain some conflicts that need to be resolved first.
+> TIP: Use `taito git-merge-env SOURCE DEST`, `taito git-merge-feat SOURCE [DEST]` and `taito git-rebase-feat SOURCE [DEST]` commands to merge branches by following taito conventions. Note that most feature branches should be short-lived and private.
 
-> TIP: You can debug container builds locally by running `taito ci-build [NAME]` e.g. `taito ci-build client`.
+> TIP: In case of trouble, you can debug container builds locally by running `taito ci-build [NAME]` e.g. `taito ci-build client`.
 
 Advanced features:
 
