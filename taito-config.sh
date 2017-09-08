@@ -9,7 +9,7 @@ export taito_extensions=""
 # - 'docker:local' means that docker is used only in local environment
 # - 'kubectl:-local' means that kubernetes is used in all other environments
 export taito_plugins=" \
-  npm postgres link docker:local kubectl:-local gcloud:-local
+  postgres link docker:local npm kubectl:-local gcloud:-local
   gcloud-builder:-local sentry secret:-local semantic"
 
 # Common project settings for all plugins
@@ -25,15 +25,13 @@ export taito_namespace="${taito_customer}-${taito_env}"
 export taito_app_url="https://${taito_project_env}.g.taitodev.com"
 export taito_autorevert=false
 
+# Settings for ci builds
+export ci_test_env=false
+
 # gcloud plugin
 export gcloud_region="europe-west1"
 export gcloud_zone="europe-west1-c"
 export gcloud_sql_proxy_port="5001"
-export gcloud_build_enabled=true
-export gcloud_dns_enabled=false
-export gcloud_monitoring_enabled=false
-export gcloud_log_alerts_enabled=false
-export gcloud_functions_enabled=false
 export gcloud_cdn_enabled=false
 
 # Kubernetes plugin
@@ -45,12 +43,6 @@ export postgres_database="${taito_project//-/_}_${taito_env}"
 export postgres_host="localhost"
 export postgres_port="${gcloud_sql_proxy_port}"
 
-# npm plugin: to be used by npm scripts
-export test_api_user="test"
-export test_api_password="password"
-export test_e2e_user="test"
-export test_e2e_password="password"
-
 # Template plugin
 export template_name="orig-template"
 export template_source_git_url="git@github.com:TaitoUnited"
@@ -58,6 +50,12 @@ export template_dest_git_url="git@github.com:${taito_organization}"
 
 # Sentry plugin
 export sentry_organization="${taito_organization}"
+
+# Misc settings for npm scripts
+export test_api_user="test"
+export test_api_password="password"
+export test_e2e_user="test"
+export test_e2e_password="password"
 
 # Override settings for different environments:
 # local, feature, dev, test, staging, prod
@@ -89,6 +87,7 @@ case "${taito_env}" in
     export taito_app_url="http://localhost:3333"
     export postgres_host="${taito_project}-database"
     export postgres_port="5432"
+    export ci_test_env=true
     ;;
 esac
 
