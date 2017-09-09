@@ -87,6 +87,8 @@ case "${taito_env}" in
     export taito_app_url="http://localhost:3333"
     if [[ "${taito_mode:-}" != "ci" ]]; then
       export postgres_host="${taito_project}-database"
+    else
+      export postgres_host=0.0.0.0
     fi
     export postgres_port="5432"
     export ci_test_env=true
