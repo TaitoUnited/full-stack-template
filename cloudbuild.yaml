@@ -43,10 +43,10 @@ steps:
 
 # ----------------------- Taito-cli ----------------------------------
 
-- id: check
+- id: prepare
   waitFor: ['-']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
-  args: ['ci-check:$BRANCH_NAME', 'server', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
+  args: ['ci-prepare:$BRANCH_NAME', 'server', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
   env:
     - taito_mode=ci
 
@@ -103,8 +103,21 @@ steps:
 
 # STACK END
 
-- id: test-api:local
+- id: start:local
   waitFor: ['build-client', 'build-server']
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  args: ['o-start:local']
+  env:
+    - taito_mode=ci
+
+- id: wait:local
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  args: ['ci-wait:local']
+  env:
+    - taito_mode=ci
+
+- id: test-api:local
+  waitFor: ['wait:local']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['ci-test-api:local']
   env:
@@ -112,12 +125,20 @@ steps:
     - COMPOSE_PROJECT_NAME=workspace
 
 # - id: test-e2e:local
-#   waitFor: ['build-client', 'build-server']
+#   waitFor: ['wait:local']
 #   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
 #   args: ['ci-test-e2e:local']
 #   env:
 #     - taito_mode=ci
 #     - COMPOSE_PROJECT_NAME=workspace
+
+# TODO test-e2e:local also
+- id: stop:local
+  waitFor: ['test-api:local']
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  args: ['o-stop:local']
+  env:
+    - taito_mode=ci
 
 - id: db-deploy
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
