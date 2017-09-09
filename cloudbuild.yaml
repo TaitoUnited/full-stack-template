@@ -4,7 +4,6 @@ steps:
 # the google provided kubectl container instead of taito-cli, because it
 # doesn't need to be pulled before execution -> cancel executes immediately.
 - id: cancel
-  waitFor: ['-']
   name: 'gcr.io/cloud-builders/kubectl'
   entrypoint: 'bash'
   env:
@@ -52,7 +51,6 @@ steps:
     - taito_mode=ci
 
 - id: install
-  waitFor: ['-']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['o-install:$BRANCH_NAME']
   env:
