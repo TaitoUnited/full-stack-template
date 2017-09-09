@@ -104,13 +104,14 @@ steps:
 # STACK END
 
 - id: start:local
-  waitFor: ['build-client', 'build-server']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['o-start:local']
   env:
     - taito_mode=ci
 
+# TODO wait for 'docs' and increase wait period, do not print until at the end
 - id: wait:local
+  waitFor: ['build-client', 'build-server']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['ci-wait:local']
   env:
@@ -132,7 +133,7 @@ steps:
 #     - taito_mode=ci
 #     - COMPOSE_PROJECT_NAME=workspace
 
-# TODO test-e2e:local also
+# TODO wait for test-e2e:local also
 - id: stop:local
   waitFor: ['test-api:local']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
