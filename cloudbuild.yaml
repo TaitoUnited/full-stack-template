@@ -43,6 +43,8 @@ steps:
 
 # ----------------------- Taito-cli ----------------------------------
 
+# Preparing steps
+
 - id: ci-prepare
   waitFor: ['-']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
@@ -78,6 +80,8 @@ steps:
   env:
     - taito_mode=ci
 
+# Build artifacts
+
 - id: ci-docs
   waitFor: ['o-install']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
@@ -94,6 +98,13 @@ steps:
   env:
     - taito_mode=ci
 
+- id: ci-push-client
+  waitFor: ['ci-build-client']
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  args: ['ci-push:$BRANCH_NAME', 'client', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
+  env:
+    - taito_mode=ci
+
 - id: ci-build-server
   waitFor: ['ci-release-pre']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
@@ -101,16 +112,26 @@ steps:
   env:
     - taito_mode=ci
 
+- id: ci-push-server
+  waitFor: ['ci-build-server']
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  args: ['ci-push:$BRANCH_NAME', 'server', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
+  env:
+    - taito_mode=ci
+
 # STACK END
 
+# Run tests in local environment
+
 - id: o-start:local
+  waitFor: ['ci-build-client', 'ci-build-server']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['o-start:local']
   env:
     - taito_mode=ci
 
 - id: ci-wait:local
-  waitFor: ['ci-scan']
+  waitFor: ['ci-build-client', 'ci-build-server']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['ci-wait:local']
   env:
@@ -132,13 +153,14 @@ steps:
     - taito_mode=ci
     - COMPOSE_PROJECT_NAME=workspace
 
-# TODO wait for test-e2e:local also
 - id: ci-stop:local
   waitFor: ['ci-test-api:local', 'ci-test-e2e:local']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['o-stop:local']
   env:
     - taito_mode=ci
+
+# Deploy to target environment
 
 - id: db-deploy
   waitFor: ['ci-stop:local']
@@ -153,6 +175,8 @@ steps:
   args: ['ci-deploy:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
+
+# Run tests against the target environment
 
 - id: ci-wait
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
@@ -179,6 +203,8 @@ steps:
   args: ['ci-verify:$BRANCH_NAME']
   env:
     - taito_mode=ci
+
+# Publish and release
 
 - id: ci-publish
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
