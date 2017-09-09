@@ -3,7 +3,7 @@ steps:
 # NOTE: This first ugly step is an optimization. We execute cancel with
 # the google provided kubectl container instead of taito-cli, because it
 # doesn't need to be pulled before execution -> cancel executes immediately.
-- id: cancel
+- id: ci-cancel
   name: 'gcr.io/cloud-builders/kubectl'
   entrypoint: 'bash'
   env:
@@ -43,43 +43,43 @@ steps:
 
 # ----------------------- Taito-cli ----------------------------------
 
-- id: prepare
+- id: ci-prepare
   waitFor: ['-']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['ci-prepare:$BRANCH_NAME', 'server', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
   env:
     - taito_mode=ci
 
-- id: install
+- id: o-install
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['o-install:$BRANCH_NAME']
   env:
     - taito_mode=ci
 
-- id: release-pre
-  waitFor: ['install']
+- id: ci-release-pre
+  waitFor: ['o-install']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['ci-release-pre:$BRANCH_NAME']
   env:
     - taito_mode=ci
     - commit_sha=$COMMIT_SHA
 
-- id: test-unit
-  waitFor: ['install']
+- id: ci-test-unit
+  waitFor: ['o-install']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['ci-test-unit:$BRANCH_NAME']
   env:
     - taito_mode=ci
 
-- id: scan
-  waitFor: ['install']
+- id: ci-scan
+  waitFor: ['o-install']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['ci-scan:$BRANCH_NAME']
   env:
     - taito_mode=ci
 
-- id: docs
-  waitFor: ['install']
+- id: ci-docs
+  waitFor: ['o-install']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['ci-docs:$BRANCH_NAME']
   env:
@@ -87,15 +87,15 @@ steps:
 
 # STACK START
 
-- id: build-client
-  waitFor: ['release-pre']
+- id: ci-build-client
+  waitFor: ['ci-release-pre']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['ci-build:$BRANCH_NAME', 'client', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
   env:
     - taito_mode=ci
 
-- id: build-server
-  waitFor: ['release-pre']
+- id: ci-build-server
+  waitFor: ['ci-release-pre']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['ci-build:$BRANCH_NAME', 'server', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
   env:
@@ -103,89 +103,90 @@ steps:
 
 # STACK END
 
-- id: start:local
+- id: o-start:local
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['o-start:local']
   env:
     - taito_mode=ci
 
-# TODO wait for 'docs' and increase wait period, do not print until at the end
-- id: wait:local
-  waitFor: ['build-client', 'build-server']
+- id: ci-wait:local
+  waitFor: ['ci-scan']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['ci-wait:local']
   env:
     - taito_mode=ci
 
-- id: test-api:local
-  waitFor: ['wait:local']
+- id: ci-test-api:local
+  waitFor: ['ci-wait:local']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['ci-test-api:local']
   env:
     - taito_mode=ci
     - COMPOSE_PROJECT_NAME=workspace
 
-# - id: test-e2e:local
-#   waitFor: ['wait:local']
-#   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
-#   args: ['ci-test-e2e:local']
-#   env:
-#     - taito_mode=ci
-#     - COMPOSE_PROJECT_NAME=workspace
+- id: ci-test-e2e:local
+  waitFor: ['ci-wait:local']
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  args: ['ci-test-e2e:local']
+  env:
+    - taito_mode=ci
+    - COMPOSE_PROJECT_NAME=workspace
 
 # TODO wait for test-e2e:local also
-- id: stop:local
-  waitFor: ['test-api:local']
+- id: ci-stop:local
+  waitFor: ['ci-test-api:local', 'ci-test-e2e:local']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['o-stop:local']
   env:
     - taito_mode=ci
 
 - id: db-deploy
+  waitFor: ['ci-stop:local']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['db-deploy:$BRANCH_NAME']
   env:
     - taito_mode=ci
 
-- id: deploy
+- id: ci-deploy
+  waitFor: ['ci-stop:local']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['ci-deploy:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
 
-- id: wait
+- id: ci-wait
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['ci-wait:$BRANCH_NAME']
   env:
     - taito_mode=ci
 
-- id: test-api:ENV
-  waitFor: ['wait']
+- id: ci-test-api
+  waitFor: ['ci-wait']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['ci-test-api:$BRANCH_NAME']
   env:
     - taito_mode=ci
 
-- id: test-e2e:ENV
-  waitFor: ['wait']
+- id: ci-test-e2e
+  waitFor: ['ci-wait']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['ci-test-e2e:$BRANCH_NAME']
   env:
     - taito_mode=ci
 
-- id: verify
+- id: ci-verify
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['ci-verify:$BRANCH_NAME']
   env:
     - taito_mode=ci
 
-- id: publish
+- id: ci-publish
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['ci-publish:$BRANCH_NAME']
   env:
     - taito_mode=ci
 
-- id: release-post
+- id: ci-release-post
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['ci-release-post:$BRANCH_NAME']
   env:
