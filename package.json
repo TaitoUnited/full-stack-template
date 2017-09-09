@@ -18,7 +18,7 @@
     "o-users:test": "echo Basic auth: #username/#password; echo TODO: add test users to package.json",
     "contacts-development": "cat PROJECT.md | sed -n -e '/^## Development.*$/,/^#.*$/{ /^## Development.*$/d; /^#.*$/d; p; }'",
     "contacts-maintenance": "cat PROJECT.md | sed -n -e '/^## Maintenance.*$/,/^#.*$/{ /^## Maintenance.*$/d; /^#.*$/d; p; }'",
-    "ci-scan": "npm run lint",
+    "ci-scan": "npm run lint; echo 'TODO sonar.sh start; run sonar scanner; sonar.sh stop ???'",
     "ci-test-unit": "echo TODO: implement test:unit in package.json",
     "ci-test-api:local": "echo TODO: implement test:api in package.json. Env=${taito_env} url=${taito_app_url} user=${test_api_user} password=${test_api_password}",
     "ci-test-e2e:local": "echo TODO: implement test:e2e in package.json. Env=${taito_env} url=${taito_app_url} user=${test_e2e_user} password=${test_e2e_password}",

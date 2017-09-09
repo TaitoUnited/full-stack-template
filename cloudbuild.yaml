@@ -103,6 +103,7 @@ steps:
   args: ['ci-test-api:local']
   env:
     - taito_mode=ci
+    - COMPOSE_PROJECT_NAME=workspace
 
 # - id: test-e2e:local
 #   waitFor: ['build-client', 'build-server']
@@ -110,6 +111,7 @@ steps:
 #   args: ['ci-test-e2e:local']
 #   env:
 #     - taito_mode=ci
+#     - COMPOSE_PROJECT_NAME=workspace
 
 - id: db-deploy
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
