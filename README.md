@@ -100,8 +100,6 @@ You can use any of the following types in your commit message. Use at least type
 
 > TIP: Optionally you can use `npm run commit` to write your commit messages by using commitizen, though often it is quicker to write commit messages by hand.
 
-TODO some tips for keeping the commit history clean (link some article?)
-
 ## Database Migration
 
 Add a new migration:
@@ -139,7 +137,7 @@ Advanced features:
 
 * **Copy prod to staging**: Often it's a good idea to copy production database to staging before merging changes to the staging branch: `taito db-copy:prod staging`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db-copyquick:prod staging`), but it disconnects all other users connected to the production database until copying is finished and also requires that both databases are located in the same database cluster.
 * **Feature branch**: You can create also an environment for a feature branch: Delete the old environment if it exists (`taito env-delete:feature`) and create new environment for your feature branch (`taito env-create:feature BRANCH`). Currently only one feature environment can exist at a time and therefore the old one needs to be deleted before the new one is created.
-* **Alternate environment** You can create an alternate environment for an environment by running `taito env-alt-create:ENV`. An alternate environment uses the same database as the main environment, but containers are built from an alternate branch. You can use alternate environments e.g. for canary releases and A/B testing by redirecting some of the users to the alternate environment.
+* **Alternate environment** TODO implement: You can create an alternate environment for an environment by running `taito env-alt-create:ENV`. An alternate environment uses the same database as the main environment, but containers are built from an alternate branch. You can use alternate environments e.g. for canary releases and A/B testing by redirecting some of the users to the alternate environment.
 * **Revert app**: Revert application to the previous revision by running `taito ci-revert:ENV`. If you need to revert to a specific revision, check current revision by running `taito ci-revision:ENV` first and then revert to a specific revision by running `taito ci-revert:ENV REVISION`. NOTE: Command does not revert database changes.
 * **Revert database changes**: Revert the previous migration batch by running `taito db-revert[:ENV]`. If you would like to revert to a specific revision instead, view the db change log first (`taito db-log[:ENV]`) and then run `taito db-revert[:ENV] CHANGE`.
 

@@ -97,8 +97,6 @@ steps:
 
 # STACK END
 
-# TODO skip if container image has already been tested before
-# (a successful build with the same image tag exists)
 - id: test-api:local
   waitFor: ['build-client', 'build-server']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
@@ -106,14 +104,12 @@ steps:
   env:
     - taito_mode=ci
 
-# TODO skip if container image has already been tested before
-# (a successful build with the same image tag exists)
-- id: test-e2e:local
-  waitFor: ['build-client', 'build-server']
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
-  args: ['ci-test-e2e:local']
-  env:
-    - taito_mode=ci
+# - id: test-e2e:local
+#   waitFor: ['build-client', 'build-server']
+#   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+#   args: ['ci-test-e2e:local']
+#   env:
+#     - taito_mode=ci
 
 - id: db-deploy
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'

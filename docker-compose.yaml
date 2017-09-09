@@ -1,5 +1,8 @@
 # NOTE: Remove all extra containers that you don't need.
 
+# TODO nginx as a frontend server so that the same docker-compose file works
+# also with production containers and cors is not required for development.
+
 # server-template-admin:
 #   container_name: server-template-admin
 #   build: ./admin
