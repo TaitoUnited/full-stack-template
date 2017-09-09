@@ -85,10 +85,11 @@ case "${taito_env}" in
   local)
     # local overrides
     export taito_app_url="http://localhost:3333"
-    export postgres_host="${taito_project}-database"
+    if [[ "${taito_mode:-}" != "ci" ]]; then
+      export postgres_host="${taito_project}-database"
+    fi
     export postgres_port="5432"
     export ci_test_env=true
-    ;;
 esac
 
 # --- Derived values ---
