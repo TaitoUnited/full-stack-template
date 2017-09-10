@@ -70,8 +70,10 @@ app.use(bodyParser());
 app.use(async (ctx, next) => {
   await next();
 });
-// Use Cors
-app.use(cors());
+
+// NOTE: Enable if cors is required
+// app.use(cors());
+
 // Disable HTTP-cache
 app.use(koaCacheControl({
   noCache: true,
