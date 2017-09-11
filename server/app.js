@@ -2,9 +2,11 @@ import Koa from 'koa';
 import koaRouter from 'koa-router';
 import bodyParser from 'koa-better-body';
 import koaCacheControl from 'koa-cache-control';
-import cors from 'kcors';
 import Boom from 'boom';
 import Raven from 'raven';
+
+// NOTE: Enable if cors is required
+// import cors from 'kcors';
 
 import { roles } from './examples/common/example.constants';
 import config from './config';
