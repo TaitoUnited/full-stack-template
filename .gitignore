@@ -2,6 +2,8 @@ node_modules
 tmp
 taitoflag_*
 .DS_Store
+.vscode
+build
 *.log
 *.tmp
 *.pyc

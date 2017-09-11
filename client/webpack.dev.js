@@ -9,7 +9,6 @@ webpackConfig.plugins = (webpackConfig.plugins) ? webpackConfig.plugins : [];
 
 webpackConfig.entry.unshift(
   'react-hot-loader/patch',
-  'webpack-dev-server/client?http://localhost:' + DEV_SERVER_PORT,
   'webpack/hot/only-dev-server'
 );
 
