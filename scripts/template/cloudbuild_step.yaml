@@ -1,7 +1,14 @@
 
-- id: build-#NAME
-  waitFor: ['-']
-  name: 'taitounited/taito-cli:latest'
-  args: ['build', '#NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
+- id: ci-build-#NAME
+  waitFor: ['ci-release-pre']
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  args: ['ci-build:$BRANCH_NAME', '#NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
+  env:
+    - taito_mode=ci
+
+- id: ci-push-#NAME
+  waitFor: ['ci-build-#NAME']
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  args: ['ci-push:$BRANCH_NAME', '#NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
   env:
     - taito_mode=ci

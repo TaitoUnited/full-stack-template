@@ -4,6 +4,7 @@ taitoflag_*
 .DS_Store
 .vscode
 build
+template-tmp
 *.log
 *.tmp
 *.pyc
