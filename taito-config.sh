@@ -1,7 +1,5 @@
 #!/bin/bash
 
-# : "${taito_env:?}"
-
 # Taito-cli settings
 export taito_image="taitounited/taito-cli:latest"
 export taito_extensions=""
@@ -62,33 +60,19 @@ export test_e2e_password="password"
 case "${taito_env}" in
   prod)
     # prod overrides
-    # export taito_autorevert=true
-    # export taito_app_url="https://www.myapp.com"
-    # export taito_zone="taito-gcloud-restricted1"
-    # export gcloud_region="europe-west2"
-    # export gcloud_zone="europe-west2-a"
-    # export gcloud_dns_enabled=true
-    # export gcloud_monitoring_enabled=true
-    # export gcloud_log_alerts_enabled=true
-    # export kubernetes_name="netflix-kubernetes"
-    # export postgres_name="netflix-postgres"
     ;;
   staging)
     # staging overrides
-    # export taito_app_url="https://${taito_project_env}.myapp.com"
-    # export taito_zone="taito-gcloud-restricted1"
-    # export gcloud_region="europe-west2"
-    # export gcloud_zone="europe-west2-a"
-    # export kubernetes_name="netflix-kubernetes"
-    # export postgres_name="netflix-postgres"
     ;;
   local)
     # local overrides
-    export taito_app_url="http://localhost:3000"
+    export taito_app_url="http://localhost:8080"
     if [[ "${taito_mode:-}" != "ci" ]]; then
       export postgres_host="${taito_project}-database"
+      export postgres_port="5432"
+    else
+      export postgres_port="6000"
     fi
-    export postgres_port="5432"
     export ci_test_env=true
 esac
 

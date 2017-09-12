@@ -10,7 +10,7 @@
 echo "- init"
 
 # Remove license
-rm LICENSE.md
+rm LICENSE
 grep -v '"license":' < package.json > package.json.tmp
 mv package.json.tmp package.json
 
@@ -118,16 +118,26 @@ echo
 echo "Simple basic auth username:"
 read -r auth_username
 echo "Simple basic auth password:"
-read -r auth_password
+# read -r auth_password
 echo "${auth_password}" | htpasswd -c scripts/${template_repo_name}/.htpasswd ${auth_username}
 
-# Replace user and password in files
+# Generate ports
+front_port=$(shuf -i 8000-9999 -n 1)
+db_port=$(shuf -i 6000-7999 -n 1)
+
+# Replace user, password and ports in files
 if [ "$(uname)" = "Darwin" ]; then
   sed -i '' -- "s/#username/${auth_username}/g" README.md PROJECT.md package.json
   sed -i '' -- "s/#password/${auth_password}/g" README.md PROJECT.md package.json
+  sed -i '' -- "s/6000/${db_port}/g" docker-compose.yaml &> /dev/null
+  sed -i '' -- "s/8080/${front_port}/g" docker-compose.yaml taito-config.sh \
+    ./admin/package.json ./client/package.json &> /dev/null
 else
   sed -i -- "s/#username/${auth_username}/g" README.md PROJECT.md package.json
   sed -i -- "s/#password/${auth_password}/g" README.md PROJECT.md package.json
+  sed -i -- "s/6000/${db_port}/g" docker-compose.yaml &> /dev/null
+  sed -i -- "s/8080/${front_port}/g" docker-compose.yaml taito-config.sh \
+    ./admin/package.json ./client/package.json &> /dev/null
 fi
 
 # Replace first line of README.md with a 'do not modify' note

@@ -5,7 +5,7 @@ server-template-front:
   image: nginx:1.13.3
   restart: always
   ports:
-    - "3000:80"
+    - "8080:80"
   links:
     # - server-template-admin:server-template-admin
     - server-template-client:server-template-client
@@ -99,7 +99,7 @@ server-template-database:
   image: kiasaki/alpine-postgres:9.5
   restart: always
   ports:
-    - "5000:5432"
+    - "6000:5432"
   environment:
     POSTGRES_DB: server_template_local
     POSTGRES_USER: server_template_local_app

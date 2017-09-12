@@ -7,7 +7,7 @@
   "scripts": {
     "test": "BABEL_ENV=test jest",
     "lint": "eslint . --ignore-path .eslintignore --quiet",
-    "start": "webpack-dev-server --config webpack.dev.js --public=localhost:3000",
+    "start": "webpack-dev-server --config webpack.dev.js --public=localhost:8080",
     "build": "NODE_ENV=production webpack -p --config webpack.prod.js",
     "analyze": "ANALYZE=true NODE_ENV=production webpack -p --config webpack.prod.js"
   },
