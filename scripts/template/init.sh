@@ -158,8 +158,8 @@ Improve the original instead." | cat - scripts/${template_repo_name}/README.md >
 # Add 'do not modify' note to cloudbuild.yaml
 printf \
 "# NOTE: This file has been generated from orig-template by taito-cli.\n\
-It is located here only to avoid accidental build breaks. Do not modify it.\n\
-Improve the original instead." | cat - cloudbuild.yaml > \
+# It is located here only to avoid accidental build breaks. Do not modify it.\n\
+# Improve the original instead." | cat - cloudbuild.yaml > \
   temp && mv -f temp cloudbuild.yaml
 
 # Instructions
