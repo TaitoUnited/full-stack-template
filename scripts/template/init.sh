@@ -86,7 +86,7 @@ add_container "${server}"
 add_container "${function}"
 {
   sed '/# STACK START/q' cloudbuild.yaml
-  echo -e "${cloudbuild}"
+  echo -e "${cloudbuild}\n"
   sed -n -e '/# STACK END/,$p' cloudbuild.yaml
 } >> cloudbuild.yaml.tmp
 mv -f cloudbuild.yaml.tmp cloudbuild.yaml
