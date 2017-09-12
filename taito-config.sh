@@ -91,15 +91,16 @@ export taito_secrets="
 
 # Link plugin
 export link_urls="\
-  open-app[:ENV]=${taito_app_url} \
-  open-boards=https://github.com/${taito_organization}/${taito_repo_name}/projects \
-  open-issues=https://github.com/${taito_organization}/${taito_repo_name}/issues \
-  open-builds=https://console.cloud.google.com/gcr/builds?project=${taito_zone}&query=source.repo_source.repo_name%3D%22${taito_repo_location}-${taito_repo_name}%22 \
-  open-artifacts=https://console.cloud.google.com/gcr/images/${taito_zone}/EU/${taito_repo_location}-${taito_repo_name}?project=${taito_zone} \
-  open-bucket=https://storage.googleapis.com/${taito_project_env} \
-  open-logs:ENV=https://console.cloud.google.com/logs/viewer?project=${taito_zone}&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F${kubectl_name}%2Fnamespace_id%2F${taito_namespace} \
-  open-errors:ENV=https://sentry.io/${taito_organization}/${taito_project}/?query=is%3Aunresolved+environment%3A${taito_env} \
-  open-uptime=https://app.google.stackdriver.com/uptime?project=${taito_zone} \
-  open-performance=https://TODO-NOT-IMPLEMENTED \
-  open-feedback=https://TODO-NOT-IMPLEMENTED
+  open-app[:ENV]#app=${taito_app_url} \
+  open-admin[:ENV]#admin=${taito_app_url}/admin/ \
+  open-boards#boards=https://github.com/${taito_organization}/${taito_repo_name}/projects \
+  open-issues#issues=https://github.com/${taito_organization}/${taito_repo_name}/issues \
+  open-builds#builds=https://console.cloud.google.com/gcr/builds?project=${taito_zone}&query=source.repo_source.repo_name%3D%22${taito_repo_location}-${taito_repo_name}%22 \
+  open-artifacts#artifacts=https://console.cloud.google.com/gcr/images/${taito_zone}/EU/${taito_repo_location}-${taito_repo_name}?project=${taito_zone} \
+  open-bucket#bucket=https://storage.googleapis.com/${taito_project_env} \
+  open-logs:ENV#logs=https://console.cloud.google.com/logs/viewer?project=${taito_zone}&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F${kubectl_name}%2Fnamespace_id%2F${taito_namespace} \
+  open-errors:ENV#errors=https://sentry.io/${taito_organization}/${taito_project}/?query=is%3Aunresolved+environment%3A${taito_env} \
+  open-uptime#uptime=https://app.google.stackdriver.com/uptime?project=${taito_zone} \
+  open-performance#performance=https://TODO-NOT-IMPLEMENTED \
+  open-feedback#feedback=https://TODO-NOT-IMPLEMENTED
   "
