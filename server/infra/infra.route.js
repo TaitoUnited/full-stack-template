@@ -1,6 +1,6 @@
 import BaseRoute from '../common/base.route';
 
-export default class UserRoute extends BaseRoute {
+export default class InfraRoute extends BaseRoute {
 
   routes() {
     // Polled by uptime monitor to check that the system is alive
