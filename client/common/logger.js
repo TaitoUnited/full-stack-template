@@ -20,7 +20,7 @@ const logger = {
 // Setup Sentry
 if (process.env.COMMON_ENV !== 'local') {
   // Determine env from hostname
-  const envs = ['local', 'feature', 'dev', 'test', 'staging', 'prod', 'canary'];
+  const envs = ['local', 'feature', 'dev', 'test', 'staging', 'prod'];
   const subdomainSplit = window.location.hostname.split('.')[0].split('-');
   const envSuffix = subdomainSplit[subdomainSplit.length - 1];
   const currentEnv = envs.includes(envSuffix) ? envSuffix : 'prod';
