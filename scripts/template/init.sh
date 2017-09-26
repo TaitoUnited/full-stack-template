@@ -143,21 +143,20 @@ fi
 # Replace first line of README.md with a 'do not modify' note
 tail -n +2 "README.md" > "README.md.tmp" && mv -f "README.md.tmp" "README.md"
 echo \
-"> NOTE: This file has been copied from orig-template. \
-It is located here only to avoid accidental build breaks. Do not modify it. \
+"> NOTE: This file has been copied from server-template. Do not modify it. \
 Improve the original instead. Project specific documentation is located in \
 PROJECT.md." | cat - README.md > temp && mv -f temp README.md
 
 # Add 'do not modify' note to readme of helm chart
 echo \
-"> NOTE: This helm chart has been copied from orig-template. It is located \
+"> NOTE: This helm chart has been copied from server-template. It is located \
 here only to avoid accidental build breaks. Do not modify it. \
 Improve the original instead." | cat - scripts/${template_repo_name}/README.md > \
   temp && mv -f temp scripts/${template_repo_name}/README.md
 
 # Add 'do not modify' note to cloudbuild.yaml
 printf \
-"# NOTE: This file has been generated from orig-template by taito-cli.\n\
+"# NOTE: This file has been generated from server-template by taito-cli.\n\
 # It is located here only to avoid accidental build breaks. Do not modify it.\n\
 # Improve the original instead." | cat - cloudbuild.yaml > \
   temp && mv -f temp cloudbuild.yaml

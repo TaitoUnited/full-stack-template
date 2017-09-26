@@ -6,6 +6,7 @@ taitoflag_*
 build
 template-tmp
 *.log
+*.log.*
 *.tmp
 *.pyc
 *~
