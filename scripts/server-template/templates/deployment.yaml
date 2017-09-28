@@ -175,7 +175,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /infra/healthz
-              port: 3332
+              port: {{ .Values.server.port }}
               scheme: HTTP
             initialDelaySeconds: 30
             periodSeconds: 15
@@ -187,11 +187,6 @@ spec:
             - prefix: APP_
               configMapRef:
                 name: {{ template "fullname" . }}-app
-            {{- range $name, $value := .Values.secrets }}
-            - prefix: {{ $name }}
-              secretRef:
-                name: {{ $value }}
-            {{- end }}
             # - prefix: BUCKET_
             #   configMapRef:
             #     name: {{ template "fullname" . }}-bucket # {{ .Values.stack.bucket }}
@@ -208,11 +203,18 @@ spec:
             - name: API_BINDADDR
               value: '0.0.0.0'
             - name: API_PORT
-              value: '3332'
+              value: {{ .Values.server.port | quote }}
             - name: ENV
               value: {{ .Values.env | quote }}
             - name: DEBUG
               value: {{ .Values.debug | quote }}
+            {{- range $name, $value := .Values.secrets }}
+            - name: {{ $name }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $value }}
+                  key: SECRET
+            {{- end }}
         # - name: {{ template "fullname" . }}-{{ .Values.stack.server }}-monitor
         #   image: wikiwi/stackdriver-agent
         #   imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
