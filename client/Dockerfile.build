@@ -1,4 +1,5 @@
-FROM node:8.5-alpine
+# TODO FROM node:8.5-alpine
+FROM mhart/alpine-node:latest
 
 ARG BUILD_VERSION
 ARG BUILD_IMAGE_TAG
