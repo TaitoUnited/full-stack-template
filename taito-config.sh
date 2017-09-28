@@ -20,7 +20,7 @@ export taito_project="server-template"
 export taito_registry="eu.gcr.io/${taito_zone}/github-${taito_organization}-${taito_repo_name}"
 export taito_project_env="${taito_project}-${taito_env}"
 export taito_namespace="${taito_customer}-${taito_env}"
-export taito_app_url="https://${taito_project_env}.g.taitodev.com"
+export taito_app_url="https://${taito_project_env}.gopen1.taitodev.com"
 export taito_autorevert=false
 
 # Settings for ci builds
@@ -80,14 +80,15 @@ esac
 
 export gcloud_project="${taito_zone}"
 
-# NOTE: Secret naming: generation_method:type.target_of_type.purpose[/namespace]
+# NOTE: Secret naming: type.target_of_type.purpose[/namespace]:generation_method
 # NOTE: Additionally all secrets from common namespace are copied during
 # create:ENV and rotate:ENV
 export taito_secrets="
-  random:db.${postgres_database}.app
-  random:db.${postgres_database}.build/devops
-  copy/devops:ext.google-cloudsql.proxy
-  read/devops:ext.github.build"
+  jwt.example.auth:random
+  db.${postgres_database}.app:random
+  db.${postgres_database}.build/devops:random
+  ext.google-cloudsql.proxy:copy/devops
+  ext.github.build:read/devops"
 
 # Link plugin
 export link_urls="\

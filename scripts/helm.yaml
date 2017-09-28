@@ -23,6 +23,9 @@ app:
   EXAMPLE: value
   EXAMPLE2: value
 
+secrets:
+  SECRET_EXAMPLE: jwt.example.auth
+
 # Stack settings
 
 ingress:

@@ -187,6 +187,11 @@ spec:
             - prefix: APP_
               configMapRef:
                 name: {{ template "fullname" . }}-app
+            {{- range $name, $value := .Values.secrets }}
+            - prefix: {{ $name }}
+              secretRef:
+                name: {{ $value }}
+            {{- end }}
             # - prefix: BUCKET_
             #   configMapRef:
             #     name: {{ template "fullname" . }}-bucket # {{ .Values.stack.bucket }}

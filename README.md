@@ -129,13 +129,13 @@ Deploying to different environments:
 * staging: Merge changes to staging branch. NOTE: Staging environment is not mandatory.
 * prod: Merge changes to master branch. Version number and release notes are generated automatically by the CI/CD tool.
 
-> TIP: Use the `taito git-env-merge SOURCE DEST` command to merge an environment branch to another.
+> TIP: Use the `taito git-env-merge:ENV SOURCE_BRANCH` command to merge an environment branch to another.
 
 Advanced features:
 
 * **Debugging CI builds**: In case of trouble, you can run the CI build steps defined in cloudbuild.yaml also locally with taito-cli. If you want to run them exacly as CI would, first log in to container with `taito --login`, set `taito_mode=ci` and `COMPOSE_PROJECT_NAME=workspace` environment variables and then run the taito-cli commands using the container shell. *TODO install also [container-builder-local](https://github.com/GoogleCloudPlatform/container-builder-local) on taito-cli container?*
 * **Quick deploy**: If you are in a hurry, you can build, push and deploy a container directly to server with the `taito ci-deployquick:ENV NAME` command e.g. `taito ci-deployquick:dev client`.
-* **Copy prod to staging**: Often it's a good idea to copy production database to staging before merging changes to the staging branch: `taito db-copy:prod staging`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db-copyquick:prod staging`), but it disconnects all other users connected to the production database until copying is finished and also requires that both databases are located in the same database cluster.
+* **Copy prod to staging**: Often it's a good idea to copy production database to staging before merging changes to the staging branch: `taito db-copy:staging prod`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db-copyquick:staging prod`), but it disconnects all other users connected to the production database until copying is finished and also requires that both databases are located in the same database cluster.
 * **Feature branch**: You can create also an environment for a feature branch: Delete the old environment first if it exists (`taito env-delete:feature`) and create new environment for your feature branch (`taito env-create:feature BRANCH`). Currently only one feature environment can exist at a time and therefore the old one needs to be deleted before the new one is created.
 * **Alternative environment** TODO implement: You can create an alternative environment for an environment by running `taito env-alt-create:ENV`. An alternative environment uses the same database as the main environment, but containers are built from an alternative branch. You can use alternative environments e.g. for canary releases or A/B testing by redirecting some of the users to the alternative environment.
 * **Revert app**: Revert application to the previous revision by running `taito ci-revert:ENV`. If you need to revert to a specific revision, check current revision by running `taito ci-revision:ENV` first and then revert to a specific revision by running `taito ci-revert:ENV REVISION`. NOTE: The command does not revert database changes.
@@ -182,3 +182,12 @@ Run `taito template-upgrade`. The command copies the latest versions of reusable
 The `scripts/heml.yaml` file contains default Kubernetes settings for all environments and the `scripts/helm:ENV.yaml` files contain environment specific overrides for them. By modying them you can easily configure environment variables, resource requirements and autoscaling for your containers.
 
 If you want to change your stack in some way (e.g. add/remove cache or function), run `taito template-upgrade` and it will do it for you.
+
+### Configuring secrets
+
+Local development (docker): Just define secret as a normal environment variable in `docker-compose.yaml`.
+
+Kubernetes:
+1. Add secret definition to `taito-config.sh`
+2. Map secret to an environment variable in `scripts/helm.yaml`
+3. Run `taito rotate:ENV [SECRET]` to generate a secret value for an environment. Run the command for each environment.
