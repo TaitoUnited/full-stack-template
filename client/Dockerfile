@@ -1,4 +1,4 @@
-FROM mhart/alpine-node:latest
+FROM node:8.5-alpine
 
 RUN apk add --update-cache build-base python git
 

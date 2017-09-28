@@ -1,10 +1,6 @@
-# TODO update node version
-FROM nodesource/jessie:6.3.1
+FROM node:8.5-alpine
 
-RUN apt-get update && apt-get install -y \
-  build-essential \
-  libfontconfig
-
+RUN apk add --update-cache build-base python git fontconfig
 
 WORKDIR /app
 

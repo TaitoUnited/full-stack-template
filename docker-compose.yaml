@@ -96,7 +96,7 @@ server-template-cache:
 
 server-template-database:
   container_name: server-template-database
-  image: kiasaki/alpine-postgres:9.5
+  image: postgres:9.5-alpine
   restart: always
   ports:
     - "6000:5432"

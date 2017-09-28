@@ -1,4 +1,5 @@
-FROM mhart/alpine-node:latest
+FROM node:8.5-alpine
+
 ARG BUILD_VERSION
 ARG BUILD_IMAGE_TAG
 ENV NODE_ENV development
