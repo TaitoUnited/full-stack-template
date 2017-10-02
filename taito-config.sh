@@ -20,7 +20,7 @@ export taito_project="server-template"
 export taito_registry="eu.gcr.io/${taito_zone}/github-${taito_organization}-${taito_repo_name}"
 export taito_project_env="${taito_project}-${taito_env}"
 export taito_namespace="${taito_customer}-${taito_env}"
-export taito_app_url="https://${taito_project_env}.gopen1.taitodev.com"
+export taito_app_url="https://${taito_project_env}.taitodev.com"
 export taito_autorevert=false
 
 # Settings for ci builds

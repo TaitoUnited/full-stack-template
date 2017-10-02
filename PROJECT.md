@@ -34,17 +34,17 @@ See [General Software Design](https://github.com/TaitoUnited/taito/wiki/General-
 
 Production:
 
-* Site: https://server-template-prod.gopen1.taitodev.com
+* Site: https://server-template-prod.taitodev.com
 * TODO Request an user account from...
 
 Staging:
 
-* Site: https://server-template-staging.gopen1.taitodev.com
+* Site: https://server-template-staging.taitodev.com
 * TODO Request an user account from...
 
 Development:
 
-* Site: https://server-template-dev.gopen1.taitodev.com
+* Site: https://server-template-dev.taitodev.com
 * User accounts: TODO
 
 Basic authentication is enabled on non-production environments by default. The username is #username and the password is #password.

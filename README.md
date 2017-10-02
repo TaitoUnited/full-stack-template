@@ -47,7 +47,7 @@ Stop:
 
     $ taito o-stop
 
-Write `taito o` and press TAB to get the list of most important commands for operating your project. Run `taito b-help` to get detailed instructions for all commands. For troubleshooting run `taito b-trouble`. See PROJECT.md for project specific conventions and documentation.
+Write `taito o` and press TAB to get the list of most important commands for operating your project. Run `taito taito-help` to get detailed instructions for all commands. For troubleshooting run `taito taito-trouble`. See PROJECT.md for project specific conventions and documentation.
 
 > Basic authentication is enabled on all environments by default. The username is #username and the password is #password. You can turn basic authentication off by modifying the `scripts/helm-prod.yaml` and `scripts/helm.yaml` files.
 
@@ -150,7 +150,7 @@ The following tools are currently used for this project. You can open any of the
 * See issue boards on [GitHub projects](https://github.com/TaitoUnited/server-template/projects) and issues on [GitHub issues](https://github.com/TaitoUnited/server-template/issues).
 * See all builds on [Google Build History](https://console.cloud.google.com/gcr/builds?project=gcloud-temp1&query=source.repo_source.repo_name%3D%22github-taitounited-server-template%22).
 * See all build artifacts on [Google Container Registry](https://console.cloud.google.com/gcr/images/gcloud-temp1/EU/github-taitounited-server-template?project=gcloud-temp1).
-* Deployed on Kubernetes. See  [instructions](https://github.com/TaitoUnited/taito/wiki/Kubernetes). The most common Kubernetes operations are available as taito commands: `taito b-help`.
+* Deployed on Kubernetes. See  [instructions](https://github.com/TaitoUnited/taito/wiki/Kubernetes). The most common Kubernetes operations are available as taito commands: `taito taito-help`.
 *  All [dev](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fcustomername-dev), [staging](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fcustomername-staging) and [prod](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fcustomername-prod) logs are gathered to Google Stackdriver. See [instructions](https://github.com/TaitoUnited/taito/wiki/Stackdriver).
 * [Sentry](https://sentry.io/taitounited/server-template/) is used for error tracking. See [instructions](https://github.com/TaitoUnited/taito/wiki/Sentry).
 * [Stackdriver uptime monitoring](https://app.google.stackdriver.com/uptime?project=gcloud-temp1) is used for monitoring production environment uptime status.

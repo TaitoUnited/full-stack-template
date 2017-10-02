@@ -27,7 +27,7 @@ spec:
 {{ if .Values.ingress.tls }}
   tls:
   - hosts:
-    - {{ template "fullname" . -}} .gopen1.taitodev.com
+    - {{ template "fullname" . -}} .taitodev.com
     secretName: {{ template "fullname" . }}-ssl
 
   {{- range $domain := .Values.domains }}
@@ -38,7 +38,7 @@ spec:
 
 {{ end }}
   rules:
-    - host: {{ template "fullname" . -}} .gopen1.taitodev.com
+    - host: {{ template "fullname" . -}} .taitodev.com
       http:
         paths:
           {{ if .Values.stack.server }}
