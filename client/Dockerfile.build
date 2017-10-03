@@ -1,16 +1,11 @@
-# TODO FROM node:8.5-alpine
-FROM mhart/alpine-node:latest
+FROM node:8.6-alpine
 
 ARG BUILD_VERSION
 ARG BUILD_IMAGE_TAG
-ENV NODE_ENV development
+
 ENV BUILD_VERSION ${BUILD_VERSION}
 ENV BUILD_IMAGE_TAG ${BUILD_IMAGE_TAG}
-
-RUN apk add --update-cache build-base python git nginx
-
-WORKDIR /app
-
+ENV NODE_ENV development
 ENV API_ROOT ''
 ENV API_URL /api
 
@@ -18,8 +13,12 @@ ENV API_URL /api
 ENV APP_SENTRY_PUBLIC_DSN  https://a10a67301f9547a6861aafdb12bd6db9@sentry.io/176268
 # SENTRY END
 
+RUN apk add --update-cache build-base python git nginx
+
+WORKDIR /app
+
 COPY ./package.json /app/package.json
-RUN npm install
+RUN npm install --loglevel warn
 
 COPY . /app
 
@@ -28,7 +27,7 @@ RUN npm run build
 RUN cp -r ./common/assets/* /build
 
 # nginx
-RUN adduser -D -u 1000 -g 'www' www
+RUN adduser -D -u 1001 -g 'www' www
 RUN chown -R www:www /var/lib/nginx
 RUN chown -R www:www /build
 RUN mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig

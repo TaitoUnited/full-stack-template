@@ -1,21 +1,18 @@
-# TODO FROM node:8.5-alpine
-FROM nodesource/jessie:6.3.1
+FROM node:8.6-alpine
 
 ARG BUILD_VERSION
 ARG BUILD_IMAGE_TAG
-ENV NODE_ENV development
+
 ENV BUILD_VERSION ${BUILD_VERSION}
 ENV BUILD_IMAGE_TAG ${BUILD_IMAGE_TAG}
+ENV NODE_ENV development
 
-# RUN apk add --update-cache build-base python git fontconfig
-RUN apt-get update && apt-get install -y \
-  build-essential \
-  libfontconfig
+RUN apk add --update-cache build-base python git fontconfig
 
 WORKDIR /app
 
 COPY ./package.json /app/package.json
-RUN npm install
+RUN npm install --loglevel warn
 
 COPY . /app
 
