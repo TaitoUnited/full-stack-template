@@ -31,6 +31,8 @@ class StackdriverStream {
           userAgent: e.req.headers['user-agent'],
           referrer: e.req.headers.referer,
           remoteIp: e.req.headers['x-real-ip'],
+          // NOTE: Log all headers only in debug mode (security!)
+          headers: config.DEBUG ? e.req.headers : undefined,
         },
         user: 'TODO',
         reportLocation: {
@@ -44,9 +46,17 @@ class StackdriverStream {
         service: e.name,
         version: config.APP_VERSION,
       },
+      // Extra non-stackdriver attributes
+      reqId: e.req_id,
+      pid: e.pid,
+      latency: e.latency,
     };
-    this.stream.write(JSON.stringify(formatted));
-    this.stream.write('\n');
+    if (formatted.severity !== 'INFO' ||
+        !formatted.context.httpRequest ||
+        formatted.context.httpRequest.url !== '/infra/healthz') {
+      this.stream.write(JSON.stringify(formatted));
+      this.stream.write('\n');
+    }
   }
 }
 
