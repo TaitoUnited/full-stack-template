@@ -4,14 +4,51 @@ import _ from 'lodash';
 import config from './config';
 import ns from './cls';
 
-const levelMap = {
-  [bunyan.TRACE]: 'TRACE',
+const severityByBunyanLevel = {
+  [bunyan.TRACE]: 'DEBUG',
   [bunyan.DEBUG]: 'DEBUG',
   [bunyan.INFO]: 'INFO',
-  [bunyan.WARN]: 'WARN',
+  [bunyan.WARN]: 'WARNING',
   [bunyan.ERROR]: 'ERROR',
-  [bunyan.FATAL]: 'FATAL',
+  [bunyan.FATAL]: 'CRITICAL',
 };
+
+// https://cloud.google.com/error-reporting/docs/formatting-error-messages
+class StackdriverStream {
+  constructor(stream) {
+    this.stream = stream;
+  }
+  write(e) {
+    const formatted = {
+      severity: severityByBunyanLevel[e.level],
+      message: (e.msg || '') +
+        (e.err ? ` ${e.err.msg}: ${e.err.stack}` : ''),
+      context: {
+        httpRequest: !e.req ? undefined : {
+          method: e.req.method,
+          url: e.req.url,
+          responseStatusCode: e.res ? e.res.statusCode : undefined,
+          userAgent: e.req.headers['user-agent'],
+          referrer: e.req.headers.referer,
+          remoteIp: e.req.headers['x-real-ip'],
+        },
+        user: 'TODO',
+        reportLocation: {
+          filePath: 'TODO',
+          lineNumber: 0,
+          functionName: 'TODO',
+        },
+      },
+      eventTime: e.time,
+      serviceContext: {
+        service: e.name,
+        version: config.APP_VERSION,
+      },
+    };
+    this.stream.write(JSON.stringify(formatted));
+    this.stream.write('\n');
+  }
+}
 
 const logger = bunyan.createLogger({
   name: config.APP_NAME,
@@ -19,11 +56,13 @@ const logger = bunyan.createLogger({
   level: config.DEBUG ? 'trace' : 'info',
   streams: [
     {
-      stream: process.stderr,
+      type: 'raw',
+      stream: new StackdriverStream(process.stderr),
       level: 'warn',
     },
     {
-      stream: process.stdout,
+      type: 'raw',
+      stream: new StackdriverStream(process.stdout),
       level: 'info',
     },
   ],
@@ -31,7 +70,7 @@ const logger = bunyan.createLogger({
 
 logger.info(
   `Bunyan logger created. Debugging is set to ${config.DEBUG}. ` +
-  `Log level is set to '${levelMap[logger.level()]}'.`
+  `Log level is set to '${severityByBunyanLevel[logger.level()]}'.`
 );
 
 function _addCtxToLog(args) {

@@ -20,6 +20,8 @@ config.ROOT_PATH = __dirname;
 config.ENV = process.env.ENV;
 config.DEBUG = mapBool(process.env.DEBUG);
 config.APP_NAME = 'server-template-server';
+config.APP_VERSION = !process.env.BUILD_IMAGE_TAG ? undefined :
+  `${process.env.BUILD_VERSION}+${process.env.BUILD_IMAGE_TAG}`;
 config.API_PORT = process.env.API_PORT;
 config.API_BINDADDR = process.env.API_BINDADDR;
 
