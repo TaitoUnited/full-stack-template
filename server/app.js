@@ -125,7 +125,8 @@ app
     reqId = uuid.v4(); // No request ID found in headers, so generate our own.
   }
 
-  ns.set('req_id', reqId);
+  ns.set('reqId', reqId);
+  ns.set('req', ctx.request);
   ns.set('logCtx', {});
 
   await next();
@@ -167,12 +168,11 @@ app
 
 // Logging handler: log incoming request
 .use(async (ctx, next) => {
-  // Log incoming request.
-  log.info({ req: ctx.req }, `Request: ${ctx.method} ${ctx.url}`);
   // Time how long request handling takes.
-  const start = new Date;
+  const start = new Date();
   await next();
-  const ms = new Date - start;
+  const ms = new Date() - start;
+
   // Log that the request was handled.
   log.info({ res: ctx.res, latency: ms }, `Response: ${ctx.method} ${ctx.url}`);
 });

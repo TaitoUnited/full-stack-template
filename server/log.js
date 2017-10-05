@@ -4,7 +4,7 @@ import _ from 'lodash';
 import config from './config';
 import ns from './cls';
 
-const severityByBunyanLevel = {
+const stackdriverSeverityByBunyanLevel = {
   [bunyan.TRACE]: 'DEBUG',
   [bunyan.DEBUG]: 'DEBUG',
   [bunyan.INFO]: 'INFO',
@@ -20,7 +20,7 @@ class StackdriverStream {
   }
   write(e) {
     const formatted = {
-      severity: severityByBunyanLevel[e.level],
+      severity: stackdriverSeverityByBunyanLevel[e.level],
       message: (e.msg || '') +
         (e.err ? ` ${e.err.msg}: ${e.err.stack}` : ''),
       context: {
@@ -31,7 +31,8 @@ class StackdriverStream {
           userAgent: e.req.headers['user-agent'],
           referrer: e.req.headers.referer,
           remoteIp: e.req.headers['x-real-ip'],
-          // NOTE: Log all headers only in debug mode (security!)
+          // Extra non-stackdriver attributes
+          // NOTE: We log all headers only in debug mode (security!)
           headers: config.DEBUG ? e.req.headers : undefined,
         },
         user: 'TODO',
@@ -47,13 +48,13 @@ class StackdriverStream {
         version: config.APP_VERSION,
       },
       // Extra non-stackdriver attributes
-      reqId: e.req_id,
+      reqId: e.reqId,
       pid: e.pid,
       latency: e.latency,
     };
     if (formatted.severity !== 'INFO' ||
-        !formatted.context.httpRequest ||
-        formatted.context.httpRequest.url !== '/infra/healthz') {
+        formatted.message !== 'Request: GET /infra/healthz' ||
+        formatted.message !== 'Response: GET /infra/healthz') {
       this.stream.write(JSON.stringify(formatted));
       this.stream.write('\n');
     }
@@ -80,15 +81,16 @@ const logger = bunyan.createLogger({
 
 logger.info(
   `Bunyan logger created. Debugging is set to ${config.DEBUG}. ` +
-  `Log level is set to '${severityByBunyanLevel[logger.level()]}'.`
+  `Log level is set to '${stackdriverSeverityByBunyanLevel[logger.level()]}'.`
 );
 
 function _addCtxToLog(args) {
-  const reqId = ns.get('req_id');
+  const reqId = ns.get('reqId');
+  const req = ns.get('req');
   const logCtx = ns.get('logCtx');
 
   const head = args[0];
-  let newHead = { req_id: reqId, ...logCtx };
+  let newHead = { reqId, req, ...logCtx };
   let tail;
 
   if (_.isPlainObject(head)) {

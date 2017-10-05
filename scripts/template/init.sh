@@ -158,7 +158,7 @@ Improve the original instead." | cat - scripts/${template_repo_name}/README.md >
 printf \
 "# NOTE: This file has been generated from server-template by taito-cli.\n\
 # It is located here only to avoid accidental build breaks. Do not modify it.\n\
-# Improve the original instead." | cat - cloudbuild.yaml > \
+# Improve the original instead.\n\n" | cat - cloudbuild.yaml > \
   temp && mv -f temp cloudbuild.yaml
 
 # Instructions
