@@ -52,8 +52,7 @@ class StackdriverStream {
       pid: e.pid,
       latency: e.latency,
     };
-    if (formatted.severity !== 'INFO' ||
-        formatted.message !== 'Request: GET /infra/healthz' ||
+    if (formatted.message !== 'Request: GET /infra/healthz' &&
         formatted.message !== 'Response: GET /infra/healthz') {
       this.stream.write(JSON.stringify(formatted));
       this.stream.write('\n');

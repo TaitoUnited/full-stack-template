@@ -5,14 +5,11 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "test": "make test",
-    "test:jenkins": "make jenkins",
     "start": "npm run start:dev",
     "start:dev": "NODE_ENV=development nodemon -L ./index.js --ignore 'test/*.js' | bunyan -l debug",
     "start:dev:trace": "NODE_ENV=development nodemon -L ./index.js --ignore 'test/*.js' | bunyan",
     "start:prod": "NODE_ENV=production nodemon -L ./index.js",
     "build:prod": "NODE_ENV=production babel -d ../build --ignore node_modules .",
-    "logs:prod": "journalctl -f -u rt-hot-api -o cat | bunyan",
     "build:docs": "grunt --gruntfile ./Gruntfile swagger-docs --force"
   },
   "repository": {

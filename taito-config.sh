@@ -84,7 +84,7 @@ export gcloud_project="${taito_zone}"
 # NOTE: Additionally all secrets from common namespace are copied during
 # create:ENV and rotate:ENV
 export taito_secrets="
-  jwt.example.auth:random
+  jwt.server-template.auth:random
   db.${postgres_database}.app:random
   db.${postgres_database}.build/devops:random
   ext.google-cloudsql.proxy:copy/devops

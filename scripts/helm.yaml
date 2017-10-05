@@ -24,7 +24,7 @@ app:
   EXAMPLE2: value
 
 secrets:
-  SECRET_EXAMPLE: jwt.example.auth
+  JWT_SECRET: jwt.server-template.auth
 
 # Stack settings
 
