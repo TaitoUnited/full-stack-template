@@ -46,7 +46,7 @@ spec:
             - containerPort: {{ .Values.admin.port }}
           livenessProbe:
             httpGet:
-              path: /
+              path: /healthz
               port: 80
               scheme: HTTP
             initialDelaySeconds: 30
@@ -110,7 +110,7 @@ spec:
             - containerPort: {{ .Values.client.port }}
           livenessProbe:
             httpGet:
-              path: /
+              path: /healthz
               port: 80
               scheme: HTTP
             initialDelaySeconds: 30
@@ -220,10 +220,13 @@ spec:
         #   imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
   {{ if not .Values.stack.database }}
         - name: cloudsql-proxy
-          image: gcr.io/cloudsql-docker/gce-proxy:1.09
-          command: ["/cloud_sql_proxy", "--dir=/cloudsql",
-        "-instances={{ .Values.database.db }}=tcp:{{ .Values.database.port }}",
-        "-credential_file=/secrets/cloudsql/SECRET"]
+          image: gcr.io/cloudsql-docker/gce-proxy:1.11
+          command:
+            - /cloud_sql_proxy
+            - -verbose=false
+            - --dir=/cloudsql
+            - -instances={{ .Values.database.db }}=tcp:{{ .Values.database.port }}
+            - -credential_file=/secrets/cloudsql/SECRET
           volumeMounts:
             - name: cloudsql-instance-credentials
               mountPath: /secrets/cloudsql
