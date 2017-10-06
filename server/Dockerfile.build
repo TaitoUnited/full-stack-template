@@ -26,4 +26,4 @@ EXPOSE 3332
 
 ENV NODE_ENV production
 
-CMD ["npm", "run", "--loglevel warn", "start:prod"]
+CMD ["npm", "run", "start:prod"]

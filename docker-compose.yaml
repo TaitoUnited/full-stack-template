@@ -67,6 +67,7 @@ server-template-server:
     COMMON_PROJECT: server-template
     COMMON_CUSTOMER: customername
     APP_EXAMPLE: example
+    JWT_SECRET: secret
     ENV: dev
     DEBUG: 'true'
     API_BINDADDR: 0.0.0.0
