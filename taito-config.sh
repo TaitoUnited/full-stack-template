@@ -25,6 +25,9 @@ export taito_autorevert=false
 
 # Settings for ci builds
 export ci_test_env=false
+# TODO implement copy support to 'taito ci-deploy'
+export ci_copy="\
+  docker://client/build;gs://cdn.taitounited.fi/${taito_project_env}"
 
 # gcloud plugin
 export gcloud_region="europe-west1"

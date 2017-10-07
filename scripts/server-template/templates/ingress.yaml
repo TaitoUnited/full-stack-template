@@ -42,19 +42,19 @@ spec:
       http:
         paths:
           {{ if .Values.stack.server }}
-          - path: /api
+          - path: {{ .Values.server.path | quote }}
             backend:
               serviceName: {{ template "fullname" . }}-{{ .Values.stack.server }}
               servicePort: {{ .Values.server.port }}
           {{ end }}
           {{ if .Values.stack.admin }}
-          - path: /admin
+          - path: {{ .Values.admin.path | quote }}
             backend:
               serviceName: {{ template "fullname" . }}-{{ .Values.stack.admin }}
               servicePort: {{ .Values.admin.port }}
           {{ end }}
           {{ if .Values.stack.client }}
-          - path: /
+          - path: {{ .Values.client.path | quote }}
             backend:
               serviceName: {{ template "fullname" . }}-{{ .Values.stack.client }}
               servicePort: {{ .Values.client.port }}
@@ -66,19 +66,19 @@ spec:
       http:
         paths:
           {{ if $root.Values.stack.server }}
-          - path: /api
+          - path: {{ .Values.server.path | quote }}
             backend:
               serviceName: server-template- {{- $root.Values.env -}} -{{ .Values.stack.server }}
               servicePort: {{ $root.Values.server.port }}
           {{ end }}
           {{ if $root.Values.stack.admin }}
-          - path: /
+          - path: {{ .Values.admin.path | quote }}
             backend:
               serviceName: server-template- {{- $root.Values.env -}} -{{ .Values.stack.admin }}
               servicePort: {{ $root.Values.admin.port }}
           {{ end }}
           {{ if $root.Values.stack.client }}
-          - path: /
+          - path: {{ .Values.client.path | quote }}
             backend:
               serviceName: server-template- {{- $root.Values.env -}} -{{ .Values.stack.client }}
               servicePort: {{ $root.Values.client.port }}

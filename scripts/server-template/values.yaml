@@ -21,6 +21,7 @@ ingress:
   class: nginx
 
 admin:
+  path: /admin
   port: 80
   replicas: 2
   autoscale: false
@@ -29,6 +30,7 @@ admin:
   targetCPUUtilizationPercentage: 50
 
 client:
+  path: /
   port: 80
   replicas: 2
   autoscale: false
@@ -37,6 +39,7 @@ client:
   targetCPUUtilizationPercentage: 50
 
 server:
+  path: /api
   port: 3332
   replicas: 2
   autoscale: false

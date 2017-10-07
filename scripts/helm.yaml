@@ -29,7 +29,6 @@ secrets:
 # Stack settings
 
 ingress:
-  tls: true
   basicAuth: true
   class: nginx
 
