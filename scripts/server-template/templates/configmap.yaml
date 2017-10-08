@@ -17,7 +17,7 @@ data:
   IMAGE_TAG: {{ .Values.build.imageTag | quote }}
   DEPLOY_TIME: {{ now | htmlDate }}
 
-{{ if ne .Values.env "local" }}
+{{ if and (.Values.stack.database) (ne .Values.env "local") }}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -31,6 +31,14 @@ data:
   USER: '{{ .Chart.Name | replace "-" "_" }}_{{ .Values.env }}_app'
   POOL_MIN: {{ .Values.database.poolMin | quote }}
   POOL_MAX: {{ .Values.database.poolMax | quote }}
+{{ end }}
+
+{{ if and (.Values.stack.database) (eq .Values.env "local") }}
+---
+# TODO
+{{ end }}
+
+{{ if and (.Values.stack.bucket) (ne .Values.env "local") }}
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -42,6 +50,9 @@ data:
   ID: '{{ .Release.Name | replace "-" "_" }}'
   REGION: {{ .Values.bucket.region | quote }}
   PROTOCOL: {{ .Values.bucket.protocol | quote }}
-{{ else }}
-# TODO HOST: database/bucket for local... also port...
+{{ end }}
+
+{{ if and (.Values.stack.bucket) (eq .Values.env "local") }}
+---
+# TODO
 {{ end }}

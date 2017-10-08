@@ -205,17 +205,19 @@ spec:
             {{ if .Values.stack.database }}
             - prefix: DATABASE_
               configMapRef:
-                name: {{ template "name" . }}-database # {{ .Values.stack.database }}
+                name: {{ template "name" . }}-database
             - prefix: DATABASE_
               secretRef:
-                name: db.{{ template "fullname" . }}.app # {{ .Values.stack.database }}
+                name: db.{{ template "fullname" . }}.app
             {{ end }}
-            # - prefix: BUCKET_
-            #   configMapRef:
-            #     name: {{ template "name" . }}-bucket # {{ .Values.stack.bucket }}
-            # - prefix: BUCKET_
-            #   secretRef:
-            #     name: {{ template "name" . }}-bucket # {{ .Values.stack.bucket }}
+            {{ if .Values.stack.bucket }}
+            - prefix: BUCKET_
+              configMapRef:
+                name: {{ template "name" . }}-bucket
+            - prefix: BUCKET_
+              secretRef:
+                name: {{ template "name" . }}-bucket
+            {{ end }}
           env:
             {{- range $name, $value := .Values.server.env }}
             - name: {{ $name }}
@@ -232,9 +234,6 @@ spec:
               value: {{ .Values.server.port | quote }}
             - name: API_BINDADDR
               value: {{ .Values.server.bindAddr | quote }}
-        # - name: {{ template "name" . }}-{{ .Values.stack.server }}-monitor
-        #   image: wikiwi/stackdriver-agent
-        #   imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
   {{ if and (.Values.stack.database) (ne .Values.env "local") }}
         - name: cloudsql-proxy
           image: gcr.io/cloudsql-docker/gce-proxy:1.11
@@ -252,7 +251,7 @@ spec:
               mountPath: /etc/ssl/certs
             - name: cloudsql
               mountPath: /cloudsql
-      # Could these be common volumes for all apps?
+      # TODO: Could these be common volumes for all apps?
       volumes:
         - name: cloudsql-instance-credentials
           secret:
