@@ -42,7 +42,8 @@ server:
   targetCPUUtilizationPercentage: 50
   env:
     SENTRY_DSN: #sentryDSN
-    DEBUG: 'false'
+    DEBUG: false
+    ENV: production
   secrets:
     JWT_SECRET: jwt.server-template.auth
 
