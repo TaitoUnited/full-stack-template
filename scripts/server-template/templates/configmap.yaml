@@ -1,9 +1,7 @@
-# TODO defaults would be a good practice
-
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "fullname" . }}-common
+  name: {{ template "name" . }}-common
   labels:
     app: {{ template "name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -24,7 +22,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "fullname" . }}-database # {{ .Values.stack.database }}
+  name: {{ template "name" . }}-database # {{ .Values.stack.database }}
 data:
   HOST: '127.0.0.1'
   PORT: '5432'
@@ -37,7 +35,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "fullname" . }}-bucket # {{ .Values.stack.bucket }}
+  name: {{ template "name" . }}-bucket # {{ .Values.stack.bucket }}
 data:
   HOST: {{ .Values.bucket.host | quote }}
   PORT: {{ .Values.bucket.port | quote }}

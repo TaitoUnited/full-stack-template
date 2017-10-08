@@ -3,7 +3,7 @@
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ template "fullname" . }}-{{ .Values.stack.admin }}
+  name: {{ template "name" . }}-{{ .Values.stack.admin }}
   labels:
     app: {{ template "name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -13,7 +13,7 @@ spec:
   scaleTargetRef:
     apiVersion: extensions/v1beta1
     kind: Deployment
-    name: {{ template "fullname" . }}-{{ .Values.stack.admin }}
+    name: {{ template "name" . }}-{{ .Values.stack.admin }}
   minReplicas: {{ .Values.admin.minReplicas }}
   maxReplicas: {{ .Values.admin.maxReplicas }}
   targetCPUUtilizationPercentage: {{ .Values.admin.targetCPUUtilizationPercentage }}
@@ -22,7 +22,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "fullname" . }}-{{ .Values.stack.admin }}
+  name: {{ template "name" . }}-{{ .Values.stack.admin }}
   labels:
     app: {{ template "name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -39,7 +39,7 @@ spec:
         role: admin
     spec:
       containers:
-        - name: {{ template "fullname" . }}-{{ .Values.stack.admin }}
+        - name: {{ template "name" . }}-{{ .Values.stack.admin }}
           image: {{ .Values.repository -}} / {{- .Values.stack.admin -}} : {{- .Values.build.imageTag }}
           imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
           ports:
@@ -55,10 +55,19 @@ spec:
           envFrom:
             - prefix: COMMON_
               configMapRef:
-                name: {{ template "fullname" . }}-common
-            - prefix: APP_
-              configMapRef:
-                name: {{ template "fullname" . }}-app
+                name: {{ template "name" . }}-common
+          env:
+            {{- range $name, $value := .Values.admin.env }}
+            - name: {{ $name }}
+              value: {{ $value | quote }}
+            {{- end }}
+            {{- range $name, $value := .Values.admin.secrets }}
+            - name: {{ $name }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $value }}
+                  key: SECRET
+            {{- end }}
 {{ end }}
 
 {{ if .Values.stack.client }}
@@ -67,7 +76,7 @@ spec:
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ template "fullname" . }}-{{ .Values.stack.client }}
+  name: {{ template "name" . }}-{{ .Values.stack.client }}
   labels:
     app: {{ template "name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -77,7 +86,7 @@ spec:
   scaleTargetRef:
     apiVersion: extensions/v1beta1
     kind: Deployment
-    name: {{ template "fullname" . }}-{{ .Values.stack.client }}
+    name: {{ template "name" . }}-{{ .Values.stack.client }}
   minReplicas: {{ .Values.client.minReplicas }}
   maxReplicas: {{ .Values.client.maxReplicas }}
   targetCPUUtilizationPercentage: {{ .Values.client.targetCPUUtilizationPercentage }}
@@ -86,7 +95,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "fullname" . }}-{{ .Values.stack.client }}
+  name: {{ template "name" . }}-{{ .Values.stack.client }}
   labels:
     app: {{ template "name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -103,7 +112,7 @@ spec:
         role: client
     spec:
       containers:
-        - name: {{ template "fullname" . }}-{{ .Values.stack.client }}
+        - name: {{ template "name" . }}-{{ .Values.stack.client }}
           image: {{ .Values.repository -}} / {{- .Values.stack.client -}} : {{- .Values.build.imageTag }}
           imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
           ports:
@@ -119,10 +128,19 @@ spec:
           envFrom:
             - prefix: COMMON_
               configMapRef:
-                name: {{ template "fullname" . }}-common
-            - prefix: APP_
-              configMapRef:
-                name: {{ template "fullname" . }}-app
+                name: {{ template "name" . }}-common
+          env:
+            {{- range $name, $value := .Values.client.env }}
+            - name: {{ $name }}
+              value: {{ $value | quote }}
+            {{- end }}
+            {{- range $name, $value := .Values.client.secrets }}
+            - name: {{ $name }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $value }}
+                  key: SECRET
+            {{- end }}
 {{ end }}
 
 {{ if .Values.stack.server }}
@@ -131,7 +149,7 @@ spec:
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ template "fullname" . }}-{{ .Values.stack.server }}
+  name: {{ template "name" . }}-{{ .Values.stack.server }}
   labels:
     app: {{ template "name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -141,7 +159,7 @@ spec:
   scaleTargetRef:
     apiVersion: extensions/v1beta1
     kind: Deployment
-    name: {{ template "fullname" . }}-{{ .Values.stack.server }}
+    name: {{ template "name" . }}-{{ .Values.stack.server }}
   minReplicas: {{ .Values.server.minReplicas }}
   maxReplicas: {{ .Values.server.maxReplicas }}
   targetCPUUtilizationPercentage: {{ .Values.server.targetCPUUtilizationPercentage }}
@@ -150,7 +168,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "fullname" . }}-{{ .Values.stack.server }}
+  name: {{ template "name" . }}-{{ .Values.stack.server }}
   labels:
     app: {{ template "name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -167,7 +185,7 @@ spec:
         role: server
     spec:
       containers:
-        - name: {{ template "fullname" . }}-{{ .Values.stack.server }}
+        - name: {{ template "name" . }}-{{ .Values.stack.server }}
           image: {{ .Values.repository -}} / {{- .Values.stack.server -}} : {{- .Values.build.imageTag }}
           imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
           ports:
@@ -183,42 +201,41 @@ spec:
           envFrom:
             - prefix: COMMON_
               configMapRef:
-                name: {{ template "fullname" . }}-common
-            - prefix: APP_
-              configMapRef:
-                name: {{ template "fullname" . }}-app
-            # - prefix: BUCKET_
-            #   configMapRef:
-            #     name: {{ template "fullname" . }}-bucket # {{ .Values.stack.bucket }}
-            # - prefix: BUCKET_
-            #   secretRef:
-            #     name: {{ template "fullname" . }}-bucket # {{ .Values.stack.bucket }}
+                name: {{ template "name" . }}-common
+            {{ if .Values.stack.database }}
             - prefix: DATABASE_
               configMapRef:
-                name: {{ template "fullname" . }}-database # {{ .Values.stack.database }}
+                name: {{ template "name" . }}-database # {{ .Values.stack.database }}
             - prefix: DATABASE_
               secretRef:
                 name: db.{{ template "fullname" . }}.app # {{ .Values.stack.database }}
+            {{ end }}
+            # - prefix: BUCKET_
+            #   configMapRef:
+            #     name: {{ template "name" . }}-bucket # {{ .Values.stack.bucket }}
+            # - prefix: BUCKET_
+            #   secretRef:
+            #     name: {{ template "name" . }}-bucket # {{ .Values.stack.bucket }}
           env:
-            - name: API_BINDADDR
-              value: '0.0.0.0'
-            - name: API_PORT
-              value: {{ .Values.server.port | quote }}
-            - name: ENV
-              value: {{ .Values.env | quote }}
-            - name: DEBUG
-              value: {{ .Values.debug | quote }}
-            {{- range $name, $value := .Values.secrets }}
+            {{- range $name, $value := .Values.server.env }}
+            - name: {{ $name }}
+              value: {{ $value | quote }}
+            {{- end }}
+            {{- range $name, $value := .Values.server.secrets }}
             - name: {{ $name }}
               valueFrom:
                 secretKeyRef:
                   name: {{ $value }}
                   key: SECRET
             {{- end }}
-        # - name: {{ template "fullname" . }}-{{ .Values.stack.server }}-monitor
+            - name: API_PORT
+              value: {{ .Values.server.port | quote }}
+            - name: API_BINDADDR
+              value: {{ .Values.server.bindAddr | quote }}
+        # - name: {{ template "name" . }}-{{ .Values.stack.server }}-monitor
         #   image: wikiwi/stackdriver-agent
         #   imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
-  {{ if not .Values.stack.database }}
+  {{ if and (.Values.stack.database) (ne .Values.env "local") }}
         - name: cloudsql-proxy
           image: gcr.io/cloudsql-docker/gce-proxy:1.11
           command:
@@ -254,7 +271,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "fullname" . }}-{{ .Values.stack.cache }} # NOTE: was cache
+  name: {{ template "name" . }}-{{ .Values.stack.cache }}
   labels:
     app: {{ template "name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -271,23 +288,36 @@ spec:
         role: cache
     spec:
       containers:
-        - name: {{ template "fullname" . }}-{{ .Values.stack.cache }}
+        - name: {{ template "name" . }}-{{ .Values.stack.cache }}
           image: {{ .Values.cache.image | quote }}
           imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
           ports:
             - containerPort: {{ .Values.cache.port }}
-          # TODO liveness and readiness probe
-        # - name: {{ template "fullname" . }}-{{ .Values.stack.cache }}-monitor
+        # TODO liveness and readiness probe
+        # - name: {{ template "name" . }}-{{ .Values.stack.cache }}-monitor
         #   image: wikiwi/stackdriver-agent
         #   imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+          env:
+            {{- range $name, $value := .Values.cache.env }}
+            - name: {{ $name }}
+              value: {{ $value | quote }}
+            {{- end }}
+            {{- range $name, $value := .Values.cache.secrets }}
+            - name: {{ $name }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $value }}
+                  key: SECRET
+            {{- end }}
+
 {{ end }}
 
-{{ if .Values.stack.database }}
+{{ if and (.Values.stack.database) (eq .Values.env "local") }}
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "fullname" . }}-{{ .Values.stack.database }}
+  name: {{ template "name" . }}-{{ .Values.stack.database }}
   labels:
     app: {{ template "name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -304,7 +334,7 @@ spec:
         role: database
     spec:
       containers:
-        - name: {{ template "fullname" . }}-{{ .Values.stack.database }}
+        - name: {{ template "name" . }}-{{ .Values.stack.database }}
           image: {{ .Values.database.image | quote }}
           imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
           ports:
@@ -312,18 +342,30 @@ spec:
           envFrom:
             - prefix: POSTGRES_
               configMapRef:
-                name: {{ template "fullname" . }}-{{ .Values.stack.database }}
+                name: {{ template "name" . }}-{{ .Values.stack.database }}
             - prefix: POSTGRES_
               secretRef:
-                name: {{ template "fullname" . }}-{{ .Values.stack.database }}
+                name: {{ template "name" . }}-{{ .Values.stack.database }}
+          env:
+            {{- range $name, $value := .Values.database.env }}
+            - name: {{ $name }}
+              value: {{ $value | quote }}
+            {{- end }}
+            {{- range $name, $value := .Values.database.secrets }}
+            - name: {{ $name }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $value }}
+                  key: SECRET
+            {{- end }}
 {{ end }}
 
-{{ if .Values.stack.bucket }}
+{{ if and (.Values.stack.bucket) (eq .Values.env "local") }}
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "fullname" . }}-{{ .Values.stack.bucket }}
+  name: {{ template "name" . }}-{{ .Values.stack.bucket }}
   labels:
     app: {{ template "name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -340,7 +382,7 @@ spec:
         role: bucket
     spec:
       containers:
-        - name: {{ template "fullname" . }}-{{ .Values.stack.bucket }}
+        - name: {{ template "name" . }}-{{ .Values.stack.bucket }}
           image: {{ .Values.bucket.image | quote }}
           imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
           command:
@@ -348,14 +390,15 @@ spec:
           ports:
             - containerPort: {{ .Values.bucket.port }}
           env:
-            - name: MINIO_ACCESS_KEY
+            {{- range $name, $value := .Values.server.env }}
+            - name: {{ $name }}
+              value: {{ $value | quote }}
+            {{- end }}
+            {{- range $name, $value := .Values.server.secrets }}
+            - name: {{ $name }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ template "fullname" . }}-{{ .Values.stack.bucket }}
-                  key: ACCESS_KEY
-            - name: MINIO_SECRET_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: {{ template "fullname" . }}-{{ .Values.stack.bucket }}
-                  key: SECRET_KEY
+                  name: {{ $value }}
+                  key: SECRET
+            {{- end }}
 {{ end }}

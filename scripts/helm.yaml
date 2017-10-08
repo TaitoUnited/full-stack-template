@@ -4,27 +4,13 @@ stack:
   server: server
   function:
   cache:
-  database:
+  database: database
   bucket:
 
 # Default settings
 
 repository: eu.gcr.io/gcloud-temp1/github-taitounited-server-template
-debug: 'false'
 imagePullPolicy: ''
-
-# SENTRY START
-sentryDSN: https://a10a67301f9547a6861aafdb12bd6db9:affdaae6624b4ddeb38d08e4bf123f96@sentry.io/176268
-sentryPublicDSN: https://a10a67301f9547a6861aafdb12bd6db9@sentry.io/176268
-# SENTRY END
-
-# Enviroment variables for app (APP_EXAMPLE, ...)
-app:
-  EXAMPLE: value
-  EXAMPLE2: value
-
-secrets:
-  JWT_SECRET: jwt.server-template.auth
 
 # Stack settings
 
@@ -45,6 +31,8 @@ client:
   minReplicas: 2
   maxReplicas: 5
   targetCPUUtilizationPercentage: 50
+  env:
+    SENTRY_PUBLIC_DSN: #sentryPublicDSN
 
 server:
   replicas: 1
@@ -52,6 +40,11 @@ server:
   minReplicas: 2
   maxReplicas: 5
   targetCPUUtilizationPercentage: 50
+  env:
+    SENTRY_DSN: #sentryDSN
+    DEBUG: 'false'
+  secrets:
+    JWT_SECRET: jwt.server-template.auth
 
 cache:
   image: redis

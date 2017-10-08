@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ template "fullname" . }}-ingress
+  name: {{ template "name" . }}-ingress
   labels:
     app: {{ template "name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -13,7 +13,7 @@ metadata:
 {{- if .Values.ingress.basicAuth }}
     ingress.kubernetes.io/auth-type: "basic"
     ingress.kubernetes.io/auth-realm: {{ .Chart.Name | quote }}
-    ingress.kubernetes.io/auth-secret: {{ template "fullname" . }}-basic-auth
+    ingress.kubernetes.io/auth-secret: {{ template "name" . }}-basic-auth
 {{- end -}}
 {{ if .Values.ingress.tls }}
     kubernetes.io/tls-acme: "true"
@@ -44,19 +44,19 @@ spec:
           {{ if .Values.stack.server }}
           - path: {{ .Values.server.path | quote }}
             backend:
-              serviceName: {{ template "fullname" . }}-{{ .Values.stack.server }}
+              serviceName: {{ template "name" . }}-{{ .Values.stack.server }}
               servicePort: {{ .Values.server.port }}
           {{ end }}
           {{ if .Values.stack.admin }}
           - path: {{ .Values.admin.path | quote }}
             backend:
-              serviceName: {{ template "fullname" . }}-{{ .Values.stack.admin }}
+              serviceName: {{ template "name" . }}-{{ .Values.stack.admin }}
               servicePort: {{ .Values.admin.port }}
           {{ end }}
           {{ if .Values.stack.client }}
           - path: {{ .Values.client.path | quote }}
             backend:
-              serviceName: {{ template "fullname" . }}-{{ .Values.stack.client }}
+              serviceName: {{ template "name" . }}-{{ .Values.stack.client }}
               servicePort: {{ .Values.client.port }}
           {{ end }}
 {{ if (eq .Values.env "prod") }}

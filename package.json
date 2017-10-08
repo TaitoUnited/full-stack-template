@@ -2,17 +2,12 @@
   "name": "server-template",
   "description": "",
   "private": false,
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  },
   "scripts": {
     "lint": "echo TODO: lint code in package.json",
     "commit": "git-cz",
     "commitmsg": "validate-commit-msg",
-    "hook-commit": "npm run lint",
-    "hook-push": "npm-run-all --parallel lint ci-test-unit",
+    "precommit": "npm run lint",
+    "prepush": "npm-run-all --parallel lint ci-test-unit",
     "o-users:local": "echo TODO: add local users to package.json",
     "o-users:dev": "echo Basic auth: #username/#password; echo TODO: add dev users to package.json",
     "o-users:test": "echo Basic auth: #username/#password; echo TODO: add test users to package.json",
@@ -26,12 +21,29 @@
     "ci-release-pre:prod": "semantic-release pre",
     "ci-release-post:prod": "semantic-release post"
   },
-  "pre-commit": [
-    "hook-commit"
-  ],
-  "pre-push": [
-    "hook-push"
-  ],
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    },
+    "validate-commit-msg": {
+      "types": [
+        "wip", "feat", "fix", "docs", "style", "refactor", "perf", "test",
+        "build", "ci", "chore", "revert"
+      ],
+      "scope": {
+        "required": false,
+        "allowed": ["*"],
+        "validate": false,
+        "multiple": false
+      },
+      "warnOnFail": false,
+      "maxSubjectLength": 100,
+      "subjectPattern": ".+",
+      "subjectPatternErrorMsg": "subject does not match subject pattern!",
+      "helpMessage": "",
+      "autoFix": false
+    }
+  },
   "release": {
     "getLastRelease": "last-release-git",
     "debug": false,
@@ -72,9 +84,7 @@
     "husky": "^0.14.3",
     "last-release-git": "0.0.3",
     "npm-run-all": "^4.0.2",
-    "pre-commit": "^1.2.2",
-    "pre-push": "^0.1.1",
-    "semantic-release": "^6.3.6",
+    "semantic-release": "^8.1.2",
     "validate-commit-msg": "^2.14.0"
   }
 }

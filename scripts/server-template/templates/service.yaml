@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "fullname" . }}-{{ .Values.stack.admin }}
+  name: {{ template "name" . }}-{{ .Values.stack.admin }}
   labels:
     app: {{ template "name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -23,7 +23,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "fullname" . }}-{{ .Values.stack.client }}
+  name: {{ template "name" . }}-{{ .Values.stack.client }}
   labels:
     app: {{ template "name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -44,7 +44,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "fullname" . }}-{{ .Values.stack.server }}
+  name: {{ template "name" . }}-{{ .Values.stack.server }}
   labels:
     app: {{ template "name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -65,7 +65,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "fullname" . }}-{{ .Values.stack.cache }}
+  name: {{ template "name" . }}-{{ .Values.stack.cache }}
   labels:
     app: {{ template "name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -81,12 +81,12 @@ spec:
     - port: {{ .Values.cache.port }}
 {{ end }}
 
-{{ if .Values.stack.database }}
+{{ if and (.Values.stack.database) (eq .Values.env "local") }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "fullname" . }}-{{ .Values.stack.database }}
+  name: {{ template "name" . }}-{{ .Values.stack.database }}
 spec:
   selector:
     app: {{ template "name" . }}
@@ -97,12 +97,12 @@ spec:
     - port: {{ .Values.database.port }}
 {{ end }}
 
-{{ if .Values.stack.bucket }}
+{{ if and (.Values.stack.bucket) (eq .Values.env "local") }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "fullname" . }}-{{ .Values.stack.bucket }}
+  name: {{ template "name" . }}-{{ .Values.stack.bucket }}
 spec:
   selector:
     app: {{ template "name" . }}

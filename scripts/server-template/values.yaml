@@ -8,7 +8,6 @@ build:
   imageTag: b4a7ee3c4122fd32df6fb3eb20c9e1d63ef225b7
 
 # Environment
-debug: 'false'
 repository: eu.gcr.io/gcloud-temp1/github-taitounited-server-template
 imagePullPolicy: ''
 domains:
@@ -41,6 +40,7 @@ client:
 server:
   path: /api
   port: 3332
+  bindAddr: 0.0.0.0
   replicas: 2
   autoscale: false
   minReplicas: 2

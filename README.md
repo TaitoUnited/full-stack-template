@@ -25,15 +25,15 @@
 
 Install linters locally (all developers use the same linter version):
 
-    $ taito o-install
+    $ taito install
 
 Start containers:
 
-    $ taito o-start
+    $ taito start
 
 Make sure that everything has been initialized (database populated, etc.):
 
-    $ taito o-init
+    $ taito init
 
 Open app in browser:
 
@@ -41,17 +41,17 @@ Open app in browser:
 
 Show user accounts that you can use to log in:
 
-    $ taito o-users
+    $ taito users
 
 Stop:
 
-    $ taito o-stop
+    $ taito stop
 
 Write `taito o` and press TAB to get the list of most important commands for operating your project. Run `taito --help` to get detailed instructions for all commands. For troubleshooting run `taito --trouble`. See PROJECT.md for project specific conventions and documentation.
 
 > Basic authentication is enabled on all environments by default. The username is #username and the password is #password. You can turn basic authentication off by modifying the `scripts/helm-prod.yaml` and `scripts/helm.yaml` files.
 
-> It's common that idle applications are run down to save resources on non-production environments . If your application seems to be down, you can (re)start it by running `taito o-restart:ENV`, or by pushing some changes to git.
+> It's common that idle applications are run down to save resources on non-production environments . If your application seems to be down, you can (re)start it by running `taito restart:ENV`, or by pushing some changes to git.
 
 ## Version control
 
@@ -86,6 +86,7 @@ increase the major version number.
 
 You can use any of the following types in your commit message. Use at least types `fix` and `feat`.
 
+* `wip`: Work-in-progress (small commits that will be squashed later to one larger commit)
 * `feat`: A new feature
 * `fix`: A bug fix
 * `docs`: Documentation only changes
@@ -133,7 +134,7 @@ Deploying to different environments:
 
 Advanced features:
 
-* **Debugging CI builds**: You can build and start production containers locally with the `taito o-start --clean --prod` command. You can also run any CI build steps defined in cloudbuild.yaml locally with taito-cli. If you want to run them exacly as CI would, first log in to container with `taito --login`, set `taito_mode=ci` and `COMPOSE_PROJECT_NAME=workspace` environment variables and then run the taito-cli commands using the container shell. *TODO install also [container-builder-local](https://github.com/GoogleCloudPlatform/container-builder-local) on taito-cli container?*
+* **Debugging CI builds**: You can build and start production containers locally with the `taito start --clean --prod` command. You can also run any CI build steps defined in cloudbuild.yaml locally with taito-cli. If you want to run them exacly as CI would, first log in to container with `taito --login`, set `taito_mode=ci` and `COMPOSE_PROJECT_NAME=workspace` environment variables and then run the taito-cli commands using the container shell. *TODO install also [container-builder-local](https://github.com/GoogleCloudPlatform/container-builder-local) on taito-cli container?*
 * **Quick deploy**: If you are in a hurry, you can build, push and deploy a container directly to server with the `taito ci-deployquick:ENV NAME` command e.g. `taito ci-deployquick:dev client`.
 * **Copy prod to staging**: Often it's a good idea to copy production database to staging before merging changes to the staging branch: `taito db-copy:staging prod`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db-copyquick:staging prod`), but it disconnects all other users connected to the production database until copying is finished and also requires that both databases are located in the same database cluster.
 * **Feature branch**: You can create also an environment for a feature branch: Delete the old environment first if it exists (`taito env-delete:feature`) and create new environment for your feature branch (`taito env-create:feature BRANCH`). Currently only one feature environment can exist at a time and therefore the old one needs to be deleted before the new one is created.
@@ -150,7 +151,7 @@ The following tools are currently used for this project. You can open any of the
 * See issue boards on [GitHub projects](https://github.com/TaitoUnited/server-template/projects) and issues on [GitHub issues](https://github.com/TaitoUnited/server-template/issues).
 * See all builds on [Google Build History](https://console.cloud.google.com/gcr/builds?project=gcloud-temp1&query=source.repo_source.repo_name%3D%22github-taitounited-server-template%22).
 * See all build artifacts on [Google Container Registry](https://console.cloud.google.com/gcr/images/gcloud-temp1/EU/github-taitounited-server-template?project=gcloud-temp1).
-* Deployed on Kubernetes. See  [instructions](https://github.com/TaitoUnited/taito/wiki/Kubernetes). The most common Kubernetes operations are available as taito commands: `taito taito-help`.
+* Deployed on Kubernetes. See  [instructions](https://github.com/TaitoUnited/taito/wiki/Kubernetes). The most common Kubernetes operations are available as taito commands: `taito --help`.
 *  All [dev](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fcustomername-dev), [staging](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fcustomername-staging) and [prod](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fcustomername-prod) logs are gathered to Google Stackdriver. See [instructions](https://github.com/TaitoUnited/taito/wiki/Stackdriver).
 * [Sentry](https://sentry.io/taitounited/server-template/) is used for error tracking. See [instructions](https://github.com/TaitoUnited/taito/wiki/Sentry).
 * [Stackdriver uptime monitoring](https://app.google.stackdriver.com/uptime?project=gcloud-temp1) is used for monitoring production environment uptime status.

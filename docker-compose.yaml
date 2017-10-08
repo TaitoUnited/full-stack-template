@@ -62,29 +62,27 @@ server-template-server:
     - server-template-database:server-template-database
     - server-template-bucket:server-template-bucket
   environment:
-    COMMON_ENV: local
-    COMMON_DEBUG: 'true'
-    COMMON_PROJECT: server-template
-    COMMON_CUSTOMER: customername
-    APP_EXAMPLE: example
-    JWT_SECRET: secret
     ENV: dev
     DEBUG: 'true'
     API_BINDADDR: 0.0.0.0
     API_PORT: 3332
-    BUCKET_HOST: server-template-bucket
-    BUCKET_ID: server_template_local
-    BUCKET_REGION: europe-west1-c
-    BUCKET_PROTOCOL: http
-    BUCKET_ACCESS_KEY: 070UEOQR6LX4YPZLFU0V
-    BUCKET_SECRET_KEY: CVQVa33NekSiOJGnevSY5ITr8Rql8lFkp22WhLQ+
+    JWT_SECRET: secret
+    COMMON_ENV: local
+    COMMON_DEBUG: 'true'
+    COMMON_PROJECT: server-template
+    COMMON_CUSTOMER: customername
     DATABASE_HOST: server-template-database
     DATABASE_ID: server_template_local
     DATABASE_DB: server_template_local
     DATABASE_USER: server_template_local_app
     DATABASE_SECRET: secret
     DATABASE_POOL_MAX: '10'
-    # TODO remove obsolete env variables
+    BUCKET_HOST: server-template-bucket
+    BUCKET_ID: server_template_local
+    BUCKET_REGION: europe-west1-c
+    BUCKET_PROTOCOL: http
+    BUCKET_ACCESS_KEY: 070UEOQR6LX4YPZLFU0V
+    BUCKET_SECRET_KEY: CVQVa33NekSiOJGnevSY5ITr8Rql8lFkp22WhLQ+
 
 server-template-cache:
   container_name: server-template-cache
