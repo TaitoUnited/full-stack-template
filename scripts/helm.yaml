@@ -24,6 +24,8 @@ admin:
   minReplicas: 2
   maxReplicas: 5
   targetCPUUtilizationPercentage: 50
+  env:
+    SENTRY_PUBLIC_DSN: #sentryPublicDSN
 
 client:
   replicas: 1
