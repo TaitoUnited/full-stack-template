@@ -47,7 +47,9 @@ Stop:
 
     $ taito stop
 
-Write `taito o` and press TAB to get the list of most important commands for operating your project. Run `taito --help` to get detailed instructions for all commands. For troubleshooting run `taito --trouble`. See PROJECT.md for project specific conventions and documentation.
+Write `taito o` and press TAB to get the list of most important commands for operating your project. Run `taito COMMAND -h` to search for a command (e.g `taito log -h` and `taito clean -h`). Run `taito -h` to get detailed instructions for all commands.
+
+For troubleshooting run `taito --trouble`. See PROJECT.md for project specific conventions and documentation.
 
 > Basic authentication is enabled on all environments by default to keep unfinished work hidden from the public. The username is '#username' and the password is '#password'. You can turn basic authentication off by modifying the `scripts/helm-prod.yaml` and `scripts/helm.yaml` files.
 
