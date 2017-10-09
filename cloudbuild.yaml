@@ -38,6 +38,9 @@ steps:
       cut -d ' ' -f 1 | \
       xargs -L1 gcloud container builds cancel
 
+    # echo "Delete kube credentials to avoid gcloud/kubectl version mismatch"
+    # rm -rf ~/.kube
+
     echo "- We ignore all fails during cancel (hence the last echo)"
 
 
@@ -123,42 +126,42 @@ steps:
 
 # Run tests in local environment
 
-- id: start:local
-  waitFor: ['ci-build-client', 'ci-build-server']
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
-  args: ['start:local']
-  env:
-    - taito_mode=ci
-
-- id: ci-wait:local
-  waitFor: ['ci-build-client', 'ci-build-server']
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
-  args: ['ci-wait:local']
-  env:
-    - taito_mode=ci
-
-- id: ci-test-api:local
-  waitFor: ['ci-wait:local']
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
-  args: ['ci-test-api:local']
-  env:
-    - taito_mode=ci
-    - COMPOSE_PROJECT_NAME=workspace
-
-- id: ci-test-e2e:local
-  waitFor: ['ci-wait:local']
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
-  args: ['ci-test-e2e:local']
-  env:
-    - taito_mode=ci
-    - COMPOSE_PROJECT_NAME=workspace
-
-- id: stop:local
-  waitFor: ['ci-test-api:local', 'ci-test-e2e:local']
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
-  args: ['stop:local']
-  env:
-    - taito_mode=ci
+# - id: start:local
+#   waitFor: ['ci-build-client', 'ci-build-server']
+#   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+#   args: ['start:local']
+#   env:
+#     - taito_mode=ci
+#
+# - id: ci-wait:local
+#   waitFor: ['ci-build-client', 'ci-build-server']
+#   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+#   args: ['ci-wait:local']
+#   env:
+#     - taito_mode=ci
+#
+# - id: ci-test-api:local
+#   waitFor: ['ci-wait:local']
+#   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+#   args: ['ci-test-api:local']
+#   env:
+#     - taito_mode=ci
+#     - COMPOSE_PROJECT_NAME=workspace
+#
+# - id: ci-test-e2e:local
+#   waitFor: ['ci-wait:local']
+#   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+#   args: ['ci-test-e2e:local']
+#   env:
+#     - taito_mode=ci
+#     - COMPOSE_PROJECT_NAME=workspace
+#
+# - id: stop:local
+#   waitFor: ['ci-test-api:local', 'ci-test-e2e:local']
+#   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+#   args: ['stop:local']
+#   env:
+#     - taito_mode=ci
 
 # Deploy to target environment
 
