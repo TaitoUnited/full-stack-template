@@ -47,7 +47,7 @@ Stop:
 
     $ taito stop
 
-Write `taito o` and press TAB to get the list of most important commands for operating your project. Run `taito COMMAND -h` to search for a command (e.g `taito log -h` and `taito clean -h`). Run `taito -h` to get detailed instructions for all commands.
+Write `taito op` and press TAB to get the list of most important commands for operating your project. Run `taito COMMAND -h` to search for a command (e.g `taito log -h`, `taito clean -h`). Run `taito -h` to get detailed instructions for all commands.
 
 For troubleshooting run `taito --trouble`. See PROJECT.md for project specific conventions and documentation.
 
@@ -137,7 +137,7 @@ Deploying to different environments:
 Advanced features:
 
 * **Debugging CI builds**: You can build and start production containers locally with the `taito start --clean --prod` command. You can also run any CI build steps defined in cloudbuild.yaml locally with taito-cli. If you want to run them exacly as CI would, first log in to container with `taito --login`, set `taito_mode=ci` and `COMPOSE_PROJECT_NAME=workspace` environment variables and then run the taito-cli commands using the container shell. *TODO install also [container-builder-local](https://github.com/GoogleCloudPlatform/container-builder-local) on taito-cli container?*
-* **Quick deploy**: If you are in a hurry, you can build, push and deploy a container directly to server with the `taito ci-deployquick:ENV NAME` command e.g. `taito ci-deployquick:dev client`.
+* **Quick deploy**: If you are in a hurry, you can build, push and deploy a container directly to server with the `taito ci-fulldeploy:ENV NAME` command e.g. `taito ci-fulldeploy:dev client`.
 * **Copy prod to staging**: Often it's a good idea to copy production database to staging before merging changes to the staging branch: `taito db-copy:staging prod`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db-copyquick:staging prod`), but it disconnects all other users connected to the production database until copying is finished and also requires that both databases are located in the same database cluster.
 * **Feature branch**: You can create also an environment for a feature branch: Delete the old environment first if it exists (`taito env-delete:feature`) and create new environment for your feature branch (`taito env-create:feature BRANCH`). Currently only one feature environment can exist at a time and therefore the old one needs to be deleted before the new one is created.
 * **Alternative environment** TODO implement: You can create an alternative environment for an environment by running `taito env-alt-create:ENV`. An alternative environment uses the same database as the main environment, but containers are built from an alternative branch. You can use alternative environments e.g. for canary releases or A/B testing by redirecting some of the users to the alternative environment.
