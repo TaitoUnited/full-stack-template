@@ -1,4 +1,4 @@
-> Create a new project from this template by running `taito template-create server-template`. You can also migrate an existing project to this template by running `taito template-migrate server-template` in your project root folder. Later you can upgrade your project to the latest version of the template by running `taito template-upgrade`. To ensure flawless upgrade, do not modify files that have **do not modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files in the template instead, and then upgrade.
+> Create a new project from this template by running `taito template-create: server-template`. You can also migrate an existing project to this template by running `taito template-migrate: server-template` in your project root folder. Later you can upgrade your project to the latest version of the template by running `taito template-upgrade`. To ensure flawless upgrade, do not modify files that have **do not modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files in the template instead, and then upgrade.
 
 # server-template
 
@@ -27,9 +27,9 @@ Install linters locally (all developers use the same linter version):
 
     $ taito install
 
-Start containers:
+Start containers (use clean start just in case):
 
-    $ taito start
+    $ taito start --clean
 
 Make sure that everything has been initialized (database populated, etc.):
 
@@ -37,7 +37,7 @@ Make sure that everything has been initialized (database populated, etc.):
 
 Open app in browser:
 
-    $ taito open-app
+    $ taito open app
 
 Show user accounts that you can use to log in:
 
@@ -61,7 +61,7 @@ For troubleshooting run `taito --trouble`. See PROJECT.md for project specific c
 
 Development is done in dev and feature branches. Feature branches are useful for code reviews, cleaning up commit history and keeping unfinished work separate, but they are not mandatory for small projects. Note that most feature branches should be short-lived and located only on your local git repository.
 
-> TIP: Use the `taito git-feat-*` commands to manage your feature branches.
+> TIP: Use the `taito git feat` commands to manage your feature branches.
 
 ### Commit messages
 
@@ -109,15 +109,15 @@ Add a new migration:
 
 1. Add a new step to migration plan:
 
-    `taito db-add NAME -r REQUIRES -n 'DESCRIPTION'`, for example:
+    `taito db-add: NAME -r REQUIRES -n 'DESCRIPTION'`, for example:
 
-    `taito db-add file.table -r user.table -r property.table -n 'Table for files'`
+    `taito db-add: file.table -r user.table -r property.table -n 'Table for files'`
 
 2. Modify database/deploy/xxx.sql, database/revert/xxx.sql and database/verify/xxx.sql
 
 3. Deploy the change to your local db:
 
-    `taito db-deploy`
+    `taito db deploy`
 
 The CI/CD tool will deploy your database changes automatically to servers once you push your changes to git. Database migrations are executed using sqitch. More instructions on sqitch: [Sqitch tutorial](https://metacpan.org/pod/sqitchtutorial)
 
@@ -132,23 +132,23 @@ Deploying to different environments:
 * staging: Merge changes to staging branch. NOTE: Staging environment is not mandatory.
 * prod: Merge changes to master branch. Version number and release notes are generated automatically by the CI/CD tool.
 
-> TIP: Use the `taito git-env-merge:ENV SOURCE_BRANCH` command to merge an environment branch to another.
+> TIP: Use the `taito git env merge:ENV SOURCE_BRANCH` command to merge an environment branch to another.
 
 Advanced features:
 
-* **Debugging CI builds**: You can build and start production containers locally with the `taito start --clean --prod` command. You can also run any CI build steps defined in cloudbuild.yaml locally with taito-cli. If you want to run them exacly as CI would, first log in to container with `taito --login`, set `taito_mode=ci` and `COMPOSE_PROJECT_NAME=workspace` environment variables and then run the taito-cli commands using the container shell. *TODO install also [container-builder-local](https://github.com/GoogleCloudPlatform/container-builder-local) on taito-cli container?*
-* **Quick deploy**: If you are in a hurry, you can build, push and deploy a container directly to server with the `taito ci-fulldeploy:ENV NAME` command e.g. `taito ci-fulldeploy:dev client`.
-* **Copy prod to staging**: Often it's a good idea to copy production database to staging before merging changes to the staging branch: `taito db-copy:staging prod`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db-copyquick:staging prod`), but it disconnects all other users connected to the production database until copying is finished and also requires that both databases are located in the same database cluster.
-* **Feature branch**: You can create also an environment for a feature branch: Delete the old environment first if it exists (`taito env-delete:feature`) and create new environment for your feature branch (`taito env-create:feature BRANCH`). Currently only one feature environment can exist at a time and therefore the old one needs to be deleted before the new one is created.
-* **Alternative environment** TODO implement: You can create an alternative environment for an environment by running `taito env-alt-create:ENV`. An alternative environment uses the same database as the main environment, but containers are built from an alternative branch. You can use alternative environments e.g. for canary releases or A/B testing by redirecting some of the users to the alternative environment.
-* **Revert app**: Revert application to the previous revision by running `taito ci-revert:ENV`. If you need to revert to a specific revision, check current revision by running `taito ci-revision:ENV` first and then revert to a specific revision by running `taito ci-revert:ENV REVISION`. NOTE: The command does not revert database changes.
-* **Revert database changes**: Revert the previous migration batch by running `taito db-revert[:ENV]`. If you would like to revert to a specific revision instead, view the db change log first (`taito db-log[:ENV]`) and then run `taito db-revert[:ENV] CHANGE`.
+* **Debugging CI builds**: You can build and start production containers locally with the `taito start --clean --prod` command. You can also run any CI build steps defined in cloudbuild.yaml locally with taito-cli. If you want to run them exacly as CI would, first log in to container with `taito --shell`, set `taito_mode=ci` and `COMPOSE_PROJECT_NAME=workspace` environment variables and then run the taito-cli commands using the container shell. *TODO install also [container-builder-local](https://github.com/GoogleCloudPlatform/container-builder-local) on taito-cli container?*
+* **Quick deploy**: If you are in a hurry, you can build, push and deploy a container directly to server with the `taito ci fulldeploy:ENV NAME` command e.g. `taito ci fulldeploy:dev client`.
+* **Copy prod to staging**: Often it's a good idea to copy production database to staging before merging changes to the staging branch: `taito db copy:staging prod`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db copyquick:staging prod`), but it disconnects all other users connected to the production database until copying is finished and also requires that both databases are located in the same database cluster.
+* **Feature branch**: You can create also an environment for a feature branch: Delete the old environment first if it exists (`taito env delete:feature`) and create new environment for your feature branch (`taito env create:feature BRANCH`). Currently only one feature environment can exist at a time and therefore the old one needs to be deleted before the new one is created.
+* **Alternative environment** TODO implement: You can create an alternative environment for an environment by running `taito env alt create:ENV`. An alternative environment uses the same database as the main environment, but containers are built from an alternative branch. You can use alternative environments e.g. for canary releases or A/B testing by redirecting some of the users to the alternative environment.
+* **Revert app**: Revert application to the previous revision by running `taito ci revert:ENV`. If you need to revert to a specific revision, check current revision by running `taito ci revision:ENV` first and then revert to a specific revision by running `taito ci revert:ENV REVISION`. NOTE: The command does not revert database changes.
+* **Revert database changes**: Revert the previous migration batch by running `taito db revert[:ENV]`. If you would like to revert to a specific revision instead, view the db change log first (`taito db log[:ENV]`) and then run `taito db revert[:ENV] CHANGE`.
 
 NOTE: You might not have rights to execute some of the advanced operations (e.g. staging/production database operations). In such case, ask devops personnel to execute the operation for you.
 
 ## Tools
 
-The following tools are currently used for this project. You can open any of the tools quickly from command line by using the `taito open-*` commands provided by the taito-cli link plugin.
+The following tools are currently used for this project. You can open any of the tools quickly from command line by using the `taito open` commands provided by the taito-cli link plugin.
 
 * See issue boards on [GitHub projects](https://github.com/TaitoUnited/server-template/projects) and issues on [GitHub issues](https://github.com/TaitoUnited/server-template/issues).
 * See all builds on [Google Build History](https://console.cloud.google.com/gcr/builds?project=gcloud-temp1&query=source.repo_source.repo_name%3D%22github-taitounited-server-template%22).
@@ -173,18 +173,18 @@ The following tools are currently used for this project. You can open any of the
 
 Execute the following steps for an environment (`feature`, `dev`, `test`, `staging` or `prod`):
 
-1. Run `taito env-create:ENV` and follow instructions.
+1. Run `taito env create:ENV` and follow instructions.
 2. For production: configure `helm-prod.yaml`
 
 ### Upgrading to the latest version of the project template
 
-Run `taito template-upgrade`. The command copies the latest versions of reusable Helm charts and CI/CD scripts to your project folder, and also this README.md file. You should not make project specific modifications to them as they are designed to be reusable and easily configurable for various needs. Improve the originals instead, and then upgrade.
+Run `taito template upgrade`. The command copies the latest versions of reusable Helm charts and CI/CD scripts to your project folder, and also this README.md file. You should not make project specific modifications to them as they are designed to be reusable and easily configurable for various needs. Improve the originals instead, and then upgrade.
 
 ### Kubernetes configuration
 
 The `scripts/heml.yaml` file contains default Kubernetes settings for all environments and the `scripts/helm:ENV.yaml` files contain environment specific overrides for them. By modying them you can easily configure environment variables, resource requirements and autoscaling for your containers.
 
-If you want to change your stack in some way (e.g. add/remove cache or function), run `taito template-upgrade` and it will do it for you.
+If you want to change your stack in some way (e.g. add/remove cache or function), run `taito template upgrade` and it will do it for you.
 
 ### Configuring secrets
 

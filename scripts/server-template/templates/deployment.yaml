@@ -47,7 +47,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /healthz
-              port: 80
+              port: {{ .Values.admin.port }}
               scheme: HTTP
             initialDelaySeconds: 30
             periodSeconds: 15
@@ -120,7 +120,7 @@ spec:
           livenessProbe:
             httpGet:
               path: /healthz
-              port: 80
+              port: {{ .Values.client.port }}
               scheme: HTTP
             initialDelaySeconds: 30
             periodSeconds: 15

@@ -42,12 +42,12 @@ server:
   minReplicas: 2
   maxReplicas: 5
   targetCPUUtilizationPercentage: 50
+  secrets:
+    JWT_SECRET: jwt.server-template.auth
   env:
     SENTRY_DSN: #sentryDSN
     DEBUG: false
     ENV: production
-  secrets:
-    JWT_SECRET: jwt.server-template.auth
 
 cache:
   image: redis

@@ -21,6 +21,7 @@ export taito_registry="eu.gcr.io/${taito_zone}/github-${taito_organization}-${ta
 export taito_project_env="${taito_project}-${taito_env}"
 export taito_namespace="${taito_customer}-${taito_env}"
 export taito_app_url="https://${taito_project_env}.taitodev.com"
+export taito_admin_url="${taito_app_url}/admin/"
 export taito_autorevert=false
 
 # Settings for ci builds
@@ -70,6 +71,7 @@ case "${taito_env}" in
   local)
     # local overrides
     export taito_app_url="http://localhost:8080"
+    export taito_admin_url="${taito_app_url}/admin/"
     if [[ "${taito_mode:-}" != "ci" ]]; then
       export postgres_host="${taito_project}-database"
       export postgres_port="5432"
@@ -96,7 +98,7 @@ export taito_secrets="
 # Link plugin
 export link_urls="\
   open-app[:ENV]#app=${taito_app_url} \
-  open-admin[:ENV]#admin=${taito_app_url}/admin/ \
+  open-admin[:ENV]#admin=${taito_admin_url} \
   open-boards#boards=https://github.com/${taito_organization}/${taito_repo_name}/projects \
   open-issues#issues=https://github.com/${taito_organization}/${taito_repo_name}/issues \
   open-builds#builds=https://console.cloud.google.com/gcr/builds?project=${taito_zone}&query=source.repo_source.repo_name%3D%22${taito_repo_location}-${taito_repo_name}%22 \

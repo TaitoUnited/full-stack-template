@@ -11,6 +11,10 @@ for file in ${template_project_path}/*; do
    fi
 done
 
+echo "- migrate: Move old scripts to old_scripts"
+mv "${template_project_path}/scripts" "${template_project_path}/old_scripts" \
+  2> /dev/null
+
 # Upgrade
 ./scripts/template/upgrade.sh
 
