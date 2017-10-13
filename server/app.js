@@ -16,7 +16,7 @@ import requestMiddleware from './infra/request.middleware';
 import contextMiddleware from './infra/context.middleware';
 import authMiddleware from './infra/auth.middleware';
 import exceptionMiddleware from './infra/exception.middleware';
-import formatterMiddleware from './infra/formatter.middleware';
+import responseMiddleware from './infra/response.middleware';
 import setupSentry from './infra/sentry.setup';
 
 // Setup
@@ -29,7 +29,7 @@ app.use(contextMiddleware);
 app.use(exceptionMiddleware);
 app.use(setupLoggerMiddleware);
 app.use(loggerMiddleware);
-app.use(formatterMiddleware);
+app.use(responseMiddleware);
 app.use(authMiddleware);
 app.use(transactionMiddleware);
 

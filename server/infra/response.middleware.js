@@ -1,6 +1,5 @@
-// import log from '../log';
 
-const formatterMiddleware = async (ctx, next) => {
+const responseMiddleware = async (ctx, next) => {
   const result = await next();
 
   const { data, status, error, ...rest } = result;
@@ -18,4 +17,4 @@ const formatterMiddleware = async (ctx, next) => {
   }
 };
 
-export default formatterMiddleware;
+export default responseMiddleware;
