@@ -22,7 +22,7 @@ export default class FileRoute extends BaseRoute {
     // Fetch files
     this.router.get('/', async (ctx, next) => {
       ctx.body = await this.fileService.fetch(
-        ctx.myappCtx, ctx.params);
+        ctx.appCtx, ctx.params);
       next();
     });
 
@@ -30,35 +30,35 @@ export default class FileRoute extends BaseRoute {
     this.router.post('/', async (ctx, next) => {
       // TODO quick temp hack
       ctx.body = await this.fileService.create(
-        ctx.myappCtx, ctx.request.fields);
+        ctx.appCtx, ctx.request.fields);
       next();
     });
 
     // Read a file
     this.router.get('/:id', async (ctx, next) => {
       ctx.body = await this.fileService.read(
-        ctx.myappCtx, ctx.params.id);
+        ctx.appCtx, ctx.params.id);
       next();
     });
 
     // Update a file (full update)
     this.router.put('/:id', async (ctx, next) => {
       ctx.body = await this.fileService.update(
-        ctx.myappCtx, ctx.request.fields);
+        ctx.appCtx, ctx.request.fields);
       next();
     });
 
     // Patch a file (partial update)
     this.router.patch('/:id', async (ctx, next) => {
       ctx.body = await this.fileService.patch(
-        ctx.myappCtx, ctx.request.fields);
+        ctx.appCtx, ctx.request.fields);
       next();
     });
 
     // Delete a file
     this.router.delete('/:id', async (ctx, next) => {
       ctx.body = await this.fileService.read(
-        ctx.myappCtx, ctx.params.id);
+        ctx.appCtx, ctx.params.id);
       next();
     });
 

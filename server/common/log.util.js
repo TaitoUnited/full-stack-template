@@ -1,8 +1,10 @@
 import bunyan from 'bunyan';
 import _ from 'lodash';
+import { createNamespace } from 'continuation-local-storage';
 
-import config from './config';
-import ns from './cls';
+import config from './app.config';
+
+const namespace = createNamespace('fi.server-template');
 
 const stackdriverSeverityByBunyanLevel = {
   [bunyan.TRACE]: 'DEBUG',
@@ -11,6 +13,14 @@ const stackdriverSeverityByBunyanLevel = {
   [bunyan.WARN]: 'WARNING',
   [bunyan.ERROR]: 'ERROR',
   [bunyan.FATAL]: 'CRITICAL',
+};
+
+const logHeaders = (e) => {
+  return config.DEBUG && (
+    e.level === bunyan.FATAL ||
+    e.level === bunyan.ERROR ||
+    e.level === bunyan.WARN
+  );
 };
 
 // https://cloud.google.com/error-reporting/docs/formatting-error-messages
@@ -33,7 +43,7 @@ class StackdriverStream {
           remoteIp: e.req.headers['x-real-ip'],
           // Extra non-stackdriver attributes
           // NOTE: We log all headers only in debug mode (security!)
-          headers: config.DEBUG ? e.req.headers : undefined,
+          headers: logHeaders(e) ? e.req.headers : undefined,
         },
         user: 'TODO',
         reportLocation: {
@@ -84,9 +94,9 @@ logger.info(
 );
 
 function _addCtxToLog(args) {
-  const reqId = ns.get('reqId');
-  const req = ns.get('req');
-  const logCtx = ns.get('logCtx');
+  const reqId = namespace.get('reqId');
+  const req = namespace.get('req');
+  const logCtx = namespace.get('logCtx');
 
   const head = args[0];
   let newHead = { reqId, req, ...logCtx };
@@ -103,8 +113,8 @@ function _addCtxToLog(args) {
 }
 
 function mergeToCtx(obj) {
-  const cur = ns.get('logCtx');
-  ns.set('logCtx', { ...cur, ...obj });
+  const cur = namespace.get('logCtx');
+  namespace.set('logCtx', { ...cur, ...obj });
 }
 
 const log = {};
@@ -116,4 +126,4 @@ log.error = (...args) => logger.error(..._addCtxToLog(args));
 log.fatal = (...args) => logger.fatal(..._addCtxToLog(args));
 
 export default log;
-export { mergeToCtx };
+export { mergeToCtx, log, namespace };

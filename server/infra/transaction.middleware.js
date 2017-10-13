@@ -1,5 +1,6 @@
-import config from './common/config';
 import pg from 'pg-promise';
+
+import config from '../common/app.config';
 
 const pgp = pg({
   // Initialization options
@@ -18,43 +19,43 @@ const db = pgp(cn);
 
 // Transaction manager
 // NOTE: Experimental ;)
-const transactionManager = async (ctx, next) => {
-  const myappCtx = ctx.myappCtx;
+const transactionMiddleware = async (ctx, next) => {
+  const appCtx = ctx.appCtx;
 
   // Add db to context. Use txArray to keep record of nested transactions
   // of pg-promise.
   // TODO: or could we just always use the root transaction?
-  myappCtx.db = db;
-  myappCtx.txArray = [];
-  myappCtx.txArray.push(db);
-  myappCtx.getTx = () => {
-    return myappCtx.txArray[myappCtx.txArray.length - 1];
+  appCtx.db = db;
+  appCtx.txArray = [];
+  appCtx.txArray.push(db);
+  appCtx.getTx = () => {
+    return appCtx.txArray[appCtx.txArray.length - 1];
   };
 
-  // Keep current transaction always in myappCtx in case we have to call
+  // Keep current transaction always in appCtx in case we have to call
   // one service from another service -> another service can join
   // the transaction without having to pass the current transaction as parameter
   // from one service to another.
   // NOTE: not yet tried if this really works or not :P
   // TODO: for avoiding mistakes it might be better if also DAOs always
-  // retrieve db from myappCtx instead using the one that service gave
+  // retrieve db from appCtx instead using the one that service gave
   // as parameter -> DAOs always join the current transaction determined
   // by service.
-  myappCtx.tx = (func) => {
-    myappCtx.getTx().tx((tx) => {
+  appCtx.tx = (func) => {
+    appCtx.getTx().tx((tx) => {
       // Push transaction
-      myappCtx.txArray.push(tx);
+      appCtx.txArray.push(tx);
 
       // Execute
       return func(tx)
 
       // Pop transaction
       .then((ret) => {
-        myappCtx.txArray.pop();
+        appCtx.txArray.pop();
         return ret;
       })
       .catch((error) => {
-        myappCtx.txArray.pop();
+        appCtx.txArray.pop();
         return Promise.reject(error);
       });
     });
@@ -63,4 +64,4 @@ const transactionManager = async (ctx, next) => {
   await next();
 };
 
-export default transactionManager;
+export default transactionMiddleware;

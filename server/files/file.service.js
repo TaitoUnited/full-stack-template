@@ -1,5 +1,5 @@
 import { authorize, validate } from '../common/authorize.util.js';
-import { roles } from '../common/example.constants.js';
+import { roles } from '../common/app.constants.js';
 
 import FileDAO from './file.dao';
 

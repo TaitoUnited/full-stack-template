@@ -1,5 +1,5 @@
 import BaseRoute from '../common/base.route';
-import config from '../common/config';
+import config from '../common/app.config';
 
 export default class InfraRoute extends BaseRoute {
 
@@ -8,7 +8,9 @@ export default class InfraRoute extends BaseRoute {
   }
 
   routes() {
-    // Return configs needed by browser or other API clients
+    // Return configs that are required by web user interface or
+    // 3rd party clients
+    // NOTE: Add authorization for config route if configs should not be public!
     this.router.get('/config', async (ctx, next) => {
       ctx.body = {
         APP_VERSION: config.APP_VERSION,
@@ -19,7 +21,7 @@ export default class InfraRoute extends BaseRoute {
     // Polled by uptime monitor to check that the system is alive
     this.router.get('/uptimez', async (ctx, next) => {
       // Check that database is up
-      await ctx.myappCtx.getTx().any(`
+      await ctx.appCtx.getTx().any(`
         SELECT *
         FROM example_user
         LIMIT 1

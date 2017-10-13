@@ -20,7 +20,7 @@ export default class UserRoute extends BaseRoute {
 
   routes() {
     this.router.get('/:id', async (ctx, next) => {
-      ctx.body = await this.userService.read(ctx.myappCtx, ctx.params.id);
+      ctx.body = await this.userService.read(ctx.appCtx, ctx.params.id);
       next();
     });
 
