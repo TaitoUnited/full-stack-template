@@ -24,7 +24,7 @@ COPY . /app
 
 RUN npm run build
 
-RUN cp -r ./common/assets/* /build
+RUN cp -r ./assets/* /build
 
 # nginx
 RUN adduser -D -u 1001 -g 'www' www

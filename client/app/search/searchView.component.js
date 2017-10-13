@@ -4,8 +4,8 @@ import {
   Heading,
 } from 'react-components-kit';
 
-const SearchContainer = () => (
-  <div>
+const SearchView = () => (
+  <div className='SearchView'>
     <Heading>Search</Heading>
     Search example demonstrates:
     <ul>
@@ -25,4 +25,4 @@ const SearchContainer = () => (
   </div>
 );
 
-export default SearchContainer;
+export default SearchView;

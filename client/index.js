@@ -1,39 +1,35 @@
-import 'babel-polyfill'; // emulate ES6 features
-
+import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-// app specific imports
 import { AppContainer } from 'react-hot-loader'; // eslint-disable-line
-import Root from './root.container';
+
+import Root from './index.root';
 
 // TODO: configure Redux store
 const store = {};
 
-const jee = 'juk';
-
-const rootElement = document.getElementById('root'); // where to mount on page
+ // where to mount on page
+const appElement = document.getElementById('app');
 
 const renderApp = Component => {
-  console.log(jee);
   ReactDOM.render(
     <AppContainer>
       <Component store={store} />
     </AppContainer>,
-    rootElement,
+    appElement,
   );
 };
 
 if (process.env.NODE_ENV === 'production') {
   ReactDOM.render(
     <Root store={store} />,
-    rootElement,
+    appElement,
   );
 } else {
   renderApp(Root);
 
   if (module.hot) {
-    module.hot.accept('./root.container', () => {
+    module.hot.accept('./app/app.container', () => {
       renderApp(Root);
     });
   }

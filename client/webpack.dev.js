@@ -71,7 +71,7 @@ webpackConfig.plugins.push(
 );
 
 webpackConfig.devServer = {
-  contentBase: './common/assets',
+  contentBase: './assets',
   publicPath: '/',
   inline: true,
   historyApiFallback: true,

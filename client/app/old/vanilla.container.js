@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-import logger from '~common/logger';
+import logger from '~common/logger.util';
 import VanillaView from './vanilla-view.component';
 // import VanillaView2 from './vanilla-view2.component';
 

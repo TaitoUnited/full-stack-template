@@ -1,4 +1,4 @@
-import BaseRoute from '../../common/base.route';
+import BaseRoute from '../common/base.route';
 import UserService from './user.service';
 
 /**
@@ -12,7 +12,7 @@ import UserService from './user.service';
 export default class UserRoute extends BaseRoute {
 
   constructor(router, userService) {
-    super(router);
+    super(router, '/users');
     // Make component testable by using primarily dependencies
     // given as constuctor args.
     this.userService = userService || new UserService();

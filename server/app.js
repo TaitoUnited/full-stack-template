@@ -4,17 +4,17 @@ import bodyParser from 'koa-better-body';
 import koaCacheControl from 'koa-cache-control';
 import Boom from 'boom';
 import Raven from 'raven';
+import uuid from 'uuid';
 
 // NOTE: Enable if cors is required
 // import cors from 'kcors';
 
-import { roles } from './examples/common/example.constants';
-import config from './config';
-import log from './log';
+import { roles } from './common/example.constants';
+import config from './common/config';
+import log from './common/log';
+import ns from './common/cls';
 import transactionManager from './db';
-import ns from './cls';
 import routes from './routes';
-import uuid from 'uuid';
 
 
 /* eslint-disable */

@@ -1,5 +1,5 @@
-import FileRoute from './examples/files/file.route';
-import UserRoute from './examples/users/user.route';
+import FileRoute from './files/file.route';
+import UserRoute from './users/user.route';
 import InfraRoute from './infra/infra.route';
 
 const routes = (router) => {
@@ -7,17 +7,17 @@ const routes = (router) => {
   const userRoute = new UserRoute();
   const infraRoute = new InfraRoute();
 
-  router.use('/files',
+  router.use(fileRoute.path,
     fileRoute.routes(),
     fileRoute.allowedMethods()
   );
 
-  router.use('/users',
+  router.use(userRoute.path,
     userRoute.routes(),
     userRoute.allowedMethods()
   );
 
-  router.use('/infra',
+  router.use(infraRoute.path,
     infraRoute.routes(),
     infraRoute.allowedMethods()
   );

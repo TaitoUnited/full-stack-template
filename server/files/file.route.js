@@ -1,4 +1,4 @@
-import BaseRoute from '../../common/base.route';
+import BaseRoute from '../common/base.route';
 import FileService from './file.service';
 
 /**
@@ -12,7 +12,7 @@ import FileService from './file.service';
 export default class FileRoute extends BaseRoute {
 
   constructor(router, fileService) {
-    super(router);
+    super(router, '/files');
     // Make component testable by using primarily dependencies
     // given as constuctor args.
     this.fileService = fileService || new FileService();

@@ -1,8 +1,21 @@
 import BaseRoute from '../common/base.route';
+import config from '../common/config';
 
 export default class InfraRoute extends BaseRoute {
 
+  constructor(router) {
+    super(router, '/infra');
+  }
+
   routes() {
+    // Return configs needed by browser or other API clients
+    this.router.get('/config', async (ctx, next) => {
+      ctx.body = {
+        APP_VERSION: config.APP_VERSION,
+      };
+      next();
+    });
+
     // Polled by uptime monitor to check that the system is alive
     this.router.get('/uptimez', async (ctx, next) => {
       // Check that database is up
