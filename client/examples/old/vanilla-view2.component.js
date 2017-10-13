@@ -49,7 +49,7 @@ const VanillaView2 = () => (
       rel='noopener noreferrer'
     >
       See logs on Stackdriver
-    </a> (Select "GKE Container" and REPONAME-server)
+    </a> (Select &quot;GKE Container&quot; and REPONAME-server)
 
     NOTE: Sentry and Stackdriver reporting are disabled
     in local development.

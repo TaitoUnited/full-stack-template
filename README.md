@@ -144,7 +144,7 @@ Advanced features:
 * **Revert app**: Revert application to the previous revision by running `taito ci revert:ENV`. If you need to revert to a specific revision, check current revision by running `taito ci revision:ENV` first and then revert to a specific revision by running `taito ci revert:ENV REVISION`. NOTE: The command does not revert database changes.
 * **Revert database changes**: Revert the previous migration batch by running `taito db revert[:ENV]`. If you would like to revert to a specific revision instead, view the db change log first (`taito db log[:ENV]`) and then run `taito db revert[:ENV] CHANGE`.
 
-NOTE: You might not have rights to execute some of the advanced operations (e.g. staging/production database operations). In such case, ask devops personnel to execute the operation for you.
+NOTE: Some of the advanced operations might require admin credentials (e.g. staging/production operations). If you don't have an admin account, ask devops personnel to execute the operation for you.
 
 ## Tools
 

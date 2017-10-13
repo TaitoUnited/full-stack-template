@@ -3,10 +3,10 @@ import axios from 'axios';
 
 // TODO use some existing logger / exception handler lib?
 const logger = {
-  log: (ex) => {
+  log: ex => {
     console.log(ex);
   },
-  warn: (ex) => {
+  warn: ex => {
     console.warn(ex);
   },
   error: (ex, context) => {
@@ -40,7 +40,7 @@ if (process.env.COMMON_ENV !== 'local') {
 }
 
 // Setup global exception handling for axios
-axios.interceptors.response.use(null, (error) => {
+axios.interceptors.response.use(null, error => {
   if (!error.response || error.response.status >= 500) {
     logger.error(error);
   }

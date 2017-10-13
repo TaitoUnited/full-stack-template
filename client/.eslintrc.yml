@@ -20,6 +20,7 @@ ecmaFeatures:
 
 # 0: off, 1: warning, 2: error
 rules:
+  arrow-parens: [2, "as-needed"]
   # single quotes
   quotes: [2, "single"]
   jsx-quotes: [2, "prefer-single"]
@@ -29,65 +30,42 @@ rules:
   no-underscore-dangle: 0
   # Commas always at the end of line
   comma-style: [2, "last"]
+  comma-dangle: ["error", {
+    "arrays": "only-multiline",
+    "objects": "only-multiline",
+    "imports": "only-multiline",
+    "exports": "only-multiline",
+    "functions": "ignore",
+  }]
   # 80 char line length
   max-len: [2, 80, 1]
   # console is fine
   no-console: 0
-
-  # Pointless, sorting by purpose > sorting alphabetically
-  # react/jsx-sort-props: 1
-  # react/jsx-sort-prop-types: 1
-
-  # Does not detect 'export default Component;' properly
-  # react/display-name: 1
-
-  # For highlighters, generally not needed
-  # react/jsx-no-literals: 1
-
-  # <div id='foo' className='bar'>
-  # vs.
-  # <div
-  #   id='foo'
-  #   className='bar'
-  # >
-  #
-  # react/jsx-max-props-per-line: 1
-
-  # object is specific enough, no need for shape({ key: value })
-  # react/forbid-prop-types: 1
-
-  # Local component state can be good sometimes
-  # react/no-set-state: 1
 
   # returning JSON from arrow functions without a return statement breaks the
   # parser, and having a single return statement is not allowed by this rule...
   arrow-body-style: 0
   no-confusing-arrow: 0
 
-  # AuthenticatedView is a function, causes error
-  new-cap: 0
-
-  react/jsx-closing-bracket-location: 1
+  react/jsx-wrap-multilines: 0
+  react/forbid-prop-types: 0
+  react/prefer-stateless-function: [2, { "ignorePureComponents": true }]
+  react/require-default-props: 0
   react/jsx-curly-spacing: 2
   react/jsx-indent-props: [2, 2]
   react/jsx-no-duplicate-props: 2
   react/no-danger: 2
-  react/no-direct-mutation-state: 1
-  # import/extensions: 2
+  react/require-extension: 0
+  react/prop-types: 0
   react/jsx-filename-extension:
     - 1
     - extensions:
       - ".js"
       - ".jsx"
 
-  no-useless-constructor: 0
   quote-props: 0
   generator-star-spacing: 0
   babel/generator-star-spacing: 0
-  linebreak-style: 0
-  react/require-extension: 0
-
-  # Allow aliases that start with `~`
-  # import/no-unresolved: [2, {ignorePattern: "^import\\s.+from\\s.+'~\\"}]
-
-  import/no-unresolved: 0 # deps are only installed in the docker container
+  import/no-unresolved: 0 # dont complain about alias paths, eg '~common'
+  import/extensions: 0
+  new-cap: 0

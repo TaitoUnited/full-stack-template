@@ -30,6 +30,9 @@ export ci_test_env=false
 export ci_copy="\
   docker://client/build;gs://cdn.taitounited.fi/${taito_project_env}"
 
+# docker plugin
+export dockerfile=Dockerfile
+
 # gcloud plugin
 export gcloud_region="europe-west1"
 export gcloud_zone="europe-west1-c"
@@ -102,6 +105,7 @@ export link_urls="\
   open-admin[:ENV]#admin=${taito_admin_url} \
   open-boards#boards=https://github.com/${taito_organization}/${taito_repo_name}/projects \
   open-issues#issues=https://github.com/${taito_organization}/${taito_repo_name}/issues \
+  open-git#git=https://github.com/${taito_organization}/${taito_repo_name} \
   open-builds#builds=https://console.cloud.google.com/gcr/builds?project=${taito_zone}&query=source.repo_source.repo_name%3D%22${taito_repo_location}-${taito_repo_name}%22 \
   open-artifacts#artifacts=https://console.cloud.google.com/gcr/images/${taito_zone}/EU/${taito_repo_location}-${taito_repo_name}?project=${taito_zone} \
   open-bucket#bucket=https://storage.googleapis.com/${taito_project_env} \

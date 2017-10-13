@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import {
@@ -86,7 +87,7 @@ const VanillaView = ({ actions, files }) => {
         rel='noopener noreferrer'
       >
         See logs on Stackdriver
-      </a> (Select "GKE Container" and REPONAME-server)
+      </a> (Select &quot;GKE Container&quot; and REPONAME-server)
 
       NOTE: Sentry and Stackdriver reporting are disabled
       in local development.

@@ -16,7 +16,7 @@ const Loading = styled.div`
 export default function LoadComponent(opts) {
   return Loadable({
     delay: 200, // show loading after 200ms => no flickering if comp loads fast
-    LoadingComponent: () => <Loading>Ladataan...</Loading>,
+    loading: () => <Loading>Ladataan...</Loading>,
     ...opts,
   });
 }

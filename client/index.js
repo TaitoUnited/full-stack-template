@@ -10,21 +10,24 @@ import Root from './root.container';
 // TODO: configure Redux store
 const store = {};
 
+const jee = 'juk';
+
 const rootElement = document.getElementById('root'); // where to mount on page
 
-const renderApp = (Component) => {
+const renderApp = Component => {
+  console.log(jee);
   ReactDOM.render(
     <AppContainer>
       <Component store={store} />
     </AppContainer>,
-    rootElement
+    rootElement,
   );
 };
 
 if (process.env.NODE_ENV === 'production') {
   ReactDOM.render(
     <Root store={store} />,
-    rootElement
+    rootElement,
   );
 } else {
   renderApp(Root);

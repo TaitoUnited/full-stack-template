@@ -38,9 +38,9 @@ class VanillaContainer extends Component {
   onSearchFiles = () => {
   }
 
-  onAddFile = (file) => {
+  onAddFile = file => {
     axios.post(`${apiUrl}/files`, file)
-    .then((resp) => {
+    .then(resp => {
       this.setState({
         files: [...this.state.files, { ...file, id: resp.data.id }],
       });
