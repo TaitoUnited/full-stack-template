@@ -1,6 +1,6 @@
 var webpack = require('webpack');
 var webpackConfig = require('./webpack.base');
-var pkg = require('./package.json');
+var pkg = require('../package.json');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 // Best for production
