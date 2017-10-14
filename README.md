@@ -54,6 +54,24 @@ For troubleshooting run `taito --trouble`. See PROJECT.md for project specific c
 
 > It's common that idle applications are run down to save resources on non-production environments . If your application seems to be down, you can start it by running `taito start:ENV`, or by pushing some changes to git.
 
+## Modular structure
+
+### Directory hierarchy
+
+Application should be divided in loosely coupled highly cohesive parts by using a modular directory hierarchy. The following rules usually work well in an event-based solution (a GUI for example). In the backend you most likely need to break the rules once in a while, but still try to keep directories loosely coupled.
+
+* Create directory hierarchy primarily based on feature (`reporting`, `users`, ...) instead of type (`actions`, `containers`, `components`, `css`, ...). Use such file naming that you can easily determine the type from filename (e.g. `*.ducks.js`, `*.container.js`). Then you don't need to use directories to group the same type of files together.
+* A directory should not make references outside of its boundary.
+* A file should reference only files that are nearby (e.g. in the same directory or in a subdirectory directly beneath it).
+* Libraries and common directories are an exception to the previous dependency rules. Thus, you are allowed to import libraries and reference common directories that are located outside of directory (e.g. `../common`, `~common`). You can think of `common` directory as an *internal library*.
+* If you break the dependency rules, at least try to avoid making circular dependencies between directories. Also leave a `REFACTOR:` comment if the dependency is the kind that it should be refactored later.
+
+See [orig-template/client/app](https://github.com/TaitoUnited/orig-template/tree/master/client/app) as an example. See [General Software Design](https://github.com/TaitoUnited/taito/wiki/General-Software-Design) article for more information on how to structure your app.
+
+### Implementation
+
+Each block of implementation (function, class, module, sql query, ...) should be clearly named by its responsibility and implement only what it is responsible for, nothing else. References should be primarily nearby references (same file, same directory, subdirectory) with the exception of references to libraries and common directories.
+
 ## Version control
 
 ### Development branches
@@ -133,6 +151,8 @@ Deploying to different environments:
 
 > TIP: Use the `taito git env merge:ENV SOURCE_BRANCH` command to merge an environment branch to another.
 
+> NOTE: For critical systems master/staging branches are protected so that changes always need to go through a review before push.
+
 Advanced features:
 
 * **Debugging CI builds**: You can build and start production containers locally with the `taito start --clean --prod` command. You can also run any CI build steps defined in cloudbuild.yaml locally with taito-cli. If you want to run them exacly as CI would, first log in to container with `taito --shell`, set `taito_mode=ci` and `COMPOSE_PROJECT_NAME=workspace` environment variables and then run the taito-cli commands using the container shell. *TODO install also [container-builder-local](https://github.com/GoogleCloudPlatform/container-builder-local) on taito-cli container?*
@@ -161,23 +181,39 @@ The following tools are currently used for this project. You can open any of the
 
 ## Configuration
 
-> Configuration is not required for local development and some of the steps require superuser rights.  For now, just modify docker-compose.yaml and run the application locally with Docker. Ask devops personnel to execute the rest of the configuration steps.
+> NOTE: Some of the configuration steps might require admin rights, especially if database is involved.
 
-### Initial project configuration
+### Local development
+
+Modify `docker-compose.yaml` without touching the container names. Remove such containers that you don't need.
+
+TODO Something about examples...
+
+### Project configuration
 
 1. Configure `taito-config.sh`
 2. Run `taito env-config`
+
+### TODO Something about additional steps if an old project was migrated:
+
+* Stackdriver
+* Sentry
+* Secrets
+* Buckets
+* Job queues
 
 ### Creating an environment
 
 Execute the following steps for an environment (`feature`, `dev`, `test`, `staging` or `prod`):
 
 1. Run `taito env create:ENV` and follow instructions.
-2. For production: configure `helm-prod.yaml`
 
-### Upgrading to the latest version of the project template
+### Finalizing production environment
 
-Run `taito template upgrade`. The command copies the latest versions of reusable Helm charts and CI/CD scripts to your project folder, and also this README.md file. You should not make project specific modifications to them as they are designed to be reusable and easily configurable for various needs. Improve the originals instead, and then upgrade.
+Once you are ready to make the first production release, finalize the production environment with the following steps:
+
+1. Configure `helm-prod.yaml`
+2. Run `taito env finalize:prod` and follow instructions.
 
 ### Kubernetes configuration
 
@@ -193,3 +229,7 @@ Kubernetes:
 1. Add secret definition to `taito-config.sh`
 2. Map secret to an environment variable in `scripts/helm.yaml`
 3. Run `taito rotate:ENV [SECRET]` to generate a secret value for an environment. Run the command for each environment.
+
+### Upgrading to the latest version of the project template
+
+Run `taito template upgrade`. The command copies the latest versions of reusable Helm charts and CI/CD scripts to your project folder, and also this README.md file. You should not make project specific modifications to them as they are designed to be reusable and easily configurable for various needs. Improve the originals instead, and then upgrade.

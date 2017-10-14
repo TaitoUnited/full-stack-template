@@ -4,6 +4,6 @@
 
 app.schema 2017-04-14T12:01:35Z Jukka Keski-Luopa <jj@macbookjj.local> # Add schema
 file.table [app.schema] 2017-04-14T12:02:38Z Jukka Keski-Luopa <jj@macbookjj.local> # Creates file table
-file-collection.alter [file.table] 2017-04-14T12:24:32Z Jukka Keski-Luopa <jj@macbookjj.local> # Add collection column
-file-dev1.data [file.table file-collection.alter] 2017-04-14T12:34:14Z Jukka Keski-Luopa <jj@macbookjj.local> # Insert files for development
+fileCollection.alter [file.table] 2017-04-14T12:24:32Z Jukka Keski-Luopa <jj@macbookjj.local> # Add collection column
+fileDev1.data [file.table file-collection.alter] 2017-04-14T12:34:14Z Jukka Keski-Luopa <jj@macbookjj.local> # Insert files for development
 user.table [app.schema] 2017-06-14T12:02:38Z Jukka Keski-Luopa <jj@macbookjj.local> # Creates user table

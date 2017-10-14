@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 
-import FilesView from './filesView.component';
+import ReportsView from './reportsView.component';
 
-class FilesContainer extends Component {
+class ReportsContainer extends Component {
   componentDidMount() {
     this.props.actions.onShowModal();
   }
 
   render() {
     return (
-      <FilesView
+      <ReportsView
         actions={this.props.actions}
         appState={this.props.appState}
       />
@@ -17,4 +17,4 @@ class FilesContainer extends Component {
   }
 }
 
-export default FilesContainer;
+export default ReportsContainer;

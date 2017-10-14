@@ -4,13 +4,13 @@ import { Heading, Modal, Button } from 'react-components-kit';
 
 import View from '~layout/view.component';
 
-const SearchViewWrapper = styled(View)`
+const UxViewWrapper = styled(View)`
 `;
 
-const SearchView = ({ actions, appState }) => (
-  <SearchViewWrapper
-    className='SearchView'
-    title='Search'
+const UxView = ({ actions, appState }) => (
+  <UxViewWrapper
+    className='UxView'
+    title='UX'
     type='fullPage'
   >
     <Modal
@@ -19,27 +19,21 @@ const SearchView = ({ actions, appState }) => (
       backdropBg='rgba(0, 0, 0, 0.5)'
     >
       <Modal.Body>
-        <Heading>Search Example</Heading>
+        <Heading>UX Example</Heading>
         <p>
           This example demonstrates:
         </p>
         <ul>
-          <li>React + redux + redux-saga</li>
+          <li>Styled components</li>
+          <li>Layouts</li>
           <li>Animations</li>
-          <li>Responsive results layout</li>
-          <li>Paging</li>
-          <li>Caching</li>
-          <li>Postgres full text search</li>
-          <li>Postgres json search</li>
-          <li>End-to-end tests</li>
-          <li>Unit tests</li>
         </ul>
         <Modal.Footer>
           <Button flat onClick={actions.onHideModal}>Ok</Button>
         </Modal.Footer>
       </Modal.Body>
     </Modal>
-  </SearchViewWrapper>
+  </UxViewWrapper>
 );
 
-export default SearchView;
+export default UxView;

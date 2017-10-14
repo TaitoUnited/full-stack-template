@@ -1,4 +1,4 @@
--- Deploy server_template:file-collection.alter to pg
+-- Deploy server_template:fileCollection.alter to pg
 -- requires: file.table
 
 BEGIN;

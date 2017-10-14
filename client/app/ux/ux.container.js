@@ -1,20 +1,20 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-import {
-  Heading,
-} from 'react-components-kit';
+import UxView from './uxView.component';
 
-const UXContainer = () => (
-  <div>
-    <Heading>User Experience</Heading>
-    UX example demonstrates:
-    <ul>
-      <li>Styled components</li>
-      <li>Layouts</li>
-      <li>Animations</li>
-    </ul>
-    TODO: implement using vanilla react
-  </div>
-);
+class UxContainer extends Component {
+  componentDidMount() {
+    this.props.actions.onShowModal();
+  }
 
-export default UXContainer;
+  render() {
+    return (
+      <UxView
+        actions={this.props.actions}
+        appState={this.props.appState}
+      />
+    );
+  }
+}
+
+export default UxContainer;

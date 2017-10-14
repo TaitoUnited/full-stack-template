@@ -1,4 +1,4 @@
--- Verify server_template:file-dev1.data on pg
+-- Verify server_template:fileDev1.data on pg
 
 BEGIN;
 

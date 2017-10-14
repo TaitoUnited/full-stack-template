@@ -1,14 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Layout } from 'react-components-kit';
+import { Layout, Icon, withRipple } from 'react-components-kit';
 
 const TopBarWrapper = styled(Layout)`
-  background-color: blue;
+  padding: 8px 16px;
+  border-bottom: 1px solid black;
 `;
 
-const TopBar = () => (
+const MenuButton = withRipple(Icon);
+
+const TopBar = ({ actions }) => (
   <TopBarWrapper className='TopBar'>
-    <div>jee</div>
+    <MenuButton
+      type='ion'
+      name='navicon-round'
+      size='32px'
+      color='black'
+      onClick={e => actions.onToggleMenu(e)}
+    />
   </TopBarWrapper>
 );
 

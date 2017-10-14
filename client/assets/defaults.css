@@ -83,3 +83,7 @@ input[type=radio] {
 select::-ms-expand {
     display: none;
 }
+
+#app {
+  height: 100%;
+}

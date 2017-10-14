@@ -1,22 +1,20 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-import {
-  Heading,
-} from 'react-components-kit';
+import UsersView from './usersView.component';
 
-const UsersContainer = () => (
-  <div>
-    <Heading>Users</Heading>
-    Users example demonstrates:
-    <ul>
-      <li>Auth0 for login, terms agreement and user management</li>
-      <li>Firebase for login, terms agreement and user management</li>
-      <li>WordPress user management integration</li>
-      <li>Custom user management implementation: passwordless magic links
-          and simple user management implemented on admin-on-rest</li>
-    </ul>
-    TODO: implement using vanilla react
-  </div>
-);
+class UsersContainer extends Component {
+  componentDidMount() {
+    this.props.actions.onShowModal();
+  }
+
+  render() {
+    return (
+      <UsersView
+        actions={this.props.actions}
+        appState={this.props.appState}
+      />
+    );
+  }
+}
 
 export default UsersContainer;

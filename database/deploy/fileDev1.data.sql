@@ -1,6 +1,6 @@
--- Deploy server_template:file-dev1.data to pg
+-- Deploy server_template:fileDev1.data to pg
 -- requires: file.table
--- requires: file-collection.alter
+-- requires: fileCollection.alter
 
 BEGIN;
 

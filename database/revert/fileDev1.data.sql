@@ -1,4 +1,4 @@
--- Revert server_template:file-dev1.data from pg
+-- Revert server_template:fileDev1.data from pg
 
 BEGIN;
 
