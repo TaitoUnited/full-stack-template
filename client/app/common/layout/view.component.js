@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Layout, Heading } from 'react-components-kit';
 
-import ErrorBoundary from './errorBoundary.component.js';
+import ErrorBoundary from '~infra/errorBoundary.component.js';
 
 const ViewWrapper = styled(Layout)`
 `;

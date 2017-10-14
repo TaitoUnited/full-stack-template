@@ -1,5 +1,7 @@
 import React from 'react';
 
+import logger from './logger.util';
+
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -9,7 +11,8 @@ class ErrorBoundary extends React.Component {
   componentDidCatch(error, info) {
     // Display fallback UI
     this.setState({ hasError: true });
-    // TODO log error to sentry and console?
+    logger.error(error);
+    console.error(info);
   }
 
   render() {

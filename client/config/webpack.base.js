@@ -82,8 +82,9 @@ var webpackConfig = {
     mainFiles: ['index.prod', 'index'],
     extensions: ['.json', '.jsx', '.js'],
     alias: {
-      '~common': resolve(__dirname, './app/common'),
-      '~layout': resolve(__dirname, './app/common/layout'),
+      '~common': resolve(__dirname, '../app/common'),
+      '~layout': resolve(__dirname, '../app/common/layout'),
+      '~infra': resolve(__dirname, '../app/common/infra'),
     }
   }
 }

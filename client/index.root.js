@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-import LazyLoadHandler from './app/common/lazyLoad.handler';
+import LazyLoadHandler from '~infra/lazyLoad.handler';
 
 /* eslint-disable */
 const AppContainer = LazyLoadHandler({

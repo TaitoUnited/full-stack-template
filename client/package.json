@@ -7,13 +7,13 @@
   "scripts": {
     "test": "BABEL_ENV=test jest",
     "lint": "eslint . --ignore-path .eslintignore --quiet",
-    "start": "webpack-dev-server --config webpack.dev.js --public=localhost:8080",
-    "build": "NODE_ENV=production webpack -p --config webpack.prod.js",
-    "analyze": "ANALYZE=true NODE_ENV=production webpack -p --config webpack.prod.js"
+    "start": "webpack-dev-server --config ./config/webpack.dev.js --public=localhost:8080",
+    "build": "NODE_ENV=production webpack -p --config ./config/webpack.prod.js",
+    "analyze": "ANALYZE=true NODE_ENV=production webpack -p --config ./config/webpack.prod.js"
   },
   "jest": {
     "setupFiles": [
-      "./setup-jest.js"
+      "./config/setup-jest.js"
     ]
   },
   "repository": {

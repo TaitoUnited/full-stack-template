@@ -54,7 +54,7 @@ For troubleshooting run `taito --trouble`. See PROJECT.md for project specific c
 
 > It's common that idle applications are run down to save resources on non-production environments . If your application seems to be down, you can start it by running `taito start:ENV`, or by pushing some changes to git.
 
-## Modular structure
+## Structure
 
 ### Directory hierarchy
 
