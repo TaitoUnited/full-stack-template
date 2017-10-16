@@ -1,46 +1,27 @@
-FROM node:8.5-alpine
-
+FROM node:8.7-alpine as builder
+ARG TARGET_ENV=prod
 ARG BUILD_VERSION
-ARG BUILD_IMAGE_TAG
-
+ENV TARGET_ENV ${TARGET_ENV}
 ENV BUILD_VERSION ${BUILD_VERSION}
-ENV BUILD_IMAGE_TAG ${BUILD_IMAGE_TAG}
 ENV NODE_ENV development
 ENV API_ROOT ''
 ENV API_URL /api
-
 # SENTRY START
-ENV APP_SENTRY_PUBLIC_DSN  https://a10a67301f9547a6861aafdb12bd6db9@sentry.io/176268
+ENV APP_SENTRY_PUBLIC_DSN https://a10a67301f9547a6861aafdb12bd6db9@sentry.io/176268
 # SENTRY END
-
-RUN apk add --update-cache build-base python git nginx
-
-WORKDIR /app
-
-COPY ./package.json /app/package.json
+RUN apk add --update-cache build-base python git
+WORKDIR /client
+COPY ./package.json /client/package.json
 RUN npm install --loglevel warn
+COPY . /client
+RUN if [[ "${TARGET_ENV}" != "local" ]]; then npm run build && cp -r ./assets/* /build/; fi
+EXPOSE 3333
+CMD ["npm", "run", "start"]
 
-COPY . /app
-
-RUN npm run build
-
-RUN cp -r ./assets/* /build
-
-# nginx
-RUN adduser -D -u 1001 -g 'www' www
-RUN chown -R www:www /var/lib/nginx
-RUN chown -R www:www /build
-RUN mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
-
+FROM nginx:1.13.5-alpine
+WORKDIR /build
+COPY --from=builder /build .
+RUN chown -R nginx:nginx /build && \
+    mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 COPY ./config/nginx.conf /etc/nginx
-
-EXPOSE 80
-EXPOSE 443
-
-# TODO Remove obsolete files
-# WORKDIR /build
-# RUN rm -rf /app
-
-ENV NODE_ENV production
-
-CMD ["nginx", "-g", "daemon off;"]
+# TODO dump-init or tiny as init system? Kubernetes uses --init?

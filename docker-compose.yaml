@@ -21,8 +21,8 @@ server-template-front:
 #   ports:
 #     - "3334:3334"
 #   volumes:
-#     - "./admin:/app"
-#     - "/app/node_modules"
+#     - "./admin:/admin"
+#     - "/admin/node_modules"
 #   links:
 #     - server-template-server:server-template-server
 #   environment:
@@ -38,8 +38,8 @@ server-template-client:
   ports:
     - "3333"
   volumes:
-    - "./client:/app"
-    - "/app/node_modules"
+    - "./client:/client"
+    - "/client/node_modules"
   links:
     - server-template-server:server-template-server
   environment:
@@ -55,8 +55,8 @@ server-template-server:
   ports:
     - "3332"
   volumes:
-    - "./server:/app"
-    - "/app/node_modules"
+    - "./server:/server"
+    - "/server/node_modules"
   links:
     - server-template-cache:server-template-cache
     - server-template-database:server-template-database

@@ -1,14 +1,9 @@
-FROM node:8.5-alpine
-
+# TODO: use multi-stage dockerfile also locally?
+FROM node:8.7-alpine
 RUN apk add --update-cache build-base python git
-
-WORKDIR /app
-
-COPY ./package.json /app/package.json
+WORKDIR /client
+COPY ./package.json /client/package.json
 RUN npm install --loglevel warn
-
-COPY . /app
-
+COPY . /client
 EXPOSE 3333
-
 CMD ["npm", "run", "start"]

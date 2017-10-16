@@ -24,7 +24,7 @@ var webpackConfig = {
   // When webpack bundles your application, the bundled file(s) need to be saved
   // somewhere. Settings under `output` affect this.
   output: {
-    path: resolve(__dirname, '../build'),
+    path: resolve(__dirname, '../../build'),
     filename: '[chunkhash].[name].js',
     publicPath: '/'
   },
