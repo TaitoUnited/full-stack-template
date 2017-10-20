@@ -1,5 +1,5 @@
 import jwt from 'koa-jwt';
-import config from '../common/app.config';
+import config from '../common/common.config';
 
 const authMiddleware = jwt({
   secret: config.JWT_SECRET,
@@ -8,7 +8,7 @@ const authMiddleware = jwt({
   cookie: 'auron-exlib-secret',
 }).unless({
   path: [
-    /^\/.*/,  // NOTE: Remove to enable auth
+    /^\/.*/, // NOTE: Remove to enable auth
     /^\/infra/,
     /^\/auth\/login/,
   ],

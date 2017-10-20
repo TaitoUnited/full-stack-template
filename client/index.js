@@ -1,36 +1,77 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore, applyMiddleware, compose } from 'redux';
+import { routerMiddleware } from 'react-router-redux';
+import createHistory from 'history/createBrowserHistory';
+import createSagaMiddleware from 'redux-saga';
+
+// Import some devtools
 import { AppContainer } from 'react-hot-loader'; // eslint-disable-line
+import { createLogger } from 'redux-logger'; // eslint-disable-line
+import { createDevTools } from 'redux-devtools'; // eslint-disable-line
+import LogMonitor from 'redux-devtools-log-monitor'; // eslint-disable-line
+import DockMonitor from 'redux-devtools-dock-monitor'; // eslint-disable-line
 
-import Root from './index.root';
+import appReducer from './app/app.reducer.js';
+import appSaga from './app/app.saga.js';
+import Root from './index.root'; // eslint-disable-line
 
-// TODO: configure Redux store
-const store = {};
+// Create store
+const history = createHistory();
+const routeMiddleware = routerMiddleware(history);
+const sagaMiddleware = createSagaMiddleware();
+let store;
+if (process.env.NODE_ENV === 'development') {
+  // Development
+  const logger = createLogger();
+  const devtools = window.devToolsExtension
+    ? window.devToolsExtension()
+    : createDevTools(
+      <DockMonitor
+        toggleVisibilityKey='ctrl-h'
+        changePositionKey='ctrl-w'
+        defaultIsVisible={false}
+      >
+        <LogMonitor />
+      </DockMonitor>
+      ).instrument();
+  store = createStore(
+    appReducer,
+    compose(
+      applyMiddleware(sagaMiddleware, logger),
+      applyMiddleware(routeMiddleware),
+      devtools
+    )
+  );
+} else {
+  // Production
+  store = createStore(
+    appReducer,
+    compose(applyMiddleware(sagaMiddleware), applyMiddleware(routeMiddleware))
+  );
+}
+sagaMiddleware.run(appSaga);
 
- // where to mount on page
+// where to mount on page
 const appElement = document.getElementById('app');
 
 const renderApp = Component => {
   ReactDOM.render(
     <AppContainer>
-      <Component store={store} />
+      <Component store={store} history={history} />
     </AppContainer>,
-    appElement,
+    appElement
   );
 };
 
-if (process.env.NODE_ENV === 'production') {
-  ReactDOM.render(
-    <Root store={store} />,
-    appElement,
-  );
-} else {
+if (process.env.NODE_ENV === 'development') {
   renderApp(Root);
-
   if (module.hot) {
     module.hot.accept('./app/app.container', () => {
       renderApp(Root);
     });
   }
+} else {
+  ReactDOM.render(<Root store={store} history={history} />, appElement);
 }

@@ -1,5 +1,5 @@
 import { authorize, validate } from '../common/authorize.util.js';
-import { roles } from '../common/app.constants.js';
+import { roles } from '../common/common.constants.js';
 
 import FileDAO from './file.dao';
 
@@ -21,7 +21,6 @@ import FileDAO from './file.dao';
  * execute database operation and generate response with a single method.
  */
 export default class FileService {
-
   constructor(fileDAO) {
     // Make component testable by using primarily dependencies
     // given as constuctor args.
@@ -84,10 +83,11 @@ export default class FileService {
     }
 
     // Check that user has rights
-    authorize(ctx).role(roles.dealer).department(file.department);
+    authorize(ctx)
+      .role(roles.dealer)
+      .department(file.department);
     if (oldFile) {
       authorize(ctx).equals('department', file.department, oldFile.department);
     }
   }
-
 }

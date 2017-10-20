@@ -2,14 +2,14 @@ import Koa from 'koa';
 import koaRouter from 'koa-router';
 import Boom from 'boom';
 
-import log from './common/log.util';
-import config from './common/app.config';
+import { log } from './common/log.util';
+import config from './common/common.config';
 import routes from './routes';
 
 import {
   loggerMiddleware,
   setupLoggerMiddleware,
-  logTODO,
+  logTODO
 } from './infra/logger.middleware';
 import transactionMiddleware from './infra/transaction.middleware';
 import requestMiddleware from './infra/request.middleware';
@@ -37,22 +37,22 @@ app.use(transactionMiddleware);
 const router = koaRouter();
 routes(router); // Inject router to all routes
 app.use(router.routes());
-app.use(router.allowedMethods({
-  throw: true,
-  notImplemented: () => Boom.notImplemented(),
-  methodNotAllowed: () => Boom.methodNotAllowed(),
-}));
+app.use(
+  router.allowedMethods({
+    throw: true,
+    notImplemented: () => Boom.notImplemented(),
+    methodNotAllowed: () => Boom.methodNotAllowed()
+  })
+);
 
 logTODO(app);
 
 // Start the server.
-app.listen(
-  config.API_PORT,
-  config.API_BINDADDR,
-  () => log.info(
+app.listen(config.API_PORT, config.API_BINDADDR, () =>
+  log.info(
     { addr: config.API_BINDADDR, port: config.API_PORT },
-    `${config.APP_NAME} started`,
-  ),
+    `${config.APP_NAME} started`
+  )
 );
 
 export default app;

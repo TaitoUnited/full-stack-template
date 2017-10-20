@@ -1,4 +1,3 @@
-
 const contextMiddleware = async (ctx, next) => {
   ctx.appCtx = {
     user: {},

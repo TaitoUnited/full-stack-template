@@ -1,21 +1,22 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-
+import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'react-router-redux';
 import LazyLoadHandler from '~infra/lazyLoad.handler';
 
 /* eslint-disable */
 const AppContainer = LazyLoadHandler({
-  loader: () => import(
-    /* webpackChunkName: "vanilla-container" */
-    './app/app.container'
-  ),
+  loader: () =>
+    import(/* webpackChunkName: "vanilla-container" */
+    './app/app.container')
 });
 /* eslint-enable */
 
-const Root = () => (
-  <BrowserRouter>
-    <AppContainer />
-  </BrowserRouter>
+const Root = ({ store, history }) => (
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <AppContainer />
+    </ConnectedRouter>
+  </Provider>
 );
 
 export default Root;

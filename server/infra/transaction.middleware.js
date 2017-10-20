@@ -1,6 +1,6 @@
 import pg from 'pg-promise';
 
-import config from '../common/app.config';
+import config from '../common/common.config';
 
 const pgp = pg({
   // Initialization options
@@ -12,7 +12,7 @@ const cn = {
   database: config.DATABASE_ID,
   user: config.DATABASE_USER,
   password: config.DATABASE_SECRET,
-  poolSize: config.DATABASE_POOL_MAX,
+  poolSize: config.DATABASE_POOL_MAX
 };
 
 const db = pgp(cn);
@@ -41,23 +41,24 @@ const transactionMiddleware = async (ctx, next) => {
   // retrieve db from appCtx instead using the one that service gave
   // as parameter -> DAOs always join the current transaction determined
   // by service.
-  appCtx.tx = (func) => {
-    appCtx.getTx().tx((tx) => {
+  appCtx.tx = func => {
+    appCtx.getTx().tx(tx => {
       // Push transaction
       appCtx.txArray.push(tx);
 
       // Execute
-      return func(tx)
-
-      // Pop transaction
-      .then((ret) => {
-        appCtx.txArray.pop();
-        return ret;
-      })
-      .catch((error) => {
-        appCtx.txArray.pop();
-        return Promise.reject(error);
-      });
+      return (
+        func(tx)
+          // Pop transaction
+          .then(ret => {
+            appCtx.txArray.pop();
+            return ret;
+          })
+          .catch(error => {
+            appCtx.txArray.pop();
+            return Promise.reject(error);
+          })
+      );
     });
   };
 

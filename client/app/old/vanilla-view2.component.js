@@ -1,11 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import {
-  Heading,
-  Input,
-  Layout,
-} from 'react-components-kit';
+import { Heading, Input, Layout } from 'react-components-kit';
 
 const InputGroup = styled(Layout)`
   & > div {
@@ -24,18 +20,15 @@ const InputWrapper = styled.div`
 const VanillaView2 = () => (
   <div>
     <Heading>OLD EXAMPLE</Heading>
-
     <Heading el='h2'>Relational Database</Heading>
     <InputGroup>
       <InputWrapper width='300px'>
         <Input onChange={() => {}} />
       </InputWrapper>
     </InputGroup>
-
     <Heading el='h2'>Logging and alerts</Heading>
-    Press a button to cause an error on...
-    Press a button to cause `not found` on...
-
+    Press a button to cause an error on... Press a button to cause `not found`
+    on...
     <a
       href='https://sentry.io/taitounited/server-template/'
       target='_blank'
@@ -49,11 +42,9 @@ const VanillaView2 = () => (
       rel='noopener noreferrer'
     >
       See logs on Stackdriver
-    </a> (Select &quot;GKE Container&quot; and REPONAME-server)
-
-    NOTE: Sentry and Stackdriver reporting are disabled
-    in local development.
-
+    </a>{' '}
+    (Select &quot;GKE Container&quot; and REPONAME-server) NOTE: Sentry and
+    Stackdriver reporting are disabled in local development.
   </div>
 );
 

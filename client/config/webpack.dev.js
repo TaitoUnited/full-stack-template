@@ -42,7 +42,7 @@ webpackConfig.plugins.push(
     'process.env.BUILD_IMAGE_TAG': JSON.stringify(process.env.BUILD_IMAGE_TAG),
     'process.env.APP_SENTRY_PUBLIC_DSN': JSON.stringify(process.env.APP_SENTRY_PUBLIC_DSN),
     'process.env.COMMON_ENV': JSON.stringify(process.env.COMMON_ENV),
-    'process.env.NODE_ENV': "'dev'",
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     __CLIENT__: true,
     __SERVER__: false,
     __DEVELOPMENT__: true,

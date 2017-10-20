@@ -38,7 +38,7 @@ export const loggerMiddleware = async (ctx, next) => {
   log.info({ res: ctx.res, latency: ms }, `Response: ${ctx.method} ${ctx.url}`);
 };
 
-export const logTODO = (app) => {
+export const logTODO = app => {
   app.on('error', (err, ctx) => {
     log.error(
       { err, req: ctx.req, res: ctx.res },

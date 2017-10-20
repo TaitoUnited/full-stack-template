@@ -3,7 +3,7 @@ import _ from 'lodash';
 /**
  * USAGE: authorize(ctx).role(role).department(department);
  */
-export const authorize = (ctx) => {
+const authorize = ctx => {
   const funcs = {};
 
   funcs.role = (...roles) => {
@@ -11,8 +11,8 @@ export const authorize = (ctx) => {
       console.log('auth.role failed');
       const ex = {
         type: 'authorization',
-        message: 'user not in role ${role}',
-        ctx,
+        message: 'user does not have any of the roles: ...',
+        ctx
       };
       throw ex;
     }
@@ -24,8 +24,8 @@ export const authorize = (ctx) => {
       console.log('auth.eq failed');
       const ex = {
         type: 'authorization',
-        message: '${name} value mismatch: ${value1} !== ${value2}',
-        ctx,
+        message: `${name} value mismatch: ${value1} !== ${value2}`,
+        ctx
       };
       throw ex;
     }
@@ -34,3 +34,5 @@ export const authorize = (ctx) => {
 
   return funcs;
 };
+
+export default authorize;

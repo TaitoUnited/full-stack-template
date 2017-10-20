@@ -21,7 +21,7 @@ ingress:
 
 admin:
   path: /admin
-  port: 80
+  port: 3334
   replicas: 2
   autoscale: false
   minReplicas: 2
@@ -30,7 +30,7 @@ admin:
 
 client:
   path: /
-  port: 80
+  port: 3333
   replicas: 2
   autoscale: false
   minReplicas: 2

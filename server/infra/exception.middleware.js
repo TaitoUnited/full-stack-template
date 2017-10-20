@@ -1,5 +1,5 @@
-import log from '../common/log.util';
-import config from '../common/app.config';
+import { log } from '../common/log.util';
+import config from '../common/common.config';
 
 const exceptionMiddleware = async (ctx, next) => {
   // Wraps request handling in the try block.

@@ -1,18 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Layout, Heading } from 'react-components-kit';
+import { Layout } from 'react-components-kit';
 
 import ErrorBoundary from '~infra/errorBoundary.component.js';
 
-const ViewWrapper = styled(Layout)`
-`;
+const ViewWrapper = styled(Layout)``;
 
-const View = ({ title, type, children }) => (
-  <ViewWrapper className={`View View-${type}`} column>
-    <Heading>{title}</Heading>
-    <ErrorBoundary>
-      {children}
-    </ErrorBoundary>
+const View = ({ type, children }) => (
+  <ViewWrapper className={`View View-${type}`}>
+    {/* <Layout.Box flex={1}>
+      <Heading>{title}</Heading>
+    </Layout.Box>
+    <Layout.Box>
+      <Heading>{title}</Heading>
+    </Layout.Box> */}
+    <ErrorBoundary>{children}</ErrorBoundary>
   </ViewWrapper>
 );
 

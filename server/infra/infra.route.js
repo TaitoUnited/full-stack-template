@@ -1,8 +1,7 @@
 import BaseRoute from '../common/base.route';
-import config from '../common/app.config';
+import config from '../common/common.config';
 
 export default class InfraRoute extends BaseRoute {
-
   constructor(router) {
     super(router, '/infra');
   }
@@ -42,5 +41,4 @@ export default class InfraRoute extends BaseRoute {
 
     return this.router.routes();
   }
-
 }

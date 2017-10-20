@@ -10,7 +10,6 @@ import UserService from './user.service';
  * - Does some additional response formatting if necessary.
  */
 export default class UserRoute extends BaseRoute {
-
   constructor(router, userService) {
     super(router, '/users');
     // Make component testable by using primarily dependencies
@@ -30,5 +29,4 @@ export default class UserRoute extends BaseRoute {
   allowedMethods() {
     return this.router.allowedMethods();
   }
-
 }

@@ -1,3 +1,4 @@
+# Builder
 FROM node:8.7-alpine as builder
 ARG TARGET_ENV=prod
 ARG BUILD_VERSION
@@ -18,10 +19,21 @@ RUN if [[ "${TARGET_ENV}" != "local" ]]; then npm run build && cp -r ./assets/* 
 EXPOSE 3333
 CMD ["npm", "run", "start"]
 
+# Production runtime
 FROM nginx:1.13.5-alpine
+ARG BUILD_VERSION
+LABEL version=${BUILD_VERSION} \
+      customer=customername \
+      project=server-template \
+      role=client
 WORKDIR /build
 COPY --from=builder /build .
-RUN chown -R nginx:nginx /build && \
+RUN touch /var/run/nginx.pid && \
+    chown -R nginx:nginx /var/run/nginx.pid && \
+    chown -R nginx:nginx /var/cache/nginx && \
+    chown -R nginx:nginx /build && \
     mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 COPY ./config/nginx.conf /etc/nginx
+USER nginx
+EXPOSE 3333
 # TODO dump-init or tiny as init system? Kubernetes uses --init?

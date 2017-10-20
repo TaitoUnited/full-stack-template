@@ -1,4 +1,3 @@
-
 /**
  * Responsibilities of a DAO:
  *
@@ -15,9 +14,9 @@
  *   same transaction)
  */
 export default class UserDAO {
-
-  async read(db, id) {
-    return db.any(`
+  static async read(db, id) {
+    return db.any(
+      `
       SELECT json_build_object(
         'id', u.id,
         'username', u.username,
@@ -25,7 +24,8 @@ export default class UserDAO {
       )
       FROM example_user AS u
       WHERE id ${id}
-    `, { id });
+    `,
+      { id }
+    );
   }
-
 }

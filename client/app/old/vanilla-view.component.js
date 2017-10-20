@@ -2,12 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-import {
-  Button,
-  Heading,
-  Input,
-  Layout,
-} from 'react-components-kit';
+import { Button, Heading, Input, Layout } from 'react-components-kit';
 
 const InputGroup = styled(Layout)`
   & > div {
@@ -26,24 +21,19 @@ const InputWrapper = styled.div`
 const VanillaView = ({ actions, files }) => {
   // TODO unique key for newly added files
   const fileElements = files.map(file => (
-    <div key={file.id}>
-      {`${file.name} ${file.description}`}
-    </div>
+    <div key={file.id}>{`${file.name} ${file.description}`}</div>
   ));
 
   // TODO each section as a separate function
   return (
     <div>
       <Heading>OLD EXAMPLE</Heading>
-
       <Heading el='h2'>Relational Database</Heading>
       <InputGroup>
         <InputWrapper width='300px'>
           <Input onChange={() => {}} />
         </InputWrapper>
-        <Button onClick={actions.onSearchFiles}>
-          Search
-        </Button>
+        <Button onClick={actions.onSearchFiles}>Search</Button>
       </InputGroup>
       <InputGroup>
         <Button
@@ -55,25 +45,18 @@ const VanillaView = ({ actions, files }) => {
         </Button>
       </InputGroup>
       {fileElements}
-
-      <br /><br />
+      <br />
+      <br />
       <Heading el='h2'>Logging and alerts</Heading>
       Press a button to cause an error on...
       <InputGroup>
-        <Button onClick={actions.onCauseErrorOnBrowser}>
-          Browser
-        </Button>
-        <Button onClick={actions.onCauseErrorOnServer}>
-          Server
-        </Button>
+        <Button onClick={actions.onCauseErrorOnBrowser}>Browser</Button>
+        <Button onClick={actions.onCauseErrorOnServer}>Server</Button>
       </InputGroup>
       Press a button to cause `not found` on...
       <InputGroup>
-        <Button onClick={actions.onCauseErrorOnNginx}>
-          nginx
-        </Button>
+        <Button onClick={actions.onCauseErrorOnNginx}>nginx</Button>
       </InputGroup>
-
       <a
         href='https://sentry.io/taitounited/server-template/'
         target='_blank'
@@ -87,18 +70,16 @@ const VanillaView = ({ actions, files }) => {
         rel='noopener noreferrer'
       >
         See logs on Stackdriver
-      </a> (Select &quot;GKE Container&quot; and REPONAME-server)
-
-      NOTE: Sentry and Stackdriver reporting are disabled
-      in local development.
-
+      </a>{' '}
+      (Select &quot;GKE Container&quot; and REPONAME-server) NOTE: Sentry and
+      Stackdriver reporting are disabled in local development.
     </div>
   );
 };
 
 VanillaView.propTypes = {
   actions: PropTypes.any,
-  files: PropTypes.array,
+  files: PropTypes.array
 };
 
 export default VanillaView;

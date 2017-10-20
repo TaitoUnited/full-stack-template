@@ -1,47 +1,48 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import styled from 'styled-components';
+import { Layout } from 'react-components-kit';
 
-import App from './app.component';
+import { common } from './common/common.ducks.js';
+import TopBar from './topBar.component';
+import SideBar from './sideBar.component';
+import ContentRouter from './contentRouter.component';
 
-class AppContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      menuVisible: true,
-      modalVisible: false,
-    };
-    this.actions = {
-      onToggleMenu: this.onToggleMenu,
-      onHideModal: this.onHideModal,
-      onShowModal: this.onShowModal,
-    };
-  }
+const AppWrapper = styled(Layout)`
+  height: 100%;
+`;
 
-  // NOTE: This is an example of 'vanilla react'. In a really simple
-  // application it is often easier to manage state and actions directly
-  // on a container component instead of using redux and redux-saga.
-  // TODO service call example
-  onToggleMenu = () => {
-    this.setState({
-      menuVisible: !this.state.menuVisible,
-    });
-  }
+const LayoutRow = styled(Layout)`
+  height: 100%;
+`;
 
-  onHideModal = () => {
-    this.setState({ modalVisible: false });
+const AppContainer = ({ menuVisible, onToggleMenu }) => (
+  <AppWrapper className='App' column='true'>
+    <TopBar onToggleMenu={onToggleMenu} />
+    <LayoutRow>
+      <SideBar menuVisible={menuVisible} />
+      <ContentRouter id='app-content' />
+    </LayoutRow>
+  </AppWrapper>
+);
+
+function mapStateToProps(state) {
+  return {
+    menuVisible: state.common.menuVisible
   };
-
-  onShowModal = () => {
-    this.setState({ modalVisible: true });
-  };
-
-  render() {
-    return (
-      <App
-        actions={this.actions}
-        appState={this.state}
-      />
-    );
-  }
 }
 
-export default AppContainer;
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      onToggleMenu: common.toggleMenu
+    },
+    dispatch
+  );
+}
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(AppContainer)
+);

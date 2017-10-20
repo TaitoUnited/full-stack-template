@@ -1,12 +1,6 @@
 // Configs
 
-const required = [
-  'API_BINDADDR',
-  'API_PORT',
-  'ENV',
-  'DEBUG',
-  'APP_NAME',
-];
+const required = ['API_BINDADDR', 'API_PORT', 'ENV', 'DEBUG', 'APP_NAME'];
 
 const config = {};
 
@@ -20,8 +14,9 @@ config.ROOT_PATH = __dirname;
 config.ENV = process.env.ENV;
 config.DEBUG = mapBool(process.env.DEBUG);
 config.APP_NAME = 'server-template-server';
-config.APP_VERSION = !process.env.BUILD_IMAGE_TAG ? undefined :
-  `${process.env.BUILD_VERSION}+${process.env.BUILD_IMAGE_TAG}`;
+config.APP_VERSION = !process.env.BUILD_IMAGE_TAG
+  ? undefined
+  : `${process.env.BUILD_VERSION}+${process.env.BUILD_IMAGE_TAG}`;
 config.API_PORT = process.env.API_PORT;
 config.API_BINDADDR = process.env.API_BINDADDR;
 
@@ -39,7 +34,8 @@ config.DATABASE_ID = process.env.DATABASE_ID;
 config.DATABASE_USER = process.env.DATABASE_USER;
 config.DATABASE_SECRET = process.env.DATABASE_SECRET;
 config.DATABASE_POOL_MAX = process.env.DATABASE_POOL_MAX
-  ? parseInt(process.env.DATABASE_POOL_MAX, 10) : 10;
+  ? parseInt(process.env.DATABASE_POOL_MAX, 10)
+  : 10;
 
 // Bucket
 config.BUCKET_ACCESS_KEY = process.env.BUCKET_ACCESS_KEY;
@@ -50,13 +46,13 @@ config.BUCKET_URL =
   '${process.env.BUCKET_PROTOCOL}://${process.env.BUCKET_HOST}:${process.env.BUCKET_PORT}'; // eslint-disable-line
 
 // Check requirements
-for (const req of required) {
+required.forEach(req => {
   if (config[req] === undefined) {
     throw new Error(
       `FATAL: Configuration problem: param "${req}" undefined. ` +
-      `Maybe missing ENV var?`
+        'Maybe missing ENV var?'
     );
   }
-}
+});
 
 export default config;

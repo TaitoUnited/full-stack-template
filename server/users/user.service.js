@@ -18,7 +18,6 @@ import UserDAO from './user.dao';
  * execute database operation and generate response with a single method.
  */
 export default class UserService {
-
   constructor(userDAO) {
     this.userDAO = userDAO || new UserDAO();
   }
@@ -26,5 +25,4 @@ export default class UserService {
   async read(ctx, id) {
     return await this.userDAO.read(ctx.getTx(), id);
   }
-
 }

@@ -26,6 +26,7 @@ server-template-front:
 #   links:
 #     - server-template-server:server-template-server
 #   environment:
+#     NODE_ENV: development
 #     COMMON_ENV: local
 #     API_ROOT: ''
 #     API_URL: '/api'
@@ -43,6 +44,7 @@ server-template-client:
   links:
     - server-template-server:server-template-server
   environment:
+    NODE_ENV: development
     COMMON_ENV: local
     API_ROOT: ''
     API_URL: '/api'
@@ -62,7 +64,8 @@ server-template-server:
     - server-template-database:server-template-database
     - server-template-bucket:server-template-bucket
   environment:
-    ENV: dev
+    NODE_ENV: development
+    ENV: dev # TODO remove?
     DEBUG: 'true'
     API_BINDADDR: 0.0.0.0
     API_PORT: 3332

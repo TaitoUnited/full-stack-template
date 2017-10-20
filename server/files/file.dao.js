@@ -1,4 +1,3 @@
-
 /**
  * Responsibilities of a DAO:
  *
@@ -15,12 +14,13 @@
  *   same transaction)
  */
 export default class FileDAO {
-
-  async fetch(db, criteria) {
+  static async fetch(db, criteria) {
     const params = {
-      name: criteria.name,
+      name: criteria.name
     };
-    return await db.any(`
+    return await db
+      .any(
+        `
       SELECT json_build_object(
         'id', c.id,
         'name', c.name,
@@ -29,21 +29,27 @@ export default class FileDAO {
       FROM example_file AS c
       WHERE (c.name = $[name] OR $[name] IS NULL)
       ORDER BY c.id, c.name
-    `, params)
-    .then(rows => {
-      return rows.map(row => row.json_build_object);
-    });
+    `,
+        params
+      )
+      .then(rows => {
+        return rows.map(row => row.json_build_object);
+      });
   }
 
-  async create(db, file) {
-    return await db.one(`
+  static async create(db, file) {
+    return await db.one(
+      `
       INSERT INTO example_file (name, description)
       VALUES ($[name], $[description])
-      RETURNING id`, file);
+      RETURNING id`,
+      file
+    );
   }
 
-  async read(db, id) {
-    return db.any(`
+  static async read(db, id) {
+    return db.any(
+      `
       SELECT json_build_object(
         'id', c.id,
         'name', c.name,
@@ -51,22 +57,23 @@ export default class FileDAO {
       )
       FROM example_file AS u
       WHERE id = $[id]
-    `, { id });
+    `,
+      { id }
+    );
   }
 
-  async update(db, file) {
+  static async update(db, file) {
     // TODO SQL INJECTION EXAMPLE!
     console.log(JSON.stringify(file));
   }
 
-  async patch(db, file) {
+  static async patch(db, file) {
     // TODO
     console.log(JSON.stringify(file));
   }
 
-  async delete(db, file) {
+  static async delete(db, file) {
     // TODO
     console.log(JSON.stringify(file));
   }
-
 }

@@ -1,7 +1,7 @@
 /**
  * USAGE: validate(name, value).required().date().future();
  */
-export const validate = (name, value) => {
+const validate = (name, value) => {
   const funcs = {};
 
   funcs.required = () => {
@@ -9,9 +9,9 @@ export const validate = (name, value) => {
       const ex = {
         type: 'validation',
         cause: 'missing',
-        message: '${name} is required',
+        message: `${name} is required`,
         name,
-        value,
+        value
       };
       throw ex;
     }
@@ -43,9 +43,9 @@ export const validate = (name, value) => {
       const ex = {
         type: 'validation',
         cause: 'notfound',
-        message: '${name} not found',
+        message: `${name} not found`,
         name,
-        value,
+        value
       };
       throw ex;
     }
@@ -54,3 +54,5 @@ export const validate = (name, value) => {
 
   return funcs;
 };
+
+export default validate;

@@ -2,7 +2,7 @@ import bunyan from 'bunyan';
 import _ from 'lodash';
 import { createNamespace } from 'continuation-local-storage';
 
-import config from './app.config';
+import config from './common.config';
 
 const namespace = createNamespace('fi.server-template');
 
@@ -12,14 +12,15 @@ const stackdriverSeverityByBunyanLevel = {
   [bunyan.INFO]: 'INFO',
   [bunyan.WARN]: 'WARNING',
   [bunyan.ERROR]: 'ERROR',
-  [bunyan.FATAL]: 'CRITICAL',
+  [bunyan.FATAL]: 'CRITICAL'
 };
 
-const logHeaders = (e) => {
-  return config.DEBUG && (
-    e.level === bunyan.FATAL ||
-    e.level === bunyan.ERROR ||
-    e.level === bunyan.WARN
+const logHeaders = e => {
+  return (
+    config.DEBUG &&
+    (e.level === bunyan.FATAL ||
+      e.level === bunyan.ERROR ||
+      e.level === bunyan.WARN)
   );
 };
 
@@ -31,39 +32,42 @@ class StackdriverStream {
   write(e) {
     const formatted = {
       severity: stackdriverSeverityByBunyanLevel[e.level],
-      message: (e.msg || '') +
-        (e.err ? ` ${e.err.msg}: ${e.err.stack}` : ''),
+      message: (e.msg || '') + (e.err ? ` ${e.err.msg}: ${e.err.stack}` : ''),
       context: {
-        httpRequest: !e.req ? undefined : {
-          method: e.req.method,
-          url: e.req.url,
-          responseStatusCode: e.res ? e.res.statusCode : undefined,
-          userAgent: e.req.headers['user-agent'],
-          referrer: e.req.headers.referer,
-          remoteIp: e.req.headers['x-real-ip'],
-          // Extra non-stackdriver attributes
-          // NOTE: We log all headers only in debug mode (security!)
-          headers: logHeaders(e) ? e.req.headers : undefined,
-        },
+        httpRequest: !e.req
+          ? undefined
+          : {
+            method: e.req.method,
+            url: e.req.url,
+            responseStatusCode: e.res ? e.res.statusCode : undefined,
+            userAgent: e.req.headers['user-agent'],
+            referrer: e.req.headers.referer,
+            remoteIp: e.req.headers['x-real-ip'],
+              // Extra non-stackdriver attributes
+              // NOTE: We log all headers only in debug mode (security!)
+            headers: logHeaders(e) ? e.req.headers : undefined
+          },
         user: 'TODO',
         reportLocation: {
           filePath: 'TODO',
           lineNumber: 0,
-          functionName: 'TODO',
-        },
+          functionName: 'TODO'
+        }
       },
       eventTime: e.time,
       serviceContext: {
         service: e.name,
-        version: config.APP_VERSION,
+        version: config.APP_VERSION
       },
       // Extra non-stackdriver attributes
       reqId: e.reqId,
       pid: e.pid,
-      latency: e.latency,
+      latency: e.latency
     };
-    if (formatted.message !== 'Request: GET /infra/healthz' &&
-        formatted.message !== 'Response: GET /infra/healthz') {
+    if (
+      formatted.message !== 'Request: GET /infra/healthz' &&
+      formatted.message !== 'Response: GET /infra/healthz'
+    ) {
       this.stream.write(JSON.stringify(formatted));
       this.stream.write('\n');
     }
@@ -78,19 +82,19 @@ const logger = bunyan.createLogger({
     {
       type: 'raw',
       stream: new StackdriverStream(process.stderr),
-      level: 'warn',
+      level: 'warn'
     },
     {
       type: 'raw',
       stream: new StackdriverStream(process.stdout),
-      level: 'info',
-    },
-  ],
+      level: 'info'
+    }
+  ]
 });
 
 logger.info(
   `Bunyan logger created. Debugging is set to ${config.DEBUG}. ` +
-  `Log level is set to '${stackdriverSeverityByBunyanLevel[logger.level()]}'.`
+    `Log level is set to '${stackdriverSeverityByBunyanLevel[logger.level()]}'.`
 );
 
 function _addCtxToLog(args) {

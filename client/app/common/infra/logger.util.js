@@ -14,7 +14,7 @@ const logger = {
       console.log(JSON.stringify(context));
     }
     console.error(ex);
-  },
+  }
 };
 
 // Setup Sentry
@@ -26,12 +26,12 @@ if (process.env.COMMON_ENV !== 'local') {
   const currentEnv = envs.includes(envSuffix) ? envSuffix : 'prod';
   Raven.config(process.env.APP_SENTRY_PUBLIC_DSN, {
     environment: currentEnv,
-    release: `${process.env.BUILD_VERSION}+${process.env.BUILD_IMAGE_TAG}`,
+    release: `${process.env.BUILD_VERSION}+${process.env.BUILD_IMAGE_TAG}`
   }).install();
 
   logger.error = (ex, context) => {
     Raven.captureException(ex, {
-      extra: context,
+      extra: context
     });
     Raven.showReportDialog();
     /* eslint no-console:0 */

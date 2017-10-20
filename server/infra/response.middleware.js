@@ -1,4 +1,3 @@
-
 const responseMiddleware = async (ctx, next) => {
   const result = await next();
 
