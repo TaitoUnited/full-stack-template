@@ -5,7 +5,7 @@
 ## Prerequisites
 
 * [taito-cli](https://github.com/TaitoUnited/taito-cli#readme)
-* [docker-compose](https://docs.docker.com/compose/install/) (>= 1.11) or [minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/) (>= x.xx)
+* [docker-compose](https://docs.docker.com/compose/install/) (>= 1.11)
 * eslint-plugin for your editor
 
 ## Conventions
