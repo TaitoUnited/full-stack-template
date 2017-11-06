@@ -1,5 +1,6 @@
-import { authorize, validate } from '../common/authorize.util.js';
-import { roles } from '../common/common.constants.js';
+import authorize from '../common/authorize.util.js';
+import validate from '../common/validate.util.js';
+import { rolesById } from '../common/common.constants.js';
 
 import FileDAO from './file.dao';
 
@@ -29,7 +30,7 @@ export default class FileService {
 
   async fetch(ctx, criteria) {
     // TODO trace logging in methods!
-    authorize(ctx).role(roles.dealer, roles.buyer);
+    authorize(ctx).role(rolesById.dealer, rolesById.buyer);
     return await this.fileDAO.fetch(ctx.getTx(), criteria);
   }
 
@@ -84,7 +85,7 @@ export default class FileService {
 
     // Check that user has rights
     authorize(ctx)
-      .role(roles.dealer)
+      .role(rolesById.dealer)
       .department(file.department);
     if (oldFile) {
       authorize(ctx).equals('department', file.department, oldFile.department);

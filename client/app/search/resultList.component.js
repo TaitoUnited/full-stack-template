@@ -5,42 +5,22 @@ import ResultItem from './resultItem.component';
 
 const ResultListWrapper = styled.div``;
 
-const ResultList = () => (
+const ResultList = ({ results, onSelectItem }) => (
   <ResultListWrapper>
-    <ResultItem item={{ type: 'picture' }} />
-    <ResultItem item={{ type: 'document' }} />
-    <ResultItem item={{ type: 'sheet' }} />
-    <ResultItem item={{ type: 'picture' }} />
-    <ResultItem item={{ type: 'document' }} />
-    <ResultItem item={{ type: 'sheet' }} />
-    <ResultItem item={{ type: 'picture' }} />
-    <ResultItem item={{ type: 'document' }} />
-    <ResultItem item={{ type: 'sheet' }} />
-    <ResultItem item={{ type: 'picture' }} />
-    <ResultItem item={{ type: 'document' }} />
-    <ResultItem item={{ type: 'sheet' }} />
-    <ResultItem item={{ type: 'picture' }} />
-    <ResultItem item={{ type: 'document' }} />
-    <ResultItem item={{ type: 'sheet' }} />
-    <ResultItem item={{ type: 'picture' }} />
-    <ResultItem item={{ type: 'document' }} />
-    <ResultItem item={{ type: 'sheet' }} />
-    <ResultItem item={{ type: 'picture' }} />
-    <ResultItem item={{ type: 'document' }} />
-    <ResultItem item={{ type: 'sheet' }} />
-    <ResultItem item={{ type: 'picture' }} />
-    <ResultItem item={{ type: 'document' }} />
-    <ResultItem item={{ type: 'sheet' }} />
-    <ResultItem item={{ type: 'picture' }} />
-    <ResultItem item={{ type: 'document' }} />
-    <ResultItem item={{ type: 'sheet' }} />
-    <ResultItem item={{ type: 'picture' }} />
-    <ResultItem item={{ type: 'document' }} />
-    <ResultItem item={{ type: 'sheet' }} />
-    <ResultItem item={{ type: 'picture' }} />
-    <ResultItem item={{ type: 'document' }} />
-    <ResultItem item={{ type: 'sheet' }} />
-    <ResultItem item={{ type: 'picture' }} />
+    {results.items.map((item, index) => (
+      <ResultItem
+        key={item.id}
+        item={item}
+        selected={index === results.selectedIndex}
+        onSelect={() => onSelectItem(index)}
+        onSelectPrev={index > 0 ? () => onSelectItem(index - 1) : null}
+        onSelectNext={
+          index < results.items.length - 1
+            ? () => onSelectItem(index + 1)
+            : null
+        }
+      />
+    ))}
   </ResultListWrapper>
 );
 

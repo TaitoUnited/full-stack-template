@@ -2,43 +2,54 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { TextField, Button } from 'react-components-kit';
+// import { TextField, Button } from 'react-components-kit';
+
+import { Button } from 'material-ui';
 
 import { search } from './search.ducks.js';
 
 const BasicSearchWrapper = styled.div`
   margin: 0 16px;
+  flex: 1;
 `;
 
-const inputStyles = {
-  maxWidth: '500px',
-  fontSize: '14px',
-  padding: '8px'
-};
+// const inputStyles = {
+//   maxWidth: '500px',
+//   fontSize: '14px',
+//   padding: '8px'
+// };
 
-const BasicSearchContainer = ({ onUpdateCriteria, onSearch }) => (
+const BasicSearchContainer = ({
+  inputValues,
+  onUpdateCriteria,
+  onUpdateInputValue
+}) => (
   <BasicSearchWrapper>
-    <TextField
+    <input
+      type='text'
       placeholder='Search'
-      inputStyles={inputStyles}
-      onChange={e => onUpdateCriteria('query', e.target.value)}
+      onChange={e => onUpdateInputValue('query', e.target.value)}
     />
-    <Button onClick={() => onSearch()}>Hae</Button>
+    <Button
+      color='contrast'
+      onClick={() => onUpdateCriteria('query', inputValues.query)}
+    >
+      Hae
+    </Button>
   </BasicSearchWrapper>
 );
 
 function mapStateToProps(state) {
   return {
-    query: state.search.query,
-    results: state.search.results
+    inputValues: state.search.inputValues
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      onUpdateCriteria: search.updateCriteria,
-      onSearch: search.search
+      onUpdateInputValue: search.updateInputValue,
+      onUpdateCriteria: search.updateCriteria
     },
     dispatch
   );

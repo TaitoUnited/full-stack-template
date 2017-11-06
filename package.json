@@ -4,17 +4,22 @@
   "private": false,
   "scripts": {
     "analyze": "( cd client; npm run analyze )",
-    "lint": "npm run flow status; npm run lint:client; npm run lint:server",
+    "lint": "npm-run-all --parallel lint:client lint:server",
     "lint:admin": "eslint ./admin --ignore-path ./admin/.eslintignore --quiet",
     "lint:client":
       "eslint ./client --ignore-path ./client/.eslintignore --quiet",
     "lint:server":
       "eslint ./server --ignore-path ./server/.eslintignore --quiet",
     "flow": "flow",
-    "commit": "git-cz",
-    "commitmsg": "validate-commit-msg",
-    "precommit": "npm run lint",
-    "prepush": "npm-run-all --parallel lint ci-test-unit",
+    "precommit":
+      "echo 'NOTE: Running precommit inside taito container for security reasons'; taito precommit",
+    "prepush":
+      "echo 'NOTE: Running prepush inside taito container for security reasons'; taito prepush",
+    "taito-precommit": "npm run lint",
+    "taito-prepush": "npm-run-all --parallel lint flow ci-test-unit",
+    "commit": "echo 'Warning: Running commitizen locally'; git-cz",
+    "commitmsg":
+      "echo 'Warning: Running validate-commit-msg locally'; validate-commit-msg",
     "users:local": "echo TODO: add local users to package.json",
     "users:dev":
       "echo Basic auth: #username/#password; echo TODO: add dev users to package.json",
@@ -25,7 +30,7 @@
     "contacts-maintenance":
       "cat PROJECT.md | sed -n -e '/^## Maintenance.*$/,/^#.*$/{ /^## Maintenance.*$/d; /^#.*$/d; p; }'",
     "ci-scan":
-      "npm run lint; echo 'TODO sonar.sh start; run sonar scanner; sonar.sh stop ???'",
+      "npm run lint; npm run flow; echo 'TODO sonar.sh start; run sonar scanner; sonar.sh stop ???'",
     "ci-test-unit": "echo TODO: implement test:unit in package.json",
     "ci-test-api:local":
       "echo TODO: implement test:api in package.json. Env=${taito_env} url=${taito_app_url} user=${test_api_user} password=${test_api_password}",
@@ -93,7 +98,7 @@
     "postgres",
     "s3"
   ],
-  "author": "Taito United Oy <support@taitounited.fi>",
+  "author": "Taito United <support@taitounited.fi>",
   "license": "MIT",
   "homepage": "https://github.com/TaitoUnited/server-template#readme",
   "devDependencies": {

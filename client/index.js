@@ -14,7 +14,7 @@ import LogMonitor from 'redux-devtools-log-monitor'; // eslint-disable-line
 import DockMonitor from 'redux-devtools-dock-monitor'; // eslint-disable-line
 
 import appReducer from './app/app.reducer.js';
-import appSaga from './app/app.saga.js';
+import appSagas from './app/app.sagas.js';
 import Root from './index.root'; // eslint-disable-line
 
 // Create store
@@ -51,7 +51,7 @@ if (process.env.NODE_ENV === 'development') {
     compose(applyMiddleware(sagaMiddleware), applyMiddleware(routeMiddleware))
   );
 }
-sagaMiddleware.run(appSaga);
+sagaMiddleware.run(appSagas);
 
 // where to mount on page
 const appElement = document.getElementById('app');

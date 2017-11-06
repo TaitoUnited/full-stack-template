@@ -4,7 +4,9 @@ import { Layout } from 'react-components-kit';
 
 import ErrorBoundary from '~infra/errorBoundary.component.js';
 
-const ViewWrapper = styled(Layout)``;
+const ViewWrapper = styled(Layout)`
+  padding: 24px;
+`;
 
 const View = ({ type, children }) => (
   <ViewWrapper className={`View View-${type}`}>

@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import Button from 'material-ui/Button';
-import Menu, { MenuItem } from 'material-ui/Menu';
-import { Layout, Dropmenu } from 'react-components-kit';
-import * as fn from '~utils/fn.util';
+import { Button } from 'material-ui';
+import { Layout } from 'react-components-kit';
+
+import SortMenu from './sortMenu.component.js';
+import PageMenu from './pageMenu.component.js';
 
 const PagingWrapper = styled(Layout)``;
 
@@ -37,8 +38,9 @@ const PagerWrapper = styled(Layout.Box)`
   }
 
   /* Pager buttons */
-  > div {
+  > * {
     margin-right: 8px;
+    display: inline-block;
     /* Show buttons one below another on a narrow screen */
     @media (max-width: 600px) {
       display: ${props => (props.menuVisible ? 'block' : 'inline-block')};
@@ -49,109 +51,76 @@ const PagerWrapper = styled(Layout.Box)`
   }
 `;
 
-const numOfPages = ({ criteria, results }) => {
-  return Math.floor(results.totalNumOfItems / criteria.pageSize);
-};
-
-const PageMenu = ({ results, criteria, onSelectPage }) => (
-  <Dropmenu
-    onChange={e => onSelectPage(e.target.value)}
-    trigger={
-      <Button color='primary'>
-        {criteria.page} / {numOfPages({ criteria, results })}
-      </Button>
-    }
-  >
-    {fn.times(numOfPages({ criteria, results }))(index => (
-      <Dropmenu.Item key={index} value={index}>
-        {index + 1}
-      </Dropmenu.Item>
-    ))}
-  </Dropmenu>
-);
-
-const Pager = ({ results, criteria, onSelectPage, bottom, menuVisible }) => (
-  <PagerWrapper flex={5} bottom={bottom} menuVisible={menuVisible}>
-    <Button
-      color='primary'
-      onClick={() => {
-        onSelectPage(criteria.page - 1);
-      }}
-    >
-      &laquo; Edellinen
-    </Button>
-    <PageMenu
-      criteria={criteria}
-      results={results}
-      onSelectPage={onSelectPage}
-    />
-    <Button
-      color='primary'
-      onClick={() => {
-        onSelectPage(criteria.page + 1);
-      }}
-    >
-      Seuraava &raquo;
-    </Button>
-  </PagerWrapper>
-);
-
-// TODO { criteria, onUpdateCriteria }
-const FilterMenu = (criteria, onUpdateCriteria) => (
-  <div>
-    <Button
-      onClick={() => {
-        this.open = true;
-      }}
-      ref={button => {
-        this.button = button;
-      }}
-    >
-      Open Menu
-    </Button>
-    <Menu id='simple-menu' open anchorEl={this.button}>
-      <MenuItem onClick={() => onUpdateCriteria()}>Profile</MenuItem>
-      <MenuItem onClick={() => onUpdateCriteria()}>My account</MenuItem>
-      <MenuItem onClick={() => onUpdateCriteria()}>Logout</MenuItem>
-    </Menu>
-
-    <Dropmenu
-      value={criteria.sortBy}
-      onChange={e => onUpdateCriteria('sortBy', e.target.value)}
-      trigger={<Button color='primary'>{criteria.sortBy}-</Button>}
-    >
-      <Dropmenu.Item>1</Dropmenu.Item>
-      <Dropmenu.Item>2</Dropmenu.Item>
-      <Dropmenu.Item>3</Dropmenu.Item>
-    </Dropmenu>
-  </div>
-);
-
-const Paging = ({
-  criteria,
+const Pager = ({
   results,
-  onUpdateCriteria,
+  paging,
+  numOfPages,
   onSelectPage,
   bottom,
   menuVisible
 }) => (
-  <PagingWrapper centerSelf>
-    <Info flex={1} bottom={bottom} menuVisible={menuVisible}>
-      {results.totalNumOfItems} results
-    </Info>
-    <Pager
-      flex={5}
-      bottom={bottom}
-      menuVisible={menuVisible}
-      criteria={criteria}
-      results={results}
+  <PagerWrapper flex={5} bottom={bottom} menuVisible={menuVisible}>
+    <Button
+      color='primary'
+      disabled={paging.page <= 0}
+      onClick={() => {
+        onSelectPage(paging.page - 1);
+      }}
+    >
+      &laquo; Previous
+    </Button>
+    <PageMenu
+      paging={paging}
       onSelectPage={onSelectPage}
+      results={results}
+      numOfPages={numOfPages}
     />
-    <Actions flex={1} bottom={bottom} menuVisible>
-      <FilterMenu criteria={criteria} onUpdateCriteria={onUpdateCriteria} />
-    </Actions>
-  </PagingWrapper>
+    <Button
+      color='primary'
+      disabled={paging.page >= numOfPages - 1}
+      onClick={() => {
+        onSelectPage(paging.page + 1);
+      }}
+    >
+      Next &raquo;
+    </Button>
+  </PagerWrapper>
 );
+
+const getNumOfPages = (paging, results) => {
+  return results
+    ? Math.max(1, Math.floor(results.totalCount / paging.pageSize))
+    : 1;
+};
+
+const onSelectPage = (page, numOfPages, onUpdatePaging) => {
+  if (page >= 0 && page < numOfPages) {
+    onUpdatePaging('page', page);
+  }
+};
+
+const Paging = ({ paging, results, onUpdatePaging, bottom, menuVisible }) => {
+  const numOfPages = getNumOfPages(paging, results);
+  return (
+    <PagingWrapper centerSelf>
+      <Info flex={1} bottom={bottom} menuVisible={menuVisible}>
+        {results.totalCount} results
+      </Info>
+      <Pager
+        flex={5}
+        bottom={bottom}
+        menuVisible={menuVisible}
+        paging={paging}
+        results={results}
+        numOfPages={numOfPages}
+        onSelectPage={page => onSelectPage(page, numOfPages, onUpdatePaging)}
+      />
+      <Actions flex={1} bottom={bottom} menuVisible>
+        <SortMenu paging={paging} onUpdatePaging={onUpdatePaging} />
+      </Actions>
+    </PagingWrapper>
+  );
+};
 
 // TODO propTypes for paging
 

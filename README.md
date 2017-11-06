@@ -26,9 +26,9 @@ Install linters locally (all developers use the same linter version):
 
     $ taito install
 
-Start containers (use clean start just in case):
+Start containers (add `--clean` option in case of trouble):
 
-    $ taito start --clean
+    $ taito start
 
 Make sure that everything has been initialized (database populated, etc.):
 
@@ -46,9 +46,9 @@ Stop:
 
     $ taito stop
 
-Write `taito op` and press TAB to get the list of most important commands for operating your project. Run `taito COMMAND -h` to search for a command (e.g `taito log -h`, `taito clean -h`). Run `taito -h` to get detailed instructions for all commands.
+Write `taito op` and press TAB to get the list of most important commands for operating your project. Run `taito COMMAND -h` to search for a command (e.g `taito log -h`, `taito clean -h`). Run `taito -h` to get detailed instructions for all commands. For troubleshooting run `taito --trouble`.
 
-For troubleshooting run `taito --trouble`. See PROJECT.md for project specific conventions and documentation.
+See PROJECT.md for project specific conventions and documentation.
 
 > Basic authentication is enabled on all environments by default to keep unfinished work hidden from the public. The username is '#username' and the password is '#password'. You can turn basic authentication off by modifying the `scripts/helm-prod.yaml` and `scripts/helm.yaml` files.
 
@@ -56,27 +56,21 @@ For troubleshooting run `taito --trouble`. See PROJECT.md for project specific c
 
 ## Structure
 
-### Directory hierarchy
+An application should be divided in loosely coupled highly cohesive parts by using a modular directory structure. The following rules usually work well in an event-based solution (a GUI for example). In the backend implementation you most likely need to break the rules once in a while, but still try to keep directories loosely coupled.
 
-Application should be divided in loosely coupled highly cohesive parts by using a modular directory hierarchy. The following rules usually work well in an event-based solution (a GUI for example). In the backend you most likely need to break the rules once in a while, but still try to keep directories loosely coupled.
-
-* Create directory hierarchy primarily based on feature (`reporting`, `users`, ...) instead of type (`actions`, `containers`, `components`, `css`, ...). Use such file naming that you can easily determine the type from filename (e.g. `*.ducks.js`, `*.container.js`). Then you don't need to use directories to group the same type of files together.
-* A directory should not make references outside of its boundary.
-* A file should reference only files that are nearby (e.g. in the same directory or in a subdirectory directly beneath it).
-* Libraries and common directories are an exception to the previous dependency rules. Thus, you are allowed to import libraries and reference common directories that are located outside of directory (e.g. `../common`, `~common`). You can think of `common` directory as an *internal library*.
+* Create directory structure based on features (`reporting`, `users`, ...) instead of type (`actions`, `containers`, `components`, `css`, ...). Use such file naming that you can easily determine the type from filename (e.g. `*.ducks.js`, `*.container.js`). Then you don't need to use directories for grouping files by type.
+* A directory should not contain any references outside of its boundary; with the exception of references to libraries and common directories. You can think of each directory as an independent mini-sized app, and a `common` directory as a library that is shared among them.
+* A file should contain only nearby references (e.g. files in the same directory or in a subdirectory directly beneath it); with the exception of references to libraries and common directories, of course.
 * If you break the dependency rules, at least try to avoid making circular dependencies between directories. Also leave a `REFACTOR:` comment if the dependency is the kind that it should be refactored later.
+* Each block of implementation (function, class, module, sql query, ...) should be clearly named by its responsibility and implement only what it is responsible for, nothing else.
 
 See [orig-template/client/app](https://github.com/TaitoUnited/orig-template/tree/master/client/app) as an example. See [General Software Design](https://github.com/TaitoUnited/taito/wiki/General-Software-Design) article for more information on how to structure your app.
-
-### Implementation
-
-Each block of implementation (function, class, module, sql query, ...) should be clearly named by its responsibility and implement only what it is responsible for, nothing else. References should be primarily nearby references (same file, same directory, subdirectory) with the exception of references to libraries and common directories.
 
 ## Version control
 
 ### Development branches
 
-Development is done in dev and feature branches. Feature branches are useful for code reviews, cleaning up commit history and keeping unfinished work separate, but they are not mandatory for small projects. Note that most feature branches should be short-lived and located only on your local git repository.
+Development is executed in dev and feature branches. Feature branches are useful for code reviews, cleaning up commit history and keeping unfinished work separate, but they are not mandatory for small projects. Note that most feature branches should be short-lived and located only on your local git repository.
 
 > TIP: Use the `taito git feat` commands to manage your feature branches.
 

@@ -4,7 +4,9 @@ import Typography from 'material-ui/Typography';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Tooltip from 'material-ui/Tooltip';
 import styled from 'styled-components';
-import { Layout } from 'react-components-kit';
+// import { Layout } from 'react-components-kit';
+
+import { Drawer } from 'material-ui';
 
 const tooltipsByName = {
   search: `
@@ -30,17 +32,23 @@ const tooltipsByName = {
   `
 };
 
-const SideBarWrapper = styled(Layout.Box)`
-  display: ${props => (props.menuVisible ? 'block' : 'none')};
-  background-color: #f5f5f5;
-  min-width: 216px;
+// const SideBarWrapper = styled(Layout.Box)`
+//   display: ${props => (props.menuVisible ? 'block' : 'none')};
+//   background-color: #f5f5f5;
+//   min-width: 216px;
+//
+//   @media (max-width: 320px) {
+//     width: 216px;
+//   }
+//
+//   @media print {
+//     display: none;
+//   }
+// `;
 
-  @media (max-width: 320px) {
-    width: 216px;
-  }
-
-  @media print {
-    display: none;
+const StyledDrawer = styled(Drawer)`
+  > div {
+    margin-top: 48px;
   }
 `;
 
@@ -51,7 +59,8 @@ const MenuLink = styled(Link)`
 `;
 
 const SideBar = ({ menuVisible }) => (
-  <SideBarWrapper className='SideBar' menuVisible={menuVisible}>
+  <StyledDrawer type='persistent' open={menuVisible}>
+    {/* <SideBarWrapper className='SideBar' menuVisible={menuVisible}> */}
     <Typography type='subheading' gutterBottom>
       Examples
     </Typography>
@@ -142,7 +151,7 @@ const SideBar = ({ menuVisible }) => (
         </MenuLink>
       </Tooltip>
     </List>
-  </SideBarWrapper>
+  </StyledDrawer>
 );
 
 export default SideBar;

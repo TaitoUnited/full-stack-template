@@ -1,3 +1,6 @@
+/* eslint-disable class-methods-use-this */
+// --> TODO: Convert to object?
+
 /**
  * Responsibilities of a DAO:
  *
@@ -14,7 +17,7 @@
  *   same transaction)
  */
 export default class UserDAO {
-  static async read(db, id) {
+  async read(db, id) {
     return db.any(
       `
       SELECT json_build_object(

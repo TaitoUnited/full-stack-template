@@ -59,29 +59,27 @@ spec:
               serviceName: {{ template "name" . }}-{{ .Values.stack.client }}
               servicePort: {{ .Values.client.port }}
           {{ end }}
-{{ if (eq .Values.env "prod") }}
     {{- $root := . -}}
     {{- range $domain := .Values.domains }}
     - host: {{ $domain }}
       http:
         paths:
           {{ if $root.Values.stack.server }}
-          - path: {{ .Values.server.path | quote }}
+          - path: {{ $root.Values.server.path | quote }}
             backend:
-              serviceName: server-template- {{- $root.Values.env -}} -{{ .Values.stack.server }}
+              serviceName: server-template-{{ $root.Values.stack.server }}
               servicePort: {{ $root.Values.server.port }}
           {{ end }}
           {{ if $root.Values.stack.admin }}
-          - path: {{ .Values.admin.path | quote }}
+          - path: {{ $root.Values.admin.path | quote }}
             backend:
-              serviceName: server-template- {{- $root.Values.env -}} -{{ .Values.stack.admin }}
+              serviceName: server-template-{{ $root.Values.stack.admin }}
               servicePort: {{ $root.Values.admin.port }}
           {{ end }}
           {{ if $root.Values.stack.client }}
-          - path: {{ .Values.client.path | quote }}
+          - path: {{ $root.Values.client.path | quote }}
             backend:
-              serviceName: server-template- {{- $root.Values.env -}} -{{ .Values.stack.client }}
+              serviceName: server-template-{{ $root.Values.stack.client }}
               servicePort: {{ $root.Values.client.port }}
           {{ end }}
     {{- end -}}
-{{ end }}

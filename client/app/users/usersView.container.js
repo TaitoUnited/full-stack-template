@@ -13,14 +13,14 @@ const UsersViewContainer = () => (
   </UsersViewWrapper>
 );
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   return {
     example: state.example
   };
-}
+};
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = dispatch => {
   return bindActionCreators({}, dispatch);
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(UsersViewContainer);

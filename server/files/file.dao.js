@@ -1,3 +1,6 @@
+/* eslint-disable class-methods-use-this */
+// --> TODO: Convert to object?
+
 /**
  * Responsibilities of a DAO:
  *
@@ -14,7 +17,7 @@
  *   same transaction)
  */
 export default class FileDAO {
-  static async fetch(db, criteria) {
+  async fetch(db, criteria) {
     const params = {
       name: criteria.name
     };
@@ -37,7 +40,7 @@ export default class FileDAO {
       });
   }
 
-  static async create(db, file) {
+  async create(db, file) {
     return await db.one(
       `
       INSERT INTO example_file (name, description)
@@ -47,7 +50,7 @@ export default class FileDAO {
     );
   }
 
-  static async read(db, id) {
+  async read(db, id) {
     return db.any(
       `
       SELECT json_build_object(
@@ -62,17 +65,17 @@ export default class FileDAO {
     );
   }
 
-  static async update(db, file) {
+  async update(db, file) {
     // TODO SQL INJECTION EXAMPLE!
     console.log(JSON.stringify(file));
   }
 
-  static async patch(db, file) {
+  async patch(db, file) {
     // TODO
     console.log(JSON.stringify(file));
   }
 
-  static async delete(db, file) {
+  async delete(db, file) {
     // TODO
     console.log(JSON.stringify(file));
   }

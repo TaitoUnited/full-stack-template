@@ -1,3 +1,5 @@
+export const apiUrl = `${process.env.API_ROOT}${process.env.API_URL}`;
+
 export const rolesById = {
   admin: {
     en: 'Administrator'

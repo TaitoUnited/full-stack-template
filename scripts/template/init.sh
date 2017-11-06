@@ -14,6 +14,10 @@ rm LICENSE
 grep -v '"license":' < package.json > package.json.tmp
 mv package.json.tmp package.json
 
+# Remove vue
+# TODO let user choose between react and vue
+rm -rf client.vue
+
 echo
 echo "--- Choose the stack ---"
 echo

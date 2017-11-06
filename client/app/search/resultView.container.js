@@ -13,51 +13,55 @@ import ResultList from './resultList.component';
 const ResultViewWrapper = styled(View)``;
 
 const ResultViewContainer = ({
-  criteria,
+  paging,
   results,
-  onUpdateCriteria,
-  onSelectPage,
+  onUpdatePaging,
+  onSelectItem,
   menuVisible
 }) => (
   <ResultViewWrapper className='SearchView' title='Search' type='fullPage'>
     <Paging
-      criteria={criteria}
+      paging={paging}
+      onUpdatePaging={onUpdatePaging}
       results={results}
-      onUpdateCriteria={onUpdateCriteria}
-      onSelectPage={onSelectPage}
       menuVisible={menuVisible}
     />
     <Divider />
-    <ResultList />
-    <Divider />
-    <Paging
-      bottom
-      criteria={criteria}
-      results={results}
-      onUpdateCriteria={onUpdateCriteria}
-      onSelectPage={onSelectPage}
-      menuVisible={menuVisible}
-    />
+    {results.status === 'fetching' ? (
+      <div>Loading...</div>
+    ) : (
+      <div style={{ width: '100%' }}>
+        <ResultList results={results} onSelectItem={onSelectItem} />
+        <Divider />
+        <Paging
+          paging={paging}
+          onUpdatePaging={onUpdatePaging}
+          results={results}
+          bottom
+          menuVisible={menuVisible}
+        />
+      </div>
+    )}
   </ResultViewWrapper>
 );
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   return {
-    criteria: state.search.criteria,
+    paging: state.search.paging,
     results: state.search.results,
     menuVisible: state.common.menuVisible
   };
-}
+};
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      onUpdateCriteria: search.onUpdateCriteria,
-      onSelectPage: search.selectPage
+      onUpdatePaging: search.updatePaging,
+      onSelectItem: search.selectItem
     },
     dispatch
   );
-}
+};
 
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(ResultViewContainer)
