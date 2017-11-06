@@ -1,4 +1,4 @@
-> Create a new project from this template by running `taito template-create: server-template`. You can also migrate an existing project to this template by running `taito template-migrate: server-template` in your project root folder. Later you can upgrade your project to the latest version of the template by running `taito template-upgrade`. To ensure flawless upgrade, do not modify files that have **do not modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files in the template instead, and then upgrade.
+> Create a new project from this template by running `taito template create: server-template`. You can also migrate an existing project to this template by running `taito template migrate: server-template` in your project root folder. Later you can upgrade your project to the latest version of the template by running `taito template upgrade`. To ensure flawless upgrade, do not modify files that have **do not modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files in the template instead, and then upgrade.
 
 # server-template
 
@@ -120,9 +120,9 @@ Add a new migration:
 
 1. Add a new step to migration plan:
 
-    `taito db-add: NAME -r REQUIRES -n 'DESCRIPTION'`, for example:
+    `taito db add: NAME -r REQUIRES -n 'DESCRIPTION'`, for example:
 
-    `taito db-add: file.table -r user.table -r property.table -n 'Table for files'`
+    `taito db add: file.table -r user.table -r property.table -n 'Table for files'`
 
 2. Modify database/deploy/xxx.sql, database/revert/xxx.sql and database/verify/xxx.sql
 
@@ -186,7 +186,7 @@ TODO Something about examples...
 ### Project configuration
 
 1. Configure `taito-config.sh`
-2. Run `taito env-config`
+2. Run `taito env config`
 
 ### TODO Something about additional steps if an old project was migrated:
 
