@@ -1,8 +1,6 @@
 import { call, put, takeLatest, select, fork } from 'redux-saga/effects';
 import * as filesApi from '~common/files.api.js';
 
-export const jee = 'jee';
-
 const getCriteria = state => state.search.criteria;
 const getPaging = state => state.search.paging;
 
@@ -54,7 +52,7 @@ function* watchFetchResults() {
 
 // Init
 
-export function* searchSagas() {
+export default function* searchSagas() {
   yield fork(watchFetchResults);
   yield fork(watchFetchAutocomplete);
 }

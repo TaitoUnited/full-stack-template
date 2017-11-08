@@ -50,7 +50,7 @@ Write `taito op` and press TAB to get the list of most important commands for op
 
 See PROJECT.md for project specific conventions and documentation.
 
-> Basic authentication is enabled on all environments by default to keep unfinished work hidden from the public. The username is '#username' and the password is '#password'. You can turn basic authentication off by modifying the `scripts/helm-prod.yaml` and `scripts/helm.yaml` files.
+> Basic authentication is enabled on all environments by default to keep unfinished work hidden from the public. Run `taito users:ENV` to get the credentials. You can turn basic authentication off by modifying the `scripts/helm-prod.yaml` and `scripts/helm.yaml` files.
 
 > It's common that idle applications are run down to save resources on non-production environments . If your application seems to be down, you can start it by running `taito start:ENV`, or by pushing some changes to git.
 

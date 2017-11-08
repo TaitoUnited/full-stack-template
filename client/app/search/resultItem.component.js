@@ -1,7 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
-import { Card } from 'react-components-kit';
-import { Button } from 'material-ui';
+import styled, { keyframes } from 'styled-components';
+import { Button, Paper } from 'material-ui';
 
 const contentByType = {
   picture: ({ name, description }) => `${name} ${description}`,
@@ -15,22 +14,34 @@ const expandedContentByType = {
   sheet: () => 'Sheet'
 };
 
-const ResultItemWrapper = styled(Card.Animated).attrs({
-  depth: 1
-})`
+const appearAnimation = keyframes`
+  from {
+    opacity 0;
+    transform: translateY(-22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+`;
+
+const StyledPaper = styled(Paper)`
+  animation: ${appearAnimation} 0.8s forwards;
+`;
+
+const ResultItemWrapper = styled(StyledPaper)`
   display: inline-block;
-  margin: 0 8px 8px 0;
   width: 200px;
   height: 128px;
+  margin: 0 8px 8px 0;
+  padding: 8px;
 
   @media (max-width: 480px) {
     width: 100%;
   }
 `;
 
-const SelectedResultItemWrapper = styled(ResultItemWrapper).attrs({
-  depth: 1
-})`
+const SelectedResultItemWrapper = styled(ResultItemWrapper)`
   display: block;
   width: 100%;
   height: 400px;

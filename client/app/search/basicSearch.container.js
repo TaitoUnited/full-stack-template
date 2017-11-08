@@ -2,30 +2,30 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-// import { TextField, Button } from 'react-components-kit';
-
 import { Button } from 'material-ui';
 
 import { search } from './search.ducks.js';
 
-const BasicSearchWrapper = styled.div`
+const StyledWrapper = styled.div`
   margin: 0 16px;
   flex: 1;
+  display: flex;
 `;
 
-// const inputStyles = {
-//   maxWidth: '500px',
-//   fontSize: '14px',
-//   padding: '8px'
-// };
+const StyledInput = styled.input`
+  flex: 1;
+  max-width: 512px;
+  margin: 4px 0;
+  padding: 0 8px;
+`;
 
 const BasicSearchContainer = ({
   inputValues,
   onUpdateCriteria,
   onUpdateInputValue
 }) => (
-  <BasicSearchWrapper>
-    <input
+  <StyledWrapper>
+    <StyledInput
       type='text'
       placeholder='Search'
       onChange={e => onUpdateInputValue('query', e.target.value)}
@@ -36,7 +36,7 @@ const BasicSearchContainer = ({
     >
       Hae
     </Button>
-  </BasicSearchWrapper>
+  </StyledWrapper>
 );
 
 function mapStateToProps(state) {

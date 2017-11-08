@@ -53,7 +53,7 @@ export const searchReducer = handleActions(
       return defaultState;
     },
 
-    // User
+    // User actions
 
     [search.updateInputValue](state, { payload: { name, value } }) {
       return update(state, {
@@ -64,12 +64,13 @@ export const searchReducer = handleActions(
       return update(state, {
         paging: { page: { $set: 0 } },
         criteria: { [name]: { $set: value } },
-        results: { totalCount: { $set: 0 } }
+        results: { totalCount: { $set: 0 }, selectedIndex: { $set: null } }
       });
     },
     [search.updatePaging](state, { payload: { name, value } }) {
       return update(state, {
-        paging: { [name]: { $set: value } }
+        paging: { [name]: { $set: value } },
+        results: { selectedIndex: { $set: null } }
       });
     },
     [search.selectItem](state, { payload: { index } }) {
@@ -78,7 +79,7 @@ export const searchReducer = handleActions(
       });
     },
 
-    // Autocomplete
+    // Autocomplete actions
 
     [search.fetchAutocompleteSucceeded](state, { payload: { name, items } }) {
       return update(state, {
@@ -86,7 +87,7 @@ export const searchReducer = handleActions(
       });
     },
 
-    // Fetch results
+    // Fetch results actions
 
     [search.fetchResultsStarted](state) {
       return update(state, {

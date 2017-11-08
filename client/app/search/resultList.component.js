@@ -3,10 +3,12 @@ import styled from 'styled-components';
 
 import ResultItem from './resultItem.component';
 
-const ResultListWrapper = styled.div``;
+const StyledWrapper = styled.div`
+  padding: 8px 0;
+`;
 
 const ResultList = ({ results, onSelectItem }) => (
-  <ResultListWrapper>
+  <StyledWrapper>
     {results.items.map((item, index) => (
       <ResultItem
         key={item.id}
@@ -21,7 +23,7 @@ const ResultList = ({ results, onSelectItem }) => (
         }
       />
     ))}
-  </ResultListWrapper>
+  </StyledWrapper>
 );
 
 export default ResultList;

@@ -1,22 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from 'material-ui';
-import { Layout } from 'react-components-kit';
 
 import SortMenu from './sortMenu.component.js';
 import PageMenu from './pageMenu.component.js';
 
-const PagingWrapper = styled(Layout)``;
+const PagingWrapper = styled.div`
+  display: flex;
+`;
 
-const Info = styled(Layout.Box)`
+const Info = styled.div`
   display: ${props => (props.bottom ? 'none' : 'flex')};
+  flex: 5;
   text-align: left;
   flex-direction: column;
   justify-content: center;
 `;
 
-const Actions = styled(Layout.Box)`
+const Actions = styled.div`
   display: ${props => (props.bottom ? 'none' : 'block')};
+  flex: 5;
   text-align: right;
   button {
     padding-left: 0;
@@ -24,8 +27,9 @@ const Actions = styled(Layout.Box)`
   }
 `;
 
-const PagerWrapper = styled(Layout.Box)`
+const PagerWrapper = styled.div`
   display: ${props => (props.bottom ? 'inline-block' : 'block')};
+  flex: 5;
   text-align: center;
 
   /* Hide paging from top on a narrow screen */

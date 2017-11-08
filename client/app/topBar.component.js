@@ -1,102 +1,54 @@
 import React from 'react';
 import styled from 'styled-components';
-// import { Layout, Icon, withRipple } from 'react-components-kit';
-
 import { AppBar, Toolbar, IconButton, Button } from 'material-ui';
 import MenuIcon from 'material-ui-icons/Menu';
 
 import BasicSearchContainer from './search/basicSearch.container';
-//
-// const TopBarWrapper = styled(Layout)`
-//   padding: 16px 32px 16px 24px;
-//   background-color: #ffffff;
-//   border-bottom: 2px solid #f3f3f3;
-// `;
-//
-// const Area = styled(Layout.Box)`
-//   margin-left: 32px;
-//
-//   @media (max-width: 580px) {
-//     margin-left: 0;
-//   }
-// `;
-//
-// const Logo = styled(Area)`
-//   width: 96px;
-//   vertical-align: middle;
-//   cursor: pointer;
-//   background-image: url('http://www.taitounited.fi/img/logo_vihrea_li.png');
-//   background-size: contain;
-//   background-repeat: no-repeat;
-//   background-position: center center;
-//
-//   @media (max-width: 580px) {
-//     display: none;
-//   }
-// `;
-//
-// // TODO directly for IconButton?
-// const IconWrapper = styled.div`
-//   cursor: pointer;
-//   vertical-align: middle;
-//   line-height: 24px;
-//
-//   i {
-//     vertical-align: middle;
-//   }
-// `;
-//
-// const IconButton = withRipple(Icon);
 
-const StyledAppBar = styled(AppBar)`
+const StyledAppBar = styled(AppBar).attrs({
+  color: 'primary'
+})`
   background-color: white;
-
   > div {
     min-height: 48px;
+  }
+`;
+
+const MenuButton = styled(IconButton)`
+  margin-left: -16px;
+`;
+
+const Logo = styled.div`
+  width: 96px;
+  height: 18px;
+  margin: 0 40px 0 16px;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: url('http://www.taitounited.fi/img/logo_vihrea_li.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+
+  @media (max-width: 640px) {
+    display: none;
   }
 `;
 
 const TopBar = ({ onToggleMenu }) => (
   <StyledAppBar>
     <Toolbar>
-      <IconButton
+      <MenuButton
         color='contrast'
         aria-label='open drawer'
         onClick={() => onToggleMenu()}
       >
         <MenuIcon />
-      </IconButton>
+      </MenuButton>
+      <Logo />
       <BasicSearchContainer />
       <Button color='contrast'>Login</Button>
     </Toolbar>
   </StyledAppBar>
-  // <TopBarWrapper className='TopBar'>
-  //   <Layout.Box>
-  //     <IconWrapper>
-  //       <IconButton
-  //         type='ion'
-  //         name='navicon'
-  //         size='24px'
-  //         color='#A0A0A0'
-  //         onClick={() => onToggleMenu()}
-  //       />
-  //     </IconWrapper>
-  //   </Layout.Box>
-  //   <Logo
-  //     onClick={() => {
-  //       window.location = 'http://www.taitounited.fi';
-  //       return true;
-  //     }}
-  //   />
-  //   <Area flex='1'>
-  //     <BasicSearchContainer />
-  //   </Area>
-  //   <Area>
-  //     <IconWrapper>
-  //       <IconButton type='ion' name='person' size='24px' color='#A0A0A0' />
-  //     </IconWrapper>
-  //   </Area>
-  // </TopBarWrapper>
 );
 
 export default TopBar;

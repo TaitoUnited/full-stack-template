@@ -1,6 +1,6 @@
 import { fork, takeEvery } from 'redux-saga/effects';
 
-import { searchSagas } from './search/search.sagas';
+import searchSagas from './search/search.sagas';
 
 function* watchDebug() {
   yield takeEvery('DEBUG', action =>
