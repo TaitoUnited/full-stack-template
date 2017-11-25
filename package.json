@@ -3,28 +3,40 @@
   "description": "",
   "private": false,
   "scripts": {
+    "users:local": "echo TODO: add local users to package.json",
+    "users:dev":
+      "echo Basic auth: #username/#password; echo TODO: add dev users to package.json",
+    "users:test":
+      "echo Basic auth: #username/#password; echo TODO: add test users to package.json",
+    "ci-test-unit": "echo TODO: implement test:unit in package.json",
+    "ci-test-api:local":
+      "echo TODO: implement test:api in package.json. Env=${taito_env} url=${taito_app_url} user=${test_api_user} password=${test_api_password}",
+    "ci-test-e2e:local":
+      "echo TODO: implement test:e2e in package.json. Env=${taito_env} url=${taito_app_url} user=${test_e2e_user} password=${test_e2e_password}",
+    "ci-docs": "echo TODO: generate docs in package.json",
+
     "analyze": "( cd client; npm run analyze )",
-    "lint": "npm-run-all --parallel lint:client lint:server",
+    "lint": "npm-run-all --parallel lint:admin lint:client lint:server",
     "lint:admin": "eslint ./admin --ignore-path ./admin/.eslintignore --quiet",
-    "lint:client": "eslint ./client --ignore-path ./client/.eslintignore --quiet",
-    "lint:server": "eslint ./server --ignore-path ./server/.eslintignore --quiet",
+    "lint:client":
+      "eslint ./client --ignore-path ./client/.eslintignore --quiet",
+    "lint:server":
+      "eslint ./server --ignore-path ./server/.eslintignore --quiet",
     "flow": "flow",
-    "precommit": "echo 'NOTE: Running precommit inside taito container for security reasons'; taito precommit",
-    "prepush": "echo 'NOTE: Running prepush inside taito container for security reasons'; taito prepush",
+    "precommit":
+      "echo 'NOTE: Running precommit inside taito container for security reasons'; taito precommit",
+    "prepush":
+      "echo 'NOTE: Running prepush inside taito container for security reasons'; taito prepush",
     "taito-precommit": "npm run lint",
     "taito-prepush": "npm-run-all --parallel lint flow ci-test-unit",
     "commit": "echo 'Warning: Running commitizen locally'; git-cz",
-    "commitmsg": "echo 'Warning: Running validate-commit-msg locally'; validate-commit-msg",
-    "users:local": "echo TODO: add local users to package.json",
-    "users:dev": "echo Basic auth: #username/#password; echo TODO: add dev users to package.json",
-    "users:test": "echo Basic auth: #username/#password; echo TODO: add test users to package.json",
-    "contacts-development": "cat PROJECT.md | sed -n -e '/^## Development.*$/,/^#.*$/{ /^## Development.*$/d; /^#.*$/d; p; }'",
-    "contacts-maintenance": "cat PROJECT.md | sed -n -e '/^## Maintenance.*$/,/^#.*$/{ /^## Maintenance.*$/d; /^#.*$/d; p; }'",
-    "ci-scan": "npm run lint; npm run flow; echo 'TODO sonar.sh start; run sonar scanner; sonar.sh stop ???'",
-    "ci-test-unit": "echo TODO: implement test:unit in package.json",
-    "ci-test-api:local": "echo TODO: implement test:api in package.json. Env=${taito_env} url=${taito_app_url} user=${test_api_user} password=${test_api_password}",
-    "ci-test-e2e:local": "echo TODO: implement test:e2e in package.json. Env=${taito_env} url=${taito_app_url} user=${test_e2e_user} password=${test_e2e_password}",
-    "ci-docs": "echo TODO: generate docs in package.json",
+    "commitmsg":
+      "echo 'Warning: Running validate-commit-msg locally'; validate-commit-msg",
+    "contacts-development":
+      "cat PROJECT.md | sed -n -e '/^## Development.*$/,/^#.*$/{ /^## Development.*$/d; /^#.*$/d; p; }'",
+    "contacts-maintenance":
+      "cat PROJECT.md | sed -n -e '/^## Maintenance.*$/,/^#.*$/{ /^## Maintenance.*$/d; /^#.*$/d; p; }'",
+    "ci-scan": "npm run lint; npm run flow; echo 'TODO: sonar scan?'",
     "ci-release-pre:prod": "semantic-release pre",
     "ci-release-post:prod": "semantic-release post"
   },
@@ -49,9 +61,7 @@
       ],
       "scope": {
         "required": false,
-        "allowed": [
-          "*"
-        ],
+        "allowed": ["*"],
         "validate": false,
         "multiple": false
       },

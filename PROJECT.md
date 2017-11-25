@@ -25,7 +25,7 @@ Development:
 
 ## Contacts
 
-> NOTE: Contacts are used in package.json. Do not modify the headers of the development and maintenance chapters, and do not add any extra content in the chapters either.
+> NOTE: Contacts are used from package.json. Do not modify the headers of the development and maintenance chapters, and do not add any extra content in the chapters either.
 
 ### Development
 
@@ -38,7 +38,7 @@ Development:
 
 ### Recurring Issues and Solutions
 
-See trouble.txt.
+See trouble.txt or run `taito trouble`.
 
 ## Architecture Overview
 

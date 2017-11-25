@@ -17,7 +17,7 @@
       "presets": ["es2015", "stage-2", "react"]
     },
     "development": {
-      "plugins": ["react-hot-loader/babel"]
+      "plugins": ["babel-plugin-styled-components", "react-hot-loader/babel"]
     }
   }
 }
