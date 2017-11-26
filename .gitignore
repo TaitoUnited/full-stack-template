@@ -1,4 +1,5 @@
 node_modules
+site-packages
 tmp
 taitoflag_*
 .DS_Store
