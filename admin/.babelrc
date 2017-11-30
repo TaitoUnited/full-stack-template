@@ -1,0 +1,23 @@
+{
+  "presets": [
+    [
+      "es2015",
+      {
+        "loose": true,
+        "modules": false
+      }
+    ],
+    "flow",
+    "stage-2",
+    "react"
+  ],
+  "env": {
+    // When testing we want to compile modules to commonjs
+    "test": {
+      "presets": ["es2015", "stage-2", "react"]
+    },
+    "development": {
+      "plugins": ["babel-plugin-styled-components", "react-hot-loader/babel"]
+    }
+  }
+}

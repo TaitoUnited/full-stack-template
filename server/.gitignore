@@ -25,3 +25,5 @@ node_modules
 
 # Generated docs
 docs
+
+.vscode

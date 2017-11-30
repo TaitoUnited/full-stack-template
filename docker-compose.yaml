@@ -7,29 +7,29 @@ server-template-front:
   ports:
     - "8080:80"
   links:
-    # - server-template-admin:server-template-admin
+    - server-template-admin:server-template-admin
     - server-template-client:server-template-client
     - server-template-server:server-template-server
   volumes:
     - "./docker-nginx.conf:/etc/nginx/nginx.conf"
 
-# server-template-admin:
-#   container_name: server-template-admin
-#   build: ./admin
-#   dockerfile: ${dockerfile}
-#   restart: always
-#   ports:
-#     - "3334:3334"
-#   volumes:
-#     - "./admin:/admin"
-#     - "/admin/node_modules"
-#   links:
-#     - server-template-server:server-template-server
-#   environment:
-#     NODE_ENV: development
-#     COMMON_ENV: local
-#     API_ROOT: ''
-#     API_URL: '/api'
+server-template-admin:
+  container_name: server-template-admin
+  build: ./admin
+  dockerfile: ${dockerfile}
+  restart: always
+  ports:
+    - "3334"
+  volumes:
+    - "./admin:/admin"
+    - "/admin/node_modules"
+  links:
+    - server-template-server:server-template-server
+  environment:
+    NODE_ENV: development
+    COMMON_ENV: local
+    API_ROOT: ''
+    API_URL: '/api'
 
 server-template-client:
   container_name: server-template-client

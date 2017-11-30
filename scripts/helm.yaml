@@ -1,5 +1,5 @@
 stack:
-  admin:
+  admin: admin
   client: client
   server: server
   function:

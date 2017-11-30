@@ -1,0 +1,39 @@
+# Builder
+FROM node:8.7-alpine as builder
+ARG TARGET_ENV=prod
+ARG BUILD_VERSION
+ENV TARGET_ENV ${TARGET_ENV}
+ENV BUILD_VERSION ${BUILD_VERSION}
+ENV NODE_ENV development
+ENV API_ROOT ''
+ENV API_URL /api
+# SENTRY START
+ENV APP_SENTRY_PUBLIC_DSN https://a10a67301f9547a6861aafdb12bd6db9@sentry.io/176268
+# SENTRY END
+RUN apk add --update-cache build-base python git
+WORKDIR /admin
+COPY ./package.json /admin/package.json
+RUN npm install --loglevel warn
+COPY . /admin
+RUN if [[ "${TARGET_ENV}" != "local" ]]; then npm run build && cp -r ./assets/* /build/; fi
+EXPOSE 3334
+CMD ["npm", "run", "start"]
+
+# Production runtime
+FROM nginx:1.13.5-alpine
+ARG BUILD_VERSION
+LABEL version=${BUILD_VERSION} \
+      customer=customername \
+      project=server-template \
+      role=admin
+WORKDIR /build
+COPY --from=builder /build .
+RUN touch /var/run/nginx.pid && \
+    chown -R nginx:nginx /var/run/nginx.pid && \
+    chown -R nginx:nginx /var/cache/nginx && \
+    chown -R nginx:nginx /build && \
+    mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
+COPY ./config/nginx.conf /etc/nginx
+USER nginx
+EXPOSE 3334
+# TODO dump-init or tiny as init system? Kubernetes uses --init?
