@@ -40,6 +40,7 @@ export const loggerMiddleware = async (ctx, next) => {
 
 export const logTODO = app => {
   app.on('error', (err, ctx) => {
+    // TODO why bunyan logs the error twice?
     log.error(
       { err, req: ctx.req, res: ctx.res },
       'Caught unhandled exception.'

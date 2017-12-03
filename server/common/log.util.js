@@ -64,6 +64,8 @@ class StackdriverStream {
       pid: e.pid,
       latency: e.latency
     };
+
+    // Avoid unnecessary log by not logging /infra/healthz calls
     if (
       formatted.message !== 'Request: GET /infra/healthz' &&
       formatted.message !== 'Response: GET /infra/healthz'

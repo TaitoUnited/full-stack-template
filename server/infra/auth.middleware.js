@@ -1,10 +1,6 @@
 import jwt from 'koa-jwt';
 import basicAuth from 'koa-basic-auth';
-import unless from 'koa-unless';
 import config from '../common/common.config';
-
-const bb = basicAuth;
-bb.unless = unless;
 
 // auth is disabled for these paths
 const skipAuthPaths = [

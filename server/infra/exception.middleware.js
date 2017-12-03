@@ -1,4 +1,3 @@
-import { log } from '../common/log.util';
 import config from '../common/common.config';
 
 const exceptionMiddleware = async (ctx, next) => {
@@ -7,14 +6,7 @@ const exceptionMiddleware = async (ctx, next) => {
     const res = await next();
     return res || {};
   } catch (err) {
-    if (config.DEBUG) log.error(err);
-
     const error = {};
-
-    if (err.status === 401 && ctx.myAppAuthMethod === 'basic') {
-      // Ask client to use basic auth
-      ctx.set('WWW-Authenticate', 'Basic');
-    }
 
     if (err.isBoom) {
       // Handle Boom errors
@@ -30,9 +22,19 @@ const exceptionMiddleware = async (ctx, next) => {
       error.message = config.DEBUG ? err.toString() : 'Unknown error';
     }
 
+    // Create response
     ctx.status = error.status;
     ctx.body = { error };
-    ctx.app.emit('error', new Error(error.message), ctx);
+    if (err.status === 401 && ctx.myAppAuthMethod === 'basic') {
+      // Ask client to use basic auth
+      ctx.set('WWW-Authenticate', 'Basic');
+    }
+
+    if (error.status >= 500) {
+      // Unexpected error: emit the original error so that it will be logged
+      // as error
+      ctx.app.emit('error', err, ctx);
+    }
     return {};
   }
 };
