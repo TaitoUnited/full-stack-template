@@ -23,9 +23,7 @@ export default class TagDAO {
     // NOTE: not implemented
     console.log(`SEARCH CRITERIA: ${JSON.stringify(criteria)}`);
     return {
-      data: data.comments.filter(
-        c => !criteria.filter || criteria.filter.post_id.includes(c.id)
-      ),
+      data: data.comments,
       totalCount: data.comments.length
     };
   }
