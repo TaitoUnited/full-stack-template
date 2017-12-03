@@ -1,5 +1,5 @@
 import BaseRoute from '../common/base.route';
-import FileService from './file.service';
+import PostService from './post.service';
 
 /**
  * Responsibilities of a route:
@@ -9,57 +9,62 @@ import FileService from './file.service';
  *   methods as parameters.
  * - Does some additional response formatting if necessary.
  */
-export default class FileRoute extends BaseRoute {
-  constructor(router, fileService) {
-    super(router, '/files');
+export default class PostRoute extends BaseRoute {
+  constructor(router, postService) {
+    super(router, '/posts');
     // Make component testable by using primarily dependencies
     // given as constuctor args.
-    this.fileService = fileService || new FileService();
+    this.postService = postService || new PostService();
   }
 
   routes() {
-    // Fetch files
+    // Fetch posts
     this.router.get('/', async (ctx, next) => {
-      ctx.body = await this.fileService.fetch(ctx.appCtx, ctx.query);
+      ctx.body = await this.postService.fetch(ctx.appCtx, ctx.query);
       next();
     });
 
-    // Create a file
+    // Create a post
     this.router.post('/', async (ctx, next) => {
-      ctx.body = await this.fileService.create(ctx.appCtx, ctx.request.fields);
+      // TODO quick temp hack
+      ctx.body = await this.postService.create(ctx.appCtx, ctx.request.fields);
       next();
     });
 
-    // Read a file
+    // Read a post
     this.router.get('/:id', async (ctx, next) => {
-      ctx.body = await this.fileService.read(ctx.appCtx, ctx.params.id);
+      ctx.body = await this.postService.read(ctx.appCtx, ctx.params.id);
       next();
     });
 
-    // Update a file (full update)
+    // Update a post (full update)
     this.router.put('/:id', async (ctx, next) => {
-      ctx.body = await this.fileService.update(ctx.appCtx, {
+      ctx.body = await this.postService.update(ctx.appCtx, {
         ...ctx.request.fields,
         id: ctx.params.id
       });
       next();
     });
 
-    // Patch a file (partial update)
+    // Patch a post (partial update)
     this.router.patch('/:id', async (ctx, next) => {
-      ctx.body = await this.fileService.patch(ctx.appCtx, {
+      ctx.body = await this.postService.patch(ctx.appCtx, {
         ...ctx.request.fields,
         id: ctx.params.id
       });
       next();
     });
 
-    // Delete a file
+    // Delete a post
     this.router.delete('/:id', async (ctx, next) => {
-      ctx.body = await this.fileService.read(ctx.appCtx, ctx.params.id);
+      ctx.body = await this.postService.read(ctx.appCtx, ctx.params.id);
       next();
     });
 
     return this.router.routes();
+  }
+
+  allowedMethods() {
+    return this.router.allowedMethods();
   }
 }

@@ -70,6 +70,8 @@ server-template-server:
     API_BINDADDR: 0.0.0.0
     API_PORT: 3332
     JWT_SECRET: secret
+    ADMIN_PASSWORD: password
+    USER_PASSWORD: password
     COMMON_ENV: local
     COMMON_DEBUG: 'true'
     COMMON_PROJECT: server-template

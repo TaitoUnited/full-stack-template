@@ -1,11 +1,12 @@
-import cors from 'kcors';
+// import cors from 'kcors';
 import koaCacheControl from 'koa-cache-control';
 import koaConvert from 'koa-convert';
 import koaBetterBody from 'koa-better-body';
 
 const requestMiddleware = app => {
   // Use Cors
-  app.use(cors());
+  // TODO enable only if origin is in the list of allowed domains (env vars)
+  // app.use(cors());
 
   // Disable HTTP-cache
   app.use(

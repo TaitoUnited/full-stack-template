@@ -17,7 +17,7 @@ import {
   TextField
 } from 'admin-on-rest';
 
-import { PostTitle } from './post.common';
+import PostTitle from './postTitle.component';
 
 const PostShow = ({ ...props }) => (
   <Show title={<PostTitle />} {...props}>

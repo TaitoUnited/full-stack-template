@@ -44,6 +44,8 @@ server:
   targetCPUUtilizationPercentage: 50
   secrets:
     JWT_SECRET: jwt.server-template.auth
+    ADMIN_PASSWORD: user.server-template-admin.auth
+    USER_PASSWORD: user.server-template-user.auth
   env:
     SENTRY_DSN: #sentryDSN
     DEBUG: false

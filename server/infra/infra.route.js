@@ -9,10 +9,9 @@ export default class InfraRoute extends BaseRoute {
   routes() {
     // Return configs that are required by web user interface or
     // 3rd party clients
-    // NOTE: Add authorization for config route if configs should not be public!
     this.router.get('/config', async (ctx, next) => {
       ctx.body = {
-        APP_VERSION: config.APP_VERSION,
+        APP_VERSION: config.APP_VERSION
       };
       next();
     });
@@ -26,7 +25,7 @@ export default class InfraRoute extends BaseRoute {
         LIMIT 1
       `);
       ctx.body = {
-        status: 'OK',
+        status: 'OK'
       };
       next();
     });
@@ -34,7 +33,7 @@ export default class InfraRoute extends BaseRoute {
     // Polled by Kubernetes to check that container is alive
     this.router.get('/healthz', async (ctx, next) => {
       ctx.body = {
-        status: 'OK',
+        status: 'OK'
       };
       next();
     });

@@ -26,7 +26,7 @@ import {
 } from 'admin-on-rest';
 import RichTextInput from 'aor-rich-text-input';
 
-import { PostTitle } from './post.common';
+import PostTitle from './postTitle.component';
 
 const emptyKeycode = [];
 

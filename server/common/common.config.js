@@ -22,6 +22,13 @@ config.API_BINDADDR = process.env.API_BINDADDR;
 
 // Secrets
 config.JWT_SECRET = process.env.JWT_SECRET;
+// NOTE: Use environment variable passwords only for a simple
+// 'shared username and password' use case. Passwords of real users should
+// always be hashed, salted and stored elsewhere
+config.passwords = {
+  admin: process.env.ADMIN_PASSWORD,
+  user: process.env.USER_PASSWORD
+};
 
 // Cache
 config.CACHE_HOST = 'cache'; // process.env.CACHE_HOST;

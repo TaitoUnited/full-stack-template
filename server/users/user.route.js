@@ -18,7 +18,44 @@ export default class UserRoute extends BaseRoute {
   }
 
   routes() {
+    // Fetch users
+    this.router.get('/', async (ctx, next) => {
+      ctx.body = await this.userService.fetch(ctx.appCtx, ctx.query);
+      next();
+    });
+
+    // Create a user
+    this.router.post('/', async (ctx, next) => {
+      ctx.body = await this.userService.create(ctx.appCtx, ctx.request.fields);
+      next();
+    });
+
+    // Read a user
     this.router.get('/:id', async (ctx, next) => {
+      ctx.body = await this.userService.read(ctx.appCtx, ctx.params.id);
+      next();
+    });
+
+    // Update a user (full update)
+    this.router.put('/:id', async (ctx, next) => {
+      ctx.body = await this.userService.update(ctx.appCtx, {
+        ...ctx.request.fields,
+        id: ctx.params.id
+      });
+      next();
+    });
+
+    // Patch a user (partial update)
+    this.router.patch('/:id', async (ctx, next) => {
+      ctx.body = await this.userService.patch(ctx.appCtx, {
+        ...ctx.request.fields,
+        id: ctx.params.id
+      });
+      next();
+    });
+
+    // Delete a user
+    this.router.delete('/:id', async (ctx, next) => {
       ctx.body = await this.userService.read(ctx.appCtx, ctx.params.id);
       next();
     });

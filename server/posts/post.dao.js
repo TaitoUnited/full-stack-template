@@ -1,4 +1,4 @@
-import data from './user.data';
+import data from './post.data';
 
 /* eslint-disable class-methods-use-this */
 // --> TODO: Convert to object?
@@ -18,13 +18,13 @@ import data from './user.data';
  *   (complex transactions that write to a large set of tables during the
  *   same transaction)
  */
-export default class UserDAO {
+export default class PostDAO {
   async fetch(db, criteria) {
     // NOTE: not implemented
     console.log(`SEARCH CRITERIA: ${JSON.stringify(criteria)}`);
     return {
-      data: data.users,
-      totalCount: data.users.length
+      data: data.posts,
+      totalCount: data.posts.length
     };
   }
 
@@ -36,7 +36,7 @@ export default class UserDAO {
   async read(db, id) {
     // NOTE: not implemented
     console.log(JSON.stringify(id));
-    return data.users.filter(user => user.id === id)[0];
+    return data.posts.filter(post => post.id === id)[0];
   }
 
   async update(db, post) {

@@ -3,11 +3,12 @@
   "description": "",
   "private": false,
   "scripts": {
-    "users:local": "echo TODO: add local users to package.json",
+    "users:local":
+      "echo 'Shared passwords: See docker-compose.yaml'; echo 'TODO: add local users to package.json'",
     "users:dev":
-      "echo Basic auth: #username/#password; echo TODO: add dev users to package.json",
+      "echo 'Basic auth: #username/#password'; echo 'Shared passwords: taito ci-secrets:dev'; 'echo TODO: add dev users to package.json'",
     "users:test":
-      "echo Basic auth: #username/#password; echo TODO: add test users to package.json",
+      "echo 'Basic auth: #username/#password'; echo 'Shared passwords: taito ci-secrets:test'; echo TODO: add test users to package.json",
     "ci-test-unit": "echo TODO: implement test:unit in package.json",
     "ci-test-api:local":
       "echo TODO: implement test:api in package.json. Env=${taito_env} url=${taito_app_url} user=${test_api_user} password=${test_api_password}",

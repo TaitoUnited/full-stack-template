@@ -11,6 +11,11 @@ const exceptionMiddleware = async (ctx, next) => {
 
     const error = {};
 
+    if (err.status === 401 && ctx.myAppAuthMethod === 'basic') {
+      // Ask client to use basic auth
+      ctx.set('WWW-Authenticate', 'Basic');
+    }
+
     if (err.isBoom) {
       // Handle Boom errors
       error.status = err.output.statusCode;
@@ -25,7 +30,10 @@ const exceptionMiddleware = async (ctx, next) => {
       error.message = config.DEBUG ? err.toString() : 'Unknown error';
     }
 
-    return { error };
+    ctx.status = error.status;
+    ctx.body = { error };
+    ctx.app.emit('error', new Error(error.message), ctx);
+    return {};
   }
 };
 

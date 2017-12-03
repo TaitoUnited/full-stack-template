@@ -1,43 +1,43 @@
 export const messages = {
   resources: {
     posts: {
-      name: 'Post |||| Posts',
+      name: 'Postaus |||| Postaukset',
       fields: {
-        allow_comments: 'Allo comments?',
+        allow_comments: 'Salli kommentit?',
         average_note: 'Average note',
-        body: 'Body',
-        comments: 'Comments',
-        commentable: 'Commentable',
-        commentable_short: 'Com.',
-        created_at: 'Created at',
-        notifications: 'Notifications recipients',
-        nb_view: 'Nb views',
-        password: 'Password (if protected post)',
-        pictures: 'Related Pictures',
-        published_at: 'Published at',
-        teaser: 'Teaser',
-        tags: 'Tags',
-        title: 'Title',
-        views: 'Views'
+        body: 'Sisältö',
+        comments: 'Kommentit',
+        commentable: 'Kommentoitava',
+        commentable_short: 'Kom.',
+        created_at: 'Luotu',
+        notifications: 'Notifikaattien vastaanottajat',
+        nb_view: 'Nb katselukerrat',
+        password: 'Salasana (jos suojattu postaus)',
+        pictures: 'Kuvat',
+        published_at: 'Julkaistu',
+        teaser: 'Tiiseri',
+        tags: 'Tagit',
+        title: 'Otsikko',
+        views: 'Katselukerrat'
       }
     }
   },
   post: {
     list: {
-      search: 'Search'
+      search: 'Hae'
     },
     form: {
-      summary: 'Summary',
-      body: 'Body',
-      miscellaneous: 'Miscellaneous',
-      comments: 'Comments'
+      summary: 'Yhteenveto',
+      body: 'Sisältö',
+      miscellaneous: 'Sekalaista',
+      comments: 'Kommentit'
     },
     edit: {
-      title: 'Post "%{title}"'
+      title: 'Postaus "%{title}"'
     },
     action: {
-      save_and_add: 'Save and Add',
-      save_and_show: 'Save and Show'
+      save_and_add: 'Tallenna ja lisää',
+      save_and_show: 'Tallenna ja näytä'
     }
   }
 };

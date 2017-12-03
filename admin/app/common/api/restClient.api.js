@@ -1,3 +1,5 @@
+/* eslint-disable no-mixed-operators */
+
 import qs from 'qs';
 import {
   fetchUtils,
@@ -12,11 +14,11 @@ import {
 
 import { addTokenToOptions } from './api.util';
 
-const contentRangeErrorMsg = `The X-Total-Count header is missing in the HTTP
-Response. The REST client expects responses for lists of resources to contain
-this header with the total number of results to build the pagination. If you
-are using CORS, did you declare X-Total-Count in the
-Access-Control-Expose-Headers header?`;
+// const contentRangeErrorMsg = `The X-Total-Count header is missing in the HTTP
+// Response. The REST client expects responses for lists of resources to contain
+// this header with the total number of results to build the pagination. If you
+// are using CORS, did you declare X-Total-Count in the
+// Access-Control-Expose-Headers header?`;
 
 const createRestClient = (apiUrl, httpClient = fetchUtils.fetchJson) => {
   const convertRESTRequestToHTTP = (type, resource, params) => {
@@ -90,7 +92,8 @@ const createRestClient = (apiUrl, httpClient = fetchUtils.fetchJson) => {
    * @returns {Object} REST response
    */
   const convertHTTPResponseToREST = (response, type, resource, params) => {
-    const { headers, json = {} } = response;
+    // const { headers, json = {} } = response;
+    const { json = {} } = response;
 
     /* NOTE:
      * admin-on-rest wants a data obj returned
@@ -101,12 +104,13 @@ const createRestClient = (apiUrl, httpClient = fetchUtils.fetchJson) => {
     switch (type) {
     case GET_LIST:
     case GET_MANY_REFERENCE:
-      if (!headers.has('X-Total-Count')) {
-        throw new Error(contentRangeErrorMsg);
-      }
+        // if (!headers.has('X-Total-Count')) {
+        //   throw new Error(contentRangeErrorMsg);
+        // }
       return {
         data: json.data,
-        total: parseInt(headers.get('X-Total-Count'), 10) || 100
+        total: json.totalCount
+          // parseInt(headers.get('X-Total-Count'), 10) || 100
       };
     case CREATE:
       return { data: { ...params.data, id: json.data.id } };

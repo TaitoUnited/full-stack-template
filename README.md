@@ -6,13 +6,12 @@
 
 * [taito-cli](https://github.com/TaitoUnited/taito-cli#readme)
 * [docker-compose](https://docs.docker.com/compose/install/) (>= 1.11)
-* Linter plugins for your code editor
+* Linter and formatter plugins for your code editor (e.g eslint and prettier)
 
 ## Conventions
 
 * [Taito conventions:](https://github.com/TaitoUnited/taito/wiki/Conventions) General conventions
 * [TaitoFlow:](https://github.com/TaitoUnited/taito/wiki/Git-and-GitHub#taitoflow) Version control workflow
-* [Airbnb Style Guide:](https://github.com/airbnb/javascript) ES6 conventions
 
 ## Tips
 
@@ -41,6 +40,10 @@ Open app in browser:
 Show user accounts that you can use to log in:
 
     $ taito users
+
+Open admin GUI in browser:
+
+    $ taito open admin
 
 Stop:
 

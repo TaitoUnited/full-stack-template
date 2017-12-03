@@ -32,7 +32,7 @@ const fetchConfig = () => {
   addTokenToOptions(options);
 
   return fetchUtils
-    .fetchJson(`${process.env.API_URL}/config`, options)
+    .fetchJson(`${process.env.API_URL}/infra/config`, options)
     .then(response => response.json.data);
 };
 

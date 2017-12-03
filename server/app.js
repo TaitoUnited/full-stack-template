@@ -16,7 +16,6 @@ import requestMiddleware from './infra/request.middleware';
 import contextMiddleware from './infra/context.middleware';
 import authMiddleware from './infra/auth.middleware';
 import exceptionMiddleware from './infra/exception.middleware';
-import responseMiddleware from './infra/response.middleware';
 import setupSentry from './infra/sentry.setup';
 
 // Setup
@@ -26,11 +25,10 @@ setupSentry();
 // Middlewares
 requestMiddleware(app);
 app.use(contextMiddleware);
-app.use(exceptionMiddleware);
 app.use(setupLoggerMiddleware);
 app.use(loggerMiddleware);
-app.use(responseMiddleware);
-app.use(authMiddleware);
+app.use(exceptionMiddleware);
+authMiddleware(app);
 app.use(transactionMiddleware);
 
 // Routes

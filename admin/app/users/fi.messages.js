@@ -1,27 +1,27 @@
 export const messages = {
   resources: {
     users: {
-      name: 'User |||| Users',
+      name: 'Käyttäjä |||| Käyttäjät',
       fields: {
-        name: 'Name',
-        role: 'Role'
+        name: 'Nimi',
+        role: 'Rooli'
       }
     }
   },
   user: {
     list: {
-      search: 'Search'
+      search: 'Hae'
     },
     form: {
-      summary: 'Summary',
-      security: 'Security'
+      summary: 'Yhteenveto',
+      security: 'Turvallisuus'
     },
     edit: {
-      title: 'User "%{title}"'
+      title: 'Käyttäjä "%{title}"'
     },
     action: {
-      save_and_add: 'Save and Add',
-      save_and_show: 'Save and Show'
+      save_and_add: 'Tallenna ja lisää',
+      save_and_show: 'Tallenna ja näytä'
     }
   }
 };

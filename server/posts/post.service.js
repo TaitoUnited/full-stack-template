@@ -1,4 +1,4 @@
-import UserDAO from './user.dao';
+import PostDAO from './post.dao';
 
 /**
  * Responsibilities of a service:
@@ -17,41 +17,41 @@ import UserDAO from './user.dao';
  * into one class in which you parse request, authorize, validate,
  * execute database operation and generate response with a single method.
  */
-export default class UserService {
-  constructor(userDAO) {
-    this.userDAO = userDAO || new UserDAO();
+export default class PostService {
+  constructor(postDAO) {
+    this.postDAO = postDAO || new PostDAO();
   }
 
   async fetch(ctx, criteria) {
-    return await this.userDAO.fetch(ctx.getTx(), criteria);
+    return await this.postDAO.fetch(ctx.getTx(), criteria);
   }
 
-  async create(ctx, user) {
-    return await this.userDAO.create(ctx.db, user);
+  async create(ctx, post) {
+    return await this.postDAO.create(ctx.db, post);
   }
 
   async read(ctx, id) {
-    return await this.userDAO.read(ctx.getTx(), id);
+    return await this.postDAO.read(ctx.getTx(), id);
   }
 
-  async update(ctx, user) {
+  async update(ctx, post) {
     // Write operation -> execute the operation inside a transaction
     return await ctx.tx(async tx => {
-      await this.userDAO.update(tx, user);
+      await this.postDAO.update(tx, post);
     });
   }
 
-  async patch(ctx, user) {
+  async patch(ctx, post) {
     // Write operation -> execute the operation inside a transaction
     return await ctx.tx(async tx => {
-      await this.userDAO.patch(tx, user);
+      await this.postDAO.patch(tx, post);
     });
   }
 
   async remove(ctx, id) {
     // Write operation -> execute the operation inside a transaction
     return await ctx.tx(async tx => {
-      await this.userDAO.remove(tx, id);
+      await this.postDAO.remove(tx, id);
     });
   }
 }

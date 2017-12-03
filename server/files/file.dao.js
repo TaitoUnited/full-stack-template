@@ -18,6 +18,7 @@
  */
 export default class FileDAO {
   async fetch(db, criteria) {
+    console.log(`SEARCH CRITERIA: ${JSON.stringify(criteria)}`);
     const params = {
       name: criteria.name
     };
