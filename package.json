@@ -1,7 +1,7 @@
 {
   "name": "server-template",
   "description": "",
-  "private": false,
+  "private": true,
   "scripts": {
     "users:local":
       "echo 'Shared passwords: See docker-compose.yaml'; echo 'TODO: add local users to package.json'",

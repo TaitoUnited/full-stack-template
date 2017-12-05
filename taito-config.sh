@@ -19,13 +19,14 @@ export taito_customer="customername"
 export taito_project="server-template"
 export taito_registry="eu.gcr.io/${taito_zone}/github-${taito_organization}-${taito_repo_name}"
 export taito_project_env="${taito_project}-${taito_env}"
-export taito_namespace="${taito_customer}-${taito_env}"
+export taito_namespace="${taito_project}-${taito_env}" # "${taito_customer}-${taito_env}"
 export taito_app_url="https://${taito_project_env}.taitodev.com"
 export taito_admin_url="${taito_app_url}/admin/"
-export taito_autorevert=false
 
-# Settings for ci builds
-export ci_test_env=false
+# Settings for builds
+export ci_exec_deploy=true
+export ci_exec_test_env=false
+export ci_exec_revert=false
 # TODO implement copy support to 'taito ci-deploy'
 export ci_copy="\
   docker://client/build;gs://cdn.taitounited.fi/${taito_project_env}"
@@ -67,6 +68,9 @@ export test_e2e_password="password"
 case "${taito_env}" in
   prod)
     # prod overrides
+    ci_exec_deploy=false
+    ci_exec_test_env=false
+    ci_exec_revert=false
     ;;
   staging)
     # staging overrides

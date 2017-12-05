@@ -3,7 +3,7 @@ steps:
 # NOTE: This first ugly step is an optimization. We execute cancel with
 # the google provided kubectl container instead of taito-cli, because it
 # doesn't need to be pulled before execution -> cancel executes immediately.
-- id: ci-cancel
+- id: manual-cancel
   name: 'gcr.io/cloud-builders/kubectl'
   entrypoint: 'bash'
   env:

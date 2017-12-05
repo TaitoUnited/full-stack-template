@@ -73,7 +73,9 @@ See [orig-template/client/app](https://github.com/TaitoUnited/orig-template/tree
 
 ### Development branches
 
-Development is executed in dev and feature branches. Feature branches are useful for code reviews, cleaning up commit history and keeping unfinished work separate, but they are not mandatory for small projects. Note that most feature branches should be short-lived and located only on your local git repository.
+Development is executed in dev and feature branches. Feature branches are useful for code reviews, cleaning up commit history and keeping unfinished work separate, but they are not mandatory for small projects.
+
+Note that most feature branches should be short-lived and located only on your local git repository. But do not keep your work local-only for a long time. For a long-lived branch you should either rebase-merge changes occasionally to dev branch, or push the feature branch to origin.
 
 > TIP: Use the `taito git feat` commands to manage your feature branches.
 
@@ -146,19 +148,18 @@ Deploying to different environments:
 * staging: Merge changes to staging branch. NOTE: Staging environment is not mandatory.
 * prod: Merge changes to master branch. Version number and release notes are generated automatically by the CI/CD tool.
 
-> TIP: Use the `taito git env merge:ENV SOURCE_BRANCH` command to merge an environment branch to another.
+> NOTE: The CI/CD process might not have rights to deploy to critical environments. In such case the deployment must be run manually with `taito [-a] manual deploy: VERSION` after the automatic part has succeeded. TODO: implement
 
-> NOTE: For critical systems master/staging branches are protected so that changes always need to go through a review before push.
+> TIP: Use `taito git env list` to list environment branches and `taito git env merge:ENV SOURCE_BRANCH` to merge an environment branch to another.
 
 Advanced features:
 
-* **Debugging CI builds**: You can build and start production containers locally with the `taito start --clean --prod` command. You can also run any CI build steps defined in cloudbuild.yaml locally with taito-cli. If you want to run them exacly as CI would, first log in to container with `taito --shell`, set `taito_mode=ci` and `COMPOSE_PROJECT_NAME=workspace` environment variables and then run the taito-cli commands using the container shell. *TODO install also [container-builder-local](https://github.com/GoogleCloudPlatform/container-builder-local) on taito-cli container?*
-* **Quick deploy**: If you are in a hurry, you can build, push and deploy a container directly to server with the `taito ci fulldeploy:ENV NAME` command e.g. `taito ci fulldeploy:dev client`.
+* **Quick deploy**: If you are in a hurry, you can build, push and deploy a container directly to server with the `taito manual build deploy:ENV NAME` command e.g. `taito manual build deploy:dev client`.
 * **Copy prod to staging**: Often it's a good idea to copy production database to staging before merging changes to the staging branch: `taito db copy:staging prod`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db copyquick:staging prod`), but it disconnects all other users connected to the production database until copying is finished and also requires that both databases are located in the same database cluster.
 * **Feature branch**: You can create also an environment for a feature branch: Delete the old environment first if it exists (`taito env delete:feature`) and create new environment for your feature branch (`taito env create:feature BRANCH`). Currently only one feature environment can exist at a time and therefore the old one needs to be deleted before the new one is created.
 * **Alternative environment** TODO implement: You can create an alternative environment for an environment by running `taito env alt create:ENV`. An alternative environment uses the same database as the main environment, but containers are built from an alternative branch. You can use alternative environments e.g. for canary releases or A/B testing by redirecting some of the users to the alternative environment.
-* **Revert app**: Revert application to the previous revision by running `taito ci revert:ENV`. If you need to revert to a specific revision, check current revision by running `taito ci revision:ENV` first and then revert to a specific revision by running `taito ci revert:ENV REVISION`. NOTE: The command does not revert database changes.
-* **Revert database changes**: Revert the previous migration batch by running `taito db revert[:ENV]`. If you would like to revert to a specific revision instead, view the db change log first (`taito db log[:ENV]`) and then run `taito db revert[:ENV] CHANGE`.
+* **Revert app**: Revert application and database to the previous revision by running `taito manual revert:ENV` (application and database steps are confirmed separately). If you need to revert to a specific revision, check current revision by running `taito manual revision:ENV` first and then revert to a specific revision by running `taito manual revert:ENV REVISION`.
+* **Debugging CI builds**: You can build and start production containers locally with the `taito start --clean --prod` command. You can also run any CI build steps defined in cloudbuild.yaml locally with taito-cli.
 
 NOTE: Some of the advanced operations might require admin credentials (e.g. staging/production operations). If you don't have an admin account, ask devops personnel to execute the operation for you.
 
@@ -189,7 +190,7 @@ TODO Something about examples...
 ### Project configuration
 
 1. Configure `taito-config.sh`
-2. Run `taito env config`
+2. Run `taito project config`
 
 ### TODO Something about additional steps if an old project was migrated:
 
