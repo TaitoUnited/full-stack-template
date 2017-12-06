@@ -49,13 +49,17 @@ Stop:
 
     $ taito stop
 
-Write `taito op` and press TAB to get the list of most important commands for operating your project. Run `taito COMMAND -h` to search for a command (e.g `taito log -h`, `taito clean -h`). Run `taito -h` to get detailed instructions for all commands. For troubleshooting run `taito --trouble`.
+Write `taito oper` and press TAB to get the list of most important commands for operating your project. Run `taito COMMAND -h` to search for a command (e.g `taito log -h`, `taito clean -h`). Run `taito -h` to get detailed instructions for all commands. For troubleshooting run `taito --trouble`.
 
 See PROJECT.md for project specific conventions and documentation.
 
 > Basic authentication is enabled on all environments by default to keep unfinished work hidden from the public. Run `taito users:ENV` to get the credentials. You can turn basic authentication off by modifying the `scripts/helm-prod.yaml` and `scripts/helm.yaml` files.
 
 > It's common that idle applications are run down to save resources on non-production environments . If your application seems to be down, you can start it by running `taito start:ENV`, or by pushing some changes to git.
+
+## Tools and links
+
+The taito-cli link plugin provides project related links e.g. for documentation, continuous integration, issue management, logging, monitoring and customer feedback. Run 'taito open -h' to list all the links.
 
 ## Structure
 
@@ -155,44 +159,25 @@ Deploying to different environments:
 Advanced features:
 
 * **Quick deploy**: If you are in a hurry, you can build, push and deploy a container directly to server with the `taito manual build deploy:ENV NAME` command e.g. `taito manual build deploy:dev client`.
-* **Copy prod to staging**: Often it's a good idea to copy production database to staging before merging changes to the staging branch: `taito db copy:staging prod`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db copyquick:staging prod`), but it disconnects all other users connected to the production database until copying is finished and also requires that both databases are located in the same database cluster.
+* **Copy production data to staging**: Often it's a good idea to copy production database to staging before merging changes to the staging branch: `taito db copy:staging prod`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db copyquick:staging prod`), but it disconnects all other users connected to the production database until copying is finished and also requires that both databases are located in the same database cluster.
 * **Feature branch**: You can create also an environment for a feature branch: Delete the old environment first if it exists (`taito env delete:feature`) and create new environment for your feature branch (`taito env create:feature BRANCH`). Currently only one feature environment can exist at a time and therefore the old one needs to be deleted before the new one is created.
-* **Alternative environment** TODO implement: You can create an alternative environment for an environment by running `taito env alt create:ENV`. An alternative environment uses the same database as the main environment, but containers are built from an alternative branch. You can use alternative environments e.g. for canary releases or A/B testing by redirecting some of the users to the alternative environment.
+* **Alternative environments** TODO implement: You can create an alternative environment for an environment by running `taito env alt create:ENV`. An alternative environment uses the same database as the main environment, but containers are built from an alternative branch. You can use alternative environments e.g. for canary releases or A/B testing by redirecting some of the users to the alternative environment.
 * **Revert app**: Revert application and database to the previous revision by running `taito manual revert:ENV` (application and database steps are confirmed separately). If you need to revert to a specific revision, check current revision by running `taito manual revision:ENV` first and then revert to a specific revision by running `taito manual revert:ENV REVISION`.
 * **Debugging CI builds**: You can build and start production containers locally with the `taito start --clean --prod` command. You can also run any CI build steps defined in cloudbuild.yaml locally with taito-cli.
 
 NOTE: Some of the advanced operations might require admin credentials (e.g. staging/production operations). If you don't have an admin account, ask devops personnel to execute the operation for you.
 
-## Tools
-
-The following tools are currently used for this project. You can open any of the tools quickly from command line by using the `taito open` commands provided by the taito-cli link plugin.
-
-* See issue boards on [GitHub projects](https://github.com/TaitoUnited/server-template/projects) and issues on [GitHub issues](https://github.com/TaitoUnited/server-template/issues).
-* See all builds on [Google Build History](https://console.cloud.google.com/gcr/builds?project=gcloud-temp1&query=source.repo_source.repo_name%3D%22github-taitounited-server-template%22).
-* See all build artifacts on [Google Container Registry](https://console.cloud.google.com/gcr/images/gcloud-temp1/EU/github-taitounited-server-template?project=gcloud-temp1).
-* Deployed on Kubernetes. See  [instructions](https://github.com/TaitoUnited/taito/wiki/Kubernetes). The most common Kubernetes operations are available as taito commands: `taito --help`.
-*  All [dev](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fcustomername-dev), [staging](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fcustomername-staging) and [prod](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fcustomername-prod) logs are gathered to Google Stackdriver. See [instructions](https://github.com/TaitoUnited/taito/wiki/Stackdriver).
-* [Sentry](https://sentry.io/taitounited/server-template/) is used for error tracking. See [instructions](https://github.com/TaitoUnited/taito/wiki/Sentry).
-* [Stackdriver uptime monitoring](https://app.google.stackdriver.com/uptime?project=gcloud-temp1) is used for monitoring production environment uptime status.
-* See performance on: TODO new relic?
-* See customer feedback on: TODO zendesk?
-
-## Configuration
-
-> NOTE: Some of the configuration steps might require admin rights, especially if database is involved.
-
-### Local development
+## Configuration for local development
 
 Modify `docker-compose.yaml` without touching the container names. Remove such containers that you don't need.
 
-TODO Something about examples...
+### Example implementations
 
-### Project configuration
+TODO Something about the examples...
 
-1. Configure `taito-config.sh`
-2. Run `taito project config`
+### Additional steps for a migrated project
 
-### TODO Something about additional steps if an old project was migrated:
+TODO Something about additional steps if an old project was migrated.
 
 * Stackdriver
 * Sentry
@@ -200,11 +185,18 @@ TODO Something about examples...
 * Buckets
 * Job queues
 
+## Configuration for server environments
+
+> NOTE: Some of the configuration steps might require admin rights, especially if database is involved.
+
+### Project configuration
+
+1. Configure `taito-config.sh`
+2. Run `taito project config`
+
 ### Creating an environment
 
-Execute the following steps for an environment (`feature`, `dev`, `test`, `staging` or `prod`):
-
-1. Run `taito env create:ENV` and follow instructions.
+Run `taito env create:ENV` for the environment (`feature`, `dev`, `test`, `staging` or `prod`).
 
 ### Finalizing production environment
 
@@ -228,6 +220,6 @@ Kubernetes:
 2. Map secret to an environment variable in `scripts/helm.yaml`
 3. Run `taito rotate:ENV [SECRET]` to generate a secret value for an environment. Run the command for each environment.
 
-### Upgrading to the latest version of the project template
+## Upgrading to the latest version of the project template
 
-Run `taito template upgrade`. The command copies the latest versions of reusable Helm charts and CI/CD scripts to your project folder, and also this README.md file. You should not make project specific modifications to them as they are designed to be reusable and easily configurable for various needs. Improve the originals instead, and then upgrade.
+Run `taito template upgrade`. The command copies the latest versions of reusable Helm charts, terraform templates and CI/CD scripts to your project folder, and also this README.md file. You should not make project specific modifications to them as they are designed to be reusable and easily configurable for various needs. Improve the originals instead, and then upgrade.
