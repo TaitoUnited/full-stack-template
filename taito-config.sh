@@ -11,16 +11,15 @@ export taito_plugins=" \
   gcloud-builder:-local sentry secret:-local semantic npm"
 
 # Common project settings for all plugins
-export taito_organization="taitounited"
+export taito_organization="taitounited" # TODO use default from user settings
 export taito_zone="gcloud-temp1" # rename to taito-gcloud-open1
 export taito_repo_location="github-${taito_organization}"
 export taito_repo_name="server-template"
 export taito_customer="customername"
 export taito_project="server-template"
 export taito_registry="eu.gcr.io/${taito_zone}/github-${taito_organization}-${taito_repo_name}"
-export taito_project_env="${taito_project}-${taito_env}"
-export taito_namespace="${taito_project}-${taito_env}" # "${taito_customer}-${taito_env}"
-export taito_app_url="https://${taito_project_env}.taitodev.com"
+export taito_namespace="${taito_project}-${taito_env}" # or "${taito_customer}-${taito_env}"
+export taito_app_url="https://${taito_namespace}.taitodev.com" # TODO use default from user settings
 export taito_admin_url="${taito_app_url}/admin/"
 
 # Settings for builds
@@ -29,7 +28,7 @@ export ci_exec_test_env=false
 export ci_exec_revert=false
 # TODO implement copy support to 'taito ci-deploy'
 export ci_copy="\
-  docker://client/build;gs://cdn.taitounited.fi/${taito_project_env}"
+  docker://client/build;gs://cdn.taitounited.fi/${taito_namespace}"
 
 # docker plugin
 export dockerfile=Dockerfile
@@ -114,7 +113,7 @@ export link_urls="\
   open-git#git=https://github.com/${taito_organization}/${taito_repo_name} \
   open-builds#builds=https://console.cloud.google.com/gcr/builds?project=${taito_zone}&query=source.repo_source.repo_name%3D%22${taito_repo_location}-${taito_repo_name}%22 \
   open-artifacts#artifacts=https://console.cloud.google.com/gcr/images/${taito_zone}/EU/${taito_repo_location}-${taito_repo_name}?project=${taito_zone} \
-  open-bucket#bucket=https://storage.googleapis.com/${taito_project_env} \
+  open-bucket#bucket=https://storage.googleapis.com/${taito_namespace} \
   open-logs:ENV#logs=https://console.cloud.google.com/logs/viewer?project=${taito_zone}&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F${kubectl_name}%2Fnamespace_id%2F${taito_namespace} \
   open-errors:ENV#errors=https://sentry.io/${taito_organization}/${taito_project}/?query=is%3Aunresolved+environment%3A${taito_env} \
   open-uptime#uptime=https://app.google.stackdriver.com/uptime?project=${taito_zone} \

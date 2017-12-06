@@ -11,6 +11,7 @@ const createAuthService = () => ({
     if (!pw || pw !== password || username !== 'admin') {
       throw Boom.unauthorized('Invalid credentials');
     } else {
+      // TODO 2FA support or at least lock account on too many tries?
       const customJWT = jwt.sign(
         {
           iat: Math.floor(Date.now() / 1000), // now
