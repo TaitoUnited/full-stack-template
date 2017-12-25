@@ -92,7 +92,7 @@ feat(dashboard): Added news on the dashboard.
 ```
 docs: Added news on the dashboard.
 
-Skip ci
+skip ci
 ```
 
 ```
