@@ -90,6 +90,12 @@ feat(dashboard): Added news on the dashboard.
 ```
 
 ```
+docs: Added news on the dashboard.
+
+Skip ci
+```
+
+```
 fix(login): Fixed header alignment.
 
 Problem persists with IE9, but IE9 is no longer supported.
@@ -103,6 +109,12 @@ feat(ux): New look and feel
 BREAKING CHANGE: Not really breaking anything, but it's a good time to
 increase the major version number.
 ```
+
+Meanings:
+* Closes #xx, #xx: Closes issues
+* Issues #xx, #xx: References issues
+* BREAKING CHANGE: Introduces a breaking change that causes major version number to be increased in the next production release.
+* skip ci: Skips continuous integration build when the commit is pushed.
 
 You can use any of the following types in your commit message. Use at least types `fix` and `feat`.
 
