@@ -25,7 +25,7 @@ Install linters locally (all developers use the same linter version):
 
     $ taito install
 
-Start containers (add `--clean` option in case of trouble):
+Start containers (use the `--clean` flag in case of trouble):
 
     $ taito start
 
@@ -37,37 +37,35 @@ Open app in browser:
 
     $ taito open app
 
-Show user accounts that you can use to log in:
-
-    $ taito users
-
 Open admin GUI in browser:
 
     $ taito open admin
+
+Show user accounts and other information that you can use to log in:
+
+    $ taito info
 
 Stop:
 
     $ taito stop
 
-Write `taito oper` and press TAB to get the list of most important commands for operating your project. Run `taito COMMAND -h` to search for a command (e.g `taito log -h`, `taito clean -h`). Run `taito -h` to get detailed instructions for all commands. For troubleshooting run `taito --trouble`.
+Write `taito oper` and press TAB to get the list of most important commands for operating your project. Note that the `oper` grouping prefix is optional so you can leave it out. Run `taito COMMAND -h` to search for a command (e.g `taito log -h`, `taito clean -h`). Run `taito -h` to get detailed instructions for all commands. For troubleshooting run `taito --trouble`.
 
 See PROJECT.md for project specific conventions and documentation.
-
-> Basic authentication is enabled on all environments by default to keep unfinished work hidden from the public. Run `taito users:ENV` to get the credentials. You can turn basic authentication off by modifying the `scripts/helm-prod.yaml` and `scripts/helm.yaml` files.
 
 > It's common that idle applications are run down to save resources on non-production environments . If your application seems to be down, you can start it by running `taito start:ENV`, or by pushing some changes to git.
 
 ## Tools and links
 
-The taito-cli link plugin provides project related links e.g. for documentation, continuous integration, issue management, logging, monitoring and customer feedback. Run 'taito open -h' to list all the links.
+The taito-cli link plugin provides project related links e.g. for documentation, continuous integration, issue management, logging, monitoring and customer feedback. Run 'taito open -h' to show all the links.
 
 ## Structure
 
 An application should be divided in loosely coupled highly cohesive parts by using a modular directory structure. The following rules usually work well in an event-based solution (a GUI for example). In the backend implementation you most likely need to break the rules once in a while, but still try to keep directories loosely coupled.
 
-* Create directory structure based on features (`reporting`, `users`, ...) instead of type (`actions`, `containers`, `components`, `css`, ...). Use such file naming that you can easily determine the type from filename (e.g. `*.ducks.js`, `*.container.js`). Then you don't need to use directories for grouping files by type.
+* Create directory structure based on features (`reporting`, `users`, ...) instead of type (`actions`, `containers`, `components`, `css`, ...). Use such file naming that you can easily determine the type from filename (e.g. `*.ducks.js`, `*.container.js`). This way you don't need to use directories for grouping files by type.
 * A directory should not contain any references outside of its boundary; with the exception of references to libraries and common directories. You can think of each directory as an independent mini-sized app, and a `common` directory as a library that is shared among them.
-* A file should contain only nearby references (e.g. files in the same directory or in a subdirectory directly beneath it); with the exception of references to libraries and common directories, of course.
+* A file should contain only nearby references (e.g. references to files in the same directory or in a subdirectory directly beneath it); with the exception of references to libraries and common directories, of course.
 * If you break the dependency rules, at least try to avoid making circular dependencies between directories. Also leave a `REFACTOR:` comment if the dependency is the kind that it should be refactored later.
 * Each block of implementation (function, class, module, sql query, ...) should be clearly named by its responsibility and implement only what it is responsible for, nothing else.
 
@@ -79,7 +77,7 @@ See [orig-template/client/app](https://github.com/TaitoUnited/orig-template/tree
 
 Development is executed in dev and feature branches. Feature branches are useful for code reviews, cleaning up commit history and keeping unfinished work separate, but they are not mandatory for small projects.
 
-Note that most feature branches should be short-lived and located only on your local git repository. But do not keep your work local-only for a long time. For a long-lived branch you should either rebase-merge changes occasionally to dev branch, or push the feature branch to origin.
+Note that most feature branches should be short-lived and located only on your local git repository. For a long-lived branch you should either rebase-merge changes occasionally to dev branch, or push the feature branch to origin so that you won't lose your work by accident.
 
 > TIP: Use the `taito git feat` commands to manage your feature branches.
 
@@ -152,15 +150,15 @@ Deploying to different environments:
 * staging: Merge changes to staging branch. NOTE: Staging environment is not mandatory.
 * prod: Merge changes to master branch. Version number and release notes are generated automatically by the CI/CD tool.
 
-> NOTE: The CI/CD process might not have rights to deploy to critical environments. In such case the deployment must be run manually with `taito [-a] manual deploy: VERSION` after the automatic part has succeeded. TODO: implement
+> NOTE: The CI/CD process might not have access rights for critical environments. In such case the deployment must be run manually with the `taito [-a] manual deploy: VERSION` command after the CI/CD process has ended successfully.
 
-> TIP: Use `taito git env list` to list environment branches and `taito git env merge:ENV SOURCE_BRANCH` to merge an environment branch to another.
+> TIP: Run `taito git env list` to list environment branches and `taito git env merge:ENV SOURCE_BRANCH` to merge an environment branch to another.
 
 Advanced features:
 
 * **Quick deploy**: If you are in a hurry, you can build, push and deploy a container directly to server with the `taito manual build deploy:ENV NAME` command e.g. `taito manual build deploy:dev client`.
 * **Copy production data to staging**: Often it's a good idea to copy production database to staging before merging changes to the staging branch: `taito db copy:staging prod`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db copyquick:staging prod`), but it disconnects all other users connected to the production database until copying is finished and also requires that both databases are located in the same database cluster.
-* **Feature branch**: You can create also an environment for a feature branch: Delete the old environment first if it exists (`taito env delete:feature`) and create new environment for your feature branch (`taito env create:feature BRANCH`). Currently only one feature environment can exist at a time and therefore the old one needs to be deleted before the new one is created.
+* **Feature branch**: You can create also an environment for a feature branch: Delete the old environment first if it exists (`taito env delete:feature`) and create a new environment for your feature branch (`taito env create:feature BRANCH`). Currently only one feature environment can exist at a time and therefore the old one needs to be deleted before the new one is created.
 * **Alternative environments** TODO implement: You can create an alternative environment for an environment by running `taito env alt create:ENV`. An alternative environment uses the same database as the main environment, but containers are built from an alternative branch. You can use alternative environments e.g. for canary releases or A/B testing by redirecting some of the users to the alternative environment.
 * **Revert app**: Revert application and database to the previous revision by running `taito manual revert:ENV` (application and database steps are confirmed separately). If you need to revert to a specific revision, check current revision by running `taito manual revision:ENV` first and then revert to a specific revision by running `taito manual revert:ENV REVISION`.
 * **Debugging CI builds**: You can build and start production containers locally with the `taito start --clean --prod` command. You can also run any CI build steps defined in cloudbuild.yaml locally with taito-cli.
@@ -196,14 +194,7 @@ TODO Something about additional steps if an old project was migrated.
 
 ### Creating an environment
 
-Run `taito env create:ENV` for the environment (`feature`, `dev`, `test`, `staging` or `prod`).
-
-### Finalizing production environment
-
-Once you are ready to make the first production release, finalize the production environment with the following steps:
-
-1. Configure `helm-prod.yaml`
-2. Run `taito env finalize:prod` and follow instructions.
+Run `taito env create:ENV` for the environment: `feature`, `dev`, `test`, `staging` or `prod`.
 
 ### Kubernetes configuration
 
@@ -216,9 +207,9 @@ If you want to change your stack in some way (e.g. add/remove cache or function)
 Local development (docker): Just define secret as a normal environment variable in `docker-compose.yaml`.
 
 Kubernetes:
-1. Add secret definition to `taito-config.sh`
+1. Add a secret definition to `taito-config.sh` (taito_secrets)
 2. Map secret to an environment variable in `scripts/helm.yaml`
-3. Run `taito rotate:ENV [SECRET]` to generate a secret value for an environment. Run the command for each environment.
+3. Run `taito rotate:ENV [SECRET]` to generate a secret value for an environment. Run the command for each environment. Note that the rotate command restarts all pods in the same namespace.
 
 ## Upgrading to the latest version of the project template
 

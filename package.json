@@ -3,11 +3,11 @@
   "description": "",
   "private": true,
   "scripts": {
-    "users:local":
+    "info:local":
       "taito secrets | grep 'Showing\\|PASSWORD'; echo; echo 'TODO: add local users to package.json'",
-    "users:dev":
+    "info:dev":
       "taito secrets:dev | grep -A 1 'Showing\\|user.'; echo; echo 'TODO: add dev users to package.json'",
-    "users:test":
+    "info:test":
       "taito secrets:test | grep -A 1 'Showing\\|user.'; echo; echo 'TODO: add test users to package.json'",
     "ci-test-unit": "echo TODO: implement test:unit in package.json",
     "ci-test-api:local":

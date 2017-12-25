@@ -21,7 +21,7 @@ Staging:
 Development:
 
 * Site: https://server-template-dev.taitodev.com
-* User accounts: Run `taito users:dev`.
+* User accounts: Run `taito info:dev`.
 
 ## Contacts
 
