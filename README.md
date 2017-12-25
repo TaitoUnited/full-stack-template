@@ -92,7 +92,7 @@ feat(dashboard): Added news on the dashboard.
 ```
 docs: Added news on the dashboard.
 
-skip ci
+[skip ci]
 ```
 
 ```
@@ -114,7 +114,7 @@ Meanings:
 * Closes #xx, #xx: Closes issues
 * Issues #xx, #xx: References issues
 * BREAKING CHANGE: Introduces a breaking change that causes major version number to be increased in the next production release.
-* skip ci: Skips continuous integration build when the commit is pushed.
+* [skip ci]: Skips continuous integration build when the commit is pushed.
 
 You can use any of the following types in your commit message. Use at least types `fix` and `feat`.
 
