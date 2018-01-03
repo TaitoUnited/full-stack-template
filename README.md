@@ -19,7 +19,7 @@
 * [Basic git commands](https://github.com/TaitoUnited/taito/wiki/Git-and-GitHub#git-commands)
 * Technologies: [React](https://github.com/TaitoUnited/taito/wiki/React), [Node.js](https://github.com/TaitoUnited/taito/wiki/Node), [Docker](https://github.com/TaitoUnited/taito/wiki/Docker)
 
-## Development
+## Quick start
 
 Install linters locally (all developers use the same linter version):
 
@@ -49,15 +49,17 @@ Stop:
 
     $ taito stop
 
-Write `taito oper` and press TAB to get the list of most important commands for operating your project. Note that the `oper` grouping prefix is optional so you can leave it out. Run `taito COMMAND -h` to search for a command (e.g `taito log -h`, `taito clean -h`). Run `taito -h` to get detailed instructions for all commands. For troubleshooting run `taito --trouble`.
+Write `taito oper` and press TAB to get the list of most important commands for operating your project. Note that the `oper` grouping prefix is optional so you can leave it out when running a command.
+
+Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to search for a command (e.g `taito log -h`, `taito clean -h`). For troubleshooting run `taito --trouble`.
 
 See PROJECT.md for project specific conventions and documentation.
 
-> It's common that idle applications are run down to save resources on non-production environments . If your application seems to be down, you can start it by running `taito start:ENV`, or by pushing some changes to git.
+> It's common that idle applications are run down to save resources on non-production environments. If your application seems to be down, you can start it by running `taito start:ENV`, or by pushing some changes to git.
 
 ## Tools and links
 
-The taito-cli link plugin provides project related links e.g. for documentation, continuous integration, issue management, logging, monitoring and customer feedback. Run 'taito open -h' to show all the links.
+The taito-cli link plugin provides project related links e.g. for documentation, continuous integration, issue management, logging, monitoring and customer feedback. Run `taito open -h` to show all the links.
 
 ## Structure
 
@@ -145,7 +147,7 @@ Add a new migration:
 
 2. Modify database/deploy/xxx.sql, database/revert/xxx.sql and database/verify/xxx.sql
 
-3. Deploy the change to your local db:
+3. Deploy the change to your local database:
 
     `taito db deploy`
 
@@ -162,9 +164,9 @@ Deploying to different environments:
 * staging: Merge changes to staging branch. NOTE: Staging environment is not mandatory.
 * prod: Merge changes to master branch. Version number and release notes are generated automatically by the CI/CD tool.
 
-> NOTE: The CI/CD process might not have access rights for critical environments. In such case the deployment must be run manually with the `taito [-a] manual deploy: VERSION` command after the CI/CD process has ended successfully.
-
 > TIP: Run `taito git env list` to list environment branches and `taito git env merge:ENV SOURCE_BRANCH` to merge an environment branch to another.
+
+> NOTE: The CI/CD process might not have access rights for critical environments. In such case the deployment must be run manually with the `taito [-a] manual deploy: VERSION` command after the CI/CD process has ended successfully.
 
 Advanced features:
 
@@ -179,6 +181,8 @@ NOTE: Some of the advanced operations might require admin credentials (e.g. stag
 
 ## Configuration for local development
 
+### Basic settings
+
 Modify `docker-compose.yaml` without touching the container names. Remove such containers that you don't need.
 
 ### Example implementations
@@ -188,7 +192,9 @@ TODO Something about the examples...
 ### Additional steps for a migrated project
 
 TODO Something about additional steps if an old project was migrated.
+The following implementation changes:
 
+* Dockerfiles --> also for local development?
 * Stackdriver
 * Sentry
 * Secrets
@@ -199,29 +205,30 @@ TODO Something about additional steps if an old project was migrated.
 
 > NOTE: Some of the configuration steps might require admin rights, especially if database is involved.
 
-### Project configuration
+### Basic settings
 
 1. Configure `taito-config.sh`
 2. Run `taito project config`
 
-### Creating an environment
+### Environments
 
-Run `taito env create:ENV` for the environment: `feature`, `dev`, `test`, `staging` or `prod`.
+Run `taito env create:ENV` to create an environment (`feature`, `dev`, `test`, `staging` or `prod`).
 
-### Kubernetes configuration
+TODO terraform configuration
 
-The `scripts/heml.yaml` file contains default Kubernetes settings for all environments and the `scripts/helm:ENV.yaml` files contain environment specific overrides for them. By modying them you can easily configure environment variables, resource requirements and autoscaling for your containers.
+### Kubernetes
 
-If you want to change your stack in some way (e.g. add/remove cache or function), run `taito template upgrade` and it will do it for you.
+The `scripts/heml.yaml` file contains default Kubernetes settings for all environments and the `scripts/helm-ENV.yaml` files contain environment specific overrides for them. By modying these files you can easily configure environment variables, resource requirements and autoscaling for your containers.
 
-### Configuring secrets
+> NOTE: Do not modify the Kubernetes template. Improve the original Kubernetes template of orig-template instead.
 
-Local development (docker): Just define secret as a normal environment variable in `docker-compose.yaml`.
+### Secrets
 
-Kubernetes:
 1. Add a secret definition to `taito-config.sh` (taito_secrets)
 2. Map secret to an environment variable in `scripts/helm.yaml`
-3. Run `taito rotate:ENV [SECRET]` to generate a secret value for an environment. Run the command for each environment. Note that the rotate command restarts all pods in the same namespace.
+3. Run `taito env rotate:ENV [SECRET]` to generate a secret value for an environment. Run the command for each environment separately. Note that the rotate command restarts all pods in the same namespace.
+
+> NOTE: For local development you can just define secrets as normal environment variables in `docker-compose.yaml` given that they are not confidential.
 
 ## Upgrading to the latest version of the project template
 
