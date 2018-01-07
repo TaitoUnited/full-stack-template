@@ -3,7 +3,7 @@
 server-template-front:
   container_name: server-template-front
   image: nginx:1.13.3
-  restart: always
+  restart: on-failure
   ports:
     - "8080:80"
   links:
@@ -17,7 +17,7 @@ server-template-admin:
   container_name: server-template-admin
   build: ./admin
   dockerfile: ${dockerfile}
-  restart: always
+  restart: on-failure
   ports:
     - "3334"
   volumes:
@@ -35,7 +35,7 @@ server-template-client:
   container_name: server-template-client
   build: ./client
   dockerfile: ${dockerfile}
-  restart: always
+  restart: on-failure
   ports:
     - "3333"
   volumes:
@@ -53,7 +53,7 @@ server-template-server:
   container_name: server-template-server
   build: ./server
   dockerfile: ${dockerfile}
-  restart: always
+  restart: on-failure
   ports:
     - "3332"
   volumes:
@@ -92,7 +92,7 @@ server-template-server:
 server-template-cache:
   container_name: server-template-cache
   image: redis
-  restart: always
+  restart: on-failure
   ports:
     - "6379"
 
@@ -101,7 +101,7 @@ server-template-cache:
 server-template-database:
   container_name: server-template-database
   image: postgres:9.6
-  restart: always
+  restart: on-failure
   ports:
     - "6000:5432"
   environment:
@@ -114,7 +114,7 @@ server-template-database:
 server-template-bucket:
   container_name: server-template-bucket
   image: minio/minio
-  restart: always
+  restart: on-failure
   command: server /export
   ports:
     - "9000"
