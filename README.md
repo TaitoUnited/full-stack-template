@@ -181,7 +181,16 @@ NOTE: Some of the advanced operations might require admin credentials (e.g. stag
 
 ## Configuration for local development
 
-### Basic settings
+### Git
+
+Recommended settings for git repository:
+
+* Default branch: dev
+* Protected branch: master (TODO more settings?)
+* Developers team: write permission
+* Admins team: admin permission
+
+### Docker
 
 Modify `docker-compose.yaml` without touching the container names. Remove such containers that you don't need.
 

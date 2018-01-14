@@ -7,9 +7,7 @@ ENV BUILD_VERSION ${BUILD_VERSION}
 ENV NODE_ENV development
 ENV API_ROOT ''
 ENV API_URL /api
-# SENTRY START
-ENV APP_SENTRY_PUBLIC_DSN https://a10a67301f9547a6861aafdb12bd6db9@sentry.io/176268
-# SENTRY END
+ENV APP_SENTRY_PUBLIC_DSN #sentryDSN
 RUN apk add --update-cache build-base python git
 WORKDIR /client
 COPY ./package.json /client/package.json

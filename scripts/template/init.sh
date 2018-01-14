@@ -169,20 +169,3 @@ printf \
 # It is located here only to avoid accidental build breaks. Do not modify it.\n\
 # Improve the original instead.\n\n" | cat - cloudbuild.yaml > \
   temp && mv -f temp cloudbuild.yaml
-
-# Instructions
-echo
-echo "--- Instructions ---"
-echo
-echo "If you want to run the app locally using docker-compose, configure"
-echo "docker-compose.yaml yourself using the following container names:"
-echo "- admin: ${template_repo_name}-${admin}"
-echo "- client: ${template_repo_name}-${client}"
-echo "- server: ${template_repo_name}-${server}"
-echo "- function: ${template_repo_name}-${function}"
-echo "- cache: ${template_repo_name}-${cache}"
-echo "- database: ${template_repo_name}-${database}"
-echo "- bucket: ${template_repo_name}-${bucket}"
-echo
-echo "More information about configuration at the end of README.md"
-echo
