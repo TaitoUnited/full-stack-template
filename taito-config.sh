@@ -23,6 +23,7 @@ export taito_app_url="https://${taito_namespace}.taitodev.com" # TODO use defaul
 export taito_admin_url="${taito_app_url}/admin/"
 
 # Settings for builds
+export ci_exec_build=true
 export ci_exec_deploy=true
 export ci_exec_test_env=false
 export ci_exec_revert=false
@@ -67,7 +68,8 @@ export test_e2e_password="password"
 case "${taito_env}" in
   prod)
     # prod overrides
-    ci_exec_deploy=false
+    ci_exec_build=false
+    ci_exec_deploy=true # NOTE: set to false if manual prod deploy is required
     ci_exec_test_env=false
     ci_exec_revert=false
     ;;
