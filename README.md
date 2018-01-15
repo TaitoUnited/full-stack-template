@@ -49,9 +49,9 @@ Stop:
 
     $ taito stop
 
-Write `taito oper` and press TAB to get the list of most important commands for operating your project. Note that the `oper` grouping prefix is optional so you can leave it out when running a command.
+Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to search for a command (e.g `taito log -h`, `taito clean -h`). For troubleshooting run `taito --trouble`. NOTE: If you run into authorization errors, authenticate with the `taito --auth:ENV` command.
 
-Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to search for a command (e.g `taito log -h`, `taito clean -h`). For troubleshooting run `taito --trouble`.
+If taito-cli autocomplete is enabled, you can write `taito oper` and press TAB to get the list of most important commands for operating your project. Note that the `oper` grouping prefix is optional so you can leave it out when running a command.
 
 See PROJECT.md for project specific conventions and documentation.
 

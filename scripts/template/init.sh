@@ -151,9 +151,10 @@ fi
 tail -n +2 "README.md" > "README.md.tmp" && mv -f "README.md.tmp" "README.md"
 echo \
 "> NOTE: This file has been copied from \
-[server-template](https://github.com/TaitoUnited/server-template/). Do not \
-modify it. Improve the original instead. Project specific documentation is \
-located in PROJECT.md." | cat - README.md > temp && mv -f temp README.md
+[server-template](https://github.com/TaitoUnited/server-template/). Try to \
+modify it as little as possible and improve the original instead. Project \
+specific documentation is located in PROJECT.md." | cat - README.md > temp && \
+  mv -f temp README.md
 
 # Add 'do not modify' note to readme of helm chart
 echo \
