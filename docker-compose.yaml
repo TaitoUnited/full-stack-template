@@ -1,7 +1,7 @@
 # NOTE: Remove all extra containers that you don't need.
 
-server-template-front:
-  container_name: server-template-front
+server-template-ingress:
+  container_name: server-template-ingress
   image: nginx:1.13.3
   restart: on-failure
   ports:
@@ -12,6 +12,7 @@ server-template-front:
     - server-template-server:server-template-server
   volumes:
     - "./docker-nginx.conf:/etc/nginx/nginx.conf"
+    - "./docker-nginx.htpasswd:/etc/nginx/.htpasswd"
 
 server-template-admin:
   container_name: server-template-admin

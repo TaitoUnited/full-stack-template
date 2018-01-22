@@ -18,6 +18,7 @@ ingress:
   tls: true
   basicAuth: true
   class: nginx
+  maxBodySize: 1m
 
 admin:
   path: /admin

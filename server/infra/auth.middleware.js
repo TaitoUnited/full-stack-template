@@ -24,14 +24,13 @@ const determineAuthMethod = ctx => {
 
 const authMiddleware = app => {
   app.use(async (ctx, next) => {
-    ctx.myAppAuthMethod = determineAuthMethod(ctx);
+    ctx.clientAuthMethod = determineAuthMethod(ctx);
     await next();
   });
 
   // Basic auth
   app.use(async (ctx, next) => {
-    ctx.myAppAuthMethod = determineAuthMethod(ctx);
-    if (ctx.myAppAuthMethod === 'basic') {
+    if (ctx.clientAuthMethod === 'basic') {
       await basicAuth({
         name: 'user',
         pass: config.passwords.user
@@ -55,6 +54,18 @@ const authMiddleware = app => {
       }
     })
   );
+
+  // Determine user role
+  // NOTE: The example supports two hardcoded users ('admin' and 'user')
+  // and their username as used also as role name
+  app.use(async (ctx, next) => {
+    const rolesByAuth = {
+      basic: 'user',
+      jwt: ctx.state.jwtdata.sub,
+    };
+    ctx.appCtx.role = rolesByAuth[ctx.appCtx.clientAuthMethod];
+    await next();
+  });
 };
 
 export default authMiddleware;

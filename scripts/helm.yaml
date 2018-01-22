@@ -17,6 +17,7 @@ imagePullPolicy: ''
 ingress:
   basicAuth: true
   class: nginx
+  maxBodySize: 1m
 
 admin:
   replicas: 1

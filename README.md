@@ -77,9 +77,15 @@ See [orig-template/client/app](https://github.com/TaitoUnited/orig-template/tree
 
 ### Development branches
 
-Development is executed in dev and feature branches. Feature branches are useful for code reviews, cleaning up commit history and keeping unfinished work separate, but they are not mandatory for small projects.
+Development is executed in dev and feature branches. Using feature branches is optional, but they are recommended to be used at least in the following situations:
 
-Note that most feature branches should be short-lived and located only on your local git repository. For a long-lived branch you should either rebase-merge changes occasionally to dev branch, or push the feature branch to origin so that you won't lose your work by accident.
+* **Making changes to existing production functionality**: Use feature branches and pull-requests for code reviews. This will decrease the likelyhood that the change will brake something in production. It is also easier to keep the release log clean by using separate feature branches.
+* **A new project team member**: Use pull-requests for code reviews. This way you can help the new developer in getting familiar with the coding conventions and application logic of the project.
+* **Teaching a new technology**: Pull-requests can be very useful in teaching best practices for an another developer.
+
+Code reviews are very important at the beginning of a new software project, because this is the time when the basic foundation is built for the future development. At the beginning, however, it is usually more sensible to do occasional code reviews across the entire codebase instead of feature specific code reviews based on pull-requests.
+
+Note that most feature branches should be short-lived and located only on your local git repository, unless you are going to make a pull-request.
 
 > TIP: Use the `taito git feat` commands to manage your feature branches.
 
@@ -135,7 +141,7 @@ You can use any of the following types in your commit message. Use at least type
 
 > TIP: Optionally you can use `npm run commit` to write your commit messages by using commitizen, though often it is quicker to write commit messages by hand.
 
-## Database Migration
+## Database Migrations
 
 Add a new migration:
 
@@ -154,6 +160,8 @@ Add a new migration:
 The CI/CD tool will deploy your database changes automatically to servers once you push your changes to git. Database migrations are executed using sqitch. More instructions on sqitch: [Sqitch tutorial](https://metacpan.org/pod/sqitchtutorial)
 
 > It is recommended that you put a table name at the beginning of your migration script name. This way the table creation script and all its alteration scripts remain close to each other in the file hierarchy.
+
+> REMINDER: Do not forget indexing.
 
 ## Deployment
 
@@ -192,7 +200,7 @@ Recommended settings for git repository:
 
 ### Docker
 
-Modify `docker-compose.yaml` without touching the container names. Remove such containers that you don't need.
+Modify `docker-compose.yaml` without touching the container names. Remove such containers that you don't need. Remove unnecessary containers also from `docker-nginx.conf` file.
 
 ### Example implementations
 
@@ -216,12 +224,16 @@ The following implementation changes:
 
 ### Basic settings
 
-1. Configure `taito-config.sh`
+1. Optional: Configure `taito-config.sh` if you need to change some settings. The default settings are ok for most projects.
 2. Run `taito project config`
 
 ### Environments
 
+> NOTE: You should remove unnecessary examples from database migrations (`./database`) and secrets (`taito-config.sh`) before creating the first server environment.
+
 Run `taito env create:ENV` to create an environment (`feature`, `dev`, `test`, `staging` or `prod`).
+
+To setup DNS and monitoring for the production environment, run `taito env finalize:prod`.
 
 TODO terraform configuration
 

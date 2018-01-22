@@ -10,6 +10,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: {{ .Values.ingress.class | quote }}
     ingress.kubernetes.io/rewrite-target: /
+    ingress.kubernetes.io/proxy-body-size: {{ .Values.ingress.maxBodySize | quote }}
 {{- if .Values.ingress.basicAuth }}
     ingress.kubernetes.io/auth-type: "basic"
     ingress.kubernetes.io/auth-realm: {{ .Chart.Name | quote }}

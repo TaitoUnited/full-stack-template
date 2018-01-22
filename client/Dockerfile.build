@@ -32,6 +32,7 @@ RUN touch /var/run/nginx.pid && \
     chown -R nginx:nginx /build && \
     mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 COPY ./config/nginx.conf /etc/nginx
+# EXAMPLE: COPY ./config/.htpasswd /etc/nginx
 USER nginx
 EXPOSE 3333
 # TODO dump-init or tiny as init system? Kubernetes uses --init?
