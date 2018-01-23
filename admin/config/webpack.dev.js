@@ -8,8 +8,11 @@ var DEV_SERVER_PORT = 3334;
 webpackConfig.plugins = (webpackConfig.plugins) ? webpackConfig.plugins : [];
 
 webpackConfig.entry.unshift(
+  'babel-polyfill',
   'react-hot-loader/patch',
-  'webpack/hot/only-dev-server'
+  'webpack/hot/only-dev-server',
+  'react',
+  'react-dom'
 );
 
 webpackConfig.output.filename = 'app.js'; // no need to add the hash in dev
