@@ -61,7 +61,7 @@ const authMiddleware = app => {
   app.use(async (ctx, next) => {
     const rolesByAuth = {
       basic: 'user',
-      jwt: ctx.state.jwtdata.sub,
+      jwt: ctx.state.jwtdata ? ctx.state.jwtdata.sub : null,
     };
     ctx.appCtx.role = rolesByAuth[ctx.appCtx.clientAuthMethod];
     await next();
