@@ -42,8 +42,8 @@ echo
 echo "Short name of relational database (database)?"
 read -r database; database=${database:-database}
 echo
-echo "Short name of file bucket (bucket)?"
-read -r bucket; bucket=${bucket:-bucket}
+echo "Short name of file storage (storage)?"
+read -r storage; storage=${storage:-storage}
 echo
 
 # Rename/remove directories
@@ -71,7 +71,7 @@ helm_stack="${helm_stack}  server: ${server//-/}\n"
 helm_stack="${helm_stack}  function: ${function//-/}\n"
 helm_stack="${helm_stack}  cache: ${cache//-/}\n"
 helm_stack="${helm_stack}  database: ${database//-/}\n"
-helm_stack="${helm_stack}  bucket: ${bucket//-/}\n"
+helm_stack="${helm_stack}  storage: ${storage//-/}\n"
 tail -n +9 "scripts/helm.yaml" > "helm.yaml.tmp" && mv -f "helm.yaml.tmp" "scripts/helm.yaml"
 echo -e "${helm_stack}" | cat - scripts/helm.yaml > temp && mv -f temp scripts/helm.yaml
 

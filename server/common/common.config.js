@@ -44,13 +44,12 @@ config.DATABASE_POOL_MAX = process.env.DATABASE_POOL_MAX
   ? parseInt(process.env.DATABASE_POOL_MAX, 10)
   : 10;
 
-// Bucket
-config.BUCKET_ACCESS_KEY = process.env.BUCKET_ACCESS_KEY;
-config.BUCKET_SECRET_KEY = process.env.BUCKET_SECRET_KEY;
-config.BUCKET_ID = process.env.BUCKET_ID;
-config.BUCKET_REGION = process.env.BUCKET_REGION;
-config.BUCKET_URL =
-  '${process.env.BUCKET_PROTOCOL}://${process.env.BUCKET_HOST}:${process.env.BUCKET_PORT}'; // eslint-disable-line
+// Storage
+config.S3_URL = process.env.S3_URL;
+config.S3_REGION = process.env.S3_REGION;
+config.S3_BUCKET = process.env.S3_BUCKET;
+config.S3_KEY_ID = process.env.S3_KEY_ID;
+config.S3_KEY_SECRET = process.env.S3_KEY_SECRET;
 
 // Check requirements
 required.forEach(req => {

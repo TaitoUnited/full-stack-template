@@ -5,7 +5,7 @@ stack:
   function:
   cache:
   database: database
-  bucket:
+  storage:
 
 # Default settings
 
@@ -47,27 +47,30 @@ server:
     JWT_SECRET: jwt.server-template.auth
     ADMIN_PASSWORD: user.server-template-admin.auth
     USER_PASSWORD: user.server-template-user.auth
+    S3_KEY_SECRET: storage.server-template.gateway
   env:
     SENTRY_DSN: #sentryDSN
     DEBUG: false
     ENV: production
+    S3_URL: http://server-template-storage:9000/
+    S3_REGION: europe-west1
+    S3_BUCKET: server-template-dev
+    S3_KEY_ID: 070UEOQR6LX4YPZLFU0V
 
 cache:
   image: redis
   replicas: 1
 
-database:
-  image: kiasaki/alpine-postgres:latest
-  replicas: 1
-  db: gcloud-temp1:europe-west1:common-postgres
-  poolMin: 5
-  poolMax: 10
-
-bucket:
+# minio as storage gateway
+storage:
   image: minio/minio
   replicas: 1
-  host: bucket
+  host: storage
   region: europe-west1-c
+  secrets:
+    MINIO_SECRET_KEY: storage.server-template.gateway
+  env:
+    MINIO_ACCESS_KEY: 070UEOQR6LX4YPZLFU0V
 
 # TODO configure resources
 # resources: {}

@@ -97,18 +97,18 @@ spec:
     - port: {{ .Values.database.port }}
 {{ end }}
 
-{{ if and (.Values.stack.bucket) (eq .Values.env "local") }}
+{{ if and (.Values.stack.storage) (eq .Values.env "local") }}
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "name" . }}-{{ .Values.stack.bucket }}
+  name: {{ template "name" . }}-{{ .Values.stack.storage }}
 spec:
   selector:
     app: {{ template "name" . }}
     release: {{ .Release.Name }}
     tier: backend
-    role: bucket
+    role: storage
   ports:
-    - port: {{ .Values.bucket.port }}
+    - port: {{ .Values.storage.port }}
 {{ end }}

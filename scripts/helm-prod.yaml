@@ -1,17 +1,22 @@
-# Override default settings for production
+# Override default settings for production env
 
 repository: eu.gcr.io/gcloud-temp1/github-taitounited-server-template
 domains:
   # TODO set production domain
 
-ingress:
-  basicAuth: true
+admin:
+  replicas: 2
 
 client:
   replicas: 2
 
 server:
   replicas: 2
+  env:
+    S3_BUCKET: server-template-prod
 
 cache:
-  replicas: 2 # TODO multiple replicas as redis cluster
+  replicas: 1 # TODO multiple replicas as redis cluster
+
+storage:
+  replicas: 2

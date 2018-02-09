@@ -13,6 +13,7 @@ export taito_plugins=" \
 # Common project settings for all plugins
 export taito_organization="taitounited" # TODO use default from user settings
 export taito_zone="gcloud-temp1" # rename to taito-gcloud-open1
+export taito_provider="gcloud"
 export taito_repo_location="github-${taito_organization}"
 export taito_repo_name="server-template"
 export taito_customer="customername"
@@ -98,27 +99,29 @@ export gcloud_project="${taito_zone}"
 # NOTE: Additionally all secrets from common namespace are copied during
 # create:ENV and rotate:ENV
 export taito_secrets="
-  db.${postgres_database}.app:random
+  git.github.build:read/devops
+  gcloud.cloudsql.proxy:copy/devops
   db.${postgres_database}.build/devops:random
-  ext.google-cloudsql.proxy:copy/devops
-  ext.github.build:read/devops
-  jwt.server-template.auth:random
-  user.server-template-admin.auth:manual
-  user.server-template-user.auth:manual"
+  db.${postgres_database}.app:random
+  storage.${taito_project}.gateway:random
+  gcloud.${taito_project}-${taito_env}.multi:file
+  jwt.${taito_project}.auth:random
+  user.${taito_project}-admin.auth:manual
+  user.${taito_project}-user.auth:manual"
 
 # Link plugin
 export link_urls="\
-  open-app[:ENV]#app=${taito_app_url} \
-  open-admin[:ENV]#admin=${taito_admin_url} \
-  open-boards#boards=https://github.com/${taito_organization}/${taito_repo_name}/projects \
-  open-issues#issues=https://github.com/${taito_organization}/${taito_repo_name}/issues \
-  open-git#git=https://github.com/${taito_organization}/${taito_repo_name} \
-  open-builds#builds=https://console.cloud.google.com/gcr/builds?project=${taito_zone}&query=source.repo_source.repo_name%3D%22${taito_repo_location}-${taito_repo_name}%22 \
-  open-artifacts#artifacts=https://console.cloud.google.com/gcr/images/${taito_zone}/EU/${taito_repo_location}-${taito_repo_name}?project=${taito_zone} \
-  open-bucket#bucket=https://storage.googleapis.com/${taito_namespace} \
-  open-logs:ENV#logs=https://console.cloud.google.com/logs/viewer?project=${taito_zone}&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F${kubectl_name}%2Fnamespace_id%2F${taito_namespace} \
-  open-errors:ENV#errors=https://sentry.io/${taito_organization}/${taito_project}/?query=is%3Aunresolved+environment%3A${taito_env} \
-  open-uptime#uptime=https://app.google.stackdriver.com/uptime?project=${taito_zone} \
-  open-performance#performance=https://TODO-NOT-IMPLEMENTED \
-  open-feedback#feedback=https://TODO-NOT-IMPLEMENTED
+  app[:ENV]#app=${taito_app_url} \
+  admin[:ENV]#admin=${taito_admin_url} \
+  git=https://github.com/${taito_organization}/${taito_repo_name} \
+  boards#issue-boards=https://github.com/${taito_organization}/${taito_repo_name}/projects \
+  issues=https://github.com/${taito_organization}/${taito_repo_name}/issues \
+  builds=https://console.cloud.google.com/gcr/builds?project=${taito_zone}&query=source.repo_source.repo_name%3D%22${taito_repo_location}-${taito_repo_name}%22 \
+  artifacts=https://console.cloud.google.com/gcr/images/${taito_zone}/EU/${taito_repo_location}-${taito_repo_name}?project=${taito_zone} \
+  storage:ENV#storage=https://console.cloud.google.com/storage/browser/${taito_project}-${taito_env}?project=${taito_zone} \
+  logs:ENV#logs=https://console.cloud.google.com/logs/viewer?project=${taito_zone}&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F${kubectl_name}%2Fnamespace_id%2F${taito_namespace} \
+  errors:ENV#errors=https://sentry.io/${taito_organization}/${taito_project}/?query=is%3Aunresolved+environment%3A${taito_env} \
+  uptime=https://app.google.stackdriver.com/uptime?project=${taito_zone} \
+  performance=https://TODO-NOT-IMPLEMENTED \
+  feedback=https://TODO-NOT-IMPLEMENTED
   "

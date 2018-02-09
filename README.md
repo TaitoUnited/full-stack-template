@@ -49,6 +49,12 @@ Stop:
 
     $ taito stop
 
+Open app and admin GUI running on dev environment:
+
+    $ taito open app:dev
+    $ taito open admin:dev
+    $ taito info:dev
+
 Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to search for a command (e.g `taito log -h`, `taito clean -h`). For troubleshooting run `taito --trouble`. NOTE: If you run into authorization errors, authenticate with the `taito --auth:ENV` command.
 
 If taito-cli autocomplete is enabled, you can write `taito oper` and press TAB to get the list of most important commands for operating your project. Note that the `oper` grouping prefix is optional so you can leave it out when running a command.
@@ -63,7 +69,7 @@ The taito-cli link plugin provides project related links e.g. for documentation,
 
 ## Structure
 
-An application should be divided in loosely coupled highly cohesive parts by using a modular directory structure. The following rules usually work well in an event-based solution (a GUI for example). In the backend implementation you most likely need to break the rules once in a while, but still try to keep directories loosely coupled.
+An application should be divided in loosely coupled highly cohesive parts by using a modular directory structure. The following rules usually work well in an event-based solution (a GUI for example). In backend implementation you most likely need to break the rules once in a while, but still try to keep directories loosely coupled.
 
 * Create directory structure based on features (`reporting`, `users`, ...) instead of type (`actions`, `containers`, `components`, `css`, ...). Use such file naming that you can easily determine the type from filename (e.g. `*.ducks.js`, `*.container.js`). This way you don't need to use directories for grouping files by type.
 * A directory should not contain any references outside of its boundary; with the exception of references to libraries and common directories. You can think of each directory as an independent mini-sized app, and a `common` directory as a library that is shared among them.
@@ -161,7 +167,7 @@ The CI/CD tool will deploy your database changes automatically to servers once y
 
 > It is recommended that you put a table name at the beginning of your migration script name. This way the table creation script and all its alteration scripts remain close to each other in the file hierarchy.
 
-> REMINDER: Do not forget indexing.
+> REMINDER: Do not forget indexing. Once in a while you should review sql queries made by the application and check that essential indexes are in place in the database.
 
 ## Deployment
 
@@ -174,7 +180,7 @@ Deploying to different environments:
 
 > TIP: Run `taito git env list` to list environment branches and `taito git env merge:ENV SOURCE_BRANCH` to merge an environment branch to another.
 
-> NOTE: The CI/CD process might not have access rights for critical environments. In such case the deployment must be run manually with the `taito [-a] manual deploy: VERSION` command after the CI/CD process has ended successfully.
+> NOTE: Automatic deployment might be turned off for critical environments (`ci_exec_deploy` setting in `taito-config.sh`). In such case the deployment must be run manually with the `taito manual deploy:prod VERSION` command after the CI/CD process has ended successfully. You may need to run the command as admin (`-a`) or ask someone with admin rights to run it.
 
 Advanced features:
 

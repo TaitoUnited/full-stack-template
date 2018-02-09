@@ -202,22 +202,6 @@ spec:
             - prefix: COMMON_
               configMapRef:
                 name: {{ template "name" . }}-common
-            {{ if .Values.stack.database }}
-            - prefix: DATABASE_
-              configMapRef:
-                name: {{ template "name" . }}-database
-            - prefix: DATABASE_
-              secretRef:
-                name: db.{{ template "fullname" . }}.app
-            {{ end }}
-            {{ if .Values.stack.bucket }}
-            - prefix: BUCKET_
-              configMapRef:
-                name: {{ template "name" . }}-bucket
-            - prefix: BUCKET_
-              secretRef:
-                name: {{ template "name" . }}-bucket
-            {{ end }}
           env:
             {{- range $name, $value := .Values.server.env }}
             - name: {{ $name }}
@@ -235,6 +219,7 @@ spec:
             - name: API_BINDADDR
               value: {{ .Values.server.bindAddr | quote }}
   {{ if and (.Values.stack.database) (ne .Values.env "local") }}
+        # TODO only when zone.provider == "gcloud"
         - name: cloudsql-proxy
           image: gcr.io/cloudsql-docker/gce-proxy:1.11
           command:
@@ -255,7 +240,7 @@ spec:
       volumes:
         - name: cloudsql-instance-credentials
           secret:
-            secretName: ext.google-cloudsql.proxy
+            secretName: gcloud.cloudsql.proxy
         - name: ssl-certs
           hostPath:
             path: /etc/ssl/certs
@@ -311,93 +296,59 @@ spec:
 
 {{ end }}
 
-{{ if and (.Values.stack.database) (eq .Values.env "local") }}
+# Minio as Google Cloud Storage gateway
+{{ if and (.Values.stack.storage) (eq .Values.zone.provider "gcloud") }}
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "name" . }}-{{ .Values.stack.database }}
+  name: {{ template "name" . }}-{{ .Values.stack.storage }}
   labels:
     app: {{ template "name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.database.replicas }}
+  replicas: {{ .Values.storage.replicas }}
   template:
     metadata:
       labels:
         app: {{ template "name" . }}
         release: {{ .Release.Name }}
         tier: backend
-        role: database
+        role: storage
     spec:
       containers:
-        - name: {{ template "name" . }}-{{ .Values.stack.database }}
-          image: {{ .Values.database.image | quote }}
-          imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
-          ports:
-            - containerPort: {{ .Values.database.port }}
-          envFrom:
-            - prefix: POSTGRES_
-              configMapRef:
-                name: {{ template "name" . }}-{{ .Values.stack.database }}
-            - prefix: POSTGRES_
-              secretRef:
-                name: {{ template "name" . }}-{{ .Values.stack.database }}
-          env:
-            {{- range $name, $value := .Values.database.env }}
-            - name: {{ $name }}
-              value: {{ $value | quote }}
-            {{- end }}
-            {{- range $name, $value := .Values.database.secrets }}
-            - name: {{ $name }}
-              valueFrom:
-                secretKeyRef:
-                  name: {{ $value }}
-                  key: SECRET
-            {{- end }}
-{{ end }}
-
-{{ if and (.Values.stack.bucket) (eq .Values.env "local") }}
----
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: {{ template "name" . }}-{{ .Values.stack.bucket }}
-  labels:
-    app: {{ template "name" . }}
-    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
-spec:
-  replicas: {{ .Values.bucket.replicas }}
-  template:
-    metadata:
-      labels:
-        app: {{ template "name" . }}
-        release: {{ .Release.Name }}
-        tier: backend
-        role: bucket
-    spec:
-      containers:
-        - name: {{ template "name" . }}-{{ .Values.stack.bucket }}
-          image: {{ .Values.bucket.image | quote }}
+        - name: {{ template "name" . }}-{{ .Values.stack.storage }}
+          image: {{ .Values.storage.image | quote }}
           imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
           command:
-            - server /export
+            - minio
+            - gateway
+            - gcs
+            - {{ .Values.zone.name }}
           ports:
-            - containerPort: {{ .Values.bucket.port }}
+            - containerPort: {{ .Values.storage.port }}
           env:
-            {{- range $name, $value := .Values.server.env }}
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /credentials/SECRET
+            {{- range $name, $value := .Values.storage.env }}
             - name: {{ $name }}
               value: {{ $value | quote }}
             {{- end }}
-            {{- range $name, $value := .Values.server.secrets }}
+            {{- range $name, $value := .Values.storage.secrets }}
             - name: {{ $name }}
               valueFrom:
                 secretKeyRef:
                   name: {{ $value }}
                   key: SECRET
             {{- end }}
+          volumeMounts:
+            - name: credentials
+              mountPath: /credentials
+              readOnly: true
+      volumes:
+        - name: credentials
+          secret:
+            secretName: gcloud.{{ .Values.project.name }}-{{ .Values.env }}.multi
 {{ end }}

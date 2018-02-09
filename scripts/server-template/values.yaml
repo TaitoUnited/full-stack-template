@@ -1,4 +1,7 @@
 # These are given as command line parameters during build
+zone:
+  name: gcloud-temp1
+  provider: gcloud
 project:
   name: server-template
   customer: customername
@@ -62,11 +65,11 @@ database:
   poolMin: 5
   poolMax: 10
 
-bucket:
+storage:
   port: 9000
   image: minio/minio
   replicas: 1
-  host: bucket
+  host: storage
   region: europe-west1-c
 
 # TODO configure resources
