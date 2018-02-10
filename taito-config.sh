@@ -96,8 +96,6 @@ esac
 export gcloud_project="${taito_zone}"
 
 # NOTE: Secret naming: type.target_of_type.purpose[/namespace]:generation_method
-# NOTE: Additionally all secrets from common namespace are copied during
-# create:ENV and rotate:ENV
 export taito_secrets="
   git.github.build:read/devops
   gcloud.cloudsql.proxy:copy/devops

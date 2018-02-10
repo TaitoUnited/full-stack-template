@@ -1,0 +1,4 @@
+apiVersion: v1
+description: A Helm chart for applications and APIs running on server.
+name: helm
+version: 0.1.0

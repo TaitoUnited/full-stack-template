@@ -1,17 +1,17 @@
 # These are given as command line parameters during build
 zone:
-  name: gcloud-temp1
-  provider: gcloud
+  name:
+  provider:
 project:
-  name: server-template
-  customer: customername
+  name:
+  customer:
 build:
-  version: latest
-  commit: latest
-  imageTag: b4a7ee3c4122fd32df6fb3eb20c9e1d63ef225b7
+  version:
+  commit:
+  imageTag:
 
 # Environment
-repository: eu.gcr.io/gcloud-temp1/github-taitounited-server-template
+repository:
 imagePullPolicy: ''
 domains:
 

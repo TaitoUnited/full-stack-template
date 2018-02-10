@@ -5,7 +5,7 @@ stack:
   function:
   cache:
   database: database
-  storage:
+  storage: storage
 
 # Default settings
 

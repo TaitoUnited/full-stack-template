@@ -96,7 +96,6 @@ add_container "${function}"
 } >> cloudbuild.yaml.tmp
 mv -f cloudbuild.yaml.tmp cloudbuild.yaml
 
-mv ./scripts/server-template "./scripts/${template_repo_name}"
 if [ "$(uname)" = "Darwin" ]; then
   find . -type f -exec sed -i '' \
     -e "s/server_template/${template_repo_name_alt}/g" 2> /dev/null {} \;
