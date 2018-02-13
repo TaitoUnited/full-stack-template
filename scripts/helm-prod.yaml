@@ -15,8 +15,16 @@ server:
   env:
     S3_BUCKET: server-template-prod
 
-cache:
-  replicas: 1 # TODO multiple replicas as redis cluster
+worker:
+  replicas: 2
+  env:
+    S3_BUCKET: server-template-prod
 
 storage:
   replicas: 2
+
+cache:
+  replicas: 1 # TODO multiple replicas as redis cluster
+
+queue:
+  replicas: 1 # TODO multiple replicas as queue cluster

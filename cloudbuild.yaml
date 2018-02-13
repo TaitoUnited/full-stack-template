@@ -1,3 +1,11 @@
+images: [
+  'eu.gcr.io/$PROJECT_ID/$REPO_NAME/admin:$COMMIT_SHA',
+  'eu.gcr.io/$PROJECT_ID/$REPO_NAME/client:$COMMIT_SHA',
+  'eu.gcr.io/$PROJECT_ID/$REPO_NAME/server:$COMMIT_SHA'
+]
+
+timeout: 1200s
+
 steps:
 
 # NOTE: This first ugly step is an optimization. We execute cancel with
@@ -69,26 +77,19 @@ steps:
     - taito_mode=ci
     - commit_sha=$COMMIT_SHA
 
-- id: ci-test-unit
+- id: scan
   waitFor: ['install']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
-  args: ['ci-test-unit:$BRANCH_NAME']
-  env:
-    - taito_mode=ci
-
-- id: ci-scan
-  waitFor: ['install']
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
-  args: ['ci-scan:$BRANCH_NAME']
+  args: ['scan:$BRANCH_NAME']
   env:
     - taito_mode=ci
 
 # Build artifacts
 
-- id: ci-docs
+- id: docs
   waitFor: ['install']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
-  args: ['ci-docs:$BRANCH_NAME']
+  args: ['docs:$BRANCH_NAME']
   env:
     - taito_mode=ci
 
@@ -154,18 +155,10 @@ steps:
 #   env:
 #     - taito_mode=ci
 #
-# - id: ci-test-api:local
+# - id: test:local
 #   waitFor: ['ci-wait:local']
 #   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
-#   args: ['ci-test-api:local']
-#   env:
-#     - taito_mode=ci
-#     - COMPOSE_PROJECT_NAME=workspace
-#
-# - id: ci-test-e2e:local
-#   waitFor: ['ci-wait:local']
-#   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
-#   args: ['ci-test-e2e:local']
+#   args: ['test:local']
 #   env:
 #     - taito_mode=ci
 #     - COMPOSE_PROJECT_NAME=workspace
@@ -201,17 +194,10 @@ steps:
 #   env:
 #     - taito_mode=ci
 #
-# - id: ci-test-api
+# - id: test
 #   waitFor: ['ci-wait']
 #   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
-#   args: ['ci-test-api:$BRANCH_NAME']
-#   env:
-#     - taito_mode=ci
-#
-# - id: ci-test-e2e
-#   waitFor: ['ci-wait']
-#   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
-#   args: ['ci-test-e2e:$BRANCH_NAME']
+#   args: ['test:$BRANCH_NAME']
 #   env:
 #     - taito_mode=ci
 #
@@ -234,10 +220,3 @@ steps:
   args: ['ci-release-post:$BRANCH_NAME']
   env:
     - taito_mode=ci
-
-timeout: 1200s
-images: [
-  'eu.gcr.io/$PROJECT_ID/$REPO_NAME/admin:$COMMIT_SHA',
-  'eu.gcr.io/$PROJECT_ID/$REPO_NAME/client:$COMMIT_SHA',
-  'eu.gcr.io/$PROJECT_ID/$REPO_NAME/server:$COMMIT_SHA'
-]

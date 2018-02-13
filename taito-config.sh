@@ -23,15 +23,6 @@ export taito_namespace="${taito_project}-${taito_env}" # or "${taito_customer}-$
 export taito_app_url="https://${taito_namespace}.taitodev.com" # TODO use default from user settings
 export taito_admin_url="${taito_app_url}/admin/"
 
-# Settings for builds
-export ci_exec_build=true
-export ci_exec_deploy=true
-export ci_exec_test_env=false
-export ci_exec_revert=false
-# TODO implement copy support to 'taito ci-deploy'
-export ci_copy="\
-  docker://client/build;gs://cdn.taitounited.fi/${taito_namespace}"
-
 # docker plugin
 export dockerfile=Dockerfile
 
@@ -58,27 +49,47 @@ export template_dest_git_url="git@github.com:${taito_organization}"
 # Sentry plugin
 export sentry_organization="${taito_organization}"
 
-# Misc settings for npm scripts
-export test_api_user="test"
-export test_api_password="password"
-export test_e2e_user="test"
-export test_e2e_password="password"
+# Settings for builds
+# NOTE: Most of these should be enabled for dev and feature envs only
+export ci_stack="admin client cache database server storage"
+export ci_exec_build=false        # build a container if does not exist already
+export ci_exec_deploy=true        # deploy automatically
+export ci_exec_test=false         # execute test suites after deploy
+export ci_exec_test_init=false    # run 'init --clean' before each test suite
+export ci_exec_revert=false       # revert deploy automatically on fail
+# TODO implement copy support to 'taito ci-deploy'
+export ci_copy="\
+  docker://client/build;gs://cdn.taitounited.fi/${taito_namespace}"
+
+# Test suite arguments
+export test_api_url="${taito_app_url}/api"
+export test_user="test"
+export test_password="password"
 
 # Override settings for different environments:
 # local, feature, dev, test, staging, prod
 case "${taito_env}" in
   prod)
     # prod overrides
-    ci_exec_build=false
-    ci_exec_deploy=true # NOTE: set to false if manual prod deploy is required
-    ci_exec_test_env=false
-    ci_exec_revert=false
     ;;
   staging)
     # staging overrides
     ;;
+  test)
+    # test overrides
+    ;;
+  dev|feature)
+    # dev and feature overrides
+    export ci_exec_build=true        # allow build of a new container
+    export ci_exec_deploy=true       # deploy automatically
+    export ci_exec_test=true         # execute test suites
+    export ci_exec_test_init=true    # run 'init --clean' before each test suite
+    export ci_exec_revert=true       # revert deploy if previous steps failed
+    ;;
   local)
     # local overrides
+    export ci_exec_test_init=true    # run 'init --clean' before each test suite
+    export test_api_url="http://localhost:3332"
     export taito_app_url="http://localhost:8080"
     export taito_admin_url="${taito_app_url}/admin/"
     export postgres_external_port="6000"

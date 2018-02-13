@@ -5,7 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "test": "BABEL_ENV=test jest",
+    "unit": "BABEL_ENV=test jest",
     "lint": "eslint . --ignore-path .eslintignore --quiet",
     "start":
       "webpack-dev-server --config ./config/webpack.dev.js --public=localhost:8080",

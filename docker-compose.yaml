@@ -2,7 +2,7 @@
 
 server-template-ingress:
   container_name: server-template-ingress
-  image: nginx:1.13.3
+  image: nginx:1.13.8-alpine
   restart: on-failure
   ports:
     - "8080:80"
@@ -89,12 +89,55 @@ server-template-server:
     S3_KEY_ID: 070UEOQR6LX4YPZLFU0V
     S3_KEY_SECRET: CVQVa33NekSiOJGnevSY5ITr8Rql8lFkp22WhLQ+
 
+# server-template-worker:
+#   container_name: server-template-worker
+#   build: ./worker
+#   dockerfile: ${dockerfile}
+#   restart: on-failure
+#   ports:
+#     - "3331"
+#   volumes:
+#     - "./worker:/worker"
+#     - "/worker/node_modules"
+#   links:
+#     - server-template-cache:server-template-cache
+#     - server-template-database:server-template-database
+#     - server-template-storage:server-template-storage
+#   environment:
+#     NODE_ENV: development
+#     ENV: dev # TODO remove?
+#     DEBUG: 'false'
+#     API_BINDADDR: 0.0.0.0
+#     API_PORT: 3331
+#     COMMON_ENV: local
+#     COMMON_DEBUG: 'true'
+#     COMMON_PROJECT: server-template
+#     COMMON_CUSTOMER: customername
+#     DATABASE_HOST: server-template-database
+#     DATABASE_ID: server_template_local
+#     DATABASE_DB: server_template_local
+#     DATABASE_USER: server_template_local_app
+#     DATABASE_SECRET: secret
+#     DATABASE_POOL_MAX: '10'
+#     S3_URL: http://server-template-storage:9000/
+#     S3_REGION: milkyway
+#     S3_BUCKET: bucket
+#     S3_KEY_ID: 070UEOQR6LX4YPZLFU0V
+#     S3_KEY_SECRET: CVQVa33NekSiOJGnevSY5ITr8Rql8lFkp22WhLQ+
+
 server-template-cache:
   container_name: server-template-cache
-  image: redis
+  image: redis:alpine
   restart: on-failure
   ports:
     - "6379"
+
+# server-template-queue:
+#   container_name: server-template-queue
+#   image: rabbitmq:alpine
+#   restart: on-failure
+#   ports:
+#     - "5672"
 
 # "EXTERNAL RESOURCES"
 

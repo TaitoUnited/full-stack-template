@@ -3,3 +3,7 @@
 server:
   env:
     S3_BUCKET: server-template-staging
+
+worker:
+  env:
+    S3_BUCKET: server-template-staging

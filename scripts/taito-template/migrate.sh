@@ -16,7 +16,7 @@ mv "${template_project_path}/scripts" "${template_project_path}/old_scripts" \
   2> /dev/null
 
 # Upgrade
-./scripts/template/upgrade.sh
+./scripts/taito-template/upgrade.sh
 
 echo "- migrate: Copy all files from template root"
 yes | cp -- * "${template_project_path}" 2> /dev/null

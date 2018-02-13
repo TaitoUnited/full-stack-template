@@ -6,30 +6,19 @@
 
 * [taito-cli](https://github.com/TaitoUnited/taito-cli#readme)
 * [docker-compose](https://docs.docker.com/compose/install/) (>= 1.11)
-* Linter and formatter plugins for your code editor (e.g eslint and prettier)
-
-## Conventions
-
-* [Taito conventions:](https://github.com/TaitoUnited/taito/wiki/Conventions) General conventions
-* [TaitoFlow:](https://github.com/TaitoUnited/taito/wiki/Git-and-GitHub#taitoflow) Version control workflow
-
-## Tips
-
-* [Taito-cli](https://github.com/TaitoUnited/taito/wiki/Taito-cli)
-* [Basic git commands](https://github.com/TaitoUnited/taito/wiki/Git-and-GitHub#git-commands)
-* Technologies: [React](https://github.com/TaitoUnited/taito/wiki/React), [Node.js](https://github.com/TaitoUnited/taito/wiki/Node), [Docker](https://github.com/TaitoUnited/taito/wiki/Docker)
+* eslint and prettier plugins for your code editor
 
 ## Quick start
 
-Install linters locally (all developers use the same linter version):
+Install linters locally (add `--clean` for clean reinstall):
 
     $ taito install
 
-Start containers (use the `--clean` flag in case of trouble):
+Start containers (add `--clean` for clean rebuild):
 
     $ taito start
 
-Make sure that everything has been initialized (database populated, etc.):
+Make sure that everything has been initialized (e.g database) (add `--clean` for clean reinit):
 
     $ taito init
 
@@ -45,31 +34,61 @@ Show user accounts and other information that you can use to log in:
 
     $ taito info
 
-Stop:
+Access database:
+
+    $ taito db open     # access using a command-line tool
+    $ taito db proxy    # access using a database GUI tool
+
+Run all tests:
+
+    $ taito unit        # unit tests
+    $ taito test        # integration and end-to-end tests
+
+Stop containers:
 
     $ taito stop
 
-Open app and admin GUI running on dev environment:
+List all project related links:
+
+    $ taito open -h
+
+The commands listed above work also for server environments (`feature`, `dev`, `test`, `staging`, `prod`). Some examples for dev environment:
 
     $ taito open app:dev
     $ taito open admin:dev
     $ taito info:dev
+    $ taito status:dev
+    $ taito logs:dev server
+    $ taito shell:dev server
+    $ taito db open:dev
+    $ taito db proxy:dev
+    $ taito open storage:dev
+    $ taito open logs:dev
+    $ taito test:dev
 
-Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to search for a command (e.g `taito log -h`, `taito clean -h`). For troubleshooting run `taito --trouble`. NOTE: If you run into authorization errors, authenticate with the `taito --auth:ENV` command.
+Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to search for a command (e.g `taito status -h`, `taito log -h`, `taito import -h`). For troubleshooting run `taito --trouble`. See PROJECT.md for project specific conventions and documentation.
 
-If taito-cli autocomplete is enabled, you can write `taito oper` and press TAB to get the list of most important commands for operating your project. Note that the `oper` grouping prefix is optional so you can leave it out when running a command.
-
-See PROJECT.md for project specific conventions and documentation.
+> If you run into authorization errors, authenticate with the `taito --auth:ENV` command.
 
 > It's common that idle applications are run down to save resources on non-production environments. If your application seems to be down, you can start it by running `taito start:ENV`, or by pushing some changes to git.
 
-## Tools and links
+## Automated tests
 
-The taito-cli link plugin provides project related links e.g. for documentation, continuous integration, issue management, logging, monitoring and customer feedback. Run `taito open -h` to show all the links.
+### Unit tests
+
+All unit tests are run automatically during build (see `Dockerfile.build` files). You can run unit tests also in local environment with the `taito unit [CONTAINER]` command, for example `taito unit: client`.
+
+> NOTE: You can execute also browser and api tests using the same 'unit test' mechanism if you just mock the required APIs or DAOs so that the whole test can be run within one container.
+
+### Integration and end-to-end tests
+
+All integration and end-to-end test suites are run automatically after application has been deployed to dev environment (see `Dockerfile.test` files). Integration and end-to-end tests are grouped in independent test suites (see `suite-*.sh` and `zuite-*.sh` files) and `taito init --clean` is run before each of them to clean up data. If, however, data cleanup is not necessary, you can turn it off with the `ci_exec_test_init` setting in `taito-config.sh`.
+
+You can run integration and end-to-end tests manually with the `taito test:ENV [CONTAINER] [SUITE]` command, for example `taito test:dev server suite-xx`. Environment specific test suite parameters are configured in `taito-config.sh` and they are passed to test suites in `package.json`.
 
 ## Structure
 
-An application should be divided in loosely coupled highly cohesive parts by using a modular directory structure. The following rules usually work well in an event-based solution (a GUI for example). In backend implementation you most likely need to break the rules once in a while, but still try to keep directories loosely coupled.
+An application should be divided in loosely coupled highly cohesive parts by using a modular directory structure. The following rules usually work well in an event-based solution (a GUI for example). For a backend implementation you most likely need to break the rules once in a while, but still try to keep directories loosely coupled.
 
 * Create directory structure based on features (`reporting`, `users`, ...) instead of type (`actions`, `containers`, `components`, `css`, ...). Use such file naming that you can easily determine the type from filename (e.g. `*.ducks.js`, `*.container.js`). This way you don't need to use directories for grouping files by type.
 * A directory should not contain any references outside of its boundary; with the exception of references to libraries and common directories. You can think of each directory as an independent mini-sized app, and a `common` directory as a library that is shared among them.
@@ -200,13 +219,25 @@ NOTE: Some of the advanced operations might require admin credentials (e.g. stag
 Recommended settings for git repository:
 
 * Default branch: dev
-* Protected branch: master (TODO more settings?)
+* Protected branch: master (TODO more protection settings)
 * Developers team: write permission
 * Admins team: admin permission
+* Remove admin permission from the repository creator.
 
-### Docker
+### Choosing stack
 
-Modify `docker-compose.yaml` without touching the container names. Remove such containers that you don't need. Remove unnecessary containers also from `docker-nginx.conf` file.
+The orig-template comes with preconfigured stack components that you can use. Change the stack by modifying the following files:
+
+* `docker-compose.yaml`: containers for local development.
+* `docker-nginx.conf`: 'ingress' for local development.
+* `package.json`: some container specific scripts.
+* `taito-config.sh`: the `ci_stack` setting.
+* `scripts/helm.yaml`: the `stack` setting at the beginning of file.
+* `cloudbuild.yaml`: the `images` setting at the beginning of file.
+
+Remove stack components that you don't need. If you later need to add stack components, see [orig-template](https://github.com/TaitoUnited/orig-template/) for examples.
+
+If you would rather use vue instead of react, copy example implementation from `client-vue` to your client directory. If you would rather use python instead of node.js, copy `server-py` to your server directory.
 
 ### Example implementations
 
@@ -221,8 +252,9 @@ The following implementation changes:
 * Stackdriver
 * Sentry
 * Secrets
-* Buckets
-* Job queues
+* Storage
+* Queues
+* Cron jobs
 
 ## Configuration for server environments
 
@@ -245,9 +277,9 @@ TODO terraform configuration
 
 ### Kubernetes
 
-The `scripts/heml.yaml` file contains default Kubernetes settings for all environments and the `scripts/helm-ENV.yaml` files contain environment specific overrides for them. By modying these files you can easily configure environment variables, resource requirements and autoscaling for your containers.
+The `scripts/heml.yaml` file contains default Kubernetes settings for all environments and the `scripts/helm-*.yaml` files contain environment specific overrides for them. By modying these files you can easily configure environment variables, resource requirements and autoscaling for your containers.
 
-> NOTE: Do not modify the Kubernetes template. Improve the original Kubernetes template of orig-template instead.
+> NOTE: Do not modify the helm template located in `./scripts/helm` directory. Improve the original Kubernetes template of orig-template instead.
 
 ### Secrets
 

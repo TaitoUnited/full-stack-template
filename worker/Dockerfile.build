@@ -1,0 +1,38 @@
+# Builder
+FROM node:8.7-alpine as builder
+ARG TARGET_ENV=prod
+ENV TARGET_ENV ${TARGET_ENV}
+ENV NODE_ENV development
+RUN apk add --update-cache build-base python git fontconfig
+WORKDIR /server
+COPY ./package.json /server/package.json
+# TODO for local development: RUN npm install nodemon -g
+RUN npm install --loglevel warn
+COPY . /server
+# TODO for local development: EXPOSE 3332
+RUN if [[ ${TARGET_ENV} != "local" ]]; then npm run build:prod; fi
+# TODO for local development: CMD ["npm", "run", "start"]
+
+# Production runtime
+FROM node:8.7-alpine
+ARG BUILD_VERSION
+LABEL version=${BUILD_VERSION} \
+      customer=customername \
+      project=server-template \
+      role=client
+ENV BUILD_VERSION ${BUILD_VERSION}
+ENV NODE_ENV production
+WORKDIR /build
+COPY --from=builder /build .
+COPY --from=builder /server/package.json .
+COPY --from=builder /server/node_modules ./node_modules
+# Delete development libraries and create node user if it doesn't exist
+RUN npm prune --production && \
+    addgroup -S -g 74839 node || \
+    adduser -S -u 74276 -s /bin/false node || \
+    addgroup node node || \
+    su node -s /bin/sh -c "node --version"
+USER node
+EXPOSE 3332
+# TODO dump-init or tiny as init system? Kubernetes uses --init?
+CMD ["node", "./index.production.js"]

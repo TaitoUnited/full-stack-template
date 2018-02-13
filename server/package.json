@@ -5,6 +5,7 @@
   "main": "index.js",
   "private": true,
   "scripts": {
+    "unit": "echo 'TODO run unit tests'",
     "start": "npm run start:dev",
     "start:dev":
       "NODE_ENV=development nodemon -L ./index.js --ignore 'test/*.js' | bunyan -l debug",
