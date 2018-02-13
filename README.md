@@ -2,6 +2,12 @@
 
 # server-template
 
+[admin:dev]() [admin:test]() [admin:staging]() [admin:prod]() [app:dev]() [app:test]() [app:staging]() [app:prod]() [boards]() [builds:dev]() [builds:prod]() [errors:dev]() [errors:test]() [errors:staging]() [errors:prod]() [feedback]() [git]() [logs:dev]() [logs:test]() [logs:staging]() [logs:prod]() [performance]() [storage:dev]() [storage:test]() [storage:staging]() [storage:prod]() [uptime]()
+
+```
+...
+```
+
 ## Prerequisites
 
 * [taito-cli](https://github.com/TaitoUnited/taito-cli#readme)
@@ -66,7 +72,7 @@ The commands listed above work also for server environments (`feature`, `dev`, `
     $ taito open logs:dev
     $ taito test:dev
 
-Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to search for a command (e.g `taito status -h`, `taito log -h`, `taito import -h`). For troubleshooting run `taito --trouble`. See PROJECT.md for project specific conventions and documentation.
+Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to search for a command (e.g `taito git -h`, `taito db -h`, `taito import -h`). For troubleshooting run `taito --trouble`. See PROJECT.md for project specific conventions and documentation.
 
 > If you run into authorization errors, authenticate with the `taito --auth:ENV` command.
 
@@ -224,7 +230,7 @@ Recommended settings for git repository:
 * Admins team: admin permission
 * Remove admin permission from the repository creator.
 
-### Choosing stack
+### Stack
 
 The orig-template comes with preconfigured stack components that you can use. Change the stack by modifying the following files:
 
@@ -239,7 +245,7 @@ Remove stack components that you don't need. If you later need to add stack comp
 
 If you would rather use vue instead of react, copy example implementation from `client-vue` to your client directory. If you would rather use python instead of node.js, copy `server-py` to your server directory.
 
-### Example implementations
+### Examples
 
 TODO Something about the examples...
 
