@@ -11,24 +11,25 @@ export taito_plugins=" \
   gcloud-builder:-local sentry secret:-local semantic npm"
 
 # Common project settings for all plugins
-export taito_organization="taitounited" # TODO use default from user settings
-export taito_zone="gcloud-temp1" # rename to taito-gcloud-open1
-export taito_provider="gcloud"
+export taito_environments="dev prod"
+export taito_organization="${template_default_organization:?}"
+export taito_zone="${template_default_zone:?}"
+export taito_provider="${template_default_provider:?}"
 export taito_repo_location="github-${taito_organization}"
 export taito_repo_name="server-template"
 export taito_customer="customername"
 export taito_project="server-template"
 export taito_registry="eu.gcr.io/${taito_zone}/github-${taito_organization}-${taito_repo_name}"
-export taito_namespace="${taito_project}-${taito_env}" # or "${taito_customer}-${taito_env}"
-export taito_app_url="https://${taito_namespace}.taitodev.com" # TODO use default from user settings
+export taito_namespace="${taito_project}-${taito_env:?}" # or "${taito_customer}-${taito_env}"
+export taito_app_url="https://${taito_namespace}.${template_default_domain:?}"
 export taito_admin_url="${taito_app_url}/admin/"
 
 # docker plugin
 export dockerfile=Dockerfile
 
 # gcloud plugin
-export gcloud_region="europe-west1"
-export gcloud_zone="europe-west1-c"
+export gcloud_region="${template_default_provider_region:?}"
+export gcloud_zone="${template_default_provider_zone:?}"
 export gcloud_sql_proxy_port="5001"
 export gcloud_cdn_enabled=false
 
@@ -43,8 +44,7 @@ export postgres_port="${gcloud_sql_proxy_port}"
 
 # Template plugin
 export template_name="orig-template"
-export template_source_git_url="git@github.com:TaitoUnited"
-export template_dest_git_url="git@github.com:${taito_organization}"
+export template_source_git="git@github.com:TaitoUnited"
 
 # Sentry plugin
 export sentry_organization="${taito_organization}"
@@ -59,7 +59,7 @@ export ci_exec_test_init=false    # run 'init --clean' before each test suite
 export ci_exec_revert=false       # revert deploy automatically on fail
 # TODO implement copy support to 'taito ci-deploy'
 export ci_copy="\
-  docker://client/build;gs://cdn.taitounited.fi/${taito_namespace}"
+  docker://client/build;gs://xxx/${taito_namespace}"
 
 # Test suite arguments
 export test_api_url="${taito_app_url}/api"

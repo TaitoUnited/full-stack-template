@@ -1,5 +1,14 @@
 #!/bin/bash
 
+: "${template_default_organization:?}"
+: "${template_default_domain:?}"
+: "${template_default_zone:?}"
+: "${template_default_provider:?}"
+: "${template_default_provider_region:?}"
+: "${template_default_provider_zone:?}"
+: "${template_default_source_git:?}"
+: "${template_default_dest_git:?}"
+
 : "${template_project_path:?}"
 : "${template_project:?}"
 : "${template_repo_name:?}"
@@ -15,7 +24,6 @@ grep -v '"license":' < package.json > package.json.tmp
 mv package.json.tmp package.json
 
 # Remove client-vue and server-py
-# TODO let user choose also vue and python
 rm -rf client-vue
 rm -rf server-py
 
@@ -108,26 +116,6 @@ rm -rf server-py
 # } >> cloudbuild.yaml.tmp
 # mv -f cloudbuild.yaml.tmp cloudbuild.yaml
 
-if [ "$(uname)" = "Darwin" ]; then
-  find . -type f -exec sed -i '' \
-    -e "s/server_template/${template_repo_name_alt}/g" 2> /dev/null {} \;
-  find . -type f -exec sed -i '' \
-    -e "s/server-template/${template_repo_name}/g" 2> /dev/null {} \;
-  find . -type f -exec sed -i '' \
-    -e "s/customername/${template_customer}/g" 2> /dev/null {} \;
-  find . -type f -exec sed -i '' \
-    -e "s/orig-template/server-template/g" 2> /dev/null {} \;
-else
-  find . -type f -exec sed -i \
-    -e "s/server_template/${template_repo_name_alt}/g" 2> /dev/null {} \;
-  find . -type f -exec sed -i \
-    -e "s/server-template/${template_repo_name}/g" 2> /dev/null {} \;
-  find . -type f -exec sed -i \
-    -e "s/customername/${template_customer}/g" 2> /dev/null {} \;
-  find . -type f -exec sed -i \
-    -e "s/orig-template/server-template/g" 2> /dev/null {} \;
-fi
-
 echo
 echo "--- Choose basic auth credentials ---"
 echo
@@ -137,28 +125,7 @@ echo "Simple basic auth password:"
 # read -r auth_password
 echo "${auth_password}" | htpasswd -c scripts/${template_repo_name}/.htpasswd ${auth_username}
 
-# Generate ports
-ingress_port=$(shuf -i 8000-9999 -n 1)
-db_port=$(shuf -i 6000-7999 -n 1)
-
-# Replace user, password and ports in files
-if [ "$(uname)" = "Darwin" ]; then
-  sed -i '' -- "s/#username/${auth_username}/g" README.md PROJECT.md package.json
-  sed -i '' -- "s/#password/${auth_password}/g" README.md PROJECT.md package.json
-  sed -i '' -- "s/6000/${db_port}/g" taito-config.sh &> /dev/null
-  sed -i '' -- "s/6000/${db_port}/g" docker-compose.yaml &> /dev/null
-  sed -i '' -- "s/8080/${ingress_port}/g" docker-compose.yaml taito-config.sh \
-    ./admin/package.json ./client/package.json &> /dev/null
-else
-  sed -i -- "s/#username/${auth_username}/g" README.md PROJECT.md package.json
-  sed -i -- "s/#password/${auth_password}/g" README.md PROJECT.md package.json
-  sed -i -- "s/6000/${db_port}/g" taito-config.sh &> /dev/null
-  sed -i -- "s/6000/${db_port}/g" docker-compose.yaml &> /dev/null
-  sed -i -- "s/8080/${ingress_port}/g" docker-compose.yaml taito-config.sh \
-    ./admin/package.json ./client/package.json &> /dev/null
-fi
-
-# Replace first line of README.md with a 'do not modify' note
+# Replace NOTE of README.md with a 'do not modify' note
 tail -n +2 "README.md" > "README.md.tmp" && mv -f "README.md.tmp" "README.md"
 echo \
 "> NOTE: This file has been copied from \
@@ -192,3 +159,54 @@ printf \
 # minimal and improve the original instead.\n\n" | \
   cat - cloudbuild.yaml > temp && \
   mv -f temp cloudbuild.yaml
+
+# Replace some strings
+if [ "$(uname)" = "Darwin" ]; then
+  find . -type f -exec sed -i '' \
+    -e "s/server_template/${template_repo_name_alt}/g" 2> /dev/null {} \;
+  find . -type f -exec sed -i '' \
+    -e "s/server-template/${template_repo_name}/g" 2> /dev/null {} \;
+  find . -type f -exec sed -i '' \
+    -e "s/customername/${template_customer}/g" 2> /dev/null {} \;
+  find . -type f -exec sed -i '' \
+    -e "s/orig-template/server-template/g" 2> /dev/null {} \;
+else
+  find . -type f -exec sed -i \
+    -e "s/server_template/${template_repo_name_alt}/g" 2> /dev/null {} \;
+  find . -type f -exec sed -i \
+    -e "s/server-template/${template_repo_name}/g" 2> /dev/null {} \;
+  find . -type f -exec sed -i \
+    -e "s/customername/${template_customer}/g" 2> /dev/null {} \;
+  find . -type f -exec sed -i \
+    -e "s/orig-template/server-template/g" 2> /dev/null {} \;
+fi
+
+# Generate ports
+ingress_port=$(shuf -i 8000-9999 -n 1)
+db_port=$(shuf -i 6000-7999 -n 1)
+
+# Replace user, password and ports in files
+if [ "$(uname)" = "Darwin" ]; then
+ sedi="-i ''"
+else
+ sedi="-i"
+fi
+sed ${sedi} -- "s/#username/${auth_username}/g" README.md PROJECT.md package.json
+sed ${sedi} -- "s/#password/${auth_password}/g" README.md PROJECT.md package.json
+sed ${sedi} -- "s/6000/${db_port}/g" taito-config.sh &> /dev/null
+sed ${sedi} -- "s/6000/${db_port}/g" docker-compose.yaml &> /dev/null
+sed ${sedi} -- "s/8080/${ingress_port}/g" docker-compose.yaml taito-config.sh \
+  ./admin/package.json ./client/package.json &> /dev/null
+
+# Replace template variables in taito-config.sh with user specific settings
+sed ${sedi} -- "s/\${template_default_organization:?}/${template_default_organization}/g" taito-config.sh
+sed ${sedi} -- "s/\${template_default_domain:?}/${template_default_domain}/g" taito-config.sh
+sed ${sedi} -- "s/\${template_default_zone:?}/${template_default_zone}/g" taito-config.sh
+sed ${sedi} -- "s/\${template_default_provider:?}/${template_default_provider}/g" taito-config.sh
+sed ${sedi} -- "s/\${template_default_provider_region:?}/${template_default_provider_region}/g" taito-config.sh
+sed ${sedi} -- "s/\${template_default_provider_zone:?}/${template_default_provider_zone}/g" taito-config.sh
+sed ${sedi} -- "s/\${template_default_source_git:?}/${template_default_source_git}/g" taito-config.sh
+sed ${sedi} -- "s/\${template_default_dest_git:?}/${template_default_dest_git}/g" taito-config.sh
+
+# Remove template settings from cloudbuild.yaml
+sed ${sedi} -- '/_TEMPLATE_DEFAULT_/d' cloudbuild.yaml

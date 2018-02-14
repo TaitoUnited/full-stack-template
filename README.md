@@ -2,11 +2,9 @@
 
 # server-template
 
-[admin:dev]() [admin:test]() [admin:staging]() [admin:prod]() [app:dev]() [app:test]() [app:staging]() [app:prod]() [boards]() [builds:dev]() [builds:prod]() [errors:dev]() [errors:test]() [errors:staging]() [errors:prod]() [feedback]() [git]() [logs:dev]() [logs:test]() [logs:staging]() [logs:prod]() [performance]() [storage:dev]() [storage:test]() [storage:staging]() [storage:prod]() [uptime]()
+[admin:dev]() [admin:prod]() [app:dev]() [app:prod]() [boards]() [builds:dev]() [builds:prod]() [errors:dev]() [errors:prod]() [feedback]() [git]() [logs:dev]() [logs:prod]() [performance]() [storage:dev]() [storage:prod]() [uptime]()
 
-```
-...
-```
+> TODO some notes about the links
 
 ## Prerequisites
 
@@ -102,7 +100,7 @@ An application should be divided in loosely coupled highly cohesive parts by usi
 * If you break the dependency rules, at least try to avoid making circular dependencies between directories. Also leave a `REFACTOR:` comment if the dependency is the kind that it should be refactored later.
 * Each block of implementation (function, class, module, sql query, ...) should be clearly named by its responsibility and implement only what it is responsible for, nothing else.
 
-See [orig-template/client/app](https://github.com/TaitoUnited/orig-template/tree/master/client/app) as an example. See [General Software Design](https://github.com/TaitoUnited/taito/wiki/General-Software-Design) article for more information on how to structure your app.
+See [orig-template/client/app](https://github.com/TaitoUnited/orig-template/tree/master/client/app) as an example.
 
 ## Version control
 
@@ -247,7 +245,9 @@ If you would rather use vue instead of react, copy example implementation from `
 
 ### Examples
 
-TODO Something about the examples...
+The project template comes with a bunch of implementation examples. Browse them through, leave the ones that seem useful and delete all the rest.
+
+The client GUI uses the [Material-UI](https://material-ui-next.com/) component library by default. It's a good match with the [admin-on-rest](https://github.com/marmelab/admin-on-rest) GUI, but please consider also other alternatives based on customer requirements. For example ([Elemental](http://elemental-ui.com/) is a good alternative.
 
 ### Additional steps for a migrated project
 
@@ -264,8 +264,6 @@ The following implementation changes:
 
 ## Configuration for server environments
 
-> NOTE: Some of the configuration steps might require admin rights, especially if database is involved.
-
 ### Basic settings
 
 1. Optional: Configure `taito-config.sh` if you need to change some settings. The default settings are ok for most projects.
@@ -274,6 +272,8 @@ The following implementation changes:
 ### Environments
 
 > NOTE: You should remove unnecessary examples from database migrations (`./database`) and secrets (`taito-config.sh`) before creating the first server environment.
+
+> NOTE: All operations on production and staging environments require admin rights. Please contact devops personnel.
 
 Run `taito env create:ENV` to create an environment (`feature`, `dev`, `test`, `staging` or `prod`).
 
