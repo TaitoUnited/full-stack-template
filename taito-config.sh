@@ -132,5 +132,5 @@ export link_urls="\
   uptime=https://app.google.stackdriver.com/uptime?project=${taito_zone} \
   "
   # artifacts=https://console.cloud.google.com/gcr/images/${taito_zone}/EU/${taito_repo_location}-${taito_repo_name}?project=${taito_zone} \
-  # performance=https://TODO-NOT-IMPLEMENTED \
   # feedback=https://TODO-NOT-IMPLEMENTED \
+  # performance=https://TODO-NOT-IMPLEMENTED \
