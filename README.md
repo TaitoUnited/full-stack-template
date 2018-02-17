@@ -2,9 +2,9 @@
 
 # server-template
 
-[admin:dev]() [admin:prod]() [app:dev]() [app:prod]() [boards]() [builds:dev]() [builds:prod]() [errors:dev]() [errors:prod]() [feedback]() [git]() [logs:dev]() [logs:prod]() [performance]() [storage:dev]() [storage:prod]() [uptime]()
+[admin:dev]() | [admin:prod]() |  [app:dev]() | [app:prod]() | [builds]() | [docs]() | [errors:dev]() | [errors:prod]() | [git]() | [logs:dev]() | [logs:prod]() | [project]() | [storage:dev]() | [storage:prod]() | [uptime]()
 
-> TODO some notes about the links
+> TODO add some notes for using the links: e.g. how to get an user account for logging in to the app and admin GUI.
 
 ## Prerequisites
 
@@ -42,19 +42,27 @@ Access database:
 
     $ taito db open     # access using a command-line tool
     $ taito db proxy    # access using a database GUI tool
+    $ taito db import: ./database/file.sql # import a file
 
 Run all tests:
 
     $ taito unit        # unit tests
     $ taito test        # integration and end-to-end tests
 
+Start shell on a container:
+
+    $ taito shell: admin
+    $ taito shell: client
+    $ taito shell: server
+
 Stop containers:
 
     $ taito stop
 
-List all project related links:
+List all project related links and open one of them in browser:
 
     $ taito open -h
+    $ taito open xxx
 
 The commands listed above work also for server environments (`feature`, `dev`, `test`, `staging`, `prod`). Some examples for dev environment:
 
@@ -86,16 +94,16 @@ All unit tests are run automatically during build (see `Dockerfile.build` files)
 
 ### Integration and end-to-end tests
 
-All integration and end-to-end test suites are run automatically after application has been deployed to dev environment (see `Dockerfile.test` files). Integration and end-to-end tests are grouped in independent test suites (see `suite-*.sh` and `zuite-*.sh` files) and `taito init --clean` is run before each of them to clean up data. If, however, data cleanup is not necessary, you can turn it off with the `ci_exec_test_init` setting in `taito-config.sh`.
+All integration and end-to-end test suites are run automatically after application has been deployed to dev environment (see `Dockerfile.test` files). Integration and end-to-end tests are grouped in independent test suites (see `suite-*.sh` and `zuite-*.sh` files) and data is cleaned up before each them by running `taito init --clean`. If, however, data cleanup is not necessary, you can turn it off with the `ci_exec_test_init` setting in `taito-config.sh`.
 
 You can run integration and end-to-end tests manually with the `taito test:ENV [CONTAINER] [SUITE]` command, for example `taito test:dev server suite-xx`. Environment specific test suite parameters are configured in `taito-config.sh` and they are passed to test suites in `package.json`.
 
 ## Structure
 
-An application should be divided in loosely coupled highly cohesive parts by using a modular directory structure. The following rules usually work well in an event-based solution (a GUI for example). For a backend implementation you most likely need to break the rules once in a while, but still try to keep directories loosely coupled.
+An application should be divided in loosely coupled highly cohesive parts by using a modular directory structure. The following rules usually work well for a GUI implementation. For a backend implementation you might need to break the rules once in a while, but still try to keep directories loosely coupled.
 
-* Create directory structure based on features (`reporting`, `users`, ...) instead of type (`actions`, `containers`, `components`, `css`, ...). Use such file naming that you can easily determine the type from filename (e.g. `*.ducks.js`, `*.container.js`). This way you don't need to use directories for grouping files by type.
-* A directory should not contain any references outside of its boundary; with the exception of references to libraries and common directories. You can think of each directory as an independent mini-sized app, and a `common` directory as a library that is shared among them.
+* Create directory structure mainly based on features (`reporting`, `users`, ...) instead of type (`actions`, `containers`, `components`, `css`, ...). Use such file naming that you can easily determine the type from filename (e.g. `*.ducks.js`, `*.container.js`). This way you don't need to use additional directories for grouping files by type.
+* A directory should not contain any references outside of its boundary; with the exception of references to libraries and common directories. You can think of each directory as an independent feature (or subfeature), and each `common` directory as a library that is shared among closely related features (or subfeatures).
 * A file should contain only nearby references (e.g. references to files in the same directory or in a subdirectory directly beneath it); with the exception of references to libraries and common directories, of course.
 * If you break the dependency rules, at least try to avoid making circular dependencies between directories. Also leave a `REFACTOR:` comment if the dependency is the kind that it should be refactored later.
 * Each block of implementation (function, class, module, sql query, ...) should be clearly named by its responsibility and implement only what it is responsible for, nothing else.
@@ -203,7 +211,7 @@ Deploying to different environments:
 
 > TIP: Run `taito git env list` to list environment branches and `taito git env merge:ENV SOURCE_BRANCH` to merge an environment branch to another.
 
-> NOTE: Automatic deployment might be turned off for critical environments (`ci_exec_deploy` setting in `taito-config.sh`). In such case the deployment must be run manually with the `taito manual deploy:prod VERSION` command after the CI/CD process has ended successfully. You may need to run the command as admin (`-a`) or ask someone with admin rights to run it.
+> NOTE: Automatic deployment might be turned off for critical environments (`ci_exec_deploy` setting in `taito-config.sh`). In such case the deployment must be run manually with the `taito -a manual deploy:prod VERSION` command using an admin account after the CI/CD process has ended successfully.
 
 Advanced features:
 
@@ -230,7 +238,7 @@ Recommended settings for git repository:
 
 ### Stack
 
-The orig-template comes with preconfigured stack components that you can use. Change the stack by modifying the following files:
+The [orig-template](https://github.com/TaitoUnited/orig-template/) comes with preconfigured stack components that you can use. Change the stack by modifying the following files:
 
 * `docker-compose.yaml`: containers for local development.
 * `docker-nginx.conf`: 'ingress' for local development.
@@ -247,7 +255,7 @@ If you would rather use vue instead of react, copy example implementation from `
 
 The project template comes with a bunch of implementation examples. Browse them through, leave the ones that seem useful and delete all the rest.
 
-The client GUI uses the [Material-UI](https://material-ui-next.com/) component library by default. It's a good match with the [admin-on-rest](https://github.com/marmelab/admin-on-rest) GUI, but please consider also other alternatives based on customer requirements. For example ([Elemental](http://elemental-ui.com/) is a good alternative.
+The client GUI uses the [Material-UI](https://material-ui-next.com/) component library by default. It's a good match with the [admin-on-rest](https://github.com/marmelab/admin-on-rest) GUI, but please consider also other alternatives based on customer requirements. For example [Elemental](http://elemental-ui.com/) is a good alternative.
 
 ### Additional steps for a migrated project
 
@@ -266,8 +274,9 @@ The following implementation changes:
 
 ### Basic settings
 
-1. Optional: Configure `taito-config.sh` if you need to change some settings. The default settings are ok for most projects.
+1. Configure `taito-config.sh` if you need to change some settings. The default settings are ok for most projects.
 2. Run `taito project config`
+3. Commit and push changes
 
 ### Environments
 
@@ -285,7 +294,7 @@ TODO terraform configuration
 
 The `scripts/heml.yaml` file contains default Kubernetes settings for all environments and the `scripts/helm-*.yaml` files contain environment specific overrides for them. By modying these files you can easily configure environment variables, resource requirements and autoscaling for your containers.
 
-> NOTE: Do not modify the helm template located in `./scripts/helm` directory. Improve the original Kubernetes template of orig-template instead.
+> NOTE: Do not modify the helm template located in `./scripts/helm` directory. Improve the original helm template located in [orig-template](https://github.com/TaitoUnited/orig-template/) repository instead.
 
 ### Secrets
 

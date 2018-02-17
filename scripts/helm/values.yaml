@@ -60,6 +60,12 @@ worker:
   maxReplicas: 5
   targetCPUUtilizationPercentage: 50
 
+database:
+  port: 5432
+  db: gcloud-temp1:europe-west1:common-postgres
+  poolMin: 5
+  poolMax: 10
+
 storage:
   port: 9000
   image: minio/minio
