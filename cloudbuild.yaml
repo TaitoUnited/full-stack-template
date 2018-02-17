@@ -6,6 +6,14 @@ images: [
 
 timeout: 1200s
 
+substitutions:
+  _TEMPLATE_DEFAULT_ORGANIZATION:
+  _TEMPLATE_DEFAULT_DOMAIN:
+  _TEMPLATE_DEFAULT_ZONE:
+  _TEMPLATE_DEFAULT_PROVIDER:
+  _TEMPLATE_DEFAULT_PROVIDER_REGION:
+  _TEMPLATE_DEFAULT_PROVIDER_ZONE:
+
 steps:
 
 # NOTE: This first ugly step is an optimization. We execute cancel with
@@ -23,6 +31,12 @@ steps:
   args:
   - '-c'
   - |
+    export template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
+    export template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    export template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    export template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
+    export template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    export template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     export taito_env
     taito_env="$${branch_name}"
     if [[ "$${taito_env}" == "master" ]]; then
