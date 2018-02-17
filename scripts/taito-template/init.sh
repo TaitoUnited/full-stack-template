@@ -115,14 +115,16 @@ rm -rf server-py
 # } >> cloudbuild.yaml.tmp
 # mv -f cloudbuild.yaml.tmp cloudbuild.yaml
 
-echo
-echo "--- Choose basic auth credentials ---"
-echo
-echo "Simple basic auth username:"
-read -r auth_username
-echo "Simple basic auth password:"
-# read -r auth_password
-echo "${auth_password}" | htpasswd -c scripts/helm/.htpasswd ${auth_username}
+if [[ ${mode} != "upgrade" ]]; then
+  echo
+  echo "--- Choose basic auth credentials ---"
+  echo
+  echo "Simple basic auth username:"
+  read -r auth_username
+  echo "Simple basic auth password:"
+  # read -r auth_password
+  echo "${auth_password}" | htpasswd -c scripts/helm/.htpasswd ${auth_username}
+fi
 
 # Replace NOTE of README.md with a 'do not modify' note
 tail -n +2 "README.md" > "README.md.tmp" && mv -f "README.md.tmp" "README.md"
