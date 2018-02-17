@@ -22,13 +22,11 @@ rm -rf "${template_project_path}/scripts/terraform" 2> /dev/null
 cp -r "scripts/terraform" "${template_project_path}/scripts/terraform" 2> /dev/null
 
 echo
-taito links generate
-
-echo
 echo
 echo
 echo "Do the following:"
 echo "- Remove extra images from the beginning of the cloudbuild.yaml file"
+echo "- Generate links to README.md by running: taito links generate"
 echo "- Add project specific modifications to README.md (README.md was copied from template)"
 echo
 echo "If something stops working, try the following:"
