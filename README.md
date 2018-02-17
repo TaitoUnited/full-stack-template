@@ -4,7 +4,22 @@
 
 [//]: # (GENERATED LINKS START)
 
-[admin:dev]() | [admin:prod]() |  [app:dev]() | [app:prod]() | [builds]() | [docs]() | [errors:dev]() | [errors:prod]() | [git]() | [logs:dev]() | [logs:prod]() | [project]() | [storage:dev]() | [storage:prod]() | [uptime]()
+
+[admin:dev](https://server-template-dev.taitodev.com/admin/)
+[admin:prod](https://server-template-prod.taitodev.com/admin/)
+[app:dev](https://server-template-dev.taitodev.com)
+[app:prod](https://server-template-prod.taitodev.com)
+[builds](https://console.cloud.google.com/gcr/builds?project=gcloud-temp1&query=source.repo_source.repo_name%3D%22github-taitounited-server-template%22)
+[docs](https://github.com/taitounited/server-template/wiki)
+[errors:dev](https://sentry.io/taitounited/server-template/?query=is%3Aunresolved+environment%3Adev)
+[errors:prod](https://sentry.io/taitounited/server-template/?query=is%3Aunresolved+environment%3Aprod)
+[git](https://github.com/taitounited/server-template)
+[logs:dev](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fserver-template-dev)
+[logs:prod](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fserver-template-prod)
+[project](https://github.com/taitounited/server-template/projects)
+[storage:dev](https://console.cloud.google.com/storage/browser/server-template-dev?project=gcloud-temp1)
+[storage:prod](https://console.cloud.google.com/storage/browser/server-template-prod?project=gcloud-temp1)
+[uptime](https://app.google.stackdriver.com/uptime?project=gcloud-temp1)  
 
 [//]: # (GENERATED LINKS END)
 
@@ -13,7 +28,7 @@
 ## Prerequisites
 
 * [taito-cli](https://github.com/TaitoUnited/taito-cli#readme)
-* [docker-compose](https://docs.docker.com/compose/install/) (>= 1.11)
+* [docker-compose](https://docs.docker.com/compose/install/)
 * eslint and prettier plugins for your code editor
 
 ## Quick start
@@ -44,14 +59,14 @@ Show user accounts and other information that you can use to log in:
 
 Access database:
 
-    $ taito db open     # access using a command-line tool
-    $ taito db proxy    # access using a database GUI tool
-    $ taito db import: ./database/file.sql # import a file
+    $ taito db open                          # access using a command-line tool
+    $ taito db proxy                         # access using a database GUI tool
+    $ taito db import: ./database/file.sql   # import a sql script to database
 
 Run all tests:
 
-    $ taito unit        # unit tests
-    $ taito test        # integration and end-to-end tests
+    $ taito unit          # unit tests
+    $ taito test          # integration and end-to-end tests
 
 Start shell on a container:
 
@@ -74,14 +89,18 @@ The commands listed above work also for server environments (`feature`, `dev`, `
     $ taito open admin:dev
     $ taito info:dev
     $ taito status:dev
-    $ taito logs:dev server
+    $ taito test:dev
     $ taito shell:dev server
+    $ taito logs:dev server
+    $ taito open logs:dev
+    $ taito open storage:dev
     $ taito db open:dev
     $ taito db proxy:dev
+    $ taito db import:dev ./database/file.sql
+    $ taito db dump:dev
     $ taito db recreate:dev
-    $ taito open storage:dev
-    $ taito open logs:dev
-    $ taito test:dev
+    $ taito db diff:dev test
+    $ taito db copy:dev test
 
 Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to search for a command (e.g `taito git -h`, `taito db -h`, `taito import -h`). For troubleshooting run `taito --trouble`. See PROJECT.md for project specific conventions and documentation.
 
