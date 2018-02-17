@@ -58,8 +58,8 @@ export ci_exec_test=false         # execute test suites after deploy
 export ci_exec_test_init=false    # run 'init --clean' before each test suite
 export ci_exec_revert=false       # revert deploy automatically on fail
 # TODO implement copy support to 'taito ci-deploy'
-export ci_copy="\
-  docker://client/build;gs://xxx/${taito_namespace}"
+# export ci_copy="\
+#   docker://client/build;gs://xxx/${taito_namespace}"
 
 # Test suite arguments
 export test_api_url="${taito_app_url}/api"
