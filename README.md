@@ -3,7 +3,9 @@
 # server-template
 
 [//]: # (GENERATED LINKS START)
+
 [admin:dev]() | [admin:prod]() |  [app:dev]() | [app:prod]() | [builds]() | [docs]() | [errors:dev]() | [errors:prod]() | [git]() | [logs:dev]() | [logs:prod]() | [project]() | [storage:dev]() | [storage:prod]() | [uptime]()
+
 [//]: # (GENERATED LINKS END)
 
 > TODO add some notes for using the links: e.g. how to get an user account for logging in to the app and admin GUI.

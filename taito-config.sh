@@ -122,7 +122,7 @@ export taito_secrets="
 export link_urls="\
   app[:ENV]#app=${taito_app_url} \
   admin[:ENV]#admin=${taito_admin_url} \
-  docs=https://TODO-ADD-DOCS-REFERENCE-HERE \
+  docs=https://github.com/${taito_organization}/${taito_repo_name}/wiki \
   git=https://github.com/${taito_organization}/${taito_repo_name} \
   project=https://github.com/${taito_organization}/${taito_repo_name}/projects \
   builds=https://console.cloud.google.com/gcr/builds?project=${taito_zone}&query=source.repo_source.repo_name%3D%22${taito_repo_location}-${taito_repo_name}%22 \
