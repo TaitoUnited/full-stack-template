@@ -10,7 +10,6 @@
 : "${template_default_dest_git:?}"
 
 : "${template_project_path:?}"
-: "${template_project:?}"
 : "${template_repo_name:?}"
 : "${template_repo_name_alt:?}"
 : "${template_customer:?}"
@@ -123,7 +122,7 @@ echo "Simple basic auth username:"
 read -r auth_username
 echo "Simple basic auth password:"
 # read -r auth_password
-echo "${auth_password}" | htpasswd -c scripts/${template_repo_name}/.htpasswd ${auth_username}
+echo "${auth_password}" | htpasswd -c scripts/helm/.htpasswd ${auth_username}
 
 # Replace NOTE of README.md with a 'do not modify' note
 tail -n +2 "README.md" > "README.md.tmp" && mv -f "README.md.tmp" "README.md"

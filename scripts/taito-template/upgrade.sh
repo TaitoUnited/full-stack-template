@@ -1,7 +1,6 @@
 #!/bin/bash
 
 : "${template_project_path:?}"
-: "${template_project:?}"
 
 echo
 ./scripts/taito-template/init.sh
@@ -21,12 +20,12 @@ taito links generate
 echo
 echo
 echo
-echo Do the following:
-echo - Remove extra images from the beginning of the cloudbuild.yaml file
-echo - Add project specific modifications to README.md (README.md was copied from template)
+echo "Do the following:"
+echo "- Remove extra images from the beginning of the cloudbuild.yaml file"
+echo "- Add project specific modifications to README.md (README.md was copied from template)"
 echo
 echo "If something stops working, try the following:"
 echo "- Run 'taito --upgrade' to upgrade your taito-cli"
-echo - Compare taito-config.sh with the template
-echo - Compare package.json with the template
+echo "- Compare taito-config.sh with the template"
+echo "- Compare package.json with the template"
 echo
