@@ -4,7 +4,6 @@
 
 [//]: # (GENERATED LINKS START)
 
-
 [admin:dev](https://server-template-dev.taitodev.com/admin/)
 [admin:prod](https://server-template-prod.taitodev.com/admin/)
 [app:dev](https://server-template-dev.taitodev.com)
@@ -19,7 +18,7 @@
 [project](https://github.com/taitounited/server-template/projects)
 [storage:dev](https://console.cloud.google.com/storage/browser/server-template-dev?project=gcloud-temp1)
 [storage:prod](https://console.cloud.google.com/storage/browser/server-template-prod?project=gcloud-temp1)
-[uptime](https://app.google.stackdriver.com/uptime?project=gcloud-temp1)  
+[uptime](https://app.google.stackdriver.com/uptime?project=gcloud-temp1)
 
 [//]: # (GENERATED LINKS END)
 

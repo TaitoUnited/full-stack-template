@@ -1,27 +1,10 @@
 # TODO name
 
-TODO Short description...
+TODO Short description: purpose, customer, etc
 
-## Conventions
+## Recurring Issues and Solutions
 
-TODO
-
-## Environments
-
-Production:
-
-* Site: https://server-template-prod.taitodev.com
-* TODO Request an user account from...
-
-Staging:
-
-* Site: https://server-template-staging.taitodev.com
-* TODO Request an user account from...
-
-Development:
-
-* Site: https://server-template-dev.taitodev.com
-* User accounts: Run `taito info:dev`.
+See trouble.txt or run `taito --trouble`.
 
 ## Contacts
 
@@ -36,23 +19,27 @@ Development:
 
 * Project Manager: TODO John Doe, john.doe@domain.com, 050 1234 567
 
-### Recurring Issues and Solutions
+## Personal data and privacy (GDPR)
 
-See trouble.txt or run `taito trouble`.
+### Terms of use and user agreement
+
+TODO ... user agreement on single sign on ...
+
+### Pseudonymization and anonymization whenever possible
+
+TODO ...
+
+### Data deletion or anonymization on user request
+
+TODO ...
+
+## Conventions
 
 ## Architecture Overview
 
 > TIP: You can use [Gravizo](www.gravizo.com) for making a architecture diagram if the diagram does not contain any confidential information. Note that architecture diagram is not mandatory if the architecture is very simple.
 
 TODO
-
-### Containers
-
-* Client: UI logic implemented with React / Redux
-* Server: API implemented with node.js
-* Cache: Redis as in-memory cache shared between server instances
-* Database: Postgres relational database
-* Bucket: S3 compatible storage
 
 ### Integrations
 
@@ -82,7 +69,7 @@ TODO
 
 #### Scheduled Jobs
 
-The following jobs are triggered using systemd on server:
+* ...
 * ...
 
 ## Additional Resources

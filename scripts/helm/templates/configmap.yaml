@@ -16,3 +16,19 @@ data:
   COMMIT: {{ .Values.build.commit | quote }}
   IMAGE_TAG: {{ .Values.build.imageTag | quote }}
   DEPLOY_TIME: {{ now | htmlDate }}
+
+{{ if .Values.stack.database }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "name" . }}-database # {{ .Values.stack.database }}
+data:
+  HOST: '127.0.0.1'
+  PORT: '5432'
+  ID: '{{ .Release.Name | replace "-" "_" }}'
+  DB: '{{ .Release.Name | replace "-" "_" }}'
+  USER: '{{ .Release.Name | replace "-" "_" }}_app'
+  POOL_MIN: {{ .Values.database.poolMin | quote }}
+  POOL_MAX: {{ .Values.database.poolMax | quote }}
+{{ end }}
