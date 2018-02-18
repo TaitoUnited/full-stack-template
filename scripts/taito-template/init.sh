@@ -133,7 +133,7 @@ fi
 tail -n +2 "README.md" > "README.md.tmp" && mv -f "README.md.tmp" "README.md"
 echo \
 "> NOTE: This file has been copied from \
-[server-template](https://github.com/TaitoUnited/server-template/). Keep \
+[orig-template](https://github.com/TaitoUnited/orig-template/). Keep \
 modifications minimal and improve the original instead. Project \
 specific documentation is located in PROJECT.md." | \
   cat - README.md > temp && mv -f temp README.md
@@ -141,7 +141,7 @@ specific documentation is located in PROJECT.md." | \
 # Add 'do not modify' note to readme of helm chart
 echo \
 "> NOTE: This helm chart has been copied from \
-[server-template](https://github.com/TaitoUnited/server-template/). It is \
+[orig-template](https://github.com/TaitoUnited/orig-template/). It is \
 located here only to avoid accidental build breaks. Do not modify it. \
 Improve the original instead." | \
   cat - scripts/helm/README.md > temp && \
@@ -150,7 +150,7 @@ Improve the original instead." | \
 # Add 'do not modify' note to readme of terraform
 echo \
 "> NOTE: These terraform scripts have been copied from \
-[server-template](https://github.com/TaitoUnited/server-template/). They are \
+[orig-template](https://github.com/TaitoUnited/orig-template/). They are \
 located here only to avoid accidental build breaks. Do not modify them. \
 Improve the originals instead." | \
   cat - scripts/terraform/README.md > temp && \
@@ -158,7 +158,7 @@ Improve the originals instead." | \
 
 # Add 'do not modify' note to cloudbuild.yaml
 printf \
-"# NOTE: This file has been generated from server-template by taito-cli.\n\
+"# NOTE: This file has been generated from orig-template by taito-cli.\n\
 # It is located here only to avoid accidental build breaks. Keep modifications \n\
 # minimal and improve the original instead.\n\n" | \
   cat - cloudbuild.yaml > temp && \
@@ -209,8 +209,8 @@ sed ${sedi} -- "s/\${template_default_zone:?}/${template_default_zone}/g" taito-
 sed ${sedi} -- "s/\${template_default_zone_prod:?}/${template_default_zone_prod}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_provider:?}/${template_default_provider}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_provider_region:?}/${template_default_provider_region}/g" taito-config.sh
-sed ${sedi} -- "s/\${template_default_provider_region_prod:?}/${template_default_provider_region_prod}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_provider_zone:?}/${template_default_provider_zone}/g" taito-config.sh
+sed ${sedi} -- "s/\${template_default_provider_region_prod:?}/${template_default_provider_region_prod}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_provider_zone_prod:?}/${template_default_provider_zone_prod}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_source_git:?}/${template_default_source_git}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_dest_git:?}/${template_default_dest_git}/g" taito-config.sh
