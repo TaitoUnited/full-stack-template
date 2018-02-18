@@ -2,7 +2,7 @@
 
 : "${template_project_path:?}"
 
-echo "- migrate: Move old files away from project root"
+# Move old files away from project root
 rm -rf "${template_project_path}/old_root" 2> /dev/null
 mkdir -p "${template_project_path}/old_root"
 for file in ${template_project_path}/*; do
@@ -11,18 +11,18 @@ for file in ${template_project_path}/*; do
    fi
 done
 
-echo "- migrate: Move old scripts to old_scripts"
+# Move old scripts to old_scripts
 mv "${template_project_path}/scripts" "${template_project_path}/old_scripts" \
   2> /dev/null
 
 # Upgrade
 ./scripts/taito-template/upgrade.sh
 
-echo "- migrate: Copy all files from template root"
+# Copy all files from template root
 yes | cp -- * "${template_project_path}" 2> /dev/null
 yes | cp -- .* "${template_project_path}" 2> /dev/null
 
-echo "- migrate: Copy files from scripts folder"
+# Copy files from scripts folder
 cp scripts/* "${template_project_path}/scripts" 2> /dev/null
 
 echo
