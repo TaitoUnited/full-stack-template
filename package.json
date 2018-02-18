@@ -42,14 +42,14 @@
     "clean:storage": "rm -rf ./storage/bucket/*; rm -rf ./storage/.minio.sys/buckets/bucket/*/",
     "flow": "flow",
     "precommit":
-      "echo 'NOTE: Running precommit inside taito container for security reasons'; taito precommit; echo",
+      "echo 'NOTE: Running precommit inside taito container'; taito taito-precommit",
     "prepush":
-      "echo 'NOTE: Running prepush inside taito container for security reasons'; taito prepush; echo",
-    "taito-precommit": "npm run lint",
+      "echo 'NOTE: Running prepush inside taito container'; taito taito-prepush",
+    "taito-precommit": "echo 'linting in push only'",
     "taito-prepush": "npm-run-all --parallel lint flow unit",
-    "commit": "echo 'Warning: Running commitizen locally'; git-cz",
+    "commit": "echo 'Running commitizen locally'; git-cz",
     "commitmsg":
-      "echo 'Warning: Running validate-commit-msg locally'; validate-commit-msg",
+      "echo 'Running validate-commit-msg locally'; validate-commit-msg",
     "ci-release-pre:prod": "semantic-release pre",
     "ci-release-post:prod": "semantic-release post"
   },
