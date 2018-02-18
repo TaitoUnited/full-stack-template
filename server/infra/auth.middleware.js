@@ -6,6 +6,7 @@ import config from '../common/common.config';
 const skipAuthPaths = [
   /^\/infra\/uptimez/,
   /^\/infra\/healthz/,
+  /^\/files/,
   /^\/auth\/login/
 ];
 
@@ -61,9 +62,9 @@ const authMiddleware = app => {
   app.use(async (ctx, next) => {
     const rolesByAuth = {
       basic: 'user',
-      jwt: ctx.state.jwtdata ? ctx.state.jwtdata.sub : null,
+      jwt: ctx.state.jwtdata ? ctx.state.jwtdata.sub : null
     };
-    ctx.appCtx.role = rolesByAuth[ctx.appCtx.clientAuthMethod];
+    ctx.state.role = rolesByAuth[ctx.state.clientAuthMethod];
     await next();
   });
 };

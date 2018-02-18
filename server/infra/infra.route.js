@@ -19,7 +19,7 @@ export default class InfraRoute extends BaseRoute {
     // Polled by uptime monitor to check that the system is alive
     this.router.get('/uptimez', async (ctx, next) => {
       // Check that database is up
-      await ctx.appCtx.getTx().any(`
+      await ctx.state.getTx().any(`
         SELECT *
         FROM example_user
         LIMIT 1

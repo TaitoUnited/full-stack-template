@@ -20,26 +20,26 @@ export default class PostRoute extends BaseRoute {
   routes() {
     // Fetch posts
     this.router.get('/', async (ctx, next) => {
-      ctx.body = await this.postService.fetch(ctx.appCtx, ctx.query);
+      ctx.body = await this.postService.fetch(ctx.state, ctx.query);
       next();
     });
 
     // Create a post
     this.router.post('/', async (ctx, next) => {
       // TODO quick temp hack
-      ctx.body = await this.postService.create(ctx.appCtx, ctx.request.fields);
+      ctx.body = await this.postService.create(ctx.state, ctx.request.fields);
       next();
     });
 
     // Read a post
     this.router.get('/:id', async (ctx, next) => {
-      ctx.body = await this.postService.read(ctx.appCtx, ctx.params.id);
+      ctx.body = await this.postService.read(ctx.state, ctx.params.id);
       next();
     });
 
     // Update a post (full update)
     this.router.put('/:id', async (ctx, next) => {
-      ctx.body = await this.postService.update(ctx.appCtx, {
+      ctx.body = await this.postService.update(ctx.state, {
         ...ctx.request.fields,
         id: ctx.params.id
       });
@@ -48,7 +48,7 @@ export default class PostRoute extends BaseRoute {
 
     // Patch a post (partial update)
     this.router.patch('/:id', async (ctx, next) => {
-      ctx.body = await this.postService.patch(ctx.appCtx, {
+      ctx.body = await this.postService.patch(ctx.state, {
         ...ctx.request.fields,
         id: ctx.params.id
       });
@@ -57,7 +57,7 @@ export default class PostRoute extends BaseRoute {
 
     // Delete a post
     this.router.delete('/:id', async (ctx, next) => {
-      ctx.body = await this.postService.read(ctx.appCtx, ctx.params.id);
+      ctx.body = await this.postService.read(ctx.state, ctx.params.id);
       next();
     });
 

@@ -20,25 +20,25 @@ export default class FileRoute extends BaseRoute {
   routes() {
     // Fetch files
     this.router.get('/', async (ctx, next) => {
-      ctx.body = await this.fileService.fetch(ctx.appCtx, ctx.query);
+      ctx.body = await this.fileService.fetch(ctx.state, ctx.query);
       next();
     });
 
     // Create a file
     this.router.post('/', async (ctx, next) => {
-      ctx.body = await this.fileService.create(ctx.appCtx, ctx.request.fields);
+      ctx.body = await this.fileService.create(ctx.state, ctx.request.fields);
       next();
     });
 
     // Read a file
     this.router.get('/:id', async (ctx, next) => {
-      ctx.body = await this.fileService.read(ctx.appCtx, ctx.params.id);
+      ctx.body = await this.fileService.read(ctx.state, ctx.params.id);
       next();
     });
 
     // Update a file (full update)
     this.router.put('/:id', async (ctx, next) => {
-      ctx.body = await this.fileService.update(ctx.appCtx, {
+      ctx.body = await this.fileService.update(ctx.state, {
         ...ctx.request.fields,
         id: ctx.params.id
       });
@@ -47,7 +47,7 @@ export default class FileRoute extends BaseRoute {
 
     // Patch a file (partial update)
     this.router.patch('/:id', async (ctx, next) => {
-      ctx.body = await this.fileService.patch(ctx.appCtx, {
+      ctx.body = await this.fileService.patch(ctx.state, {
         ...ctx.request.fields,
         id: ctx.params.id
       });
@@ -56,7 +56,7 @@ export default class FileRoute extends BaseRoute {
 
     // Delete a file
     this.router.delete('/:id', async (ctx, next) => {
-      ctx.body = await this.fileService.read(ctx.appCtx, ctx.params.id);
+      ctx.body = await this.fileService.read(ctx.state, ctx.params.id);
       next();
     });
 

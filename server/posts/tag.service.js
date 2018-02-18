@@ -22,7 +22,7 @@ export default class TagService {
     this.tagDAO = tagDAO || new TagDAO();
   }
 
-  async fetch(ctx, criteria) {
-    return await this.tagDAO.fetch(ctx.getTx(), criteria);
+  async fetch(state, criteria) {
+    return await this.tagDAO.fetch(state.getTx(), criteria);
   }
 }

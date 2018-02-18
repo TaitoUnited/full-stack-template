@@ -20,7 +20,7 @@ export default class PostRoute extends BaseRoute {
   routes() {
     // Fetch comments
     this.router.get('/', async (ctx, next) => {
-      ctx.body = await this.commentService.fetch(ctx.appCtx, ctx.query);
+      ctx.body = await this.commentService.fetch(ctx.state, ctx.query);
       next();
     });
 

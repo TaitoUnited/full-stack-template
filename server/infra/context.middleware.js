@@ -1,5 +1,5 @@
 const contextMiddleware = async (ctx, next) => {
-  ctx.appCtx = {
+  ctx.state = {
     user: {},
   };
   await next();
