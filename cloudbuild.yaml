@@ -10,9 +10,12 @@ substitutions:
   _TEMPLATE_DEFAULT_ORGANIZATION:
   _TEMPLATE_DEFAULT_DOMAIN:
   _TEMPLATE_DEFAULT_ZONE:
+  _TEMPLATE_DEFAULT_ZONE_PROD:
   _TEMPLATE_DEFAULT_PROVIDER:
   _TEMPLATE_DEFAULT_PROVIDER_REGION:
+  _TEMPLATE_DEFAULT_PROVIDER_REGION_PROD:
   _TEMPLATE_DEFAULT_PROVIDER_ZONE:
+  _TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD:
 
 steps:
 
@@ -34,9 +37,12 @@ steps:
     export template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     export template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     export template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    export template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     export template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
     export template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    export template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     export template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    export template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     export taito_env
     taito_env="$${branch_name}"
     if [[ "$${taito_env}" == "master" ]]; then
@@ -79,9 +85,12 @@ steps:
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
     - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
 
 - id: install
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
@@ -91,9 +100,12 @@ steps:
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
     - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
 
 - id: ci-release-pre
   waitFor: ['install']
@@ -101,13 +113,15 @@ steps:
   args: ['ci-release-pre:$BRANCH_NAME']
   env:
     - taito_mode=ci
-    - commit_sha=$COMMIT_SHA
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
     - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
 
 - id: scan
   waitFor: ['install']
@@ -118,9 +132,12 @@ steps:
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
     - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
 
 # Build artifacts
 
@@ -133,9 +150,12 @@ steps:
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
     - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
 
 - id: ci-build-admin
   waitFor: ['ci-release-pre']
@@ -146,9 +166,12 @@ steps:
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
     - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
 
 - id: ci-push-admin
   waitFor: ['ci-build-admin']
@@ -159,9 +182,12 @@ steps:
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
     - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
 
 - id: ci-build-client
   waitFor: ['ci-release-pre']
@@ -172,9 +198,12 @@ steps:
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
     - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
 
 - id: ci-push-client
   waitFor: ['ci-build-client']
@@ -185,9 +214,12 @@ steps:
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
     - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
 
 - id: ci-build-server
   waitFor: ['ci-release-pre']
@@ -198,9 +230,12 @@ steps:
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
     - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
 
 - id: ci-push-server
   waitFor: ['ci-build-server']
@@ -211,9 +246,12 @@ steps:
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
     - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
 
 # Deploy to target environment
 
@@ -226,9 +264,12 @@ steps:
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
     - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
 
 - id: ci-deploy
   # waitFor: ['stop:local']
@@ -239,9 +280,12 @@ steps:
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
     - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
 
 # Run tests against the target environment
 
@@ -274,9 +318,12 @@ steps:
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
     - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
 
 - id: ci-release-post
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
@@ -286,6 +333,9 @@ steps:
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
     - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}

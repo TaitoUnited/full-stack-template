@@ -71,9 +71,15 @@ export test_password="password"
 case "${taito_env}" in
   prod)
     # prod overrides
+    export taito_zone="${template_default_zone_prod:?}"
+    export gcloud_region="${template_default_provider_region_prod:?}"
+    export gcloud_zone="${template_default_provider_region_prod:?}"
     ;;
   staging)
     # staging overrides
+    export taito_zone="${template_default_zone_prod:?}"
+    export gcloud_region="${template_default_provider_region_prod:?}"
+    export gcloud_zone="${template_default_provider_region_prod:?}"
     ;;
   test)
     # test overrides

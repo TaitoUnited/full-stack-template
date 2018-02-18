@@ -23,6 +23,7 @@ cp -r "scripts/terraform" "${template_project_path}/scripts/terraform" 2> /dev/n
 
 echo
 echo
+echo "--- Manual steps ---"
 echo
 echo "Do the following:"
 echo "- Remove extra images from the beginning of the cloudbuild.yaml file"

@@ -5,11 +5,11 @@
   "scripts": {
     "taito-oper-init:local:clean": "taito -z init --clean && npm run clean:storage",
     "info:local":
-      "taito secrets | grep 'Showing\\|PASSWORD'; echo; echo 'TODO: add local users to package.json'",
+      "taito secrets | grep 'Showing\\|PASSWORD'; echo; echo 'TODO: add local users to package.json (username/password)'",
     "info:dev":
-      "taito secrets:dev | grep -A 1 'Showing\\|user.'; echo; echo 'TODO: add dev users to package.json'",
+      "taito secrets:dev | grep -A 1 'Showing\\|user.'; echo; echo 'TODO: add dev users to package.json (username/password)'",
     "info:test":
-      "taito secrets:test | grep -A 1 'Showing\\|user.'; echo; echo 'TODO: add test users to package.json'",
+      "taito secrets:test | grep -A 1 'Showing\\|user.'; echo; echo 'TODO: add test users to package.json (username/password)'",
     "info:staging": "TODO",
     "info:prod": "TODO",
     "scan": "npm run lint; npm run flow; echo 'TODO: sonar scan?'",
