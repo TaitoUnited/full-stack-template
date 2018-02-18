@@ -18,17 +18,6 @@
 : "${template_customer:?}"
 : "${mode:?}"
 
-echo "- init"
-
-# Remove license
-rm LICENSE
-grep -v '"license":' < package.json > package.json.tmp
-mv package.json.tmp package.json
-
-# Remove client-vue and server-py
-rm -rf client-vue
-rm -rf server-py
-
 # echo
 # echo "--- Choose the stack ---"
 # echo
@@ -128,6 +117,19 @@ if [[ ${mode} != "upgrade" ]]; then
   # read -r auth_password
   echo "${auth_password}" | htpasswd -c scripts/helm/.htpasswd ${auth_username}
 fi
+
+echo
+echo "Please wait..."
+echo
+
+# Remove license
+rm LICENSE
+grep -v '"license":' < package.json > package.json.tmp
+mv package.json.tmp package.json
+
+# Remove client-vue and server-py
+rm -rf client-vue
+rm -rf server-py
 
 # Replace NOTE of README.md with a 'do not modify' note
 tail -n +2 "README.md" > "README.md.tmp" && mv -f "README.md.tmp" "README.md"
