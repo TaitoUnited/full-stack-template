@@ -38,7 +38,7 @@ class PageMenu extends React.Component {
           id='simple-menu'
           anchorEl={this.state.anchorEl}
           open={this.state.open}
-          onRequestClose={this.onClose}
+          onClose={this.onClose}
         >
           {fn.times(this.props.numOfPages)(index => (
             <MenuItem

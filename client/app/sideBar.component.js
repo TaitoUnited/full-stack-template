@@ -28,7 +28,7 @@ import { Drawer, List, ListItem, ListItemText, Typography } from 'material-ui';
 // };
 
 const StyledDrawer = styled(Drawer)`
-  z-index: 1000;
+  z-index: 1000 !important;
   > div {
     width: 224px;
     margin-top: 48px;

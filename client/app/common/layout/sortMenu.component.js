@@ -34,7 +34,7 @@ class SortMenu extends React.Component {
           id='simple-menu'
           anchorEl={this.state.anchorEl}
           open={this.state.open}
-          onRequestClose={this.onClose}
+          onClose={this.onClose}
         >
           <MenuItem
             selected={this.props.paging.sortBy === 'name'}

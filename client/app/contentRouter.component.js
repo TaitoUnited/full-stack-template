@@ -10,6 +10,7 @@ import UsersViewContainer from './users/usersView.container';
 import OldContainer from './old/vanilla.container';
 
 const StyledMain = styled.main`
+  z-index: 1400;
   width: 100%;
   height: 'calc(100% - 48px)';
   margin-top: 48px;

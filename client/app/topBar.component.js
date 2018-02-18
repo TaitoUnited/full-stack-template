@@ -37,16 +37,12 @@ const Logo = styled.div`
 const TopBar = ({ onToggleMenu }) => (
   <StyledAppBar>
     <Toolbar>
-      <MenuButton
-        color='contrast'
-        aria-label='open drawer'
-        onClick={() => onToggleMenu()}
-      >
+      <MenuButton aria-label='open drawer' onClick={() => onToggleMenu()}>
         <MenuIcon />
       </MenuButton>
       <Logo />
       <BasicSearchContainer />
-      <Button color='contrast'>Login</Button>
+      <Button>Login</Button>
     </Toolbar>
   </StyledAppBar>
 );

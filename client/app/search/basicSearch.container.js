@@ -30,10 +30,7 @@ const BasicSearchContainer = ({
       placeholder='Search'
       onChange={e => onUpdateInputValue('query', e.target.value)}
     />
-    <Button
-      color='contrast'
-      onClick={() => onUpdateCriteria('query', inputValues.query)}
-    >
+    <Button onClick={() => onUpdateCriteria('query', inputValues.query)}>
       Hae
     </Button>
   </StyledWrapper>
