@@ -253,11 +253,14 @@ NOTE: Some of the advanced operations might require admin credentials (e.g. stag
 
 Recommended settings for git repository:
 
-* Default branch: dev
-* Protected branch: master (TODO more protection settings)
-* Developers team: write permission
-* Admins team: admin permission
-* Remove admin permission from the repository creator.
+* Options - Data services:
+  * Allow GitHub to perform read-only analysis of this repository: on
+  * Vulnerability alerts: on
+* Teams - Developers team: write permission
+* Teams - Admins team: admin permission
+* Collaborators - Remove admin permission from the repository creator.
+* Branches - Default branch: dev
+* Branches - Protected branch: master (TODO more protection settings)
 
 ### Stack
 

@@ -12,7 +12,7 @@
       "taito secrets:test | grep -A 1 'Showing\\|user.'; echo; echo 'TODO: add test users to package.json (username/password)'",
     "info:staging": "TODO",
     "info:prod": "TODO",
-    "scan": "npm run lint; npm run flow; echo 'TODO: sonar scan?'",
+    "scan": "npm run lint && echo DISABLED npm run flow && echo 'TODO: code analysis'",
     "lint": "npm-run-all --parallel lint:admin lint:client lint:server lint:worker",
     "lint:admin": "eslint ./admin --ignore-path ./admin/.eslintignore --quiet",
     "lint:client":
