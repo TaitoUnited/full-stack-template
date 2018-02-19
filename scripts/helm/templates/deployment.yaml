@@ -258,6 +258,83 @@ spec:
 
 {{ end }}
 
+{{ if .Values.stack.bot }}
+{{ if .Values.bot.autoscale }}
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ template "name" . }}-{{ .Values.stack.bot }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: {{ template "name" . }}-{{ .Values.stack.bot }}
+  minReplicas: {{ .Values.bot.minReplicas }}
+  maxReplicas: {{ .Values.bot.maxReplicas }}
+  targetCPUUtilizationPercentage: {{ .Values.bot.targetCPUUtilizationPercentage }}
+{{ end }}
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "name" . }}-{{ .Values.stack.bot }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.bot.replicas }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "name" . }}
+        release: {{ .Release.Name }}
+        tier: backend
+        role: bot
+    spec:
+      containers:
+        - name: {{ template "name" . }}-{{ .Values.stack.bot }}
+          image: {{ .Values.repository -}} / {{- .Values.stack.bot -}} : {{- .Values.build.imageTag }}
+          imagePullPolicy: {{ .Values.imagePullPolicy | quote }}
+          ports:
+            - containerPort: {{ .Values.bot.port }}
+          livenessProbe:
+            httpGet:
+              path: /infra/healthz
+              port: {{ .Values.bot.port }}
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            timeoutSeconds: 5
+          envFrom:
+            - prefix: COMMON_
+              configMapRef:
+                name: {{ template "name" . }}-common
+          env:
+            {{- range $name, $value := .Values.bot.env }}
+            - name: {{ $name }}
+              value: {{ $value | quote }}
+            {{- end }}
+            {{- range $name, $value := .Values.bot.secrets }}
+            - name: {{ $name }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $value }}
+                  key: SECRET
+            {{- end }}
+            - name: API_PORT
+              value: {{ .Values.bot.port | quote }}
+            - name: API_BINDADDR
+              value: {{ .Values.bot.bindAddr | quote }}
+{{ end }}
+
 {{ if .Values.stack.worker }}
 {{ if .Values.worker.autoscale }}
 ---

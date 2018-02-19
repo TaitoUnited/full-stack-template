@@ -32,6 +32,16 @@ admin:
   maxReplicas: 5
   targetCPUUtilizationPercentage: 50
 
+bot:
+  path: /api
+  port: 3330
+  bindAddr: 0.0.0.0
+  replicas: 1
+  autoscale: false
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 50
+
 client:
   path: /
   port: 3333

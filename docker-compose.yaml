@@ -27,8 +27,8 @@ server-template-admin:
   links:
     - server-template-server:server-template-server
   environment:
-    NODE_ENV: development
     COMMON_ENV: local
+    NODE_ENV: development
     API_ROOT: ''
     API_URL: '/api'
 
@@ -45,8 +45,8 @@ server-template-client:
   links:
     - server-template-server:server-template-server
   environment:
-    NODE_ENV: development
     COMMON_ENV: local
+    NODE_ENV: development
     API_ROOT: ''
     API_URL: '/api'
 
@@ -65,6 +65,10 @@ server-template-server:
     - server-template-database:server-template-database
     - server-template-storage:server-template-storage
   environment:
+    COMMON_ENV: local
+    COMMON_DEBUG: 'true'
+    COMMON_PROJECT: server-template
+    COMMON_CUSTOMER: customername
     NODE_ENV: development
     ENV: dev # TODO remove?
     DEBUG: 'false'
@@ -73,10 +77,6 @@ server-template-server:
     JWT_SECRET: secret
     ADMIN_PASSWORD: password
     USER_PASSWORD: password
-    COMMON_ENV: local
-    COMMON_DEBUG: 'true'
-    COMMON_PROJECT: server-template
-    COMMON_CUSTOMER: customername
     DATABASE_HOST: server-template-database
     DATABASE_ID: server_template_local
     DATABASE_DB: server_template_local
@@ -88,6 +88,31 @@ server-template-server:
     S3_BUCKET: bucket
     S3_KEY_ID: 070UEOQR6LX4YPZLFU0V
     S3_KEY_SECRET: CVQVa33NekSiOJGnevSY5ITr8Rql8lFkp22WhLQ+
+
+# server-template-bot:
+#   container_name: server-template-bot
+#   build: ./bot
+#   dockerfile: ${dockerfile}
+#   restart: on-failure
+#   ports:
+#     - "3330"
+#   volumes:
+#     - "./bot:/bot"
+#     - "/bot/node_modules"
+#   links:
+#     - server-template-server:server-template-server
+#   environment:
+#     COMMON_ENV: local
+#     COMMON_DEBUG: 'true'
+#     COMMON_PROJECT: server-template
+#     COMMON_CUSTOMER: customername
+#     NODE_ENV: development
+#     ENV: dev # TODO remove?
+#     DEBUG: 'false'
+#     API_BINDADDR: 0.0.0.0
+#     API_PORT: 3332
+#     ADMIN_PASSWORD: password
+#     USER_PASSWORD: password
 
 # server-template-worker:
 #   container_name: server-template-worker
@@ -104,15 +129,15 @@ server-template-server:
 #     - server-template-database:server-template-database
 #     - server-template-storage:server-template-storage
 #   environment:
+#     COMMON_ENV: local
+#     COMMON_DEBUG: 'true'
+#     COMMON_PROJECT: server-template
+#     COMMON_CUSTOMER: customername
 #     NODE_ENV: development
 #     ENV: dev # TODO remove?
 #     DEBUG: 'false'
 #     API_BINDADDR: 0.0.0.0
 #     API_PORT: 3331
-#     COMMON_ENV: local
-#     COMMON_DEBUG: 'true'
-#     COMMON_PROJECT: server-template
-#     COMMON_CUSTOMER: customername
 #     DATABASE_HOST: server-template-database
 #     DATABASE_ID: server_template_local
 #     DATABASE_DB: server_template_local

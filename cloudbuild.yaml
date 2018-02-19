@@ -189,6 +189,38 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
 
+- id: ci-build-bot
+  waitFor: ['ci-release-pre']
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  args: ['ci-build:$BRANCH_NAME', 'bot', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
+  env:
+    - taito_mode=ci
+    - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
+    - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
+    - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
+    - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
+    - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+
+- id: ci-push-bot
+  waitFor: ['ci-build-bot']
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  args: ['ci-push:$BRANCH_NAME', 'bot', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
+  env:
+    - taito_mode=ci
+    - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
+    - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
+    - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
+    - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
+    - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+
 - id: ci-build-client
   waitFor: ['ci-release-pre']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
@@ -241,6 +273,38 @@ steps:
   waitFor: ['ci-build-server']
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['ci-push:$BRANCH_NAME', 'server', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
+  env:
+    - taito_mode=ci
+    - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
+    - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
+    - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
+    - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
+    - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+
+- id: ci-build-worker
+  waitFor: ['ci-release-pre']
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  args: ['ci-build:$BRANCH_NAME', 'worker', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
+  env:
+    - taito_mode=ci
+    - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
+    - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
+    - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
+    - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
+    - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+
+- id: ci-push-worker
+  waitFor: ['ci-build-worker']
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  args: ['ci-push:$BRANCH_NAME', 'worker', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
   env:
     - taito_mode=ci
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
