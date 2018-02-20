@@ -60,6 +60,27 @@ spec:
     - port: {{ .Values.server.port }}
 {{ end }}
 
+{{ if .Values.stack.bot }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "name" . }}-{{ .Values.stack.bot }}
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  selector:
+    app: {{ template "name" . }}
+    release: {{ .Release.Name }}
+    tier: backend
+    role: bot
+  ports:
+    - port: {{ .Values.bot.port }}
+{{ end }}
+
 {{ if .Values.stack.cache }}
 ---
 apiVersion: v1

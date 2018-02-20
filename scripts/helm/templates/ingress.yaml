@@ -48,6 +48,12 @@ spec:
               serviceName: {{ template "name" . }}-{{ .Values.stack.server }}
               servicePort: {{ .Values.server.port }}
           {{ end }}
+          {{ if and (.Values.stack.bot) (.Values.bot.path) }}
+          - path: {{ .Values.bot.path | quote }}
+            backend:
+              serviceName: {{ template "name" . }}-{{ .Values.stack.bot }}
+              servicePort: {{ .Values.bot.port }}
+          {{ end }}
           {{ if .Values.stack.admin }}
           - path: {{ .Values.admin.path | quote }}
             backend:
@@ -70,6 +76,12 @@ spec:
             backend:
               serviceName: {{ template "name" . }}-{{ $root.Values.stack.server }}
               servicePort: {{ $root.Values.server.port }}
+          {{ end }}
+          {{ if and ($root.Values.stack.bot) ($root.Values.bot.path) }}
+          - path: {{ $root.Values.bot.path | quote }}
+            backend:
+              serviceName: {{ template "name" . }}-{{ $root.Values.stack.bot }}
+              servicePort: {{ $root.Values.bot.port }}
           {{ end }}
           {{ if $root.Values.stack.admin }}
           - path: {{ $root.Values.admin.path | quote }}
