@@ -97,11 +97,14 @@ The commands listed above work also for server environments (`feature`, `dev`, `
     $ taito db proxy:dev
     $ taito db import:dev ./database/file.sql
     $ taito db dump:dev
+    $ taito db log:dev
+    $ taito db revert:dev f898e8f986a861fe88dab2947d54371440d2b4d6
+    $ taito db deploy:dev
     $ taito db recreate:dev
     $ taito db diff:dev test
     $ taito db copy:dev test
 
-Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to search for a command (e.g `taito git -h`, `taito db -h`, `taito import -h`). For troubleshooting run `taito --trouble`. See PROJECT.md for project specific conventions and documentation.
+Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to show command help (e.g `taito git -h`, `taito db -h`, `taito db import -h`). For troubleshooting run `taito --trouble`. See PROJECT.md for project specific conventions and documentation.
 
 > If you run into authorization errors, authenticate with the `taito --auth:ENV` command.
 
@@ -264,7 +267,7 @@ Recommended settings for git repository:
 
 ### Stack
 
-The [orig-template](https://github.com/TaitoUnited/orig-template/) comes with preconfigured stack components that you can use. Change the stack by modifying the following files:
+The [orig-template](https://github.com/TaitoUnited/orig-template/) comes with preconfigured stack components that you can use. Remove stack components that you don't need. You can change the stack by deleting unnecessary directories and modifying the following files:
 
 * `docker-compose.yaml`: containers for local development.
 * `docker-nginx.conf`: 'ingress' for local development.
@@ -273,7 +276,7 @@ The [orig-template](https://github.com/TaitoUnited/orig-template/) comes with pr
 * `scripts/helm.yaml`: the `stack` setting at the beginning of file.
 * `cloudbuild.yaml`: the `images` setting at the beginning of file.
 
-Remove stack components that you don't need. If you later need to add stack components, see [orig-template](https://github.com/TaitoUnited/orig-template/) for examples.
+If you later need to add stack components, see [orig-template](https://github.com/TaitoUnited/orig-template/) for examples.
 
 If you would rather use vue instead of react, copy example implementation from `client-vue` to your client directory. If you would rather use python instead of node.js, copy `server-py` to your server directory.
 

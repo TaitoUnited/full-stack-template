@@ -21,8 +21,8 @@
       "eslint ./server --ignore-path ./server/.eslintignore --quiet",
     "lint:worker": "echo TODO lint:worker",
     "analyze": "npm-run-all --parallel analyze:admin analyze:client",
-    "analyze:admin": "( cd admin; npm run analyze )",
-    "analyze:client": "( cd client; npm run analyze )",
+    "analyze:admin": "( cd admin && npm run analyze )",
+    "analyze:client": "( cd client && npm run analyze )",
     "unit": "npm-run-all --parallel unit:admin unit:client unit:server unit:worker",
     "unit:admin": "taito run: admin -- npm run unit",
     "unit:client": "taito run: client -- npm run unit",
@@ -42,14 +42,14 @@
     "clean:storage": "rm -rf ./storage/bucket/*; rm -rf ./storage/.minio.sys/buckets/bucket/*/",
     "flow": "echo DISABLED flow",
     "precommit":
-      "echo 'NOTE: Running precommit inside taito container'; taito taito-precommit",
+      "echo 'NOTE: Running precommit inside taito container' && taito taito-precommit",
     "prepush":
-      "echo 'NOTE: Running prepush inside taito container'; taito taito-prepush",
-    "taito-precommit": "echo 'linting in push only'",
+      "echo 'NOTE: Running prepush inside taito container' && taito taito-prepush",
+    "taito-precommit": "echo 'lint for prepush only'",
     "taito-prepush": "npm-run-all --parallel lint flow unit",
-    "commit": "echo 'Running commitizen locally'; git-cz",
+    "commit": "echo 'Running commitizen locally' && git-cz",
     "commitmsg":
-      "echo 'Running validate-commit-msg locally'; validate-commit-msg",
+      "echo 'NOTE: Running validate-commit-msg locally' && validate-commit-msg",
     "ci-release-pre:prod": "semantic-release pre",
     "ci-release-post:prod": "semantic-release post"
   },

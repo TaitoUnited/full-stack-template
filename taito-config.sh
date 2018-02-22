@@ -7,7 +7,7 @@ export taito_extensions=""
 # - 'docker:local' means that docker is used only in local environment
 # - 'kubectl:-local' means that kubernetes is used in all other environments
 export taito_plugins=" \
-  postgres links-global docker:local kubectl:-local gcloud:-local
+  postgres-db sqitch-db links-global docker:local kubectl:-local gcloud:-local
   gcloud-builder:-local sentry secret:-local semantic npm"
 
 # Common project settings for all plugins
@@ -36,11 +36,14 @@ export gcloud_cdn_enabled=false
 # Kubernetes plugin
 export kubectl_name="kube1" # TODO rename to common-kubernetes
 
-# Postgres plugin
-export postgres_name="common-postgres"
-export postgres_database="${taito_project//-/_}_${taito_env}"
-export postgres_host="localhost"
-export postgres_port="${gcloud_sql_proxy_port}"
+# Database plugins (postgres/mysql/...)
+export database_instance="common-postgres"
+export database_name="${taito_project//-/_}_${taito_env}"
+export database_host="localhost"
+export database_port="${gcloud_sql_proxy_port}"
+
+# Sqitch plugin
+export sqitch_engine="pg" # pq/mysql/oracle/sqlite/vertica/firebird
 
 # Template plugin
 export template_name="orig-template"
@@ -98,12 +101,12 @@ case "${taito_env}" in
     export test_api_url="http://localhost:3332"
     export taito_app_url="http://localhost:8080"
     export taito_admin_url="${taito_app_url}/admin/"
-    export postgres_external_port="6000"
+    export database_external_port="6000"
     if [[ "${taito_mode:-}" != "ci" ]]; then
-      export postgres_host="${taito_project}-database"
-      export postgres_port="5432"
+      export database_host="${taito_project}-database"
+      export database_port="5432"
     else
-      export postgres_port="${postgres_external_port}"
+      export database_port="${database_external_port}"
     fi
     export ci_test_env=true
 esac
@@ -116,8 +119,8 @@ export gcloud_project="${taito_zone}"
 export taito_secrets="
   git.github.build:read/devops
   gcloud.cloudsql.proxy:copy/devops
-  db.${postgres_database}.build/devops:random
-  db.${postgres_database}.app:random
+  db.${database_name}.build/devops:random
+  db.${database_name}.app:random
   storage.${taito_project}.gateway:random
   gcloud.${taito_project}-${taito_env}.multi:file
   jwt.${taito_project}.auth:random
