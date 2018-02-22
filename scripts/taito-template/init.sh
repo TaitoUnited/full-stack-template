@@ -1,7 +1,6 @@
 #!/bin/bash
 
-: "${taito_customer:?}"
-: "${taito_application:?}"
+: "${taito_company:?}"
 : "${taito_repo_name:?}"
 : "${taito_repo_name_alt:?}"
 
@@ -85,7 +84,7 @@ if [ "$(uname)" = "Darwin" ]; then
   find . -type f -exec sed -i '' \
     -e "s/server-template/${taito_repo_name}/g" 2> /dev/null {} \;
   find . -type f -exec sed -i '' \
-    -e "s/customername/${taito_customer}/g" 2> /dev/null {} \;
+    -e "s/companyname/${taito_company}/g" 2> /dev/null {} \;
   find . -type f -exec sed -i '' \
     -e "s/orig-template/server-template/g" 2> /dev/null {} \;
 else
@@ -94,7 +93,7 @@ else
   find . -type f -exec sed -i \
     -e "s/server-template/${taito_repo_name}/g" 2> /dev/null {} \;
   find . -type f -exec sed -i \
-    -e "s/customername/${taito_customer}/g" 2> /dev/null {} \;
+    -e "s/companyname/${taito_company}/g" 2> /dev/null {} \;
   find . -type f -exec sed -i \
     -e "s/orig-template/server-template/g" 2> /dev/null {} \;
 fi
@@ -117,9 +116,9 @@ sed ${sedi} -- "s/8080/${ingress_port}/g" docker-compose.yaml taito-config.sh \
   ./admin/package.json ./client/package.json &> /dev/null
 
 # Replace template variables in taito-config.sh with the given settings
-sed ${sedi} -- "s/export taito_customer=\".*\"/export taito_family=\"${taito_customer}\"/g" taito-config.sh
+sed ${sedi} -- "s/export taito_company=\".*\"/export taito_family=\"${taito_company}\"/g" taito-config.sh
 sed ${sedi} -- "s/export taito_family=\".*\"/export taito_family=\"${taito_family:-}\"/g" taito-config.sh
-sed ${sedi} -- "s/export taito_application=\".*\"/export taito_applicatoin=\"${taito_application}\"/g" taito-config.sh
+sed ${sedi} -- "s/export taito_application=\".*\"/export taito_applicatoin=\"${taito_application:-}\"/g" taito-config.sh
 sed ${sedi} -- "s/export taito_suffix=\".*\"/export taito_suffix=\"${taito_suffix:-}\"/g" taito-config.sh
 sed ${sedi} -- "s/export taito_repo_name=\".*\"/export taito_repo_name=\"${taito_repo_name}\"/g" taito-config.sh
 sed ${sedi} -- "s/export taito_project=\".*\"/export taito_project=\"${taito_repo_name}\"/g" taito-config.sh

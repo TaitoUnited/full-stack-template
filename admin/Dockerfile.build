@@ -21,7 +21,7 @@ CMD ["npm", "run", "start"]
 FROM nginx:1.13.5-alpine
 ARG BUILD_VERSION
 LABEL version=${BUILD_VERSION} \
-      customer=customername \
+      company=companyname \
       project=server-template \
       role=admin
 WORKDIR /build

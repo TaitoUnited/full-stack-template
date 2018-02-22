@@ -11,7 +11,10 @@ data:
   ENV: {{ .Values.env | quote }}
   DEBUG: {{ .Values.debug | quote }}
   PROJECT: {{ .Values.project.name | quote }}
-  CUSTOMER: {{ .Values.project.customer | quote }}
+  COMPANY: {{ .Values.project.company | quote }}
+  FAMILY: {{ .Values.project.family | quote }}
+  APPLICATION: {{ .Values.project.application | quote }}
+  SUFFIX: {{ .Values.project.suffix | quote }}
   VERSION: {{ .Values.build.version | quote }}
   COMMIT: {{ .Values.build.commit | quote }}
   IMAGE_TAG: {{ .Values.build.imageTag | quote }}

@@ -1,6 +1,6 @@
 # TODO name
 
-TODO Short description: purpose, customer, etc
+TODO Short description: purpose, company, etc
 
 ## Recurring Issues and Solutions
 

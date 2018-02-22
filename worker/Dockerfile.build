@@ -17,7 +17,7 @@ RUN if [[ ${TARGET_ENV} != "local" ]]; then npm run build:prod; fi
 FROM node:8.7-alpine
 ARG BUILD_VERSION
 LABEL version=${BUILD_VERSION} \
-      customer=customername \
+      company=companyname \
       project=server-template \
       role=client
 ENV BUILD_VERSION ${BUILD_VERSION}

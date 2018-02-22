@@ -68,7 +68,7 @@ server-template-server:
     COMMON_ENV: local
     COMMON_DEBUG: 'true'
     COMMON_PROJECT: server-template
-    COMMON_CUSTOMER: customername
+    COMMON_COMPANY: companyname
     NODE_ENV: development
     ENV: dev # TODO remove?
     DEBUG: 'false'
@@ -105,7 +105,7 @@ server-template-server:
 #     COMMON_ENV: local
 #     COMMON_DEBUG: 'true'
 #     COMMON_PROJECT: server-template
-#     COMMON_CUSTOMER: customername
+#     COMMON_COMPANY: companyname
 #     NODE_ENV: development
 #     ENV: dev # TODO remove?
 #     DEBUG: 'false'
@@ -132,7 +132,7 @@ server-template-server:
 #     COMMON_ENV: local
 #     COMMON_DEBUG: 'true'
 #     COMMON_PROJECT: server-template
-#     COMMON_CUSTOMER: customername
+#     COMMON_COMPANY: companyname
 #     NODE_ENV: development
 #     ENV: dev # TODO remove?
 #     DEBUG: 'false'

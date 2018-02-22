@@ -18,7 +18,7 @@ const createAuthService = () => ({
         iat: Math.floor(Date.now() / 1000), // now
         /* eslint-disable no-mixed-operators */
         exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24, // 24h
-        iss: 'customername',
+        iss: 'companyname',
         aud: 'server-template',
         sub: username,
         // NOTE: assuming that there are only two users: admin and user
