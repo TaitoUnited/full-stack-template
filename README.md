@@ -278,7 +278,7 @@ The [orig-template](https://github.com/TaitoUnited/orig-template/) comes with pr
 
 If you later need to add stack components, see [orig-template](https://github.com/TaitoUnited/orig-template/) for examples.
 
-If you would rather use vue instead of react, copy example implementation from `client-vue` to your client directory. If you would rather use python instead of node.js, copy `server-py` to your server directory.
+If you would rather use other technologies than react and node.js, you can copy example implementations from [orig-template-alt](https://github.com/TaitoUnited/orig-template-alt/).
 
 ### Examples
 

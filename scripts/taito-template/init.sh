@@ -1,5 +1,10 @@
 #!/bin/bash
 
+: "${taito_customer:?}"
+: "${taito_application:?}"
+: "${taito_repo_name:?}"
+: "${taito_repo_name_alt:?}"
+
 : "${template_default_organization:?}"
 : "${template_default_domain:?}"
 : "${template_default_zone:?}"
@@ -13,9 +18,6 @@
 : "${template_default_dest_git:?}"
 
 : "${template_project_path:?}"
-: "${template_repo_name:?}"
-: "${template_repo_name_alt:?}"
-: "${template_customer:?}"
 : "${mode:?}"
 
 if [[ ${mode} != "upgrade" ]]; then
@@ -79,20 +81,20 @@ printf \
 # Replace some strings
 if [ "$(uname)" = "Darwin" ]; then
   find . -type f -exec sed -i '' \
-    -e "s/server_template/${template_repo_name_alt}/g" 2> /dev/null {} \;
+    -e "s/server_template/${taito_repo_name_alt}/g" 2> /dev/null {} \;
   find . -type f -exec sed -i '' \
-    -e "s/server-template/${template_repo_name}/g" 2> /dev/null {} \;
+    -e "s/server-template/${taito_repo_name}/g" 2> /dev/null {} \;
   find . -type f -exec sed -i '' \
-    -e "s/customername/${template_customer}/g" 2> /dev/null {} \;
+    -e "s/customername/${taito_customer}/g" 2> /dev/null {} \;
   find . -type f -exec sed -i '' \
     -e "s/orig-template/server-template/g" 2> /dev/null {} \;
 else
   find . -type f -exec sed -i \
-    -e "s/server_template/${template_repo_name_alt}/g" 2> /dev/null {} \;
+    -e "s/server_template/${taito_repo_name_alt}/g" 2> /dev/null {} \;
   find . -type f -exec sed -i \
-    -e "s/server-template/${template_repo_name}/g" 2> /dev/null {} \;
+    -e "s/server-template/${taito_repo_name}/g" 2> /dev/null {} \;
   find . -type f -exec sed -i \
-    -e "s/customername/${template_customer}/g" 2> /dev/null {} \;
+    -e "s/customername/${taito_customer}/g" 2> /dev/null {} \;
   find . -type f -exec sed -i \
     -e "s/orig-template/server-template/g" 2> /dev/null {} \;
 fi
@@ -113,6 +115,14 @@ sed ${sedi} -- "s/6000/${db_port}/g" taito-config.sh &> /dev/null
 sed ${sedi} -- "s/6000/${db_port}/g" docker-compose.yaml &> /dev/null
 sed ${sedi} -- "s/8080/${ingress_port}/g" docker-compose.yaml taito-config.sh \
   ./admin/package.json ./client/package.json &> /dev/null
+
+# Replace template variables in taito-config.sh with the given settings
+sed ${sedi} -- "s/export taito_customer=\".*\"/export taito_family=\"${taito_customer}\"/g" taito-config.sh
+sed ${sedi} -- "s/export taito_family=\".*\"/export taito_family=\"${taito_family:-}\"/g" taito-config.sh
+sed ${sedi} -- "s/export taito_application=\".*\"/export taito_applicatoin=\"${taito_application}\"/g" taito-config.sh
+sed ${sedi} -- "s/export taito_suffix=\".*\"/export taito_suffix=\"${taito_suffix:-}\"/g" taito-config.sh
+sed ${sedi} -- "s/export taito_repo_name=\".*\"/export taito_repo_name=\"${taito_repo_name}\"/g" taito-config.sh
+sed ${sedi} -- "s/export taito_project=\".*\"/export taito_project=\"${taito_repo_name}\"/g" taito-config.sh
 
 # Replace template variables in taito-config.sh with user specific settings
 sed ${sedi} -- "s/\${template_default_organization:?}/${template_default_organization}/g" taito-config.sh
