@@ -116,9 +116,9 @@ sed ${sedi} -- "s/8080/${ingress_port}/g" docker-compose.yaml taito-config.sh \
   ./admin/package.json ./client/package.json &> /dev/null
 
 # Replace template variables in taito-config.sh with the given settings
-sed ${sedi} -- "s/export taito_company=\".*\"/export taito_family=\"${taito_company}\"/g" taito-config.sh
+sed ${sedi} -- "s/export taito_company=\".*\"/export taito_company=\"${taito_company}\"/g" taito-config.sh
 sed ${sedi} -- "s/export taito_family=\".*\"/export taito_family=\"${taito_family:-}\"/g" taito-config.sh
-sed ${sedi} -- "s/export taito_application=\".*\"/export taito_applicatoin=\"${taito_application:-}\"/g" taito-config.sh
+sed ${sedi} -- "s/export taito_application=\".*\"/export taito_application=\"${taito_application:-}\"/g" taito-config.sh
 sed ${sedi} -- "s/export taito_suffix=\".*\"/export taito_suffix=\"${taito_suffix:-}\"/g" taito-config.sh
 sed ${sedi} -- "s/export taito_repo_name=\".*\"/export taito_repo_name=\"${taito_repo_name}\"/g" taito-config.sh
 sed ${sedi} -- "s/export taito_project=\".*\"/export taito_project=\"${taito_repo_name}\"/g" taito-config.sh
