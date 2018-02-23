@@ -25,9 +25,10 @@ if [[ ${mode} != "upgrade" ]]; then
   echo
   echo "Simple basic auth username:"
   read -r auth_username
-  echo "Simple basic auth password:"
-  # read -r auth_password
-  echo "${auth_password}" | htpasswd -c scripts/helm/.htpasswd ${auth_username}
+  until htpasswd -c scripts/helm/.htpasswd ${auth_username}
+  do
+    sleep 0.1
+  done
 fi
 
 echo

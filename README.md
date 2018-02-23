@@ -95,6 +95,7 @@ The commands listed above work also for server environments (`feature`, `dev`, `
     $ taito open storage:dev
     $ taito db open:dev
     $ taito db proxy:dev
+    $ taito db rebase:dev
     $ taito db import:dev ./database/file.sql
     $ taito db dump:dev
     $ taito db log:dev
