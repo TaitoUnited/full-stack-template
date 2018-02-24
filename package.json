@@ -3,7 +3,7 @@
   "description": "",
   "private": true,
   "scripts": {
-    "taito-oper-init:local:clean": "taito -z init --clean && npm run clean:storage",
+    "taito-init:local:clean": "taito -z init --clean && npm run clean:storage",
     "info:local":
       "taito secrets | grep 'Showing\\|PASSWORD'; echo; echo 'TODO: add local users to package.json (username/password)'",
     "info:dev":

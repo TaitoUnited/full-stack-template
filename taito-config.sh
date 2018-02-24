@@ -7,8 +7,10 @@ export taito_extensions=""
 # - 'docker:local' means that docker is used only in local environment
 # - 'kubectl:-local' means that kubernetes is used in all other environments
 export taito_plugins=" \
-  postgres-db sqitch-db links-global docker:local kubectl:-local gcloud:-local
-  gcloud-builder:-local sentry secret:-local semantic npm"
+  postgres-db sqitch-db docker:local \
+  secrets:-local kube-secrets:-local kubectl:-local helm:-local \
+  gcloud:-local gcloud-builder:-local \
+  sentry semantic npm links-global"
 
 # Common project settings for all plugins
 export taito_environments="dev prod"
@@ -117,6 +119,8 @@ esac
 # --- Derived values ---
 
 export gcloud_project="${taito_zone}"
+export kubectl_cluster="gke_${taito_zone}_${gcloud_zone}_${kubectl_name}"
+export kubectl_user="${kubectl_cluster}"
 
 # NOTE: Secret naming: type.target_of_type.purpose[/namespace]:generation_method
 export taito_secrets="
