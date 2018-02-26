@@ -54,7 +54,8 @@ steps:
     gcloud container clusters get-credentials "$${kubectl_name}" \
       --zone "$${gcloud_zone}"
     if [[ $$? -gt 0 ]]; then
-      exit 1
+      echo "WARNING! Get gcloud credentials failed. Build cancel not possible."
+      # exit 1
     fi
 
     echo "- Cancel all previous ongoing builds targetting the same branch"
