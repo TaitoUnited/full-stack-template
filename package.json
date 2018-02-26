@@ -4,21 +4,16 @@
   "private": true,
   "scripts": {
     "taito-init:local:clean": "taito -z init --clean && npm run clean:storage",
-    "info:local":
-      "taito secrets | grep 'Showing\\|PASSWORD'; echo; echo 'TODO: add local users to package.json (username/password)'",
-    "info:dev":
-      "taito secrets:dev | grep -A 1 'Showing\\|user.'; echo; echo 'TODO: add dev users to package.json (username/password)'",
-    "info:test":
-      "taito secrets:test | grep -A 1 'Showing\\|user.'; echo; echo 'TODO: add test users to package.json (username/password)'",
+    "info:local": "taito secrets | grep 'Showing\\|PASSWORD'; echo; echo 'TODO: add local users to package.json (username/password)'",
+    "info:dev": "taito secrets:dev | grep -A 1 'Showing\\|user.'; echo; echo 'TODO: add dev users to package.json (username/password)'",
+    "info:test": "taito secrets:test | grep -A 1 'Showing\\|user.'; echo; echo 'TODO: add test users to package.json (username/password)'",
     "info:staging": "TODO",
     "info:prod": "TODO",
     "scan": "npm run lint && npm run flow && echo 'TODO: code analysis'",
     "lint": "npm-run-all --parallel lint:admin lint:client lint:server lint:worker",
     "lint:admin": "eslint ./admin --ignore-path ./admin/.eslintignore --quiet",
-    "lint:client":
-      "eslint ./client --ignore-path ./client/.eslintignore --quiet",
-    "lint:server":
-      "eslint ./server --ignore-path ./server/.eslintignore --quiet",
+    "lint:client": "eslint ./client --ignore-path ./client/.eslintignore --quiet",
+    "lint:server": "eslint ./server --ignore-path ./server/.eslintignore --quiet",
     "lint:worker": "echo TODO lint:worker",
     "analyze": "npm-run-all --parallel analyze:admin analyze:client",
     "analyze:admin": "( cd admin && npm run analyze )",
@@ -34,22 +29,16 @@
     "test:server": "taito util-test:${taito_env} server ${taito_app_url} ${test_api_user}",
     "test:worker": "echo TODO test:worker",
     "docs": "echo TODO: generate docs in package.json",
-    "contacts-development":
-      "cat PROJECT.md | sed -n -e '/^## Development.*$/,/^#.*$/{ /^## Development.*$/d; /^#.*$/d; p; }'",
-    "contacts-maintenance":
-      "cat PROJECT.md | sed -n -e '/^## Maintenance.*$/,/^#.*$/{ /^## Maintenance.*$/d; /^#.*$/d; p; }'",
-
+    "contacts-development": "cat PROJECT.md | sed -n -e '/^## Development.*$/,/^#.*$/{ /^## Development.*$/d; /^#.*$/d; p; }'",
+    "contacts-maintenance": "cat PROJECT.md | sed -n -e '/^## Maintenance.*$/,/^#.*$/{ /^## Maintenance.*$/d; /^#.*$/d; p; }'",
     "clean:storage": "rm -rf ./storage/bucket/*; rm -rf ./storage/.minio.sys/buckets/bucket/*/",
     "flow": "echo DISABLED flow",
-    "precommit":
-      "echo 'NOTE: Running precommit inside taito container' && taito taito-precommit",
-    "prepush":
-      "echo 'NOTE: Running prepush inside taito container' && taito taito-prepush",
-    "taito-precommit": "echo 'lint for prepush only'",
+    "precommit": "echo 'NOTE: Running precommit inside taito container' && taito taito-precommit",
+    "prepush": "echo 'NOTE: Running prepush inside taito container' && taito taito-prepush",
+    "taito-precommit": "echo 'SKIP: Skip linting on commit since we are already continuously linting during development.'",
     "taito-prepush": "npm-run-all --parallel lint flow unit",
     "commit": "echo 'Running commitizen locally' && git-cz",
-    "commitmsg":
-      "echo 'NOTE: Running validate-commit-msg locally' && validate-commit-msg",
+    "commitmsg": "echo 'NOTE: Running validate-commit-msg locally' && validate-commit-msg",
     "ci-release-pre:prod": "semantic-release pre",
     "ci-release-post:prod": "semantic-release post"
   },
@@ -74,7 +63,9 @@
       ],
       "scope": {
         "required": false,
-        "allowed": ["*"],
+        "allowed": [
+          "*"
+        ],
         "validate": false,
         "multiple": false
       },
@@ -133,6 +124,7 @@
     "last-release-git": "0.0.3",
     "npm-run-all": "^4.0.2",
     "prettier": "^1.8.1",
+    "pump": "^3.0.0",
     "semantic-release": "^8.1.2",
     "validate-commit-msg": "^2.14.0"
   }

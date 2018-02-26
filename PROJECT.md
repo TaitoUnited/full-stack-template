@@ -25,11 +25,11 @@ See trouble.txt or run `taito --trouble`.
 
 TODO ... user agreement on single sign on ...
 
-### Pseudonymization and anonymization whenever possible
+### Pseudonymisation and anonymisation whenever possible
 
 TODO ...
 
-### Data deletion or anonymization on user request
+### Data deletion or anonymisation on user request
 
 TODO ...
 

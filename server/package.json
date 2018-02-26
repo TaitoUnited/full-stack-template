@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "unit": "echo 'TODO run unit tests'",
+    "flow": "flow",
     "start": "npm run start:dev",
     "start:dev":
       "NODE_ENV=development nodemon -L ./index.js --ignore 'test/*.js' | bunyan -l debug",
@@ -108,6 +109,7 @@
     "eslint-plugin-babel": "^4.1.1",
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-prettier": "^2.1.2",
+    "flow-bin": "^0.66.0",
     "grunt": "^1.0.1",
     "grunt-swagger-docs": "^0.0.4",
     "mocha": "^2.4.5",

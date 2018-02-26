@@ -58,14 +58,14 @@ Show user accounts and other information that you can use to log in:
 
 Access database:
 
-    $ taito db open                          # access using a command-line tool
-    $ taito db proxy                         # access using a database GUI tool
-    $ taito db import: ./database/file.sql   # import a sql script to database
+    $ taito db open                           # access using a command-line tool
+    $ taito db proxy                          # access using a database GUI tool
+    $ taito db import: ./database/file.sql    # import a sql script to database
 
 Run all tests:
 
-    $ taito unit          # unit tests
-    $ taito test          # integration and end-to-end tests
+    $ taito unit                              # unit tests
+    $ taito test                              # integration and end-to-end tests
 
 Start shell on a container:
 
@@ -84,26 +84,26 @@ List all project related links and open one of them in browser:
 
 The commands listed above work also for server environments (`feature`, `dev`, `test`, `staging`, `prod`). Some examples for dev environment:
 
-    $ taito open app:dev
-    $ taito open admin:dev
-    $ taito info:dev
-    $ taito status:dev
-    $ taito test:dev
-    $ taito shell:dev server
-    $ taito logs:dev server
-    $ taito open logs:dev
-    $ taito open storage:dev
-    $ taito db open:dev
-    $ taito db proxy:dev
-    $ taito db rebase:dev
-    $ taito db import:dev ./database/file.sql
-    $ taito db dump:dev
-    $ taito db log:dev
-    $ taito db revert:dev f898e8f986a861fe88dab2947d54371440d2b4d6
-    $ taito db deploy:dev
-    $ taito db recreate:dev
-    $ taito db diff:dev test
-    $ taito db copy:dev test
+    $ taito open app:dev                      # Open application in browser
+    $ taito open admin:dev                    # Open admin GUI in browser
+    $ taito info:dev                          # Show info
+    $ taito status:dev                        # Show status of dev environment
+    $ taito test:dev                          # Run integration and e2e tests
+    $ taito shell:dev server                  # Start shell on server container
+    $ taito logs:dev server                   # Tail logs of server container
+    $ taito open logs:dev                     # Open logs on browser
+    $ taito open storage:dev                  # Open storage bucket on browser
+    $ taito db open:dev                       # Open database on command line
+    $ taito db proxy:dev                      # Start a proxy for database access
+    $ taito db rebase:dev                     # Rebase database by redeploying all migrations
+    $ taito db import:dev ./database/file.sql # Import a file to database
+    $ taito db dump:dev                       # Dump database to a file
+    $ taito db log:dev                        # Show database migration logs
+    $ taito db revert:dev XXX                 # Revert database to change XXX
+    $ taito db deploy:dev                     # Deploy data migrations to database
+    $ taito db recreate:dev                   # Recreate database
+    $ taito db diff:dev test                  # Show diff between dev and test schemas
+    $ taito db copy:dev test                  # Copy test database to dev
 
 Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to show command help (e.g `taito git -h`, `taito db -h`, `taito db import -h`). For troubleshooting run `taito --trouble`. See PROJECT.md for project specific conventions and documentation.
 
@@ -305,7 +305,7 @@ The following implementation changes:
 ### Basic settings
 
 1. Configure `taito-config.sh` if you need to change some settings. The default settings are ok for most projects.
-2. Run `taito project config`
+2. Run `taito project apply`
 3. Commit and push changes
 
 ### Environments

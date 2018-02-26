@@ -118,21 +118,12 @@ esac
 
 # --- Derived values ---
 
+# gcloud plugin
 export gcloud_project="${taito_zone}"
+
+# Kubernetes plugin
 export kubectl_cluster="gke_${taito_zone}_${gcloud_zone}_${kubectl_name}"
 export kubectl_user="${kubectl_cluster}"
-
-# NOTE: Secret naming: type.target_of_type.purpose[/namespace]:generation_method
-export taito_secrets="
-  git.github.build:read/devops
-  gcloud.cloudsql.proxy:copy/devops
-  db.${database_name}.build/devops:random
-  db.${database_name}.app:random
-  storage.${taito_project}.gateway:random
-  gcloud.${taito_project}-${taito_env}.multi:file
-  jwt.${taito_project}.auth:random
-  user.${taito_project}-admin.auth:manual
-  user.${taito_project}-user.auth:manual"
 
 # Link plugin
 export link_urls="\
@@ -150,3 +141,16 @@ export link_urls="\
   # artifacts=https://console.cloud.google.com/gcr/images/${taito_zone}/EU/${taito_repo_location}-${taito_repo_name}?project=${taito_zone} \
   # feedback=https://TODO-NOT-IMPLEMENTED \
   # performance=https://TODO-NOT-IMPLEMENTED \
+
+# Secrets
+# NOTE: Secret naming: type.target_of_type.purpose[/namespace]:generation_method
+export taito_secrets="
+  git.github.build:read/devops
+  gcloud.cloudsql.proxy:copy/devops
+  db.${database_name}.build/devops:random
+  db.${database_name}.app:random
+  storage.${taito_project}.gateway:random
+  gcloud.${taito_project}-${taito_env}.multi:file
+  jwt.${taito_project}.auth:random
+  user.${taito_project}-admin.auth:manual
+  user.${taito_project}-user.auth:manual"

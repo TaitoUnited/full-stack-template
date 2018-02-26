@@ -1,5 +1,4 @@
 [ignore]
-.*/node_modules/file-utils/.*
 
 [include]
 
@@ -8,3 +7,5 @@
 [lints]
 
 [options]
+
+[strict]

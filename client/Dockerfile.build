@@ -9,10 +9,17 @@ ENV API_ROOT ''
 ENV API_URL /api
 ENV APP_SENTRY_PUBLIC_DSN #sentryPublicDSN
 RUN apk add --update-cache build-base python git
+# Required by the current flow version (can be removed later?)
+RUN apk --no-cache add ca-certificates wget && \
+  wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/master/sgerrand.rsa.pub && \
+  wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.27-r0/glibc-2.27-r0.apk && \
+  apk add glibc-2.27-r0.apk
 WORKDIR /client
 COPY ./package.json /client/package.json
 RUN npm install --loglevel warn
 COPY . /client
+RUN npm run flow
+RUN npm run unit
 RUN if [[ "${TARGET_ENV}" != "local" ]]; then npm run build && cp -r ./assets/* /build/; fi
 EXPOSE 3333
 CMD ["npm", "run", "start"]

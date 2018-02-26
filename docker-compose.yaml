@@ -24,8 +24,6 @@ server-template-admin:
   volumes:
     - "./admin:/admin"
     - "/admin/node_modules"
-  links:
-    - server-template-server:server-template-server
   environment:
     COMMON_ENV: local
     NODE_ENV: development
@@ -42,8 +40,6 @@ server-template-client:
   volumes:
     - "./client:/client"
     - "/client/node_modules"
-  links:
-    - server-template-server:server-template-server
   environment:
     COMMON_ENV: local
     NODE_ENV: development
