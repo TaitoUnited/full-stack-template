@@ -5,13 +5,13 @@ ENV TARGET_ENV ${TARGET_ENV}
 ENV NODE_ENV development
 RUN apk add --update-cache build-base python git fontconfig
 WORKDIR /server
-COPY ./package.json /server/package.json
-# TODO for local development: RUN npm install nodemon -g
-RUN npm install --loglevel warn
 COPY . /server
-# TODO for local development: EXPOSE 3332
-RUN if [[ ${TARGET_ENV} != "local" ]]; then npm run build:prod; fi
-# TODO for local development: CMD ["npm", "run", "start"]
+RUN npm install --loglevel warn
+# NOTE: postinstall fails in previous step because of root user so we run it manually
+RUN npm run postinstall
+RUN npm run flow
+RUN npm run unit
+RUN npm run build:prod
 
 # Production runtime
 FROM node:8.7-alpine

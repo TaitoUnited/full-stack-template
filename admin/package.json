@@ -5,17 +5,18 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "unit": "BABEL_ENV=test jest",
+    "postinstall": "flow-typed install",
     "flow": "flow",
     "lint": "eslint . --ignore-path .eslintignore --quiet",
-    "start":
-      "webpack-dev-server --config ./config/webpack.dev.js --public=localhost:8080",
+    "unit": "BABEL_ENV=test jest",
+    "start": "webpack-dev-server --config ./config/webpack.dev.js --public=localhost:8080",
     "build": "NODE_ENV=production webpack -p --config ./config/webpack.prod.js",
-    "analyze":
-      "ANALYZE=true NODE_ENV=production webpack -p --config ./config/webpack.prod.js"
+    "analyze": "ANALYZE=true NODE_ENV=production webpack -p --config ./config/webpack.prod.js"
   },
   "jest": {
-    "setupFiles": ["./config/setup-jest.js"]
+    "setupFiles": [
+      "./config/setup-jest.js"
+    ]
   },
   "repository": {
     "type": "git",
@@ -77,6 +78,7 @@
     "extract-text-webpack-plugin": "^3.0.1",
     "file-loader": "^1.1.5",
     "flow-bin": "^0.66.0",
+    "flow-typed": "^2.3.0",
     "flow-webpack-plugin": "^1.2.0",
     "html-webpack-plugin": "^2.30.1",
     "jest": "^20.0.0",

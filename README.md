@@ -32,7 +32,7 @@
 
 ## Quick start
 
-Install linters locally (add `--clean` for clean reinstall):
+Install linters on host (add `--clean` for clean reinstall, add `--all` if you require all libraries to be installed on host for code autocompletion):
 
     $ taito install
 

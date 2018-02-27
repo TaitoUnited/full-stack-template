@@ -1,4 +1,5 @@
 node_modules
+flow-typed/npm
 credentials
 *.log
 .DS_Store

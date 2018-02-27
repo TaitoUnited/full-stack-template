@@ -8,9 +8,10 @@ RUN apk --no-cache add ca-certificates wget && \
   wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.27-r0/glibc-2.27-r0.apk && \
   apk add glibc-2.27-r0.apk
 WORKDIR /server
-COPY ./package.json /server/package.json
+COPY . /server
 RUN npm install nodemon -g
 RUN npm install --loglevel warn
-COPY . /server
+# NOTE: postinstall fails in previous step because of root user so we run it manually
+RUN npm run postinstall
 EXPOSE 3332
 CMD ["npm", "run", "start"]

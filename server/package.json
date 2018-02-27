@@ -5,16 +5,14 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "unit": "echo 'TODO run unit tests'",
+    "postinstall": "flow-typed install",
     "flow": "flow",
+    "unit": "echo 'TODO run unit tests'",
     "start": "npm run start:dev",
-    "start:dev":
-      "NODE_ENV=development nodemon -L ./index.js --ignore 'test/*.js' | bunyan -l debug",
-    "start:dev:trace":
-      "NODE_ENV=development nodemon -L ./index.js --ignore 'test/*.js' | bunyan",
+    "start:dev": "NODE_ENV=development nodemon -L ./index.js --ignore 'test/*.js' | bunyan -l debug",
+    "start:dev:trace": "NODE_ENV=development nodemon -L ./index.js --ignore 'test/*.js' | bunyan",
     "start:prod": "NODE_ENV=production nodemon -L ./index.production.js",
-    "build:prod":
-      "NODE_ENV=production babel -d ../build --ignore node_modules .",
+    "build:prod": "NODE_ENV=production babel -d ../build --ignore node_modules .",
     "build:docs": "grunt --gruntfile ./Gruntfile swagger-docs --force"
   },
   "repository": {
@@ -24,7 +22,10 @@
   "bugs": {
     "url": "https://github.com/TaitoUnited/server-template/issues"
   },
-  "keywords": ["koa2", "leiko"],
+  "keywords": [
+    "koa2",
+    "leiko"
+  ],
   "author": "Taito United Oy <support@taitounited.fi>",
   "license": "",
   "homepage": "https://github.com/TaitoUnited/server-template#readme",
@@ -110,6 +111,7 @@
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-prettier": "^2.1.2",
     "flow-bin": "^0.66.0",
+    "flow-typed": "^2.3.0",
     "grunt": "^1.0.1",
     "grunt-swagger-docs": "^0.0.4",
     "mocha": "^2.4.5",

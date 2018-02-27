@@ -1,0 +1,11 @@
+{
+  "name": "server-template-function",
+  "version": "1.0.0",
+  "scripts": {
+    "postinstall": "flow-typed install"
+  },
+  "devDependencies": {
+    "flow-bin": "^0.66.0",
+    "flow-typed": "^2.3.0"
+  }
+}

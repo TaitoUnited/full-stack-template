@@ -24,6 +24,7 @@ server-template-admin:
   volumes:
     - "./admin:/admin"
     - "/admin/node_modules"
+    - "/admin/flow-typed/npm"
   environment:
     COMMON_ENV: local
     NODE_ENV: development
@@ -40,6 +41,7 @@ server-template-client:
   volumes:
     - "./client:/client"
     - "/client/node_modules"
+    - "/client/flow-typed/npm"
   environment:
     COMMON_ENV: local
     NODE_ENV: development
@@ -56,6 +58,7 @@ server-template-server:
   volumes:
     - "./server:/server"
     - "/server/node_modules"
+    - "/server/flow-typed/npm"
   links:
     - server-template-cache:server-template-cache
     - server-template-database:server-template-database
@@ -95,6 +98,7 @@ server-template-server:
 #   volumes:
 #     - "./bot:/bot"
 #     - "/bot/node_modules"
+#     - "/bot/flow-typed/npm"
 #   links:
 #     - server-template-server:server-template-server
 #   environment:
@@ -120,6 +124,7 @@ server-template-server:
 #   volumes:
 #     - "./worker:/worker"
 #     - "/worker/node_modules"
+#     - "/worker/flow-typed/npm"
 #   links:
 #     - server-template-cache:server-template-cache
 #     - server-template-database:server-template-database

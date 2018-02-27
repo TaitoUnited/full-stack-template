@@ -1,10 +1,22 @@
+# NOTE: required at root folder because of ide-flowtype atom package
+# https://github.com/flowtype/ide-flowtype/issues/13
+
 [ignore]
-.*/node_modules/file-utils/.*
+.*/node_modules/.*
+scripts/.*
 
 [include]
 
 [libs]
+admin/flow-typed
+bot/flow-typed
+client/flow-typed
+function/flow-typed
+server/flow-typed
+worker/flow-typed
 
 [lints]
 
 [options]
+
+[strict]

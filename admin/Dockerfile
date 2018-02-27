@@ -8,8 +8,9 @@ RUN apk --no-cache add ca-certificates wget && \
   wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.27-r0/glibc-2.27-r0.apk && \
   apk add glibc-2.27-r0.apk
 WORKDIR /admin
-COPY ./package.json /admin/package.json
-RUN npm install --loglevel warn
 COPY . /admin
+RUN npm install --loglevel warn
+# NOTE: postinstall fails in previous step because of root user so we run it manually
+RUN npm run postinstall
 EXPOSE 3334
 CMD ["npm", "run", "start"]
