@@ -98,21 +98,18 @@ case "${taito_env}" in
     export ci_exec_deploy=true       # deploy automatically
     export ci_exec_test=true         # execute test suites
     export ci_exec_test_init=true    # run 'init --clean' before each test suite
-    export ci_exec_revert=true       # revert deploy if previous steps failed
+    export ci_exec_revert=false      # revert deploy if previous steps failed
     ;;
   local)
     # local overrides
+    export ci_exec_test=true         # execute test suites
     export ci_exec_test_init=true    # run 'init --clean' before each test suite
     export test_api_url="http://localhost:3332"
     export taito_app_url="http://localhost:8080"
     export taito_admin_url="${taito_app_url}/admin/"
     export database_external_port="6000"
-    if [[ "${taito_mode:-}" != "ci" ]]; then
-      export database_host="${taito_project}-database"
-      export database_port="5432"
-    else
-      export database_port="${database_external_port}"
-    fi
+    export database_host="${taito_project}-database"
+    export database_port="5432"
     export ci_test_env=true
 esac
 

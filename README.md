@@ -64,8 +64,10 @@ Access database:
 
 Run all tests:
 
-    $ taito unit                              # unit tests
-    $ taito test                              # integration and end-to-end tests
+    $ taito unit                              # run all unit tests
+    $ taito unit: server                      # run unit tests of server
+    $ taito test                              # run all integration and end-to-end tests
+    $ taito test: client                      # run integration and end-to-end tests of client
 
 Start shell on a container:
 
@@ -129,11 +131,11 @@ You can run integration and end-to-end tests manually with the `taito test:ENV [
 
 An application should be divided in loosely coupled highly cohesive parts by using a modular directory structure. The following rules usually work well for a GUI implementation. For a backend implementation you might need to break the rules once in a while, but still try to keep directories loosely coupled.
 
-* Create directory structure mainly based on features (`reporting`, `users`, ...) instead of type (`actions`, `containers`, `components`, `css`, ...). Use such file naming that you can easily determine the type from filename (e.g. `*.ducks.js`, `*.container.js`). This way you don't need to use additional directories for grouping files by type.
-* A directory should not contain any references outside of its boundary; with the exception of references to libraries and common directories. You can think of each directory as an independent feature (or subfeature), and each `common` directory as a library that is shared among closely related features (or subfeatures).
+* Create directory structure mainly based on feature hierarchy (`reports`, `reports/dashboard`, `reports/usage`, `users`, ...) instead of type (`actions`, `containers`, `components`, `css`, ...).
+* Use such file naming that you can easily determine the type from filename (e.g. `*.util.js`, `*.api.js`). This way you don't need to use additional directories for grouping files by type and, therefore, you can freely place the file wherever it is needed. NOTE: In a GUI implementation it is perfecly fine to exclude type from filename of a component to keep filenames shorter (e.g. `List.js`), if you just include the type for all other types of files.
+* A directory should not contain any references outside of its boundary; with the exception of references to libraries and common directories. You can think of each directory as an independent feature, and each `common` directory as a library that is shared among closely related features (or subfeatures).
 * A file should contain only nearby references (e.g. references to files in the same directory or in a subdirectory directly beneath it); with the exception of references to libraries and common directories, of course.
 * If you break the dependency rules, at least try to avoid making circular dependencies between directories. Also leave a `REFACTOR:` comment if the dependency is the kind that it should be refactored later.
-* Each block of implementation (function, class, module, sql query, ...) should be clearly named by its responsibility and implement only what it is responsible for, nothing else.
 
 See [orig-template/client/app](https://github.com/TaitoUnited/orig-template/tree/master/client/app) as an example.
 

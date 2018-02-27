@@ -1,4 +1,4 @@
-# Builder
+# Builder and tester container for production build
 FROM node:8.7-alpine as builder
 ARG TARGET_ENV=prod
 ARG BUILD_VERSION

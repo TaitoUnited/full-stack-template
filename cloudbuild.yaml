@@ -354,24 +354,24 @@ steps:
 
 # Run tests against the target environment
 
-# - id: ci-wait
-#   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
-#   args: ['ci-wait:$BRANCH_NAME']
-#   env:
-#     - taito_mode=ci
-#
-# - id: test
-#   waitFor: ['ci-wait']
-#   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
-#   args: ['test:$BRANCH_NAME']
-#   env:
-#     - taito_mode=ci
-#
-# - id: ci-verify
-#   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
-#   args: ['ci-verify:$BRANCH_NAME']
-#   env:
-#     - taito_mode=ci
+- id: ci-wait
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  args: ['ci-wait:$BRANCH_NAME']
+  env:
+    - taito_mode=ci
+
+- id: test
+  waitFor: ['ci-wait']
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  args: ['test:$BRANCH_NAME']
+  env:
+    - taito_mode=ci
+
+- id: ci-verify
+  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  args: ['ci-verify:$BRANCH_NAME']
+  env:
+    - taito_mode=ci
 
 # Publish and release
 

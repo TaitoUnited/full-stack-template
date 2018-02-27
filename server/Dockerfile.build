@@ -1,4 +1,4 @@
-# Builder
+# Builder and tester container for production build
 FROM node:8.7-alpine as builder
 ARG TARGET_ENV=prod
 ENV TARGET_ENV ${TARGET_ENV}
@@ -18,7 +18,7 @@ RUN npm run flow
 RUN npm run unit
 RUN npm run build:prod
 
-# Production runtime
+# Production runtime container
 FROM node:8.7-alpine
 ARG BUILD_VERSION
 LABEL version=${BUILD_VERSION} \

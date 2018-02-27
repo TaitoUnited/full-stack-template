@@ -2,7 +2,8 @@
   "name": "server-template-function",
   "version": "1.0.0",
   "scripts": {
-    "postinstall": "flow-typed install"
+    "postinstall": "flow-typed install",
+    "unit": "echo 'TODO run unit tests'"
   },
   "devDependencies": {
     "flow-bin": "^0.66.0",
