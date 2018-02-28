@@ -44,13 +44,16 @@ rm -rf client-vue
 rm -rf server-py
 
 # Replace NOTE of README.md with a 'do not modify' note
-tail -n +2 "README.md" > "README.md.tmp" && mv -f "README.md.tmp" "README.md"
-echo \
-"> NOTE: This file has been copied from \
+{
+sed '/TEMPLATE NOTE START/q' README.md
+echo "> NOTE: This file has been copied from \
 [orig-template](https://github.com/TaitoUnited/orig-template/). Keep \
 modifications minimal and improve the original instead. Project \
-specific documentation is located in PROJECT.md." | \
-  cat - README.md > temp && mv -f temp README.md
+specific documentation is located in PROJECT.md."
+echo
+sed -n -e '/TEMPLATE NOTE END/,$p' README.md
+} >> README.md.tmp
+mv -f README.md.tmp README.md
 
 # Add 'do not modify' note to readme of helm chart
 echo \

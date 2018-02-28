@@ -1,6 +1,12 @@
-> Create a new project from this template by running `taito template create: server-template`. You can also migrate an existing project to this template by running `taito template migrate: server-template` in your project root folder. Later you can upgrade your project to the latest version of the template by running `taito template upgrade`. To ensure flawless upgrade, do not modify files that have **do not modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files in the template instead, and then upgrade.
-
 # server-template
+
+[//]: # (TEMPLATE NOTE START)
+
+Create a new project from this template by running `taito template create: server-template`. You can also migrate an existing project to this template by running `taito template migrate: server-template` in your project root folder. Later you can upgrade your project to the latest version of the template by running `taito template upgrade`. To ensure flawless upgrade, do not modify files that have **do not modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files in the template instead, and then upgrade.
+
+[//]: # (TEMPLATE NOTE END)
+
+## Links
 
 [//]: # (GENERATED LINKS START)
 
@@ -22,7 +28,7 @@
 
 [//]: # (GENERATED LINKS END)
 
-> TODO add some notes for using the links: e.g. how to get an user account for logging in to the app and admin GUI.
+TODO add some notes for using the links: e.g. how to get an user account for logging in to the app and admin GUI.
 
 ## Prerequisites
 
@@ -123,9 +129,11 @@ All unit tests are run automatically during build (see `Dockerfile.build` files)
 
 ### Integration and end-to-end tests
 
-All integration and end-to-end test suites are run automatically after application has been deployed to dev environment (see `Dockerfile.test` files). Integration and end-to-end tests are grouped in independent test suites (see `suite-*.sh` and `zuite-*.sh` files) and data is cleaned up before each them by running `taito init --clean`. If, however, data cleanup is not necessary, you can turn it off with the `ci_exec_test_init` setting in `taito-config.sh`.
+All integration and end-to-end test suites are run automatically after application has been deployed to dev environment. Build stage of a production container (`Dockerfile.build`) is used for running the tests and, thus, any test tools installed as development dependency can be used for executing the tests.
 
-You can run integration and end-to-end tests manually with the `taito test:ENV [CONTAINER] [SUITE]` command, for example `taito test:dev server suite-xx`. Environment specific test suite parameters are configured in `taito-config.sh` and they are passed to test suites in `package.json`.
+Integration and end-to-end tests are grouped in independent test suites (see `suite-*.sh` and `zuite-*.sh` files). Suites are kept independent by cleaning up data before each suite execution (`taito init --clean`). If, however, data cleanup is not necessary, you can turn it off with the `ci_exec_test_init` setting in `taito-config.sh`. Environment specific test suite parameters are configured in `taito-config.sh` and they are passed to test suites in `package.json` located in project root folder.
+
+You can run integration and end-to-end tests manually with the `taito test:ENV [CONTAINER] [SUITE]` command, for example `taito test:dev server suite-xx`. When executing tests manually, the development container (`Dockerfile`) is used for executing the tests.
 
 ## Structure
 
