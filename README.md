@@ -129,7 +129,7 @@ All unit tests are run automatically during build (see `Dockerfile.build` files)
 
 You can run unit tests also in local environment with the `taito unit [CONTAINER]` command, for example `taito unit: client`.
 
-> NOTE: You can execute also browser and api tests using the same 'unit test' mechanism if you just mock the required APIs or DAOs so that the whole test can be run within one container.
+> You can execute also browser and api tests using the same 'unit test' mechanism if you just mock the required APIs or DAOs so that the whole test can be run within one container.
 
 ### Integration and end-to-end tests
 
@@ -165,7 +165,7 @@ Code reviews are very important at the beginning of a new software project, beca
 
 Note that most feature branches should be short-lived and located only on your local git repository, unless you are going to make a pull-request.
 
-> TIP: Use the `taito git feat` commands to manage your feature branches.
+> You can use the `taito git feat` commands to manage your feature branches.
 
 ### Commit messages
 
@@ -217,7 +217,7 @@ You can use any of the following types in your commit message. Use at least type
 * `ci`: Continuous integration changes (cloudbuild.yaml)
 * `chore`: maintenance
 
-> TIP: Optionally you can use `npm run commit` to write your commit messages by using commitizen, though often it is quicker to write commit messages by hand.
+> Optionally you can use `npm run commit` to write your commit messages by using commitizen, though often it is quicker to write commit messages by hand.
 
 ## Database Migrations
 
@@ -250,9 +250,9 @@ Deploying to different environments:
 * staging: Merge changes to staging branch. NOTE: Staging environment is not mandatory.
 * prod: Merge changes to master branch. Version number and release notes are generated automatically by the CI/CD tool.
 
-> TIP: Run `taito git env list` to list environment branches and `taito git env merge:ENV SOURCE_BRANCH` to merge an environment branch to another.
+> You can run `taito git env list` to list environment branches and `taito git env merge:ENV SOURCE_BRANCH` to merge an environment branch to another.
 
-> NOTE: Automatic deployment might be turned off for critical environments (`ci_exec_deploy` setting in `taito-config.sh`). In such case the deployment must be run manually with the `taito -a manual deploy:prod VERSION` command using an admin account after the CI/CD process has ended successfully.
+> Automatic deployment might be turned off for critical environments (`ci_exec_deploy` setting in `taito-config.sh`). In such case the deployment must be run manually with the `taito -a manual deploy:prod VERSION` command using an admin account after the CI/CD process has ended successfully.
 
 Advanced features:
 
@@ -324,9 +324,9 @@ The following implementation changes:
 
 ### Environments
 
-> NOTE: You should remove unnecessary examples from database migrations (`./database`) and secrets (`taito-config.sh`) before creating the first server environment.
+> You should remove unnecessary examples from database migrations (`./database`) and secrets (`taito-config.sh`) before creating the first server environment.
 
-> NOTE: All operations on production and staging environments require admin rights. Please contact devops personnel.
+> All operations on production and staging environments require admin rights. Please contact devops personnel.
 
 Run `taito env apply:ENV` to create an environment (`feature`, `dev`, `test`, `staging` or `prod`).
 
@@ -338,7 +338,7 @@ TODO terraform configuration
 
 The `scripts/heml.yaml` file contains default Kubernetes settings for all environments and the `scripts/helm-*.yaml` files contain environment specific overrides for them. By modying these files you can easily configure environment variables, resource requirements and autoscaling for your containers.
 
-> NOTE: Do not modify the helm template located in `./scripts/helm` directory. Improve the original helm template located in [orig-template](https://github.com/TaitoUnited/orig-template/) repository instead.
+> Do not modify the helm template located in `./scripts/helm` directory. Improve the original helm template located in [orig-template](https://github.com/TaitoUnited/orig-template/) repository instead.
 
 ### Secrets
 
@@ -346,7 +346,7 @@ The `scripts/heml.yaml` file contains default Kubernetes settings for all enviro
 2. Map secret to an environment variable in `scripts/helm.yaml`
 3. Run `taito env rotate:ENV [SECRET]` to generate a secret value for an environment. Run the command for each environment separately. Note that the rotate command restarts all pods in the same namespace.
 
-> NOTE: For local development you can just define secrets as normal environment variables in `docker-compose.yaml` given that they are not confidential.
+> For local development you can just define secrets as normal environment variables in `docker-compose.yaml` given that they are not confidential.
 
 ## Upgrading to the latest version of the project template
 

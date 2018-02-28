@@ -30,6 +30,12 @@ server-template-admin:
     NODE_ENV: development
     API_ROOT: ''
     API_URL: '/api'
+    # NOTE: Remember that environment variables given to webpack are used only
+    # during build. You should not put any environment specific variables here
+    # because the same build artifacts (static files) will be used in
+    # multiple environments (dev, test, staging, prod). Read environment
+    # specific settings from the API. You can usually derive api location from
+    # the browser url of the GUI.
 
 server-template-client:
   container_name: server-template-client
@@ -47,6 +53,12 @@ server-template-client:
     NODE_ENV: development
     API_ROOT: ''
     API_URL: '/api'
+    # NOTE: Remember that environment variables given to webpack are used only
+    # during build. You should not put any environment specific variables here
+    # because the same build artifacts (static files) will be used in
+    # multiple environments (dev, test, staging, prod). Read environment
+    # specific settings from the API. You can usually derive api location from
+    # the browser url of the GUI.
 
 server-template-server:
   container_name: server-template-server

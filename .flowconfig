@@ -1,19 +1,24 @@
-# NOTE: required at root folder because of ide-flowtype atom package
+[include]
+# NOTE: Required at root folder because of ide-flowtype atom package
 # https://github.com/flowtype/ide-flowtype/issues/13
+
+# NOTE: If you have problems with your editor, try starting flow server
+# manually by running 'npm run flow' on project root directory, fix possible
+# errors, and only then open your editor.
 
 [ignore]
 .*/node_modules/.*
-scripts/.*
-
-[include]
+./database/.*
+./scripts/.*
+./storage/.*
 
 [libs]
-admin/flow-typed
-bot/flow-typed
-client/flow-typed
-function/flow-typed
-server/flow-typed
-worker/flow-typed
+./admin/flow-typed
+./bot/flow-typed
+./client/flow-typed
+./function/flow-typed
+./server/flow-typed
+./worker/flow-typed
 
 [lints]
 

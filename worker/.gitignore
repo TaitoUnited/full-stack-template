@@ -26,5 +26,6 @@ flow-typed/npm
 
 # Generated docs
 docs
+test/reports
 
 .vscode
