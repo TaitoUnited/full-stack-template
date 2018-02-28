@@ -2,7 +2,9 @@
 
 [//]: # (TEMPLATE NOTE START)
 
-Create a new project from this template by running `taito template create: server-template`. You can also migrate an existing project to this template by running `taito template migrate: server-template` in your project root folder. Later you can upgrade your project to the latest version of the template by running `taito template upgrade`. To ensure flawless upgrade, do not modify files that have **do not modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files in the template instead, and then upgrade.
+Create a new project from this template by running `taito template create: server-template`. Later you can upgrade your project to the latest version of the template by running `taito template upgrade`. To ensure flawless upgrade, do not modify files that have **do not modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files in the template instead, and then upgrade.
+
+You can also migrate an existing non-taito-cli project by running `taito template migrate: server-template` in your project root folder.
 
 [//]: # (TEMPLATE NOTE END)
 

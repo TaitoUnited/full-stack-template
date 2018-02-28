@@ -46,7 +46,8 @@ rm -rf server-py
 # Replace NOTE of README.md with a 'do not modify' note
 {
 sed '/TEMPLATE NOTE START/q' README.md
-echo "> NOTE: This file has been copied from \
+echo
+echo "> This file has been copied from \
 [orig-template](https://github.com/TaitoUnited/orig-template/). Keep \
 modifications minimal and improve the original instead. Project \
 specific documentation is located in PROJECT.md."

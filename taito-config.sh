@@ -96,13 +96,13 @@ case "${taito_env}" in
     # dev and feature overrides
     export ci_exec_build=true        # allow build of a new container
     export ci_exec_deploy=true       # deploy automatically
-    export ci_exec_test=true         # execute test suites
-    export ci_exec_test_init=true    # run 'init --clean' before each test suite
+    # NOTE: enable tests once you have implemented some integration or e2e tests
+    export ci_exec_test=false        # execute test suites
+    export ci_exec_test_init=false   # run 'init --clean' before each test suite
     export ci_exec_revert=false      # revert deploy if previous steps failed
     ;;
   local)
     # local overrides
-    export ci_exec_test=true         # execute test suites
     export ci_exec_test_init=false   # run 'init --clean' before each test suite
     export test_api_url="http://localhost:3332"
     export taito_app_url="http://localhost:8080"
@@ -110,7 +110,6 @@ case "${taito_env}" in
     export database_external_port="6000"
     export database_host="${taito_project}-database"
     export database_port="5432"
-    export ci_test_env=true
 esac
 
 # --- Derived values ---
