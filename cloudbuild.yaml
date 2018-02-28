@@ -4,7 +4,7 @@ images: [
   'eu.gcr.io/$PROJECT_ID/$REPO_NAME/server:$COMMIT_SHA'
 ]
 
-timeout: 1200s
+timeout: 1500s
 
 substitutions:
   _TEMPLATE_DEFAULT_ORGANIZATION:

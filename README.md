@@ -123,15 +123,17 @@ Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND
 
 ### Unit tests
 
-All unit tests are run automatically during build (see `Dockerfile.build` files). You can run unit tests also in local environment with the `taito unit [CONTAINER]` command, for example `taito unit: client`.
+All unit tests are run automatically during build (see `Dockerfile.build` files). You can use any test tools that have been installed as development dependency. Test reports should be placed at the `./test/reports` directory.
+
+You can run unit tests also in local environment with the `taito unit [CONTAINER]` command, for example `taito unit: client`.
 
 > NOTE: You can execute also browser and api tests using the same 'unit test' mechanism if you just mock the required APIs or DAOs so that the whole test can be run within one container.
 
 ### Integration and end-to-end tests
 
-All integration and end-to-end test suites are run automatically after application has been deployed to dev environment. Build stage of a production container (`Dockerfile.build`) is used for running the tests and, thus, any test tools installed as development dependency can be used for executing the tests.
+All integration and end-to-end test suites are run automatically after application has been deployed to dev environment. You can use any test tools that have been installed as development dependency (build stage of production build is used for running the tests, see `Dockerfile.build`). Test reports should be placed at the `./test/reports` directory.
 
-Integration and end-to-end tests are grouped in independent test suites (see `suite-*.sh` and `zuite-*.sh` files). Suites are kept independent by cleaning up data before each suite execution (`taito init --clean`). If, however, data cleanup is not necessary, you can turn it off with the `ci_exec_test_init` setting in `taito-config.sh`. Environment specific test suite parameters are configured in `taito-config.sh` and they are passed to test suites in `package.json` located in project root folder.
+Tests are grouped in test suites (see `suite-*.sh` and `_suite-*.sh` files). All test suites are kept independent by cleaning up data before each test suite execution by running `taito init --clean`. If, however, data cleanup is not necessary, you can turn it off with the `ci_exec_test_init` setting in `taito-config.sh`. Environment specific test suite parameters are configured in `taito-config.sh` and they are passed to test suites in `package.json` located in project root folder.
 
 You can run integration and end-to-end tests manually with the `taito test:ENV [CONTAINER] [SUITE]` command, for example `taito test:dev server suite-xx`. When executing tests manually, the development container (`Dockerfile`) is used for executing the tests.
 
