@@ -97,13 +97,13 @@ case "${taito_env}" in
     export ci_exec_build=true        # allow build of a new container
     export ci_exec_deploy=true       # deploy automatically
     export ci_exec_test=true         # execute test suites
-    export ci_exec_test_init=true    # run 'init --clean' before each test suite
+    export ci_exec_test_init=false   # run 'init --clean' before each test suite
     export ci_exec_revert=false      # revert deploy if previous steps failed
     ;;
   local)
     # local overrides
     export ci_exec_test=true         # execute test suites
-    export ci_exec_test_init=true    # run 'init --clean' before each test suite
+    export ci_exec_test_init=false   # run 'init --clean' before each test suite
     export test_api_url="http://localhost:3332"
     export taito_app_url="http://localhost:8080"
     export taito_admin_url="${taito_app_url}/admin/"

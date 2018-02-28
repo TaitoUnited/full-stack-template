@@ -93,6 +93,9 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
 
+# NOTE: We wait for ci-prepare step since it's the first step that
+# pulls the taito-cli image that is used in all subsequent steps
+
 - id: install
   name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
   args: ['install:$BRANCH_NAME']
