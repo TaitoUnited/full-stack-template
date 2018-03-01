@@ -17,6 +17,7 @@ RUN apk --no-cache add ca-certificates wget && \
 WORKDIR /admin
 COPY ./package.json /admin/package.json
 COPY ./package-lock.json /admin/package-lock.json
+COPY ./.flowconfig /admin/.flowconfig
 RUN npm install --loglevel warn
 RUN npm run flow-install
 COPY . /admin

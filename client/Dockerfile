@@ -10,6 +10,7 @@ RUN apk --no-cache add ca-certificates wget && \
 WORKDIR /client
 COPY ./package.json /client/package.json
 COPY ./package-lock.json /client/package-lock.json
+COPY ./.flowconfig /client/.flowconfig
 RUN npm install --loglevel warn
 RUN npm run flow-install
 COPY . /client

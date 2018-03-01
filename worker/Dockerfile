@@ -6,6 +6,7 @@ WORKDIR /worker
 RUN npm install nodemon -g
 COPY ./package.json /worker/package.json
 COPY ./package-lock.json /worker/package-lock.json
+COPY ./.flowconfig /worker/.flowconfig
 RUN npm install --loglevel warn
 RUN npm run flow-install
 COPY . /worker

@@ -11,6 +11,7 @@ WORKDIR /server
 RUN npm install nodemon -g
 COPY ./package.json /server/package.json
 COPY ./package-lock.json /server/package-lock.json
+COPY ./.flowconfig /server/.flowconfig
 RUN npm install --loglevel warn
 RUN npm run flow-install
 COPY . /server
