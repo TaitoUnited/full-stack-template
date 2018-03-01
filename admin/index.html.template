@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <base href="/">
+    <base href="/admin/">
 
     <meta charset="utf-8">
     <meta name="version" content="<%= htmlWebpackPlugin.options.version %>+<%= htmlWebpackPlugin.options.imageTag %>">
@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
-    <link rel="stylesheet" type="text/css" href="/defaults.css">
+    <link rel="stylesheet" type="text/css" href="defaults.css">
 
   </head>
   <body>
