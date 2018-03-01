@@ -3,7 +3,8 @@
   "description": "",
   "private": true,
   "scripts": {
-    "install-dev": "echo '# Installing all libraries on host for code editor support! TODO how to minimize as --only=dev affects devDepencies also?' && npm run install-all",
+    "install-ci": "echo '# No additional dependencies need to be installed in ci mode'",
+    "install-dev": "echo '# Installing all libraries on host for code editor support. TODO how to minimize as --only=dev affects devDepencies also?' && npm run install-all",
     "install-all": "npm-run-all install-all:admin install-all:bot install-all:client install-all:function install-all:server install-all:worker",
     "install-all:admin": "cd admin && npm install && npm run flow-install",
     "install-all:bot": "cd bot && npm install && npm run flow-install",
