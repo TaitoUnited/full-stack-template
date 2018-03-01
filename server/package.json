@@ -5,7 +5,7 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "postinstall": "flow-typed install",
+    "flow-install": "flow-typed install",
     "flow": "flow",
     "unit": "echo 'TODO run unit tests'",
     "start": "npm run start:dev",
@@ -118,6 +118,7 @@
     "mocha": "^2.4.5",
     "mocha-jenkins-reporter": "^0.2.2",
     "nodemon": "^1.8.1",
+    "prettier": "^1.8.1",
     "should": "^8.3.2",
     "supertest": "^1.2.0"
   }

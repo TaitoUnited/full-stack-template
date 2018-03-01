@@ -2,11 +2,12 @@
 FROM node:8.7-alpine
 ENV NODE_ENV development
 RUN apk add --update-cache build-base python git fontconfig
-WORKDIR /server
-COPY . /server
+WORKDIR /worker
 RUN npm install nodemon -g
+COPY ./package.json /worker/package.json
+COPY ./package-lock.json /worker/package-lock.json
 RUN npm install --loglevel warn
-# NOTE: postinstall fails in previous step because of root user so we run it manually
-RUN npm run postinstall
+RUN npm run flow-install
+COPY . /worker
 EXPOSE 3332
 CMD ["npm", "run", "start"]

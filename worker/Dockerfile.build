@@ -4,11 +4,13 @@ ARG TARGET_ENV=prod
 ENV TARGET_ENV ${TARGET_ENV}
 ENV NODE_ENV development
 RUN apk add --update-cache build-base python git fontconfig
-WORKDIR /server
-COPY . /server
+WORKDIR /worker
+COPY ./package.json /worker/package.json
+COPY ./package-lock.json /worker/package-lock.json
 RUN npm install --loglevel warn
-# NOTE: postinstall fails in previous step because of root user so we run it manually
-RUN npm run postinstall
+RUN npm run flow-install
+COPY . /worker
+RUN npm run lint
 RUN npm run flow
 RUN npm run unit
 RUN npm run build:prod
@@ -24,8 +26,8 @@ ENV BUILD_VERSION ${BUILD_VERSION}
 ENV NODE_ENV production
 WORKDIR /build
 COPY --from=builder /build .
-COPY --from=builder /server/package.json .
-COPY --from=builder /server/node_modules ./node_modules
+COPY --from=builder /worker/package.json .
+COPY --from=builder /worker/node_modules ./node_modules
 # Delete development libraries and create node user if it doesn't exist
 RUN npm prune --production && \
     addgroup -S -g 74839 node || \

@@ -2,7 +2,8 @@
   "name": "server-template-bot",
   "version": "1.0.0",
   "scripts": {
-    "postinstall": "flow-typed install",
+    "flow-install": "flow-typed install",
+    "lint": "echo 'TODO lint code'",
     "unit": "echo 'TODO run unit tests'"
   },
   "devDependencies": {

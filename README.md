@@ -36,11 +36,12 @@ TODO add some notes for using the links: e.g. how to get an user account for log
 
 * [taito-cli](https://github.com/TaitoUnited/taito-cli#readme)
 * [docker-compose](https://docs.docker.com/compose/install/)
+* [Node.js](https://nodejs.org/)
 * eslint and prettier plugins for your code editor
 
 ## Quick start
 
-Install linters on host (add `--clean` for clean reinstall, add `--all` if you require all libraries to be installed on host for code autocompletion):
+Install linters on host (add `--clean` for clean reinstall):
 
     $ taito install
 
