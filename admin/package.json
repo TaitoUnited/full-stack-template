@@ -9,7 +9,7 @@
     "flow": "flow",
     "lint": "eslint . --ignore-path .eslintignore --quiet",
     "unit": "BABEL_ENV=test jest",
-    "start": "webpack-dev-server --config ./config/webpack.dev.js --public=localhost:8080",
+    "start": "webpack-dev-server --config ./config/webpack.dev.js --public=localhost:8080/admin/sockjs-node/",
     "build": "NODE_ENV=production webpack -p --config ./config/webpack.prod.js",
     "analyze": "ANALYZE=true NODE_ENV=production webpack -p --config ./config/webpack.prod.js"
   },
