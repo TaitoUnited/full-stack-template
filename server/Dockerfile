@@ -1,5 +1,4 @@
 # Builder, tester and runtime container for local development
-
 FROM node:8.7-alpine
 ENV NODE_ENV development
 RUN apk add --update-cache build-base python git fontconfig
