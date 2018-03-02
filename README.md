@@ -2,7 +2,9 @@
 
 [//]: # (TEMPLATE NOTE START)
 
-Create a new project from this template by running `taito template create: server-template`. Later you can upgrade your project to the latest version of the template by running `taito template upgrade`. To ensure flawless upgrade, do not modify files that have **do not modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files in the template instead, and then upgrade.
+Server-template is a project template for applications and APIs running on server. It supports multiple alternative technologies, and you can choose the stack during configuration.
+
+Create a new project from this template by running `taito template create: server-template`. Later you can upgrade your project to the latest version of the template by running `taito template upgrade`. To ensure flawless upgrade, do not modify files that have **do not modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files of the template instead, and then upgrade.
 
 You can also migrate an existing non-taito-cli project by running `taito template migrate: server-template` in your project root folder.
 
@@ -93,7 +95,7 @@ List all project related links and open one of them in browser:
     $ taito open -h
     $ taito open xxx
 
-The commands listed above work also for server environments (`feature`, `dev`, `test`, `staging`, `prod`). Some examples for dev environment:
+The commands mentioned above work also for server environments (`feature`, `dev`, `test`, `staging`, `prod`). Some examples for dev environment:
 
     $ taito open app:dev                      # Open application in browser
     $ taito open admin:dev                    # Open admin GUI in browser
@@ -126,7 +128,7 @@ Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND
 
 ### Unit tests
 
-All unit tests are run automatically during build (see `Dockerfile.build` files). You can use any test tools that have been installed as development dependency. Test reports should be placed at the `./test/reports` directory.
+All unit tests are run automatically during build (see the `Dockerfile.build` files). You can use any test tools that have been installed as development dependency inside the container. Test reports should be placed at the `/xxx/test/reports` directory.
 
 You can run unit tests also in local environment with the `taito unit [CONTAINER]` command, for example `taito unit: client`.
 
@@ -134,15 +136,17 @@ You can run unit tests also in local environment with the `taito unit [CONTAINER
 
 ### Integration and end-to-end tests
 
-All integration and end-to-end test suites are run automatically after application has been deployed to dev environment. You can use any test tools that have been installed as development dependency (build stage of production build is used for running the tests, see `Dockerfile.build`). Test reports should be placed at the `./test/reports` directory.
+All integration and end-to-end test suites are run automatically after application has been deployed to dev environment. You can use any test tools that have been installed as development dependency inside the container (build stage of production build is used for running the tests, see the `Dockerfile.build` files). Test reports should be placed at the `/xxx/test/reports` directory.
 
 Tests are grouped in test suites (see `suite-*.sh` and `_suite-*.sh` files). All test suites are kept independent by cleaning up data before each test suite execution by running `taito init --clean`. If, however, data cleanup is not necessary, you can turn it off with the `ci_exec_test_init` setting in `taito-config.sh`. Environment specific test suite parameters are configured in `taito-config.sh` and they are passed to test suites in `package.json` located in project root folder.
 
 You can run integration and end-to-end tests manually with the `taito test:ENV [CONTAINER] [SUITE]` command, for example `taito test:dev server suite-xx`. When executing tests manually, the development container (`Dockerfile`) is used for executing the tests.
 
+> Once you have implemented your first integration or e2e test, enable the CI test execution by setting `ci_exec_test=true` for dev environment.
+
 ## Structure
 
-An application should be divided in loosely coupled highly cohesive parts by using a modular directory structure. The following rules usually work well for a GUI implementation. For a backend implementation you might need to break the rules once in a while, but still try to keep directories loosely coupled.
+An application should be divided in loosely coupled highly cohesive parts by using a modular directory structure. The following guidelines usually work well at least for a GUI implementation. You might need to break the guidelines once in a while, but still try to keep directories loosely coupled.
 
 * Create directory structure mainly based on feature hierarchy (`reports`, `reports/dashboard`, `reports/usage`, `users`, ...) instead of type (`actions`, `containers`, `components`, `css`, ...).
 * Use such file naming that you can easily determine the type from filename (e.g. `*.util.js`, `*.api.js`). This way you don't need to use additional directories for grouping files by type and, therefore, you can freely place the file wherever it is needed. NOTE: In a GUI implementation it is perfecly fine to exclude type from filename of a component to keep filenames shorter (e.g. `List.js`), if you just include the type for all other types of files.
@@ -302,7 +306,7 @@ The project template comes with a bunch of implementation examples. Browse them 
 
 The client GUI uses the [Material-UI](https://material-ui-next.com/) component library by default. It's a good match with the [admin-on-rest](https://github.com/marmelab/admin-on-rest) GUI, but please consider also other alternatives based on customer requirements. For example [Elemental](http://elemental-ui.com/) is a good alternative.
 
-### Additional steps for a migrated project
+### Additional steps for an old migrated project
 
 TODO Something about additional steps if an old project was migrated.
 The following implementation changes:
@@ -327,13 +331,11 @@ The following implementation changes:
 
 > You should remove unnecessary examples from database migrations (`./database`) and secrets (`taito-config.sh`) before creating the first server environment.
 
-> All operations on production and staging environments require admin rights. Please contact devops personnel.
-
 Run `taito env apply:ENV` to create an environment (`feature`, `dev`, `test`, `staging` or `prod`).
 
-To setup DNS and monitoring for the production environment, run `taito env finalize:prod`.
-
 TODO terraform configuration
+
+> All operations on production and staging environments require admin rights. Please contact devops personnel.
 
 ### Kubernetes
 
