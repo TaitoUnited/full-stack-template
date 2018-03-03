@@ -2,6 +2,6 @@
   "_comment": "start is also called when restart is called",
   "__commant": "TODO run also unit tests on start?",
   "events": {
-    "start": "eslint . && types"
+    "start": "eslint . && npm run types"
   }
 }

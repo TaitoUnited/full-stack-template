@@ -76,11 +76,10 @@ class StackdriverStream {
   }
 }
 
-const logger = bunyan.createLogger({
-  name: config.APP_NAME,
-  serializers: bunyan.stdSerializers,
-  level: config.DEBUG ? 'trace' : 'info',
-  streams: [
+// Supported log formats: text, stackdriver
+const logFormatStreams = {
+  text: undefined,
+  stackdriver: [
     {
       type: 'raw',
       stream: new StackdriverStream(process.stderr),
@@ -92,6 +91,13 @@ const logger = bunyan.createLogger({
       level: 'info'
     }
   ]
+};
+
+const logger = bunyan.createLogger({
+  name: config.APP_NAME,
+  serializers: bunyan.stdSerializers,
+  level: config.DEBUG ? 'trace' : 'info',
+  streams: logFormatStreams[process.env.COMMON_LOG_FORMAT]
 });
 
 logger.info(

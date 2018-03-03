@@ -10,6 +10,7 @@ metadata:
 data:
   ENV: {{ .Values.env | quote }}
   DEBUG: {{ .Values.debug | quote }}
+  LOG_FORMAT: {{ .Values.logFormat | quote }}
   PROJECT: {{ .Values.project.name | quote }}
   COMPANY: {{ .Values.project.company | quote }}
   FAMILY: {{ .Values.project.family | quote }}
