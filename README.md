@@ -303,6 +303,8 @@ If you later need to add stack components, see [orig-template](https://github.co
 
 If you would rather use other technologies than react and node.js, you can copy alternative example implementations from [orig-template-alt](https://github.com/TaitoUnited/orig-template-alt/).
 
+You can enable `flow` or `typescript` by renaming the `.flowconfig-example` or `tsconfig-example.json` files and uncommenting the relevant lines in `.babelrc` and `webpack.base.js` files (TODO typescript support).
+
 ### Examples
 
 The project template comes with a bunch of implementation examples. Browse them through, leave the ones that seem useful and delete all the rest.
