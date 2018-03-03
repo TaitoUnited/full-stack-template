@@ -5,8 +5,8 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "flow-install": "flow-typed install",
-    "flow": "flow",
+    "types-install": "if [ -f .flowconfig ]; then echo flow-typed install; elif [ -f tsconfig.json ]; then echo TODO typescript install; fi",
+    "types": "if [ -f .flowconfig ]; then flow; elif [ -f tsconfig.json ]; then echo TODO run typescript; fi",
     "lint": "eslint . --ignore-path .eslintignore --quiet",
     "unit": "echo 'TODO run unit tests'",
     "start": "npm run start:dev",

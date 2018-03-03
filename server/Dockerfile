@@ -13,7 +13,7 @@ COPY ./package.json /server/package.json
 COPY ./package-lock.json /server/package-lock.json
 COPY ./.flowconfig /server/.flowconfig
 RUN npm install --loglevel warn
-RUN npm run flow-install
+RUN npm run types-install
 COPY . /server
 EXPOSE 3332
-CMD npm install; npm run flow-install; npm run start
+CMD npm install; npm run types-install; npm run start

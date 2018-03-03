@@ -8,7 +8,7 @@ COPY ./package.json /worker/package.json
 COPY ./package-lock.json /worker/package-lock.json
 COPY ./.flowconfig /worker/.flowconfig
 RUN npm install --loglevel warn
-RUN npm run flow-install
+RUN npm run types-install
 COPY . /worker
 EXPOSE 3332
-CMD npm install; npm run flow-install; npm run start
+CMD npm install; npm run types-install; npm run start

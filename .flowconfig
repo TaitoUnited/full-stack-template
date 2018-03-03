@@ -3,7 +3,7 @@
 # https://github.com/flowtype/ide-flowtype/issues/13
 
 # NOTE: If you have problems with your editor, try starting flow server
-# manually by running 'npm run flow' on project root directory, fix possible
+# manually by running 'npm run types' on project root directory, fix possible
 # errors, and only then open your editor.
 
 [ignore]

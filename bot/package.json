@@ -2,7 +2,8 @@
   "name": "server-template-bot",
   "version": "1.0.0",
   "scripts": {
-    "flow-install": "flow-typed install",
+    "types-install": "if [ -f .flowconfig ]; then echo flow-typed install; elif [ -f tsconfig.json ]; then echo TODO typescript install; fi",
+    "types": "if [ -f .flowconfig ]; then flow; elif [ -f tsconfig.json ]; then echo TODO run typescript; fi",
     "lint": "echo 'TODO lint code'",
     "unit": "echo 'TODO run unit tests'"
   },
