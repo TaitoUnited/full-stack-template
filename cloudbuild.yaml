@@ -1,12 +1,13 @@
 images: [
-  'eu.gcr.io/$PROJECT_ID/$REPO_NAME/admin:latest',
-  'eu.gcr.io/$PROJECT_ID/$REPO_NAME/client:latest',
-  'eu.gcr.io/$PROJECT_ID/$REPO_NAME/server:latest'
+  'eu.gcr.io/$PROJECT_ID/$REPO_NAME/admin:$COMMIT_SHA',
+  'eu.gcr.io/$PROJECT_ID/$REPO_NAME/client:$COMMIT_SHA',
+  'eu.gcr.io/$PROJECT_ID/$REPO_NAME/server:$COMMIT_SHA'
 ]
 
 timeout: 1500s
 
 substitutions:
+  _TEMPLATE_DEFAULT_TAITO_IMAGE:
   _TEMPLATE_DEFAULT_ORGANIZATION:
   _TEMPLATE_DEFAULT_DOMAIN:
   _TEMPLATE_DEFAULT_ZONE:
@@ -16,6 +17,7 @@ substitutions:
   _TEMPLATE_DEFAULT_PROVIDER_REGION_PROD:
   _TEMPLATE_DEFAULT_PROVIDER_ZONE:
   _TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD:
+  _TEMPLATE_DEFAULT_REGISTRY:
 
 steps:
 
@@ -34,6 +36,7 @@ steps:
   args:
   - '-c'
   - |
+    export template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     export template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     export template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     export template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
@@ -43,6 +46,7 @@ steps:
     export template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     export template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     export template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    export template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
     export taito_env
     taito_env="$${branch_name}"
     if [[ "$${taito_env}" == "master" ]]; then
@@ -79,10 +83,11 @@ steps:
 
 - id: ci-prepare
   waitFor: ['-']
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['ci-prepare:$BRANCH_NAME', 'server', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
   env:
     - taito_mode=ci
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
@@ -92,15 +97,17 @@ steps:
     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
 
 # NOTE: We wait for ci-prepare step since it's the first step that
 # pulls the taito-cli image that is used in all subsequent steps
 
 - id: install
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['install:$BRANCH_NAME']
   env:
     - taito_mode=ci
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
@@ -110,13 +117,15 @@ steps:
     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
 
 - id: ci-release-pre
   waitFor: ['install']
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['ci-release-pre:$BRANCH_NAME']
   env:
     - taito_mode=ci
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
@@ -126,13 +135,15 @@ steps:
     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
 
 - id: scan
   waitFor: ['install']
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['scan:$BRANCH_NAME']
   env:
     - taito_mode=ci
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
@@ -142,15 +153,17 @@ steps:
     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
 
 # Build artifacts
 
 - id: docs
   waitFor: ['install']
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['docs:$BRANCH_NAME']
   env:
     - taito_mode=ci
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
@@ -160,13 +173,15 @@ steps:
     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
 
 - id: ci-build-admin
   waitFor: ['ci-release-pre']
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['ci-build:$BRANCH_NAME', 'admin', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
   env:
     - taito_mode=ci
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
@@ -176,13 +191,15 @@ steps:
     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
 
 - id: ci-push-admin
   waitFor: ['ci-build-admin']
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['ci-push:$BRANCH_NAME', 'admin', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
   env:
     - taito_mode=ci
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
@@ -192,13 +209,15 @@ steps:
     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
 
 - id: ci-build-bot
   waitFor: ['ci-release-pre']
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['ci-build:$BRANCH_NAME', 'bot', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
   env:
     - taito_mode=ci
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
@@ -208,13 +227,15 @@ steps:
     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
 
 - id: ci-push-bot
   waitFor: ['ci-build-bot']
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['ci-push:$BRANCH_NAME', 'bot', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
   env:
     - taito_mode=ci
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
@@ -224,13 +245,15 @@ steps:
     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
 
 - id: ci-build-client
   waitFor: ['ci-release-pre']
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['ci-build:$BRANCH_NAME', 'client', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
   env:
     - taito_mode=ci
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
@@ -240,13 +263,15 @@ steps:
     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
 
 - id: ci-push-client
   waitFor: ['ci-build-client']
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['ci-push:$BRANCH_NAME', 'client', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
   env:
     - taito_mode=ci
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
@@ -256,13 +281,15 @@ steps:
     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
 
 - id: ci-build-server
   waitFor: ['ci-release-pre']
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['ci-build:$BRANCH_NAME', 'server', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
   env:
     - taito_mode=ci
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
@@ -272,13 +299,15 @@ steps:
     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
 
 - id: ci-push-server
   waitFor: ['ci-build-server']
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['ci-push:$BRANCH_NAME', 'server', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
   env:
     - taito_mode=ci
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
@@ -288,13 +317,15 @@ steps:
     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
 
 - id: ci-build-worker
   waitFor: ['ci-release-pre']
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['ci-build:$BRANCH_NAME', 'worker', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
   env:
     - taito_mode=ci
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
@@ -304,13 +335,15 @@ steps:
     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
 
 - id: ci-push-worker
   waitFor: ['ci-build-worker']
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['ci-push:$BRANCH_NAME', 'worker', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
   env:
     - taito_mode=ci
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
@@ -320,15 +353,16 @@ steps:
     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
 
 # Deploy to target environment
 
 - id: db-deploy
-  # waitFor: ['stop:local']
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['db-deploy:$BRANCH_NAME']
   env:
     - taito_mode=ci
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
@@ -338,13 +372,14 @@ steps:
     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
 
 - id: ci-deploy
-  # waitFor: ['stop:local']
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['ci-deploy:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
@@ -354,14 +389,16 @@ steps:
     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
 
 # Run tests against the target environment
 
 - id: ci-wait
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['ci-wait:$BRANCH_NAME']
   env:
     - taito_mode=ci
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
@@ -371,13 +408,15 @@ steps:
     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
 
 - id: test
   waitFor: ['ci-wait']
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['test:$BRANCH_NAME']
   env:
     - taito_mode=ci
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
@@ -387,12 +426,14 @@ steps:
     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
 
 - id: ci-verify
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['ci-verify:$BRANCH_NAME']
   env:
     - taito_mode=ci
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
@@ -402,14 +443,16 @@ steps:
     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
 
 # Publish and release
 
 - id: ci-publish
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['ci-publish:$BRANCH_NAME']
   env:
     - taito_mode=ci
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
@@ -419,12 +462,14 @@ steps:
     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
 
 - id: ci-release-post
-  name: 'eu.gcr.io/gcloud-temp1/github-taitounited-taito-cli/cli:latest'
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['ci-release-post:$BRANCH_NAME']
   env:
     - taito_mode=ci
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
@@ -434,3 +479,4 @@ steps:
     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}

@@ -4,6 +4,7 @@
 : "${taito_repo_name:?}"
 : "${taito_repo_name_alt:?}"
 
+: "${template_default_taito_image:?}"
 : "${template_default_organization:?}"
 : "${template_default_domain:?}"
 : "${template_default_zone:?}"
@@ -13,6 +14,7 @@
 : "${template_default_provider_region_prod:?}"
 : "${template_default_provider_zone:?}"
 : "${template_default_provider_zone_prod:?}"
+: "${template_default_registry:?}"
 : "${template_default_source_git:?}"
 : "${template_default_dest_git:?}"
 
@@ -138,8 +140,10 @@ sed ${sedi} -- "s/\${template_default_provider_region:?}/${template_default_prov
 sed ${sedi} -- "s/\${template_default_provider_zone:?}/${template_default_provider_zone}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_provider_region_prod:?}/${template_default_provider_region_prod}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_provider_zone_prod:?}/${template_default_provider_zone_prod}/g" taito-config.sh
+sed ${sedi} -- "s/\${template_default_registry:?}/${template_default_registry}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_source_git:?}/${template_default_source_git}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_dest_git:?}/${template_default_dest_git}/g" taito-config.sh
 
 # Remove template settings from cloudbuild.yaml
+sed ${sedi} -- "s/\${_TEMPLATE_DEFAULT_TAITO_IMAGE}/${template_default_taito_image}/g" taito-config.sh
 sed ${sedi} -- '/_TEMPLATE_DEFAULT_/d' cloudbuild.yaml

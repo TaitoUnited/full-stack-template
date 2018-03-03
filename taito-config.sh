@@ -25,7 +25,7 @@ export taito_family=""
 export taito_application="template"
 export taito_suffix=""
 export taito_namespace="${taito_project}-${taito_env:?}" # or "${taito_company}-${taito_env}"
-export taito_registry="eu.gcr.io/${taito_zone}/github-${taito_organization}-${taito_repo_name}"
+export taito_registry="${template_default_registry:?}/${taito_zone}/${taito_repo_location}-${taito_repo_name}"
 export taito_app_url="https://${taito_namespace}.${template_default_domain:?}"
 export taito_admin_url="${taito_app_url}/admin/"
 
