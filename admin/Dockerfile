@@ -15,4 +15,4 @@ RUN npm install --loglevel warn
 RUN npm run flow-install
 COPY . /admin
 EXPOSE 3334
-CMD ["npm", "run", "start"]
+CMD npm install; npm run flow-install; npm run start

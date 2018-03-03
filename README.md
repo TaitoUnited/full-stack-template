@@ -136,11 +136,11 @@ You can run unit tests also in local environment with the `taito unit [CONTAINER
 
 ### Integration and end-to-end tests
 
-All integration and end-to-end test suites are run automatically after application has been deployed to dev environment. You can use any test tools that have been installed as development dependency inside the container (build stage of production build is used for running the tests, see the `Dockerfile.build` files). Test reports should be placed at the `/xxx/test/reports` directory.
+All integration and end-to-end test suites are run automatically after application has been deployed to dev environment. You can use any test tools that have been installed as development dependency inside the `builder` container (see `Dockerfile.build`). Settings defined in `taito-config.sh` are passed to the tests, so you can specify your environment specific test settings there. You can also access the database as database proxy is run automatically in background and secrets are passed as environment variables to the tests. Test reports should be placed at the `/xxx/test/reports` directory.
 
-Tests are grouped in test suites (see `suite-*.sh` and `_suite-*.sh` files). All test suites are kept independent by cleaning up data before each test suite execution by running `taito init --clean`. If, however, data cleanup is not necessary, you can turn it off with the `ci_exec_test_init` setting in `taito-config.sh`. Environment specific test suite parameters are configured in `taito-config.sh` and they are passed to test suites in `package.json` located in project root folder.
+Tests are grouped in test suites (see `suite-*.sh` and `_suite-*.sh` files). All test suites are kept independent by cleaning up data before each test suite execution by running `taito init --clean`. If automatic data cleanup is not necessary, you can turn it off with the `ci_exec_test_init` setting in `taito-config.sh`.
 
-You can run integration and end-to-end tests manually with the `taito test:ENV [CONTAINER] [SUITE]` command, for example `taito test:dev server suite-xx`. When executing tests manually, the development container (`Dockerfile`) is used for executing the tests.
+You can run integration and end-to-end tests manually with the `taito test:ENV [CONTAINER] [SUITE]` command, for example `taito test:dev server 01`. When executing tests manually, the development container (`Dockerfile`) is used for executing the tests.
 
 > Once you have implemented your first integration or e2e test, enable the CI test execution by setting `ci_exec_test=true` for dev environment.
 
@@ -148,9 +148,9 @@ You can run integration and end-to-end tests manually with the `taito test:ENV [
 
 An application should be divided in loosely coupled highly cohesive parts by using a modular directory structure. The following guidelines usually work well at least for a GUI implementation. You might need to break the guidelines once in a while, but still try to keep directories loosely coupled.
 
-* Create directory structure mainly based on feature hierarchy (`reports`, `reports/dashboard`, `reports/usage`, `users`, ...) instead of type (`actions`, `containers`, `components`, `css`, ...).
-* Use such file naming that you can easily determine the type from filename (e.g. `*.util.js`, `*.api.js`). This way you don't need to use additional directories for grouping files by type and, therefore, you can freely place the file wherever it is needed. NOTE: In a GUI implementation it is perfecly fine to exclude type from filename of a component to keep filenames shorter (e.g. `List.js`), if you just include the type for all other types of files.
-* A directory should not contain any references outside of its boundary; with the exception of references to libraries and common directories. You can think of each directory as an independent feature, and each `common` directory as a library that is shared among closely related features (or subfeatures).
+* Create directory structure mainly based on feature hierarchy (`reports`, `reports/dashboard`, `reports/usage`, `users`, ...) instead of type (`actions`, `containers`, `components`, `css`, `utils`, ...).
+* Use such file naming that you can easily determine the type from filename (e.g. `*.util.js`, `*.api.js`). This way you don't need to use additional directories for grouping files by type and, therefore, you can freely place a file wherever it is needed. NOTE: In a GUI implementation it is perfecly fine to exclude type from filename of a component to keep filenames shorter (e.g. `List.js`), if you just include the type for all other types of files.
+* A directory should not contain any references outside of its boundary; with the exception of references to libraries and common directories. You can think of each directory as an independent feature (or subfeature), and each `common` directory as a library that is shared among closely related features (or subfeatures).
 * A file should contain only nearby references (e.g. references to files in the same directory or in a subdirectory directly beneath it); with the exception of references to libraries and common directories, of course.
 * If you break the dependency rules, at least try to avoid making circular dependencies between directories. Also leave a `REFACTOR:` comment if the dependency is the kind that it should be refactored later.
 
@@ -250,12 +250,15 @@ The CI/CD tool will deploy your database changes automatically to servers once y
 
 Deploying to different environments:
 
+* feature: Push to feature branch.
 * dev: Push to dev branch.
-* test: Merge changes to test branch. NOTE: Test environment is not mandatory.
-* staging: Merge changes to staging branch. NOTE: Staging environment is not mandatory.
+* test: Merge changes to test branch.
+* staging: Merge changes to staging branch.
 * prod: Merge changes to master branch. Version number and release notes are generated automatically by the CI/CD tool.
 
-> You can run `taito git env list` to list environment branches and `taito git env merge:ENV SOURCE_BRANCH` to merge an environment branch to another.
+> NOTE: Feature, test and staging branches are optional.
+
+> You can run `taito git env list` to list all environment branches and `taito git env merge:ENV SOURCE_BRANCH` to merge an environment branch to another.
 
 > Automatic deployment might be turned off for critical environments (`ci_exec_deploy` setting in `taito-config.sh`). In such case the deployment must be run manually with the `taito -a manual deploy:prod VERSION` command using an admin account after the CI/CD process has ended successfully.
 
@@ -264,7 +267,7 @@ Advanced features:
 * **Quick deploy**: If you are in a hurry, you can build, push and deploy a container directly to server with the `taito manual build deploy:ENV NAME` command e.g. `taito manual build deploy:dev client`.
 * **Copy production data to staging**: Often it's a good idea to copy production database to staging before merging changes to the staging branch: `taito db copy:staging prod`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db copyquick:staging prod`), but it disconnects all other users connected to the production database until copying is finished and also requires that both databases are located in the same database cluster.
 * **Feature branch**: You can create also an environment for a feature branch: Destroy the old environment first if it exists (`taito env destroy:feature`) and create a new environment for your feature branch (`taito env apply:feature BRANCH`). Currently only one feature environment can exist at a time and therefore the old one needs to be destroyed before the new one is created.
-* **Alternative environments** TODO implement: You can create an alternative environment for an environment by running `taito env alt apply:ENV`. An alternative environment uses the same database as the main environment, but containers are built from an alternative branch. You can use alternative environments e.g. for canary releases or A/B testing by redirecting some of the users to the alternative environment.
+* **Alternative environments** TODO implement: You can create an alternative environment for an environment by running `taito env alt apply:ENV`. An alternative environment uses the same database as the main environment, but containers are built from an alternative branch. You can use alternative environments e.g. for canary releases and A/B testing by redirecting some of the users to the alternative environment.
 * **Revert app**: Revert application and database to the previous revision by running `taito manual revert:ENV` (application and database steps are confirmed separately). If you need to revert to a specific revision, check current revision by running `taito manual revision:ENV` first and then revert to a specific revision by running `taito manual revert:ENV REVISION`.
 * **Debugging CI builds**: You can build and start production containers locally with the `taito start --clean --prod` command. You can also run any CI build steps defined in cloudbuild.yaml locally with taito-cli.
 
@@ -298,7 +301,7 @@ The [orig-template](https://github.com/TaitoUnited/orig-template/) comes with pr
 
 If you later need to add stack components, see [orig-template](https://github.com/TaitoUnited/orig-template/) for examples.
 
-If you would rather use other technologies than react and node.js, you can copy example implementations from [orig-template-alt](https://github.com/TaitoUnited/orig-template-alt/).
+If you would rather use other technologies than react and node.js, you can copy alternative example implementations from [orig-template-alt](https://github.com/TaitoUnited/orig-template-alt/).
 
 ### Examples
 
