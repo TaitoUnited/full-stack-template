@@ -7,7 +7,7 @@ import LazyLoadHandler from '~infra/lazyLoad.handler';
 const AppContainer = LazyLoadHandler({
   loader: () =>
     import(/* webpackChunkName: "vanilla-container" */
-    './app/app.container')
+    './src/app.container')
 });
 /* eslint-enable */
 

@@ -20,18 +20,18 @@ const renderApp = Component => {
 let App;
 
 if (process.env.NODE_ENV === 'production') {
-  App = require('./app/app.container').default; // eslint-disable-line
+  App = require('./src/app.container').default; // eslint-disable-line
   ReactDOM.render(<App />, appElement);
 } else {
   // In development we want HMR
-  App = require('./app/app.container').default; // eslint-disable-line
+  App = require('./src/app.container').default; // eslint-disable-line
 
   renderApp(App);
 
   // Hot Module Replacement
   if (module.hot) {
-    module.hot.accept('./app/app.container', () => {
-      const NextApp = require('./app/app.container').default; // eslint-disable-line
+    module.hot.accept('./src/app.container', () => {
+      const NextApp = require('./src/app.container').default; // eslint-disable-line
       renderApp(NextApp);
     });
   }
