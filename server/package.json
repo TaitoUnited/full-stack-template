@@ -33,6 +33,7 @@
     "lodash": "^4.17.4",
     "pg-promise": "^7.4.0",
     "raven": "^2.4.0",
+    "raw-body": "^2.3.2",
     "request-promise-native": "^1.0.5",
     "swagger-injector": "^1.2.0",
     "uuid": "^3.2.1"

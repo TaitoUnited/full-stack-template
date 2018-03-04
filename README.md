@@ -44,7 +44,7 @@ TODO add some notes for using the links: e.g. how to get an user account for log
 
 * [taito-cli](https://github.com/TaitoUnited/taito-cli#readme)
 * [docker-compose](https://docs.docker.com/compose/install/)
-* [Node.js](https://nodejs.org/)
+* [node.js](https://nodejs.org/)
 * eslint and prettier plugins for your code editor
 
 ## Quick start
