@@ -128,6 +128,8 @@ export link_urls="\
   git=https://github.com/${taito_organization}/${taito_repo_name} \
   project=https://github.com/${taito_organization}/${taito_repo_name}/projects \
   builds=https://console.cloud.google.com/gcr/builds?project=${taito_zone}&query=source.repo_source.repo_name%3D%22${taito_repo_location}-${taito_repo_name}%22 \
+  images=https://console.cloud.google.com/gcr/images/${taito_zone}/EU/${taito_repo_location}-${taito_repo_name}?project=${taito_zone} \
+  artifacts=https://TODO-DOCS-AND-TEST-REPORTS \
   storage:ENV#storage=https://console.cloud.google.com/storage/browser/${taito_project}-${taito_env}?project=${taito_zone} \
   logs:ENV#logs=https://console.cloud.google.com/logs/viewer?project=${taito_zone}&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F${kubectl_name}%2Fnamespace_id%2F${taito_namespace} \
   errors:ENV#errors=https://sentry.io/${taito_organization}/${taito_project}/?query=is%3Aunresolved+environment%3A${taito_env} \
@@ -135,7 +137,6 @@ export link_urls="\
   feedback=https://TODO-ZENDESK \
   performance=https://TODO-NEW-RELIC \
   "
-  # artifacts=https://console.cloud.google.com/gcr/images/${taito_zone}/EU/${taito_repo_location}-${taito_repo_name}?project=${taito_zone} \
 
 # Secrets
 # NOTE: Secret naming: type.target_of_type.purpose[/namespace]:generation_method
