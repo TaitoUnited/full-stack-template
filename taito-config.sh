@@ -121,21 +121,36 @@ export kubectl_user="${kubectl_cluster}"
 
 # Link plugin
 export link_urls="\
-  app[:ENV]#app=${taito_app_url} \
-  admin[:ENV]#admin=${taito_admin_url} \
-  api[:ENV]#app=${taito_app_url}/api/infra/uptimez \
-  docs=https://github.com/${taito_organization}/${taito_repo_name}/wiki \
-  git=https://github.com/${taito_organization}/${taito_repo_name} \
-  project=https://github.com/${taito_organization}/${taito_repo_name}/projects \
-  builds=https://console.cloud.google.com/gcr/builds?project=${taito_zone}&query=source.repo_source.repo_name%3D%22${taito_repo_location}-${taito_repo_name}%22 \
-  images=https://console.cloud.google.com/gcr/images/${taito_zone}/EU/${taito_repo_location}-${taito_repo_name}?project=${taito_zone} \
-  artifacts=https://TODO-DOCS-AND-TEST-REPORTS \
-  storage:ENV#storage=https://console.cloud.google.com/storage/browser/${taito_project}-${taito_env}?project=${taito_zone} \
-  logs:ENV#logs=https://console.cloud.google.com/logs/viewer?project=${taito_zone}&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F${kubectl_name}%2Fnamespace_id%2F${taito_namespace} \
-  errors:ENV#errors=https://sentry.io/${taito_organization}/${taito_project}/?query=is%3Aunresolved+environment%3A${taito_env} \
-  uptime=https://app.google.stackdriver.com/uptime?project=${taito_zone} \
-  feedback=https://TODO-ZENDESK \
-  performance=https://TODO-NEW-RELIC"
+  * app[:ENV]#app=${taito_app_url} \
+    Application (:ENV) \
+  * admin[:ENV]#admin=${taito_admin_url} \
+    Admin user interface (:ENV) \
+  * api[:ENV]#app=${taito_app_url}/api/infra/uptimez \
+    API (:ENV) \
+  * docs=https://github.com/${taito_organization}/${taito_repo_name}/wiki \
+    Project documentation \
+  * git=https://github.com/${taito_organization}/${taito_repo_name} \
+    Git repository \
+  * kanban=https://github.com/${taito_organization}/${taito_repo_name}/projects \
+    Kanban boards \
+  * builds=https://console.cloud.google.com/gcr/builds?project=${taito_zone}&query=source.repo_source.repo_name%3D%22${taito_repo_location}-${taito_repo_name}%22 \
+    Build logs \
+  * images=https://console.cloud.google.com/gcr/images/${taito_zone}/EU/${taito_repo_location}-${taito_repo_name}?project=${taito_zone} \
+    Container images \
+  * artifacts=https://TODO-DOCS-AND-TEST-REPORTS \
+    Generated documentation and test reports \
+  * storage:ENV#storage=https://console.cloud.google.com/storage/browser/${taito_project}-${taito_env}?project=${taito_zone} \
+    Storage bucket (:ENV) \
+  * logs:ENV#logs=https://console.cloud.google.com/logs/viewer?project=${taito_zone}&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F${kubectl_name}%2Fnamespace_id%2F${taito_namespace} \
+    Logs (:ENV) \
+  * errors:ENV#errors=https://sentry.io/${taito_organization}/${taito_project}/?query=is%3Aunresolved+environment%3A${taito_env} \
+    Sentry errors (:ENV) \
+  * uptime=https://app.google.stackdriver.com/uptime?project=${taito_zone} \
+    Uptime monitoring (Stackdriver) \
+  * feedback=https://TODO-ZENDESK \
+    User feedback (Zendesk) \
+  * performance=https://TODO-NEW-RELIC \
+    Performance metrics (New Relic)"
 
 # Secrets
 # NOTE: Secret naming: type.target_of_type.purpose[/namespace]:generation_method

@@ -27,8 +27,9 @@ echo "--- Manual steps ---"
 echo
 echo "Do the following:"
 echo "- Remove extra images from the beginning of the cloudbuild.yaml file"
-echo "- Generate links to README.md by running: taito links generate"
-echo "- Add project specific modifications to README.md (README.md was copied from template)"
+echo "- Generate links to README.md by running: taito project docs"
+echo "- Add project specific modifications back to README.md if there were any"
+echo "  (README.md was copied from the template)"
 echo
 echo "If something stops working, try the following:"
 echo "- Run 'taito --upgrade' to upgrade your taito-cli"

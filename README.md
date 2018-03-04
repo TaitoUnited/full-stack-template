@@ -4,7 +4,7 @@
 
 Server-template is a project template for applications and APIs running on server. It supports multiple alternative technologies, and you can choose the stack during configuration.
 
-Create a new project from this template by running `taito template create: server-template`. Later you can upgrade your project to the latest version of the template by running `taito template upgrade`. To ensure flawless upgrade, do not modify files that have **do not modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files of the template instead, and then upgrade.
+Create a new project from this template by running `taito template create: server-template`. Later you can upgrade your project to the latest version of the template by running `taito template upgrade`. To ensure flawless upgrade, do not modify files that have a **do-not-modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files of the template instead, and then upgrade.
 
 You can also migrate an existing non-taito-cli project by running `taito template migrate: server-template` in your project root folder.
 
@@ -14,31 +14,29 @@ You can also migrate an existing non-taito-cli project by running `taito templat
 
 [//]: # (GENERATED LINKS START)
 
-[admin:dev](https://server-template-dev.taitodev.com/admin/)
-[admin:prod](https://server-template-prod.taitodev.com/admin/)
-[api:dev](https://server-template-dev.taitodev.com/api/infra/uptimez)
-[api:prod](https://server-template-prod.taitodev.com/api/infra/uptimez)
-[app:dev](https://server-template-dev.taitodev.com)
-[app:prod](https://server-template-prod.taitodev.com)
-[artifacts](https://TODO-DOCS-AND-TEST-REPORTS)
-[builds](https://console.cloud.google.com/gcr/builds?project=gcloud-temp1&query=source.repo_source.repo_name%3D%22github-taitounited-server-template%22)
-[docs](https://github.com/taitounited/server-template/wiki)
-[errors:dev](https://sentry.io/taitounited/server-template/?query=is%3Aunresolved+environment%3Adev)
-[errors:prod](https://sentry.io/taitounited/server-template/?query=is%3Aunresolved+environment%3Aprod)
-[feedback](https://TODO-ZENDESK)
-[git](https://github.com/taitounited/server-template)
-[images](https://console.cloud.google.com/gcr/images/gcloud-temp1/EU/github-taitounited-server-template?project=gcloud-temp1)
-[logs:dev](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fserver-template-dev)
-[logs:prod](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fserver-template-prod)
-[performance](https://TODO-NEW-RELIC)
-[project](https://github.com/taitounited/server-template/projects)
-[storage:dev](https://console.cloud.google.com/storage/browser/server-template-dev?project=gcloud-temp1)
-[storage:prod](https://console.cloud.google.com/storage/browser/server-template-prod?project=gcloud-temp1)
-[uptime](https://app.google.stackdriver.com/uptime?project=gcloud-temp1)
+* [API (dev)](https://server-template-dev.taitodev.com/api/infra/uptimez)
+* [API (prod)](https://server-template-prod.taitodev.com/api/infra/uptimez)
+* [Admin GUI (dev)](https://server-template-dev.taitodev.com/admin/)
+* [Admin GUI (prod)](https://server-template-prod.taitodev.com/admin/)
+* [Application (dev)](https://server-template-dev.taitodev.com)
+* [Application (prod)](https://server-template-prod.taitodev.com)
+* [Build artifacts: documentation and test reports](https://TODO-DOCS-AND-TEST-REPORTS)
+* [Build logs](https://console.cloud.google.com/gcr/builds?project=gcloud-temp1&query=source.repo_source.repo_name%3D%22github-taitounited-server-template%22)
+* [Container images](https://console.cloud.google.com/gcr/images/gcloud-temp1/EU/github-taitounited-server-template?project=gcloud-temp1)
+* [Kanban boards](https://github.com/taitounited/server-template/projects)
+* [Logs (dev)](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fserver-template-dev)
+* [Logs (prod)](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fserver-template-prod)
+* [Performance metrics (New Relic)](https://TODO-NEW-RELIC)  
+* [Project documentation](https://github.com/taitounited/server-template/wiki)
+* [Sentry errors (dev)](https://sentry.io/taitounited/server-template/?query=is%3Aunresolved+environment%3Adev)
+* [Sentry errors (prod)](https://sentry.io/taitounited/server-template/?query=is%3Aunresolved+environment%3Aprod)
+* [Storage bucket (dev)](https://console.cloud.google.com/storage/browser/server-template-dev?project=gcloud-temp1)
+* [Storage bucket (prod)](https://console.cloud.google.com/storage/browser/server-template-prod?project=gcloud-temp1)
+* [Uptime monitoring (Stackdriver)](https://app.google.stackdriver.com/uptime?project=gcloud-temp1)
+* [User feedback (Zendesk)](https://TODO-ZENDESK)
+* [git repository](https://github.com/taitounited/server-template)
 
 [//]: # (GENERATED LINKS END)
-
-TODO add some notes for using the links: e.g. how to get an user account for logging in to the app and admin GUI.
 
 ## Prerequisites
 
