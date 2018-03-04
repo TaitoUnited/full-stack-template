@@ -1,5 +1,12 @@
 {
-  "presets": ["es2015-node4", "stage-3", "flow"],
+  "presets": [
+    ["env", {
+      "targets": {
+        "node": "current"
+      }
+    }],
+    "flow"
+  ],
   "plugins": [
     "transform-object-rest-spread",
     "syntax-async-functions",

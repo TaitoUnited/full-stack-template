@@ -8,7 +8,7 @@ export const setupLoggerMiddleware = async (ctx, next) => {
   namespace.enter(context);
 
   // Figure out request-id.
-  const headers = ctx.request.headers;
+  const { headers } = ctx.request;
   let reqId;
 
   if (headers['request-id']) {

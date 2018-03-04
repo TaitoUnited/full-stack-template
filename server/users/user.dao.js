@@ -24,7 +24,7 @@ export default class UserDAO {
     console.log(`SEARCH CRITERIA: ${JSON.stringify(criteria)}`);
     return {
       data: data.users,
-      totalCount: data.users.length
+      totalCount: data.users.length,
     };
   }
 

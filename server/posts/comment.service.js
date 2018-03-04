@@ -23,6 +23,6 @@ export default class CommentService {
   }
 
   async fetch(state, criteria) {
-    return await this.commentDAO.fetch(state.getTx(), criteria);
+    return this.commentDAO.fetch(state.getTx(), criteria);
   }
 }

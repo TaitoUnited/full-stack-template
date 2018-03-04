@@ -20,9 +20,9 @@ export default class FileDAO {
   async fetch(db, criteria) {
     console.log(`SEARCH CRITERIA: ${JSON.stringify(criteria)}`);
     const params = {
-      name: criteria.name
+      name: criteria.name,
     };
-    return await db
+    return db
       .any(
         `
       SELECT json_build_object(
@@ -42,7 +42,7 @@ export default class FileDAO {
   }
 
   async create(db, file) {
-    return await db.one(
+    return db.one(
       `
       INSERT INTO example_file (name, description)
       VALUES ($[name], $[description])

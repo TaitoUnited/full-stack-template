@@ -31,21 +31,21 @@ export default class FileService {
   async fetch(state, criteria) {
     // TODO trace logging in methods!
     authorize(state).role(rolesById.dealer, rolesById.buyer);
-    return await this.fileDAO.fetch(state.getTx(), criteria);
+    return this.fileDAO.fetch(state.getTx(), criteria);
   }
 
   async create(state, file) {
     // authorize(state).role(roles.admin, roles.user);
-    return await this.fileDAO.create(state.db, file);
+    return this.fileDAO.create(state.db, file);
   }
 
   async read(state, id) {
-    return await this.fileDAO.read(state.getTx(), id);
+    return this.fileDAO.read(state.getTx(), id);
   }
 
   async update(state, file) {
     // Write operation -> execute the operation inside a transaction
-    return await state.tx(async tx => {
+    return state.tx(async tx => {
       await this._prepareUpdate(state, tx, file.id, file, true);
       await this.fileDAO.update(tx, file);
       // NOTE: You can also call another DAO or service inside the same
@@ -55,7 +55,7 @@ export default class FileService {
 
   async patch(state, file) {
     // Write operation -> execute the operation inside a transaction
-    return await state.tx(async tx => {
+    return state.tx(async tx => {
       await this._prepareUpdate(state, tx, file.id, file, true);
       await this.fileDAO.patch(tx, file);
       // NOTE: You can also call another DAO or service inside the same
@@ -65,7 +65,7 @@ export default class FileService {
 
   async remove(state, id) {
     // Write operation -> execute the operation inside a transaction
-    return await state.tx(async tx => {
+    return state.tx(async tx => {
       await this._prepareUpdate(state, tx, id, null, false);
       await this.fileDAO.removeByFileId(tx, id);
       // NOTE: You can also call another DAO or service inside the same

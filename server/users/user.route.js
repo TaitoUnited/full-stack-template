@@ -40,7 +40,7 @@ export default class UserRoute extends BaseRoute {
     this.router.put('/:id', async (ctx, next) => {
       ctx.body = await this.userService.update(ctx.state, {
         ...ctx.request.fields,
-        id: ctx.params.id
+        id: ctx.params.id,
       });
       next();
     });
@@ -49,7 +49,7 @@ export default class UserRoute extends BaseRoute {
     this.router.patch('/:id', async (ctx, next) => {
       ctx.body = await this.userService.patch(ctx.state, {
         ...ctx.request.fields,
-        id: ctx.params.id
+        id: ctx.params.id,
       });
       next();
     });

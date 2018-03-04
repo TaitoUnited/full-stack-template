@@ -7,7 +7,7 @@ const skipAuthPaths = [
   /^\/infra\/uptimez/,
   /^\/infra\/healthz/,
   /^\/files/,
-  /^\/auth\/login/
+  /^\/auth\/login/,
 ];
 
 // NOTE: REMOVE THIS IF ONLY BASIC OR JWT AUTH IS REQUIRED
@@ -34,7 +34,7 @@ const authMiddleware = app => {
     if (ctx.clientAuthMethod === 'basic') {
       await basicAuth({
         name: 'user',
-        pass: config.passwords.user
+        pass: config.passwords.user,
       })(ctx, next);
     } else {
       await next();
@@ -45,14 +45,14 @@ const authMiddleware = app => {
   app.use(
     jwt({
       secret: config.JWT_SECRET,
-      key: 'auth'
+      key: 'auth',
       // Optionally get jwt from cookie, eg. for download links
       // cookie: 'server-template'
     }).unless({
       paths: skipAuthPaths,
       custom() {
         return determineAuthMethod(this) !== 'jwt';
-      }
+      },
     })
   );
 
@@ -62,7 +62,7 @@ const authMiddleware = app => {
   app.use(async (ctx, next) => {
     const rolesByAuth = {
       basic: 'user',
-      jwt: ctx.state.jwtdata ? ctx.state.jwtdata.sub : null
+      jwt: ctx.state.jwtdata ? ctx.state.jwtdata.sub : null,
     };
     ctx.state.role = rolesByAuth[ctx.state.clientAuthMethod];
     await next();

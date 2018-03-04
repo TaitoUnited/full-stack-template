@@ -12,7 +12,7 @@ const authorize = state => {
       const ex = {
         type: 'authorization',
         message: 'user does not have any of the roles: ...',
-        state
+        state,
       };
       throw ex;
     }
@@ -25,7 +25,7 @@ const authorize = state => {
       const ex = {
         type: 'authorization',
         message: `${name} value mismatch: ${value1} !== ${value2}`,
-        state
+        state,
       };
       throw ex;
     }

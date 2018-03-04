@@ -2,7 +2,7 @@
   "name": "server-template-worker",
   "version": "1.0.0",
   "scripts": {
-    "types-install": "if [ -f .flowconfig ]; then echo flow-typed install; elif [ -f tsconfig.json ]; then echo TODO typescript install; fi",
+    "types-install": "if [ -f .flowconfig ]; then flow-typed install; elif [ -f tsconfig.json ]; then echo TODO typescript install; fi",
     "types": "if [ -f .flowconfig ]; then flow; elif [ -f tsconfig.json ]; then echo TODO run typescript; fi",
     "lint": "echo 'TODO lint code'",
     "unit": "echo 'TODO run unit tests'"

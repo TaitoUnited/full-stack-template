@@ -11,7 +11,7 @@ const requestMiddleware = app => {
   // Disable HTTP-cache
   app.use(
     koaCacheControl({
-      noCache: true
+      noCache: true,
     })
   );
 
@@ -22,7 +22,7 @@ const requestMiddleware = app => {
         // uploadDir: config.UPLOAD_PATH,
         encoding: 'utf-8',
         keepExtensions: true,
-        jsonLimit: '10mb'
+        jsonLimit: '10mb',
       })
     )
   );

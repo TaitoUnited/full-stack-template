@@ -24,7 +24,7 @@ export default class TagDAO {
     console.log(`SEARCH CRITERIA: ${JSON.stringify(criteria)}`);
     return {
       data: data.comments,
-      totalCount: data.comments.length
+      totalCount: data.comments.length,
     };
   }
 }

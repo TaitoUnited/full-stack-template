@@ -11,7 +11,7 @@ const validate = (name, value) => {
         cause: 'missing',
         message: `${name} is required`,
         name,
-        value
+        value,
       };
       throw ex;
     }
@@ -45,7 +45,7 @@ const validate = (name, value) => {
         cause: 'notfound',
         message: `${name} not found`,
         name,
-        value
+        value,
       };
       throw ex;
     }

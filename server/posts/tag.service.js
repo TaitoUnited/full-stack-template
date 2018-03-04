@@ -23,6 +23,6 @@ export default class TagService {
   }
 
   async fetch(state, criteria) {
-    return await this.tagDAO.fetch(state.getTx(), criteria);
+    return this.tagDAO.fetch(state.getTx(), criteria);
   }
 }

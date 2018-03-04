@@ -23,19 +23,19 @@ export default {
             authors: [
               {
                 name: 'Paul',
-                email: 'paul@email.com'
+                email: 'paul@email.com',
               },
               {
                 name: 'Joe',
-                email: 'joe@email.com'
-              }
-            ]
-          }
+                email: 'joe@email.com',
+              },
+            ],
+          },
         },
         second: {
           name: 'better name',
-          url: 'http://www.photo-libre.fr/paysage/2.jpg'
-        }
+          url: 'http://www.photo-libre.fr/paysage/2.jpg',
+        },
       },
       published_at: new Date('2012-08-06'),
       tags: [1, 3],
@@ -44,10 +44,10 @@ export default {
       backlinks: [
         {
           date: '2012-08-09T00:00:00.000Z',
-          url: 'http://example.com/bar/baz.html'
-        }
+          url: 'http://example.com/bar/baz.html',
+        },
       ],
-      notifications: [12, 31, 42]
+      notifications: [12, 31, 42],
     },
     {
       id: 2,
@@ -63,7 +63,7 @@ export default {
       tags: [3, 5],
       category: 'lifestyle',
       backlinks: [],
-      notifications: []
+      notifications: [],
     },
     {
       id: 3,
@@ -80,22 +80,22 @@ export default {
       backlinks: [
         {
           date: '2012-08-10T00:00:00.000Z',
-          url: 'http://example.com/foo/bar.html'
+          url: 'http://example.com/foo/bar.html',
         },
         {
           date: '2012-08-14T00:00:00.000Z',
-          url: 'https://blog.johndoe.com/2012/08/12/foobar.html'
+          url: 'https://blog.johndoe.com/2012/08/12/foobar.html',
         },
         {
           date: '2012-08-22T00:00:00.000Z',
-          url: 'https://foo.bar.com/lorem/ipsum'
+          url: 'https://foo.bar.com/lorem/ipsum',
         },
         {
           date: '2012-08-29T00:00:00.000Z',
-          url: 'http://dicta.es/nam_doloremque'
-        }
+          url: 'http://dicta.es/nam_doloremque',
+        },
       ],
-      notifications: [12, 31, 42]
+      notifications: [12, 31, 42],
     },
     {
       id: 4,
@@ -110,7 +110,7 @@ export default {
       published_at: new Date('2012-08-12'),
       tags: [],
       category: 'lifestyle',
-      notifications: [12, 31, 42]
+      notifications: [12, 31, 42],
     },
     {
       id: 5,
@@ -124,7 +124,7 @@ export default {
       commentable: true,
       published_at: new Date('2012-08-05'),
       category: 'tech',
-      notifications: [12, 31, 42]
+      notifications: [12, 31, 42],
     },
     {
       id: 6,
@@ -138,7 +138,7 @@ export default {
       published_at: new Date('2012-09-05'),
       tags: [1, 4],
       category: 'tech',
-      notifications: [42]
+      notifications: [42],
     },
     {
       id: 7,
@@ -153,7 +153,7 @@ export default {
       published_at: new Date('2012-09-29'),
       tags: [3, 4],
       category: 'tech',
-      notifications: [12, 31]
+      notifications: [12, 31],
     },
     {
       id: 8,
@@ -169,7 +169,7 @@ export default {
       published_at: new Date('2012-10-02'),
       tags: [5, 1],
       category: 'lifestyle',
-      notifications: [12, 31, 42]
+      notifications: [12, 31, 42],
     },
     {
       id: 9,
@@ -184,7 +184,7 @@ export default {
       published_at: new Date('2012-10-16'),
       tags: [],
       category: 'tech',
-      notifications: [12, 31, 42]
+      notifications: [12, 31, 42],
     },
     {
       id: 10,
@@ -199,7 +199,7 @@ export default {
       published_at: new Date('2012-10-19'),
       tags: [1, 4],
       category: 'lifestyle',
-      notifications: [12, 31, 42]
+      notifications: [12, 31, 42],
     },
     {
       id: 11,
@@ -219,10 +219,10 @@ export default {
       backlinks: [
         {
           date: '2012-10-29T00:00:00.000Z',
-          url: 'http://dicta.es/similique_pariatur'
-        }
+          url: 'http://dicta.es/similique_pariatur',
+        },
       ],
-      notifications: [12, 31, 42]
+      notifications: [12, 31, 42],
     },
     {
       id: 12,
@@ -242,14 +242,14 @@ export default {
       backlinks: [
         {
           date: '2012-08-07T00:00:00.000Z',
-          url: 'http://example.com/foo/bar.html'
+          url: 'http://example.com/foo/bar.html',
         },
         {
           date: '2012-08-12T00:00:00.000Z',
-          url: 'https://blog.johndoe.com/2012/08/12/foobar.html'
-        }
+          url: 'https://blog.johndoe.com/2012/08/12/foobar.html',
+        },
       ],
-      notifications: [12, 31, 42]
+      notifications: [12, 31, 42],
     },
     {
       id: 13,
@@ -265,9 +265,10 @@ export default {
       tags: [3, 5],
       category: 'lifestyle',
       backlinks: [],
-      notifications: []
-    }
+      notifications: [],
+    },
   ],
+  // prettier-ignore
   comments: [
     {
       id: 1,
@@ -275,135 +276,135 @@ export default {
       post_id: 6,
       body:
         'Queen, tossing her head through the wood. \'If it had lost something; and she felt sure it.',
-      created_at: new Date('2012-08-02')
+      created_at: new Date('2012-08-02'),
     },
     {
       id: 2,
       author: {
         name: 'Kiley Pouros',
-        email: 'kiley@gmail.com'
+        email: 'kiley@gmail.com',
       },
       post_id: 9,
       body:
         'White Rabbit: it was indeed: she was out of the ground--and I should frighten them out of its right paw round, \'lives a March Hare. \'Sixteenth,\'.',
-      created_at: new Date('2012-08-08')
+      created_at: new Date('2012-08-08'),
     },
     {
       id: 3,
       author: {
-        name: 'Justina Hegmann'
+        name: 'Justina Hegmann',
       },
       post_id: 3,
       body:
         'I\'m not Ada,\' she said, \'and see whether it\'s marked "poison" or.',
-      created_at: new Date('2012-08-02')
+      created_at: new Date('2012-08-02'),
     },
     {
       id: 4,
       author: {
-        name: 'Ms. Brionna Smitham MD'
+        name: 'Ms. Brionna Smitham MD',
       },
       post_id: 6,
       body:
         'Dormouse. \'Fourteenth of March, I think I can say.\' This was such a noise inside, no one else seemed inclined.',
-      created_at: new Date('2014-09-24')
+      created_at: new Date('2014-09-24'),
     },
     {
       id: 5,
       author: {
-        name: 'Edmond Schulist'
+        name: 'Edmond Schulist',
       },
       post_id: 1,
       body:
         'I ought to tell me your history, you know,\' the Hatter and the happy summer days. THE.',
-      created_at: new Date('2012-08-07')
+      created_at: new Date('2012-08-07'),
     },
     {
       id: 6,
       author: {
-        name: 'Danny Greenholt'
+        name: 'Danny Greenholt',
       },
       post_id: 6,
       body:
         'Duchess asked, with another hedgehog, which seemed to be lost: away went Alice after it, never once considering how in the other. In the very tones of.',
-      created_at: new Date('2012-08-09')
+      created_at: new Date('2012-08-09'),
     },
     {
       id: 7,
       author: {
-        name: 'Luciano Berge'
+        name: 'Luciano Berge',
       },
       post_id: 5,
       body:
         'While the Panther were sharing a pie--\' [later editions continued as follows.',
-      created_at: new Date('2012-09-06')
+      created_at: new Date('2012-09-06'),
     },
     {
       id: 8,
       author: {
-        name: 'Annamarie Mayer'
+        name: 'Annamarie Mayer',
       },
       post_id: 5,
       body:
         'I tell you, you coward!\' and at once and put it more clearly,\' Alice.',
-      created_at: new Date('2012-10-03')
+      created_at: new Date('2012-10-03'),
     },
     {
       id: 9,
       author: {
-        name: 'Breanna Gibson'
+        name: 'Breanna Gibson',
       },
       post_id: 2,
       body:
         'THAT. Then again--"BEFORE SHE HAD THIS FIT--" you never tasted an egg!\' \'I HAVE tasted eggs, certainly,\' said Alice, as she spoke. Alice did not like to have it.',
-      created_at: new Date('2012-11-06')
+      created_at: new Date('2012-11-06'),
     },
     {
       id: 10,
       author: {
-        name: 'Logan Schowalter'
+        name: 'Logan Schowalter',
       },
       post_id: 3,
       body:
         'I\'d been the whiting,\' said the Hatter, it woke up again with a T!\' said the Gryphon. \'--you advance twice--\' \'Each with a growl, And concluded the banquet--] \'What IS the fun?\' said.',
-      created_at: new Date('2012-12-07')
+      created_at: new Date('2012-12-07'),
     },
     {
       id: 11,
       author: {
-        name: 'Logan Schowalter'
+        name: 'Logan Schowalter',
       },
       post_id: 1,
       body:
         'I don\'t want to be?\' it asked. \'Oh, I\'m not Ada,\' she said, \'and see whether it\'s marked "poison" or not\'; for she had asked it aloud; and in despair she put her hand on the end of the.',
-      created_at: new Date('2012-08-05')
-    }
+      created_at: new Date('2012-08-05'),
+    },
   ],
   tags: [
     {
       id: 1,
       name: 'Sport',
-      published: 1
+      published: 1,
     },
     {
       id: 2,
       name: 'Technology',
-      published: false
+      published: false,
     },
     {
       id: 3,
       name: 'Code',
-      published: true
+      published: true,
     },
     {
       id: 4,
       name: 'Photo',
-      published: false
+      published: false,
     },
     {
       id: 5,
       name: 'Music',
-      published: 1
-    }
-  ]
+      published: 1,
+    },
+  ],
 };

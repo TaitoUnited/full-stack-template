@@ -24,7 +24,7 @@ export default class PostDAO {
     console.log(`SEARCH CRITERIA: ${JSON.stringify(criteria)}`);
     return {
       data: data.posts,
-      totalCount: data.posts.length
+      totalCount: data.posts.length,
     };
   }
 

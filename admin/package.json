@@ -1,11 +1,8 @@
 {
   "name": "server-template-admin",
-  "version": "1.0.0",
-  "description": "server-template for webapps",
-  "private": true,
   "main": "index.js",
   "scripts": {
-    "types-install": "if [ -f .flowconfig ]; then echo flow-typed install; elif [ -f tsconfig.json ]; then echo TODO typescript install; fi",
+    "types-install": "if [ -f .flowconfig ]; then flow-typed install; elif [ -f tsconfig.json ]; then echo TODO typescript install; fi",
     "types": "if [ -f .flowconfig ]; then flow; elif [ -f tsconfig.json ]; then echo TODO run typescript; fi",
     "lint": "eslint . --ignore-path .eslintignore --quiet",
     "unit": "BABEL_ENV=test jest",
@@ -18,17 +15,6 @@
       "./config/setup-jest.js"
     ]
   },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com:TaitoUnited/server-template.git"
-  },
-  "author": "Taito United Oy <support@taitounited.fi>",
-  "license": "",
-  "bugs": {
-    "url": "https://github.com/TaitoUnited/server-template/issues"
-  },
-  "homepage": "https://github.com/TaitoUnited/server-template#readme",
-  "_comment": "TODO remove unused dependencies",
   "dependencies": {
     "admin-on-rest": "^1.3.2",
     "aor-json-rest-client": "~2.1.0",
@@ -49,7 +35,8 @@
     "redux-actions": "^2.2.1",
     "redux-form": "^7.1.0",
     "redux-saga": "^0.15.6",
-    "styled-components": "^2.2.1"
+    "styled-components": "^2.2.1",
+    "auth0-js": "^9.2.1"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -69,11 +56,11 @@
     "eslint-config-airbnb": "14.1.0",
     "eslint-config-airbnb-base": "11.1.2",
     "eslint-config-prettier": "^2.3.0",
-    "eslint-loader": "^1.9.0",
-    "eslint-plugin-babel": "^4.1.2",
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-jsx-a11y": "4.0.0",
     "eslint-plugin-prettier": "^2.1.2",
+    "eslint-loader": "^1.9.0",
+    "eslint-plugin-babel": "^4.1.2",
     "eslint-plugin-react": "^6.9.0",
     "extract-text-webpack-plugin": "^3.0.1",
     "file-loader": "^1.1.5",

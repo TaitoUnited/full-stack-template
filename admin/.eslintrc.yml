@@ -1,25 +1,31 @@
 ---
 extends:
-  airbnb
+  - airbnb # TODO use airbnb-base instead?
+  # NOTE: prettier disabled: https://github.com/prettier/prettier/issues/3437
+  # - prettier
 
 env:
   browser: true
   node: true
   es6: true
   mocha: true
-  jquery: true
   jest: true
 
 parser: "babel-eslint"
+parserOptions:
+  ecmaVersion: 6
 
-plugins:
-  - babel
-
-ecmaFeatures:
-  generators: true,
+# NOTE: prettier disabled: https://github.com/prettier/prettier/issues/3437
+# plugins:
+#   - prettier
 
 # 0: off, 1: warning, 2: error
 rules:
+  # NOTE: prettier disabled: https://github.com/prettier/prettier/issues/3437
+  # prettier/prettier:
+  #   - error
+  #   - singleQuote: true
+  #     trailingComma: es5
   arrow-parens: [2, "as-needed"]
   # single quotes
   quotes: [2, "single"]
@@ -42,10 +48,21 @@ rules:
   # console is fine
   no-console: 0
 
+  # allow empty block statements, useful for catching sometimes
+  no-empty: 0
+
   # returning JSON from arrow functions without a return statement breaks the
   # parser, and having a single return statement is not allowed by this rule...
   arrow-body-style: 0
   no-confusing-arrow: 0
+
+  class-methods-use-this: 0
+  quote-props: 0
+  generator-star-spacing: 0
+  babel/generator-star-spacing: 0
+  import/no-unresolved: 0 # dont complain about alias paths, eg '~common'
+  import/extensions: 0
+  new-cap: 0
 
   react/jsx-wrap-multilines: 0
   react/forbid-prop-types: 0
@@ -62,10 +79,3 @@ rules:
     - extensions:
       - ".js"
       - ".jsx"
-
-  quote-props: 0
-  generator-star-spacing: 0
-  babel/generator-star-spacing: 0
-  import/no-unresolved: 0 # dont complain about alias paths, eg '~common'
-  import/extensions: 0
-  new-cap: 0

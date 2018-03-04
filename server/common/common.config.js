@@ -27,7 +27,7 @@ config.JWT_SECRET = process.env.JWT_SECRET;
 // always be hashed, salted and stored elsewhere
 config.passwords = {
   admin: process.env.ADMIN_PASSWORD,
-  user: process.env.USER_PASSWORD
+  user: process.env.USER_PASSWORD,
 };
 
 // Cache

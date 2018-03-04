@@ -12,7 +12,7 @@ const cn = {
   database: config.DATABASE_ID,
   user: config.DATABASE_USER,
   password: config.DATABASE_SECRET,
-  poolSize: config.DATABASE_POOL_MAX
+  poolSize: config.DATABASE_POOL_MAX,
 };
 
 const db = pgp(cn);
@@ -20,7 +20,7 @@ const db = pgp(cn);
 // Transaction manager
 // NOTE: Experimental ;)
 const transactionMiddleware = async (ctx, next) => {
-  const state = ctx.state;
+  const { state } = ctx;
 
   // Add db to context. Use txArray to keep record of nested transactions
   // of pg-promise.

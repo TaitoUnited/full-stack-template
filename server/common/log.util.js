@@ -12,7 +12,7 @@ const stackdriverSeverityByBunyanLevel = {
   [bunyan.INFO]: 'INFO',
   [bunyan.WARN]: 'WARNING',
   [bunyan.ERROR]: 'ERROR',
-  [bunyan.FATAL]: 'CRITICAL'
+  [bunyan.FATAL]: 'CRITICAL',
 };
 
 const logHeaders = e => {
@@ -34,35 +34,34 @@ class StackdriverStream {
       severity: stackdriverSeverityByBunyanLevel[e.level],
       message: (e.msg || '') + (e.err ? ` ${e.err.msg}: ${e.err.stack}` : ''),
       context: {
-        httpRequest: !e.req
-          ? undefined
-          : {
-            method: e.req.method,
-            url: e.req.url,
-            responseStatusCode: e.res ? e.res.statusCode : undefined,
-            userAgent: e.req.headers['user-agent'],
-            referrer: e.req.headers.referer,
-            remoteIp: e.req.headers['x-real-ip'],
-              // Extra non-stackdriver attributes
-              // NOTE: We log all headers only in debug mode (security!)
-            headers: logHeaders(e) ? e.req.headers : undefined
-          },
+        // prettier-ignore
+        httpRequest: !e.req ? undefined : {
+          method: e.req.method,
+          url: e.req.url,
+          responseStatusCode: e.res ? e.res.statusCode : undefined,
+          userAgent: e.req.headers['user-agent'],
+          referrer: e.req.headers.referer,
+          remoteIp: e.req.headers['x-real-ip'],
+          // Extra non-stackdriver attributes
+          // NOTE: We log all headers only in debug mode (security!)
+          headers: logHeaders(e) ? e.req.headers : undefined,
+        },
         user: 'TODO',
         reportLocation: {
           filePath: 'TODO',
           lineNumber: 0,
-          functionName: 'TODO'
-        }
+          functionName: 'TODO',
+        },
       },
       eventTime: e.time,
       serviceContext: {
         service: e.name,
-        version: config.APP_VERSION
+        version: config.APP_VERSION,
       },
       // Extra non-stackdriver attributes
       reqId: e.reqId,
       pid: e.pid,
-      latency: e.latency
+      latency: e.latency,
     };
 
     // Avoid unnecessary log by not logging /infra/healthz calls
@@ -83,21 +82,21 @@ const logFormatStreams = {
     {
       type: 'raw',
       stream: new StackdriverStream(process.stderr),
-      level: 'warn'
+      level: 'warn',
     },
     {
       type: 'raw',
       stream: new StackdriverStream(process.stdout),
-      level: 'info'
-    }
-  ]
+      level: 'info',
+    },
+  ],
 };
 
 const logger = bunyan.createLogger({
   name: config.APP_NAME,
   serializers: bunyan.stdSerializers,
   level: config.DEBUG ? 'trace' : 'info',
-  streams: logFormatStreams[process.env.COMMON_LOG_FORMAT]
+  streams: logFormatStreams[process.env.COMMON_LOG_FORMAT],
 });
 
 logger.info(

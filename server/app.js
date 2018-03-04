@@ -9,7 +9,7 @@ import routes from './routes';
 import {
   loggerMiddleware,
   setupLoggerMiddleware,
-  logTODO
+  logTODO,
 } from './infra/logger.middleware';
 import transactionMiddleware from './infra/transaction.middleware';
 import requestMiddleware from './infra/request.middleware';
@@ -39,7 +39,7 @@ app.use(
   router.allowedMethods({
     throw: true,
     notImplemented: () => Boom.notImplemented(),
-    methodNotAllowed: () => Boom.methodNotAllowed()
+    methodNotAllowed: () => Boom.methodNotAllowed(),
   })
 );
 

@@ -23,34 +23,34 @@ export default class UserService {
   }
 
   async fetch(state, criteria) {
-    return await this.userDAO.fetch(state.getTx(), criteria);
+    return this.userDAO.fetch(state.getTx(), criteria);
   }
 
   async create(state, user) {
-    return await this.userDAO.create(state.db, user);
+    return this.userDAO.create(state.db, user);
   }
 
   async read(state, id) {
-    return await this.userDAO.read(state.getTx(), id);
+    return this.userDAO.read(state.getTx(), id);
   }
 
   async update(state, user) {
     // Write operation -> execute the operation inside a transaction
-    return await state.tx(async tx => {
+    return state.tx(async tx => {
       await this.userDAO.update(tx, user);
     });
   }
 
   async patch(state, user) {
     // Write operation -> execute the operation inside a transaction
-    return await state.tx(async tx => {
+    return state.tx(async tx => {
       await this.userDAO.patch(tx, user);
     });
   }
 
   async remove(state, id) {
     // Write operation -> execute the operation inside a transaction
-    return await state.tx(async tx => {
+    return state.tx(async tx => {
       await this.userDAO.remove(tx, id);
     });
   }

@@ -14,7 +14,7 @@ export default class AuthRoute extends BaseRoute {
       const credentials = ctx.request.fields;
       const userData = await this.authService.authenticate(credentials);
       ctx.body = {
-        data: userData
+        data: userData,
       };
       next();
     });

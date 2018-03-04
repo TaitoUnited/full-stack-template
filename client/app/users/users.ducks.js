@@ -3,14 +3,14 @@ import { createActions, handleActions } from 'redux-actions';
 
 // Default state
 const defaultState = {
-  example: 'example'
+  example: 'example',
 };
 
 // Actions
 export const { users } = createActions({
   USERS: {
-    EXAMPLE: example => ({ example })
-  }
+    EXAMPLE: example => ({ example }),
+  },
 });
 
 // Reducer
@@ -18,9 +18,9 @@ export const usersReducer = handleActions(
   {
     [users.example](state, { payload: { example } }) {
       return update(state, {
-        example: { $set: example }
+        example: { $set: example },
       });
-    }
+    },
   },
   defaultState
 );

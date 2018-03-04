@@ -11,7 +11,7 @@ export default class InfraRoute extends BaseRoute {
     // 3rd party clients
     this.router.get('/config', async (ctx, next) => {
       ctx.body = {
-        APP_VERSION: config.APP_VERSION
+        APP_VERSION: config.APP_VERSION,
       };
       next();
     });
@@ -25,7 +25,7 @@ export default class InfraRoute extends BaseRoute {
         LIMIT 1
       `);
       ctx.body = {
-        status: 'OK'
+        status: 'OK',
       };
       next();
     });
@@ -33,7 +33,7 @@ export default class InfraRoute extends BaseRoute {
     // Polled by Kubernetes to check that container is alive
     this.router.get('/healthz', async (ctx, next) => {
       ctx.body = {
-        status: 'OK'
+        status: 'OK',
       };
       next();
     });

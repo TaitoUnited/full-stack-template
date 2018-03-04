@@ -1,23 +1,27 @@
 ---
 extends:
-  airbnb/base
+  - airbnb-base
+  - prettier
 
 env:
   node: true
   es6: true
   mocha: true
-  jquery: true
 
 parser: "babel-eslint"
 
-plugins:
-  - babel
+parserOptions:
+  ecmaVersion: 6
 
-ecmaFeatures:
-  generators: true,
+plugins:
+  - prettier
 
 # 0: off, 1: warning, 2: error
 rules:
+  prettier/prettier:
+    - error
+    - singleQuote: true
+      trailingComma: es5
   arrow-parens: [2, "as-needed"]
   # single quotes
   quotes: [2, "single"]
@@ -49,10 +53,9 @@ rules:
   # parser, and having a single return statement is not allowed by this rule...
   arrow-body-style: 0
   no-confusing-arrow: 0
-
+  class-methods-use-this: 0
   quote-props: 0
   generator-star-spacing: 0
   babel/generator-star-spacing: 0
-  import/no-unresolved: 0 # dont complain about alias paths, eg '~common'
   import/extensions: 0
   new-cap: 0

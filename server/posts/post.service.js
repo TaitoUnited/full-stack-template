@@ -23,34 +23,34 @@ export default class PostService {
   }
 
   async fetch(state, criteria) {
-    return await this.postDAO.fetch(state.getTx(), criteria);
+    return this.postDAO.fetch(state.getTx(), criteria);
   }
 
   async create(state, post) {
-    return await this.postDAO.create(state.db, post);
+    return this.postDAO.create(state.db, post);
   }
 
   async read(state, id) {
-    return await this.postDAO.read(state.getTx(), id);
+    return this.postDAO.read(state.getTx(), id);
   }
 
   async update(state, post) {
     // Write operation -> execute the operation inside a transaction
-    return await state.tx(async tx => {
+    return state.tx(async tx => {
       await this.postDAO.update(tx, post);
     });
   }
 
   async patch(state, post) {
     // Write operation -> execute the operation inside a transaction
-    return await state.tx(async tx => {
+    return state.tx(async tx => {
       await this.postDAO.patch(tx, post);
     });
   }
 
   async remove(state, id) {
     // Write operation -> execute the operation inside a transaction
-    return await state.tx(async tx => {
+    return state.tx(async tx => {
       await this.postDAO.remove(tx, id);
     });
   }

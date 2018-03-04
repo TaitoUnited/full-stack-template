@@ -22,12 +22,12 @@ const createAuthService = () => ({
         aud: 'server-template',
         sub: username,
         // NOTE: assuming that there are only two users: admin and user
-        role: username
+        role: username,
       },
       config.JWT_SECRET
     );
     return { token: customJWT };
-  }
+  },
 });
 
 export default createAuthService;
