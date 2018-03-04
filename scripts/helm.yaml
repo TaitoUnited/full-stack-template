@@ -4,7 +4,6 @@ stack:
   cache:
   client: client
   database: database
-  function:
   queue:
   server: server
   storage: storage

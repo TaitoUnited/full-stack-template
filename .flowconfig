@@ -16,7 +16,6 @@
 ./admin/flow-typed
 ./bot/flow-typed
 ./client/flow-typed
-./function/flow-typed
 ./server/flow-typed
 ./worker/flow-typed
 

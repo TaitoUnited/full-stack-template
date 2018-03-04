@@ -41,10 +41,6 @@ rm LICENSE
 grep -v '"license":' < package.json > package.json.tmp
 mv package.json.tmp package.json
 
-# Remove client-vue and server-py
-rm -rf client-vue
-rm -rf server-py
-
 # Replace NOTE of README.md with a 'do not modify' note
 {
 sed '/TEMPLATE NOTE START/q' README.md
