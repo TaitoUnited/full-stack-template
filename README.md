@@ -16,13 +16,14 @@ You can also migrate an existing non-taito-cli project by running `taito templat
 
 * [API (dev)](https://server-template-dev.taitodev.com/api/infra/uptimez)
 * [API (prod)](https://server-template-prod.taitodev.com/api/infra/uptimez)
-* [Admin GUI (dev)](https://server-template-dev.taitodev.com/admin/)
-* [Admin GUI (prod)](https://server-template-prod.taitodev.com/admin/)
+* [Admin user interface (dev)](https://server-template-dev.taitodev.com/admin/)
+* [Admin user interface (prod)](https://server-template-prod.taitodev.com/admin/)
 * [Application (dev)](https://server-template-dev.taitodev.com)
 * [Application (prod)](https://server-template-prod.taitodev.com)
-* [Build artifacts: documentation and test reports](https://TODO-DOCS-AND-TEST-REPORTS)
 * [Build logs](https://console.cloud.google.com/gcr/builds?project=gcloud-temp1&query=source.repo_source.repo_name%3D%22github-taitounited-server-template%22)
 * [Container images](https://console.cloud.google.com/gcr/images/gcloud-temp1/EU/github-taitounited-server-template?project=gcloud-temp1)
+* [Generated documentation and test reports](https://TODO-DOCS-AND-TEST-REPORTS)
+* [Git repository](https://github.com/taitounited/server-template)
 * [Kanban boards](https://github.com/taitounited/server-template/projects)
 * [Logs (dev)](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fserver-template-dev)
 * [Logs (prod)](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fserver-template-prod)
@@ -34,7 +35,6 @@ You can also migrate an existing non-taito-cli project by running `taito templat
 * [Storage bucket (prod)](https://console.cloud.google.com/storage/browser/server-template-prod?project=gcloud-temp1)
 * [Uptime monitoring (Stackdriver)](https://app.google.stackdriver.com/uptime?project=gcloud-temp1)
 * [User feedback (Zendesk)](https://TODO-ZENDESK)
-* [git repository](https://github.com/taitounited/server-template)
 
 [//]: # (GENERATED LINKS END)
 
