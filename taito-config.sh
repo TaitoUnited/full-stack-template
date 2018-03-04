@@ -135,8 +135,7 @@ export link_urls="\
   errors:ENV#errors=https://sentry.io/${taito_organization}/${taito_project}/?query=is%3Aunresolved+environment%3A${taito_env} \
   uptime=https://app.google.stackdriver.com/uptime?project=${taito_zone} \
   feedback=https://TODO-ZENDESK \
-  performance=https://TODO-NEW-RELIC \
-  "
+  performance=https://TODO-NEW-RELIC"
 
 # Secrets
 # NOTE: Secret naming: type.target_of_type.purpose[/namespace]:generation_method

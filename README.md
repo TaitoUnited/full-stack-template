@@ -30,7 +30,7 @@ You can also migrate an existing non-taito-cli project by running `taito templat
 [images](https://console.cloud.google.com/gcr/images/gcloud-temp1/EU/github-taitounited-server-template?project=gcloud-temp1)
 [logs:dev](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fserver-template-dev)
 [logs:prod](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fserver-template-prod)
-[performance](https://TODO-NEW-RELIC)  
+[performance](https://TODO-NEW-RELIC)
 [project](https://github.com/taitounited/server-template/projects)
 [storage:dev](https://console.cloud.google.com/storage/browser/server-template-dev?project=gcloud-temp1)
 [storage:prod](https://console.cloud.google.com/storage/browser/server-template-prod?project=gcloud-temp1)
