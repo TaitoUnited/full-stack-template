@@ -123,6 +123,7 @@ export kubectl_user="${kubectl_cluster}"
 export link_urls="\
   app[:ENV]#app=${taito_app_url} \
   admin[:ENV]#admin=${taito_admin_url} \
+  api[:ENV]#app=${taito_app_url}/api/infra/uptimez \
   docs=https://github.com/${taito_organization}/${taito_repo_name}/wiki \
   git=https://github.com/${taito_organization}/${taito_repo_name} \
   project=https://github.com/${taito_organization}/${taito_repo_name}/projects \

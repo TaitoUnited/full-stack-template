@@ -18,6 +18,8 @@ You can also migrate an existing non-taito-cli project by running `taito templat
 [admin:prod](https://server-template-prod.taitodev.com/admin/)
 [app:dev](https://server-template-dev.taitodev.com)
 [app:prod](https://server-template-prod.taitodev.com)
+[api:dev](https://server-template-dev.taitodev.com/api/infra/uptimez)
+[api:prod](https://server-template-prod.taitodev.com/api/infra/uptimez)
 [builds](https://console.cloud.google.com/gcr/builds?project=gcloud-temp1&query=source.repo_source.repo_name%3D%22github-taitounited-server-template%22)
 [docs](https://github.com/taitounited/server-template/wiki)
 [errors:dev](https://sentry.io/taitounited/server-template/?query=is%3Aunresolved+environment%3Adev)
