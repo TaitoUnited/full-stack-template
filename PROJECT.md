@@ -19,21 +19,22 @@ Project specific conventions.
 
 ## Data protection and privacy
 
-This sections provides a checklist for data protection and privacy. Most of these concern personal data (GDPR), but many of them can be applied to any confidential data to keep the data safe. Go through the checklist while designing a system or adding new features for an existing system, and leave a comment for each.
+This section provides a checklist for data protection and privacy. Most of these concern personal data (GDPR), but many of them can be applied to any confidential data to keep the data safe. Go through the checklist while designing new features, and leave a comment for each.
 
 * [ ] **Privacy policy:** A privacy policy must be in place.
 * [ ] **User concent:** You must ask users to consent on the processing of their personal data in a clear and easily accessible form. Privacy consent needs to be given by means of a *clear affirmative act* which means that a pre-ticked checkbox doesn't suffice. You must also be able to show that the user has consented, and provide an easy way to withdraw consent at any time. (TODO user consent is not required if...?)
+* [ ] **Children as users:** TODO
 * [ ] **Limited data access:** Grant access to personal data for only those who really need it.
-* [ ] **3rd parties:** If you hand over personal data to 3rd parties (e.g. by using SaaS services), make sure that they are GDPR compliant, and you have user concent for doing so.
-* [ ] **Right to access, correct, and erase personal data:** Users have a right to access, correct, and erase all their personal data. A GUI implementation is not a requirement, but it's best that users can access, edit and delete their personal data themselves by using a GUI.
+* [ ] **3rd parties:** If you hand over personal data to 3rd parties (e.g. by using 3rd party SaaS services), make sure that they are GDPR compliant, and you have user concent for doing so.
+* [ ] **Rights for personal data:** Users have a right to access, correct, and erase all their personal data. A GUI implementation is not a requirement, but it's best that users can access, edit and delete their personal data themselves by using a GUI.
 * [ ] **Data portability:** User has a right to receive the personal data concerning them in a structured, commonly used and machine-readable format. You don't need to implement a service for that, but keep this in mind.
 * [ ] **Data minimization:** Personal data you collect must be limited to what is necessary, and must be kept only as long as needed.
-* [ ] **Data anonymization:** Anonymize data whenever it is possible (e.g. collecting history data for analytics).
-* [ ] **Pseudonymization:** Pseudonymize data whenever it is possible. For example, keep all user identifying data in a separate system and reference the user with a generated user id.
-* [ ] **Logging:** Keep all sensitive data out of the server logs. Pseudonymization may help you with this. Consider also log filtering either on the application or on the infrasctucture level.
-* [ ] **Backups:** Data minimization and the right-to-erase-personal-data applies also to backups. Don't keep backups of personal data longer that it is really necessary. Thus, in some cases you may need to classify data and store it to different databases based on requirements.
-* [ ] **Data breach notification:** Users have a right to receive a notification about a data breach. Keep this in mind when choosing a user management system.
-* [ ] **Audit logging:** Consider audit logging and other security mechanisms for detecting and investigating misuse and data breaches.
+* [ ] **Data anonymization:** Anonymize data whenever it is possible. For example, retaining user reference is usually unnecessary when collecting history data for analytics.
+* [ ] **Data pseudonymization:** Pseudonymize data whenever it is possible. For example, keep all user identifying data in a separate system and reference the user with a generated user id.
+* [ ] **Logging:** Keep all sensitive data out of the server logs. Pseudonymization may help you with this. Consider also log filtering either on the application or on the infrastructure level.
+* [ ] **Backups:** Data minimization and the right-to-erase-all-personal-data applies also to backups. Do not keep backups of personal data longer than it is really necessary. Thus, in some cases you may need to classify data and store it to different databases based on requirements.
+* [ ] **Data breach notification:** Users have a right to receive a notification about a data breach. Keep this in mind when choosing an user management system.
+* [ ] **Audit logging:** Consider audit logging and other security mechanisms for detecting and investigating potential misuse and data breaches.
 
 Specific cases:
 
