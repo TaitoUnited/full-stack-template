@@ -1,13 +1,11 @@
 # Builder and tester container for production build
 FROM node:8.7-alpine as builder
 ARG TARGET_ENV=prod
-ENV TARGET_ENV ${TARGET_ENV}
-ENV NODE_ENV development
 RUN apk add --update-cache build-base python git fontconfig
 WORKDIR /worker
-COPY ./package.json /worker/package.json
-COPY ./package-lock.json /worker/package-lock.json
-COPY ./.flowconfig /worker/.flowconfig
+COPY ./package.json ./package-lock.* ./.flowconfi* /worker/
+ENV TARGET_ENV ${TARGET_ENV}
+ENV NODE_ENV development
 RUN npm install --loglevel warn
 RUN npm run types-install
 COPY . /worker
