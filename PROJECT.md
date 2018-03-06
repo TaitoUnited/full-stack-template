@@ -1,39 +1,44 @@
-# TODO name
+# Title
 
-TODO Short description: purpose, company, etc
-
-## Recurring Issues and Solutions
-
-See trouble.txt or run `taito --trouble`.
+Short description: purpose, company, etc.
 
 ## Contacts
 
-> NOTE: Contacts are used from package.json. Do not modify the headers of the development and maintenance chapters, and do not add any extra content in the chapters either.
+* Project Manager: John Doe, Company co.
+* Designer: Jane Doe, Company co.
 
-### Development
+> NOTE: Keep contact details somewhere else.
 
-* Project Manager: TODO John Doe, john.doe@domain.com, 050 1234 567
-* Designer: TODO Jane Doe, jane.doe@domain.com, 050 1234 567
+## Recurring issues and solutions
 
-### Maintenance
-
-* Project Manager: TODO John Doe, john.doe@domain.com, 050 1234 567
-
-## Personal data and privacy (GDPR)
-
-### Terms of use and user agreement
-
-TODO ... user agreement on single sign on ...
-
-### Pseudonymisation and anonymisation whenever possible
-
-TODO ...
-
-### Data deletion or anonymisation on user request
-
-TODO ...
+See trouble.txt or run `taito --trouble`.
 
 ## Conventions
+
+Project specific conventions.
+
+## Data protection and privacy
+
+This sections provides a checklist for data protection and privacy. Most of these concern personal data (GDPR), but many of them can be applied to any confidential data to keep the data safe. Go through the checklist while designing a system or adding new features for an existing system, and leave a comment for each.
+
+* [ ] **Privacy policy:** A privacy policy must be in place.
+* [ ] **User concent:** You must ask users to consent on the processing of their personal data in a clear and easily accessible form. Privacy consent needs to be given by means of a *clear affirmative act* which means that a pre-ticked checkbox doesn't suffice. You must also be able to show that the user has consented, and provide an easy way to withdraw consent at any time. (TODO user consent is not required if...?)
+* [ ] **Limited data access:** Grant access to personal data for only those who really need it.
+* [ ] **3rd parties:** If you hand over personal data to 3rd parties (e.g. by using SaaS services), make sure that they are GDPR compliant, and you have user concent for doing so.
+* [ ] **Right to access, correct, and erase personal data:** Users have a right to access, correct, and erase all their personal data. A GUI implementation is not a requirement, but it's best that users can access, edit and delete their personal data themselves by using a GUI.
+* [ ] **Data portability:** User has a right to receive the personal data concerning them in a structured, commonly used and machine-readable format. You don't need to implement a service for that, but keep this in mind.
+* [ ] **Data minimization:** Personal data you collect must be limited to what is necessary, and must be kept only as long as needed.
+* [ ] **Data anonymization:** Anonymize data whenever it is possible (e.g. collecting history data for analytics).
+* [ ] **Pseudonymization:** Pseudonymize data whenever it is possible. For example, keep all user identifying data in a separate system and reference the user with a generated user id.
+* [ ] **Logging:** Keep all sensitive data out of the server logs. Pseudonymization may help you with this. Consider also log filtering either on the application or on the infrasctucture level.
+* [ ] **Backups:** Data minimization and the right-to-erase-personal-data applies also to backups. Don't keep backups of personal data longer that it is really necessary. Thus, in some cases you may need to classify data and store it to different databases based on requirements.
+* [ ] **Data breach notification:** Users have a right to receive a notification about a data breach. Keep this in mind when choosing a user management system.
+* [ ] **Audit logging:** Consider audit logging and other security mechanisms for detecting and investigating misuse and data breaches.
+
+Specific cases:
+
+* [ ] **HTTP access logs:** Paths and query parameters of HTTP requests end up in access logs. They should not contain any sensitive information.
+* [ ] **Google Analytics:** You should not send any personally identifiable information to Google Analytics, see [Best practices to avoid sending Personally Identifiable Information](https://support.google.com/analytics/answer/6366371?hl=en).
 
 ## Architecture Overview
 
@@ -74,4 +79,4 @@ TODO
 
 ## Additional Resources
 
-> NOTE: Links to additional resources e.g. project documentation, specifications.
+> NOTE: Links to additional resources.

@@ -27,7 +27,7 @@ You can also migrate an existing non-taito-cli project by running `taito templat
 * [Kanban boards](https://github.com/taitounited/server-template/projects)
 * [Logs (dev)](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fserver-template-dev)
 * [Logs (prod)](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fserver-template-prod)
-* [Performance metrics (New Relic)](https://TODO-NEW-RELIC)  
+* [Performance metrics (New Relic)](https://TODO-NEW-RELIC)
 * [Project documentation](https://github.com/taitounited/server-template/wiki)
 * [Sentry errors (dev)](https://sentry.io/taitounited/server-template/?query=is%3Aunresolved+environment%3Adev)
 * [Sentry errors (prod)](https://sentry.io/taitounited/server-template/?query=is%3Aunresolved+environment%3Aprod)
@@ -150,13 +150,15 @@ You can run integration and end-to-end tests manually with the `taito test:ENV [
 
 ## Structure
 
+> This section provides some common guidelines only. Project specific conventions are defined in PROJECT.md.
+
 An application should be divided in loosely coupled highly cohesive parts by using a modular directory structure. The following guidelines usually work well at least for a GUI implementation. You might need to break the guidelines once in a while, but still try to keep directories loosely coupled.
 
-* Create directory structure mainly based on feature hierarchy (`reports`, `reports/dashboard`, `reports/usage`, `users`, ...) instead of type (`actions`, `containers`, `components`, `css`, `utils`, ...).
-* Use such file naming that you can easily determine the type from filename (e.g. `*.util.js`, `*.api.js`). This way you don't need to use additional directories for grouping files by type and, therefore, you can freely place a file wherever it is needed. NOTE: In a GUI implementation it is perfecly fine to exclude type from filename of a component to keep filenames shorter (e.g. `List.js`), if you just include the type for all other types of files.
+* Create directory structure mainly based on feature hierarchy (`reports`, `reports/dashboard`, `reports/usage`, `users`, ...) instead of type or layer (`actions`, `containers`, `components`, `css`, `utils`, ...).
+* Use such file naming that you can easily determine the type from filename (e.g. `*.util.js`, `*.api.js`). This way you don't need to use additional directories for grouping files by type, and you can freely place a file wherever it is needed. NOTE: It is ok to exclude type from GUI component filename and name all containers `index.js` to keep imports shorter. Just make sure that you can always determine type from filename and use the same naming convention throughout the codebase.
 * A directory should not contain any references outside of its boundary; with the exception of references to libraries and common directories. You can think of each directory as an independent feature (or subfeature), and each `common` directory as a library that is shared among closely related features (or subfeatures).
 * A file should contain only nearby references (e.g. references to files in the same directory or in a subdirectory directly beneath it); with the exception of references to libraries and common directories, of course.
-* If you break the dependency rules, at least try to avoid making circular dependencies between directories. Also leave a `REFACTOR:` comment if the dependency is the kind that it should be refactored later.
+* If you break the dependency guidelines, at least try to avoid making circular dependencies between directories. Also leave a `REFACTOR:` comment if the dependency is the kind that it should be refactored later.
 
 See [orig-template/client/app](https://github.com/TaitoUnited/orig-template/tree/master/client/app) as an example.
 
