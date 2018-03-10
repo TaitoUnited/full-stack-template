@@ -17,24 +17,6 @@ webpackConfig.entry.unshift(
 
 webpackConfig.output.filename = 'app.js'; // no need to add the hash in dev
 
-/* NOTE:
- * Enable if we devide not to use styled-components
- * and want to use sass + css-modules instead.
- */
-
-// webpackConfig.module.rules.push(
-//   {
-//     test: /\.scss$/,
-//     exclude: /node_modules/,
-//     use: [
-//       'style-loader',
-//       'css-loader?modules',
-//       'postcss-loader',
-//       'sass-loader'
-//     ],
-//   }
-// );
-
 webpackConfig.plugins.push(
 
   new webpack.DefinePlugin({
@@ -51,20 +33,6 @@ webpackConfig.plugins.push(
     __DEVELOPMENT__: true,
     __DEVTOOLS__: true  // <-------- DISABLE redux-devtools HERE
   }),
-
-  /* NOTE:
-   * Enable if we decide not to use styled-components
-   * and want to use sass + css-modules instead.
-   */
-
-  // new webpack.LoaderOptionsPlugin({
-  //   options: {
-  //     sassLoader: { // define options here => sass-loader requires context
-  //       includePaths: [path.resolve(__dirname, 'components', 'static')]
-  //     },
-  //     context: '/'
-  //   }
-  // }),
 
   new webpack.HotModuleReplacementPlugin(),
   // Enable HMR

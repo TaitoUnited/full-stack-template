@@ -47,7 +47,12 @@ var webpackConfig = {
       options: {
         postcss: function () {
           return [autoprefixer];
-        }
+        },
+        // For sass + css-modules
+        sassLoader: { // define options here => sass-loader requires context
+          includePaths: [resolve(__dirname, './src', './assets')]
+        },
+        context: '/'
       }
     })
   ],
@@ -80,6 +85,17 @@ var webpackConfig = {
         use: ['file-loader'],
         exclude: /node_modules/
       }
+      // For sass + css-modules
+      // {
+      //   test: /\.scss$/,
+      //   use: [
+      //     'style-loader',
+      //     'css-loader', // 'css-loader?modules',
+      //     // 'postcss-loader',
+      //     'sass-loader'
+      //   ],
+      //   exclude: /node_modules/
+      // }
     ]
   },
 
