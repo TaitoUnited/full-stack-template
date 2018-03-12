@@ -47,7 +47,7 @@ You can also migrate an existing non-taito-cli project by running `taito templat
 
 ## Quick start
 
-Install linters on host (add `--clean` for clean reinstall):
+Install linters and some libraries on host (add `--clean` for clean reinstall):
 
     $ taito install
 
@@ -98,6 +98,14 @@ List all project related links and open one of them in browser:
 
     $ taito open -h
     $ taito open xxx
+
+Clean:
+
+    $ taito clean: admin                      # Remove admin container image
+    $ taito clean: client                     # Remove client container image
+    $ taito clean: server                     # Remove server container image
+    $ taito clean: npm                        # Remove node_modules
+    $ taito clean                             # Clean everything
 
 The commands mentioned above work also for server environments (`feature`, `dev`, `test`, `staging`, `prod`). Some examples for dev environment:
 
