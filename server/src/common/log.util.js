@@ -96,7 +96,7 @@ const logger = bunyan.createLogger({
   name: config.APP_NAME,
   serializers: bunyan.stdSerializers,
   level: config.DEBUG ? 'trace' : 'info',
-  streams: logFormatStreams[process.env.COMMON_LOG_FORMAT],
+  streams: logFormatStreams[process.env.COMMON_LOG_FORMAT || 'stackdriver'],
 });
 
 logger.info(

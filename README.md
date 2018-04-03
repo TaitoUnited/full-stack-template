@@ -99,12 +99,12 @@ List all project related links and open one of them in browser:
     $ taito open -h
     $ taito open xxx
 
-Clean:
+Cleaning:
 
     $ taito clean: admin                      # Remove admin container image
     $ taito clean: client                     # Remove client container image
     $ taito clean: server                     # Remove server container image
-    $ taito clean: npm                        # Remove node_modules
+    $ taito clean: npm                        # Delete node_modules directories
     $ taito clean                             # Clean everything
 
 The commands mentioned above work also for server environments (`feature`, `dev`, `test`, `staging`, `prod`). Some examples for dev environment:
@@ -130,7 +130,7 @@ The commands mentioned above work also for server environments (`feature`, `dev`
     $ taito db diff:dev test                  # Show diff between dev and test schemas
     $ taito db copy:dev test                  # Copy test database to dev
 
-Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to show command help (e.g `taito git -h`, `taito db -h`, `taito db import -h`). For troubleshooting run `taito --trouble`. See PROJECT.md for project specific conventions and documentation.
+Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to show command help (e.g `taito vc -h`, `taito db -h`, `taito db import -h`). For troubleshooting run `taito --trouble`. See PROJECT.md for project specific conventions and documentation.
 
 > If you run into authorization errors, authenticate with the `taito --auth:ENV` command.
 
@@ -162,8 +162,8 @@ You can run integration and end-to-end tests manually with the `taito test:ENV [
 
 An application should be divided in loosely coupled highly cohesive parts by using a modular directory structure. The following guidelines usually work well at least for a GUI implementation. You might need to break the guidelines once in a while, but still try to keep directories loosely coupled.
 
-* Create directory structure mainly based on feature hierarchy (`reports`, `reports/dashboard`, `reports/usage`, `users`, ...) instead of type or layer (`actions`, `containers`, `components`, `css`, `utils`, ...).
-* Use such file naming that you can easily determine the type from filename (e.g. `*.util.js`, `*.api.js`). This way you don't need to use additional directories for grouping files by type, and you can freely place a file wherever it is needed. NOTE: It is ok to exclude type from GUI component filename and name all containers `index.js` to keep imports shorter. Just make sure that you can always determine type from filename and use the same naming convention throughout the codebase.
+* Create directory structure mainly based on features or concepts (`reports`, `reports/usage`, `users`, ...) instead of technical type or layer (`actions`, `containers`, `components`, `css`, `utils`, ...).
+* Use such file naming that you can easily determine the type from filename (e.g. `*.util.js`, `*.api.js`). This way you don't need to use additional directories for grouping files by type, and you can freely place a file wherever it is needed. NOTE: It is ok to exclude type from GUI component filenames to keep imports shorter. Just make sure that you can always determine type from a filename and use the same naming convention throughout the codebase.
 * A directory should not contain any references outside of its boundary; with the exception of references to libraries and common directories. You can think of each directory as an independent feature (or subfeature), and each `common` directory as a library that is shared among closely related features (or subfeatures).
 * A file should contain only nearby references (e.g. references to files in the same directory or in a subdirectory directly beneath it); with the exception of references to libraries and common directories, of course.
 * If you break the dependency guidelines, at least try to avoid making circular dependencies between directories. Also leave a `REFACTOR:` comment if the dependency is the kind that it should be refactored later.
@@ -171,6 +171,16 @@ An application should be divided in loosely coupled highly cohesive parts by usi
 See [orig-template/client/app](https://github.com/TaitoUnited/orig-template/tree/master/client/app) as an example.
 
 ## Version control
+
+You can manage environment and feature branches using taito-cli. Some examples:
+
+    taito vc feat list               # List all feature branches
+    taito vc feat: pricing           # Switch to the pricing feature branch
+    taito vc feat squash             # Merge the current feature branch to the original branch as a single commit
+    taito vc feat merge              # Merge the current feature branch to the original branch, but rebase first
+    taito vc env list                # List all environment branches
+    taito vc env:dev                 # Switch to the dev environment branch
+    taito vc env merge:test          # Merge the current environment branch to the test environment branch using ff-only
 
 ### Development branches
 
@@ -183,8 +193,6 @@ Development is executed in dev and feature branches. Using feature branches is o
 Code reviews are very important at the beginning of a new software project, because this is the time when the basic foundation is built for the future development. At the beginning, however, it is usually more sensible to do occasional code reviews across the entire codebase instead of feature specific code reviews based on pull-requests.
 
 Note that most feature branches should be short-lived and located only on your local git repository, unless you are going to make a pull-request.
-
-> You can use the `taito git feat` commands to manage your feature branches.
 
 ### Commit messages
 
@@ -244,11 +252,9 @@ Add a new migration:
 
 1. Add a new step to migration plan:
 
-    `taito db add: NAME -r REQUIRES -n 'DESCRIPTION'`, for example:
+    `taito db add: NAME`, for example: `taito db add: role_enum'`
 
-    `taito db add: file.table -r user.table -r property.table -n 'Table for files'`
-
-2. Modify database/deploy/xxx.sql, database/revert/xxx.sql and database/verify/xxx.sql
+2. Modify database/deploy/NAME.sql, database/revert/NAME.sql and database/verify/NAME.sql
 
 3. Deploy the change to your local database:
 
@@ -272,7 +278,7 @@ Deploying to different environments:
 
 > NOTE: Feature, test and staging branches are optional.
 
-> You can run `taito git env list` to list all environment branches and `taito git env merge:ENV SOURCE_BRANCH` to merge an environment branch to another.
+> You can run `taito vc env list` to list all environment branches and `taito vc env merge:ENV SOURCE_BRANCH` to merge an environment branch to another.
 
 > Automatic deployment might be turned off for critical environments (`ci_exec_deploy` setting in `taito-config.sh`). In such case the deployment must be run manually with the `taito -a manual deploy:prod VERSION` command using an admin account after the CI/CD process has ended successfully.
 

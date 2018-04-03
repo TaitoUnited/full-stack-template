@@ -6,7 +6,7 @@
     "types": "if [ -f .flowconfig ]; then flow; elif [ -f tsconfig.json ]; then echo TODO run typescript; fi",
     "lint": "eslint . --ignore-path .eslintignore --quiet",
     "unit": "echo 'TODO run unit tests'",
-    "test": "mocha --require babel-core/register test/*.js",
+    "test": "mocha --require babel-core/register --recursive 'src/**/*.test.js' 'test/**/*.test.js'",
     "start": "npm run start:dev",
     "start:dev": "NODE_ENV=development nodemon -L ./index.js --ignore 'test/*.js' | bunyan -l debug",
     "start:dev:trace": "NODE_ENV=development nodemon -L ./index.js --ignore 'test/*.js' | bunyan",

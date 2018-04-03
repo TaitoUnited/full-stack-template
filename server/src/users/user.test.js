@@ -1,10 +1,10 @@
 // import request from 'request-promise-native';
 import chai from 'chai';
-import { helper, helper2, helper3, helper4 } from './_helpers';
+import { helper, helper2, helper3, helper4 } from '../common/test.util';
 
 const { expect } = chai;
 
-describe('examples', function examples() {
+describe('user', function examples() {
   this.timeout(10000);
 
   describe('examples api', () => {
