@@ -49,86 +49,86 @@ You can also migrate an existing non-taito-cli project by running `taito templat
 
 Install linters and some libraries on host (add `--clean` for clean reinstall):
 
-    $ taito install
+    taito install
 
 Start containers (add `--clean` for clean rebuild):
 
-    $ taito start
+    taito start
 
 Make sure that everything has been initialized (e.g database) (add `--clean` for clean reinit):
 
-    $ taito init
+    taito init
 
 Open app in browser:
 
-    $ taito open app
+    taito open app
 
 Open admin GUI in browser:
 
-    $ taito open admin
+    taito open admin
 
 Show user accounts and other information that you can use to log in:
 
-    $ taito info
+    taito info
 
 Access database:
 
-    $ taito db open                           # access using a command-line tool
-    $ taito db proxy                          # access using a database GUI tool
-    $ taito db import: ./database/file.sql    # import a sql script to database
+    taito db open                           # access using a command-line tool
+    taito db proxy                          # access using a database GUI tool
+    taito db import: ./database/file.sql    # import a sql script to database
 
 Run all tests:
 
-    $ taito unit                              # run all unit tests
-    $ taito unit: server                      # run unit tests of server
-    $ taito test                              # run all integration and end-to-end tests
-    $ taito test: client                      # run integration and end-to-end tests of client
+    taito unit                              # run all unit tests
+    taito unit: server                      # run unit tests of server
+    taito test                              # run all integration and end-to-end tests
+    taito test: client                      # run integration and end-to-end tests of client
 
 Start shell on a container:
 
-    $ taito shell: admin
-    $ taito shell: client
-    $ taito shell: server
+    taito shell: admin
+    taito shell: client
+    taito shell: server
 
 Stop containers:
 
-    $ taito stop
+    taito stop
 
 List all project related links and open one of them in browser:
 
-    $ taito open -h
-    $ taito open xxx
+    taito open -h
+    taito open xxx
 
 Cleaning:
 
-    $ taito clean: admin                      # Remove admin container image
-    $ taito clean: client                     # Remove client container image
-    $ taito clean: server                     # Remove server container image
-    $ taito clean: npm                        # Delete node_modules directories
-    $ taito clean                             # Clean everything
+    taito clean: admin                      # Remove admin container image
+    taito clean: client                     # Remove client container image
+    taito clean: server                     # Remove server container image
+    taito clean: npm                        # Delete node_modules directories
+    taito clean                             # Clean everything
 
 The commands mentioned above work also for server environments (`feature`, `dev`, `test`, `staging`, `prod`). Some examples for dev environment:
 
-    $ taito open app:dev                      # Open application in browser
-    $ taito open admin:dev                    # Open admin GUI in browser
-    $ taito info:dev                          # Show info
-    $ taito status:dev                        # Show status of dev environment
-    $ taito test:dev                          # Run integration and e2e tests
-    $ taito shell:dev server                  # Start shell on server container
-    $ taito logs:dev server                   # Tail logs of server container
-    $ taito open logs:dev                     # Open logs on browser
-    $ taito open storage:dev                  # Open storage bucket on browser
-    $ taito db open:dev                       # Open database on command line
-    $ taito db proxy:dev                      # Start a proxy for database access
-    $ taito db rebase:dev                     # Rebase database by redeploying all migrations
-    $ taito db import:dev ./database/file.sql # Import a file to database
-    $ taito db dump:dev                       # Dump database to a file
-    $ taito db log:dev                        # Show database migration logs
-    $ taito db revert:dev XXX                 # Revert database to change XXX
-    $ taito db deploy:dev                     # Deploy data migrations to database
-    $ taito db recreate:dev                   # Recreate database
-    $ taito db diff:dev test                  # Show diff between dev and test schemas
-    $ taito db copy:dev test                  # Copy test database to dev
+    taito open app:dev                      # Open application in browser
+    taito open admin:dev                    # Open admin GUI in browser
+    taito info:dev                          # Show info
+    taito status:dev                        # Show status of dev environment
+    taito test:dev                          # Run integration and e2e tests
+    taito shell:dev server                  # Start shell on server container
+    taito logs:dev server                   # Tail logs of server container
+    taito open logs:dev                     # Open logs on browser
+    taito open storage:dev                  # Open storage bucket on browser
+    taito db open:dev                       # Open database on command line
+    taito db proxy:dev                      # Start a proxy for database access
+    taito db rebase:dev                     # Rebase database by redeploying all migrations
+    taito db import:dev ./database/file.sql # Import a file to database
+    taito db dump:dev                       # Dump database to a file
+    taito db log:dev                        # Show database migration logs
+    taito db revert:dev XXX                 # Revert database to change XXX
+    taito db deploy:dev                     # Deploy data migrations to database
+    taito db recreate:dev                   # Recreate database
+    taito db diff:dev test                  # Show diff between dev and test schemas
+    taito db copy:dev test                  # Copy test database to dev
 
 Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to show command help (e.g `taito vc -h`, `taito db -h`, `taito db import -h`). For troubleshooting run `taito --trouble`. See PROJECT.md for project specific conventions and documentation.
 
@@ -162,11 +162,11 @@ You can run integration and end-to-end tests manually with the `taito test:ENV [
 
 An application should be divided in loosely coupled highly cohesive parts by using a modular directory structure. The following guidelines usually work well at least for a GUI implementation. You might need to break the guidelines once in a while, but still try to keep directories loosely coupled.
 
-* Create directory structure mainly based on features or concepts (`reports`, `reports/usage`, `users`, ...) instead of technical type or layer (`actions`, `containers`, `components`, `css`, `utils`, ...).
-* Use such file naming that you can easily determine the type from filename (e.g. `*.util.js`, `*.api.js`). This way you don't need to use additional directories for grouping files by type, and you can freely place a file wherever it is needed. NOTE: It is ok to exclude type from GUI component filenames to keep imports shorter. Just make sure that you can always determine type from a filename and use the same naming convention throughout the codebase.
+* Create directory structure mainly based on domain concepts or features (`area`, `billing`, `trip`, `user`, ...) instead of technical type or layer (`actions`, `containers`, `components`, `css`, `utils`, ...).
+* Use such file naming that you can easily determine the type from filename (e.g. `*.util.js`, `*.api.js`). This way you don't need to use additional directories for grouping files by type, and you can freely place a file wherever it is needed. NOTE: It is ok to exclude type from GUI component filenames to keep imports shorter. Just make sure that you can easily determine type and responsibility from a filename and use the same naming convention throughout the codebase.
 * A directory should not contain any references outside of its boundary; with the exception of references to libraries and common directories. You can think of each directory as an independent feature (or subfeature), and each `common` directory as a library that is shared among closely related features (or subfeatures).
 * A file should contain only nearby references (e.g. references to files in the same directory or in a subdirectory directly beneath it); with the exception of references to libraries and common directories, of course.
-* If you break the dependency guidelines, at least try to avoid making circular dependencies between directories. Also leave a `REFACTOR:` comment if the dependency is the kind that it should be refactored later.
+* You cannot always follow the dependency guidelines mentioned above. If you break the guidelines, at least try to avoid making circular dependencies between directories. Also leave a `REFACTOR:` comment if the dependency is the kind that it should be refactored later.
 
 See [orig-template/client/app](https://github.com/TaitoUnited/orig-template/tree/master/client/app) as an example.
 
@@ -280,15 +280,15 @@ Deploying to different environments:
 
 > You can run `taito vc env list` to list all environment branches and `taito vc env merge:ENV SOURCE_BRANCH` to merge an environment branch to another.
 
-> Automatic deployment might be turned off for critical environments (`ci_exec_deploy` setting in `taito-config.sh`). In such case the deployment must be run manually with the `taito -a manual deploy:prod VERSION` command using an admin account after the CI/CD process has ended successfully.
+> Automatic deployment might be turned off for critical environments (`ci_exec_deploy` setting in `taito-config.sh`). In such case the deployment must be run manually with the `taito -a depl deploy:prod VERSION` command using an admin account after the CI/CD process has ended successfully.
 
 Advanced features:
 
-* **Quick deploy**: If you are in a hurry, you can build, push and deploy a container directly to server with the `taito manual build deploy:ENV NAME` command e.g. `taito manual build deploy:dev client`.
+* **Quick deploy**: If you are in a hurry, you can build, push and deploy a container directly to server with the `taito depl build:ENV NAME` command e.g. `taito depl build:dev client`.
 * **Copy production data to staging**: Often it's a good idea to copy production database to staging before merging changes to the staging branch: `taito db copy:staging prod`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db copyquick:staging prod`), but it disconnects all other users connected to the production database until copying is finished and also requires that both databases are located in the same database cluster.
 * **Feature branch**: You can create also an environment for a feature branch: Destroy the old environment first if it exists (`taito env destroy:feature`) and create a new environment for your feature branch (`taito env apply:feature BRANCH`). Currently only one feature environment can exist at a time and therefore the old one needs to be destroyed before the new one is created.
 * **Alternative environments** TODO implement: You can create an alternative environment for an environment by running `taito env alt apply:ENV`. An alternative environment uses the same database as the main environment, but containers are built from an alternative branch. You can use alternative environments e.g. for canary releases and A/B testing by redirecting some of the users to the alternative environment.
-* **Revert app**: Revert application and database to the previous revision by running `taito manual revert:ENV` (application and database steps are confirmed separately). If you need to revert to a specific revision, check current revision by running `taito manual revision:ENV` first and then revert to a specific revision by running `taito manual revert:ENV REVISION`.
+* **Revert app**: Revert application and database to the previous revision by running `taito depl revert:ENV` (application and database steps are confirmed separately). If you need to revert to a specific revision, check current revision by running `taito depl revision:ENV` first and then revert to a specific revision by running `taito depl revert:ENV REVISION`.
 * **Debugging CI builds**: You can build and start production containers locally with the `taito start --clean --prod` command. You can also run any CI build steps defined in cloudbuild.yaml locally with taito-cli.
 
 NOTE: Some of the advanced operations might require admin credentials (e.g. staging/production operations). If you don't have an admin account, ask devops personnel to execute the operation for you.

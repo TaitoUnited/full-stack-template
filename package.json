@@ -47,8 +47,8 @@
     "taito-prepush": "npm-run-all --parallel lint disabled-types unit",
     "types": "if [ -f .flowconfig ]; then flow; elif [ -f tsconfig.json ]; then echo TODO run typescript; fi",
     "disabled-types": "echo flow/typescript check disabled on prepush",
-    "ci-release-pre:prod": "semantic-release pre",
-    "ci-release-post:prod": "semantic-release post"
+    "release-pre:prod": "semantic-release pre",
+    "release-post:prod": "semantic-release post"
   },
   "config": {
     "commitizen": {
