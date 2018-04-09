@@ -118,6 +118,7 @@ The commands mentioned above work also for server environments (`feature`, `dev`
     taito logs:dev server                   # Tail logs of server container
     taito open logs:dev                     # Open logs on browser
     taito open storage:dev                  # Open storage bucket on browser
+    taito init:dev --clean                  # Clean reinit for dev environment
     taito db open:dev                       # Open database on command line
     taito db proxy:dev                      # Start a proxy for database access
     taito db rebase:dev                     # Rebase database by redeploying all migrations
@@ -174,13 +175,16 @@ See [orig-template/client/app](https://github.com/TaitoUnited/orig-template/tree
 
 You can manage environment and feature branches using taito-cli. Some examples:
 
+    taito vc env list                # List all environment branches
+    taito vc env: dev                # Switch to the dev environment branch
+    taito vc env merge               # Merge the current environment branch to the next environment branch
+
     taito vc feat list               # List all feature branches
     taito vc feat: pricing           # Switch to the pricing feature branch
-    taito vc feat squash             # Merge the current feature branch to the original branch as a single commit
-    taito vc feat merge              # Merge the current feature branch to the original branch, but rebase first
-    taito vc env list                # List all environment branches
-    taito vc env:dev                 # Switch to the dev environment branch
-    taito vc env merge:test          # Merge the current environment branch to the test environment branch using ff-only
+    taito vc feat rebase             # Rebase current feature branch with dev branch
+    taito vc feat merge              # Merge current feature branch to the dev branch, optionally rebase first
+    taito vc feat squash             # Merge current feature branch to the dev as a single commit
+    taito vc feat pr                 # Create a pull-request for merging current feature branch to the dev branch
 
 ### Development branches
 
@@ -278,7 +282,7 @@ Deploying to different environments:
 
 > NOTE: Feature, test and staging branches are optional.
 
-> You can run `taito vc env list` to list all environment branches and `taito vc env merge:ENV SOURCE_BRANCH` to merge an environment branch to another.
+> You can run `taito vc env list` to list all environment branches and `taito vc env merge [TARGET_ENV] [SOURCE_ENV]` to merge an environment branch to another.
 
 > Automatic deployment might be turned off for critical environments (`ci_exec_deploy` setting in `taito-config.sh`). In such case the deployment must be run manually with the `taito -a depl deploy:prod VERSION` command using an admin account after the CI/CD process has ended successfully.
 
