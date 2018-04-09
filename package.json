@@ -43,10 +43,10 @@
     "commit": "echo 'Running commitizen locally' && git-cz",
     "commitmsg": "echo 'NOTE: Running validate-commit-msg locally' && validate-commit-msg",
     "precommit": "echo 'SKIP: Skipping linting on commit since we are already continuously linting during development.'",
-    "prepush": "echo 'NOTE: Running prepush inside taito container' && echo taito taito-prepush",
-    "taito-prepush": "npm-run-all --parallel lint disabled-types unit",
+    "prepush": "npm-run-all --parallel lint disabled-types disabled-unit",
     "types": "if [ -f .flowconfig ]; then flow; elif [ -f tsconfig.json ]; then echo TODO run typescript; fi",
     "disabled-types": "echo flow/typescript check disabled on prepush",
+    "disabled-unit": "echo unit tests disabled on prepush",
     "release-pre:prod": "semantic-release pre",
     "release-post:prod": "semantic-release post"
   },
