@@ -44,7 +44,7 @@ Specific cases:
 
 Links:
 
-* [https://gdpr-info.eu/](gdpr-info.eu)
+* [gdpr-info.eu](https://gdpr-info.eu/)
 
 ## Architecture Overview
 
