@@ -16,7 +16,7 @@
     "info:test": "taito secrets:test | grep -A 1 'Showing\\|user.'; echo; echo 'TODO: add test users to package.json (username/password)'",
     "info:staging": "TODO",
     "info:prod": "TODO",
-    "lint": "npm-run-all --parallel lint:admin lint:bot lint:client lint:server lint:worker",
+    "lint": "echo Running lint && npm-run-all --parallel lint:admin lint:bot lint:client lint:server lint:worker",
     "lint:admin": "cd admin && npm run lint",
     "lint:bot": "cd bot && npm run lint",
     "lint:client": "cd client && npm run lint",
