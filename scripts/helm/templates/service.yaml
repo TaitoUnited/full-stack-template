@@ -139,7 +139,7 @@ spec:
     - port: {{ .Values.database.port }}
 {{ end }}
 
-{{ if and (.Values.stack.storage) (eq .Values.env "local") }}
+{{ if .Values.stack.storage }}
 ---
 apiVersion: v1
 kind: Service
