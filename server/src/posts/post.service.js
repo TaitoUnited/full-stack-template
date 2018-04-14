@@ -6,8 +6,6 @@ import PostDAO from './post.dao';
  * - Validates the given parameters.
  * - Authorizes that the user has a right to execute the operation with the
  *   given parameters.
- * - For write operations ensures that there is a transaction present
- *   (most write operation should be atomic).
  * - Executes the operation with the help of fine-grained DAOs and other
  *   services.
  * - Does not operate on http request and response directly.
@@ -27,7 +25,7 @@ export default class PostService {
   }
 
   async create(state, post) {
-    return this.postDAO.create(state.db, post);
+    return this.postDAO.create(state.getTx(), post);
   }
 
   async read(state, id) {
@@ -35,23 +33,14 @@ export default class PostService {
   }
 
   async update(state, post) {
-    // Write operation -> execute the operation inside a transaction
-    return state.tx(async tx => {
-      await this.postDAO.update(tx, post);
-    });
+    await this.postDAO.update(state.getTx(), post);
   }
 
   async patch(state, post) {
-    // Write operation -> execute the operation inside a transaction
-    return state.tx(async tx => {
-      await this.postDAO.patch(tx, post);
-    });
+    await this.postDAO.patch(state.getTx(), post);
   }
 
   async remove(state, id) {
-    // Write operation -> execute the operation inside a transaction
-    return state.tx(async tx => {
-      await this.postDAO.remove(tx, id);
-    });
+    await this.postDAO.remove(state.getTx(), id);
   }
 }

@@ -10,8 +10,6 @@ import FileDAO from './file.dao';
  * - Validates the given parameters.
  * - Authorizes that the user has a right to execute the operation with the
  *   given parameters.
- * - For write operations ensures that there is a transaction present
- *   (most write operation should be atomic).
  * - Executes the operation with the help of fine-grained DAOs and other
  *   services.
  * - Does not operate on http request and response directly.
@@ -36,7 +34,7 @@ export default class FileService {
 
   async create(state, file) {
     // authorize(state).role(roles.admin, roles.user);
-    return this.fileDAO.create(state.db, file);
+    return this.fileDAO.create(state.getTx(), file);
   }
 
   async read(state, id) {
@@ -44,33 +42,24 @@ export default class FileService {
   }
 
   async update(state, file) {
-    // Write operation -> execute the operation inside a transaction
-    return state.tx(async tx => {
-      await this._prepareUpdate(state, tx, file.id, file, true);
-      await this.fileDAO.update(tx, file);
-      // NOTE: You can also call another DAO or service inside the same
-      // transaction, just pass the transaction as parameter
-    });
+    await this._prepareUpdate(state, state.getTx(), file.id, file, true);
+    await this.fileDAO.update(state.getTx(), file);
+    // NOTE: You can also call another DAO or service inside the same
+    // transaction, just pass the transaction as parameter
   }
 
   async patch(state, file) {
-    // Write operation -> execute the operation inside a transaction
-    return state.tx(async tx => {
-      await this._prepareUpdate(state, tx, file.id, file, true);
-      await this.fileDAO.patch(tx, file);
-      // NOTE: You can also call another DAO or service inside the same
-      // transaction, just pass the transaction as parameter
-    });
+    await this._prepareUpdate(state, state.getTx(), file.id, file, true);
+    await this.fileDAO.patch(state.getTx(), file);
+    // NOTE: You can also call another DAO or service inside the same
+    // transaction, just pass the transaction as parameter
   }
 
   async remove(state, id) {
-    // Write operation -> execute the operation inside a transaction
-    return state.tx(async tx => {
-      await this._prepareUpdate(state, tx, id, null, false);
-      await this.fileDAO.removeByFileId(tx, id);
-      // NOTE: You can also call another DAO or service inside the same
-      // transaction, just pass the transaction as parameter
-    });
+    await this._prepareUpdate(state, state.getTx(), id, null, false);
+    await this.fileDAO.removeByFileId(state.getTx(), id);
+    // NOTE: You can also call another DAO or service inside the same
+    // transaction, just pass the transaction as parameter
   }
 
   // Validate and authorize file update
@@ -79,7 +68,7 @@ export default class FileService {
 
     // Check that file exists
     if (shouldAlreadyExist) {
-      oldFile = await this.fileDAO.fetch(tx, fileId);
+      oldFile = await this.fileDAO.fetch(state.getTx(), fileId);
       validate('oldFile', oldFile).found();
     }
 

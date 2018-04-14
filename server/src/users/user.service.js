@@ -6,8 +6,6 @@ import UserDAO from './user.dao';
  * - Validates the given parameters.
  * - Authorizes that the user has a right to execute the operation with the
  *   given parameters.
- * - For write operations ensures that there is a transaction present
- *   (most write operation should be atomic).
  * - Executes the operation with the help of fine-grained DAOs and other
  *   services.
  * - Does not operate on http request and response directly.
@@ -27,7 +25,7 @@ export default class UserService {
   }
 
   async create(state, user) {
-    return this.userDAO.create(state.db, user);
+    return this.userDAO.create(state.getTx(), user);
   }
 
   async read(state, id) {
@@ -35,23 +33,14 @@ export default class UserService {
   }
 
   async update(state, user) {
-    // Write operation -> execute the operation inside a transaction
-    return state.tx(async tx => {
-      await this.userDAO.update(tx, user);
-    });
+    await this.userDAO.update(state.getTx(), user);
   }
 
   async patch(state, user) {
-    // Write operation -> execute the operation inside a transaction
-    return state.tx(async tx => {
-      await this.userDAO.patch(tx, user);
-    });
+    await this.userDAO.patch(state.getTx(), user);
   }
 
   async remove(state, id) {
-    // Write operation -> execute the operation inside a transaction
-    return state.tx(async tx => {
-      await this.userDAO.remove(tx, id);
-    });
+    await this.userDAO.remove(state.getTx(), id);
   }
 }
