@@ -14,6 +14,6 @@ const cn = {
   poolSize: config.DATABASE_POOL_MAX,
 };
 
-export const db = pgp(cn);
+const db = pgp(cn);
 
 export default db;
