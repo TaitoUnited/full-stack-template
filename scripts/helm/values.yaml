@@ -16,6 +16,7 @@ build:
 # Environment
 logFormat: stackdriver
 logLevel: info
+debug: 'false'
 repository:
 imagePullPolicy: ''
 domains:

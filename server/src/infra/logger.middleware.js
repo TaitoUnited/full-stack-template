@@ -19,9 +19,19 @@ export const setupLoggerMiddleware = async (ctx, next) => {
     reqId = uuid.v4(); // No request ID found in headers, so generate our own.
   }
 
-  namespace.set('reqId', reqId);
-  namespace.set('req', ctx.request);
   namespace.set('logCtx', {});
+  namespace.set('reqId', reqId);
+  namespace.set(
+    'req',
+    // Log all request details only in debug mode
+    process.env.COMMON_DEBUG === 'true'
+      ? ctx.request
+      : {
+          'user-agent': ctx.request.headers['user-agent'],
+          referer: ctx.request.headers.referer,
+          'x-real-ip': ctx.request.headers['x-real-ip'],
+        }
+  );
 
   await next();
 

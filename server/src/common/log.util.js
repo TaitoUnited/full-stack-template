@@ -15,10 +15,6 @@ const stackdriverSeverityByBunyanLevel = {
   [bunyan.FATAL]: 'CRITICAL',
 };
 
-const logHeaders = () => {
-  return config.DEBUG;
-};
-
 // https://cloud.google.com/error-reporting/docs/formatting-error-messages
 class StackdriverStream {
   constructor(stream) {
@@ -29,18 +25,18 @@ class StackdriverStream {
       severity: stackdriverSeverityByBunyanLevel[e.level],
       message: (e.msg || '') + (e.err ? ` ${e.err.msg}: ${e.err.stack}` : ''),
       context: {
-        // prettier-ignore
-        httpRequest: !e.req ? undefined : {
-          method: e.req.method,
-          url: e.req.url,
-          responseStatusCode: e.res ? e.res.statusCode : undefined,
-          userAgent: e.req.headers['user-agent'],
-          referrer: e.req.headers.referer,
-          remoteIp: e.req.headers['x-real-ip'],
-          // Extra non-stackdriver attributes
-          // NOTE: We log all headers only in debug mode (security!)
-          headers: logHeaders(e) ? e.req.headers : undefined,
-        },
+        httpRequest: !e.req
+          ? undefined
+          : {
+              method: e.req.method,
+              url: e.req.url,
+              responseStatusCode: e.res ? e.res.statusCode : undefined,
+              userAgent: e.req.headers['user-agent'],
+              referrer: e.req.headers.referer,
+              remoteIp: e.req.headers['x-real-ip'],
+              headers:
+                process.env.COMMON_DEBUG === 'true' ? e.req.headers : undefined,
+            },
         user: 'TODO',
         reportLocation: {
           filePath: 'TODO',
@@ -118,7 +114,7 @@ function _addCtxToLog(args) {
   return [newHead].concat(tail); // newArgs
 }
 
-function mergeToCtx(obj) {
+function mergeToLogCtx(obj) {
   const cur = namespace.get('logCtx');
   namespace.set('logCtx', { ...cur, ...obj });
 }
@@ -132,4 +128,4 @@ log.error = (...args) => logger.error(..._addCtxToLog(args));
 log.fatal = (...args) => logger.fatal(..._addCtxToLog(args));
 
 export default log;
-export { mergeToCtx, log, namespace };
+export { mergeToLogCtx, log, namespace };

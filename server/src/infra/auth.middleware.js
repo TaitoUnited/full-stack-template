@@ -1,6 +1,7 @@
 import jwt from 'koa-jwt';
 import basicAuth from 'koa-basic-auth';
 import config from '../common/common.config';
+import { mergeToLogCtx } from '../common/log.util';
 
 // auth is disabled for these paths
 const skipAuthPaths = [
@@ -65,6 +66,16 @@ const authMiddleware = app => {
       jwt: ctx.state.jwtdata ? ctx.state.jwtdata.sub : null,
     };
     ctx.state.role = rolesByAuth[ctx.state.clientAuthMethod];
+    await next();
+  });
+
+  // Log minimal user details
+  app.use(async (ctx, next) => {
+    mergeToLogCtx({
+      user: {
+        role: ctx.state.role,
+      },
+    });
     await next();
   });
 };

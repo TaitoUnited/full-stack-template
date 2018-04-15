@@ -76,15 +76,15 @@ server-template-server:
     - server-template-database:server-template-database
     - server-template-storage:server-template-storage
   environment:
+    COMMON_COMPANY: companyname
+    COMMON_PROJECT: server-template
     COMMON_ENV: local
-    COMMON_DEBUG: 'true'
+    COMMON_DEBUG: 'false'
     COMMON_LOG_FORMAT: text
     COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
-    COMMON_PROJECT: server-template
-    COMMON_COMPANY: companyname
-    NODE_ENV: development
+    NODE_ENV: development # TODO remove?
     ENV: dev # TODO remove?
-    DEBUG: 'false'
+    DEBUG: 'false' # TODO remove?
     API_BINDADDR: 0.0.0.0
     API_PORT: 3332
     JWT_SECRET: secret

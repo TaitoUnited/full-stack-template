@@ -12,7 +12,7 @@ function mapBool(input) {
 // Basic configs
 config.ROOT_PATH = __dirname;
 config.ENV = process.env.ENV;
-config.DEBUG = mapBool(process.env.DEBUG);
+config.DEBUG = mapBool(process.env.COMMON_DEBUG);
 config.APP_NAME = 'server-template-server';
 config.APP_VERSION = !process.env.BUILD_IMAGE_TAG
   ? undefined

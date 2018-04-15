@@ -12,6 +12,7 @@ stack:
 # Common settings
 
 logLevel: info    # trace, debug, info, warn, error, fatal
+debug: 'false'
 repository: eu.gcr.io/gcloud-temp1/github-taitounited-server-template
 imagePullPolicy: ''
 

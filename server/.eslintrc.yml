@@ -27,7 +27,7 @@ rules:
   quotes: [2, "single"]
   jsx-quotes: [2, "prefer-single"]
   # 2 space indentation
-  indent: [2, 2]
+  # indent: [2, 2]
   # Allow _function/variable names (to show privateness)
   no-underscore-dangle: 0
   # Commas always at the end of line
