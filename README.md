@@ -299,6 +299,11 @@ NOTE: Some of the advanced operations might require admin credentials (e.g. stag
 
 ## Configuration for local development
 
+Done:
+* [ ] Git settings
+* [ ] Stack configuration
+* [ ] Unnecessary examples have been removed
+
 ### Git
 
 Recommended settings for most projects:
@@ -351,6 +356,13 @@ The following implementation changes:
 * Cron jobs
 
 ## Configuration for server environments
+
+Done:
+* [ ] Basic project settings
+* [ ] Dev environment
+* [ ] Test environment
+* [ ] Staging environment
+* [ ] Prod environment
 
 ### Basic settings
 

@@ -19,6 +19,22 @@ Project specific conventions.
 
 ## Data protection and privacy
 
+Done:
+* [ ] Documentation of sensitive data
+* [ ] Data protection checklist
+* [ ] Code review with devops personnel
+
+> Remember to review these also later in case a newly developed feature handles sensivite data.
+
+### Sensitive data
+
+Sensitive data handled by the implementation:
+
+* ...
+* ...
+
+### Data protection checklist
+
 This section provides a checklist for data protection and privacy. Most of these concern personal data (GDPR), but many of them can be applied to any confidential data to keep the data safe. Go through the checklist while designing new features, and leave a comment for each.
 
 * [ ] **Terms of service**: Limitations for user.
@@ -40,6 +56,7 @@ This section provides a checklist for data protection and privacy. Most of these
 Specific cases:
 
 * [ ] **HTTP access logs:** Paths and query parameters of HTTP requests end up in access logs. They should not contain any sensitive information.
+* [ ] **Excessive logging:** You should not log all request headers, or all user details, as they might contain sensitive information.
 * [ ] **Google Analytics:** You should not send any personally identifiable information to Google Analytics, see [Best practices to avoid sending Personally Identifiable Information](https://support.google.com/analytics/answer/6366371?hl=en).
 
 Links:
