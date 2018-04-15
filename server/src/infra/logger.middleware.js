@@ -27,9 +27,11 @@ export const setupLoggerMiddleware = async (ctx, next) => {
     process.env.COMMON_DEBUG === 'true'
       ? ctx.request
       : {
-          'user-agent': ctx.request.headers['user-agent'],
-          referer: ctx.request.headers.referer,
-          'x-real-ip': ctx.request.headers['x-real-ip'],
+          headers: {
+            'user-agent': ctx.request.headers['user-agent'],
+            referer: ctx.request.headers.referer,
+            'x-real-ip': ctx.request.headers['x-real-ip'],
+          },
         }
   );
 
