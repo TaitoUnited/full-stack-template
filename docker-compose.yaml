@@ -79,6 +79,7 @@ server-template-server:
     COMMON_ENV: local
     COMMON_DEBUG: 'true'
     COMMON_LOG_FORMAT: text
+    COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
     COMMON_PROJECT: server-template
     COMMON_COMPANY: companyname
     NODE_ENV: development

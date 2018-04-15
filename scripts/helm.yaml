@@ -9,8 +9,9 @@ stack:
   storage: storage
   worker:
 
-# Default settings
+# Common settings
 
+logLevel: info    # trace, debug, info, warn, error, fatal
 repository: eu.gcr.io/gcloud-temp1/github-taitounited-server-template
 imagePullPolicy: ''
 

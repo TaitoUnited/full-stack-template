@@ -15,13 +15,8 @@ const stackdriverSeverityByBunyanLevel = {
   [bunyan.FATAL]: 'CRITICAL',
 };
 
-const logHeaders = e => {
-  return (
-    config.DEBUG &&
-    (e.level === bunyan.FATAL ||
-      e.level === bunyan.ERROR ||
-      e.level === bunyan.WARN)
-  );
+const logHeaders = () => {
+  return config.DEBUG;
 };
 
 // https://cloud.google.com/error-reporting/docs/formatting-error-messages
@@ -95,7 +90,7 @@ const logFormatStreams = {
 const logger = bunyan.createLogger({
   name: config.APP_NAME,
   serializers: bunyan.stdSerializers,
-  level: config.DEBUG ? 'trace' : 'info',
+  level: process.env.COMMON_LOG_LEVEL || 'info',
   streams: logFormatStreams[process.env.COMMON_LOG_FORMAT || 'stackdriver'],
 });
 
