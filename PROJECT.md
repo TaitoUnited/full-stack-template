@@ -22,9 +22,9 @@ Project specific conventions.
 Done:
 * [ ] Documentation of sensitive data
 * [ ] Data protection checklist
-* [ ] Code review with devops personnel
+* [ ] Code review with DevOps personnel
 
-> Remember to review these also later in case a newly developed feature handles sensivite data.
+> Remember to review these also later in case a newly developed feature handles sensitive data.
 
 ### Sensitive data
 

@@ -6,12 +6,7 @@ const transactionMiddleware = async (ctx, next) => {
   state.db = db;
   state.getTx = () => db;
 
-  if (
-    ctx.method === 'POST' ||
-    ctx.method === 'PUT' ||
-    ctx.method === 'PATCH' ||
-    ctx.method === 'DELETE'
-  ) {
+  if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(ctx.method)) {
     // Transactional
     await db.tx(async tx => {
       state.getTx = () => tx;

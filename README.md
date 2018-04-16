@@ -252,6 +252,8 @@ You can use any of the following types in your commit message. Use at least type
 
 ## Database Migrations
 
+> TODO No migrations at the beginning: `taito init:ENV --clean`. If you remove, leave revert script...
+
 Add a new migration:
 
 1. Add a new step to migration plan:
@@ -302,7 +304,7 @@ NOTE: Some of the advanced operations might require admin credentials (e.g. stag
 Done:
 * [ ] Git settings
 * [ ] Stack configuration
-* [ ] Unnecessary examples have been removed
+* [ ] Removal of irrelevant examples
 
 ### Git
 
@@ -360,8 +362,6 @@ The following implementation changes:
 Done:
 * [ ] Basic project settings
 * [ ] Dev environment
-* [ ] Test environment
-* [ ] Staging environment
 * [ ] Prod environment
 
 ### Basic settings
