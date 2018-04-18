@@ -32,8 +32,8 @@
     "unit": "echo Running unit tests locally && npm-run-all --parallel unit:admin unit:bot unit:client unit:server unit:worker",
     "unit:admin": "cd admin && npm run unit",
     "unit:bot": "cd bot && npm run unit",
-    "unit:client": "cd admin && npm run unit",
-    "unit:server": "cd admin && npm run unit",
+    "unit:client": "cd client && npm run unit",
+    "unit:server": "cd server && npm run unit",
     "unit:worker": "cd worker && npm run unit",
 
     "test": "npm-run-all --parallel test:admin test:bot test:client test:server test:worker",
