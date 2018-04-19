@@ -2,6 +2,8 @@
 
 Short description: purpose, company, etc.
 
+> NOTE: If project consists of multiple repositories, you don't need to documents these matters in all of them.
+
 ## Contacts
 
 * Project Manager: John Doe, Company co.
@@ -16,6 +18,13 @@ See trouble.txt or run `taito --trouble`.
 ## Conventions
 
 Project specific conventions.
+
+## 3rd party services: billing and control
+
+> How billing and control of 3rd party services are distributed between us and the customer.
+
+* ...
+* ...
 
 ## Data protection and privacy
 
