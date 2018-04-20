@@ -151,9 +151,9 @@ You can run unit tests also in local environment with the `taito unit [CONTAINER
 
 All integration and end-to-end test suites are run automatically after application has been deployed to dev environment. You can use any test tools that have been installed as development dependency inside the `builder` container (see `Dockerfile.build`). Settings defined in `taito-config.sh` are passed to the tests, so you can specify your environment specific test settings there. You can also access the database as database proxy is run automatically in background and secrets are passed as environment variables to the tests. Test reports should be placed at the `/xxx/test/reports` directory.
 
-Tests are grouped in test suites (see `suite*.sh` and `zuite.sh` files). All test suites are kept independent by cleaning up data before each test suite execution by running `taito init --clean`. If automatic data cleanup is not necessary, you can turn it off with the `ci_exec_test_init` setting in `taito-config.sh`.
+Tests are grouped in test suites (see `test-suites` files). All test suites are kept independent by cleaning up data before each test suite execution by running `taito init --clean`. If automatic data cleanup is not necessary, you can turn it off with the `ci_exec_test_init` setting in `taito-config.sh`.
 
-You can run integration and end-to-end tests manually with the `taito test:ENV [CONTAINER] [SUITE]` command, for example `taito test:dev server 01`. When executing tests manually, the development container (`Dockerfile`) is used for executing the tests.
+You can run integration and end-to-end tests manually with the `taito test:ENV [CONTAINER] -- [SUITE] [TEST]` command, for example `taito test:dev server`. When executing tests manually, the development container (`Dockerfile`) is used for executing the tests.
 
 > Once you have implemented your first integration or e2e test, enable the CI test execution by setting `ci_exec_test=true` for dev environment.
 
