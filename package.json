@@ -38,10 +38,10 @@
 
     "test": "npm-run-all test:admin test:bot test:client test:server test:worker",
     "test:admin": "taito util-test:${taito_env} admin",
-    "test:bot": "taito util-test:${taito_env} bot",
+    "test:bot": "echo DISABLED taito util-test:${taito_env} bot",
     "test:client": "taito util-test:${taito_env} client",
     "test:server": "taito util-test:${taito_env} server",
-    "test:worker": "taito util-test:${taito_env} worker",
+    "test:worker": "echo DISABLED taito util-test:${taito_env} worker",
 
     "analyze": "npm-run-all --parallel analyze:admin analyze:client",
     "analyze:admin": "cd admin && npm run analyze",
