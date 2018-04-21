@@ -144,7 +144,7 @@ You can run this project without taito-cli, but it is not recommended as you'll 
 Local development (requires [sqitch for postgres](http://sqitch.org/)):
 
     npm install
-    npm install-all
+    npm install-dev
     docker-compose up
     TODO sqitch db deploy
 
