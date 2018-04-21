@@ -36,7 +36,7 @@
     "unit:server": "cd server && npm run unit",
     "unit:worker": "cd worker && npm run unit",
 
-    "test": "npm-run-all --parallel test:admin test:bot test:client test:server test:worker",
+    "test": "npm-run-all test:admin test:bot test:client test:server test:worker",
     "test:admin": "taito util-test:${taito_env} admin",
     "test:bot": "taito util-test:${taito_env} bot",
     "test:client": "taito util-test:${taito_env} client",

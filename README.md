@@ -40,10 +40,10 @@ You can also migrate an existing non-taito-cli project by running `taito templat
 
 ## Prerequisites
 
-* [taito-cli](https://github.com/TaitoUnited/taito-cli#readme)
-* [docker-compose](https://docs.docker.com/compose/install/)
 * [node.js](https://nodejs.org/)
-* eslint and prettier plugins for your code editor
+* [docker-compose](https://docs.docker.com/compose/install/)
+* Optional but recommended: [taito-cli](https://github.com/TaitoUnited/taito-cli#readme)
+* Optional but recommended: eslint and prettier plugins for your code editor
 
 ## Quick start
 
@@ -136,6 +136,19 @@ Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND
 > If you run into authorization errors, authenticate with the `taito --auth:ENV` command.
 
 > It's common that idle applications are run down to save resources on non-production environments. If your application seems to be down, you can start it by running `taito start:ENV`, or by pushing some changes to git.
+
+### Running without taito-cli
+
+You can run this project without taito-cli, but it is not recommended as you'll lose many of the additional features that taito-cli provides.
+
+Local development (requires [sqitch for postgres](http://sqitch.org/)):
+
+    npm install
+    npm install-all
+    docker-compose up
+    TODO sqitch db deploy
+
+Continuous integration: If you want to build and deploy the project without taito-cli, you'll have to write the CI scripts yourself.
 
 ## Automated tests
 
