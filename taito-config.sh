@@ -68,11 +68,6 @@ export ci_exec_test_wait=120      # how many seconds to wait for deployment/rest
 export ci_exec_test_init=false    # run 'init --clean' before each test suite
 export ci_exec_revert=false       # revert deploy automatically on fail
 
-# Test suite arguments
-export test_api_url="${taito_app_url}/api"
-export test_user="test"
-export test_password="password"
-
 # Override settings for different environments:
 # local, feature, dev, test, staging, prod
 case "${taito_env}" in
@@ -114,6 +109,14 @@ case "${taito_env}" in
 esac
 
 # --- Derived values ---
+
+# Test suite parameters
+# NOTE: env variable is passed to the test without the test_xxx_ prefix
+export test_client_test_user="test"
+export test_client_test_password="password"
+export test_server_test_user="test"
+export test_server_test_password="password"
+export test_server_test_api_url="${taito_app_url}/api"
 
 # gcloud plugin
 export gcloud_project="${taito_zone}"
