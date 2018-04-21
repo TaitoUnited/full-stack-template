@@ -6,7 +6,7 @@
     "types": "if [ -f .flowconfig ]; then flow; elif [ -f tsconfig.json ]; then echo TODO run typescript; fi",
     "lint": "eslint . --ignore-path .eslintignore --quiet",
     "unit": "mocha --require babel-core/register --recursive 'src/**/*.unit.js' 'test/**/*.unit.js'",
-    "test": "mocha --require babel-core/register --recursive 'src/**/*.test.js' 'test/**/*.test.js'",
+    "test": "mocha --require babel-core/register --recursive \"src/**/${test_name:-*}.test.js\" \"test/**/${test_name:-*}.test.js\"",
     "start": "npm run start:dev",
     "start:dev": "NODE_ENV=development nodemon -L ./index.js --ignore 'test/*.js' | bunyan -l debug",
     "start:dev:trace": "NODE_ENV=development nodemon -L ./index.js --ignore 'test/*.js' | bunyan",
