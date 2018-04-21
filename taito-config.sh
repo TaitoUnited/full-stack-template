@@ -64,7 +64,7 @@ export ci_stack="admin client cache database server storage"
 export ci_exec_build=false        # build a container if does not exist already
 export ci_exec_deploy=true        # deploy automatically
 export ci_exec_test=false         # execute test suites after deploy
-export ci_exec_test_wait=120      # how many seconds to wait for deployment/restart
+export ci_exec_test_wait=1        # how many seconds to wait for deployment/restart
 export ci_exec_test_init=false    # run 'init --clean' before each test suite
 export ci_exec_revert=false       # revert deploy automatically on fail
 
