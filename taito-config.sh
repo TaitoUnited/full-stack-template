@@ -25,7 +25,7 @@ export taito_family=""
 export taito_application="template"
 export taito_suffix=""
 export taito_namespace="${taito_project}-${taito_env:?}"
-export taito_namespace2="${taito_company}-dev"
+export taito_resource_namespace="${taito_company}-dev"
 export taito_registry="${template_default_registry:?}/${taito_zone}/${taito_repo_location}-${taito_repo_name}"
 export taito_app_url="https://${taito_namespace}.${template_default_domain:?}"
 export taito_admin_url="${taito_app_url}/admin/"
@@ -76,14 +76,14 @@ case "${taito_env}" in
     export taito_zone="${template_default_zone_prod:?}"
     export gcloud_region="${template_default_provider_region_prod:?}"
     export gcloud_zone="${template_default_provider_region_prod:?}"
-    export taito_namespace2="${taito_company}-prod"
+    export taito_resource_namespace="${taito_company}-prod"
     ;;
   staging)
     # staging overrides
     export taito_zone="${template_default_zone_prod:?}"
     export gcloud_region="${template_default_provider_region_prod:?}"
     export gcloud_zone="${template_default_provider_region_prod:?}"
-    export taito_namespace2="${taito_company}-prod"
+    export taito_resource_namespace="${taito_company}-prod"
     ;;
   test)
     # test overrides
@@ -145,7 +145,7 @@ export link_urls="\
     Container images \
   * artifacts=https://TODO-DOCS-AND-TEST-REPORTS \
     Generated documentation and test reports \
-  * storage:ENV#storage=https://console.cloud.google.com/storage/browser/${taito_project}-${taito_env}?project=${taito_namespace2} \
+  * storage:ENV#storage=https://console.cloud.google.com/storage/browser/${taito_project}-${taito_env}?project=${taito_resource_namespace} \
     Storage bucket (:ENV) \
   * logs:ENV#logs=https://console.cloud.google.com/logs/viewer?project=${taito_zone}&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F${kubectl_name}%2Fnamespace_id%2F${taito_namespace} \
     Logs (:ENV) \

@@ -26,10 +26,11 @@ Project specific conventions.
 * ...
 * ...
 
-## Data protection and privacy
+## Security
 
 Done:
 * [ ] Documentation of sensitive data
+* [ ] Security checklist
 * [ ] Data protection checklist
 * [ ] Code review with DevOps personnel
 
@@ -42,11 +43,29 @@ Sensitive data handled by the implementation:
 * ...
 * ...
 
-### Data protection checklist
+### Security checklist
+
+TODO This is short list of ... See OWASP.
+
+Frontend:
+
+* [ ] **Google Analytics:** You should not send any personally identifiable information to Google Analytics, see [Best practices to avoid sending Personally Identifiable Information](https://support.google.com/analytics/answer/6366371?hl=en).
+* TODO...
+
+Backend:
+
+* [ ] **HTTP access logs:** Paths and query parameters of HTTP requests end up in access logs. They should not contain any sensitive information. Use request headers or body instead.
+* [ ] **Excessive logging:** You should never log all request headers or body content in production environment, or full user details, as they might contain sensitive information like security tokens or personal details.
+* [ ] **SQL injection**: TODO ... You should consider also javascript property names and query parameters names as user input because `{ "DELETE * FROM USERS": "true" }` is valid json.
+* [ ] **Global URL path matching bypass**: Some router libraries (e.g. koa-router) do not use exact URL path matching by default. If you implement global URL path matching, there might be ways to call a route with an URL that bypasses that global logic if you are not careful. Even worse, router library path matching logic might change some way once library is upgraded to a newer version.
+* [ ] **Global authorization bypass**: There should be authorization in place on route or service level in addition to the global token handling (see `Global URL path matching bypass`).
+* [ ] **CORS disable**: TODO ...
+
+### Data protection and privacy checklist
 
 This section provides a checklist for data protection and privacy. Most of these concern personal data (GDPR), but many of them can be applied to any confidential data to keep the data safe. Go through the checklist while designing new features, and leave a comment for each.
 
-* [ ] **Terms of service**: Limitations for user.
+* [ ] **Terms of service**: Limitations for user (not a requirement).
 * [ ] **Privacy policy:** How user data may be used.
 * [ ] **User consent:** You must ask users to consent on the processing of their personal data in a clear and easily accessible form. You must be able to show that the user has consented, provide an easy way to withdraw consent at any time, and also ask consent again if changes have been made to the terms of service or privacy policy. Privacy consent needs to be given by means of a *clear affirmative act* which means that a pre-ticked checkbox doesn't suffice.  (TODO user consent is not required if...?)
 * [ ] **Children as users:** TODO
@@ -61,12 +80,6 @@ This section provides a checklist for data protection and privacy. Most of these
 * [ ] **Backups:** Data minimization and the right-to-erase-all-personal-data applies also to backups. Do not keep backups of personal data longer than it is really necessary (data should be erased within 30 days of deletion request). If you are required to keep backups of some data for a long period of time, consider pseudonymization and storing data to different databases based on requirements. NOTE: Backups might still be a bit of an open issue. It is not clear if the 30 days limit applies to backups also.
 * [ ] **Data breach notification:** Users have a right to receive a notification about a data breach without undue delay, if the data breach is likely to result in a high risk to his rights and freedoms. Keep this in mind when choosing an user management system. NOTE: Supervisory authority need to be informed not later than 72 hours after having become aware of the data breach.
 * [ ] **Audit logging:** Consider audit logging and other security mechanisms for detecting and investigating potential misuse and data breaches.
-
-Specific cases:
-
-* [ ] **HTTP access logs:** Paths and query parameters of HTTP requests end up in access logs. They should not contain any sensitive information.
-* [ ] **Excessive logging:** You should not log all request headers, or all user details, as they might contain sensitive information.
-* [ ] **Google Analytics:** You should not send any personally identifiable information to Google Analytics, see [Best practices to avoid sending Personally Identifiable Information](https://support.google.com/analytics/answer/6366371?hl=en).
 
 Links:
 
