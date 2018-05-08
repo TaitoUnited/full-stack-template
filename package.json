@@ -14,7 +14,7 @@
     "taito-init:clean": "taito -z init:${taito_env} --clean && npm run import-db-data",
     "taito-init:local:clean": "npm run taito-init:clean && npm run clean:storage",
     "clean:storage": "echo Cleaning storage; rm -rf ./storage/bucket/*; rm -rf ./storage/.minio.sys/buckets/bucket/*/",
-    "import-db-data": "if [[ -f ./database/data/${taito_env}.sql ]]; then taito db-import:${taito_env} ./database/data/${taito_env}.sql; fi",
+    "import-db-data": "if [ -f ./database/data/${taito_env}.sql ]; then taito db-import:${taito_env} ./database/data/${taito_env}.sql; fi",
 
     "info:local": "taito secrets | grep 'Showing\\|PASSWORD'; echo; echo 'TODO: add local users to package.json (username/password)'",
     "info:dev": "taito secrets:dev | grep -A 1 'Showing\\|user.'; echo; echo 'TODO: add dev users to package.json (username/password)'",
