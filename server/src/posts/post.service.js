@@ -3,9 +3,10 @@ import PostDAO from './post.dao';
 /**
  * Responsibilities of a service:
  *
- * - Validates the given parameters.
  * - Authorizes that the user has a right to execute the operation with the
  *   given parameters.
+ * - Validates the given parameters (NOTE: only for such part that is not
+ *   handled by schema validation tools like joi or swagger)
  * - Executes the operation with the help of fine-grained DAOs and other
  *   services.
  * - Does not operate on http request and response directly.
