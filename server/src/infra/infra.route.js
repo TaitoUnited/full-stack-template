@@ -32,14 +32,6 @@ export default class InfraRoute extends BaseRoute {
 
     // Polled by Kubernetes to check that container is alive
     this.router.get('/healthz', async (ctx, next) => {
-      // Check that database connection is up
-      // TODO might cause restart automatically also if there is lots of
-      // traffic that end up taking all the database connections
-      await ctx.state.getTx().any(`
-        SELECT *
-        FROM example_user
-        LIMIT 1
-      `);
       ctx.body = {
         status: 'OK',
       };
