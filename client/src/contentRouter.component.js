@@ -7,7 +7,7 @@ import ResultViewContainer from './search/resultView.container';
 import FilesViewContainer from './files/filesView.container';
 import ReportViewContainer from './reports/reportView.container';
 import UsersViewContainer from './users/usersView.container';
-import OldContainer from './old/vanilla.container';
+import Vanilla from './vanilla';
 
 const StyledMain = styled.main`
   z-index: 1400;
@@ -32,7 +32,7 @@ const ContentRouter = ({ menuVisible, theme }) => (
     <Route path='/files' component={FilesViewContainer} />
     <Route path='/reports' component={ReportViewContainer} />
     <Route path='/users' component={UsersViewContainer} />
-    <Route path='/old' component={OldContainer} />
+    <Route path='/vanilla' component={Vanilla} />
   </StyledMain>
 );
 

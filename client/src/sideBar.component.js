@@ -66,6 +66,11 @@ const SideBar = ({ menuVisible }) => (
       <StyledTitle>Examples</StyledTitle>
 
       <List>
+        <StyledLink to='/vanilla'>
+          <ListItem button>
+            <ListItemText primary='Vanilla' />
+          </ListItem>
+        </StyledLink>
         <StyledLink to='/search'>
           <ListItem button>
             <ListItemText primary='Search' />
@@ -114,16 +119,6 @@ const SideBar = ({ menuVisible }) => (
         <StyledLink to='/layouts/infinite-wall'>
           <ListItem button>
             <ListItemText primary='Infinite wall' />
-          </ListItem>
-        </StyledLink>
-      </List>
-
-      <StyledTitle>Old</StyledTitle>
-
-      <List>
-        <StyledLink to='/old'>
-          <ListItem button>
-            <ListItemText primary='Old' />
           </ListItem>
         </StyledLink>
       </List>
