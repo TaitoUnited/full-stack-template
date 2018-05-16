@@ -1,4 +1,4 @@
--- Verify server_template:user.table on pg
+-- Verify server_template:example_user on pg
 
 BEGIN;
 

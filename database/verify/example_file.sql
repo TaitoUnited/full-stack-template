@@ -1,4 +1,4 @@
--- Verify server_template:file.table on pg
+-- Verify server_template:example_file on pg
 
 BEGIN;
 

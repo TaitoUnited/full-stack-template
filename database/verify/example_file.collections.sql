@@ -1,4 +1,4 @@
--- Verify server_template:fileCollection.alter on pg
+-- Verify server_template:example_file.collections on pg
 
 BEGIN;
 

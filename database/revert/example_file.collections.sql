@@ -1,4 +1,4 @@
--- Revert server_template:fileCollection.alter from pg
+-- Revert server_template:example_file.collections from pg
 
 BEGIN;
 

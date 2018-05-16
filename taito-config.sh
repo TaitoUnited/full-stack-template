@@ -12,8 +12,7 @@ export taito_plugins=" \
   gcloud:-local gcloud-builder:-local \
   sentry semantic npm git links-global"
 
-# Common project settings for all plugins
-export taito_environments="dev prod"
+# Basic project settings for all plugins
 export taito_organization="${template_default_organization:?}"
 export taito_zone="${template_default_zone:?}"
 export taito_provider="${template_default_provider:?}"
@@ -30,6 +29,18 @@ export taito_registry="${template_default_registry:?}/${taito_zone}/${taito_repo
 export taito_app_url="https://${taito_namespace}.${template_default_domain:?}"
 export taito_admin_url="${taito_app_url}/admin/"
 
+# Structure definitions for all plugins
+export taito_environments="dev prod"
+export taito_components="admin client cache database server storage"
+export taito_databases="database"
+
+# Database definitions for database plugins
+# TODO postgres_reports_instance=... --> how about starting proxies?
+export database_instance="common-postgres"
+export database_name="${taito_project//-/_}_${taito_env}"
+export database_host="localhost"
+export database_port="${gcloud_sql_proxy_port}"
+
 # docker plugin
 export dockerfile=Dockerfile
 
@@ -41,12 +52,6 @@ export gcloud_cdn_enabled=false
 
 # Kubernetes plugin
 export kubectl_name="kube1" # TODO rename to common-kubernetes
-
-# Database plugins (postgres/mysql/...)
-export database_instance="common-postgres"
-export database_name="${taito_project//-/_}_${taito_env}"
-export database_host="localhost"
-export database_port="${gcloud_sql_proxy_port}"
 
 # Sqitch plugin
 export sqitch_engine="pg" # pq/mysql/oracle/sqlite/vertica/firebird
@@ -60,7 +65,7 @@ export sentry_organization="${taito_organization}"
 
 # Settings for builds
 # NOTE: Most of these should be enabled for dev and feature envs only
-export ci_stack="admin client cache database server storage"
+export ci_stack="${taito_components}" # TODO remove ci_stack env var
 export ci_exec_build=false        # build a container if does not exist already
 export ci_exec_deploy=true        # deploy automatically
 export ci_exec_test=false         # execute test suites after deploy

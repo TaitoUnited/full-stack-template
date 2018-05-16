@@ -1,5 +1,5 @@
--- Deploy server_template:user.table to pg
--- requires: app.schema
+-- Deploy server_template:example_user to pg
+-- requires: schema
 
 BEGIN;
 

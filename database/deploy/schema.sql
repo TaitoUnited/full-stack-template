@@ -1,4 +1,4 @@
--- Deploy server_template:app.schema to pg
+-- Deploy server_template:schema to pg
 
 BEGIN;
 
