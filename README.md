@@ -313,7 +313,7 @@ Deploying to different environments:
 
 > NOTE: Feature, test and staging branches are optional.
 
-> NOTE: You can use taito-cli to manage [environment branches](#version-control).
+> NOTE: You can use taito-cli to [manage environment branches](#version-control).
 
 > Automatic deployment might be turned off for critical environments (`ci_exec_deploy` setting in `taito-config.sh`). In such case the deployment must be run manually with the `taito -a depl deploy:prod VERSION` command using an admin account after the CI/CD process has ended successfully.
 
@@ -352,14 +352,15 @@ Recommended settings for most projects:
 
 ### Stack
 
-The [orig-template](https://github.com/TaitoUnited/orig-template/) comes with preconfigured stack components that you can use. Remove stack components that you don't need. You can change the stack by deleting unnecessary directories and modifying the following files:
+The [orig-template](https://github.com/TaitoUnited/orig-template/) comes with preconfigured stack components that you can use. Remove stack components that you don't need. You can change the stack by:
 
-* `docker-compose.yaml`: containers for local development.
-* `docker-nginx.conf`: 'ingress' for local development.
-* `package.json`: some container specific scripts.
-* `taito-config.sh`: the `ci_stack` setting. You may also want to remove some of the `taito_plugins`.
-* `scripts/helm.yaml`: the `stack` setting at the beginning of file.
-* `cloudbuild.yaml`: the `images` setting at the beginning of file.
+* Directories: Remove all extra directories. For example, if your application contains only `application gui`, `api` and `database`, remove all but the `client`, `server`, `database` and `scripts` directories.
+* `docker-compose.yaml`: Remove all containers and links that you don't need. For example, if your application contains only `application gui`, `api` and `database`, remove all but the `server-template-ingress`, `server-template-client`, `server-template-server` and `server-template-database` containers and links.
+* `docker-nginx.conf`: Remove all location paths that you don't need. For example, if your application contains only `application gui` and `api`, you can remove the `/admin` location.
+* `cloudbuild.yaml`: Modify the `images` setting at the beginning of the file by removing the extra images that you don't need. For example, if your application contains only `application gui` and `api`, you can remove the `admin` image.
+* `ci_stack` setting in `taito-config.sh`: Remove stack components that you don't need. For example, if your application contains only `application gui`, `api` and `database`, remove all but the `client`, `server` and `database` components.
+* `scripts/helm.yaml`: Modify `stack` setting at the beginning of the file by leaving only the ones that you left in `ci_stack` setting.
+* `link_urls` in `taito-config.sh`: You can remove the `admin` and `storage` links if your application doesn't need them.
 
 If you later need to add stack components, see [orig-template](https://github.com/TaitoUnited/orig-template/) for examples.
 
