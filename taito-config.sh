@@ -39,7 +39,8 @@ export taito_databases="database"
 export database_instance="common-postgres"
 export database_name="${taito_project//-/_}_${taito_env}"
 export database_host="localhost"
-export database_port="${gcloud_sql_proxy_port}"
+export database_proxy_port="5001"
+export database_port="${database_proxy_port}"
 
 # docker plugin
 export dockerfile=Dockerfile
@@ -47,7 +48,7 @@ export dockerfile=Dockerfile
 # gcloud plugin
 export gcloud_region="${template_default_provider_region:?}"
 export gcloud_zone="${template_default_provider_zone:?}"
-export gcloud_sql_proxy_port="5001"
+export gcloud_sql_proxy_port="${database_proxy_port}"
 export gcloud_cdn_enabled=false
 
 # Kubernetes plugin
