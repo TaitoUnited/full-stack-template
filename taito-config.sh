@@ -75,14 +75,14 @@ case "${taito_env}" in
     # prod overrides
     export taito_zone="${template_default_zone_prod:?}"
     export gcloud_region="${template_default_provider_region_prod:?}"
-    export gcloud_zone="${template_default_provider_region_prod:?}"
+    export gcloud_zone="${template_default_provider_zone:?}"
     export taito_resource_namespace="${taito_company}-prod"
     ;;
   staging)
     # staging overrides
     export taito_zone="${template_default_zone_prod:?}"
     export gcloud_region="${template_default_provider_region_prod:?}"
-    export gcloud_zone="${template_default_provider_region_prod:?}"
+    export gcloud_zone="${template_default_provider_zone:?}"
     export taito_resource_namespace="${taito_company}-prod"
     ;;
   test)

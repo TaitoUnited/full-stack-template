@@ -38,6 +38,8 @@ You can also migrate an existing non-taito-cli project by running `taito templat
 
 [//]: # (GENERATED LINKS END)
 
+> You can update this section by configuring links in `taito-config.sh` and running `taito project docs`.
+
 ## Prerequisites
 
 * [node.js](https://nodejs.org/)
@@ -211,6 +213,8 @@ You can manage environment and feature branches using taito-cli. Some examples:
     taito vc feat squash             # Merge current feature branch to the dev as a single commit
     taito vc feat pr                 # Create a pull-request for merging current feature branch to the dev branch
 
+> Alternatively you can use git commands directly. Just remember that merge between environment branches should always be executed as fast-forward.
+
 ### Development branches
 
 Development is executed in dev and feature branches. Using feature branches is optional, but they are recommended to be used at least in the following situations:
@@ -303,13 +307,13 @@ Deploying to different environments:
 
 * feature: Push to feature branch.
 * dev: Push to dev branch.
-* test: Merge changes to test branch.
-* staging: Merge changes to staging branch.
-* prod: Merge changes to master branch. Version number and release notes are generated automatically by the CI/CD tool.
+* test: Merge changes to test branch using fast-forward.
+* staging: Merge changes to staging branch using fast-forward.
+* prod: Merge changes to master branch using fast-forward. Version number and release notes are generated automatically by the CI/CD tool.
 
 > NOTE: Feature, test and staging branches are optional.
 
-> You can run `taito vc env list` to list all environment branches and `taito vc env merge [TARGET_ENV] [SOURCE_ENV]` to merge an environment branch to another.
+> NOTE: You can use taito-cli to manage [environment branches](#version-control).
 
 > Automatic deployment might be turned off for critical environments (`ci_exec_deploy` setting in `taito-config.sh`). In such case the deployment must be run manually with the `taito -a depl deploy:prod VERSION` command using an admin account after the CI/CD process has ended successfully.
 
