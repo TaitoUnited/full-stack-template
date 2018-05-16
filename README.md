@@ -360,6 +360,8 @@ The [orig-template](https://github.com/TaitoUnited/orig-template/) comes with pr
 * `cloudbuild.yaml`: Modify the `images` setting at the beginning of the file by removing the extra images that you don't need. For example, if your application contains only `application gui` and `api`, you can remove the `admin` image.
 * `ci_stack` setting in `taito-config.sh`: Remove stack components that you don't need. For example, if your application contains only `application gui`, `api` and `database`, remove all but the `client`, `server` and `database` components.
 * `scripts/helm.yaml`: Modify `stack` setting at the beginning of the file by leaving only the ones that you left in `ci_stack` setting.
+* secrets in `scripts/helm.yaml`: If basic auth provided by nginx suffices, you can remove the `jwt.*` and `user.*` secrets. If you don't need permanent storage for files, you can remove the `storage.*` and `gcloud.*` secrets.
+* `taito_secrets` in `taito-config.sh`: If basic auth provided by nginx suffices, you can remove the `jwt.*` and `user.*` secrets. If you don't need permanent storage for files, you can remove the `storage.*` and `gcloud.*` secrets.
 * `link_urls` in `taito-config.sh`: You can remove the `admin` and `storage` links if your application doesn't need them.
 
 If you later need to add stack components, see [orig-template](https://github.com/TaitoUnited/orig-template/) for examples.
