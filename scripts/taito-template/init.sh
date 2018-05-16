@@ -25,7 +25,13 @@ if [[ ${mode} != "upgrade" ]]; then
   echo
   echo "--- Choose basic auth credentials ---"
   echo
-  echo "Simple basic auth username:"
+  echo "The application is protected by basic auth until it provides some kind"
+  echo "of authentication scheme of its own. The temporary basic auth"
+  echo "username/password will be shared among developers."
+  echo
+  echo "Choose a simple username and password that are easy to remember."
+  echo "Also write them down so you can remember them later."
+  echo
   read -r auth_username
   until htpasswd -c scripts/helm/.htpasswd ${auth_username}
   do

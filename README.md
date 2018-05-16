@@ -331,11 +331,20 @@ NOTE: Some of the advanced operations might require admin credentials (e.g. stag
 ## Configuration for local development
 
 Done:
+* [ ] Temporary basic auth password
 * [ ] Git settings
 * [ ] Stack configuration
 * [ ] Removal of irrelevant examples
 
-### Git
+### Temporary basic auth password
+
+Write down the username/password to `show-basic-auth` script of `package.json`:
+
+```
+"show-basic-auth": "echo Temporary basic auth username/password: TODO",
+```
+
+### Git settings
 
 Recommended settings for most projects:
 
@@ -350,7 +359,7 @@ Recommended settings for most projects:
 * Branches - Default branch: dev
 * Branches - Protected branch: master (TODO more protection settings)
 
-### Stack
+### Stack configuration
 
 The [orig-template](https://github.com/TaitoUnited/orig-template/) comes with preconfigured stack components that you can use. Remove stack components that you don't need. You can change the stack by:
 
