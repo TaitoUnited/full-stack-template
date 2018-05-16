@@ -53,8 +53,8 @@ echo "Please wait..."
 # Remove MIT license
 # TODO leave a reference to the original?
 rm LICENSE
-grep -v '"license":' < package.json > package.json.tmp
-mv package.json.tmp package.json
+# grep -v '"license":' < package.json > package.json.tmp
+# mv package.json.tmp package.json
 
 # Replace repository url in package.json
 sed ${sedi} -- "s|TaitoUnited/server-template.git|${taito_organization}/${taito_repo_name}.git|g" package.json
@@ -69,8 +69,9 @@ modifications minimal and improve the original instead. Project \
 specific documentation is located in PROJECT.md."
 echo
 sed -n -e '/TEMPLATE NOTE END/,$p' README.md
-} >> README.md.tmp
-mv -f README.md.tmp README.md
+} >> temp
+truncate --size 0 README.md
+cat temp > README.md
 
 # Add 'do not modify' note to readme of helm chart
 echo \
@@ -79,7 +80,8 @@ echo \
 located here only to avoid accidental build breaks. Do not modify it. \
 Improve the original instead." | \
   cat - scripts/helm/README.md > temp && \
-  mv -f temp scripts/helm/README.md
+  truncate --size 0 scripts/helm/README.md && \
+  cat temp > scripts/helm/README.md
 
 # Add 'do not modify' note to readme of terraform
 echo \
@@ -88,7 +90,8 @@ echo \
 located here only to avoid accidental build breaks. Do not modify them. \
 Improve the originals instead." | \
   cat - scripts/terraform/README.md > temp && \
-  mv -f temp scripts/terraform/README.md
+  truncate --size 0 scripts/terraform/README.md && \
+  cat temp > scripts/terraform/README.md
 
 # Add 'do not modify' note to cloudbuild.yaml
 printf \
@@ -96,7 +99,8 @@ printf \
 # It is located here only to avoid accidental build breaks. Keep modifications \n\
 # minimal and improve the original instead.\n\n" | \
   cat - cloudbuild.yaml > temp && \
-  mv -f temp cloudbuild.yaml
+  truncate --size 0 cloudbuild.yaml && \
+  cat temp > cloudbuild.yaml
 
 # Replace some strings
 if [ "$(uname)" = "Darwin" ]; then
@@ -156,3 +160,5 @@ sed ${sedi} -- "s/\${template_default_dest_git:?}/${template_default_dest_git}/g
 # Remove template settings from cloudbuild.yaml
 sed ${sedi} -- "s/\${_TEMPLATE_DEFAULT_TAITO_IMAGE}/${template_default_taito_image}/g" taito-config.sh
 sed ${sedi} -- '/_TEMPLATE_DEFAULT_/d' cloudbuild.yaml
+
+rm -f temp
