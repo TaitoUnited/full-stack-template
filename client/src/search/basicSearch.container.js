@@ -2,7 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { Button } from 'material-ui';
+import { Button } from '@material-ui/core';
 
 import { search } from './search.ducks.js';
 

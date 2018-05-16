@@ -1,13 +1,13 @@
 {
   "presets": [
     [
-      "es2015",
+      "env",
       {
         "loose": true,
         "modules": false
       }
     ],
-    "flow",
+    // "flow",
     "stage-2",
     "react"
   ],

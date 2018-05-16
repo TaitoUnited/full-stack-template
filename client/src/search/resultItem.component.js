@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import { Button, Paper } from 'material-ui';
+import { Button, Paper } from '@material-ui/core';
 
 const contentByType = {
   picture: ({ name, description }) => `${name} ${description}`,

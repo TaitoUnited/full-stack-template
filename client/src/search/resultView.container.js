@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { Divider } from 'material-ui';
+import { Divider } from '@material-ui/core';
 import View from '~layout/view.component';
 import Paging from '~layout/paging.component';
 

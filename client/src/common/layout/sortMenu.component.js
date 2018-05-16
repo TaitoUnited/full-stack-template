@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, MenuItem, Button } from 'material-ui';
+import { Menu, MenuItem, Button } from '@material-ui/core';
 
 class SortMenu extends React.Component {
   state = {

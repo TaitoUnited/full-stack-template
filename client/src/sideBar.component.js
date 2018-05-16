@@ -1,7 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { Drawer, List, ListItem, ListItemText, Typography } from 'material-ui';
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  Typography
+} from '@material-ui/core';
 
 // const tooltipsByName = {
 //   search: `

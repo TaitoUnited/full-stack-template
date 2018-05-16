@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button } from 'material-ui';
+import { Button } from '@material-ui/core';
 
 import SortMenu from './sortMenu.component.js';
 import PageMenu from './pageMenu.component.js';

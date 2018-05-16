@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { AppBar, Toolbar, IconButton, Button } from 'material-ui';
-import MenuIcon from 'material-ui-icons/Menu';
+import { AppBar, Toolbar, IconButton, Button } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
 
 import BasicSearchContainer from './search/basicSearch.container';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import styled from 'styled-components';
-import { withTheme } from 'material-ui/styles';
+import { withTheme } from '@material-ui/core/styles';
 
 import ResultViewContainer from './search/resultView.container';
 import FilesViewContainer from './files/filesView.container';
