@@ -3,7 +3,7 @@ var resolve = require('path').resolve;
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var autoprefixer = require('autoprefixer');
-var FlowWebpackPlugin = require('flow-webpack-plugin');
+// var FlowWebpackPlugin = require('flow-webpack-plugin');
 
 /**
   * This file contains the base configuration for client side webpack.
@@ -33,7 +33,8 @@ var webpackConfig = {
   // context: resolve(__dirname, '.'),
 
   plugins: [
-    new FlowWebpackPlugin(),
+    // new FlowWebpackPlugin(),
+
     // The HtmlWebpackPlugin plugin will generate an HTML5 file for you that
     // includes all your webpack bundles in the body using script tags.
     new HtmlWebpackPlugin({
