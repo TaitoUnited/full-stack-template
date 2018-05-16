@@ -1,5 +1,6 @@
 #!/bin/bash
 
+: "${taito_organization:?}"
 : "${taito_company:?}"
 : "${taito_repo_name:?}"
 : "${taito_repo_name_alt:?}"
@@ -20,6 +21,13 @@
 
 : "${template_project_path:?}"
 : "${mode:?}"
+
+# Determine sed options
+if [ "$(uname)" = "Darwin" ]; then
+ sedi="-i ''"
+else
+ sedi="-i"
+fi
 
 if [[ ${mode} != "upgrade" ]]; then
   echo
@@ -42,10 +50,14 @@ fi
 echo
 echo "Please wait..."
 
-# Remove license
+# Remove MIT license
+# TODO leave a reference to the original?
 rm LICENSE
 grep -v '"license":' < package.json > package.json.tmp
 mv package.json.tmp package.json
+
+# Replace repository url in package.json
+sed ${sedi} -- "s|TaitoUnited/server-template.git|${taito_organization}/${taito_repo_name}.git|g" package.json
 
 # Replace NOTE of README.md with a 'do not modify' note
 {
@@ -112,11 +124,6 @@ ingress_port=$(shuf -i 8000-9999 -n 1)
 db_port=$(shuf -i 6000-7999 -n 1)
 
 # Replace user, password and ports in files
-if [ "$(uname)" = "Darwin" ]; then
- sedi="-i ''"
-else
- sedi="-i"
-fi
 sed ${sedi} -- "s/#username/${auth_username}/g" README.md PROJECT.md package.json
 sed ${sedi} -- "s/#password/${auth_password}/g" README.md PROJECT.md package.json
 sed ${sedi} -- "s/6000/${db_port}/g" taito-config.sh &> /dev/null
