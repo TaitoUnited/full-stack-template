@@ -40,6 +40,7 @@ if [[ ${mode} != "upgrade" ]]; then
   echo "Choose a simple username and password that are easy to remember."
   echo "Also write them down so you can remember them later."
   echo
+  echo "Username:"
   read -r auth_username
   until htpasswd -c scripts/helm/.htpasswd ${auth_username}
   do
