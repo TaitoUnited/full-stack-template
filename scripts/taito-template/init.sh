@@ -195,6 +195,7 @@ cat temp > docker-nginx.conf
   sed ${sedi} -- '/  client/d' taito-config.sh
   sed ${sedi} -- '/  client:/d' ./scripts/helm.yaml
 
+  sed ${sedi} -- '/  sentry/d' taito-config.sh
   sed ${sedi} -- '/\* app/d' taito-config.sh
   sed ${sedi} -- '/REPO_NAME\/client:/d' cloudbuild.yaml
 fi

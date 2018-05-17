@@ -10,7 +10,9 @@ export taito_plugins=" \
   postgres-db sqitch-db docker:local \
   secrets:-local kube-secrets:-local kubectl:-local helm:-local \
   gcloud:-local gcloud-builder:-local \
-  sentry semantic npm git links-global"
+  semantic npm git links-global \
+  sentry \
+  "
 
 # Basic project settings for all plugins
 export taito_organization="${template_default_organization:?}"
