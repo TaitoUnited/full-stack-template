@@ -29,6 +29,64 @@ else
  sedi="-i"
 fi
 
+echo
+echo "--- Choose stack ---"
+echo
+
+echo "WEB user interface (Y/n)?"
+read -r confirm
+if ! [[ "${confirm}" =~ ^[Yy]$ ]]; then
+  stack_client=true
+fi
+echo
+echo "API on server (Y/n)?"
+read -r confirm
+if ! [[ "${confirm}" =~ ^[Yy]$ ]]; then
+  stack_server=true
+fi
+echo
+echo "Database (Y/n)?"
+read -r confirm
+if ! [[ "${confirm}" =~ ^[Yy]$ ]]; then
+  stack_database=true
+fi
+echo
+echo "Object storage for files  (y/N)?"
+read -r confirm
+if ! [[ "${confirm}" =~ ^[Yy]$ ]]; then
+  stack_storage=true
+fi
+echo
+echo "Administration GUI (y/N)?"
+read -r confirm
+if ! [[ "${confirm}" =~ ^[Yy]$ ]]; then
+  stack_admin=true
+fi
+echo
+echo "Worker for background jobs (y/N)?"
+read -r confirm
+if ! [[ "${confirm}" =~ ^[Yy]$ ]]; then
+  stack_worker=true
+fi
+echo
+echo "Cache for performance optimizations (y/N)?"
+read -r confirm
+if ! [[ "${confirm}" =~ ^[Yy]$ ]]; then
+  stack_cache=true
+fi
+echo
+echo "Queue for background jobs or messaging (y/N)?"
+read -r confirm
+if ! [[ "${confirm}" =~ ^[Yy]$ ]]; then
+  stack_queue=true
+fi
+echo
+echo "Bot for automation/emulation (y/N)?"
+read -r confirm
+if ! [[ "${confirm}" =~ ^[Yy]$ ]]; then
+  stack_bot=true
+fi
+
 if [[ ${mode} != "upgrade" ]]; then
   echo
   echo "--- Choose basic auth credentials ---"
@@ -49,7 +107,215 @@ if [[ ${mode} != "upgrade" ]]; then
 fi
 
 echo
+echo "--- Other secrets ---"
+echo
+read -r confirm
+echo "Do you need for a JWT token (y/N)?"
+read -r confirm
+if ! [[ "${confirm}" =~ ^[Yy]$ ]]; then
+  secret_jwt=true
+fi
+echo
+echo "Do you need a shared admin password (y/N)?"
+read -r confirm
+if ! [[ "${confirm}" =~ ^[Yy]$ ]]; then
+  secret_admin=true
+fi
+echo "Do you need a shared user password (y/N)?"
+read -r confirm
+if ! [[ "${confirm}" =~ ^[Yy]$ ]]; then
+  secret_user=true
+fi
+
+echo
 echo "Please wait..."
+
+##############
+# Prune stack
+##############
+
+if [[ ! ${stack_admin} ]]; then
+  rm -rf admin
+
+  {
+  sed '/# admin start/q' docker-compose.yaml
+  sed -n -e '/# admin end/,$p' docker-compose.yaml
+  } > temp
+  truncate --size 0 docker-compose.yaml
+  cat temp > docker-compose.yaml
+
+  {
+  sed '/# admin start/q' docker-nginx.conf
+  sed -n -e '/# admin end/,$p' docker-nginx.conf
+  } > temp
+  truncate --size 0 docker-compose.yaml
+  cat temp > docker-compose.yaml
+
+  sed ${sedi} -- '/server-template-admin/d' docker-compose.yaml
+  sed ${sedi} -- '/\* admin/d' taito-config.sh
+  sed ${sedi} -- '/  admin:/d' ./scripts/helm.yaml
+  sed ${sedi} -- '/REPO_NAME\/admin:/d' cloudbuild.yaml
+fi
+
+if [[ ! ${stack_bot} ]]; then
+  rm -rf bot
+
+  {
+  sed '/# bot start/q' docker-compose.yaml
+  sed -n -e '/# bot end/,$p' docker-compose.yaml
+  } > temp
+  truncate --size 0 docker-compose.yaml
+  cat temp > docker-compose.yaml
+
+  sed ${sedi} -- '/server-template-bot/d' docker-compose.yaml
+  sed ${sedi} -- '/  bot:/d' ./scripts/helm.yaml
+fi
+
+if [[ ! ${stack_client} ]]; then
+  rm -rf client
+
+  {
+  sed '/# client start/q' docker-compose.yaml
+  sed -n -e '/# client end/,$p' docker-compose.yaml
+  } > temp
+  truncate --size 0 docker-compose.yaml
+  cat temp > docker-compose.yaml
+
+  {
+  sed '/# client start/q' docker-nginx.conf
+  sed -n -e '/# client end/,$p' docker-nginx.conf
+  } > temp
+  truncate --size 0 docker-compose.yaml
+  cat temp > docker-compose.yaml
+
+  sed ${sedi} -- '/server-template-client/d' docker-compose.yaml
+  sed ${sedi} -- '/\* app/d' taito-config.sh
+  sed ${sedi} -- '/  client:/d' ./scripts/helm.yaml
+  sed ${sedi} -- '/REPO_NAME\/client:/d' cloudbuild.yaml
+fi
+
+if [[ ! ${stack_database} ]]; then
+  rm -rf database
+
+  {
+  sed '/# database start/q' docker-compose.yaml
+  sed -n -e '/# database end/,$p' docker-compose.yaml
+  } > temp
+  truncate --size 0 docker-compose.yaml
+  cat temp > docker-compose.yaml
+
+  sed ${sedi} -- '/server-template-database/d' docker-compose.yaml
+  sed ${sedi} -- '/DATABASE_/d' docker-compose.yaml
+  sed ${sedi} -- '/  database:/d' ./scripts/helm.yaml
+fi
+
+if [[ ! ${stack_server} ]]; then
+  rm -rf server
+
+  {
+  sed '/# server start/q' docker-compose.yaml
+  sed -n -e '/# server end/,$p' docker-compose.yaml
+  } > temp
+  truncate --size 0 docker-compose.yaml
+  cat temp > docker-compose.yaml
+
+  {
+  sed '/# server start/q' docker-nginx.conf
+  sed -n -e '/# server end/,$p' docker-nginx.conf
+  } > temp
+  truncate --size 0 docker-compose.yaml
+  cat temp > docker-compose.yaml
+
+  sed ${sedi} -- '/server-template-server/d' docker-compose.yaml
+  sed ${sedi} -- '/\* api/d' taito-config.sh
+  sed ${sedi} -- '/  server:/d' ./scripts/helm.yaml
+  sed ${sedi} -- '/REPO_NAME\/server:/d' cloudbuild.yaml
+fi
+
+if [[ ! ${stack_storage} ]]; then
+  rm -rf storage
+
+  {
+  sed '/# storage start/q' docker-compose.yaml
+  sed -n -e '/# storage end/,$p' docker-compose.yaml
+  } > temp
+  truncate --size 0 docker-compose.yaml
+  cat temp > docker-compose.yaml
+
+  sed ${sedi} -- '/server-template-storage/d' docker-compose.yaml
+  sed ${sedi} -- '/\* storage/d' taito-config.sh
+  sed ${sedi} -- '/\.gateway:/d' taito-config.sh
+  sed ${sedi} -- '/\.multi:/d' taito-config.sh
+  sed ${sedi} -- '/  storage:/d' ./scripts/helm.yaml
+  sed ${sedi} -- '/S3_KEY_SECRET/d' ./scripts/helm.yaml
+  sed ${sedi} -- '/S3_/d' docker-compose.yaml
+fi
+
+if [[ ! ${stack_worker} ]]; then
+  rm -rf worker
+
+  {
+  sed '/# worker start/q' docker-compose.yaml
+  sed -n -e '/# worker end/,$p' docker-compose.yaml
+  } > temp
+  truncate --size 0 docker-compose.yaml
+  cat temp > docker-compose.yaml
+
+  sed ${sedi} -- '/server-template-worker/d' docker-compose.yaml
+  sed ${sedi} -- '/  worker:/d' ./scripts/helm.yaml
+fi
+
+if [[ ! ${stack_queue} ]]; then
+
+  {
+  sed '/# queue start/q' docker-compose.yaml
+  sed -n -e '/# queue end/,$p' docker-compose.yaml
+  } > temp
+  truncate --size 0 docker-compose.yaml
+  cat temp > docker-compose.yaml
+
+  sed ${sedi} -- '/server-template-queue/d' docker-compose.yaml
+  sed ${sedi} -- '/  queue:/d' ./scripts/helm.yaml
+fi
+
+if [[ ! ${stack_cache} ]]; then
+
+  {
+  sed '/# cache start/q' docker-compose.yaml
+  sed -n -e '/# cache end/,$p' docker-compose.yaml
+  } > temp
+  truncate --size 0 docker-compose.yaml
+  cat temp > docker-compose.yaml
+
+  sed ${sedi} -- '/server-template-cache/d' docker-compose.yaml
+  sed ${sedi} -- '/  cache:/d' ./scripts/helm.yaml
+fi
+sed ${sedi} -- '/https:\/\/TODO/d' taito-config.sh
+
+################
+# Prune secrets
+################
+
+if [[ ! ${secret_jwt} ]]; then
+  sed ${sedi} -- '/jwt\./d' taito-config.sh
+  sed ${sedi} -- '/JWT_SECRET/d' ./scripts/helm.yaml
+  sed ${sedi} -- '/JWT_SECRET/d' docker-compose.yaml
+fi
+
+if [[ ! ${secret_admin} ]]; then
+  sed ${sedi} -- '/admin\.auth/d' taito-config.sh
+  sed ${sedi} -- '/ADMIN_PASSWORD/d' ./scripts/helm.yaml
+  sed ${sedi} -- '/ADMIN_PASSWORD/d' docker-compose.yaml
+fi
+
+if [[ ! ${secret_user} ]]; then
+  sed ${sedi} -- '/user\.auth/d' taito-config.sh
+  sed ${sedi} -- '/USER_PASSWORD/d' ./scripts/helm.yaml
+  sed ${sedi} -- '/USER_PASSWORD/d' docker-compose.yaml
+fi
+
+# Remove TODO links
+sed ${sedi} -- '/https:\/\/TODO/d' taito-config.sh
 
 # Remove MIT license
 # TODO leave a reference to the original?
@@ -70,7 +336,7 @@ modifications minimal and improve the original instead. Project \
 specific documentation is located in PROJECT.md."
 echo
 sed -n -e '/TEMPLATE NOTE END/,$p' README.md
-} >> temp
+} > temp
 truncate --size 0 README.md
 cat temp > README.md
 
