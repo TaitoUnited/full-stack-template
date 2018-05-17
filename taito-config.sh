@@ -31,7 +31,14 @@ export taito_admin_url="${taito_app_url}/admin/"
 
 # Structure definitions for all plugins
 export taito_environments="dev prod"
-export taito_components="admin client cache database server storage"
+export taito_components="
+  admin
+  client
+  cache
+  database
+  server
+  storage
+"
 export taito_databases="database"
 
 # Database definitions for database plugins

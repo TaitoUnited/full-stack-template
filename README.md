@@ -328,7 +328,9 @@ Advanced features:
 
 NOTE: Some of the advanced operations might require admin credentials (e.g. staging/production operations). If you don't have an admin account, ask devops personnel to execute the operation for you.
 
-## Configuration for local development
+## Configuration
+
+### Configuration for local development
 
 Done:
 * [ ] Temporary basic auth password
@@ -336,7 +338,7 @@ Done:
 * [ ] Stack configuration
 * [ ] Removal of irrelevant examples
 
-### Temporary basic auth password
+#### Temporary basic auth password
 
 Write down the username/password to `show-basic-auth` script of `package.json`:
 
@@ -344,7 +346,7 @@ Write down the username/password to `show-basic-auth` script of `package.json`:
 "show-basic-auth": "echo Temporary basic auth username/password: TODO",
 ```
 
-### Git settings
+#### Git settings
 
 Recommended settings for most projects:
 
@@ -359,7 +361,7 @@ Recommended settings for most projects:
 * Branches - Default branch: dev
 * Branches - Protected branch: master (TODO more protection settings)
 
-### Stack configuration
+#### Stack configuration
 
 Modify `taito_components` setting in `taito-config.sh`: Remove stack components that you don't need. For example, if your application contains only `application gui`, `api` and `database`, remove all but the `client`, `server` and `database` components.
 
@@ -369,13 +371,13 @@ If you would rather use other technologies than react and node.js, you can copy 
 
 If you later need to add stack components, see [orig-template](https://github.com/TaitoUnited/orig-template/) for examples.
 
-### Examples
+#### Examples
 
 The project template comes with a bunch of implementation examples. Browse them through, leave the ones that seem useful and delete all the rest.
 
 The client GUI uses the [Material-UI](https://material-ui-next.com/) component library by default. It's a good match with the [admin-on-rest](https://github.com/marmelab/admin-on-rest) GUI, but please consider also other alternatives based on customer requirements. For example [Elemental](http://elemental-ui.com/) is a good alternative.
 
-### Additional steps for an old migrated project
+#### Additional steps for an old migrated project
 
 TODO Something about additional steps if an old project was migrated.
 The following implementation changes:
@@ -388,20 +390,20 @@ The following implementation changes:
 * Queues
 * Cron jobs
 
-## Configuration for server environments
+### Configuration for server environments
 
 Done:
 * [ ] Basic project settings
 * [ ] Dev environment
 * [ ] Prod environment
 
-### Basic settings
+#### Basic settings
 
 1. Configure `taito-config.sh` if you need to change some settings. The default settings are ok for most projects.
 2. Run `taito project apply`
 3. Commit and push changes
 
-### Environments
+#### Environments
 
 > You should remove unnecessary examples from database migrations (`./database`) and secrets (`taito-config.sh`) before creating the first server environment.
 
@@ -411,13 +413,13 @@ TODO terraform configuration
 
 > All operations on production and staging environments require admin rights. Please contact devops personnel.
 
-### Kubernetes
+#### Kubernetes
 
 The `scripts/heml.yaml` file contains default Kubernetes settings for all environments and the `scripts/helm-*.yaml` files contain environment specific overrides for them. By modying these files you can easily configure environment variables, resource requirements and autoscaling for your containers.
 
 > Do not modify the helm template located in `./scripts/helm` directory. Improve the original helm template located in [orig-template](https://github.com/TaitoUnited/orig-template/) repository instead.
 
-### Secrets
+#### Secrets
 
 1. Add a secret definition to `taito-config.sh` (taito_secrets)
 2. Map secret to an environment variable in `scripts/helm.yaml`
@@ -425,6 +427,6 @@ The `scripts/heml.yaml` file contains default Kubernetes settings for all enviro
 
 > For local development you can just define secrets as normal environment variables in `docker-compose.yaml` given that they are not confidential.
 
-## Upgrading to the latest version of the project template
+### Upgrading to the latest version of the project template
 
 Run `taito template upgrade`. The command copies the latest versions of reusable Helm charts, terraform templates and CI/CD scripts to your project folder, and also this README.md file. You should not make project specific modifications to them as they are designed to be reusable and easily configurable for various needs. Improve the originals instead, and then upgrade.
