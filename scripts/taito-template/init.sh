@@ -35,55 +35,55 @@ echo
 
 echo "WEB user interface (Y/n)?"
 read -r confirm
-if ! [[ "${confirm}" =~ ^[Yy]$ ]]; then
+if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   stack_client=true
 fi
 echo
 echo "API on server (Y/n)?"
 read -r confirm
-if ! [[ "${confirm}" =~ ^[Yy]$ ]]; then
+if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   stack_server=true
 fi
 echo
 echo "Database (Y/n)?"
 read -r confirm
-if ! [[ "${confirm}" =~ ^[Yy]$ ]]; then
+if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   stack_database=true
 fi
 echo
-echo "Object storage for files  (y/N)?"
+echo "Object storage for files (y/N)?"
 read -r confirm
-if ! [[ "${confirm}" =~ ^[Yy]$ ]]; then
+if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   stack_storage=true
 fi
 echo
 echo "Administration GUI (y/N)?"
 read -r confirm
-if ! [[ "${confirm}" =~ ^[Yy]$ ]]; then
+if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   stack_admin=true
 fi
 echo
 echo "Worker for background jobs (y/N)?"
 read -r confirm
-if ! [[ "${confirm}" =~ ^[Yy]$ ]]; then
+if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   stack_worker=true
 fi
 echo
 echo "Cache for performance optimizations (y/N)?"
 read -r confirm
-if ! [[ "${confirm}" =~ ^[Yy]$ ]]; then
+if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   stack_cache=true
 fi
 echo
 echo "Queue for background jobs or messaging (y/N)?"
 read -r confirm
-if ! [[ "${confirm}" =~ ^[Yy]$ ]]; then
+if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   stack_queue=true
 fi
 echo
 echo "Bot for automation/emulation (y/N)?"
 read -r confirm
-if ! [[ "${confirm}" =~ ^[Yy]$ ]]; then
+if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   stack_bot=true
 fi
 
@@ -109,26 +109,25 @@ fi
 echo
 echo "--- Other secrets ---"
 echo
+echo "Do you need a JWT token (y/N)?"
 read -r confirm
-echo "Do you need for a JWT token (y/N)?"
-read -r confirm
-if ! [[ "${confirm}" =~ ^[Yy]$ ]]; then
+if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   secret_jwt=true
 fi
 echo
 echo "Do you need a shared admin password (y/N)?"
 read -r confirm
-if ! [[ "${confirm}" =~ ^[Yy]$ ]]; then
+if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   secret_admin=true
 fi
 echo "Do you need a shared user password (y/N)?"
 read -r confirm
-if ! [[ "${confirm}" =~ ^[Yy]$ ]]; then
+if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   secret_user=true
 fi
 
 echo
-echo "Please wait..."
+echo "Please wait... This might take a while..."
 
 ##############
 # Prune stack
@@ -137,17 +136,17 @@ echo "Please wait..."
 if [[ ! ${stack_admin} ]]; then
   rm -rf admin
 
-  {
-  sed '/# admin start/q' docker-compose.yaml
-  sed -n -e '/# admin end/,$p' docker-compose.yaml
-  } > temp
+{
+sed '/# admin start/q' docker-compose.yaml
+sed -n -e '/# admin end/,$p' docker-compose.yaml
+} > temp
   truncate --size 0 docker-compose.yaml
   cat temp > docker-compose.yaml
 
-  {
-  sed '/# admin start/q' docker-nginx.conf
-  sed -n -e '/# admin end/,$p' docker-nginx.conf
-  } > temp
+{
+sed '/# admin start/q' docker-nginx.conf
+sed -n -e '/# admin end/,$p' docker-nginx.conf
+} > temp
   truncate --size 0 docker-compose.yaml
   cat temp > docker-compose.yaml
 
@@ -160,10 +159,10 @@ fi
 if [[ ! ${stack_bot} ]]; then
   rm -rf bot
 
-  {
-  sed '/# bot start/q' docker-compose.yaml
-  sed -n -e '/# bot end/,$p' docker-compose.yaml
-  } > temp
+{
+sed '/# bot start/q' docker-compose.yaml
+sed -n -e '/# bot end/,$p' docker-compose.yaml
+} > temp
   truncate --size 0 docker-compose.yaml
   cat temp > docker-compose.yaml
 
@@ -174,17 +173,17 @@ fi
 if [[ ! ${stack_client} ]]; then
   rm -rf client
 
-  {
-  sed '/# client start/q' docker-compose.yaml
-  sed -n -e '/# client end/,$p' docker-compose.yaml
-  } > temp
+{
+sed '/# client start/q' docker-compose.yaml
+sed -n -e '/# client end/,$p' docker-compose.yaml
+} > temp
   truncate --size 0 docker-compose.yaml
   cat temp > docker-compose.yaml
 
-  {
-  sed '/# client start/q' docker-nginx.conf
-  sed -n -e '/# client end/,$p' docker-nginx.conf
-  } > temp
+{
+sed '/# client start/q' docker-nginx.conf
+sed -n -e '/# client end/,$p' docker-nginx.conf
+} > temp
   truncate --size 0 docker-compose.yaml
   cat temp > docker-compose.yaml
 
@@ -197,10 +196,10 @@ fi
 if [[ ! ${stack_database} ]]; then
   rm -rf database
 
-  {
-  sed '/# database start/q' docker-compose.yaml
-  sed -n -e '/# database end/,$p' docker-compose.yaml
-  } > temp
+{
+sed '/# database start/q' docker-compose.yaml
+sed -n -e '/# database end/,$p' docker-compose.yaml
+} > temp
   truncate --size 0 docker-compose.yaml
   cat temp > docker-compose.yaml
 
@@ -212,17 +211,17 @@ fi
 if [[ ! ${stack_server} ]]; then
   rm -rf server
 
-  {
-  sed '/# server start/q' docker-compose.yaml
-  sed -n -e '/# server end/,$p' docker-compose.yaml
-  } > temp
+{
+sed '/# server start/q' docker-compose.yaml
+sed -n -e '/# server end/,$p' docker-compose.yaml
+} > temp
   truncate --size 0 docker-compose.yaml
   cat temp > docker-compose.yaml
 
-  {
-  sed '/# server start/q' docker-nginx.conf
-  sed -n -e '/# server end/,$p' docker-nginx.conf
-  } > temp
+{
+sed '/# server start/q' docker-nginx.conf
+sed -n -e '/# server end/,$p' docker-nginx.conf
+} > temp
   truncate --size 0 docker-compose.yaml
   cat temp > docker-compose.yaml
 
@@ -235,10 +234,10 @@ fi
 if [[ ! ${stack_storage} ]]; then
   rm -rf storage
 
-  {
-  sed '/# storage start/q' docker-compose.yaml
-  sed -n -e '/# storage end/,$p' docker-compose.yaml
-  } > temp
+{
+sed '/# storage start/q' docker-compose.yaml
+sed -n -e '/# storage end/,$p' docker-compose.yaml
+} > temp
   truncate --size 0 docker-compose.yaml
   cat temp > docker-compose.yaml
 
@@ -254,10 +253,10 @@ fi
 if [[ ! ${stack_worker} ]]; then
   rm -rf worker
 
-  {
-  sed '/# worker start/q' docker-compose.yaml
-  sed -n -e '/# worker end/,$p' docker-compose.yaml
-  } > temp
+{
+sed '/# worker start/q' docker-compose.yaml
+sed -n -e '/# worker end/,$p' docker-compose.yaml
+} > temp
   truncate --size 0 docker-compose.yaml
   cat temp > docker-compose.yaml
 
@@ -267,10 +266,10 @@ fi
 
 if [[ ! ${stack_queue} ]]; then
 
-  {
-  sed '/# queue start/q' docker-compose.yaml
-  sed -n -e '/# queue end/,$p' docker-compose.yaml
-  } > temp
+{
+sed '/# queue start/q' docker-compose.yaml
+sed -n -e '/# queue end/,$p' docker-compose.yaml
+} > temp
   truncate --size 0 docker-compose.yaml
   cat temp > docker-compose.yaml
 
@@ -280,10 +279,10 @@ fi
 
 if [[ ! ${stack_cache} ]]; then
 
-  {
-  sed '/# cache start/q' docker-compose.yaml
-  sed -n -e '/# cache end/,$p' docker-compose.yaml
-  } > temp
+{
+sed '/# cache start/q' docker-compose.yaml
+sed -n -e '/# cache end/,$p' docker-compose.yaml
+} > temp
   truncate --size 0 docker-compose.yaml
   cat temp > docker-compose.yaml
 
