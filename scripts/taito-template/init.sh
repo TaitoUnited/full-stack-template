@@ -120,6 +120,7 @@ read -r confirm
 if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   secret_admin=true
 fi
+echo
 echo "Do you need a shared user password (y/N)?"
 read -r confirm
 if [[ "${confirm}" =~ ^[Yy]$ ]]; then
@@ -147,8 +148,8 @@ sed -n -e '/# admin end/,$p' docker-compose.yaml
 sed '/# admin start/q' docker-nginx.conf
 sed -n -e '/# admin end/,$p' docker-nginx.conf
 } > temp
-  truncate --size 0 docker-compose.yaml
-  cat temp > docker-compose.yaml
+truncate --size 0 docker-nginx.conf
+cat temp > docker-nginx.conf
 
   sed ${sedi} -- '/server-template-admin/d' docker-compose.yaml
   sed ${sedi} -- '/\* admin/d' taito-config.sh
@@ -163,8 +164,8 @@ if [[ ! ${stack_bot} ]]; then
 sed '/# bot start/q' docker-compose.yaml
 sed -n -e '/# bot end/,$p' docker-compose.yaml
 } > temp
-  truncate --size 0 docker-compose.yaml
-  cat temp > docker-compose.yaml
+truncate --size 0 docker-compose.yaml
+cat temp > docker-compose.yaml
 
   sed ${sedi} -- '/server-template-bot/d' docker-compose.yaml
   sed ${sedi} -- '/  bot:/d' ./scripts/helm.yaml
@@ -177,15 +178,15 @@ if [[ ! ${stack_client} ]]; then
 sed '/# client start/q' docker-compose.yaml
 sed -n -e '/# client end/,$p' docker-compose.yaml
 } > temp
-  truncate --size 0 docker-compose.yaml
-  cat temp > docker-compose.yaml
+truncate --size 0 docker-compose.yaml
+cat temp > docker-compose.yaml
 
 {
 sed '/# client start/q' docker-nginx.conf
 sed -n -e '/# client end/,$p' docker-nginx.conf
 } > temp
-  truncate --size 0 docker-compose.yaml
-  cat temp > docker-compose.yaml
+truncate --size 0 docker-nginx.conf
+cat temp > docker-nginx.conf
 
   sed ${sedi} -- '/server-template-client/d' docker-compose.yaml
   sed ${sedi} -- '/\* app/d' taito-config.sh
@@ -200,8 +201,8 @@ if [[ ! ${stack_database} ]]; then
 sed '/# database start/q' docker-compose.yaml
 sed -n -e '/# database end/,$p' docker-compose.yaml
 } > temp
-  truncate --size 0 docker-compose.yaml
-  cat temp > docker-compose.yaml
+truncate --size 0 docker-compose.yaml
+cat temp > docker-compose.yaml
 
   sed ${sedi} -- '/server-template-database/d' docker-compose.yaml
   sed ${sedi} -- '/DATABASE_/d' docker-compose.yaml
@@ -215,15 +216,15 @@ if [[ ! ${stack_server} ]]; then
 sed '/# server start/q' docker-compose.yaml
 sed -n -e '/# server end/,$p' docker-compose.yaml
 } > temp
-  truncate --size 0 docker-compose.yaml
-  cat temp > docker-compose.yaml
+truncate --size 0 docker-compose.yaml
+cat temp > docker-compose.yaml
 
 {
 sed '/# server start/q' docker-nginx.conf
 sed -n -e '/# server end/,$p' docker-nginx.conf
 } > temp
-  truncate --size 0 docker-compose.yaml
-  cat temp > docker-compose.yaml
+truncate --size 0 docker-nginx.conf
+cat temp > docker-nginx.conf
 
   sed ${sedi} -- '/server-template-server/d' docker-compose.yaml
   sed ${sedi} -- '/\* api/d' taito-config.sh
@@ -238,8 +239,8 @@ if [[ ! ${stack_storage} ]]; then
 sed '/# storage start/q' docker-compose.yaml
 sed -n -e '/# storage end/,$p' docker-compose.yaml
 } > temp
-  truncate --size 0 docker-compose.yaml
-  cat temp > docker-compose.yaml
+truncate --size 0 docker-compose.yaml
+cat temp > docker-compose.yaml
 
   sed ${sedi} -- '/server-template-storage/d' docker-compose.yaml
   sed ${sedi} -- '/\* storage/d' taito-config.sh
@@ -257,8 +258,8 @@ if [[ ! ${stack_worker} ]]; then
 sed '/# worker start/q' docker-compose.yaml
 sed -n -e '/# worker end/,$p' docker-compose.yaml
 } > temp
-  truncate --size 0 docker-compose.yaml
-  cat temp > docker-compose.yaml
+truncate --size 0 docker-compose.yaml
+cat temp > docker-compose.yaml
 
   sed ${sedi} -- '/server-template-worker/d' docker-compose.yaml
   sed ${sedi} -- '/  worker:/d' ./scripts/helm.yaml
@@ -270,8 +271,8 @@ if [[ ! ${stack_queue} ]]; then
 sed '/# queue start/q' docker-compose.yaml
 sed -n -e '/# queue end/,$p' docker-compose.yaml
 } > temp
-  truncate --size 0 docker-compose.yaml
-  cat temp > docker-compose.yaml
+truncate --size 0 docker-compose.yaml
+cat temp > docker-compose.yaml
 
   sed ${sedi} -- '/server-template-queue/d' docker-compose.yaml
   sed ${sedi} -- '/  queue:/d' ./scripts/helm.yaml
@@ -283,8 +284,8 @@ if [[ ! ${stack_cache} ]]; then
 sed '/# cache start/q' docker-compose.yaml
 sed -n -e '/# cache end/,$p' docker-compose.yaml
 } > temp
-  truncate --size 0 docker-compose.yaml
-  cat temp > docker-compose.yaml
+truncate --size 0 docker-compose.yaml
+cat temp > docker-compose.yaml
 
   sed ${sedi} -- '/server-template-cache/d' docker-compose.yaml
   sed ${sedi} -- '/  cache:/d' ./scripts/helm.yaml
