@@ -408,9 +408,7 @@ fi
 ingress_port=$(shuf -i 8000-9999 -n 1)
 db_port=$(shuf -i 6000-7999 -n 1)
 
-# Replace user, password and ports in files
-sed ${sedi} -- "s/#username/${auth_username}/g" README.md PROJECT.md package.json
-sed ${sedi} -- "s/#password/${auth_password}/g" README.md PROJECT.md package.json
+# Replace ports in files
 sed ${sedi} -- "s/6000/${db_port}/g" taito-config.sh &> /dev/null
 sed ${sedi} -- "s/6000/${db_port}/g" docker-compose.yaml &> /dev/null
 sed ${sedi} -- "s/8080/${ingress_port}/g" docker-compose.yaml taito-config.sh \
