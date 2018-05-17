@@ -363,8 +363,6 @@ Recommended settings for most projects:
 
 #### Stack configuration
 
-Modify `taito_components` setting in `taito-config.sh`: Remove stack components that you don't need. For example, if your application contains only `application gui`, `api` and `database`, remove all but the `client`, `server` and `database` components.
-
 Optional: You can enable `flow` or `typescript` by renaming the `.flowconfig-example` or `tsconfig-example.json` files and uncommenting the relevant lines in `.babelrc` and `webpack.base.js` files (TODO typescript support).
 
 If you would rather use other technologies than react and node.js, you can copy alternative example implementations from [orig-template-alt](https://github.com/TaitoUnited/orig-template-alt/).
