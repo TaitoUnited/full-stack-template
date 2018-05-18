@@ -7,8 +7,5 @@
     "lint": "echo 'TODO lint code'",
     "unit": "echo 'TODO run unit tests'"
   },
-  "devDependencies": {
-    "flow-bin": "^0.72.0",
-    "flow-typed": "^2.4.0"
-  }
+  "devDependencies": {}
 }

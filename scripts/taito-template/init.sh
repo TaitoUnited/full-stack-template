@@ -392,7 +392,7 @@ printf \
   cat temp > cloudbuild.yaml
 
 # Replace some strings
-echo "Replacing project and company names in files... Please wait..."
+echo "Replacing project and company names in files. Please wait..."
 if [ "$(uname)" = "Darwin" ]; then
   find . -type f -exec sed -i '' \
     -e "s/server_template/${taito_repo_name_alt}/g" 2> /dev/null {} \;
