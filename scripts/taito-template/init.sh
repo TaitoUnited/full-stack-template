@@ -345,6 +345,7 @@ rm LICENSE
 # Replace repository url in package.json
 sed ${sedi} -- "s|TaitoUnited/server-template.git|${taito_organization}/${taito_repo_name}.git|g" package.json
 
+# Add some do not modify notes
 echo "Adding do not modify notes..."
 
 # Replace NOTE of README.md with a 'do not modify' note
@@ -390,9 +391,8 @@ printf \
   truncate --size 0 cloudbuild.yaml && \
   cat temp > cloudbuild.yaml
 
-echo "Replacing project and company names in files..."
-
 # Replace some strings
+echo "Replacing project and company names in files... Please wait..."
 if [ "$(uname)" = "Darwin" ]; then
   find . -type f -exec sed -i '' \
     -e "s/server_template/${taito_repo_name_alt}/g" 2> /dev/null {} \;
@@ -413,13 +413,11 @@ else
     -e "s/orig-template/server-template/g" 2> /dev/null {} \;
 fi
 
+# Generate ports
 echo "Generating unique random ports (avoid conflicts with other projects)..."
 
-# Generate ports
 ingress_port=$(shuf -i 8000-9999 -n 1)
 db_port=$(shuf -i 6000-7999 -n 1)
-
-# Replace ports in files
 sed ${sedi} -- "s/6000/${db_port}/g" taito-config.sh &> /dev/null
 sed ${sedi} -- "s/6000/${db_port}/g" docker-compose.yaml &> /dev/null
 sed ${sedi} -- "s/8080/${ingress_port}/g" docker-compose.yaml taito-config.sh \
@@ -453,8 +451,7 @@ sed ${sedi} -- "s/\${template_default_dest_git:?}/${template_default_dest_git}/g
 
 echo "Removing template settings from cloudbuild.yaml..."
 
-# Remove template settings from cloudbuild.yaml
-sed ${sedi} -- "s/\${_TEMPLATE_DEFAULT_TAITO_IMAGE}/${template_default_taito_image}/g" taito-config.sh
+sed ${sedi} -- "s/\${_TEMPLATE_DEFAULT_TAITO_IMAGE}/${template_default_taito_image}/g" cloudbuild.yaml
 sed ${sedi} -- '/_TEMPLATE_DEFAULT_/d' cloudbuild.yaml
 
 rm -f temp
