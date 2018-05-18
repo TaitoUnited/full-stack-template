@@ -334,9 +334,10 @@ NOTE: Some of the advanced operations might require admin credentials (e.g. stag
 
 Done:
 * [ ] Temporary basic auth password
-* [ ] Git settings
+* [ ] GitHub settings
 * [ ] Stack configuration
 * [ ] Removal of irrelevant examples
+* [ ] Additional steps for an old migrated project
 
 #### Temporary basic auth password
 
@@ -346,24 +347,27 @@ Write down the username/password to `show-basic-auth` script of `package.json`:
 "show-basic-auth": "echo Temporary basic auth username/password: TODO",
 ```
 
-#### Git settings
+#### GitHub settings
 
-Recommended settings for most projects:
+Recommended settings for most projects.
 
-* Options - Data services:
-  * Allow GitHub to perform read-only analysis of this repository: on
-  * Vulnerability alerts: on
-* Teams - Developers team: write permission
-  * NOTE: Fine-grained personal write permissions in case of a critical project.
-* Teams - Admins team: admin permission
-* Collaborators - Remove admin permission from the repository creator.
-* Collaborators - Add additional collaborators if required.
-* Branches - Default branch: dev
-* Branches - Protected branch: master (TODO more protection settings)
+Options:
+* Data services: Allow GitHub to perform read-only analysis: on
+* Data services: Vulnerability alerts: on
+
+Branches:
+* Default branch: dev
+* Protected branch: master (TODO more protection settings)
+
+Collaborators & teams:
+* Teams: Select admin permission for the Admins team
+* Teams: Select write permission for the Developers team
+* Collaborators: Add additional collaborators if required.
+* Collaborators: Remove repository creator (= yourself) from the collaborator list (NOTE: do this last!)
 
 #### Stack configuration
 
-Optional: You can enable `flow` or `typescript` by renaming the `.flowconfig-example` or `tsconfig-example.json` files and uncommenting the relevant lines in `.babelrc` and `webpack.base.js` files (TODO typescript support).
+Optional: You can enable `flow` or `typescript` by renaming the `.flowconfig-example` or `tsconfig-example.json` files and uncommenting the relevant lines in `.babelrc` and `webpack.base.js` files. (TODO requires also flow libs) (TODO typescript support)
 
 If you would rather use other technologies than react and node.js, you can copy alternative example implementations from [orig-template-alt](https://github.com/TaitoUnited/orig-template-alt/).
 
@@ -371,7 +375,7 @@ If you later need to add stack components, see [orig-template](https://github.co
 
 #### Examples
 
-The project template comes with a bunch of implementation examples. Browse them through, leave the ones that seem useful and delete all the rest.
+The project template comes with a bunch of implementation examples. Start your local development environment (see [quick start](#quick-start)), browse the examples through, leave the ones that seem useful and delete all the rest.
 
 The client GUI uses the [Material-UI](https://material-ui-next.com/) component library by default. It's a good match with the [admin-on-rest](https://github.com/marmelab/admin-on-rest) GUI, but please consider also other alternatives based on customer requirements. For example [Elemental](http://elemental-ui.com/) is a good alternative.
 

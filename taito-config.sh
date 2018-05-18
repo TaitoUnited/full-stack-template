@@ -7,8 +7,10 @@ export taito_extensions=""
 # - 'docker:local' means that docker is used only in local environment
 # - 'kubectl:-local' means that kubernetes is used in all other environments
 export taito_plugins=" \
-  postgres-db sqitch-db docker:local \
-  secrets:-local kube-secrets:-local kubectl:-local helm:-local \
+  postgres-db sqitch-db \
+  docker:local \
+  secrets:-local kube-secrets:-local \
+  kubectl:-local helm:-local \
   gcloud:-local gcloud-builder:-local \
   semantic npm git links-global \
   sentry \

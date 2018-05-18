@@ -214,6 +214,7 @@ cat temp > docker-compose.yaml
   sed ${sedi} -- '/  database/d' taito-config.sh
   sed ${sedi} -- '/  database:/d' ./scripts/helm.yaml
 
+  sed ${sedi} -- '/postgres-db/d' taito-config.sh
   sed ${sedi} -- '/DATABASE_/d' docker-compose.yaml
 fi
 
@@ -305,6 +306,13 @@ cat temp > docker-compose.yaml
   sed ${sedi} -- '/  cache/d' taito-config.sh
   sed ${sedi} -- '/  cache:/d' ./scripts/helm.yaml
 fi
+
+if [[ ! ${stack_cache} ]] && \
+   [[ ! ${stack_database} ]] && \
+   [[ ! ${stack_storage} ]]; then
+  sed ${sedi} -- '/# server links/d' docker-compose.yaml
+fi
+
 sed ${sedi} -- '/https:\/\/TODO/d' taito-config.sh
 
 ################

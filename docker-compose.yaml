@@ -74,7 +74,7 @@ server-template-server:
     - "./server:/server"
     - "/server/node_modules"
     - "/server/flow-typed/npm"
-  links:
+  links: # server links
     - server-template-cache:server-template-cache
     - server-template-database:server-template-database
     - server-template-storage:server-template-storage
