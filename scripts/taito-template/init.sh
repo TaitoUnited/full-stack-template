@@ -109,7 +109,7 @@ fi
 echo
 echo "--- Other secrets ---"
 echo
-echo "Do you need a JWT token (y/N)?"
+echo "Do you need JWT (y/N)?"
 read -r confirm
 if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   secret_jwt=true
@@ -131,6 +131,7 @@ fi
 # Prune stack
 ##############
 
+echo
 echo "Pruning stack..."
 
 if [[ ! ${stack_admin} ]]; then
