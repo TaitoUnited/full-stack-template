@@ -127,12 +127,11 @@ if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   secret_user=true
 fi
 
-echo
-echo "Please wait... This might take a while..."
-
 ##############
 # Prune stack
 ##############
+
+echo "Pruning stack..."
 
 if [[ ! ${stack_admin} ]]; then
   rm -rf admin
@@ -311,6 +310,8 @@ sed ${sedi} -- '/https:\/\/TODO/d' taito-config.sh
 # Prune secrets
 ################
 
+echo "Pruning secrets..."
+
 if [[ ! ${secret_jwt} ]]; then
   sed ${sedi} -- '/jwt\./d' taito-config.sh
   sed ${sedi} -- '/JWT_SECRET/d' ./scripts/helm.yaml
@@ -329,6 +330,8 @@ if [[ ! ${secret_user} ]]; then
   sed ${sedi} -- '/USER_PASSWORD/d' docker-compose.yaml
 fi
 
+echo "..."
+
 # Remove TODO links
 sed ${sedi} -- '/https:\/\/TODO/d' taito-config.sh
 
@@ -340,6 +343,8 @@ rm LICENSE
 
 # Replace repository url in package.json
 sed ${sedi} -- "s|TaitoUnited/server-template.git|${taito_organization}/${taito_repo_name}.git|g" package.json
+
+echo "Adding do not modify notes..."
 
 # Replace NOTE of README.md with a 'do not modify' note
 {
@@ -384,6 +389,8 @@ printf \
   truncate --size 0 cloudbuild.yaml && \
   cat temp > cloudbuild.yaml
 
+echo "Replacing project and company names in files..."
+
 # Replace some strings
 if [ "$(uname)" = "Darwin" ]; then
   find . -type f -exec sed -i '' \
@@ -405,6 +412,8 @@ else
     -e "s/orig-template/server-template/g" 2> /dev/null {} \;
 fi
 
+echo "Generating unique random ports (avoid conflicts with other projects)..."
+
 # Generate ports
 ingress_port=$(shuf -i 8000-9999 -n 1)
 db_port=$(shuf -i 6000-7999 -n 1)
@@ -415,6 +424,8 @@ sed ${sedi} -- "s/6000/${db_port}/g" docker-compose.yaml &> /dev/null
 sed ${sedi} -- "s/8080/${ingress_port}/g" docker-compose.yaml taito-config.sh \
   ./admin/package.json ./client/package.json &> /dev/null
 
+echo "Replacing template variables with the given settings..."
+
 # Replace template variables in taito-config.sh with the given settings
 sed ${sedi} -- "s/export taito_company=\".*\"/export taito_company=\"${taito_company}\"/g" taito-config.sh
 sed ${sedi} -- "s/export taito_family=\".*\"/export taito_family=\"${taito_family:-}\"/g" taito-config.sh
@@ -422,6 +433,8 @@ sed ${sedi} -- "s/export taito_application=\".*\"/export taito_application=\"${t
 sed ${sedi} -- "s/export taito_suffix=\".*\"/export taito_suffix=\"${taito_suffix:-}\"/g" taito-config.sh
 sed ${sedi} -- "s/export taito_repo_name=\".*\"/export taito_repo_name=\"${taito_repo_name}\"/g" taito-config.sh
 sed ${sedi} -- "s/export taito_project=\".*\"/export taito_project=\"${taito_repo_name}\"/g" taito-config.sh
+
+echo "Replacing template variables with the user specific settings..."
 
 # Replace template variables in taito-config.sh with user specific settings
 sed ${sedi} -- "s/\${template_default_organization:?}/${template_default_organization}/g" taito-config.sh
@@ -436,6 +449,8 @@ sed ${sedi} -- "s/\${template_default_provider_zone_prod:?}/${template_default_p
 sed ${sedi} -- "s/\${template_default_registry:?}/${template_default_registry}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_source_git:?}/${template_default_source_git}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_dest_git:?}/${template_default_dest_git}/g" taito-config.sh
+
+echo "Removing template settings from cloudbuild.yaml..."
 
 # Remove template settings from cloudbuild.yaml
 sed ${sedi} -- "s/\${_TEMPLATE_DEFAULT_TAITO_IMAGE}/${template_default_taito_image}/g" taito-config.sh
