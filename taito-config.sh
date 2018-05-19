@@ -4,11 +4,12 @@
 export taito_image="taitounited/taito-cli:latest"
 export taito_extensions=""
 # Enabled taito-cli plugins
-# - 'docker:local' means that docker is used only in local environment
-# - 'kubectl:-local' means that kubernetes is used in all other environments
+# - 'docker-compose:local' --> docker-compose is used only in local environment
+# - 'kubectl:-local' --> kubernetes is used in all other environments
 export taito_plugins=" \
   postgres-db sqitch-db \
-  docker:local \
+  docker \
+  docker-compose:local \
   secrets:-local kube-secrets:-local \
   kubectl:-local helm:-local \
   gcloud:-local gcloud-builder:-local \
@@ -35,7 +36,7 @@ export taito_admin_url="${taito_app_url}/admin/"
 
 # Structure definitions for all plugins
 export taito_environments="dev prod"
-export taito_components="
+export taito_targets="
   admin
   client
   cache
@@ -77,7 +78,6 @@ export sentry_organization="${taito_organization}"
 
 # Settings for builds
 # NOTE: Most of these should be enabled for dev and feature envs only
-export ci_stack="${taito_components}" # TODO remove ci_stack env var
 export ci_exec_build=false        # build a container if does not exist already
 export ci_exec_deploy=true        # deploy automatically
 export ci_exec_test=false         # execute test suites after deploy

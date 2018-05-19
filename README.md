@@ -75,24 +75,24 @@ Show user accounts and other information that you can use to log in:
 
 Access database:
 
-    taito db open                           # access using a command-line tool
+    taito db connect                        # access using a command-line tool
     taito db proxy                          # access using a database GUI tool
     taito db import: ./database/file.sql    # import a sql script to database
 
 Run tests:
 
     taito unit                              # run all unit tests
-    taito unit: server                      # run unit tests of server
-    taito unit: server -- trip              # run the 'trip' unit test of server
+    taito unit:server                       # run unit tests of server
+    taito unit:server trip                  # run the 'trip' unit test of server
     taito test                              # run all integration and end-to-end tests
-    taito test: client                      # run integration and end-to-end tests of client
-    taito test: client -- billing receipt   # run the receipt test of billing test suite of client
+    taito test:client                       # run integration and end-to-end tests of client
+    taito test:client billing receipt       # run the receipt test of billing test suite of client
 
 Start a shell on a container:
 
-    taito shell: admin
-    taito shell: client
-    taito shell: server
+    taito shell:admin
+    taito shell:client
+    taito shell:server
 
 Stop containers:
 
@@ -105,10 +105,10 @@ List all project related links and open one of them in browser:
 
 Cleaning:
 
-    taito clean: admin                      # Remove admin container image
-    taito clean: client                     # Remove client container image
-    taito clean: server                     # Remove server container image
-    taito clean: npm                        # Delete node_modules directories
+    taito clean:admin                       # Remove admin container image
+    taito clean:client                      # Remove client container image
+    taito clean:server                      # Remove server container image
+    taito clean:npm                         # Delete node_modules directories
     taito clean                             # Clean everything
 
 The commands mentioned above work also for server environments (`feature`, `dev`, `test`, `staging`, `prod`). Some examples for dev environment:
@@ -118,12 +118,12 @@ The commands mentioned above work also for server environments (`feature`, `dev`
     taito info:dev                          # Show info
     taito status:dev                        # Show status of dev environment
     taito test:dev                          # Run integration and e2e tests
-    taito shell:dev server                  # Start a shell on server container
-    taito logs:dev server                   # Tail logs of server container
+    taito shell:server:dev                  # Start a shell on server container
+    taito logs:server:dev                   # Tail logs of server container
     taito open logs:dev                     # Open logs on browser
     taito open storage:dev                  # Open storage bucket on browser
     taito init:dev --clean                  # Clean reinit for dev environment
-    taito db open:dev                       # Open database on command line
+    taito db connect:dev                    # Access database on command line
     taito db proxy:dev                      # Start a proxy for database access
     taito db rebase:dev                     # Rebase database by redeploying all migrations
     taito db import:dev ./database/file.sql # Import a file to database
@@ -162,7 +162,7 @@ Taito-cli supports various infrastructures and technologies out-of-the-box, and 
 
 All unit tests are run automatically during build (see the `Dockerfile.build` files). You can use any test tools that have been installed as development dependency inside the container. Test reports should be placed at the `/xxx/test/reports` directory.
 
-You can run unit tests also in local environment with the `taito unit [CONTAINER]` command, for example `taito unit: client`.
+You can run unit tests also in local environment with the `taito unit[:TARGET]` command, for example `taito unit:client`.
 
 > You can execute also browser and api tests using the same 'unit test' mechanism if you just mock the required APIs or DAOs so that the whole test can be run within one container.
 
@@ -172,7 +172,7 @@ All integration and end-to-end test suites are run automatically after applicati
 
 Tests are grouped in test suites (see `test-suites` files). All test suites are kept independent by cleaning up data before each test suite execution by running `taito init --clean`. If automatic data cleanup is not necessary, you can turn it off with the `ci_exec_test_init` setting in `taito-config.sh`.
 
-You can run integration and end-to-end tests manually with the `taito test:ENV [CONTAINER] -- [SUITE] [TEST]` command, for example `taito test:dev server`. When executing tests manually, the development container (`Dockerfile`) is used for executing the tests.
+You can run integration and end-to-end tests manually with the `taito test[:TARGET][:ENV] [SUITE] [TEST]` command, for example `taito test:server:dev`. When executing tests manually, the development container (`Dockerfile`) is used for executing the tests.
 
 > Once you have implemented your first integration or e2e test, enable the CI test execution by setting `ci_exec_test=true` for dev environment.
 
@@ -315,15 +315,15 @@ Deploying to different environments:
 
 > NOTE: You can use taito-cli to [manage environment branches](#version-control).
 
-> Automatic deployment might be turned off for critical environments (`ci_exec_deploy` setting in `taito-config.sh`). In such case the deployment must be run manually with the `taito -a depl deploy:prod VERSION` command using an admin account after the CI/CD process has ended successfully.
+> Automatic deployment might be turned off for critical environments (`ci_exec_deploy` setting in `taito-config.sh`). In such case the deployment must be run manually with the `taito -a deployment deploy:prod VERSION` command using an admin account after the CI/CD process has ended successfully.
 
 Advanced features:
 
-* **Quick deploy**: If you are in a hurry, you can build, push and deploy a container directly to server with the `taito depl build:ENV NAME` command e.g. `taito depl build:dev client`.
+* **Quick deploy**: If you are in a hurry, you can build, push and deploy a container directly to server with the `taito deployment build:TARGET:ENV` command e.g. `taito deployment build:client:dev`.
 * **Copy production data to staging**: Often it's a good idea to copy production database to staging before merging changes to the staging branch: `taito db copy:staging prod`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db copyquick:staging prod`), but it disconnects all other users connected to the production database until copying is finished and also requires that both databases are located in the same database cluster.
 * **Feature branch**: You can create also an environment for a feature branch: Destroy the old environment first if it exists (`taito env destroy:feature`) and create a new environment for your feature branch (`taito env apply:feature BRANCH`). Currently only one feature environment can exist at a time and therefore the old one needs to be destroyed before the new one is created.
 * **Alternative environments** TODO implement: You can create an alternative environment for an environment by running `taito env alt apply:ENV`. An alternative environment uses the same database as the main environment, but containers are built from an alternative branch. You can use alternative environments e.g. for canary releases and A/B testing by redirecting some of the users to the alternative environment.
-* **Revert app**: Revert application and database to the previous revision by running `taito depl revert:ENV` (application and database steps are confirmed separately). If you need to revert to a specific revision, check current revision by running `taito depl revision:ENV` first and then revert to a specific revision by running `taito depl revert:ENV REVISION`.
+* **Revert app**: Revert application and database to the previous revision by running `taito deployment revert:ENV` (application and database steps are confirmed separately). If you need to revert to a specific revision, check current revision by running `taito deployment revision:ENV` first and then revert to a specific revision by running `taito deployment revert:ENV REVISION`.
 * **Debugging CI builds**: You can build and start production containers locally with the `taito start --clean --prod` command. You can also run any CI build steps defined in cloudbuild.yaml locally with taito-cli.
 
 NOTE: Some of the advanced operations might require admin credentials (e.g. staging/production operations). If you don't have an admin account, ask devops personnel to execute the operation for you.

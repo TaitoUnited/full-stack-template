@@ -157,6 +157,16 @@ cat temp > docker-nginx.conf
 
   sed ${sedi} -- '/\* admin/d' taito-config.sh
   sed ${sedi} -- '/REPO_NAME\/admin:/d' cloudbuild.yaml
+
+  sed ${sedi} -- '/install-all:admin":/d' package.json
+  sed ${sedi} -- '/lint:admin":/d' package.json
+  sed ${sedi} -- '/unit:admin":/d' package.json
+  sed ${sedi} -- '/test:admin":/d' package.json
+
+  sed ${sedi} -- 's/install-all:admin //g' package.json
+  sed ${sedi} -- 's/lint:admin //g' package.json
+  sed ${sedi} -- 's/unit:admin //g' package.json
+  sed ${sedi} -- 's/test:admin //g' package.json
 fi
 
 if [[ ! ${stack_bot} ]]; then
@@ -172,6 +182,16 @@ cat temp > docker-compose.yaml
   sed ${sedi} -- '/server-template-bot/d' docker-compose.yaml
   sed ${sedi} -- '/  bot/d' taito-config.sh
   sed ${sedi} -- '/  bot:/d' ./scripts/helm.yaml
+
+  sed ${sedi} -- '/install-all:bot":/d' package.json
+  sed ${sedi} -- '/lint:bot":/d' package.json
+  sed ${sedi} -- '/unit:bot":/d' package.json
+  sed ${sedi} -- '/test:bot":/d' package.json
+
+  sed ${sedi} -- 's/install-all:bot //g' package.json
+  sed ${sedi} -- 's/lint:bot //g' package.json
+  sed ${sedi} -- 's/unit:bot //g' package.json
+  sed ${sedi} -- 's/test:bot //g' package.json
 fi
 
 if [[ ! ${stack_client} ]]; then
@@ -198,6 +218,16 @@ cat temp > docker-nginx.conf
   sed ${sedi} -- '/  sentry/d' taito-config.sh
   sed ${sedi} -- '/\* app/d' taito-config.sh
   sed ${sedi} -- '/REPO_NAME\/client:/d' cloudbuild.yaml
+
+  sed ${sedi} -- '/install-all:client":/d' package.json
+  sed ${sedi} -- '/lint:client":/d' package.json
+  sed ${sedi} -- '/unit:client":/d' package.json
+  sed ${sedi} -- '/test:client":/d' package.json
+
+  sed ${sedi} -- 's/install-all:client //g' package.json
+  sed ${sedi} -- 's/lint:client //g' package.json
+  sed ${sedi} -- 's/unit:client //g' package.json
+  sed ${sedi} -- 's/test:client //g' package.json
 fi
 
 if [[ ! ${stack_database} ]]; then
@@ -241,6 +271,16 @@ cat temp > docker-nginx.conf
 
   sed ${sedi} -- '/\* api/d' taito-config.sh
   sed ${sedi} -- '/REPO_NAME\/server:/d' cloudbuild.yaml
+
+  sed ${sedi} -- '/install-all:server":/d' package.json
+  sed ${sedi} -- '/lint:server":/d' package.json
+  sed ${sedi} -- '/unit:server":/d' package.json
+  sed ${sedi} -- '/test:server":/d' package.json
+
+  sed ${sedi} -- 's/install-all:server //g' package.json
+  sed ${sedi} -- 's/lint:server //g' package.json
+  sed ${sedi} -- 's/unit:server //g' package.json
+  sed ${sedi} -- 's/test:server //g' package.json
 fi
 
 if [[ ! ${stack_storage} ]]; then
@@ -277,6 +317,16 @@ cat temp > docker-compose.yaml
   sed ${sedi} -- '/server-template-worker/d' docker-compose.yaml
   sed ${sedi} -- '/  worker/d' taito-config.sh
   sed ${sedi} -- '/  worker:/d' ./scripts/helm.yaml
+
+  sed ${sedi} -- '/install-all:worker":/d' package.json
+  sed ${sedi} -- '/lint:worker":/d' package.json
+  sed ${sedi} -- '/unit:worker":/d' package.json
+  sed ${sedi} -- '/test:worker":/d' package.json
+
+  sed ${sedi} -- 's/install-all:worker //g' package.json
+  sed ${sedi} -- 's/lint:worker //g' package.json
+  sed ${sedi} -- 's/unit:worker //g' package.json
+  sed ${sedi} -- 's/test:worker //g' package.json
 fi
 
 if [[ ! ${stack_queue} ]]; then
