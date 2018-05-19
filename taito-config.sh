@@ -92,14 +92,14 @@ case "${taito_env}" in
     # prod overrides
     export taito_zone="${template_default_zone_prod:?}"
     export gcloud_region="${template_default_provider_region_prod:?}"
-    export gcloud_zone="${template_default_provider_zone:?}"
+    export gcloud_zone="${template_default_provider_zone_prod:?}"
     export taito_resource_namespace="${taito_company}-prod"
     ;;
   staging)
     # staging overrides
     export taito_zone="${template_default_zone_prod:?}"
     export gcloud_region="${template_default_provider_region_prod:?}"
-    export gcloud_zone="${template_default_provider_zone:?}"
+    export gcloud_zone="${template_default_provider_zone_prod:?}"
     export taito_resource_namespace="${taito_company}-prod"
     ;;
   test)
@@ -148,7 +148,7 @@ export link_urls="\
   * admin[:ENV]#admin=${taito_admin_url} Admin user interface (:ENV) \
   * api[:ENV]#app=${taito_app_url}/api/infra/uptimez API (:ENV) \
   * docs=https://github.com/${taito_organization}/${taito_repo_name}/wiki Project documentation \
-  * git=https://github.com/${taito_organization}/${taito_repo_name} Git repository \
+  * git=https://github.com/${taito_organization}/${taito_repo_name} GitHub repository \
   * kanban=https://github.com/${taito_organization}/${taito_repo_name}/projects Kanban boards \
   * builds=https://console.cloud.google.com/gcr/builds?project=${taito_zone}&query=source.repo_source.repo_name%3D%22${taito_repo_location}-${taito_repo_name}%22 Build logs \
   * images=https://console.cloud.google.com/gcr/images/${taito_zone}/EU/${taito_repo_location}-${taito_repo_name}?project=${taito_zone} Container images \

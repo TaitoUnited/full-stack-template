@@ -511,5 +511,6 @@ echo "Removing template settings from cloudbuild.yaml..."
 
 sed ${sedi} -- "s|\${_TEMPLATE_DEFAULT_TAITO_IMAGE}|${template_default_taito_image}|g" cloudbuild.yaml
 sed ${sedi} -- '/_TEMPLATE_DEFAULT_/d' cloudbuild.yaml
+sed ${sedi} -- '/template_default_taito_image/d' cloudbuild.yaml
 
 rm -f temp
