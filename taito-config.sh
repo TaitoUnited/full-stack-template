@@ -50,6 +50,7 @@ export taito_storages="${taito_project}-${taito_env}"
 # Database definitions for database plugins
 # TODO postgres_reports_instance=... --> how about starting proxies?
 export database_instance="common-postgres"
+export database_type="pg"
 export database_name="${taito_project//-/_}_${taito_env}"
 export database_host="localhost"
 export database_proxy_port="5001"
