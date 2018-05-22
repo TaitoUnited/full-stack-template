@@ -45,13 +45,13 @@ if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   stack_server=true
 fi
 echo
-echo "Database (Y/n)?"
+echo "Relational database (Y/n)?"
 read -r confirm
 if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   stack_database=true
 fi
 echo
-echo "Object storage for files (y/N)?"
+echo "Permanent object storage for files (y/N)?"
 read -r confirm
 if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   stack_storage=true

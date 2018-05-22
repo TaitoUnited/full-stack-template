@@ -10,12 +10,12 @@ export taito_plugins=" \
   postgres-db sqitch-db \
   docker \
   docker-compose:local \
-  secrets:-local kube-secrets:-local \
+  terraform:-local secrets:-local kube-secrets:-local \
   kubectl:-local helm:-local \
   gcloud:-local gcloud-builder:-local \
   semantic npm git links-global \
   sentry \
-  "
+"
 
 # Basic project settings for all plugins
 export taito_organization="${template_default_organization:?}"
@@ -45,6 +45,7 @@ export taito_targets="
   storage
 "
 export taito_databases="database"
+export taito_storages="${taito_project}-${taito_env}"
 
 # Database definitions for database plugins
 # TODO postgres_reports_instance=... --> how about starting proxies?
@@ -58,8 +59,10 @@ export database_port="${database_proxy_port}"
 export dockerfile=Dockerfile
 
 # gcloud plugin
+export gcloud_org_id="${template_default_provider_org_id:?}"
 export gcloud_region="${template_default_provider_region:?}"
 export gcloud_zone="${template_default_provider_zone:?}"
+export gcloud_billing_account="${template_default_provider_billing_account:-}"
 export gcloud_sql_proxy_port="${database_proxy_port}"
 export gcloud_cdn_enabled=false
 
@@ -91,6 +94,7 @@ case "${taito_env}" in
   prod)
     # prod overrides
     export taito_zone="${template_default_zone_prod:?}"
+    export gcloud_org_id="${template_default_provider_org_id_prod:?}"
     export gcloud_region="${template_default_provider_region_prod:?}"
     export gcloud_zone="${template_default_provider_zone_prod:?}"
     export taito_resource_namespace="${taito_company}-prod"
@@ -98,6 +102,7 @@ case "${taito_env}" in
   staging)
     # staging overrides
     export taito_zone="${template_default_zone_prod:?}"
+    export gcloud_org_id="${template_default_provider_org_id_prod:?}"
     export gcloud_region="${template_default_provider_region_prod:?}"
     export gcloud_zone="${template_default_provider_zone_prod:?}"
     export taito_resource_namespace="${taito_company}-prod"
@@ -137,6 +142,10 @@ export test_server_test_api_url="${taito_app_url}/api"
 
 # gcloud plugin
 export gcloud_project="${taito_zone}"
+export gcloud_resource_project="${taito_resource_namespace}"
+export gcloud_resource_project_id="${taito_organization}-${taito_resource_namespace}"
+export gcloud_storage_regions="${gcloud_region}"
+export gcloud_storage_classes="REGIONAL"
 
 # Kubernetes plugin
 export kubectl_cluster="gke_${taito_zone}_${gcloud_zone}_${kubectl_name}"
@@ -159,7 +168,7 @@ export link_urls="\
   * uptime=https://app.google.stackdriver.com/uptime?project=${taito_zone} Uptime monitoring (Stackdriver) \
   * feedback=https://TODO-ZENDESK User feedback (Zendesk) \
   * performance=https://TODO-NEW-RELIC Performance metrics (New Relic) \
-  "
+"
 
 # Secrets
 # NOTE: Secret naming: type.target_of_type.purpose[/namespace]:generation_method
@@ -173,4 +182,4 @@ export taito_secrets="
   jwt.${taito_project}.auth:random
   user.${taito_project}-admin.auth:manual
   user.${taito_project}-user.auth:manual
-  "
+"

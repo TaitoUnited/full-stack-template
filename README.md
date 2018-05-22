@@ -373,6 +373,8 @@ If you would rather use other technologies than react and node.js, you can copy 
 
 If you later need to add stack components, see [orig-template](https://github.com/TaitoUnited/orig-template/) for examples.
 
+TODO instructions for setting up multiple servers (microservices)
+
 #### Examples
 
 The project template comes with a bunch of implementation examples. Start your local development environment (see [quick start](#quick-start)), browse the examples through, leave the ones that seem useful and delete all the rest.
@@ -410,8 +412,6 @@ Done:
 > You should remove unnecessary examples from database migrations (`./database`) and secrets (`taito-config.sh`) before creating the first server environment.
 
 Run `taito env apply:ENV` to create an environment (`feature`, `dev`, `test`, `staging` or `prod`).
-
-TODO terraform configuration
 
 > All operations on production and staging environments require admin rights. Please contact devops personnel.
 
