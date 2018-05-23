@@ -48,13 +48,12 @@ export taito_databases="database"
 export taito_storages="${taito_project}-${taito_env}"
 
 # Database definitions for database plugins
-# TODO postgres_reports_instance=... --> how about starting proxies?
-export database_instance="common-postgres"
-export database_type="pg"
-export database_name="${taito_project//-/_}_${taito_env}"
-export database_host="localhost"
-export database_proxy_port="5001"
-export database_port="${database_proxy_port}"
+export db_database_instance="common-postgres"
+export db_database_type="pg"
+export db_database_name="${taito_project//-/_}_${taito_env}"
+export db_database_host="localhost"
+export db_database_proxy_port="5001"
+export db_database_port="${db_database_proxy_port}"
 
 # docker plugin
 export dockerfile=Dockerfile
@@ -64,7 +63,7 @@ export gcloud_org_id="${template_default_provider_org_id:?}"
 export gcloud_region="${template_default_provider_region:?}"
 export gcloud_zone="${template_default_provider_zone:?}"
 export gcloud_billing_account="${template_default_provider_billing_account:-}"
-export gcloud_sql_proxy_port="${database_proxy_port}"
+export gcloud_sql_proxy_port="${db_database_proxy_port}"
 export gcloud_cdn_enabled=false
 
 # Kubernetes plugin
@@ -126,9 +125,9 @@ case "${taito_env}" in
     export test_api_url="http://localhost:3332"
     export taito_app_url="http://localhost:8080"
     export taito_admin_url="${taito_app_url}/admin/"
-    export database_external_port="6000"
-    export database_host="${taito_project}-database"
-    export database_port="5432"
+    export db_database_external_port="6000"
+    export db_database_host="${taito_project}-database"
+    export db_database_port="5432"
 esac
 
 # --- Derived values ---
@@ -177,8 +176,8 @@ export link_urls="\
 export taito_secrets="
   git.github.build:read/devops
   gcloud.cloudsql.proxy:copy/devops
-  db.${database_name}.build/devops:random
-  db.${database_name}.app:random
+  db.${db_database_name}.build/devops:random
+  db.${db_database_name}.app:random
   storage.${taito_project}.gateway:random
   gcloud.${taito_project}-${taito_env}.multi:file
   jwt.${taito_project}.auth:random
