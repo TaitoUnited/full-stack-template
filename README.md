@@ -29,7 +29,7 @@ You can also migrate an existing non-taito-cli project by running `taito templat
 * [Kanban boards](https://github.com/taitounited/server-template/projects)
 * [Logs (dev)](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fserver-template-dev)
 * [Logs (prod)](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fserver-template-prod)
-* [Performance metrics (New Relic)](https://TODO-NEW-RELIC)  
+* [Performance metrics (New Relic)](https://TODO-NEW-RELIC)
 * [Project documentation](https://github.com/taitounited/server-template/wiki)
 * [Sentry errors (dev)](https://sentry.io/taitounited/server-template/?query=is%3Aunresolved+environment%3Adev)
 * [Sentry errors (prod)](https://sentry.io/taitounited/server-template/?query=is%3Aunresolved+environment%3Aprod)
@@ -135,7 +135,7 @@ The commands mentioned above work also for server environments (`feature`, `dev`
     taito db deploy:dev                     # Deploy data migrations to database
     taito db recreate:dev                   # Recreate database
     taito db diff:dev test                  # Show diff between dev and test schemas
-    taito db copy:dev test                  # Copy test database to dev
+    taito db copy to:dev test               # Copy test database to dev
 
 Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to show command help (e.g `taito vc -h`, `taito db -h`, `taito db import -h`). For troubleshooting run `taito --trouble`. See PROJECT.md for project specific conventions and documentation.
 
@@ -322,7 +322,7 @@ Deploying to different environments:
 Advanced features:
 
 * **Quick deploy**: If you are in a hurry, you can build, push and deploy a container directly to server with the `taito deployment build:TARGET:ENV` command e.g. `taito deployment build:client:dev`.
-* **Copy production data to staging**: Often it's a good idea to copy production database to staging before merging changes to the staging branch: `taito db copy:staging prod`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db copyquick:staging prod`), but it disconnects all other users connected to the production database until copying is finished and also requires that both databases are located in the same database cluster.
+* **Copy production data to staging**: Often it's a good idea to copy production database to staging before merging changes to the staging branch: `taito db copy to:staging prod`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db copyquick to:staging prod`), but it disconnects all other users connected to the production database until copying is finished and also requires that both databases are located in the same database cluster.
 * **Feature branch**: You can create also an environment for a feature branch: Destroy the old environment first if it exists (`taito env destroy:feature`) and create a new environment for your feature branch (`taito env apply:feature BRANCH`). Currently only one feature environment can exist at a time and therefore the old one needs to be destroyed before the new one is created.
 * **Alternative environments** TODO implement: You can create an alternative environment for an environment by running `taito env alt apply:ENV`. An alternative environment uses the same database as the main environment, but containers are built from an alternative branch. You can use alternative environments e.g. for canary releases and A/B testing by redirecting some of the users to the alternative environment.
 * **Revert app**: Revert application and database to the previous revision by running `taito deployment revert:ENV` (application and database steps are confirmed separately). If you need to revert to a specific revision, check current revision by running `taito deployment revision:ENV` first and then revert to a specific revision by running `taito deployment revert:ENV REVISION`.
