@@ -69,9 +69,6 @@ export gcloud_cdn_enabled=false
 # Kubernetes plugin
 export kubectl_name="kube1" # TODO rename to common-kubernetes
 
-# Sqitch plugin
-export sqitch_engine="pg" # pq/mysql/oracle/sqlite/vertica/firebird
-
 # Template plugin
 export template_name="orig-template"
 export template_source_git="git@github.com:TaitoUnited"
@@ -128,6 +125,9 @@ case "${taito_env}" in
     export db_database_external_port="6000"
     export db_database_host="${taito_project}-database"
     export db_database_port="5432"
+
+    # TODO why this is not required for pg? mysql plugin requires it.
+    # export db_database_password="secret"
 esac
 
 # --- Derived values ---

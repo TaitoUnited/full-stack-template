@@ -78,6 +78,7 @@ worker:
 
 database:
   port: 5432
+  # TODO remove hardcoded value
   db: gcloud-temp1:europe-west1:common-postgres
   poolMin: 5
   poolMax: 10
