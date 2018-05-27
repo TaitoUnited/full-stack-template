@@ -198,7 +198,7 @@ The following guidelines usually work well at least for a GUI implementation. Yo
 * A file should contain only nearby references (e.g. references to files in the same directory or in a subdirectory directly beneath it); with the exception of references to libraries and common directories, of course.
 * You cannot always follow the dependency guidelines mentioned above. If you break the guidelines, at least try to avoid making circular dependencies between directories. Also leave a `REFACTOR:` comment if the dependency is the kind that it should be refactored later.
 
-See [orig-template/client/app](https://github.com/TaitoUnited/orig-template/tree/master/client/app) as an example.
+See [orig-template/client/src](https://github.com/TaitoUnited/orig-template/tree/master/client/src) as an example. (TODO url + some refactoring)
 
 ## Version control
 
@@ -365,7 +365,7 @@ Collaborators & teams:
 * Teams: Select admin permission for the Admins team
 * Teams: Select write permission for the Developers team
 * Collaborators: Add additional collaborators if required.
-* Collaborators: Remove repository creator (= yourself) from the collaborator list (NOTE: do this last!)
+* Collaborators: Remove repository creator (= yourself) from the collaborator list (NOTE: Set all the other GitHub settings before this one!)
 
 #### Stack configuration
 
