@@ -1,13 +1,12 @@
 import jwt from 'koa-jwt';
 import basicAuth from 'koa-basic-auth';
-import config from '../common/common.config';
+import config from '../common/config';
 import { mergeToLogCtx } from '../common/log.util';
 
 // auth is disabled for these paths
 const skipAuthPaths = [
   /^\/infra\/uptimez/,
   /^\/infra\/healthz/,
-  /^\/files/,
   /^\/auth\/login/,
 ];
 
@@ -26,13 +25,13 @@ const determineAuthMethod = ctx => {
 
 const authMiddleware = app => {
   app.use(async (ctx, next) => {
-    ctx.clientAuthMethod = determineAuthMethod(ctx);
+    ctx.state.clientAuthMethod = determineAuthMethod(ctx);
     await next();
   });
 
   // Basic auth
   app.use(async (ctx, next) => {
-    if (ctx.clientAuthMethod === 'basic') {
+    if (ctx.state.clientAuthMethod === 'basic') {
       await basicAuth({
         name: 'user',
         pass: config.passwords.user,
@@ -63,7 +62,8 @@ const authMiddleware = app => {
   app.use(async (ctx, next) => {
     const rolesByAuth = {
       basic: 'user',
-      jwt: ctx.state.jwtdata ? ctx.state.jwtdata.sub : null,
+      // TODO or ctx.state.auth.role?
+      jwt: ctx.state.auth ? ctx.state.auth.sub : null,
     };
     ctx.state.role = rolesByAuth[ctx.state.clientAuthMethod];
     await next();

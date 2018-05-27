@@ -2,7 +2,7 @@ import bunyan from 'bunyan';
 import _ from 'lodash';
 import { createNamespace } from 'continuation-local-storage';
 
-import config from './common.config';
+import config from './config';
 
 const namespace = createNamespace('fi.server-template');
 

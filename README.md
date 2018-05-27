@@ -2,7 +2,7 @@
 
 [//]: # (TEMPLATE NOTE START)
 
-Server-template is a project template for applications and APIs running on server. It supports multiple alternative technologies, and you can choose the stack during configuration.
+Server-template is a project template for applications and APIs running on server. It supports multiple alternative technologies, and you can choose the stack during configuration. The server-template is based on Kubernetes, but in the future it might also provide support for running functions on top of Kubernetes and major FaaS platforms.
 
 Create a new project from this template by running `taito template create: server-template`. Later you can upgrade your project to the latest version of the template by running `taito template upgrade`. To ensure flawless upgrade, do not modify files that have a **do-not-modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files of the template instead, and then upgrade.
 
@@ -110,6 +110,7 @@ Cleaning:
     taito clean:admin                       # Remove admin container image
     taito clean:client                      # Remove client container image
     taito clean:server                      # Remove server container image
+    taito clean:database                    # TODO does not work
     taito clean:npm                         # Delete node_modules directories
     taito clean                             # Clean everything
 
@@ -283,7 +284,7 @@ You can use any of the following types in your commit message. Use at least type
 
 ## Database Migrations
 
-> TODO No migrations at the beginning: `taito init:ENV --clean`. If you remove, leave revert script...
+> If none of the environments do not yet contain any data that need to be preserved, you can just edit the existing deploy sql files directly and run `taito init:ENV --clean` manually before deploying the app to the environment. However, if you delete some of the existing deploy sql files, leave the revert scripts at place, or otherwise `taito init:ENV --clean` will fail.
 
 Add a new migration:
 

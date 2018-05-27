@@ -13,8 +13,8 @@ import { createDevTools } from 'redux-devtools'; // eslint-disable-line
 import LogMonitor from 'redux-devtools-log-monitor'; // eslint-disable-line
 import DockMonitor from 'redux-devtools-dock-monitor'; // eslint-disable-line
 
-import appReducer from './src/app.reducer.js';
-import appSagas from './src/app.sagas.js';
+import appReducer from './src/reducer.js';
+import appSagas from './src/sagas.js';
 import Root from './index.root'; // eslint-disable-line
 
 // Create store
@@ -68,7 +68,7 @@ const renderApp = Component => {
 if (process.env.NODE_ENV === 'development') {
   renderApp(Root);
   if (module.hot) {
-    module.hot.accept('./src/app.container', () => {
+    module.hot.accept('./src', () => {
       renderApp(Root);
     });
   }

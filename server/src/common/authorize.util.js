@@ -1,33 +1,27 @@
 import _ from 'lodash';
+import Boom from 'boom';
 
 /**
- * USAGE: authorize(state).role(role).department(department);
+ * USAGE: authorize(state).role(role).department(department)...;
  */
 const authorize = state => {
   const funcs = {};
 
+  console.log('-----stateeeee-------');
+  console.log(state);
+
   funcs.role = (...roles) => {
-    if (!_.includes(roles, state.user.role)) {
-      console.log('auth.role failed');
-      const ex = {
-        type: 'authorization',
-        message: 'user does not have any of the roles: ...',
-        state,
-      };
-      throw ex;
+    if (!state.role) {
+      throw Boom.unauthorized('User not logged in');
+    } else if (!_.includes(roles, state.role)) {
+      throw Boom.forbidden('No required role');
     }
     return funcs;
   };
 
   funcs.equals = (name, value1, value2) => {
     if (value1 !== value2) {
-      console.log('auth.eq failed');
-      const ex = {
-        type: 'authorization',
-        message: `${name} value mismatch: ${value1} !== ${value2}`,
-        state,
-      };
-      throw ex;
+      throw Boom.forbidden('TODO message...');
     }
     return funcs;
   };

@@ -1,5 +1,5 @@
 import pg from 'pg-promise';
-import config from '../common/common.config';
+import config from './config';
 
 const pgp = pg({
   // Initialization options

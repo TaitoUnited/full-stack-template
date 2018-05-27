@@ -19,38 +19,25 @@ import authClient from './common/api/authClient.api';
 import common, { commonSagas } from './common/common.ducks';
 
 import { PostIcon, PostList, PostCreate, PostShow, PostEdit } from './posts';
-import {
-  UserIcon,
-  UserList,
-  UserCreate,
-  UserShow,
-  UserEdit
-} from './users/users.section';
 
 import commonFi from './common/messages/fi.messages';
 import postsEn from './posts/en.messages';
 import postsFi from './posts/fi.messages';
-import usersEn from './users/en.messages';
-import usersFi from './users/fi.messages';
 
 // TODO make a deep merge with some library instead?
 const messages = {
   en: {
     ...commonEn,
     ...postsEn,
-    ...usersEn,
     resources: {
-      ...postsEn.resources,
-      ...usersEn.resources
+      ...postsEn.resources
     }
   },
   fi: {
     ...commonFi,
     ...postsFi,
-    ...usersFi,
     resources: {
-      ...postsFi.resources,
-      ...usersFi.resources
+      ...postsFi.resources
     }
   }
 };
@@ -83,7 +70,7 @@ const App = () => (
     customReducers={{ common }}
     customSagas={[commonSagas]}
   >
-    {permissions => [
+    {() => [
       <Resource
         name='posts'
         list={PostList}
@@ -92,19 +79,7 @@ const App = () => (
         show={PostShow}
         remove={Delete}
         icon={PostIcon}
-      />,
-      permissions ? (
-        <Resource
-          name='users'
-          list={UserList}
-          create={UserCreate}
-          edit={UserEdit}
-          remove={Delete}
-          icon={UserIcon}
-          show={UserShow}
-        />
-      ) : null,
-      <Resource name='tags' />
+      />
     ]}
   </Admin>
 );

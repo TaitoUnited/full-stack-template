@@ -130,8 +130,6 @@ server-template-server:
 #     DEBUG: 'false'
 #     API_BINDADDR: 0.0.0.0
 #     API_PORT: 3332
-#     ADMIN_PASSWORD: password
-#     USER_PASSWORD: password
 # bot end
 
 # worker start

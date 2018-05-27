@@ -1,5 +1,4 @@
 export const helper = async () => {
-  console.log(helper);
   return {};
 };
 

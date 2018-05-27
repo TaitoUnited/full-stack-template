@@ -1,4 +1,4 @@
-import config from '../common/common.config';
+import config from '../common/config';
 
 const exceptionMiddleware = async (ctx, next) => {
   // Wraps request handling in the try block.

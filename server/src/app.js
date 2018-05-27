@@ -3,7 +3,7 @@ import koaRouter from 'koa-router';
 import Boom from 'boom';
 
 import { log } from './common/log.util';
-import config from './common/common.config';
+import config from './common/config';
 import routes from './routes';
 
 import {

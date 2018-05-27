@@ -1,5 +1,5 @@
 import Raven from 'raven';
-import config from '../common/common.config';
+import config from '../common/config';
 
 const setupSentry = () => {
   /* eslint-disable max-len */

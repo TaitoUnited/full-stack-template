@@ -3,6 +3,4 @@
 %uri=https://github.com/TaitoUnited/server-template/
 
 schema 2017-04-14T12:01:35Z Jukka Keski-Luopa <jj@macbookjj.local> # Add schema
-example_file [schema] 2017-04-14T12:02:38Z Jukka Keski-Luopa <jj@macbookjj.local> # Add example_file table
-example_file.collections [example_file] 2017-04-14T12:24:32Z Jukka Keski-Luopa <jj@macbookjj.local> # Add example_file.collection column
-example_user [schema] 2017-06-14T12:02:38Z Jukka Keski-Luopa <jj@macbookjj.local> # Add example_user table
+posts [schema] 2017-04-14T12:02:38Z Jukka Keski-Luopa <jj@macbookjj.local> # Add example_file table
