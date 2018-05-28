@@ -1,3 +1,5 @@
+# NOTE: for flow, remove the '-example' suffix
+
 [ignore]
 .*/node_modules/.*
 

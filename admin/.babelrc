@@ -1,23 +1,24 @@
 {
-  "presets": [
+  presets: [
     [
-      "env",
+      'env',
       {
-        "loose": true,
-        "modules": false
+        loose: true,
+        modules: false
       }
     ],
+    // NOTE: flow flow
     // "flow",
-    "stage-2",
-    "react"
+    'stage-2',
+    'react'
   ],
-  "env": {
+  env: {
     // When testing we want to compile modules to commonjs
-    "test": {
-      "presets": ["es2015", "stage-2", "react"]
+    test: {
+      presets: ['es2015', 'stage-2', 'react']
     },
-    "development": {
-      "plugins": ["babel-plugin-styled-components", "react-hot-loader/babel"]
+    development: {
+      plugins: ['babel-plugin-styled-components', 'react-hot-loader/babel']
     }
   }
 }

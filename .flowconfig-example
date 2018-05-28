@@ -1,3 +1,5 @@
+# NOTE: for flow, remove the '-example' suffix
+
 [include]
 # NOTE: Required at root folder because of ide-flowtype atom package
 # https://github.com/flowtype/ide-flowtype/issues/13

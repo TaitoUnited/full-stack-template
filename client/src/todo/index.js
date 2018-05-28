@@ -7,7 +7,13 @@ const Todo = () => (
     <Typography variant='title'>TODO</Typography>
     <Typography>
       TODO more examples. See issue&nbsp;
-      <a href='https://github.com/TaitoUnited/server-template/issues/13'>#13</a>
+      <a
+        href='https://github.com/TaitoUnited/server-template/issues/13'
+        target='_blank'
+        rel='noopener noreferrer'
+      >
+        #13
+      </a>
     </Typography>
   </ErrorBoundary>
 );

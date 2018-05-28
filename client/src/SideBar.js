@@ -48,6 +48,14 @@ const SideBar = ({ menuVisible, onToggleMenu, classes }) => (
           </ListItem>
         </Link>
       </List>
+
+      <List>
+        <a href='/admin/' onClick={() => onToggleMenu()}>
+          <ListItem button>
+            <ListItemText primary='Admin' />
+          </ListItem>
+        </a>
+      </List>
     </div>
   </SwipeableDrawer>
 );

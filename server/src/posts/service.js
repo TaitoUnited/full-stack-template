@@ -27,12 +27,14 @@ export default class PostService {
   }
 
   async fetch(state, criteria) {
-    authorize(state).role('admin', 'user');
+    // TODO enable authorize
+    // authorize(state).role('admin', 'user');
     return this.postDB.fetch(state.getTx(), criteria);
   }
 
   async create(state, post) {
-    authorize(state).role('admin', 'user');
+    // TODO enable authorize
+    // authorize(state).role('admin', 'user');
     const id = await this.postDB.create(state.getTx(), post);
     return this.postDB.read(state.getTx(), id);
   }

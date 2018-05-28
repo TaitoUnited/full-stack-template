@@ -8,6 +8,7 @@ const skipAuthPaths = [
   /^\/infra\/uptimez/,
   /^\/infra\/healthz/,
   /^\/auth\/login/,
+  /^\/posts/, // TODO remove
 ];
 
 // NOTE: REMOVE THIS IF ONLY BASIC OR JWT AUTH IS REQUIRED

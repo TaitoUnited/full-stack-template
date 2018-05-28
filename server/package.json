@@ -52,5 +52,6 @@
     "mocha": "^5.1.1",
     "nodemon": "^1.17.4",
     "prettier": "^1.12.1"
-  }
+  },
+  "_flowComment": "NOTE: for flow add also flow-bin and flow-typed"
 }

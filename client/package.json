@@ -72,5 +72,6 @@
     "webpack": "^3.11.0",
     "webpack-bundle-analyzer": "^2.11.3",
     "webpack-dev-server": "^2.11.1"
-  }
+  },
+  "_flowComment": "NOTE: for flow add also flow-bin and flow-typed"
 }

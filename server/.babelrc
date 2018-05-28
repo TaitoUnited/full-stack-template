@@ -1,18 +1,19 @@
 {
-  "presets": [
+  presets: [
     [
-      "env",
+      'env',
       {
-        "targets": {
-          "node": "current"
-        }
-      }
-    ]
+        targets: {
+          node: 'current',
+        },
+      },
+    ],
+    // NOTE: for flow
     // "flow"
   ],
-  "plugins": [
-    "transform-object-rest-spread",
-    "syntax-async-functions",
-    "transform-runtime"
-  ]
+  plugins: [
+    'transform-object-rest-spread',
+    'syntax-async-functions',
+    'transform-runtime',
+  ],
 }

@@ -370,11 +370,9 @@ Collaborators & teams:
 
 #### Stack configuration
 
-Optional: You can enable `flow` or `typescript` by renaming the `.flowconfig-example` or `tsconfig-example.json` files and uncommenting the relevant lines in `.babelrc` and `webpack.base.js` files. (TODO requires also flow libs) (TODO typescript support)
-
-If you would rather use other technologies than react and node.js, you can copy alternative example implementations from [orig-template-alt](https://github.com/TaitoUnited/orig-template-alt/).
-
-If you later need to add stack components, see [orig-template](https://github.com/TaitoUnited/orig-template/) for examples.
+* Flow/typescript: You can enable `flow` or `typescript` by going through parts that say `NOTE: for flow` or `NOTE: for typescript`. (TODO implement typescript support)
+* Alternative technologies: If you would rather use other technologies than react and node.js, you can copy alternative example implementations from [orig-template-alt](https://github.com/TaitoUnited/orig-template-alt/).
+* Adding stack components: If you later need to add stack components, see [orig-template](https://github.com/TaitoUnited/orig-template/) for examples.
 
 TODO instructions for setting up multiple servers (microservices)
 
@@ -390,7 +388,7 @@ TODO Something about additional steps if an old project was migrated.
 The following implementation changes:
 
 * Dockerfiles --> also for local development?
-* Stackdriver
+* Stackdriver logging
 * Sentry
 * Secrets
 * Storage

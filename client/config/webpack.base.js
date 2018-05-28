@@ -3,6 +3,8 @@ var resolve = require('path').resolve;
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var autoprefixer = require('autoprefixer');
+
+// NOTE: for flow
 // var FlowWebpackPlugin = require('flow-webpack-plugin');
 
 /**
@@ -33,6 +35,7 @@ var webpackConfig = {
   // context: resolve(__dirname, '.'),
 
   plugins: [
+    // NOTE: for flow
     // new FlowWebpackPlugin(),
 
     // The HtmlWebpackPlugin plugin will generate an HTML5 file for you that
