@@ -11,9 +11,11 @@ const addUploadCapabilities = requestHandler => (type, resource, params) => {
   if (type === 'UPDATE' && resource === 'posts') {
     if (params.data.pictures && params.data.pictures.length) {
       // only freshly dropped pictures are instance of File
+
+      // NOTE: conflict with prettier
+      // eslint-disable-next-line
       const formerPictures = params.data.pictures.filter(
-        p => !(p instanceof File)
-      );
+        p => !(p instanceof File));
       const newPictures = params.data.pictures.filter(p => p instanceof File);
 
       return Promise.all(newPictures.map(convertFileToBase64))
@@ -21,8 +23,7 @@ const addUploadCapabilities = requestHandler => (type, resource, params) => {
           base64Pictures.map(picture64 => ({
             src: picture64,
             title: `${params.data.title}`
-          }))
-        )
+          })))
         .then(transformedNewPictures =>
           requestHandler(type, resource, {
             ...params,
@@ -30,8 +31,7 @@ const addUploadCapabilities = requestHandler => (type, resource, params) => {
               ...params.data,
               pictures: [...transformedNewPictures, ...formerPictures]
             }
-          })
-        );
+          }));
     }
   }
 

@@ -9,6 +9,7 @@ export const maxLength = max => value =>
     : undefined;
 
 export const number = value =>
+  // eslint-disable-next-line
   value && isNaN(Number(value)) ? 'Täytyy olla numero' : undefined;
 
 export const minValue = min => value =>

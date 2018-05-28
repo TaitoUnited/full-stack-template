@@ -50,5 +50,6 @@ export default (type, params) => {
     return Promise.resolve(role);
   }
 
+  // eslint-disable-next-line
   return Promise.reject('Unknown method');
 };
