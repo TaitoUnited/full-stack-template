@@ -1,5 +1,5 @@
 const messages = {
-  aor: {
+  ra: {
     action: {
       delete: 'Poista',
       show: 'Näytä',

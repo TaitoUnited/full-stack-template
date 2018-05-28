@@ -4,9 +4,11 @@ import {
   AUTH_LOGOUT,
   AUTH_ERROR,
   AUTH_CHECK
-} from 'admin-on-rest';
+} from 'react-admin';
 
-const authClient = (type, params) => {
+/* eslint-disable prefer-promise-reject-errors */
+
+const authProvider = (type, params) => {
   if (type === AUTH_LOGIN) {
     const { username, password } = params;
     const request = new Request(`${process.env.API_URL}/auth/login`, {
@@ -56,4 +58,4 @@ const authClient = (type, params) => {
   return Promise.reject('Unkown method');
 };
 
-export default authClient;
+export default authProvider;

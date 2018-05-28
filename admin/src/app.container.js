@@ -1,21 +1,17 @@
 import React from 'react';
-import {
-  Admin,
-  Resource,
-  Delete,
-  englishMessages as commonEn
-} from 'admin-on-rest';
+import { Admin, Resource } from 'react-admin';
+import commonEn from 'ra-language-english';
 import createHistory from 'history/createBrowserHistory';
 
 // MOCK
 // import jsonRestClient from 'aor-json-rest-client';
 // import addUploadFeature from './common/_mock/addUploadFeature';
 // import data from './common/_mock/data';
-// import mockAuthClient from './common/_mock/authClient';
+// import mockauthProvider from './common/_mock/authProvider';
 
 // REAL
 import createRestClient from './common/api/restClient.api';
-import authClient from './common/api/authClient.api';
+import authProvider from './common/api/authProvider.api';
 import common, { commonSagas } from './common/common.ducks';
 
 import { PostIcon, PostList, PostCreate, PostShow, PostEdit } from './posts';
@@ -59,13 +55,15 @@ const history = createHistory({ basename: 'admin' });
 
 // REAL
 
+const i18nProvider = locale => messages[locale];
+
 const App = () => (
   <Admin
     title='Admin GUI'
-    restClient={restClient}
-    authClient={authClient}
+    dataProvider={restClient}
+    authProvider={authProvider}
     locale='fi'
-    messages={messages}
+    i18nProvider={i18nProvider}
     history={history}
     customReducers={{ common }}
     customSagas={[commonSagas]}
@@ -77,7 +75,6 @@ const App = () => (
         create={PostCreate}
         edit={PostEdit}
         show={PostShow}
-        remove={Delete}
         icon={PostIcon}
       />
     ]}

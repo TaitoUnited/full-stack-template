@@ -18,8 +18,8 @@ import {
   TextField,
   TextInput,
   translate as transl
-} from 'admin-on-rest';
-import Chip from 'material-ui/Chip';
+} from 'react-admin';
+import Chip from '@material-ui/core/Chip';
 
 const QuickFilter = transl(({ label, translate }) => (
   <Chip style={{ marginBottom: 8 }}>{translate(label)}</Chip>

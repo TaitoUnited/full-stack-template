@@ -1,1 +1,3 @@
-TODO Example: user admin GUI based on [admin-on-rest](https://marmelab.com/admin-on-rest/).
+Admin GUI based on [react-admin](https://github.com/marmelab/react-admin).
+
+Browse [demo](https://marmelab.com/react-admin-demo/) for some ideas.

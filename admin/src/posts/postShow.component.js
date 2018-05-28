@@ -15,7 +15,7 @@ import {
   Tab,
   TabbedShowLayout,
   TextField
-} from 'admin-on-rest';
+} from 'react-admin';
 
 import PostTitle from './postTitle.component';
 

@@ -23,8 +23,8 @@ import {
   minValue,
   number,
   required
-} from 'admin-on-rest';
-import RichTextInput from 'aor-rich-text-input';
+} from 'react-admin';
+import RichTextInput from 'ra-input-rich-text';
 
 import PostTitle from './postTitle.component';
 
@@ -35,7 +35,7 @@ const PostEdit = ({ ...props }) => (
     <TabbedForm defaultValue={{ average_note: 0 }}>
       <FormTab label='post.form.summary'>
         <DisabledInput source='id' />
-        <TextInput source='title' validate={required} />
+        <TextInput source='title' validate={required()} />
         <CheckboxGroupInput
           source='notifications'
           choices={[
@@ -44,7 +44,7 @@ const PostEdit = ({ ...props }) => (
             { id: 42, name: 'Sean Phonee' }
           ]}
         />
-        <LongTextInput source='teaser' validate={required} />
+        <LongTextInput source='teaser' validate={required()} />
         <ImageInput multiple source='pictures' accept='image/*'>
           <ImageField source='src' title='title' />
         </ImageInput>
@@ -53,7 +53,7 @@ const PostEdit = ({ ...props }) => (
         <RichTextInput
           source='body'
           label=''
-          validate={required}
+          validate={required()}
           addLabel={false}
         />
       </FormTab>
@@ -77,7 +77,7 @@ const PostEdit = ({ ...props }) => (
         />
         <NumberInput
           source='average_note'
-          validate={[required, number, minValue(0)]}
+          validate={[required(), number(), minValue(0)]}
         />
         <BooleanInput source='commentable' defaultValue />
         <DisabledInput source='views' />

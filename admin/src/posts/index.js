@@ -1,4 +1,4 @@
-import PostIcon from 'material-ui/svg-icons/action/book';
+import PostIcon from '@material-ui/icons/Email';
 
 import PostList from './postList.component';
 import PostCreate from './postCreate.component';

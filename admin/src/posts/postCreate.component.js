@@ -8,8 +8,8 @@ import {
   SimpleForm,
   TextInput,
   Toolbar
-} from 'admin-on-rest';
-import RichTextInput from 'aor-rich-text-input';
+} from 'react-admin';
+import RichTextInput from 'ra-input-rich-text';
 
 const PostCreateToolbar = props => (
   <Toolbar {...props}>

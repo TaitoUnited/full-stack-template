@@ -10,7 +10,7 @@ import {
   UPDATE,
   CREATE,
   DELETE
-} from 'admin-on-rest';
+} from 'react-admin';
 
 import { addTokenToOptions } from './api.util';
 
@@ -96,7 +96,7 @@ const createRestClient = (apiUrl, httpClient = fetchUtils.fetchJson) => {
     const { json = {} } = response;
 
     /* NOTE:
-     * admin-on-rest wants a data obj returned
+     * react-admin wants a data obj returned
      * even when the response has no content
      */
     if (response.status === 204) return { data: {} };
@@ -104,13 +104,13 @@ const createRestClient = (apiUrl, httpClient = fetchUtils.fetchJson) => {
     switch (type) {
     case GET_LIST:
     case GET_MANY_REFERENCE:
-        // if (!headers.has('X-Total-Count')) {
-        //   throw new Error(contentRangeErrorMsg);
-        // }
+      // if (!headers.has('X-Total-Count')) {
+      //   throw new Error(contentRangeErrorMsg);
+      // }
       return {
         data: json.data,
         total: json.totalCount
-          // parseInt(headers.get('X-Total-Count'), 10) || 100
+        // parseInt(headers.get('X-Total-Count'), 10) || 100
       };
     case CREATE:
       return { data: { ...params.data, id: json.data.id } };
@@ -128,8 +128,7 @@ const createRestClient = (apiUrl, httpClient = fetchUtils.fetchJson) => {
   return (type, resource, params) => {
     const { url, options } = convertRESTRequestToHTTP(type, resource, params);
     return httpClient(url, options).then(response =>
-      convertHTTPResponseToREST(response, type, resource, params)
-    );
+      convertHTTPResponseToREST(response, type, resource, params));
   };
 };
 

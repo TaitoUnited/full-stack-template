@@ -1,5 +1,5 @@
 import React from 'react';
-import { translate as transl } from 'admin-on-rest';
+import { translate as transl } from 'react-admin';
 
 const PostTitle = transl(({ record, translate }) => (
   <span>
