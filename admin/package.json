@@ -7,7 +7,7 @@
     "lint": "eslint . --ignore-path .eslintignore --quiet",
     "unit": "echo TODO BABEL_ENV=test jest",
     "start": "webpack-dev-server --config ./config/webpack.dev.js --public=localhost:8080/admin/sockjs-node/",
-    "build": "NODE_ENV=production webpack -p --config ./config/webpack.prod.js",
+    "build": "NODE_ENV=production webpack -p --config ./config/webpack.prod.js --mode production",
     "analyze": "ANALYZE=true NODE_ENV=production webpack -p --config ./config/webpack.prod.js"
   },
   "jest": {
@@ -81,9 +81,12 @@
     "redux-saga-tester": "^1.0.379",
     "redux-testkit": "^1.0.6",
     "style-loader": "^0.21.0",
-    "webpack": "^3.11.0",
-    "webpack-bundle-analyzer": "^2.11.3",
-    "webpack-dev-server": "^2.11.1"
+    "webpack": "^4.9.1",
+    "webpack-cli": "^2.1.4",
+    "webpack-bundle-analyzer": "^2.13.1",
+    "webpack-dev-server": "^3.1.4",
+    "webpack-merge": "^4.1.2"
   },
-  "_flowComment": "NOTE: for flow add also flow-bin and flow-typed"
+  "_flowComment": "NOTE: for flow add also flow-bin and flow-typed",
+  "_webpackServe": "TODO: replace webpack-dev-server with webpack-serve?"
 }

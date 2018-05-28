@@ -1,25 +1,26 @@
-/* eslint-disable */
-var resolve = require('path').resolve;
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var autoprefixer = require('autoprefixer');
+const { resolve } = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // NOTE: for flow
-// var FlowWebpackPlugin = require('flow-webpack-plugin');
+// const FlowWebpackPlugin = require('flow-webpack-plugin');
 
-/**
-  * This file contains the base configuration for client side webpack.
-  * The base configuration is extended by environment specific configuration
-  * files.
-  *
-  * Note that this file is NOT run through babel transpilation before execution.
-  */
+module.exports = {
+  resolve: {
+    alias: {
+      '~common': resolve(__dirname, '../src/common'),
+      '~controls': resolve(__dirname, '../src/common/controls'),
+      '~infra': resolve(__dirname, '../src/common/infra'),
+      '~layout': resolve(__dirname, '../src/common/layout'),
+      '~utils': resolve(__dirname, '../src/common/utils'),
+    },
+    modules: [ resolve('.'), 'node_modules' ],
+    extensions: ['.json', '.jsx', '.js']
+  },
 
+  // context: resolve(__dirname, '.'),
+  // node: { __filename: true },
 
-var webpackConfig = {
-  devtool: 'cheap-module-eval-source-map',
-
-  // Entry point for the application: where it starts.
   entry: [
     './index.js'
   ],
@@ -32,9 +33,8 @@ var webpackConfig = {
     publicPath: '/'
   },
 
-  // context: resolve(__dirname, '.'),
-
   plugins: [
+
     // NOTE: for flow
     // new FlowWebpackPlugin(),
 
@@ -49,18 +49,16 @@ var webpackConfig = {
     }),
     new webpack.LoaderOptionsPlugin({
       options: {
-        postcss: function () {
-          return [autoprefixer];
-        },
-        // For sass + css-modules
-        sassLoader: { // define options here => sass-loader requires context
-          includePaths: [resolve(__dirname, './src', './assets')]
-        },
+
+        // NOTE: for sass
+        // sassLoader: { // define options here => sass-loader requires context
+        //   includePaths: [resolve(__dirname, './src', './assets')]
+        // },
+
         context: '/'
       }
     })
   ],
-
   module: {
     rules: [
       {
@@ -70,46 +68,39 @@ var webpackConfig = {
         enforce: 'pre'
       },
       {
-        test: /\.jsx?$/,
-        use: ['babel-loader'],
-        exclude: /node_modules/
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+        }
       },
+
+      // NOTE: for json
       {
         test: /\.json$/,
         use: ['json-loader'],
         exclude: /node_modules/
       },
+
+      // NOTE: for binary assets
       {
         test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
         use: ['file-loader'],
         exclude: /node_modules/
+      },
+
+      {
+        test: /\.(scss|css)$/,
+        use: [
+          'style-loader',
+
+          // NOTE: for css-modules
+          'css-loader', // 'css-loader?modules',
+
+          // NOTE: for sass
+          // 'sass-loader'
+        ]
       }
-      // For sass + css-modules
-      // {
-      //   test: /\.scss$/,
-      //   use: [
-      //     'style-loader',
-      //     'css-loader', // 'css-loader?modules',
-      //     // 'postcss-loader',
-      //     'sass-loader'
-      //   ],
-      //   exclude: /node_modules/
-      // }
     ]
-  },
-
-  resolve: {
-    modules: [resolve('.'), 'node_modules'],
-    descriptionFiles: ['package.json'],
-    mainFiles: ['index.prod', 'index'],
-    extensions: ['.json', '.jsx', '.js'],
-    alias: {
-      '~common': resolve(__dirname, '../src/common'),
-      '~infra': resolve(__dirname, '../src/common/infra'),
-      '~layout': resolve(__dirname, '../src/common/layout'),
-      '~utils': resolve(__dirname, '../src/common/utils'),
-    }
   }
-}
-
-module.exports = webpackConfig;
+};
