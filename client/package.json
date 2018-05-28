@@ -25,7 +25,6 @@
     "prop-types": "^15.6.1",
     "raven-js": "^3.25.2",
     "react": "^16.3.2",
-    "react-components-kit": "^4.2.2",
     "react-dom": "^16.3.2",
     "react-loadable": "^5.4.0",
     "react-redux": "^5.0.7",
@@ -61,7 +60,6 @@
     "html-webpack-plugin": "^3.2.0",
     "jest": "^22.4.3",
     "json-loader": "^0.5.7",
-    "postcss-loader": "^2.1.5",
     "prettier": "^1.12.1",
     "react-hot-loader": "^4.1.3",
     "redux-devtools": "^3.4.1",
@@ -71,7 +69,6 @@
     "redux-saga-tester": "^1.0.379",
     "redux-testkit": "^1.0.6",
     "style-loader": "^0.21.0",
-    "url-loader": "^1.0.1",
     "webpack": "^3.11.0",
     "webpack-bundle-analyzer": "^2.11.3",
     "webpack-dev-server": "^2.11.1"

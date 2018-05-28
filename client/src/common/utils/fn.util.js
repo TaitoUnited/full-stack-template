@@ -1,5 +1,5 @@
-// NOTE: Just an example
-export const times = timesArg => {
+// NOTE: This is just an example
+const times = timesArg => {
   return func => {
     return Array(timesArg)
       .fill('-')
@@ -9,4 +9,6 @@ export const times = timesArg => {
   };
 };
 
-export const example = null;
+const example = null;
+
+export default { times, example };

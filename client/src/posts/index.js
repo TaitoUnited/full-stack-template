@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { Typography } from '@material-ui/core';
 import ErrorBoundary from '~infra/ErrorBoundary';
 
 import api from './api';
-import Posts from './Posts';
+import PostForm from './PostForm';
+import PostList from './PostList';
 
 class PostsContainer extends Component {
   state = {
@@ -42,12 +44,14 @@ class PostsContainer extends Component {
   render() {
     return (
       <ErrorBoundary>
-        <Posts
+        <Typography variant='title'>Posts</Typography>
+        <Typography>Posts implemented with vanilla React.</Typography>
+        <PostForm
+          post={this.state.post}
           onChangePost={this.onChangePost}
           onCreatePost={this.onCreatePost}
-          post={this.state.post}
-          posts={this.state.posts}
         />
+        <PostList posts={this.state.posts} />
       </ErrorBoundary>
     );
   }

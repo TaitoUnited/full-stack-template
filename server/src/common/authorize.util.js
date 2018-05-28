@@ -7,9 +7,6 @@ import Boom from 'boom';
 const authorize = state => {
   const funcs = {};
 
-  console.log('-----stateeeee-------');
-  console.log(state);
-
   funcs.role = (...roles) => {
     if (!state.role) {
       throw Boom.unauthorized('User not logged in');

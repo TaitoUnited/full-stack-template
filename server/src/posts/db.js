@@ -1,7 +1,7 @@
 import { asCamelCase } from '../common/format.util';
 
 /**
- * Responsibilities of a DAO:
+ * Responsibilities of a 'DAO'
  *
  * - Executes a database operation with the given parameters.
  * - Executes the database operation in the context of current transaction

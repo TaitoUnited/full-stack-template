@@ -24,7 +24,7 @@ const SideBar = ({ menuVisible, onToggleMenu, classes }) => (
         </Link>
         <Link to='/search' onClick={() => onToggleMenu()}>
           <ListItem button>
-            <ListItemText primary='Search (Redux + saga)' />
+            <ListItemText primary='Search (Redux+saga+styled)' />
           </ListItem>
         </Link>
         <Link to='/todo' onClick={() => onToggleMenu()}>
@@ -54,7 +54,7 @@ const SideBar = ({ menuVisible, onToggleMenu, classes }) => (
 
 const styles = {
   content: {
-    width: '250px',
+    width: '272px',
     padding: '24px 0'
   }
 };

@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 const propTypes = {
-  post: PropTypes.any
+  post: PropTypes.any.isRequired,
+  classes: PropTypes.any.isRequired
 };
 
 const Post = ({ post, classes }) => (

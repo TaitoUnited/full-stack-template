@@ -1,6 +1,6 @@
 import authorize from '../common/authorize.util.js';
 
-import dao from './dao';
+import db from './db';
 
 /**
  * Responsibilities of a service:
@@ -20,40 +20,40 @@ import dao from './dao';
  */
 
 export default class PostService {
-  constructor(postDAO) {
+  constructor(postDB) {
     // Make component testable by using primarily dependencies
     // given as constuctor args.
-    this.postDAO = postDAO || dao;
+    this.postDB = postDB || db;
   }
 
   async fetch(state, criteria) {
     authorize(state).role('admin', 'user');
-    return this.postDAO.fetch(state.getTx(), criteria);
+    return this.postDB.fetch(state.getTx(), criteria);
   }
 
   async create(state, post) {
     authorize(state).role('admin', 'user');
-    const id = await this.postDAO.create(state.getTx(), post);
-    return this.postDAO.read(state.getTx(), id);
+    const id = await this.postDB.create(state.getTx(), post);
+    return this.postDB.read(state.getTx(), id);
   }
 
   async read(state, id) {
     authorize(state).role('admin', 'user');
-    return this.postDAO.read(state.getTx(), id);
+    return this.postDB.read(state.getTx(), id);
   }
 
   async update(state, post) {
     authorize(state).role('admin');
-    await this.postDAO.update(state.getTx(), post);
+    await this.postDB.update(state.getTx(), post);
   }
 
   async patch(state, post) {
     authorize(state).role('admin');
-    await this.postDAO.patch(state.getTx(), post);
+    await this.postDB.patch(state.getTx(), post);
   }
 
   async remove(state, id) {
     authorize(state).role('admin');
-    await this.postDAO.remove(state.getTx(), id);
+    await this.postDB.remove(state.getTx(), id);
   }
 }
