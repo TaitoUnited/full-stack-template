@@ -55,25 +55,45 @@ export const searchReducer = handleActions(
 
     // User actions
 
-    [search.updateInputValue](state, { payload: { name, value } }) {
+    [search.updateInputValue](
+      state,
+      {
+        payload: { name, value }
+      }
+    ) {
       return update(state, {
         inputValues: { [name]: { $set: value } }
       });
     },
-    [search.updateCriteria](state, { payload: { name, value } }) {
+    [search.updateCriteria](
+      state,
+      {
+        payload: { name, value }
+      }
+    ) {
       return update(state, {
         paging: { page: { $set: 0 } },
         criteria: { [name]: { $set: value } },
         results: { totalCount: { $set: 0 }, selectedIndex: { $set: null } }
       });
     },
-    [search.updatePaging](state, { payload: { name, value } }) {
+    [search.updatePaging](
+      state,
+      {
+        payload: { name, value }
+      }
+    ) {
       return update(state, {
         paging: { [name]: { $set: value } },
         results: { selectedIndex: { $set: null } }
       });
     },
-    [search.selectItem](state, { payload: { index } }) {
+    [search.selectItem](
+      state,
+      {
+        payload: { index }
+      }
+    ) {
       return update(state, {
         results: { selectedIndex: { $set: index } }
       });
@@ -81,7 +101,12 @@ export const searchReducer = handleActions(
 
     // Autocomplete actions
 
-    [search.fetchAutocompleteSucceeded](state, { payload: { name, items } }) {
+    [search.fetchAutocompleteSucceeded](
+      state,
+      {
+        payload: { name, items }
+      }
+    ) {
       return update(state, {
         inputAutocomplete: { [name]: { $set: items } }
       });
@@ -97,7 +122,12 @@ export const searchReducer = handleActions(
         }
       });
     },
-    [search.fetchResultsSucceeded](state, { payload: { totalCount, items } }) {
+    [search.fetchResultsSucceeded](
+      state,
+      {
+        payload: { totalCount, items }
+      }
+    ) {
       return update(state, {
         results: {
           status: { $set: 'idle' },

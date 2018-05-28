@@ -50,9 +50,10 @@ class CopyToClipboardButton extends React.Component {
           color='primary'
           className={buttonClass}
           onClick={() => {
+            // prettier conflict?
+            // eslint-disable-next-line
             const linkElement = document.getElementById(
-              `copyContent${this.state.uniqueId}`
-            );
+              `copyContent${this.state.uniqueId}`);
             linkElement.select();
             document.execCommand('Copy');
             linkElement.blur();

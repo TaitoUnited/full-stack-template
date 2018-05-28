@@ -25,17 +25,19 @@ let store;
 if (process.env.NODE_ENV === 'development') {
   // Development
   const logger = createLogger();
+  /* eslint-disable */
   const devtools = window.devToolsExtension
     ? window.devToolsExtension()
     : createDevTools(
-      <DockMonitor
-        toggleVisibilityKey='ctrl-h'
-        changePositionKey='ctrl-w'
-        defaultIsVisible={false}
-      >
-        <LogMonitor />
-      </DockMonitor>
+        <DockMonitor
+          toggleVisibilityKey="ctrl-h"
+          changePositionKey="ctrl-w"
+          defaultIsVisible={false}
+        >
+          <LogMonitor />
+        </DockMonitor>
       ).instrument();
+  /* eslint-enable */
   store = createStore(
     appReducer,
     compose(
@@ -48,7 +50,10 @@ if (process.env.NODE_ENV === 'development') {
   // Production
   store = createStore(
     appReducer,
-    compose(applyMiddleware(sagaMiddleware), applyMiddleware(routeMiddleware))
+    compose(
+      applyMiddleware(sagaMiddleware),
+      applyMiddleware(routeMiddleware)
+    )
   );
 }
 sagaMiddleware.run(appSagas);

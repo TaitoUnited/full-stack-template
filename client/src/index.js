@@ -34,6 +34,7 @@ const mapDispatchToProps = dispatch => {
   );
 };
 
-export default withTheme()(
-  withRouter(connect(mapStateToProps, mapDispatchToProps)(App))
-);
+export default withTheme()(withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)));

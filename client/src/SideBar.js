@@ -8,6 +8,9 @@ import {
   ListItemText
 } from '@material-ui/core';
 
+/* eslint-disable jsx-a11y/anchor-is-valid */
+// TODO remove anchor-is-valid (was introduced in eslint upgrade)
+
 const SideBar = ({ menuVisible, onToggleMenu, classes }) => (
   <SwipeableDrawer
     type='persistent'

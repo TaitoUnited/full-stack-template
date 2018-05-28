@@ -10,7 +10,9 @@ const propTypes = {
   classes: PropTypes.any.isRequired
 };
 
-const PostForm = ({ post, onChangePost, onCreatePost, classes }) => {
+const PostForm = ({
+  post, onChangePost, onCreatePost, classes
+}) => {
   return (
     <form className={classes.container} noValidate autoComplete='off'>
       <TextField
