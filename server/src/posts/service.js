@@ -27,13 +27,13 @@ export default class PostService {
   }
 
   async fetch(state, criteria) {
-    // TODO enable authorize
+    // TODO enable authorize once proper sign in has been implemented
     // authorize(state).role('admin', 'user');
     return this.postDB.fetch(state.getTx(), criteria);
   }
 
   async create(state, post) {
-    // TODO enable authorize
+    // TODO enable authorize once proper sign in has been implemented
     // authorize(state).role('admin', 'user');
     const id = await this.postDB.create(state.getTx(), post);
     return this.postDB.read(state.getTx(), id);
