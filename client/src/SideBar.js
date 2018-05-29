@@ -20,42 +20,58 @@ const SideBar = ({ menuVisible, onToggleMenu, classes }) => (
   >
     <div className={classes.content}>
       <List>
-        <Link to='/posts' onClick={() => onToggleMenu()}>
+        <Link
+          className={classes.link}
+          to='/search'
+          onClick={() => onToggleMenu()}
+        >
           <ListItem button>
-            <ListItemText primary='Posts (Vanilla)' />
+            <ListItemText primary='Search' />
           </ListItem>
         </Link>
-        <Link to='/search' onClick={() => onToggleMenu()}>
+        <Link
+          className={classes.link}
+          to='/posts'
+          onClick={() => onToggleMenu()}
+        >
           <ListItem button>
-            <ListItemText primary='Search (Redux+saga+styled)' />
+            <ListItemText primary='Posts' />
           </ListItem>
         </Link>
-        <Link to='/todo' onClick={() => onToggleMenu()}>
+        <Link
+          className={classes.link}
+          to='/images'
+          onClick={() => onToggleMenu()}
+        >
           <ListItem button>
-            <ListItemText primary='Files' />
+            <ListItemText primary='Images' />
           </ListItem>
         </Link>
-        <Link to='/todo' onClick={() => onToggleMenu()}>
+        <Link
+          className={classes.link}
+          to='/reports'
+          onClick={() => onToggleMenu()}
+        >
           <ListItem button>
             <ListItemText primary='Reports' />
           </ListItem>
         </Link>
-        <Link to='/todo' onClick={() => onToggleMenu()}>
+        <Link
+          className={classes.link}
+          to='/layouts'
+          onClick={() => onToggleMenu()}
+        >
           <ListItem button>
-            <ListItemText primary='Animations' />
+            <ListItemText primary='Layouts and animations' />
           </ListItem>
         </Link>
-        <Link to='/todo' onClick={() => onToggleMenu()}>
+        <a
+          className={classes.link}
+          href='/admin/'
+          onClick={() => onToggleMenu()}
+        >
           <ListItem button>
-            <ListItemText primary='Layouts' />
-          </ListItem>
-        </Link>
-      </List>
-
-      <List>
-        <a href='/admin/' onClick={() => onToggleMenu()}>
-          <ListItem button>
-            <ListItemText primary='Admin' />
+            <ListItemText primary='Admin GUI' />
           </ListItem>
         </a>
       </List>
@@ -67,6 +83,9 @@ const styles = {
   content: {
     width: '272px',
     padding: '24px 0'
+  },
+  link: {
+    textDecoration: 'none'
   }
 };
 

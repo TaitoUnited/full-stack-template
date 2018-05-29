@@ -45,7 +45,7 @@ class PostsContainer extends Component {
     return (
       <ErrorBoundary>
         <Typography variant='title'>Posts</Typography>
-        <Typography>Posts implemented with vanilla React.</Typography>
+        <Typography>Demonstrates vanilla React</Typography>
         <PostForm
           post={this.state.post}
           onChangePost={this.onChangePost}

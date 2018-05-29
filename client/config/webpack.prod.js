@@ -57,6 +57,6 @@ module.exports = merge(base, {
     new webpack.BannerPlugin(copyright),
     ...(!process.env.ANALYZE ? [] : [
       new BundleAnalyzerPlugin()
-    ]),
-  ];
+    ])
+  ]
 });

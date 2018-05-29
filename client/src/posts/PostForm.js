@@ -14,7 +14,7 @@ const PostForm = ({
   post, onChangePost, onCreatePost, classes
 }) => {
   return (
-    <form className={classes.container} noValidate autoComplete='off'>
+    <form className={classes.form} noValidate autoComplete='off'>
       <TextField
         id='subject'
         label='Subject'
@@ -44,17 +44,23 @@ const PostForm = ({
 };
 
 const styles = theme => ({
-  container: {
+  form: {
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    marginBottom: theme.spacing.unit * 4
   },
   textField: {
-    marginRight: theme.spacing.unit,
-    width: 200
+    marginRight: theme.spacing.unit * 2,
+    width: 200,
+    '@media (max-width: 480px)': {
+      width: '100%',
+      marginRight: 0
+    }
   },
   button: {
     margin: theme.spacing.unit,
-    marginTop: '24px'
+    marginLeft: 0,
+    marginTop: theme.spacing.unit * 3
   }
 });
 

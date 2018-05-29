@@ -10,11 +10,12 @@ import { search } from './ducks.js';
 const SearchResults = () => (
   <ErrorBoundary>
     <Typography variant='title'>Search</Typography>
-    <Typography>Search implemented with Redux and redux-saga.</Typography>
     <Typography>
-      TODO copy up-to-date search example from the other project back to this
-      one.
+      Demonstrates redux, redux-saga, styled components and pushing state to
+      browser history
     </Typography>
+    <br />
+    <Typography>TODO move the existing search example here</Typography>
   </ErrorBoundary>
 );
 
