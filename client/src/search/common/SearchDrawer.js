@@ -9,9 +9,9 @@ import {
   FormLabel,
   MenuItem,
   Select,
+  Typography,
   withStyles
 } from '@material-ui/core';
-import SearchIcon from '@material-ui/icons/Search';
 
 const add = (array, value) => {
   return (array || []).concat(value);
@@ -79,6 +79,13 @@ const SearchDrawer = ({
   <StyledDrawer variant='persistent' open={drawerVisible}>
     <Content>
       <Forms>
+        <Header>
+          <Typography variant='title'>Search</Typography>
+          <Typography>
+            Demonstrates redux, redux-saga, paging and pushing state to browser
+            history
+          </Typography>
+        </Header>
         {section === 'images' && (
           <FormGroup className={classes.gutter}>
             <FormLabel
@@ -134,8 +141,7 @@ const SearchDrawer = ({
               onUpdateCriteria('simpleText', inputValues.simpleText, true)
             }
           >
-            Tee haku
-            <SearchIcon className={classes.rightIcon} />
+            Search
           </Button>
           <Button
             variant='raised'
@@ -146,13 +152,18 @@ const SearchDrawer = ({
               })
             }
           >
-            Tyhjennä ehdot
+            Clear
           </Button>
         </StyledFormControl>
       </Footer>
     </Content>
   </StyledDrawer>
 );
+
+const Header = styled.div`
+  margin-top: 8px;
+  margin-bottom: 32px;
+`;
 
 const StyledDrawer = styled(Drawer)`
   z-index: 1000 !important;
@@ -180,7 +191,6 @@ const StyledChip = styled(Chip)`
 
 const Content = styled.div`
   width: 240px;
-  padding-top: 24px;
   background-color: #fafafa;
   height: calc(100vh - 48px) !important;
   overflow: auto;

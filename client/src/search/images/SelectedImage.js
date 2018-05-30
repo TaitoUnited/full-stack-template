@@ -98,7 +98,7 @@ class SelectedImage extends React.Component {
               </PreviewWrapper>
               <Actions>
                 <CopyClipboardButton
-                  buttonText='Kopioi linkki'
+                  buttonText='Copy link'
                   buttonClass={classes.button}
                   infoMessage='Linkki kopioitu leikepöydälle'
                   copyContent={imageUrl}
@@ -111,7 +111,7 @@ class SelectedImage extends React.Component {
                   className={classes.button}
                   onClick={() => window.open(imageUrl)}
                 >
-                  Avaa
+                  Open
                   <OpenInNewIcon className={classes.rightIcon} />
                 </Button>
 
@@ -121,7 +121,7 @@ class SelectedImage extends React.Component {
                   className={classes.button}
                   onClick={() => (window.location = imageUrl)}
                 >
-                  Lataa
+                  Download
                   <FileDownloadIcon className={classes.rightIcon} />
                 </Button>
                 <Button
@@ -130,7 +130,7 @@ class SelectedImage extends React.Component {
                   className={classes.button}
                   onClick={() => window.print()}
                 >
-                  Tulosta
+                  Print
                   <PrintIcon className={classes.rightIcon} />
                 </Button>
               </Actions>

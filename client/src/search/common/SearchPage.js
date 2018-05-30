@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 import { withTheme } from '@material-ui/core/styles';
-import { LinearProgress, Typography } from '@material-ui/core';
+import { LinearProgress } from '@material-ui/core';
 import HelpIcon from '@material-ui/icons/Help';
 
 import { common } from '~common/ducks';
@@ -85,12 +85,6 @@ const SearchPage = ({
       />
       <StyledMain key="main" drawerVisible={drawerVisible}>
         <FixedWrapper drawerVisible={drawerVisible}>
-          <SearchBarWrapper>
-            <Typography>
-              Demonstrates redux, redux-saga, paging and pushing state to
-              browser history
-            </Typography>
-          </SearchBarWrapper>
           <SearchBarWrapper>
             <SearchBar
               inputValues={inputValues}
