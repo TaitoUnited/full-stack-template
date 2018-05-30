@@ -12,6 +12,8 @@ You can also migrate an existing non-taito-cli project by running `taito templat
 
 ## Links
 
+> Non-production basic auth credentials: `user` / `painipaini`
+
 [//]: # (GENERATED LINKS START)
 
 * [API (dev)](https://server-template-dev.taitodev.com/api/infra/uptimez)
@@ -344,10 +346,10 @@ Done:
 
 #### Temporary basic auth password
 
-Write down the username/password to the `show-basic-auth` script of `package.json`:
+Write down the username/password to the beginning of this `README.md` file and to the `show-basic-auth` script of `package.json`:
 
 ```
-"show-basic-auth": "echo Temporary basic auth username/password: TODO",
+"show-basic-auth": "echo Temporary basic auth username/password: ...",
 ```
 
 #### GitHub settings
