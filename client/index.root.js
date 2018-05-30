@@ -7,7 +7,7 @@ import LazyLoadHandler from '~infra/lazyLoad.handler';
 // TODO chunks
 const App = LazyLoadHandler({
   loader: () =>
-    import(/* webpackChunkName: "src" */
+    import(/* webpackChunkName: "vanilla-container" */
     './src')
 });
 /* eslint-enable */
