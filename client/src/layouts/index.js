@@ -7,7 +7,8 @@ const Layouts = () => (
   <Page>
     <Typography variant='title'>Layouts</Typography>
     <Typography>
-      Provides some reusable example layouts and animations
+      Provides some reusable example layouts and animations. NOTE: Implement
+      using the existing `images` and `posts` database tables.
     </Typography>
   </Page>
 );

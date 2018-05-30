@@ -1,6 +1,7 @@
 import InfraRoute from './infra/infra.route';
 import AuthRoute from './infra/auth.route';
-import PostRoute from './posts/route';
+import ImagesRoute from './images/route';
+import PostsRoute from './posts/route';
 
 const routes = router => {
   // Infra
@@ -9,8 +10,16 @@ const routes = router => {
   const authRoute = new AuthRoute();
   router.use(authRoute.path, authRoute.routes(), authRoute.allowedMethods());
 
+  // Images
+  const imagesRoute = new ImagesRoute();
+  router.use(
+    imagesRoute.path,
+    imagesRoute.routes(),
+    imagesRoute.allowedMethods()
+  );
+
   // Posts
-  const postRoute = new PostRoute();
+  const postRoute = new PostsRoute();
   router.use(postRoute.path, postRoute.routes(), postRoute.allowedMethods());
 };
 

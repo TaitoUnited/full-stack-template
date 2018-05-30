@@ -7,7 +7,8 @@ const Files = () => (
   <Page>
     <Typography variant='title'>Reports</Typography>
     <Typography>
-      Demonstrates graphs, printing, excel export and cron jobs.
+      Demonstrates graphs, printing, excel export and cron jobs. NOTE: Implement
+      using the existing `images` and `posts` database tables.
     </Typography>
   </Page>
 );

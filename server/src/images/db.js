@@ -17,67 +17,72 @@ import { asCamelCase } from '../common/format.util';
  */
 
 async function fetch(db) {
-  const posts = await db.any(
+  const images = await db.any(
     `
-    SELECT id, subject, content, author, created_at
-    FROM posts
+    SELECT
+      id, filename, description, author, type, created_at
+    FROM images
     ORDER BY created_at DESC
     LIMIT 20
     `
   );
-  return asCamelCase(posts);
+  return asCamelCase(images);
 }
 
-async function create(db, post) {
+async function create(db, image) {
   const data = await db.one(
     `
-    INSERT INTO posts (id, subject, content, author, created_at)
-    VALUES (DEFAULT, $(subject), $(content), $(author), DEFAULT)
+    INSERT INTO images
+      (id, filename, description, author, type, created_at)
+    VALUES
+      (DEFAULT, $(filename), $(description), $(author), $(type), DEFAULT)
     RETURNING id
     `,
-    { ...post }
+    { ...image }
   );
   return data.id;
 }
 
 async function read(db, id) {
-  const post = await db.oneOrNone(
+  const image = await db.oneOrNone(
     `
-    SELECT id, subject, content, author, created_at
-    FROM posts
+    SELECT
+      id, filename, description, author, type, created_at
+    FROM images
     WHERE id = $(id)
     `,
     { id }
   );
-  return asCamelCase(post);
+  return asCamelCase(image);
 }
 
-async function update(db, post) {
+async function update(db, image) {
   // TODO SQL INJECTION EXAMPLE!
   const data = await db.one(
     `
-    UPDATE posts
+    UPDATE images
     SET
-      subject=$(subject),
-      content=$(content),
-      author=$(author)
+      filename=$(filename),
+      description=$(description),
+      author=$(author),
+      type=$(type)
     WHERE id = $(id)
     RETURNING id
     `,
-    { ...post }
+    { ...image }
   );
   return data.id;
 }
 
-async function patch(db, post) {
+async function patch(db, image) {
   // TODO
-  console.log(JSON.stringify(post));
+  console.log(JSON.stringify(image));
 }
 
 async function remove(db, id) {
   const data = await db.oneOrNone(
     `
-    DELETE FROM posts
+    DELETE FROM images
     WHERE id = $(id)
     RETURNING id
     `,

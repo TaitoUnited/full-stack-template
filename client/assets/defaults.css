@@ -17,3 +17,24 @@ img {
 * {
   box-sizing: border-box;
 }
+
+@media print {
+  html,
+  body {
+    font-size: 12px;
+  }
+  html,
+  body,
+  div {
+    width: auto;
+    height: auto !important;
+    float: none !important;
+    position: static !important;
+    overflow: visible !important;
+    page-break-inside: auto;
+  }
+}
+
+@media print {
+  -moz-appearance: number-input;
+}

@@ -13,39 +13,60 @@ const propTypes = {
 const PostForm = ({ post, onChangePost, onCreatePost }) => {
   return (
     <StyledForm noValidate autoComplete='off'>
-      <StyledTextField
-        id='subject'
-        label='Subject'
-        value={post.subject}
-        onChange={e => onChangePost({ subject: e.target.value })}
-        margin='normal'
-      />
-      <StyledTextField
-        id='content'
-        label='Content'
-        value={post.content}
-        onChange={e => onChangePost({ content: e.target.value })}
-        margin='normal'
-      />
-      <StyledButton variant='outlined' color='primary' onClick={onCreatePost}>
-        Add
-      </StyledButton>
+      <Row>
+        <StyledTextField
+          id='subject'
+          label='Subject'
+          value={post.subject}
+          onChange={e => onChangePost({ subject: e.target.value })}
+          margin='normal'
+        />
+        <StyledTextField
+          id='author'
+          label='Author'
+          value={post.author}
+          onChange={e => onChangePost({ author: e.target.value })}
+          margin='normal'
+        />
+      </Row>
+      <Row>
+        <StyledTextField
+          id='content'
+          label='Content'
+          value={post.content}
+          onChange={e => onChangePost({ content: e.target.value })}
+          margin='normal'
+          multiline
+          maxRows={20}
+        />
+      </Row>
+      <Row>
+        <StyledButton variant='outlined' color='primary' onClick={onCreatePost}>
+          Add
+        </StyledButton>
+      </Row>
     </StyledForm>
   );
 };
 
 const StyledForm = withTheme()(styled.form`
   && {
+    max-width: 700px;
+    margin-bottom: ${props => props.theme.spacing.unit * 4}px;
+  }
+`);
+
+const Row = withTheme()(styled.div`
+  && {
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: ${props => props.theme.spacing.unit * 4}px;
   }
 `);
 
 const StyledTextField = withTheme()(styled(TextField)`
   && {
     margin-right: ${props => props.theme.spacing.unit * 2}px;
-    width: 200px;
+    flex: 1;
     @media (max-width: 480px) {
       width: 100%;
       marginright: 0;

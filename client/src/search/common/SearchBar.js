@@ -10,7 +10,7 @@ const SearchBar = ({ inputValues, onUpdateInputValue, onUpdateCriteria }) => (
     <SearchBarContent>
       <StyledInput
         type='text'
-        placeholder='Hae'
+        placeholder='Search'
         value={inputValues.simpleText || ''}
         onChange={e => onUpdateInputValue('simpleText', e.target.value)}
         onKeyPress={e =>

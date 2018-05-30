@@ -16,8 +16,9 @@ import SearchBar from './SearchBar';
 import SearchDrawer from './SearchDrawer';
 import SearchPagingBar from './SearchPagingBar';
 
+// TODO move to post
 const onShowText = (index, onShowItem, history) => {
-  history.push('/posts/browse');
+  history.push('/search/posts/browse');
   onShowItem(index);
 };
 
@@ -40,6 +41,8 @@ const getMessage = (databasesInitialized, databases, results) => {
 const SearchPage = ({
   history,
   section,
+  sectionTitle,
+  searchFieldsComponent,
   itemComponent,
   openedItemComponent,
   databasesInitialized,
@@ -71,7 +74,8 @@ const SearchPage = ({
       />
       <SearchDrawer
         key="drawer"
-        section={section}
+        sectionTitle={sectionTitle}
+        searchFieldsComponent={searchFieldsComponent}
         drawerVisible={drawerVisible}
         databases={databases}
         inputValues={inputValues}
@@ -98,8 +102,7 @@ const SearchPage = ({
                 !databases.length ||
                 criteria.database !== databases[0].id ||
                 (!!criteria.sources && criteria.sources.length !== 0) ||
-                (!!criteria.authors &&
-                  criteria.authors.length !== 0) ||
+                (!!criteria.authors && criteria.authors.length !== 0) ||
                 (!!criteria.startDate && criteria.startDate.length !== 0) ||
                 (!!criteria.endDate && criteria.endDate.length !== 0) ||
                 (!!filters.shape && filters.shape !== '-')
@@ -247,12 +250,16 @@ const HelpButton = styled.div`
 
 export const withMapStateToProps = (
   section,
+  sectionTitle,
+  searchFieldsComponent,
   itemComponent,
   openedItemComponent
 ) => {
   return state => {
     return {
       section,
+      sectionTitle,
+      searchFieldsComponent,
       itemComponent,
       openedItemComponent,
       inputValues: state.search[section].inputValues,

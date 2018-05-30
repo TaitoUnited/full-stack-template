@@ -9,8 +9,9 @@ const propTypes = {
 
 const Post = ({ post }) => (
   <Wrapper>
+    <div>Author: {post.author}</div>
     <div>Subject: {post.subject}</div>
-    <div>Content: {post.content}</div>
+    <div>{post.content}</div>
   </Wrapper>
 );
 

@@ -9,10 +9,10 @@ import { withStyles } from '@material-ui/core/styles';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import KeyListener from '~controls/paging/KeyListener';
+import { prevFunc, nextFunc } from '~controls/paging/utils';
 
 import { search, withSection } from '../common/ducks';
-import { prevFunc, nextFunc } from '../common/utils';
-import Article from '../common/Article';
+import Post from './Post';
 
 const propTypes = {
   results: PropTypes.object.isRequired,
@@ -33,9 +33,9 @@ const styles = theme => ({
 });
 
 /* eslint-disable no-mixed-operators */
-class TextBrowsePage extends React.Component {
+class BrowseResults extends React.Component {
   onGoBack = () => {
-    this.props.history.push('/posts');
+    this.props.history.push('/search/posts');
   };
 
   render() {
@@ -55,7 +55,7 @@ class TextBrowsePage extends React.Component {
       this.props.onShowItem
     );
 
-    const articleNumber =
+    const postNumber =
       paging.page * paging.pageSize + results.selectedIndex + 1;
 
     return (
@@ -67,15 +67,15 @@ class TextBrowsePage extends React.Component {
           onUpdatePaging={this.props.onUpdatePaging}
           onSelectItem={this.props.onShowItem}
         />
-        <Article
+        <Post
           item={item}
-          headlinePrefix={`${articleNumber}.`}
+          headlinePrefix={`${postNumber}.`}
           onGoBack={this.onGoBack}
           classes={classes}
         >
           <Button variant='raised' color='primary' onClick={this.onGoBack}>
             <NavigateBeforeIcon className={classes.leftIcon} />
-            Takaisin hakutuloksiin
+            Back to results
           </Button>
           <Spacer />
           <Button
@@ -95,7 +95,7 @@ class TextBrowsePage extends React.Component {
           >
             <NavigateNextIcon />
           </Button>
-        </Article>
+        </Post>
       </div>
     );
   }
@@ -126,9 +126,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-TextBrowsePage.propTypes = propTypes;
+BrowseResults.propTypes = propTypes;
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(TextBrowsePage), withRouter(TextBrowsePage));
+)(withStyles(styles)(BrowseResults), withRouter(BrowseResults));

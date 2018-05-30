@@ -1,33 +1,5 @@
 import { fork, takeEvery } from 'redux-saga/effects';
-
-import postsApi from '~entities/posts.api';
-
-import { searchSagas, searchSagasInit } from './search/common/sagas';
-
-const errorHandler = err => {
-  if (err.statusCode === 403) window.location.reload();
-  if (err.response && err.response.status === 403) window.location.reload();
-};
-
-const sectionsByPath = {
-  '/search': 'images'
-};
-
-searchSagasInit(
-  // sectionsByPath
-  sectionsByPath,
-  // apisBySection
-  {
-    images: postsApi,
-    posts: postsApi
-  },
-  // criteriaTypeByName
-  {
-    authors: 'array',
-    sources: 'array'
-  },
-  errorHandler
-);
+import searchSagas from './search/sagas';
 
 function* watchDebug() {
   yield takeEvery('DEBUG', action =>

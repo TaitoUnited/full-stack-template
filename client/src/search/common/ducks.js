@@ -27,7 +27,7 @@ const defaultSectionState = (pageSize, criteria) => {
   };
 };
 
-// TODO move harcoded posts/images sections elsewhere
+// TODO move harcoded posts/images section settings to ..
 const defaultState = {
   posts: defaultSectionState(20, {
     sortBy: '-'

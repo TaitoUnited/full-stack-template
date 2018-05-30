@@ -1,0 +1,112 @@
+# Swagger: http://swagger.io/docs/specification/what-is-swagger/
+
+# NOTE: Swagger is optional. Alternatively you can just copy paste json
+# examples in a markdown file and add some documentation.
+
+# TODO: Use joi + slate instead of Swagger?
+
+definitions:
+  File:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      description:
+        type: string
+
+paths:
+  /files:
+    get:
+      summary: Fetch files
+      parameters:
+        - name: name
+          type: string
+        - name: description
+          type: string
+      responses:
+        200:
+          description: Files by id
+          schema:
+            type: object
+            additionalProperties:
+              $ref: '#/definitions/File'
+  /files:
+    image:
+      summary: Create a file
+      parameters:
+        - in: body
+          name: file
+          schema:
+            $ref: "#/definitions/File
+      parameters:
+        - name: id
+          type: string
+          required: true
+      responses:
+        200:
+          description: Succeeded
+          schema:
+            type: object
+            properties:
+              id:
+              type: string
+        404:
+          description: Not found
+
+  /files/{id}:
+    get:
+      summary: Read a file
+      parameters:
+        - name: id
+          type: string
+          required: true
+      responses:
+        200:
+          description: A file
+          schema:
+            type: object
+            $ref: '#/definitions/File'
+        404:
+          description: Not found
+  /files/{id}:
+    put:
+      summary: Update a file (full update)
+      parameters:
+        - name: file
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/File'
+      responses:
+        200:
+          description: OK
+        404:
+          description: Not found
+  /files/{id}:
+    put:
+      summary: Patch a file (partial update)
+      parameters:
+        - name: file
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/File'
+      responses:
+        200:
+          description: OK
+        404:
+          description: Not found
+  /files/{id}:
+    delete:
+      summary: Delete a file
+      parameters:
+        - name: id
+          type: string
+          required: true
+      responses:
+        200:
+          description: OK
+        404:
+          description: Not found

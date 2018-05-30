@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
@@ -14,10 +15,12 @@ import Router from './Router';
 
 const App = ({ menuVisible, onToggleMenu }) => (
   <MuiThemeProvider theme={theme}>
-    <CssBaseline />
-    <TopBar onToggleMenu={onToggleMenu} />
-    <SideBar menuVisible={menuVisible} onToggleMenu={onToggleMenu} />
-    <Router menuVisible={menuVisible} id='app-content' />
+    <StyledWrapper>
+      <CssBaseline />
+      <TopBar onToggleMenu={onToggleMenu} />
+      <SideBar menuVisible={menuVisible} onToggleMenu={onToggleMenu} />
+      <Router menuVisible={menuVisible} id='app-content' />
+    </StyledWrapper>
   </MuiThemeProvider>
 );
 
@@ -35,6 +38,15 @@ const mapDispatchToProps = dispatch => {
     dispatch
   );
 };
+
+const StyledWrapper = styled.div`
+  @media print {
+    margin-top: 0;
+    button {
+      display: none !important;
+    }
+  }
+`;
 
 export default withRouter(connect(
   mapStateToProps,

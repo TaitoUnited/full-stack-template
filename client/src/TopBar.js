@@ -4,7 +4,7 @@ import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 
 const TopBar = ({ onToggleMenu }) => (
-  <AppBar position='static'>
+  <StyledAppBar position='static'>
     <Toolbar>
       <MenuButton
         aria-label='open drawer'
@@ -15,8 +15,14 @@ const TopBar = ({ onToggleMenu }) => (
       </MenuButton>
       <Logo color='inherit'>Taito United</Logo>
     </Toolbar>
-  </AppBar>
+  </StyledAppBar>
 );
+
+const StyledAppBar = styled(AppBar)`
+  @media print {
+    display: none !important;
+  }
+`;
 
 const MenuButton = styled(IconButton)`
   && {

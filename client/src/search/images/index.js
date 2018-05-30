@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import Image from './Image';
 import SelectedImage from './SelectedImage';
+import SearchFields from './SearchFields';
 
 import SearchPage, {
   withMapStateToProps,
@@ -10,6 +11,12 @@ import SearchPage, {
 } from '../common/SearchPage';
 
 export default withRouter(connect(
-  withMapStateToProps('images', Image, SelectedImage),
+  withMapStateToProps(
+    'images',
+    'Search images',
+    SearchFields,
+    Image,
+    SelectedImage
+  ),
   withMapDispatchToProps('images')
 )(SearchPage));

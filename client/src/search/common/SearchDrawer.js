@@ -67,7 +67,8 @@ const styles = theme => ({
 
 const SearchDrawer = ({
   drawerVisible,
-  section,
+  sectionTitle,
+  searchFieldsComponent,
   inputValues,
   onUpdateInputValue,
   criteria,
@@ -80,102 +81,62 @@ const SearchDrawer = ({
     <Content>
       <Forms>
         <Header>
-          <Typography variant='title'>Search</Typography>
+          <Typography variant='title'>{sectionTitle}</Typography>
           <Typography>
             Demonstrates redux, redux-saga, paging and pushing state to browser
             history
           </Typography>
         </Header>
-        {section === 'images' && (
-          <FormGroup className={classes.gutter}>
-            <FormLabel
-              component='legend'
-              htmlFor='sources'
-              className={classes.formLabel}
+        <FormGroup className={classes.gutter}>
+          <FormLabel
+            component='legend'
+            htmlFor='authors'
+            className={classes.formLabel}
+          >
+            Author
+          </FormLabel>
+          <StyledFormControl className={classes.formControl}>
+            <Select
+              value=''
+              onChange={e =>
+                onUpdateInputValue(
+                  'authors',
+                  add(inputValues.authors, e.target.value)
+                )
+              }
+              className={classes.input}
             >
-              Source
-            </FormLabel>
-            <StyledFormControl className={classes.formControl}>
-              <Select
-                value=''
-                onChange={e =>
-                  onUpdateInputValue(
-                    'sources',
-                    add(inputValues.sources, e.target.value)
-                  )
-                }
-                className={classes.input}
-              >
-                <MenuItem key='1' value='1'>
-                  Imagebank
-                </MenuItem>
-                <MenuItem key='2' value='2'>
-                  Google
-                </MenuItem>
-              </Select>
-              {/* source chips */}
-              {inputValues.sources &&
-                !!inputValues.sources.length &&
-                inputValues.sources.map(value => (
-                  <StyledChip
-                    key={value}
-                    label={`${label(criteriaOptions.sources, value)}`}
-                    onDelete={() =>
-                      onUpdateInputValue(
-                        'sources',
-                        remove(inputValues.sources, value)
-                      )
-                    }
-                  />
-                ))}
-            </StyledFormControl>
-          </FormGroup>
-        )}
-        {section === 'images' && (
-          <FormGroup className={classes.gutter}>
-            <FormLabel
-              component='legend'
-              htmlFor='authors'
-              className={classes.formLabel}
-            >
-              Author
-            </FormLabel>
-            <StyledFormControl className={classes.formControl}>
-              <Select
-                value=''
-                onChange={e =>
-                  onUpdateInputValue(
-                    'authors',
-                    add(inputValues.authors, e.target.value)
-                  )
-                }
-                className={classes.input}
-              >
-                <MenuItem key='1' value='1'>
-                  John Doe
-                </MenuItem>
-                <MenuItem key='2' value='2'>
-                  Jane Doe
-                </MenuItem>
-              </Select>
-              {/* author chips */}
-              {inputValues.authors &&
-                !!inputValues.authors.length &&
-                inputValues.authors.map(value => (
-                  <StyledChip
-                    key={value}
-                    label={`${label(criteriaOptions.authors, value)}`}
-                    onDelete={() =>
-                      onUpdateInputValue(
-                        'authors',
-                        remove(inputValues.authors, value)
-                      )
-                    }
-                  />
-                ))}
-            </StyledFormControl>
-          </FormGroup>
-        )}
+              <MenuItem key='John Doe' value='John Doe'>
+                John Doe
+              </MenuItem>
+              <MenuItem key='Jane Doe' value='Jane Doe'>
+                Jane Doe
+              </MenuItem>
+            </Select>
+            {/* author chips */}
+            {inputValues.authors &&
+              !!inputValues.authors.length &&
+              inputValues.authors.map(value => (
+                <StyledChip
+                  key={value}
+                  label={`${label(criteriaOptions.authors, value)}`}
+                  onDelete={() =>
+                    onUpdateInputValue(
+                      'authors',
+                      remove(inputValues.authors, value)
+                    )
+                  }
+                />
+              ))}
+          </StyledFormControl>
+        </FormGroup>
+        {React.createElement(searchFieldsComponent, {
+          inputValues,
+          onUpdateInputValue,
+          criteria,
+          criteriaOptions,
+          onUpdateCriteria
+        })}
       </Forms>
       <Footer>
         <StyledFormControl>

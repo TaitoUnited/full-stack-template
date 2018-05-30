@@ -18,43 +18,43 @@ import db from './db';
  * execute database operation and generate response with a single method.
  */
 
-export default class PostService {
-  constructor(postDB) {
+export default class ImageService {
+  constructor(imageDB) {
     // Make component testable by using primarily dependencies
     // given as constuctor args.
-    this.postDB = postDB || db;
+    this.imageDB = imageDB || db;
   }
 
   async fetch(state, criteria) {
     // TODO enable authorize once proper sign in has been implemented
     // authorize(state).role('admin', 'user');
-    return this.postDB.fetch(state.getTx(), criteria);
+    return this.imageDB.fetch(state.getTx(), criteria);
   }
 
-  async create(state, post) {
+  async create(state, image) {
     // TODO enable authorize once proper sign in has been implemented
     // authorize(state).role('admin', 'user');
-    const id = await this.postDB.create(state.getTx(), post);
-    return this.postDB.read(state.getTx(), id);
+    const id = await this.imageDB.create(state.getTx(), image);
+    return this.imageDB.read(state.getTx(), id);
   }
 
   async read(state, id) {
     authorize(state).role('admin', 'user');
-    return this.postDB.read(state.getTx(), id);
+    return this.imageDB.read(state.getTx(), id);
   }
 
-  async update(state, post) {
+  async update(state, image) {
     authorize(state).role('admin');
-    await this.postDB.update(state.getTx(), post);
+    await this.imageDB.update(state.getTx(), image);
   }
 
-  async patch(state, post) {
+  async patch(state, image) {
     authorize(state).role('admin');
-    await this.postDB.patch(state.getTx(), post);
+    await this.imageDB.patch(state.getTx(), image);
   }
 
   async remove(state, id) {
     authorize(state).role('admin');
-    await this.postDB.remove(state.getTx(), id);
+    await this.imageDB.remove(state.getTx(), id);
   }
 }

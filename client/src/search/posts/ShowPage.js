@@ -5,9 +5,8 @@ import { Button } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 
-// TODO jj
-import { readItem } from '../common/item.api';
-import Article from '../common/Article';
+import { read } from '~entities/posts.api';
+import Post from './Post';
 
 const styles = theme => ({
   rightIcon: {
@@ -21,20 +20,20 @@ const styles = theme => ({
 });
 
 /* eslint-disable no-mixed-operators */
-class TextViewPage extends React.Component {
+class ShowPage extends React.Component {
   state = {
     item: null
   };
 
   componentWillMount() {
     const { database, itemId } = this.props.match.params;
-    this.readItem(database, itemId);
+    this.read(database, itemId);
   }
 
   componentWillReceiveProps(nextProps) {
     const { database, itemId } = nextProps.match.params;
     if (itemId !== this.state.item.itemId) {
-      this.readItem(database, itemId);
+      this.read(database, itemId);
     }
   }
 
@@ -42,19 +41,17 @@ class TextViewPage extends React.Component {
     this.props.history.goBack();
   };
 
-  async readItem(database, itemId) {
+  async read(database, itemId) {
     // item not needed elsewhere -> just fetch it directly
-    // TODO remove criteria and redux stuff
-    const item = await readItem({
-      criteria: { database },
-      itemId
+    const item = await read({
+      id: itemId
     });
     this.setState({ item });
   }
 
   render() {
     return (
-      <Article
+      <Post
         item={this.state.item}
         onGoBack={this.onGoBack}
         classes={this.props.classes}
@@ -63,7 +60,7 @@ class TextViewPage extends React.Component {
           <NavigateBeforeIcon className={this.props.classes.leftIcon} />
           Takaisin
         </Button>
-      </Article>
+      </Post>
     );
   }
 }
@@ -71,4 +68,4 @@ class TextViewPage extends React.Component {
 export default connect(
   null,
   null
-)(withStyles(styles)(TextViewPage), withRouter(TextViewPage));
+)(withStyles(styles)(ShowPage), withRouter(ShowPage));

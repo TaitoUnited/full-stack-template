@@ -21,19 +21,24 @@ const SideBar = ({ menuVisible, onToggleMenu }) => (
   >
     <Content>
       <List>
-        <NaviLink to='/search' onClick={() => onToggleMenu()}>
+        <NaviLink to='/search/images' onClick={() => onToggleMenu()}>
           <ListItem button>
-            <ListItemText primary='Search' />
+            <ListItemText primary='Search images' />
           </ListItem>
         </NaviLink>
-        <NaviLink to='/posts' onClick={() => onToggleMenu()}>
+        <NaviLink to='/search/posts' onClick={() => onToggleMenu()}>
           <ListItem button>
-            <ListItemText primary='Posts' />
+            <ListItemText primary='Search posts' />
           </ListItem>
         </NaviLink>
         <NaviLink to='/images' onClick={() => onToggleMenu()}>
           <ListItem button>
             <ListItemText primary='Images' />
+          </ListItem>
+        </NaviLink>
+        <NaviLink to='/posts' onClick={() => onToggleMenu()}>
+          <ListItem button>
+            <ListItemText primary='Posts' />
           </ListItem>
         </NaviLink>
         <NaviLink to='/reports' onClick={() => onToggleMenu()}>

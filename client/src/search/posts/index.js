@@ -1,7 +1,8 @@
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Post from './Post';
+import PostSummary from './PostSummary';
+import SearchFields from './SearchFields';
 
 import SearchPage, {
   withMapStateToProps,
@@ -9,6 +10,6 @@ import SearchPage, {
 } from '../common/SearchPage';
 
 export default withRouter(connect(
-  withMapStateToProps('posts', Post),
+  withMapStateToProps('posts', 'Search Posts', SearchFields, PostSummary),
   withMapDispatchToProps('posts')
 )(SearchPage));
