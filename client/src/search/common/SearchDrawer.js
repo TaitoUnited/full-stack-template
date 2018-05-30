@@ -33,10 +33,10 @@ const styles = theme => ({
   database_1: {
     paddingLeft: '30px'
   },
-  magazineSection: {
+  sourceSection: {
     fontWeight: 'bold'
   },
-  magazineItem: {
+  sourceItem: {
     paddingLeft: '40px'
   },
   input: {
@@ -90,40 +90,85 @@ const SearchDrawer = ({
           <FormGroup className={classes.gutter}>
             <FormLabel
               component='legend'
-              htmlFor='photographers'
+              htmlFor='sources'
               className={classes.formLabel}
             >
-              Photographer
+              Source
             </FormLabel>
             <StyledFormControl className={classes.formControl}>
               <Select
                 value=''
                 onChange={e =>
                   onUpdateInputValue(
-                    'photographers',
-                    add(inputValues.photographers, e.target.value)
+                    'sources',
+                    add(inputValues.sources, e.target.value)
                   )
                 }
                 className={classes.input}
               >
                 <MenuItem key='1' value='1'>
-                  Matti Meikäläinen
+                  Imagebank
                 </MenuItem>
                 <MenuItem key='2' value='2'>
-                  Ville Voutilainen
+                  Google
                 </MenuItem>
               </Select>
-              {/* Photographer chips */}
-              {inputValues.photographers &&
-                !!inputValues.photographers.length &&
-                inputValues.photographers.map(value => (
+              {/* source chips */}
+              {inputValues.sources &&
+                !!inputValues.sources.length &&
+                inputValues.sources.map(value => (
                   <StyledChip
                     key={value}
-                    label={`${label(criteriaOptions.photographers, value)}`}
+                    label={`${label(criteriaOptions.sources, value)}`}
                     onDelete={() =>
                       onUpdateInputValue(
-                        'photographers',
-                        remove(inputValues.photographers, value)
+                        'sources',
+                        remove(inputValues.sources, value)
+                      )
+                    }
+                  />
+                ))}
+            </StyledFormControl>
+          </FormGroup>
+        )}
+        {section === 'images' && (
+          <FormGroup className={classes.gutter}>
+            <FormLabel
+              component='legend'
+              htmlFor='authors'
+              className={classes.formLabel}
+            >
+              Author
+            </FormLabel>
+            <StyledFormControl className={classes.formControl}>
+              <Select
+                value=''
+                onChange={e =>
+                  onUpdateInputValue(
+                    'authors',
+                    add(inputValues.authors, e.target.value)
+                  )
+                }
+                className={classes.input}
+              >
+                <MenuItem key='1' value='1'>
+                  John Doe
+                </MenuItem>
+                <MenuItem key='2' value='2'>
+                  Jane Doe
+                </MenuItem>
+              </Select>
+              {/* author chips */}
+              {inputValues.authors &&
+                !!inputValues.authors.length &&
+                inputValues.authors.map(value => (
+                  <StyledChip
+                    key={value}
+                    label={`${label(criteriaOptions.authors, value)}`}
+                    onDelete={() =>
+                      onUpdateInputValue(
+                        'authors',
+                        remove(inputValues.authors, value)
                       )
                     }
                   />

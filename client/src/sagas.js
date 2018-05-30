@@ -23,8 +23,8 @@ searchSagasInit(
   },
   // criteriaTypeByName
   {
-    photographers: 'array',
-    magazines: 'array'
+    authors: 'array',
+    sources: 'array'
   },
   errorHandler
 );

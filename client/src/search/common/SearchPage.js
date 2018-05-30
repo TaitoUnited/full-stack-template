@@ -97,9 +97,9 @@ const SearchPage = ({
                    quite specific filtering */
                 !databases.length ||
                 criteria.database !== databases[0].id ||
-                (!!criteria.magazines && criteria.magazines.length !== 0) ||
-                (!!criteria.photographers &&
-                  criteria.photographers.length !== 0) ||
+                (!!criteria.sources && criteria.sources.length !== 0) ||
+                (!!criteria.authors &&
+                  criteria.authors.length !== 0) ||
                 (!!criteria.startDate && criteria.startDate.length !== 0) ||
                 (!!criteria.endDate && criteria.endDate.length !== 0) ||
                 (!!filters.shape && filters.shape !== '-')
