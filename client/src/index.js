@@ -2,21 +2,23 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { withTheme } from '@material-ui/core/styles';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import { common } from './common/ducks.js';
+import theme from './common/theme';
+import { common } from './common/ducks';
+
 import TopBar from './TopBar';
 import SideBar from './SideBar';
-import ContentRouter from './ContentRouter';
+import Router from './Router';
 
 const App = ({ menuVisible, onToggleMenu }) => (
-  <div>
+  <MuiThemeProvider theme={theme}>
     <CssBaseline />
     <TopBar onToggleMenu={onToggleMenu} />
     <SideBar menuVisible={menuVisible} onToggleMenu={onToggleMenu} />
-    <ContentRouter menuVisible={menuVisible} id='app-content' />
-  </div>
+    <Router menuVisible={menuVisible} id='app-content' />
+  </MuiThemeProvider>
 );
 
 const mapStateToProps = state => {
@@ -34,7 +36,7 @@ const mapDispatchToProps = dispatch => {
   );
 };
 
-export default withTheme()(withRouter(connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps
-)(App)));
+)(App));

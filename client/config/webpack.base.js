@@ -10,6 +10,7 @@ module.exports = {
     alias: {
       '~common': resolve(__dirname, '../src/common'),
       '~controls': resolve(__dirname, '../src/common/controls'),
+      '~entities': resolve(__dirname, '../src/common/entities'),
       '~infra': resolve(__dirname, '../src/common/infra'),
       '~layout': resolve(__dirname, '../src/common/layout'),
       '~utils': resolve(__dirname, '../src/common/utils'),

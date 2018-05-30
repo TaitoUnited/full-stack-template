@@ -1,6 +1,6 @@
 import React from 'react';
 
-import logger from './logger.util';
+import logger from './logger.utils';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -22,5 +22,18 @@ class ErrorBoundary extends React.Component {
     return this.props.children;
   }
 }
+
+export const withErrorBoundary = WrappedComponent => {
+  // eslint-disable-next-line
+  return class extends React.Component {
+    render() {
+      return (
+        <ErrorBoundary>
+          <WrappedComponent {...this.props} />
+        </ErrorBoundary>
+      );
+    }
+  };
+};
 
 export default ErrorBoundary;

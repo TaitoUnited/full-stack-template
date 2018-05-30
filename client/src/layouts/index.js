@@ -1,14 +1,15 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
-import ErrorBoundary from '~infra/ErrorBoundary';
+
+import Page from '~layout/Page';
 
 const Layouts = () => (
-  <ErrorBoundary>
+  <Page>
     <Typography variant='title'>Layouts</Typography>
     <Typography>
       Provides some reusable example layouts and animations
     </Typography>
-  </ErrorBoundary>
+  </Page>
 );
 
 export default Layouts;

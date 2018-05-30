@@ -1,25 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import styled from 'styled-components';
+import { withTheme } from '@material-ui/core/styles';
 
 const propTypes = {
-  post: PropTypes.any.isRequired,
-  classes: PropTypes.any.isRequired
+  post: PropTypes.any.isRequired
 };
 
-const Post = ({ post, classes }) => (
-  <div className={classes.post}>
+const Post = ({ post }) => (
+  <Wrapper>
     <div>Subject: {post.subject}</div>
     <div>Content: {post.content}</div>
-  </div>
+  </Wrapper>
 );
 
-const styles = theme => ({
-  post: {
-    margin: `${theme.spacing.unit}px 0 ${theme.spacing.unit}px 0`
-  }
-});
+const Wrapper = withTheme()(styled.div`
+  margin: ${props => props.theme.spacing.unit}px 0
+    ${props => props.theme.spacing.unit}px 0;
+`);
 
 Post.propTypes = propTypes;
 
-export default withStyles(styles)(Post);
+export default Post;

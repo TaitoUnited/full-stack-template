@@ -4,7 +4,14 @@ import { createActions, handleActions } from 'redux-actions';
 // Default state
 const defaultState = {
   menuVisible: false,
-  user: null
+  user: null,
+  drawerVisible: true, // TODO move to search
+  // TODO remove
+  databasesBySection: {
+    initialized: true,
+    images: [],
+    posts: []
+  }
 };
 
 // Actions

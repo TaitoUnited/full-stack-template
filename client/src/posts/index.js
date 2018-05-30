@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Typography } from '@material-ui/core';
-import ErrorBoundary from '~infra/ErrorBoundary';
 
-import api from './api';
+import Page from '~layout/Page';
+import api from '~entities/posts.api';
 import PostForm from './PostForm';
 import PostList from './PostList';
 
@@ -43,16 +43,18 @@ class PostsContainer extends Component {
 
   render() {
     return (
-      <ErrorBoundary>
+      <Page>
         <Typography variant='title'>Posts</Typography>
-        <Typography>Demonstrates vanilla React</Typography>
+        <Typography>
+          Demonstrates vanilla React and real-time updates (TODO real-time).
+        </Typography>
         <PostForm
           post={this.state.post}
           onChangePost={this.onChangePost}
           onCreatePost={this.onCreatePost}
         />
         <PostList posts={this.state.posts} />
-      </ErrorBoundary>
+      </Page>
     );
   }
 }

@@ -20,7 +20,7 @@
     development: {
       plugins: [
         // NOTE: for styled components
-        // "babel-plugin-styled-components",
+        'babel-plugin-styled-components',
         'react-hot-loader/babel'
       ]
     }

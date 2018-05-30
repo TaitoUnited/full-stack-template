@@ -1,13 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import {
-  Button,
-  Snackbar,
-  IconButton,
-  CloseIcon,
-  LinkIcon
-} from '@material-ui/core';
+import styled from 'styled-components';
+import { withTheme } from '@material-ui/core/styles';
+import { Button, Snackbar, IconButton } from '@material-ui/core';
+import { Close, Link as LinkIcon } from '@material-ui/icons';
 
 let uniqueId = 0;
 
@@ -33,12 +29,11 @@ class CopyToClipboardButton extends React.Component {
   };
 
   render() {
-    const { classes, buttonClass } = this.props;
+    const { buttonClass } = this.props;
     return (
       <span>
         {/* invisible input that contains to content to be copied */}
-        <textarea
-          className={classes.hiddenTextArea}
+        <HiddenTextArea
           id={`copyContent${this.state.uniqueId}`}
           value={this.props.copyContent}
           readOnly
@@ -46,7 +41,7 @@ class CopyToClipboardButton extends React.Component {
 
         {/* the button */}
         <Button
-          raised
+          variant='raised'
           color='primary'
           className={buttonClass}
           onClick={() => {
@@ -61,7 +56,7 @@ class CopyToClipboardButton extends React.Component {
           }}
         >
           {this.props.buttonText}
-          <LinkIcon className={classes.rightIcon} />
+          <RightIcon />
         </Button>
 
         {/* info message snackbar */}
@@ -78,15 +73,14 @@ class CopyToClipboardButton extends React.Component {
           }}
           message={<span id='message-id'>{this.props.infoMessage}</span>}
           action={[
-            <IconButton
+            <CloseButton
               key='close'
               aria-label='Close'
               color='inherit'
-              className={classes.close}
               onClick={this.closeSnackbar}
             >
-              <CloseIcon />
-            </IconButton>
+              <Close />
+            </CloseButton>
           ]}
         />
       </span>
@@ -94,32 +88,38 @@ class CopyToClipboardButton extends React.Component {
   }
 }
 
-const styles = theme => ({
-  close: {
-    width: theme.spacing.unit * 4,
-    height: theme.spacing.unit * 4
-  },
-  rightIcon: {
-    marginLeft: theme.spacing.unit,
-    height: 16,
-    width: 16
-  },
-  HiddenTextArea: {
-    color: 'transparent',
-    backgroundColor: 'transparent',
-    border: 'none',
-    fontSize: '1px',
-    width: '1px',
-    margin: '-1px 0 0 0',
-    padding: '0',
-    overflow: 'hidden',
+const CloseButton = withTheme()(styled(IconButton)`
+  && {
+    width: ${props => props.theme.spacing.unit * 4}px;
+    height: ${props => props.theme.spacing.unit * 4}px;
+  }
+`);
 
-    '::selection': {
-      backgroundColor: 'transparent'
+const RightIcon = withTheme()(styled(LinkIcon)`
+  && {
+    margin-left: ${props => props.theme.spacing.unit}px;
+    height: ${props => props.theme.spacing.unit * 2}px;
+    width: ${props => props.theme.spacing.unit * 2}px;
+  }
+`);
+
+const HiddenTextArea = withTheme()(styled.textarea`
+  && {
+    color: transparent;
+    background-color: transparent;
+    border: none;
+    font-size: 1px;
+    width: 1px;
+    margin: -1px 0 0 0;
+    padding: 0;
+    overflow: hidden;
+
+    ::selection: {
+      background-color: transparent;
     }
   }
-});
+`);
 
 CopyToClipboardButton.propTypes = propTypes;
 
-export default withStyles(styles)(CopyToClipboardButton);
+export default CopyToClipboardButton;

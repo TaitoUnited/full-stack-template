@@ -1,15 +1,16 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
-import ErrorBoundary from '~infra/ErrorBoundary';
 
-const Files = () => (
-  <ErrorBoundary>
+import Page from '~layout/Page';
+
+const Images = () => (
+  <Page>
     <Typography variant='title'>Images</Typography>
     <Typography>
-      Demonstrates file upload, file download, storage buckets and image
-      cropping/conversion using background jobs.
+      Demonstrates file upload, download, storage buckets and automatic image
+      cropping/conversion using queued background jobs.
     </Typography>
-  </ErrorBoundary>
+  </Page>
 );
 
-export default Files;
+export default Images;

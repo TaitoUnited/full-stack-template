@@ -344,7 +344,7 @@ Done:
 
 #### Temporary basic auth password
 
-Write down the username/password to `show-basic-auth` script of `package.json`:
+Write down the username/password to the `show-basic-auth` script of `package.json`:
 
 ```
 "show-basic-auth": "echo Temporary basic auth username/password: TODO",
@@ -372,9 +372,9 @@ Collaborators & teams:
 
 * Flow/typescript: You can enable `flow` or `typescript` by going through parts that say `NOTE: for flow` or `NOTE: for typescript`. (TODO implement typescript support)
 * Alternative technologies: If you would rather use other technologies than react and node.js, you can copy alternative example implementations from [orig-template-alt](https://github.com/TaitoUnited/orig-template-alt/).
-* Adding stack components: If you later need to add stack components, see [orig-template](https://github.com/TaitoUnited/orig-template/) for examples.
+* Adding stack components: If you later need to add new stack components (e.g. bot, queue, storage or worker), see [orig-template](https://github.com/TaitoUnited/orig-template/) for examples.
 
-TODO instructions for setting up multiple servers (microservices)
+TODO instructions for setting up multiple server containers for api.
 
 #### Examples
 

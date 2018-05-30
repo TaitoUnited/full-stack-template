@@ -1,69 +1,66 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import styled from 'styled-components';
+import { withTheme } from '@material-ui/core/styles';
 import { Button, TextField } from '@material-ui/core';
 
 const propTypes = {
   post: PropTypes.any.isRequired,
   onChangePost: PropTypes.func.isRequired,
-  onCreatePost: PropTypes.func.isRequired,
-  classes: PropTypes.any.isRequired
+  onCreatePost: PropTypes.func.isRequired
 };
 
-const PostForm = ({
-  post, onChangePost, onCreatePost, classes
-}) => {
+const PostForm = ({ post, onChangePost, onCreatePost }) => {
   return (
-    <form className={classes.form} noValidate autoComplete='off'>
-      <TextField
+    <StyledForm noValidate autoComplete='off'>
+      <StyledTextField
         id='subject'
         label='Subject'
-        className={classes.textField}
         value={post.subject}
         onChange={e => onChangePost({ subject: e.target.value })}
         margin='normal'
       />
-      <TextField
+      <StyledTextField
         id='content'
         label='Content'
-        className={classes.textField}
         value={post.content}
         onChange={e => onChangePost({ content: e.target.value })}
         margin='normal'
       />
-      <Button
-        variant='outlined'
-        color='primary'
-        className={classes.button}
-        onClick={onCreatePost}
-      >
+      <StyledButton variant='outlined' color='primary' onClick={onCreatePost}>
         Add
-      </Button>
-    </form>
+      </StyledButton>
+    </StyledForm>
   );
 };
 
-const styles = theme => ({
-  form: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    marginBottom: theme.spacing.unit * 4
-  },
-  textField: {
-    marginRight: theme.spacing.unit * 2,
-    width: 200,
-    '@media (max-width: 480px)': {
-      width: '100%',
-      marginRight: 0
-    }
-  },
-  button: {
-    margin: theme.spacing.unit,
-    marginLeft: 0,
-    marginTop: theme.spacing.unit * 3
+const StyledForm = withTheme()(styled.form`
+  && {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: ${props => props.theme.spacing.unit * 4}px;
   }
-});
+`);
+
+const StyledTextField = withTheme()(styled(TextField)`
+  && {
+    margin-right: ${props => props.theme.spacing.unit * 2}px;
+    width: 200px;
+    @media (max-width: 480px) {
+      width: 100%;
+      marginright: 0;
+    }
+  }
+`);
+
+const StyledButton = withTheme()(styled(Button)`
+  && {
+    margin: ${props => props.theme.spacing.unit}px;
+    margin-left: 0;
+    margin-top: ${props => props.theme.spacing.unit * 3}px;
+  }
+`);
 
 PostForm.propTypes = propTypes;
 
-export default withStyles(styles)(PostForm);
+export default PostForm;

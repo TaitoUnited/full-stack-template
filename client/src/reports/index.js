@@ -1,15 +1,15 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
-import ErrorBoundary from '~infra/ErrorBoundary';
+
+import Page from '~layout/Page';
 
 const Files = () => (
-  <ErrorBoundary>
+  <Page>
     <Typography variant='title'>Reports</Typography>
     <Typography>
-      Demonstrates graphs, printing, excel export, cron jobs, background jobs
-      and server push.
+      Demonstrates graphs, printing, excel export and cron jobs.
     </Typography>
-  </ErrorBoundary>
+  </Page>
 );
 
 export default Files;

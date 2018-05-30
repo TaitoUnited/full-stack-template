@@ -1,0 +1,360 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { Paper, Button } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import FileDownloadIcon from '@material-ui/icons/FileDownload';
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
+import PrintIcon from '@material-ui/icons/Print';
+import CopyClipboardButton from '~controls/CopyClipboardButton';
+
+import Item from '~controls/paging/Item';
+import Circle from './Circle';
+
+const imageUrl =
+  'https://static.ilcdn.fi/viihdeuutiset/kahlekuningaskuva3ek2905_503_vd.jpg';
+
+const propTypes = {
+  // item: PropTypes.object,
+  onUnselect: PropTypes.func,
+  onSelectPrev: PropTypes.func,
+  onSelectNext: PropTypes.func
+};
+
+const styles = theme => ({
+  button: {
+    marginTop: theme.spacing.unit * 1.5,
+    marginRight: theme.spacing.unit * 1.5
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
+    height: 16,
+    width: 16
+  }
+});
+
+class SelectedImage extends React.Component {
+  // As a default, we assume that images are landscape oriented
+  state = {
+    itemId: null
+    // imgWidth: 3,
+    // imgHeight: 2
+  };
+
+  componentWillMount() {
+    this.scrollTo(this.props);
+  }
+
+  componentWillReceiveProps(newProps) {
+    this.scrollTo(newProps);
+  }
+
+  scrollTo(newProps) {
+    // Scroll the SelectedImage component into view if  image section has
+    // changed
+    if (this.state.itemId !== newProps.item.id && this.anchorEl) {
+      this.setState({ itemId: newProps.item.id });
+      setTimeout(() => {
+        const domEl = ReactDOM.findDOMNode(this.anchorEl); // eslint-disable-line
+        if (domEl) {
+          const middle = domEl.offsetParent.clientHeight / 2;
+          const half = domEl.clientHeight / 2;
+          const position = middle - half;
+          domEl.offsetParent.scrollTop = Math.max(
+            0,
+            domEl.offsetTop - position
+          );
+        }
+      });
+    }
+  }
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <SelectedImageWrapper
+        ref={anchorEl => {
+          this.anchorEl = anchorEl;
+        }}
+      >
+        <Item
+          selected
+          showNav
+          onUnselect={this.props.onUnselect}
+          onSelectPrev={this.props.onSelectPrev}
+          onSelectNext={this.props.onSelectNext}
+          minHeight='20vh'
+          padding='20px'
+        >
+          <Content>
+            <ContentLeft>
+              <PreviewWrapper>
+                <Preview
+                  src={imageUrl}
+                  alt='KUVA'
+                  onClick={() => window.open(imageUrl)}
+                />
+              </PreviewWrapper>
+              <Actions>
+                <CopyClipboardButton
+                  buttonText='Kopioi linkki'
+                  buttonClass={classes.button}
+                  infoMessage='Linkki kopioitu leikepöydälle'
+                  copyContent={imageUrl}
+                />
+
+                {/* TODO API does not support download=false yet? */}
+                <Button
+                  variant='raised'
+                  color='primary'
+                  className={classes.button}
+                  onClick={() => window.open(imageUrl)}
+                >
+                  Avaa
+                  <OpenInNewIcon className={classes.rightIcon} />
+                </Button>
+
+                <Button
+                  variant='raised'
+                  color='primary'
+                  className={classes.button}
+                  onClick={() => (window.location = imageUrl)}
+                >
+                  Lataa
+                  <FileDownloadIcon className={classes.rightIcon} />
+                </Button>
+                <Button
+                  variant='raised'
+                  color='primary'
+                  className={classes.button}
+                  onClick={() => window.print()}
+                >
+                  Tulosta
+                  <PrintIcon className={classes.rightIcon} />
+                </Button>
+              </Actions>
+            </ContentLeft>
+            <ContentRight>
+              <ResultInfo>
+                <Circle color='#ffed0f' text='Status circle' />
+                <Circle color='#ff421f' text='Another status circle' />
+              </ResultInfo>
+              <Table>
+                <tbody>
+                  <tr>
+                    <th>
+                      Jeps:
+                      <ToolTip>Jeps</ToolTip>
+                    </th>
+                    <td>Value</td>
+                  </tr>
+                </tbody>
+              </Table>
+            </ContentRight>
+          </Content>
+        </Item>
+      </SelectedImageWrapper>
+    );
+  }
+}
+
+const SelectedImageWrapper = styled(Paper)`
+  display: block;
+  width: 100%;
+  min-height: 20vh;
+  margin: 4px 0 16px 0;
+  background-color: #29323b !important;
+  color: #ffffff !important;
+  font-size: 12px;
+  line-height: 1.4;
+  position: relative;
+  z-index: 1;
+  border-radius: 4px;
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
+
+  @media print {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+`;
+
+const Content = styled.div`
+  width: 100%;
+  height: 100%;
+
+  @media screen and (min-width: 769px) {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    align-content: center !important;
+  }
+
+  @media screen and (min-width: 1700px) {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  @media screen and (min-width: 2000px) {
+    width: 65%;
+  }
+
+  @media screen and (min-width: 3000px) {
+    width: 50%;
+  }
+
+  @media print {
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    display: inline !important;
+  }
+`;
+
+const ContentLeft = styled.div`
+  width: 50%;
+  height: 100%;
+
+  @media screen and (max-width: 768px) {
+    width: 100% !important;
+    height: auto;
+    position: relative;
+    padding-bottom: 20px;
+  }
+
+  button {
+    height: 36px !important;
+  }
+
+  @media print {
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    display: inline !important;
+  }
+`;
+
+const PreviewWrapper = styled.div`
+  width: 100%;
+  background-color: #212930;
+  padding: 0;
+`;
+
+const Preview = styled.img`
+  max-width: 100%;
+  max-height: 35vh;
+  display: block;
+  margin: 0 auto;
+  cursor: pointer;
+
+  @media screen and (max-width: 768px) {
+    max-height: 30vh;
+  }
+`;
+
+const Actions = styled.div``;
+
+const ContentRight = styled.div`
+  width: 50%;
+  height: 100%;
+  padding-left: 2%;
+
+  @media screen and (max-width: 768px) {
+    width: 100% !important;
+    height: auto;
+    position: relative;
+    padding-left: 0;
+  }
+
+  @media print {
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    display: inline !important;
+  }
+`;
+
+const ResultInfo = styled.span`
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  span {
+    margin-right: 6px;
+  }
+
+  @media print {
+    font-weight: 400;
+  }
+`;
+
+const Table = styled.table`
+  margin-top: 10px;
+  text-align: left;
+  width: 100%;
+  border: 0;
+
+  tr {
+    width: 100%;
+    padding-left: 0;
+  }
+
+  th {
+    vertical-align: top;
+    padding-right: 5px;
+    padding-left: 0;
+    padding-bottom: 3px;
+    width: 120px;
+
+    &:hover > span {
+      visibility: visible;
+    }
+
+    @media print {
+      font-weight: 400;
+    }
+  }
+
+  td {
+    vertical-align: top;
+    padding-left: 0;
+    padding-bottom: 2px;
+  }
+`;
+
+const ToolTip = styled.span`
+  visibility: hidden;
+  width: auto;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 8px;
+  position: absolute;
+  margin-left: 8px;
+  margin-top: -5px;
+  z-index: 1;
+
+  &:after {
+    content: ' ';
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    margin-top: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent black transparent transparent;
+  }
+`;
+
+SelectedImage.propTypes = propTypes;
+
+export default withStyles(styles)(SelectedImage);

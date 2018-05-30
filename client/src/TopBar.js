@@ -1,37 +1,37 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import styled from 'styled-components';
 import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 
-const TopBar = ({ onToggleMenu, classes }) => (
+const TopBar = ({ onToggleMenu }) => (
   <AppBar position='static'>
     <Toolbar>
-      <IconButton
+      <MenuButton
         aria-label='open drawer'
         color='inherit'
-        className={classes.menuButton}
         onClick={() => onToggleMenu()}
       >
         <MenuIcon />
-      </IconButton>
-      <Typography className={classes.logo} color='inherit'>
-        Taito United
-      </Typography>
+      </MenuButton>
+      <Logo color='inherit'>Taito United</Logo>
     </Toolbar>
   </AppBar>
 );
 
-const styles = {
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20
-  },
-  logo: {
-    marginTop: 2,
-    marginLeft: -4,
-    fontSize: 16,
-    textTransform: 'uppercase'
+const MenuButton = styled(IconButton)`
+  && {
+    margin-left: -12px;
+    margin-right: 20px;
   }
-};
+`;
 
-export default withStyles(styles)(TopBar);
+const Logo = styled(Typography)`
+  && {
+    margin-top: 2px;
+    margin-left: -4px;
+    font-size: 16px;
+    text-transform: uppercase;
+  }
+`;
+
+export default TopBar;

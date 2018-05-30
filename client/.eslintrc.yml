@@ -48,6 +48,9 @@ rules:
   # console is fine
   no-console: 0
 
+  # allow return assign to keep simple arrow functions concise
+  no-return-assign: 0
+
   # allow empty block statements, useful for catching sometimes
   no-empty: 0
 
