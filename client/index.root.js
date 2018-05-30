@@ -3,15 +3,16 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import LazyLoadHandler from '~infra/lazyLoad.handler';
 
-// import App from './src';
+import App from './src';
 
 /* eslint-disable */
-/* TODO chunks */
+/* TODO chunks
 const App = LazyLoadHandler({
   loader: () =>
-    import(/* webpackChunkName: "vanilla-container" */
+    import(/* webpackChunkName: "vanilla-container" * /
     './src')
 });
+*/
 /* eslint-enable */
 
 const Root = ({ store, history }) => (
