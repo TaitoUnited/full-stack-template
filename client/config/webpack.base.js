@@ -35,7 +35,6 @@ module.exports = {
   },
 
   plugins: [
-
     // NOTE: for flow
     // new FlowWebpackPlugin(),
 

@@ -6,7 +6,7 @@
     "types": "if [ -f .flowconfig ]; then flow; elif [ -f tsconfig.json ]; then echo TODO run typescript; fi",
     "lint": "eslint . --ignore-path .eslintignore --quiet",
     "unit": "echo TODO BABEL_ENV=test jest",
-    "start": "webpack-dev-server --config ./config/webpack.dev.js --public=localhost:8080/admin/sockjs-node/",
+    "start": "NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.js --public=localhost:8080/admin/sockjs-node/",
     "build": "NODE_ENV=production webpack -p --config ./config/webpack.prod.js --mode production",
     "analyze": "ANALYZE=true NODE_ENV=production webpack -p --config ./config/webpack.prod.js"
   },
@@ -24,6 +24,7 @@
     "data-generator": "^1.0.0",
     "fakerest": "~2.1.0",
     "fetch-mock": "~6.3.0",
+    "hard-source-webpack-plugin": "^0.7.4",
     "history": "^4.7.2",
     "immutability-helper": "^2.7.0",
     "json-graphql-server": "~2.1.1",
