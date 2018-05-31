@@ -26,8 +26,7 @@ export default class ImageService {
   }
 
   async fetch(state, criteria) {
-    // TODO enable authorize once proper sign in has been implemented
-    // authorize(state).role('admin', 'user');
+    authorize(state).role('admin', 'user');
     return {
       totalCount: await this.imageDB.fetch(state.getTx(), criteria, true),
       data: await this.imageDB.fetch(state.getTx(), criteria),
@@ -35,8 +34,7 @@ export default class ImageService {
   }
 
   async create(state, image) {
-    // TODO enable authorize once proper sign in has been implemented
-    // authorize(state).role('admin', 'user');
+    authorize(state).role('admin', 'user');
     const id = await this.imageDB.create(state.getTx(), image);
     return this.imageDB.read(state.getTx(), id);
   }

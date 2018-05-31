@@ -1,5 +1,5 @@
 import jwt from 'koa-jwt';
-import basicAuth from 'koa-basic-auth';
+// import basicAuth from 'koa-basic-auth';
 import config from '../common/config';
 import { mergeToLogCtx } from '../common/log.util';
 
@@ -8,8 +8,6 @@ const skipAuthPaths = [
   /^\/infra\/uptimez/,
   /^\/infra\/healthz/,
   /^\/auth\/login/,
-  /^\/posts/, // TODO remove once proper sign in has been implemented
-  /^\/images/, // TODO remove once proper sign in has been implemented
 ];
 
 // NOTE: REMOVE THIS IF ONLY BASIC OR JWT AUTH IS REQUIRED
@@ -32,16 +30,17 @@ const authMiddleware = app => {
   });
 
   // Basic auth
-  app.use(async (ctx, next) => {
-    if (ctx.state.clientAuthMethod === 'basic') {
-      await basicAuth({
-        name: 'user',
-        pass: config.passwords.user,
-      })(ctx, next);
-    } else {
-      await next();
-    }
-  });
+  // NOTE: enable once proper sign in has been implemented
+  // app.use(async (ctx, next) => {
+  //   if (ctx.state.clientAuthMethod === 'basic') {
+  //     await basicAuth({
+  //       name: 'user',
+  //       pass: config.passwords.user,
+  //     })(ctx, next);
+  //   } else {
+  //     await next();
+  //   }
+  // });
 
   // JWT auth
   app.use(
