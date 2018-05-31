@@ -9,6 +9,7 @@ const skipAuthPaths = [
   /^\/infra\/healthz/,
   /^\/auth\/login/,
   /^\/posts/, // TODO remove once proper sign in has been implemented
+  /^\/images/, // TODO remove once proper sign in has been implemented
 ];
 
 // NOTE: REMOVE THIS IF ONLY BASIC OR JWT AUTH IS REQUIRED
