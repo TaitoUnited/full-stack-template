@@ -19,6 +19,10 @@ RUN npm run lint
 RUN npm run unit
 RUN npm run build:prod
 
+# TODO remove this quick fix
+RUN echo 'AFTER BUILD: ls ./node_modules/koa-body-parsers' && \
+    ls ./node_modules/koa-body-parsers || echo 'no koa-body-parsers'
+
 # Production runtime container
 FROM node:8.11-alpine
 ARG BUILD_VERSION
@@ -32,12 +36,30 @@ WORKDIR /build
 COPY --from=builder /build .
 COPY --from=builder /server/package.json .
 COPY --from=builder /server/node_modules ./node_modules
+
+# TODO remove this quick fix
+RUN echo 'BEFORE PRUNE: ls ./node_modules/koa-body-parsers' && \
+    ls ./node_modules/koa-body-parsers || echo 'no koa-body-parsers'
+
+# TODO remove this quick fix
+RUN mv ./node_modules/koa-body-parsers ./koa-body-parsers || \
+    echo 'OK. No koa-body-parsers.'
+
 # Delete development libraries and create node user if it doesn't exist
 RUN npm prune --production && \
     addgroup -S -g 74839 node || \
     adduser -S -u 74276 -s /bin/false node || \
     addgroup node node || \
     su node -s /bin/sh -c "node --version"
+
+# TODO remove this quick fix
+RUN mv ./koa-body-parsers ./node_modules/koa-body-parsers || \
+    echo 'OK. No koa-body-parsers.'
+
+# TODO remove this quick fix
+RUN echo 'AFTER PRUNE: ls ./node_modules/koa-body-parsers' && \
+    ls ./node_modules/koa-body-parsers || echo 'no koa-body-parsers'
+
 USER node
 EXPOSE 3332
 # TODO dump-init or tiny as init system? Kubernetes uses --init?
