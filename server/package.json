@@ -15,7 +15,7 @@
     "docs": "grunt --gruntfile ./Gruntfile swagger-docs --force"
   },
   "_comment": "TODO upgrade koa-jwt. the latest breaks determineAuthMethod()",
-  "_comment2": "TODO remove koa-body-parsers dependency. currently required as a koa-better-body fix for production build",
+  "_comment2": "TODO remove koa-body-parsers and raw-body dependencies. they are required as a koa-better-body fix for production build as npm prune will remove them otherwise.",
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "babel-runtime": "^6.26.0",
@@ -26,6 +26,7 @@
     "koa": "^2.5.1",
     "koa-basic-auth": "^2.0.0",
     "koa-better-body": "^3.0.4",
+    "koa-body-parsers": "https://github.com/olstenlarck/body-parsers/archive/3.0.0.tar.gz",
     "koa-cache-control": "^2.0.0",
     "koa-convert": "^1.2.0",
     "koa-jwt": "^1.2.0",
@@ -33,6 +34,7 @@
     "lodash": "^4.17.10",
     "pg-promise": "^7.4.0",
     "raven": "^2.6.2",
+    "raw-body": "^2.1.0",
     "uuid": "^3.2.1"
   },
   "devDependencies": {
