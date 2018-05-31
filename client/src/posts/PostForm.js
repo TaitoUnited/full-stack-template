@@ -37,7 +37,6 @@ const PostForm = ({ post, onChangePost, onCreatePost }) => {
           onChange={e => onChangePost({ content: e.target.value })}
           margin='normal'
           multiline
-          maxRows={20}
         />
       </Row>
       <Row>
@@ -67,9 +66,10 @@ const StyledTextField = withTheme()(styled(TextField)`
   && {
     margin-right: ${props => props.theme.spacing.unit * 2}px;
     flex: 1;
-    @media (max-width: 480px) {
+    @media (max-width: 420px) {
       width: 100%;
-      marginright: 0;
+      flex: none;
+      margin-right: 0;
     }
   }
 `);

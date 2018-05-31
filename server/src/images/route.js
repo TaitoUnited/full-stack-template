@@ -21,7 +21,7 @@ export default class imageRoute extends BaseRoute {
     // Fetch images
     this.router.get('/', async (ctx, next) => {
       const data = await this.imageService.fetch(ctx.state, ctx.query);
-      ctx.body = { data, totalCount: 100 };
+      ctx.body = data;
       next();
     });
 

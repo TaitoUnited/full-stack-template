@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import { IconButton, withStyles } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 
-// TODO simpleText only
-
 const SearchBar = ({ inputValues, onUpdateInputValue, onUpdateCriteria }) => (
   <SearchBarWrapper>
     <SearchBarContent>

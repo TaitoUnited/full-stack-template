@@ -68,11 +68,7 @@ class Paging extends React.Component {
   };
   render() {
     return (
-      <PagerWrapper
-        flex={10}
-        bottom={this.props.bottom}
-        drawerVisible={this.props.drawerVisible}
-      >
+      <PagerWrapper flex={10} bottom={this.props.bottom}>
         <IconButton
           color='primary'
           disabled={this.props.paging.page <= 0}

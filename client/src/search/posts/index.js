@@ -10,6 +10,6 @@ import SearchPage, {
 } from '../common/SearchPage';
 
 export default withRouter(connect(
-  withMapStateToProps('posts', 'Search Posts', SearchFields, PostSummary),
+  withMapStateToProps('posts', 'Search posts', SearchFields, PostSummary),
   withMapDispatchToProps('posts')
 )(SearchPage));

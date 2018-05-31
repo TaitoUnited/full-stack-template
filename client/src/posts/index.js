@@ -10,6 +10,7 @@ class PostsContainer extends Component {
   state = {
     post: {
       subject: '',
+      author: '',
       content: ''
     },
     posts: []
@@ -30,6 +31,7 @@ class PostsContainer extends Component {
     this.setState({
       post: {
         subject: '',
+        author: '',
         content: ''
       },
       posts: [post, ...this.state.posts]
@@ -37,7 +39,10 @@ class PostsContainer extends Component {
   };
 
   fetchPosts = async () => {
-    const { items } = await api.fetch();
+    const { items } = await api.fetch({
+      offset: 0,
+      limit: 20
+    });
     this.setState({ posts: items });
   };
 
@@ -46,7 +51,8 @@ class PostsContainer extends Component {
       <Page>
         <Typography variant='title'>Posts</Typography>
         <Typography>
-          Demonstrates vanilla React and real-time updates (TODO real-time).
+          Demonstrates vanilla React, form validation and real-time updates
+          (TODO validation and real-time).
         </Typography>
         <PostForm
           post={this.state.post}

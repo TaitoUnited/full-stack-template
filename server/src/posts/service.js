@@ -28,7 +28,10 @@ export default class PostService {
   async fetch(state, criteria) {
     // TODO enable authorize once proper sign in has been implemented
     // authorize(state).role('admin', 'user');
-    return this.postDB.fetch(state.getTx(), criteria);
+    return {
+      totalCount: await this.postDB.fetch(state.getTx(), criteria, true),
+      data: await this.postDB.fetch(state.getTx(), criteria),
+    };
   }
 
   async create(state, post) {

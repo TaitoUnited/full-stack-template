@@ -24,7 +24,6 @@
     "data-generator": "^1.0.0",
     "fakerest": "~2.1.0",
     "fetch-mock": "~6.3.0",
-    "hard-source-webpack-plugin": "^0.7.4",
     "history": "^4.7.2",
     "immutability-helper": "^2.7.0",
     "json-graphql-server": "~2.1.1",

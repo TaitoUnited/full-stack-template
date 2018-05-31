@@ -28,7 +28,10 @@ export default class ImageService {
   async fetch(state, criteria) {
     // TODO enable authorize once proper sign in has been implemented
     // authorize(state).role('admin', 'user');
-    return this.imageDB.fetch(state.getTx(), criteria);
+    return {
+      totalCount: await this.imageDB.fetch(state.getTx(), criteria, true),
+      data: await this.imageDB.fetch(state.getTx(), criteria),
+    };
   }
 
   async create(state, image) {

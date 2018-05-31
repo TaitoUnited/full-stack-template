@@ -8,17 +8,6 @@ import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 import { read } from '~entities/posts.api';
 import Post from './Post';
 
-const styles = theme => ({
-  rightIcon: {
-    marginLeft: theme.spacing.unit,
-    height: 16,
-    width: 16
-  },
-  leftIcon: {
-    marginRight: theme.spacing.unit
-  }
-});
-
 /* eslint-disable no-mixed-operators */
 class ShowPage extends React.Component {
   state = {
@@ -64,6 +53,18 @@ class ShowPage extends React.Component {
     );
   }
 }
+
+// TODO convert to styled
+const styles = theme => ({
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
+    height: 16,
+    width: 16
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit
+  }
+});
 
 export default connect(
   null,

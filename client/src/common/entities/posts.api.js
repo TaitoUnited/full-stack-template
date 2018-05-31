@@ -1,26 +1,14 @@
 import axios from 'axios';
 import { apiUrl } from '~common/constants';
 
-async function fetch() {
-  const resp = await axios.get(`${apiUrl}/posts`);
-  return {
-    items: resp.data.data,
-    total: resp.data.totalCount
-  };
-}
-
-// TODO jj
-async function fetchItems() {
-  const resp = await axios.get(`${apiUrl}/posts`);
+async function fetch(criteria) {
+  const resp = await axios.get(`${apiUrl}/posts`, {
+    params: criteria
+  });
   return {
     items: resp.data.data,
     totalCount: resp.data.totalCount
   };
-}
-
-// TODO jj
-async function fetchOptions() {
-  return [];
 }
 
 async function create({ post }) {
@@ -50,8 +38,6 @@ async function remove({ id }) {
 
 export default {
   fetch,
-  fetchItems,
-  fetchOptions,
   create,
   read,
   update,

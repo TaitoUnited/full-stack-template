@@ -20,16 +20,14 @@ export const addSearchStateToPath = (
   };
 
   // Format parameters to a user friendly format
-  // TODO avoid lodash and moment in common implementation?
+  // TODO avoid lodash, or use a subset only
   params = _.mapValues(params, value => {
     return value;
-    // return key.endsWith('Date') && value
-    //   ? moment(value).format('YYYYMMDD')
-    //   : value;
   });
   params.page += 1;
 
   // Filter empty and unwanted values from params
+  // TODO avoid lodash, or use a subset only
   params = _.pickBy(params, (value, key) => {
     return !excludeParams[key] && value;
   });

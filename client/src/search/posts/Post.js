@@ -52,9 +52,8 @@ class Post extends React.Component {
   };
 
   copyText = () => {
-    // const { item } = this.props;
-    // return `${headline}\n\n${post}`;
-    return `TODO`;
+    const { item } = this.props;
+    return `${item.subject}\n\n${item.content}`;
   };
 
   render() {
@@ -95,9 +94,9 @@ class Post extends React.Component {
         >
           <TextContent>
             <Header>
-              <Headline>Subject</Headline>
+              <Headline>{item.subject}</Headline>
             </Header>
-            <Text>Tekstiä</Text>
+            <Text>{item.content}</Text>
           </TextContent>
         </Content>
       </StyledMain>

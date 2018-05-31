@@ -1,73 +1,37 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { withStyles } from '@material-ui/core/styles';
 import { Paper } from '@material-ui/core';
 import { appear } from '~utils/animations.utils';
 
 import Circle from './Circle';
 
+// TODO: load thumbnail from server
 const thumbUrl =
   'https://static.ilcdn.fi/viihdeuutiset/kahlekuningaskuva3ek2905_503_vd.jpg';
 
 const propTypes = {
   index: PropTypes.number.isRequired,
   item: PropTypes.object.isRequired,
-  filters: PropTypes.object.isRequired,
   selected: PropTypes.bool.isRequired,
   selectedIndex: PropTypes.number,
-  // selectedBy: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
   onUnselect: PropTypes.func.isRequired,
   resultNumber: PropTypes.number.isRequired
 };
 
-const styles = () => ({
-  rounded: {
-    borderRadius: '4px'
-  }
-});
-
 class Image extends Component {
   state = {
     hover: false,
-    width: 130,
-    height: 0
+    width: 130
+    // height: 0
   };
-
-  componentWillReceiveProps(newProps) {
-    // Automatically select next or previous image if this image
-    // is selected but disabled
-    // NOTE: This is a hack. Save image width/height to store instead of state
-    // so that this can be handled in an action.
-    if (
-      newProps.selected &&
-      newProps.selectedBy === 'key' &&
-      this.isDisabled(newProps.filters.shape)
-    ) {
-      const forwards = this.props.selectedIndex < newProps.index;
-      if (forwards && this.props.onSelectNext) {
-        this.props.onSelectNext(newProps.selectedBy);
-      } else if (!forwards && this.props.onSelectPrev) {
-        this.props.onSelectPrev(newProps.selectedBy);
-      } else {
-        this.props.onUnselect();
-      }
-    }
-  }
 
   updateImageProportions = e => {
     this.setState({
-      width: e.target.clientWidth,
-      height: e.target.clientHeight
+      width: e.target.clientWidth
+      // height: e.target.clientHeight
     });
-  };
-
-  isDisabled = shape => {
-    return (
-      (shape === 'landscape' && this.state.height > this.state.width) ||
-      (shape === 'portrait' && this.state.height < this.state.width)
-    );
   };
 
   mouseEnter = () => {
@@ -85,8 +49,7 @@ class Image extends Component {
   };
 
   render() {
-    const { classes } = this.props;
-    const disabled = this.isDisabled(this.props.filters.shape);
+    const { item } = this.props;
     return (
       <ImageWrapper
         id={`results-item-${this.props.index}`}
@@ -96,11 +59,9 @@ class Image extends Component {
         }
         onMouseEnter={this.mouseEnter}
         onMouseLeave={this.mouseLeave}
-        className={classes.rounded}
       >
         <ThumbContent>
-          {/* TODO use thumbnail type or add image crop settings? */}
-          <ThumbnailImageWrapper disabled={disabled}>
+          <ThumbnailImageWrapper>
             <ThumbnailImage
               src={thumbUrl}
               alt={this.props.item.name}
@@ -112,17 +73,16 @@ class Image extends Component {
             </ColorCodes>
           </ThumbnailImageWrapper>
           {this.showShortInfo() && (
-            <ShortInfo width={this.state.width} disabled={disabled}>
-              asdf asdfasdf asd fa sdf asdf asdf a sdf asdf asdf asdfasd fas
-              asdfasdfasdf asdfasdfa sdfasdfa sdfasdf asdfasdf asdfa asdfasdfa
-              asdfasdfasdf asd asdfasdf asdf asdf asdfasd fasdf sad.
+            <ShortInfo width={this.state.width}>
+              <div>{item.filename}</div>
+              <div>by {item.author}</div>
             </ShortInfo>
           )}
           {!this.showShortInfo() && (
-            <LongInfo width={this.state.width} disabled={disabled}>
-              asdfasdfasdf asdf asdf asd asdf asdf asd fasd fasdfasd asd fasdf
-              asd fasdf asdfas asd fasdfasdfasd asdf asdf asd fasdf asd
-              fasdfasdf asd fasdf asdf asdfasd.
+            <LongInfo width={this.state.width}>
+              <div>{item.filename}</div>
+              <div>by {item.author}</div>
+              <p>{item.description}</p>
             </LongInfo>
           )}
         </ThumbContent>
@@ -151,6 +111,7 @@ const ImageWrapper = styled(Paper)`
   position: relative;
   z-index: 0;
   cursor: pointer;
+  borderradius: 4px;
 
   &:hover {
     z-index: 1;
@@ -186,7 +147,6 @@ const ThumbContent = styled.span`
 
 const ThumbnailImageWrapper = styled.span`
   display: block;
-  opacity: ${props => (props.disabled ? '0.3' : '1')};
 `;
 
 const ThumbnailImage = styled.img`
@@ -236,7 +196,11 @@ const ShortInfo = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   position: relative;
-  opacity: ${props => (props.disabled ? '0.3' : '1')};
+  font-size: 13px;
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
 `;
 
 const LongInfo = styled.div`
@@ -247,12 +211,13 @@ const LongInfo = styled.div`
   padding: 6px;
   background-color: #29323b !important;
   border-radius: 0px 0px 4px 4px;
+  font-size: 13px;
 
-  > * {
-    opacity: ${props => (props.disabled ? '0.3' : '1')};
+  @media (max-width: 480px) {
+    width: 100%;
   }
 `;
 
 Image.propTypes = propTypes;
 
-export default withStyles(styles)(Image);
+export default Image;

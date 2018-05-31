@@ -7,8 +7,8 @@ const Images = () => (
   <Page>
     <Typography variant='title'>Images</Typography>
     <Typography>
-      Demonstrates file upload, download, storage buckets and automatic image
-      cropping/conversion using queued background jobs.
+      Demonstrates file upload, download, storage buckets and queued background
+      jobs.
     </Typography>
   </Page>
 );

@@ -21,7 +21,7 @@ export default class PostRoute extends BaseRoute {
     // Fetch posts
     this.router.get('/', async (ctx, next) => {
       const data = await this.postService.fetch(ctx.state, ctx.query);
-      ctx.body = { data, totalCount: 100 };
+      ctx.body = data;
       next();
     });
 

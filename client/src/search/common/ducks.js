@@ -1,12 +1,13 @@
 import update from 'immutability-helper';
 import { createActions, handleActions } from 'redux-actions';
+
+// TODO avoid lodash, or use only subset of lodash
 import _ from 'lodash';
 
 const defaultSectionState = (pageSize, criteria) => {
   return {
     inputValues: {}, // Input values for autocomplete
     criteria, // Criteria for search
-    criteriaOptions: {}, // Options for criteria fields
     // Paging for search
     paging: {
       page: 0,
@@ -17,10 +18,8 @@ const defaultSectionState = (pageSize, criteria) => {
       status: 'idle',
       statusMessage: '',
       items: [],
-      isSorted: true,
       totalCount: -1,
-      selectedIndex: -1,
-      selectedBy: undefined
+      selectedIndex: -1
     },
     // Filters for filtering the result list
     filters: {}
@@ -33,8 +32,7 @@ const defaultState = {
     sortBy: '-'
   }),
   images: defaultSectionState(20, {
-    sortBy: '-',
-    dateType: 'archiveDate'
+    sortBy: '-'
   })
 };
 
@@ -62,26 +60,16 @@ export const { search } = createActions({
       value,
       selectedIndex
     }),
-    SELECT_ITEM: (section, index, selectedBy) => ({
+    SELECT_ITEM: (section, index) => ({
       section,
-      index,
-      selectedBy
+      index
     }),
-    SHOW_ITEM: (section, index, selectedBy) => ({ section, index, selectedBy }),
-    // Fetch criteria options actions
-    FETCH_CRITERIA_OPTIONS_SUCCEEDED: (section, criteriaOptions) => ({
-      section,
-      criteriaOptions
-    }),
-    FETCH_CRITERIA_OPTIONS_FAILED: (section, message) => ({ section, message }),
+    SHOW_ITEM: (section, index) => ({ section, index }),
     // Fetch items actions
     FETCH_ITEMS_STARTED: section => ({ section }),
-    FETCH_ITEMS_SUCCEEDED: ({
-      section, items, isSorted, totalCount
-    }) => ({
+    FETCH_ITEMS_SUCCEEDED: ({ section, items, totalCount }) => ({
       section,
       items,
-      isSorted,
       totalCount
     }),
     FETCH_ITEMS_FAILED: (section, message) => ({ section, message }),
@@ -167,10 +155,8 @@ export const searchReducer = handleActions(
             inputValues: { $set: newCriteria },
             paging: { page: { $set: 0 } },
             results: {
-              isSorted: { $set: true },
               totalCount: { $set: -1 },
-              selectedIndex: { $set: -1 },
-              selectedBy: { $set: undefined }
+              selectedIndex: { $set: -1 }
             }
           }
         })
@@ -207,8 +193,7 @@ export const searchReducer = handleActions(
           results: {
             selectedIndex: {
               $set: selectedIndex !== undefined ? selectedIndex : -1
-            },
-            selectedBy: { $set: undefined }
+            }
           }
         }
       });
@@ -216,14 +201,13 @@ export const searchReducer = handleActions(
     [search.selectItem](
       state,
       {
-        payload: { section, index, selectedBy }
+        payload: { section, index }
       }
     ) {
       return update(state, {
         [section]: {
           results: {
-            selectedIndex: { $set: index },
-            selectedBy: { $set: selectedBy }
+            selectedIndex: { $set: index }
           }
         }
       });
@@ -231,45 +215,13 @@ export const searchReducer = handleActions(
     [search.showItem](
       state,
       {
-        payload: { section, index, selectedBy }
+        payload: { section, index }
       }
     ) {
       return update(state, {
         [section]: {
           results: {
-            selectedIndex: { $set: index },
-            selectedBy: { $set: selectedBy }
-          }
-        }
-      });
-    },
-
-    // Fetch criteria options actions
-    [search.fetchCriteriaOptionsSucceeded](
-      state,
-      {
-        payload: { section, criteriaOptions }
-      }
-    ) {
-      return update(state, {
-        [section]: {
-          criteriaOptions: {
-            $set: { ...state[section].criteriaOptions, ...criteriaOptions }
-          }
-        }
-      });
-    },
-    [search.fetchCriteriaOptionsFailed](
-      state,
-      {
-        payload: { section, message }
-      }
-    ) {
-      return update(state, {
-        [section]: {
-          results: {
-            status: { $set: 'error' },
-            statusMessage: { $set: message }
+            selectedIndex: { $set: index }
           }
         }
       });
@@ -295,9 +247,7 @@ export const searchReducer = handleActions(
     [search.fetchItemsSucceeded](
       state,
       {
-        payload: {
-          section, totalCount, items, isSorted
-        }
+        payload: { section, totalCount, items }
       }
     ) {
       return update(state, {
@@ -305,7 +255,6 @@ export const searchReducer = handleActions(
           results: {
             status: { $set: 'idle' },
             items: { $set: items },
-            isSorted: { $set: isSorted },
             totalCount: { $set: totalCount }
           }
         }
@@ -341,10 +290,8 @@ export const searchReducer = handleActions(
             $set: {
               status: 'idle',
               items: [item],
-              isSorted: true,
               totalCount: 1,
-              selectedIndex: 0,
-              selectedBy: undefined
+              selectedIndex: 0
             }
           }
         }

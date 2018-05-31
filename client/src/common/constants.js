@@ -1,19 +1,12 @@
 export const apiUrl = `${process.env.API_ROOT}${process.env.API_URL}`;
 
-export const rolesById = {
-  admin: {
-    en: 'Administrator'
-  },
-  user: {
-    en: 'User'
-  }
-};
-
 export const examplesById = {
   example1: {
-    en: 'exaple1'
+    en: 'example1',
+    fi: 'esimerkki1'
   },
   example2: {
-    en: 'exaple2'
+    en: 'example2',
+    fi: 'esimerkki2'
   }
 };

@@ -21,7 +21,7 @@ export default class InfraRoute extends BaseRoute {
       // Check that database is up
       await ctx.state.getTx().any(`
         SELECT *
-        FROM example_user
+        FROM images
         LIMIT 1
       `);
       ctx.body = {

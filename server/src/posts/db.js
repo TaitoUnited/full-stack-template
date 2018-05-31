@@ -16,16 +16,38 @@ import { asCamelCase } from '../common/format.util';
  *   same transaction)
  */
 
-async function fetch(db) {
+async function fetch(db, criteria, count) {
+  const columns = count
+    ? 'count(*)::integer'
+    : 'id, subject, content, author, created_at';
+
+  const orderBy = count ? '' : 'ORDER BY created_at DESC';
+
+  const paging = count ? '' : 'LIMIT $(limit) OFFSET $(offset)';
+
+  const simpleTextClause = !criteria.simpleText
+    ? ''
+    : `
+      AND (
+      author ILIKE '%' || $(simpleText) || '%'
+      OR subject ILIKE '%' || $(simpleText) || '%'
+      OR content ILIKE '%' || $(simpleText) || '%'
+    )`;
   const posts = await db.any(
     `
-    SELECT id, subject, content, author, created_at
+    SELECT ${columns}
     FROM posts
-    ORDER BY created_at DESC
-    LIMIT 20
-    `
+    WHERE (author = $(author) OR $(author) IS NULL)
+      ${simpleTextClause}
+    ${orderBy}
+    ${paging}
+    `,
+    {
+      ...criteria,
+      author: criteria.author || null,
+    }
   );
-  return asCamelCase(posts);
+  return count ? posts[0].count : asCamelCase(posts);
 }
 
 async function create(db, post) {

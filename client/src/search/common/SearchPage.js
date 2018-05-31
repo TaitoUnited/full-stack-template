@@ -9,6 +9,7 @@ import HelpIcon from '@material-ui/icons/Help';
 import { common } from '~common/ducks';
 import KeyListener from '~controls/paging/KeyListener';
 import Results from '~controls/paging/Results';
+import PopoverButton from '~controls/PopoverButton';
 
 import { search, withSection } from './ducks';
 import SearchBar from './SearchBar';
@@ -22,13 +23,7 @@ const onShowText = (index, onShowItem, history) => {
   onShowItem(index);
 };
 
-// TODO remove
-const helpContentBySection = {
-  images: 'https://www.google.fi',
-  posts: 'https://www.google.fi'
-};
-
-const getMessage = (databasesInitialized, databases, results) => {
+const getMessage = results => {
   if (results.status === 'error') {
     return <Message>Error</Message>;
   }
@@ -45,15 +40,11 @@ const SearchPage = ({
   searchFieldsComponent,
   itemComponent,
   openedItemComponent,
-  databasesInitialized,
-  databases,
   inputValues,
   criteria,
-  criteriaOptions,
   filters,
   paging,
   results,
-  drawerVisible,
   onUpdateCriteria,
   onUpdateFilter,
   onUpdateInputValue,
@@ -63,7 +54,6 @@ const SearchPage = ({
   onClear,
   onToggleDrawer
 }) => {
-  const brokenResults = results.totalCount > 0 && !results.items.length;
   return (
     <div>
       <KeyListener
@@ -76,50 +66,33 @@ const SearchPage = ({
         key="drawer"
         sectionTitle={sectionTitle}
         searchFieldsComponent={searchFieldsComponent}
-        drawerVisible={drawerVisible}
-        databases={databases}
         inputValues={inputValues}
         onUpdateInputValue={onUpdateInputValue}
         criteria={criteria}
-        criteriaOptions={criteriaOptions}
         onUpdateCriteria={onUpdateCriteria}
         filters={filters}
         onUpdateFilter={onUpdateFilter}
         onClear={onClear}
       />
-      <StyledMain key="main" drawerVisible={drawerVisible}>
-        <FixedWrapper drawerVisible={drawerVisible}>
+      <StyledMain key="main">
+        <FixedWrapper>
           <SearchBarWrapper>
             <SearchBar
               inputValues={inputValues}
               onUpdateInputValue={onUpdateInputValue}
               onUpdateCriteria={onUpdateCriteria}
               onToggleDrawer={onToggleDrawer}
-              drawerVisible={drawerVisible}
-              color={
-                /* Criteria could be checked in a prettier way, but requires
-                   quite specific filtering */
-                !databases.length ||
-                criteria.database !== databases[0].id ||
-                (!!criteria.sources && criteria.sources.length !== 0) ||
-                (!!criteria.authors && criteria.authors.length !== 0) ||
-                (!!criteria.startDate && criteria.startDate.length !== 0) ||
-                (!!criteria.endDate && criteria.endDate.length !== 0) ||
-                (!!filters.shape && filters.shape !== '-')
-                  ? 'primary'
-                  : 'default'
-              }
             />
             <Actions>
-              <HelpButton>
-                <a
-                  href={helpContentBySection[section]}
-                  target="_blank"
-                  title="Käyttöohjeet"
-                >
-                  <HelpIcon />
-                </a>
-              </HelpButton>
+              <PopoverButton icon={HelpIcon}>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </PopoverButton>
             </Actions>
           </SearchBarWrapper>
           {results.totalCount === -1 &&
@@ -132,40 +105,31 @@ const SearchPage = ({
               paging={paging}
               onUpdatePaging={onUpdatePaging}
               results={results}
-              drawerVisible={drawerVisible}
             />
           )}
         </FixedWrapper>
         <Content>
-          {getMessage(databasesInitialized, databases, results)}
+          {getMessage(results)}
           {results.totalCount !== -1 &&
             results.status !== 'error' && (
               <ResultsWrapper>
                 <div style={{ minHeight: '480px' }}>
                   {results.status === 'fetching' && <LinearProgress />}
-                  {results.status !== 'fetching' &&
-                    !brokenResults && (
-                      <Results
-                        criteria={criteria}
-                        results={results}
-                        paging={paging}
-                        filters={filters}
-                        onUpdatePaging={onUpdatePaging}
-                        onSelectItem={onSelectItem}
-                        onShowItem={index =>
-                          onShowText(index, onShowItem, history)
-                        }
-                        itemComponent={itemComponent}
-                        openedItemComponent={openedItemComponent}
-                      />
-                    )}
-                  {results.status !== 'fetching' &&
-                    brokenResults && (
-                      <Message>
-                        Tämä hakutuloksen sivu sisältää rikkinäistä tietoa, jota
-                        ei näytetä. Vaihda sivua, kiitos.
-                      </Message>
-                    )}
+                  {results.status !== 'fetching' && (
+                    <Results
+                      criteria={criteria}
+                      results={results}
+                      paging={paging}
+                      filters={filters}
+                      onUpdatePaging={onUpdatePaging}
+                      onSelectItem={onSelectItem}
+                      onShowItem={index =>
+                        onShowText(index, onShowItem, history)
+                      }
+                      itemComponent={itemComponent}
+                      openedItemComponent={openedItemComponent}
+                    />
+                  )}
                 </div>
               </ResultsWrapper>
             )}
@@ -184,20 +148,18 @@ const Actions = styled.div`
 `;
 
 const StyledMain = withTheme()(styled.main`
-  width: ${props => (props.drawerVisible ? 'calc(100% - 240px)' : '100%')};
-  margin-left: ${props => (props.drawerVisible ? '240px' : '0')};
+  width: calc(100% - 240px);
+  margin-left: 240px;
   display: flex;
   flex-direction: column;
   position: relative;
   transition-property: margin;
-  transition-duration: ${props =>
-    props.drawerVisible
-      ? props.theme.transitions.duration.enteringScreen
-      : props.theme.transitions.duration.leavingScreen};
-  transition-timing-function: ${props =>
-    props.drawerVisible
-      ? props.theme.transitions.easing.easeOut
-      : props.theme.transitions.easing.sharp};
+
+  /* TODO make search drawer openable instead */
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-left: 0;
+  }
 
   @media print {
     margin: 0;
@@ -237,17 +199,6 @@ const SearchBarWrapper = styled.div`
   padding: 0px 32px;
 `;
 
-const HelpButton = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 48px;
-  height: 100%;
-  a {
-    color: #0000008a;
-  }
-`;
-
 export const withMapStateToProps = (
   section,
   sectionTitle,
@@ -264,13 +215,9 @@ export const withMapStateToProps = (
       openedItemComponent,
       inputValues: state.search[section].inputValues,
       criteria: state.search[section].criteria,
-      criteriaOptions: state.search[section].criteriaOptions,
       filters: state.search[section].filters,
       paging: state.search[section].paging,
-      results: state.search[section].results,
-      databasesInitialized: state.common.databasesBySection.initialized,
-      databases: state.common.databasesBySection[section],
-      drawerVisible: state.common.drawerVisible
+      results: state.search[section].results
     };
   };
 };

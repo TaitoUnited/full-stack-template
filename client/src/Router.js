@@ -7,11 +7,7 @@ import Images from './images';
 import Layouts from './layouts';
 import Posts from './posts';
 import Reports from './reports';
-
-// TODO move these definitions ./search
-import ImageSearch from './search/images';
-import PostSearch from './search/posts';
-import PostBrowseResults from './search/posts/BrowseResultsPage';
+import Search from './search';
 
 const Router = () => (
   <div>
@@ -19,21 +15,7 @@ const Router = () => (
     <Route path='/layouts' component={withErrorBoundary(Layouts)} />
     <Route path='/posts' component={withErrorBoundary(Posts)} />
     <Route path='/reports' component={withErrorBoundary(Reports)} />
-    <Route
-      exact
-      path='/search/images'
-      component={withErrorBoundary(ImageSearch)}
-    />
-    <Route
-      exact
-      path='/search/posts'
-      component={withErrorBoundary(PostSearch)}
-    />
-    <Route
-      exact
-      path='/search/posts/browse'
-      component={withErrorBoundary(PostBrowseResults)}
-    />
+    <Route path='/search' component={withErrorBoundary(Search)} />
   </div>
 );
 

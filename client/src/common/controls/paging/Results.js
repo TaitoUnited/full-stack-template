@@ -98,7 +98,6 @@ class Results extends React.Component {
       const props = {
         index,
         selectedIndex: this.props.results.selectedIndex,
-        selectedBy: this.props.results.selectedBy,
         key: item.id,
         item,
         criteria: this.props.criteria,

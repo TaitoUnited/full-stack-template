@@ -1,13 +1,5 @@
-// import moment from 'moment';
 import { delay } from 'redux-saga';
-import {
-  call,
-  put,
-  takeEvery,
-  takeLatest,
-  select,
-  fork
-} from 'redux-saga/effects';
+import { call, put, takeLatest, select, fork } from 'redux-saga/effects';
 import queryString from 'query-string';
 
 import { addSearchStateToPath } from './utils';
@@ -30,72 +22,6 @@ export const searchSagasInit = (
   criteriaTypeByName = criteriaTypeByNameParam;
   errorHandler = errorHandlerParam;
 };
-
-// Fetch options from server according to a changed criteria value.
-// For example, user changes value of a search criteria and options of
-// an another field is populated based on that.
-
-function* fetchCriteriaOptions(action) {
-  const { section } = action.payload;
-  try {
-    // Fetch new options
-    const criteriaOptions = yield call(apisBySection[section].fetchOptions, {
-      section,
-      changedCriteriaName: action.payload.name,
-      changedCriteriaValue: action.payload.value
-    });
-
-    if (criteriaOptions) {
-      yield put({
-        type: 'SEARCH/FETCH_CRITERIA_OPTIONS_SUCCEEDED',
-        payload: {
-          section,
-          criteriaOptions
-        }
-      });
-    }
-  } catch (e) {
-    yield put({
-      type: 'SEARCH/FETCH_CRITERIA_OPTIONS_FAILED',
-      payload: {
-        section,
-        message: e.message
-      }
-    });
-    errorHandler(e);
-  }
-}
-
-function* watchFetchCriteriaOptions() {
-  yield takeEvery('SEARCH/UPDATE_CRITERIA', fetchCriteriaOptions);
-}
-
-function* fetchAllCriteriaOptions(action) {
-  try {
-    const { section } = action.payload;
-    const { criteria } = action.payload.newSectionState;
-
-    const all = [];
-    Object.entries(criteria).forEach(entry => {
-      all.push(fetchCriteriaOptions({
-        payload: {
-          section,
-          name: entry[0],
-          value: entry[1]
-        }
-      }));
-    });
-
-    yield all;
-  } catch (err) {
-    console.error(err);
-    errorHandler(err);
-  }
-}
-
-function* watchFetchAllCriteriaOptions() {
-  yield takeEvery('SEARCH/SET', fetchAllCriteriaOptions);
-}
 
 // Read a single item from server
 
@@ -131,7 +57,7 @@ function* readItem({ section, criteria, itemId }) {
 // should be opened automatically after the next successfull fetch
 let openAfterFetchId = null;
 
-function* fetchItems(action) {
+function* fetch(action) {
   const { section } = action.payload;
   try {
     const currentState = yield select(state => {
@@ -162,10 +88,10 @@ function* fetchItems(action) {
 
       yield call(delay, 500);
 
-      const response = yield call(apisBySection[section].fetchItems, {
-        section,
-        criteria: currentState.criteria,
-        paging: currentState.paging
+      const response = yield call(apisBySection[section].fetch, {
+        ...currentState.criteria,
+        offset: currentState.paging.page * currentState.paging.pageSize,
+        limit: currentState.paging.pageSize
       });
 
       yield put({
@@ -173,7 +99,6 @@ function* fetchItems(action) {
         payload: {
           section,
           items: response.items,
-          isSorted: response.isSorted,
           totalCount: response.totalCount
         }
       });
@@ -244,7 +169,7 @@ function* watchFetchItems() {
     'SEARCH/UPDATE_PAGING': true,
     'SEARCH/RELOAD': true
   };
-  yield takeLatest(action => searchTriggers[action.type], fetchItems);
+  yield takeLatest(action => searchTriggers[action.type], fetch);
 }
 
 // Manipulate browser history
@@ -306,7 +231,6 @@ function* fetchByUrlParams() {
     const currentState = yield select(state => {
       const section = sectionsByPath[state.router.location.pathname];
       return {
-        user: state.common.user,
         section,
         pageSize:
           state.search[section] && state.search[section].paging.pageSize,
@@ -315,7 +239,7 @@ function* fetchByUrlParams() {
       };
     });
 
-    if (currentState.user && apisBySection[currentState.section]) {
+    if (apisBySection[currentState.section]) {
       if (currentState.section) {
         let newSectionState = null;
         if (currentState.locationParams) {
@@ -327,9 +251,6 @@ function* fetchByUrlParams() {
             let formattedValue = null;
             if (criteriaTypeByName[key] === 'array' && !Array.isArray(value)) {
               formattedValue = [value];
-              // } else if (key.endsWith('Date')) {
-              //   // TODO avoid moment in common implementation?
-              //   formattedValue = value ? moment(value) : null;
             } else if (key.endsWith('Switch')) {
               formattedValue = value === 'true';
             } else {
@@ -381,7 +302,6 @@ function* fetchByUrlParams() {
 
 function* watchFetchByUrlParams() {
   const triggers = {
-    'COMMON/INIT_USER': true,
     '@@router/LOCATION_CHANGE': true // TODO can be removed?
   };
   yield takeLatest(action => triggers[action.type], fetchByUrlParams);
@@ -390,8 +310,6 @@ function* watchFetchByUrlParams() {
 // Init
 
 export function* searchSagas() {
-  yield fork(watchFetchCriteriaOptions);
-  yield fork(watchFetchAllCriteriaOptions);
   yield fork(watchFetchItems);
   yield fork(watchPushBrowserHistory);
   yield fork(watchFetchByUrlParams);

@@ -21,17 +21,6 @@ const propTypes = {
   onShowItem: PropTypes.func.isRequired
 };
 
-const styles = theme => ({
-  rightIcon: {
-    marginLeft: theme.spacing.unit,
-    height: 16,
-    width: 16
-  },
-  leftIcon: {
-    marginRight: theme.spacing.unit
-  }
-});
-
 /* eslint-disable no-mixed-operators */
 class BrowseResults extends React.Component {
   onGoBack = () => {
@@ -100,6 +89,18 @@ class BrowseResults extends React.Component {
     );
   }
 }
+
+// TODO convert to styled
+const styles = theme => ({
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
+    height: 16,
+    width: 16
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit
+  }
+});
 
 const Spacer = styled.div`
   margin: 5px;

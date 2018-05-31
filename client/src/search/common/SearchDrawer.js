@@ -2,82 +2,25 @@ import React from 'react';
 import styled from 'styled-components';
 import {
   Button,
-  Chip,
   Drawer,
   FormControl,
   FormGroup,
-  FormLabel,
+  InputLabel,
   MenuItem,
   Select,
-  Typography,
-  withStyles
+  Typography
 } from '@material-ui/core';
 
-const add = (array, value) => {
-  return (array || []).concat(value);
-};
-
-const remove = (array, value) => {
-  return (array || []).filter(itemValue => itemValue !== value);
-};
-
-const label = (array, value) => {
-  const option = array && array.find(item => item.value === value);
-  return option ? option.title : value;
-};
-
-const styles = theme => ({
-  database_0: {
-    fontWeight: 'bold'
-  },
-  database_1: {
-    paddingLeft: '30px'
-  },
-  sourceSection: {
-    fontWeight: 'bold'
-  },
-  sourceItem: {
-    paddingLeft: '40px'
-  },
-  input: {
-    border: '0',
-    borderRadius: '2px 2px 0px 0px',
-    paddingTop: '4px',
-    paddingLeft: '8px',
-    marginTop: '2px',
-    marginBottom: '10px',
-    fontSize: '13px !important',
-    width: '100%'
-  },
-  formLabel: {
-    fontSize: '14px !important'
-  },
-  gutter: {
-    marginBottom: '8px'
-  },
-  formControl: {
-    display: 'inline'
-  },
-  rightIcon: {
-    marginLeft: theme.spacing.unit,
-    height: 20,
-    width: 20
-  }
-});
-
 const SearchDrawer = ({
-  drawerVisible,
   sectionTitle,
   searchFieldsComponent,
   inputValues,
   onUpdateInputValue,
   criteria,
-  criteriaOptions,
   onUpdateCriteria,
-  onClear,
-  classes
+  onClear
 }) => (
-  <StyledDrawer variant='persistent' open={drawerVisible}>
+  <StyledDrawer variant='persistent' open>
     <Content>
       <Forms>
         <Header>
@@ -87,59 +30,32 @@ const SearchDrawer = ({
             history
           </Typography>
         </Header>
-        <FormGroup className={classes.gutter}>
-          <FormLabel
-            component='legend'
-            htmlFor='authors'
-            className={classes.formLabel}
-          >
-            Author
-          </FormLabel>
-          <StyledFormControl className={classes.formControl}>
+        <StyledFormGroup>
+          <StyledFormControl>
+            <InputLabel htmlFor='author'>Author</InputLabel>
             <Select
-              value=''
-              onChange={e =>
-                onUpdateInputValue(
-                  'authors',
-                  add(inputValues.authors, e.target.value)
-                )
-              }
-              className={classes.input}
+              inputProps={{ id: 'author' }}
+              value={inputValues.author || ''}
+              onChange={e => onUpdateCriteria('author', e.target.value, true)}
             >
-              <MenuItem key='John Doe' value='John Doe'>
-                John Doe
+              <MenuItem value=''>
+                <em>None</em>
               </MenuItem>
-              <MenuItem key='Jane Doe' value='Jane Doe'>
-                Jane Doe
-              </MenuItem>
+              <MenuItem value='John Doe'>John Doe</MenuItem>
+              <MenuItem value='Jane Doe'>Jane Doe</MenuItem>
             </Select>
-            {/* author chips */}
-            {inputValues.authors &&
-              !!inputValues.authors.length &&
-              inputValues.authors.map(value => (
-                <StyledChip
-                  key={value}
-                  label={`${label(criteriaOptions.authors, value)}`}
-                  onDelete={() =>
-                    onUpdateInputValue(
-                      'authors',
-                      remove(inputValues.authors, value)
-                    )
-                  }
-                />
-              ))}
           </StyledFormControl>
-        </FormGroup>
+        </StyledFormGroup>
         {React.createElement(searchFieldsComponent, {
           inputValues,
           onUpdateInputValue,
           criteria,
-          criteriaOptions,
           onUpdateCriteria
         })}
       </Forms>
       <Footer>
         <StyledFormControl>
+          {/*
           <Button
             variant='raised'
             color='primary'
@@ -149,6 +65,7 @@ const SearchDrawer = ({
           >
             Search
           </Button>
+          */}
           <Button
             variant='raised'
             onClick={() =>
@@ -168,7 +85,7 @@ const SearchDrawer = ({
 
 const Header = styled.div`
   margin-top: 8px;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
 `;
 
 const StyledDrawer = styled(Drawer)`
@@ -177,6 +94,11 @@ const StyledDrawer = styled(Drawer)`
 
   > div {
     margin-top: 64px !important;
+  }
+
+  /* TODO make search drawer openable instead */
+  @media (max-width: 768px) {
+    display: none !important;
   }
 
   @media print {
@@ -190,11 +112,6 @@ const StyledFormControl = styled(FormControl)`
   max-width: 176px; /* firefox fix */
 `;
 
-const StyledChip = styled(Chip)`
-  margin: 0px 4px 8px !important;
-  font-size: 12px !important;
-`;
-
 const Content = styled.div`
   width: 240px;
   background-color: #fafafa;
@@ -205,9 +122,9 @@ const Content = styled.div`
 const Forms = styled.div`
   position: relative;
   padding: 16px 32px 0px;
-  height: -webkit-calc(100% - 176px);
-  height: -moz-calc(100% - 176px);
-  height: calc(100% - 176px);
+  height: -webkit-calc(100% - 128px);
+  height: -moz-calc(100% - 128px);
+  height: calc(100% - 128px);
   overflow-y: auto;
   overflow-x: hidden;
 
@@ -217,13 +134,17 @@ const Forms = styled.div`
   }
 `;
 
+const StyledFormGroup = styled(FormGroup)`
+  margin-bottom: 16px;
+`;
+
 const Footer = styled.div`
   background-color: #fafafa;
   width: 100%;
   position: absolute;
   bottom: 0;
   padding: 5px 32px 0px;
-  height: 176px;
+  height: 128px;
   z-index: 1;
   border-top: 1px solid #eee;
   > div > button {
@@ -231,4 +152,4 @@ const Footer = styled.div`
   }
 `;
 
-export default withStyles(styles)(SearchDrawer);
+export default SearchDrawer;

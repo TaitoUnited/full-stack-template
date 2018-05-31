@@ -12,27 +12,16 @@ import CopyClipboardButton from '~controls/CopyClipboardButton';
 import Item from '~controls/paging/Item';
 import Circle from './Circle';
 
+// TODO: load thumbnail from server
 const imageUrl =
   'https://static.ilcdn.fi/viihdeuutiset/kahlekuningaskuva3ek2905_503_vd.jpg';
 
 const propTypes = {
-  // item: PropTypes.object,
+  item: PropTypes.object,
   onUnselect: PropTypes.func,
   onSelectPrev: PropTypes.func,
   onSelectNext: PropTypes.func
 };
-
-const styles = theme => ({
-  button: {
-    marginTop: theme.spacing.unit * 1.5,
-    marginRight: theme.spacing.unit * 1.5
-  },
-  rightIcon: {
-    marginLeft: theme.spacing.unit,
-    height: 16,
-    width: 16
-  }
-});
 
 class SelectedImage extends React.Component {
   // As a default, we assume that images are landscape oriented
@@ -58,20 +47,21 @@ class SelectedImage extends React.Component {
       setTimeout(() => {
         const domEl = ReactDOM.findDOMNode(this.anchorEl); // eslint-disable-line
         if (domEl) {
-          const middle = domEl.offsetParent.clientHeight / 2;
+          // NOTE: use domEl.offsetParent as scrollParentEl if surrounding
+          // element should be scrolled instead of document body.
+          const scrollParentEl = document.documentElement;
+          const middle = scrollParentEl.clientHeight / 2;
           const half = domEl.clientHeight / 2;
           const position = middle - half;
-          domEl.offsetParent.scrollTop = Math.max(
-            0,
-            domEl.offsetTop - position
-          );
+          const scrollTop = Math.max(0, domEl.offsetTop - position);
+          scrollParentEl.scrollTop = scrollTop;
         }
       });
     }
   }
 
   render() {
-    const { classes } = this.props;
+    const { item, classes } = this.props;
     return (
       <SelectedImageWrapper
         ref={anchorEl => {
@@ -92,7 +82,7 @@ class SelectedImage extends React.Component {
               <PreviewWrapper>
                 <Preview
                   src={imageUrl}
-                  alt='KUVA'
+                  alt='IMAGE'
                   onClick={() => window.open(imageUrl)}
                 />
               </PreviewWrapper>
@@ -100,11 +90,10 @@ class SelectedImage extends React.Component {
                 <CopyClipboardButton
                   buttonText='Copy link'
                   buttonClass={classes.button}
-                  infoMessage='Linkki kopioitu leikepöydälle'
+                  infoMessage='The link has been copied to your clipboard'
                   copyContent={imageUrl}
                 />
 
-                {/* TODO API does not support download=false yet? */}
                 <Button
                   variant='raised'
                   color='primary'
@@ -140,14 +129,24 @@ class SelectedImage extends React.Component {
                 <Circle color='#ffed0f' text='Status circle' />
                 <Circle color='#ff421f' text='Another status circle' />
               </ResultInfo>
+
               <Table>
                 <tbody>
                   <tr>
-                    <th>
-                      Jeps:
-                      <ToolTip>Jeps</ToolTip>
-                    </th>
-                    <td>Value</td>
+                    <th>Filename:</th>
+                    <td>{item.filename}</td>
+                  </tr>
+                  <tr>
+                    <th>Type:</th>
+                    <td>{item.type}</td>
+                  </tr>
+                  <tr>
+                    <th>Author:</th>
+                    <td>{item.author}</td>
+                  </tr>
+                  <tr>
+                    <th>Description:</th>
+                    <td>{item.description}</td>
                   </tr>
                 </tbody>
               </Table>
@@ -158,6 +157,19 @@ class SelectedImage extends React.Component {
     );
   }
 }
+
+// TODO convert to styled
+const styles = theme => ({
+  button: {
+    marginTop: theme.spacing.unit * 1.5,
+    marginRight: theme.spacing.unit * 1.5
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
+    height: 16,
+    width: 16
+  }
+});
 
 const SelectedImageWrapper = styled(Paper)`
   display: block;
@@ -327,31 +339,6 @@ const Table = styled.table`
     vertical-align: top;
     padding-left: 0;
     padding-bottom: 2px;
-  }
-`;
-
-const ToolTip = styled.span`
-  visibility: hidden;
-  width: auto;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 8px;
-  position: absolute;
-  margin-left: 8px;
-  margin-top: -5px;
-  z-index: 1;
-
-  &:after {
-    content: ' ';
-    position: absolute;
-    top: 50%;
-    right: 100%;
-    margin-top: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: transparent black transparent transparent;
   }
 `;
 

@@ -3,22 +3,12 @@ import { createActions, handleActions } from 'redux-actions';
 
 // Default state
 const defaultState = {
-  menuVisible: false,
-  user: null,
-  drawerVisible: true, // TODO move to search
-  // TODO remove
-  databasesBySection: {
-    initialized: true,
-    images: [],
-    posts: []
-  }
+  menuVisible: false
 };
 
 // Actions
 export const { common } = createActions({
   COMMON: {
-    LOGIN: user => ({ user }),
-    LOGOUT: () => ({}),
     TOGGLE_MENU: visible => ({ visible })
   }
 });
@@ -26,17 +16,6 @@ export const { common } = createActions({
 // Reducer
 export const commonReducer = handleActions(
   {
-    [common.login](
-      state,
-      {
-        payload: { user }
-      }
-    ) {
-      return { ...state, user };
-    },
-    [common.logout]() {
-      return defaultState;
-    },
     [common.toggleMenu](
       state,
       {

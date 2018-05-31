@@ -1,7 +1,6 @@
 const { resolve } = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
-// const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 
 const base = require('./webpack.base.js');
 
@@ -52,7 +51,6 @@ module.exports = merge.strategy({
     namedModules: true
   },
   plugins: [
-    // new HardSourceWebpackPlugin(),
     new webpack.DefinePlugin({
       // TODO remove obsolete definitions
       'process.env.DEBUG': true,

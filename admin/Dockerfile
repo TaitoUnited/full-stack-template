@@ -1,5 +1,5 @@
 # TODO: use multi-stage dockerfile also locally?
-FROM node:8.7-alpine
+FROM node:8.11-alpine
 RUN apk add --update-cache build-base python git
 # Required by the current flow version (can be removed later?)
 RUN apk --no-cache add ca-certificates wget && \

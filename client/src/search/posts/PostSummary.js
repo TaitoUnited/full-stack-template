@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { withStyles } from '@material-ui/core/styles';
 import { appear } from '~utils/animations.utils';
 import Item from '~controls/paging/Item';
 import { addSearchStateToPath } from '../common/utils';
@@ -16,15 +15,6 @@ const propTypes = {
   onSelectNext: PropTypes.func,
   onShow: PropTypes.func.isRequired
 };
-
-const styles = theme => ({
-  // TODO pass these styles from searchDrawer to here
-  rightIcon: {
-    marginLeft: theme.spacing.unit,
-    height: 20,
-    width: 20
-  }
-});
 
 class PostSummary extends Component {
   componentDidMount() {
@@ -84,14 +74,13 @@ class PostSummary extends Component {
               )}
             >
               <HeadlineTopic selected={selected}>
-                {resultNumber}.&nbsp;&nbsp; Otsikko
+                {resultNumber}.&nbsp;&nbsp; {item.subject}
               </HeadlineTopic>
               <br />
-              <Information>Info</Information>
+              <Information>by {item.author}</Information>
             </Headline>
           </Header>
-          <br />
-          <InnerText>asdfasfas adsf adsf ad</InnerText>
+          <InnerText>{item.content}</InnerText>
         </Item>
       </TextWrapper>
     );
@@ -140,17 +129,7 @@ const Information = styled.div`
 `;
 
 const InnerText = styled.p`
-  margin-top: -14px;
-  margin-bottom: 0px;
-  overflow: hidden;
-  line-height: 1.45em;
-  max-height: 4.5em;
-  display: block;
-  display: -webkit-box;
-  -webkit-line-clamp: 3; /* max lines to show */
-  -webkit-box-orient: vertical;
-  text-overflow: ellipsis;
-  font-size: 14px;
+  margin-left: 24px;
 `;
 
 const Header = styled.div`
@@ -161,4 +140,4 @@ const Header = styled.div`
 
 PostSummary.propTypes = propTypes;
 
-export default withStyles(styles)(PostSummary);
+export default PostSummary;

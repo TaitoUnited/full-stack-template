@@ -10,7 +10,7 @@ export const getNumOfPages = (paging, results) => {
 export const prevFunc = (index, paging, onUpdatePaging, onSelectItem) => {
   if (index > 0) {
     // There is a previous item on current page
-    return selectedBy => onSelectItem(index - 1, selectedBy);
+    return () => onSelectItem(index - 1);
   } else if (paging.page > 0) {
     // There is a previous page
     return () =>
@@ -32,7 +32,7 @@ export const nextFunc = (
 ) => {
   if (index < results.items.length - 1) {
     // There is a next item on current page
-    return selectedBy => onSelectItem(index + 1, selectedBy);
+    return () => onSelectItem(index + 1);
   } else if (paging.page < getNumOfPages(paging, results) - 1) {
     // There is a next page
     return () =>

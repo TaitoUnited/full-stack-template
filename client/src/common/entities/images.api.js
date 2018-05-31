@@ -1,26 +1,14 @@
 import axios from 'axios';
 import { apiUrl } from '~common/constants';
 
-async function fetch() {
-  const resp = await axios.get(`${apiUrl}/images`);
-  return {
-    items: resp.data.data,
-    total: resp.data.totalCount
-  };
-}
-
-// TODO jj
-async function fetchItems() {
-  const resp = await axios.get(`${apiUrl}/images`);
+async function fetch(criteria) {
+  const resp = await axios.get(`${apiUrl}/images`, {
+    params: criteria
+  });
   return {
     items: resp.data.data,
     totalCount: resp.data.totalCount
   };
-}
-
-// TODO jj
-async function fetchOptions() {
-  return [];
 }
 
 async function create({ image }) {
@@ -50,8 +38,6 @@ async function remove({ id }) {
 
 export default {
   fetch,
-  fetchItems,
-  fetchOptions,
   create,
   read,
   update,

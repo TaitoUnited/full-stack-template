@@ -9,6 +9,6 @@ const times = timesArg => {
   };
 };
 
-const example = null;
+const example = () => null;
 
 export default { times, example };
