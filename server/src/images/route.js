@@ -27,10 +27,7 @@ export default class imageRoute extends BaseRoute {
 
     // Create a image
     this.router.post('/', async (ctx, next) => {
-      const data = await this.imageService.create(
-        ctx.state,
-        ctx.request.fields
-      );
+      const data = await this.imageService.create(ctx.state, ctx.request.body);
       ctx.body = { data };
       next();
     });
@@ -45,7 +42,7 @@ export default class imageRoute extends BaseRoute {
     // Update a image (full update)
     this.router.put('/:id', async (ctx, next) => {
       const data = await this.imageService.update(ctx.state, {
-        ...ctx.request.fields,
+        ...ctx.request.body,
         id: ctx.params.id,
       });
       ctx.body = { data };
@@ -55,7 +52,7 @@ export default class imageRoute extends BaseRoute {
     // Patch a image (partial update)
     this.router.patch('/:id', async (ctx, next) => {
       const data = await this.imageService.patch(ctx.state, {
-        ...ctx.request.fields,
+        ...ctx.request.body,
         id: ctx.params.id,
       });
       ctx.body = { data };

@@ -27,7 +27,7 @@ export default class PostRoute extends BaseRoute {
 
     // Create a post
     this.router.post('/', async (ctx, next) => {
-      const data = await this.postService.create(ctx.state, ctx.request.fields);
+      const data = await this.postService.create(ctx.state, ctx.request.body);
       ctx.body = { data };
       next();
     });
@@ -42,7 +42,7 @@ export default class PostRoute extends BaseRoute {
     // Update a post (full update)
     this.router.put('/:id', async (ctx, next) => {
       const data = await this.postService.update(ctx.state, {
-        ...ctx.request.fields,
+        ...ctx.request.body,
         id: ctx.params.id,
       });
       ctx.body = { data };
@@ -52,7 +52,7 @@ export default class PostRoute extends BaseRoute {
     // Patch a post (partial update)
     this.router.patch('/:id', async (ctx, next) => {
       const data = await this.postService.patch(ctx.state, {
-        ...ctx.request.fields,
+        ...ctx.request.body,
         id: ctx.params.id,
       });
       ctx.body = { data };

@@ -11,7 +11,7 @@ export default class AuthRoute extends BaseRoute {
 
   routes() {
     this.router.post('/login', async (ctx, next) => {
-      const credentials = ctx.request.fields;
+      const credentials = ctx.request.body;
       const userData = await this.authService.authenticate(credentials);
       ctx.body = {
         data: userData,
