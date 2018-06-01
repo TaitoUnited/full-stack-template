@@ -24,14 +24,15 @@ resource "google_project" "resource_project" {
   billing_account = "${var.gcloud_billing_account}"
 }
 
-resource "google_project_services" "resource_project_services" {
-  depends_on = ["google_project.resource_project"]
-  project = "${var.gcloud_resource_project_id}"
-
-  services   = ["compute.googleapis.com"]
-}
+# resource "google_project_services" "resource_project_services" {
+#   depends_on = ["google_project.resource_project"]
+#   project = "${var.gcloud_resource_project_id}"
+#
+#   services   = ["compute.googleapis.com"]
+# }
 
 resource "google_service_account" "resource_project_account" {
+  # depends_on = ["google_project_services.resource_project_services"]
   depends_on = ["google_project.resource_project"]
   project = "${var.gcloud_resource_project_id}"
 

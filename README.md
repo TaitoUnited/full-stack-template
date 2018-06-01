@@ -10,9 +10,23 @@ You can also migrate an existing non-taito-cli project by running `taito templat
 
 [//]: # (TEMPLATE NOTE END)
 
+Project specific documentation is located in `PROJECT.md`. Remember to update it if you make changes related to architecture, integrations, or processing of personal data (GDPR).
+
+Table of contents:
+
+* [Links](#links)
+* [Prerequisites](#prerequisites)
+* [Quick start](#quick-start)
+* [Automated tests](#automated-tests)
+* [Structure](#structure)
+* [Version control](#version-control)
+* [Database migrations](#database-migrations)
+* [Deployment](#deployment)
+* [Configuration](#configuration)
+
 ## Links
 
-> Non-production basic auth credentials: `user` / `painipaini`
+Non-production basic auth credentials: `user` / `painipaini`
 
 [//]: # (GENERATED LINKS START)
 
@@ -284,7 +298,7 @@ You can use any of the following types in your commit message. Use at least type
 
 > Optionally you can use `npm run commit` to write your commit messages by using commitizen, though often it is quicker to write commit messages by hand.
 
-## Database Migrations
+## Database migrations
 
 > If none of the environments do not yet contain any data that need to be preserved, you can just edit the existing deploy sql files directly and run `taito init:ENV --clean` manually before deploying the app to the environment. However, if you delete some of the existing deploy sql files, leave the revert scripts at place, or otherwise `taito init:ENV --clean` will fail.
 

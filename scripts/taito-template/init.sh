@@ -410,10 +410,9 @@ echo "Adding do not modify notes..."
 {
 sed '/TEMPLATE NOTE START/q' README.md
 echo
-echo "> This file has been copied from \
+echo "This file has been copied from \
 [orig-template](https://github.com/TaitoUnited/orig-template/). Keep \
-modifications minimal and improve the original instead. Project \
-specific documentation is located in PROJECT.md."
+modifications minimal and improve the original instead."
 echo
 sed -n -e '/TEMPLATE NOTE END/,$p' README.md
 } > temp
