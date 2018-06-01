@@ -61,29 +61,65 @@ Backend:
 * [ ] **Global authorization bypass**: There should be authorization in place on route or service level in addition to the global token handling (see `Global URL path matching bypass`).
 * [ ] **CORS disable**: TODO ...
 
-### Data protection and privacy checklist
+### Data protection and privacy
+
+Glossary:
+
+* Personally identifiable information (PII): Data that can be used to uniquely identify a person like social-security number, e-mail address, or *anything directly connected to these identifiers such as purchase history*.
+* Special category data (extra-sensitive PII): For example medical/health information, religion, sexual orientation, or any information on/collected from a minor
+* Transparency: TODO
+* Privacy by default: TODO
+
+#### Documentation
+
+TODO the following should be documented
+
+* The personal data in your system.
+* Lifecycles of collected data.
+* All parties that process the data.
+* Your basis for collecting the data.
+* Inform data subjects of their rights and explain how they can exercise them. --> privacy policy
+
+#### Checklist
 
 This section provides a checklist for data protection and privacy. Most of these concern personal data (GDPR), but many of them can be applied to any confidential data to keep the data safe. Go through the checklist while designing new features, and leave a comment for each.
 
-* [ ] **Terms of service**: Limitations for user (not a requirement).
-* [ ] **Privacy policy:** How user data may be used.
-* [ ] **User consent:** You must ask users to consent on the processing of their personal data in a clear and easily accessible form. You must be able to show that the user has consented, provide an easy way to withdraw consent at any time, and also ask consent again if changes have been made to the terms of service or privacy policy. Privacy consent needs to be given by means of a *clear affirmative act* which means that a pre-ticked checkbox doesn't suffice.  (TODO user consent is not required if...?)
-* [ ] **Children as users:** TODO
-* [ ] **Limited data access:** Grant access to personal data for only those who really need it.
-* [ ] **3rd parties:** If you hand over personal data to 3rd parties (e.g. by using 3rd party SaaS services), make sure that they are GDPR compliant, and you have user concent for doing so.
-* [ ] **Rights for personal data:** Users have a right to access, correct, and erase all their personal data. A GUI implementation is not a requirement, but it's best that users can access, edit and delete their personal data themselves by using a GUI.
+TODO considerations before applying the checklist:
+
+* Does your system contain extra-sensitive information?
+* Does your system contain something that, while not sensitive for purposes of GDPR, would be embarrassing/dangerous to publish?
+* If someone published your database content, how large risk would that be to your business?
+* How large is your database of users?
+
+Checklist:
+
+* [ ] **Documentation:** You should document the following details for PII: the personal data in your system, lifecycles of collected data, all parties that process the data, your basis for collecting the data, data subjects rights and how they can exercise them. Dataflow diagram may be a good tool, if data is processed by multiple parties and systems.
+* [ ] **Privacy policy:** You should provide the aforementioned documentation also for users in the form of privacy policy to provide a necessary level of transparency. Note that the privacy policy must be written in such language that a common joe undestands.
+* [ ] **User consent:** You must ask users to consent on the processing of their personal data in a clear and easily accessible form. You must be able to show that the user has consented, provide an easy way to withdraw consent at any time, and also ask consent again if changes have been made to the terms of service or privacy policy. Privacy consent needs to be given by means of a *clear affirmative act* which means that a pre-ticked checkbox doesn't suffice.  (TODO user consent is not required if: The basis for processing of personal data may be a contract, agreement, or transaction.)
+* [ ] **User consent and children:** If the user is below the age of 16 years, the consent must given or authorised by the holder of parental responsibility over the child. NOTE: The age limit is 13 years in some countries (e.g Finland, UK and Ireland).
+* [ ] **Terms of service**: It is convenient to ask consent for both the terms of service and privacy policy at the same time. This is ok, but both should be presented for user as separate documents to read. Terms of service is optional and it is not related to GDPR.
+* [ ] **Limited data access:** Grant access to personal data for only those who really need it. This includes not only users, but also developers and system administrators. A developer should not be a data processor, thus, a developer should not have access to any PII.
+* [ ] **3rd parties:** If you hand over personal data to 3rd parties (e.g. by using 3rd party SaaS services), make sure that they are GDPR compliant, and you have user concent for doing so. You can, however, hand over data also to non-compliant parties if it is necessary for the process itself, and you have explicit user consent for doing so (for example, making hotel reservations).
+* [ ] **Rights for personal data:** Users have a right to access, correct, and erase all their personal data. A GUI implementation is not a requirement, but it's best that users can access, edit and delete their personal data themselves by using a GUI. This is not only more convenient, but in most cases also more secure, as it is hard to identify users reliably during human interaction. NOTE: You need to respond to the request of user within 30 days, and you may also refuse the request if you have a legitimate reason for doing so.
 * [ ] **Data portability:** User has a right to receive the personal data concerning them in a structured, commonly used and machine-readable format. You don't need to implement a service for that, but keep this in mind.
-* [ ] **Data minimization:** Personal data you collect must be limited to what is necessary, and must be kept only as long as needed.
-* [ ] **Data anonymization:** Anonymize data whenever it is possible. For example, retaining user reference is usually unnecessary when collecting history data for analytics.
-* [ ] **Data pseudonymization:** Pseudonymize data if it is easily applicable. For example, keep all user identifying data in a separate system and reference the user with a generated user id elsewhere.
-* [ ] **Logging:** Keep all sensitive data out of the server logs, as logs often have a wider audience and different retention period than database data. Pseudonymization may help you with this. Review logs and, if it is necessary, consider log filtering either on the application or on the infrastructure level. There are also automatic log filtering tools that can filter some personal details automatically.
-* [ ] **Backups:** Data minimization and the right-to-erase-all-personal-data applies also to backups. Do not keep backups of personal data longer than it is really necessary (data should be erased within 30 days of deletion request). If you are required to keep backups of some data for a long period of time, consider pseudonymization and storing data to different databases based on requirements. NOTE: Backups might still be a bit of an open issue. It is not clear if the 30 days limit applies to backups also.
-* [ ] **Data breach notification:** Users have a right to receive a notification about a data breach without undue delay, if the data breach is likely to result in a high risk to his rights and freedoms. Keep this in mind when choosing an user management system. NOTE: Supervisory authority need to be informed not later than 72 hours after having become aware of the data breach.
-* [ ] **Audit logging:** Consider audit logging and other security mechanisms for detecting and investigating potential misuse and data breaches.
+* [ ] **Data minimization:** Personal data you collect must be limited to what is necessary, and must be kept only as long as needed. You should also consider automatic archival/erasure mechanims that anonymize or delete old PII data automatically, once it is no longer needed.
+* [ ] **Data anonymization:** Anonymize data whenever it is possible. For example, retaining user reference is usually unnecessary when collecting history data for analytics. Note that anonymization is not a trivial task to do correctly as some users may still be identifiable from rare combinations of data.
+* [ ] **Data pseudonymization:** You can limit PII access also by using pseudonymization. For example, keep all user identifying data in a separate system and reference the user with a generated user id elsewhere. However, just like anonymization, pseudonymization is not a trivial task to implement correctly.
+* [ ] **Logging:** Keep all PII data out of the server logs, as logs often have a wider audience and different retention period than database data. Pseudonymization may help you with this. Review logs and, if it is necessary, consider log filtering either on the application or on the infrastructure level. There are also automatic log filtering tools that can filter some personal details automatically.
+* [ ] **Backups:** *(NOTE: Backups are still a bit of an open issue. It is not clear if the 30 days limit applies to backups also.)* Data minimization and the right-to-erase-all-personal-data applies also to backups. Do not keep backups of PII longer than it is really necessary (PII should be erased within 30 days of deletion request). If you are required to keep backups of some data for a long period of time, consider pseudonymization and storing PII and other data to different databases based on requirements.
+* [ ] **Data breach notification:** Users have a right to receive a notification about a data breach without undue delay, if the data breach is likely to result in a high risk to his rights and freedoms. Keep this in mind when choosing audit logging and an user management mechanisms. NOTE: Supervisory authority need to be informed not later than 72 hours after having become aware of the data breach.
+* **Audit logging**: You should leave a clear audit trail when someone accesses another users PII. Otherwise you don't have the enough data for notifying supervisory authority and the users in question about the data breach. Therefore you'll have to assume that all PII of all users has been compromised.
+  * [ ] **On application level:** For example, log these operations to a separate event table that can't be modified by users. You should consider also ready-made audit mechanisms built in to some databases and tools. Note that audit log entries are also PII, but you have a valid excuse to refuse any modification/deletion requests on user's behalf.
+  * [ ] **On infrastructure level:** This is not a trivial task, as it may be hard to prevent system administrators from accessing database with application credentials without leaving a clear audit trail. However, most major gloud providers have very good audit logging mechanims, if used correctly, and in most cases that is good enough.
+* [ ] **Basic security mechanisms**: TODO basics like authentication, authorization, encrypting data on transit.
+* [ ] **Additional security mechanisms**: Of course, you may use additional security mechanisms like automatic intrusion detection mechanims, encrypting all data at rest, etc. But in most cases these are not necessary.
+
+TODO Country based exceptions for the rules... For example in Finland some exceptions will be made that guarantee freedom of speech and common good like scientific research.
 
 Links:
 
 * [gdpr-info.eu](https://gdpr-info.eu/)
+* [gdpr-for-software-devs](https://www.infoq.com/articles/gdpr-for-software-devs)
 
 ## Architecture Overview
 
