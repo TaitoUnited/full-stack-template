@@ -86,7 +86,7 @@ export ci_exec_test_init=false    # run 'init --clean' before each test suite
 export ci_exec_revert=false       # revert deploy automatically on fail
 
 # Override settings for different environments:
-# local, feature, dev, test, staging, prod
+# local, feat, dev, test, stag, prod
 case "${taito_env}" in
   prod)
     # prod overrides
@@ -96,7 +96,7 @@ case "${taito_env}" in
     export gcloud_zone="${template_default_provider_zone_prod:?}"
     export taito_resource_namespace="${taito_company}-prod"
     ;;
-  staging)
+  stag)
     # staging overrides
     export taito_zone="${template_default_zone_prod:?}"
     export gcloud_org_id="${template_default_provider_org_id_prod:?}"
@@ -107,7 +107,7 @@ case "${taito_env}" in
   test)
     # test overrides
     ;;
-  dev|feature)
+  dev|feat)
     # dev and feature overrides
     export ci_exec_build=true        # allow build of a new container
     export ci_exec_deploy=true       # deploy automatically
@@ -173,6 +173,8 @@ export link_urls="\
 
 # Secrets
 # NOTE: Secret naming: type.target_of_type.purpose[/namespace]:generation_method
+# NOTE: Alternative naming for external helm chart compatibility:
+#   projectname-purpose[/namespace]:generation_method
 export taito_secrets="
   git.github.build:read/devops
   gcloud.cloudsql.proxy:copy/devops

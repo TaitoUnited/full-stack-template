@@ -32,7 +32,7 @@ server-template-admin:
     # NOTE: Remember that environment variables given to webpack are used only
     # during build. You should not put any environment specific variables here
     # because the same build artifacts (static files) will be used in
-    # multiple environments (dev, test, staging, prod). Read environment
+    # multiple environments (dev, test, stag, prod). Read environment
     # specific settings from the API. You can usually derive api location from
     # the browser url of the GUI.
 # admin end
@@ -57,7 +57,7 @@ server-template-client:
     # NOTE: Remember that environment variables given to webpack are used only
     # during build. You should not put any environment specific variables here
     # because the same build artifacts (static files) will be used in
-    # multiple environments (dev, test, staging, prod). Read environment
+    # multiple environments (dev, test, stag, prod). Read environment
     # specific settings from the API. You can usually derive api location from
     # the browser url of the GUI.
 # client end

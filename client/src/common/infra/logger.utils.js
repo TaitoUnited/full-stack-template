@@ -24,7 +24,7 @@ if (
   process.env.APP_SENTRY_PUBLIC_DSN.startsWith('https')
 ) {
   // Determine env from hostname
-  const envs = ['local', 'feature', 'dev', 'test', 'staging', 'prod'];
+  const envs = ['local', 'feat', 'dev', 'test', 'stag', 'prod'];
   const subdomainSplit = window.location.hostname.split('.')[0].split('-');
   const envSuffix = subdomainSplit[subdomainSplit.length - 1];
   const currentEnv = envs.includes(envSuffix) ? envSuffix : 'prod';

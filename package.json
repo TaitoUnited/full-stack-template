@@ -18,7 +18,7 @@
     "info:local": "npm run show-basic-auth && echo && echo Usernames: 'admin', 'user' && taito secrets | grep 'Showing\\|PASSWORD'",
     "info:dev": "npm run show-basic-auth && echo && echo Usernames: 'admin', 'user' && taito secrets:dev | grep -A 1 'Showing\\|user.'",
     "info:test": "npm run show-basic-auth && echo Usernames: 'admin', 'user' && echo && taito secrets:test | grep -A 1 'Showing\\|user.'",
-    "info:staging": "npm run show-basic-auth",
+    "info:stag": "npm run show-basic-auth",
     "info:prod": "npm run show-basic-auth",
     "lint": "echo Running lint locally && npm-run-all --parallel lint:admin lint:bot lint:client lint:server lint:worker ",
     "lint:admin": "cd admin && npm run lint",

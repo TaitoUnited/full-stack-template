@@ -11,6 +11,8 @@
 : "${template_default_zone:?}"
 : "${template_default_zone_prod:?}"
 : "${template_default_provider:?}"
+: "${template_default_provider_org_id:?}"
+: "${template_default_provider_org_id_prod:?}"
 : "${template_default_provider_region:?}"
 : "${template_default_provider_region_prod:?}"
 : "${template_default_provider_zone:?}"
@@ -498,6 +500,9 @@ sed ${sedi} -- "s/\${template_default_domain:?}/${template_default_domain}/g" ta
 sed ${sedi} -- "s/\${template_default_zone:?}/${template_default_zone}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_zone_prod:?}/${template_default_zone_prod}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_provider:?}/${template_default_provider}/g" taito-config.sh
+sed ${sedi} -- "s/\${template_default_provider:?}/${template_default_provider_billing_account:-}/g" taito-config.sh
+sed ${sedi} -- "s/\${template_default_provider:?}/${template_default_provider_org_id}/g" taito-config.sh
+sed ${sedi} -- "s/\${template_default_provider:?}/${template_default_provider_org_id_prod}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_provider_region:?}/${template_default_provider_region}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_provider_zone:?}/${template_default_provider_zone}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_provider_region_prod:?}/${template_default_provider_region_prod}/g" taito-config.sh

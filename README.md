@@ -130,7 +130,7 @@ Cleaning:
     taito clean:npm                         # Delete node_modules directories
     taito clean                             # Clean everything
 
-The commands mentioned above work also for server environments (`feature`, `dev`, `test`, `staging`, `prod`). Some examples for dev environment:
+The commands mentioned above work also for server environments (`feat`, `dev`, `test`, `stag`, `prod`). Some examples for dev environment:
 
     taito open app:dev                      # Open application in browser
     taito open admin:dev                    # Open admin GUI in browser
@@ -324,13 +324,13 @@ The CI/CD tool will deploy your database changes automatically to servers once y
 
 Deploying to different environments:
 
-* feature: Push to feature branch.
+* feat: Push to feat branch.
 * dev: Push to dev branch.
 * test: Merge changes to test branch using fast-forward.
-* staging: Merge changes to staging branch using fast-forward.
+* stag: Merge changes to stag branch using fast-forward.
 * prod: Merge changes to master branch using fast-forward. Version number and release notes are generated automatically by the CI/CD tool.
 
-> NOTE: Feature, test and staging branches are optional.
+> NOTE: Feat, test and stag branches are optional.
 
 > NOTE: You can use taito-cli to [manage environment branches](#version-control).
 
@@ -339,8 +339,8 @@ Deploying to different environments:
 Advanced features:
 
 * **Quick deploy**: If you are in a hurry, you can build, push and deploy a container directly to server with the `taito deployment build:TARGET:ENV` command e.g. `taito deployment build:client:dev`.
-* **Copy production data to staging**: Often it's a good idea to copy production database to staging before merging changes to the staging branch: `taito db copy to:staging prod`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db copyquick to:staging prod`), but it disconnects all other users connected to the production database until copying is finished and also requires that both databases are located in the same database cluster.
-* **Feature branch**: You can create also an environment for a feature branch: Destroy the old environment first if it exists (`taito env destroy:feature`) and create a new environment for your feature branch (`taito env apply:feature BRANCH`). Currently only one feature environment can exist at a time and therefore the old one needs to be destroyed before the new one is created.
+* **Copy production data to staging**: Often it's a good idea to copy production database to staging before merging changes to the stag branch: `taito db copy to:stag prod`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db copyquick to:stag prod`), but it disconnects all other users connected to the production database until copying is finished and also requires that both databases are located in the same database cluster.
+* **Feature branch**: You can create also an environment for a feature branch: Destroy the old environment first if it exists (`taito env destroy:feat`) and create a new environment for your feature branch (`taito env apply:feat BRANCH`). Currently only one feature environment can exist at a time and therefore the old one needs to be destroyed before the new one is created.
 * **Alternative environments** TODO implement: You can create an alternative environment for an environment by running `taito env alt apply:ENV`. An alternative environment uses the same database as the main environment, but containers are built from an alternative branch. You can use alternative environments e.g. for canary releases and A/B testing by redirecting some of the users to the alternative environment.
 * **Revert app**: Revert application and database to the previous revision by running `taito deployment revert:ENV` (application and database steps are confirmed separately). If you need to revert to a specific revision, check current revision by running `taito deployment revision:ENV` first and then revert to a specific revision by running `taito deployment revert:ENV REVISION`.
 * **Debugging CI builds**: You can build and start production containers locally with the `taito start --clean --prod` command. You can also run any CI build steps defined in cloudbuild.yaml locally with taito-cli.
@@ -428,7 +428,7 @@ Done:
 
 > You should remove unnecessary examples from database migrations (`./database`) and secrets (`taito-config.sh`) before creating the first server environment.
 
-Run `taito env apply:ENV` to create an environment (`feature`, `dev`, `test`, `staging` or `prod`).
+Run `taito env apply:ENV` to create an environment (`feat`, `dev`, `test`, `stag` or `prod`).
 
 > All operations on production and staging environments require admin rights. Please contact devops personnel.
 

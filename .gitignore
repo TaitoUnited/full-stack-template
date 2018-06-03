@@ -1,4 +1,5 @@
 mnt
+scripts/helm/charts
 node_modules
 site-packages
 tmp
