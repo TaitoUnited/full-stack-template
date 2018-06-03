@@ -1,11 +1,15 @@
 #!/bin/bash
-
 : "${taito_env:?}"
 : "${gcloud_resource_project_id:?}"
+: "${taito_resource_namespace:?}"
 
-terraform import -state="./${taito_env}/terraform.tfstate" \
-  google_project.resource_project "${gcloud_resource_project_id}"
+# terraform import -state="./${taito_resource_namespace}/terraform.tfstate" \
+#   google_project.resource_project "${gcloud_resource_project_id}"
 
-# terraform import -state="./${taito_env}/terraform.tfstate" \
+# terraform import -state="./${taito_resource_namespace}/terraform.tfstate" \
 #   google_project_services.resource_project_services \
 #   "${gcloud_resource_project_id}"
+
+terraform import -state="./${taito_resource_namespace}/terraform.tfstate" \
+  google_project_service.compute_service \
+  "${gcloud_resource_project_id}"
