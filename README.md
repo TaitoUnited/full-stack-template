@@ -26,7 +26,7 @@ Table of contents:
 
 ## Links
 
-Non-production basic auth credentials: `user` / `painipaini`
+Non-production basic auth credentials: TODO: change `user` / `painipaini`
 
 [//]: # (GENERATED LINKS START)
 
@@ -60,8 +60,8 @@ Non-production basic auth credentials: `user` / `painipaini`
 
 ## Prerequisites
 
-* [node.js](https://nodejs.org/)
 * [docker-compose](https://docs.docker.com/compose/install/)
+* [node.js](https://nodejs.org/)
 * Optional but highly recommended: [taito-cli](https://github.com/TaitoUnited/taito-cli#readme)
 * Optional but highly recommended: eslint and prettier plugins for your code editor
 
@@ -126,7 +126,7 @@ Cleaning:
     taito clean:admin                       # Remove admin container image
     taito clean:client                      # Remove client container image
     taito clean:server                      # Remove server container image
-    taito clean:database                    # TODO does not work
+    taito clean:database                    # TODO: does not work
     taito clean:npm                         # Delete node_modules directories
     taito clean                             # Clean everything
 
@@ -169,7 +169,7 @@ Local development (requires [sqitch for postgres](http://sqitch.org/)):
     npm install
     npm run install-dev
     docker-compose up
-    TODO sqitch db deploy
+    TODO: sqitch db deploy
 
 Continuous integration:
 
@@ -215,7 +215,7 @@ The following guidelines usually work well at least for a GUI implementation. Yo
 * A file should contain only nearby references (e.g. references to files in the same directory or in a subdirectory directly beneath it); with the exception of references to libraries and common directories, of course.
 * You cannot always follow the dependency guidelines mentioned above. If you break the guidelines, at least try to avoid making circular dependencies between directories. Also leave a `REFACTOR:` comment if the dependency is the kind that it should be refactored later.
 
-See [orig-template/client/src](https://github.com/TaitoUnited/orig-template/tree/master/client/src) as an example. (TODO orig-template -> server-template)
+See [orig-template/client/src](https://github.com/TaitoUnited/orig-template/tree/master/client/src) as an example. (TODO: orig-template -> server-template)
 
 ## Version control
 
@@ -376,7 +376,7 @@ Options:
 
 Branches:
 * Default branch: dev
-* Protected branch: master (TODO more protection settings)
+* Protected branch: master (TODO: more protection settings)
 
 Collaborators & teams:
 * Teams: Select admin permission for the Admins team
@@ -386,11 +386,11 @@ Collaborators & teams:
 
 #### Stack configuration
 
-* Flow/typescript: You can enable `flow` or `typescript` by going through parts that say `NOTE: for flow` or `NOTE: for typescript`. (TODO implement typescript support)
+* Flow/typescript: You can enable `flow` or `typescript` by going through parts that say `NOTE: for flow` or `NOTE: for typescript`. (TODO: implement typescript support)
 * Alternative technologies: If you would rather use other technologies than react and node.js, you can copy alternative example implementations from [orig-template-alt](https://github.com/TaitoUnited/orig-template-alt/).
 * Adding stack components: If you later need to add new stack components (e.g. bot, queue, storage or worker), see [orig-template](https://github.com/TaitoUnited/orig-template/) for examples.
 
-TODO instructions for setting up multiple server containers for api.
+TODO: instructions for setting up multiple server containers for api.
 
 #### Examples
 
@@ -400,7 +400,7 @@ The client GUI uses the [Material-UI](https://material-ui-next.com/) component l
 
 #### Additional steps for an old migrated project
 
-TODO Something about additional steps if an old project was migrated.
+TODO: Something about additional steps if an old project was migrated.
 The following implementation changes:
 
 * Dockerfiles --> also for local development?
