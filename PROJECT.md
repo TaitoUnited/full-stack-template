@@ -59,7 +59,7 @@ This section provides documentation a checklist for data protection and privacy.
 
 Glossary:
 
-* **Personally identifiable information (PII):** Data that can be used to uniquely identify a person like social-security number, e-mail address, or *anything directly connected to these identifiers such as purchase history*.
+* **Personally identifiable information (PII):** Data that can be used to uniquely identify a person like name, e-mail address, social-security number, or *anything directly connected to these identifiers such as purchase history*.
 * **Special category data (extra-sensitive PII):** For example medical/health information, religion, sexual orientation, or any information on/collected from a minor.
 * **Transparency:** TODO
 * **Data controller:** The entity that determines the purposes, conditions and means of the processing of personal data.
@@ -101,7 +101,7 @@ Checklist:
 * [ ] **Backups:** At this point you can assume that data need not be deleted from backups on user request, if the backup retention period is reasonable (e.g. 30 days). If you are required to keep backups of some data for a long period of time, consider pseudonymization and storing data to different databases based on requirements. NOTE: Be careful when restoring data from backups! You should not restore data that a user has previously deleted.
 * [ ] **Data breach notification:** Users have a right to receive a notification about a data breach without undue delay, if the data breach is likely to result in a high risk to his rights and freedoms. Keep this in mind when choosing audit logging and an user management mechanisms. NOTE: Supervisory authority need to be informed not later than 72 hours after having become aware of the data breach.
 * **Audit logging and reporting:** You should leave a clear audit trail when someone accesses another users PII. Otherwise you don't have enough data for notifying the supervisory authority, and the users in question, about the data breach. Therefore you'll have to assume that all PII of all users has been compromised.
-  * [ ] **On application level:** For example, log these operations to a separate event table that can't be modified by users. You should consider also ready-made audit mechanisms built in to some databases and tools. Note that audit log entries are also PII, but you have a valid excuse to refuse any modification/deletion requests on user's behalf.
+  * [ ] **On application level:** For example, log these operations to a separate event table that can't be modified by users. Consider also ready-made audit mechanisms provided by databases and other tools. Note that audit log entries are also PII, but you have a valid excuse to refuse any modification/deletion requests on user's behalf.
   * [ ] **On infrastructure level:** This is not a trivial task, as it may be hard to prevent system administrators from accessing database with application credentials without leaving a clear audit trail that cannot be altered. However, most major gloud providers have very good audit logging mechanims that suffice, if used correctly.
 * [ ] **Basic security mechanisms:** TODO basics like authentication, authorization, encrypting data on transit.
 * [ ] **Additional security mechanisms:** Of course, you may use additional security mechanisms like automatic intrusion detection mechanims, encrypting all data at rest, etc. But in most cases these are not necessary.
