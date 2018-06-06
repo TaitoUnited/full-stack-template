@@ -62,8 +62,9 @@ Glossary:
 * **Personally identifiable information (PII):** Data that can be used to uniquely identify a person like name, e-mail address, social-security number, or *anything directly connected to these identifiers such as purchase history*.
 * **Special category data (extra-sensitive PII):** For example medical/health information, religion, sexual orientation, or any information on/collected from a minor.
 * **Transparency:** TODO
-* **Data controller:** The entity that determines the purposes, conditions and means of the processing of personal data.
-* **Data processor:** The entity that processes data on behalf of the Data Controller.
+* **Data controller:** The entity that determines the purposes, conditions and means of the processing of personal data. TODO e.g. data owner/administrator
+* **Data processor:** The entity that processes data on behalf of the Data Controller. TODO technical viewpoint e.g. hosting
+* **Data Protection Officer:** TODO
 
 #### Documentation
 
@@ -90,6 +91,8 @@ Checklist:
 * [ ] **User consent:** You must ask users to consent on the processing of their personal data in a clear and easily accessible form. You must be able to show that the user has consented, provide an easy way to withdraw consent at any time, and also ask consent again if changes have been made to the terms of service or privacy policy. Privacy consent needs to be given by means of a *clear affirmative act* which means that a pre-ticked checkbox doesn't suffice.  (TODO user consent is not required if: The basis for processing of personal data may be a contract, agreement, or transaction.)
 * [ ] **User consent and children:** If the user is below the age of 16 years, the consent must given or authorised by the holder of parental responsibility over the child. NOTE: The age limit is 13 years in some countries (e.g Finland, UK and Ireland).
 * [ ] **Terms of service:** It is convenient to ask consent for both the terms of service and privacy policy at the same time. This is ok, but both should be presented for user as separate documents to read. Terms of service is optional and it is not related to GDPR.
+* [ ] **Data Protection Officer contact details:** TODO ?
+* [ ] **Data tagging:** TODO move "All along the way" here?
 * [ ] **Limited data access:** Grant access to personal data for only those who really need it. This includes not only users, but also developers and system administrators. A developer should not be a data processor, thus, a developer should not have access to any PII.
 * [ ] **3rd parties:** If you hand over personal data to 3rd parties (e.g. by using 3rd party SaaS services), make sure that they are GDPR compliant, and you have user concent for doing so. You can, however, hand over data also to non-compliant parties if it is necessary for the process itself, and you have explicit user consent for doing so (for example, making hotel reservations).
 * [ ] **Rights for personal data:** Users have a right to access, correct, and erase all their personal data. A GUI implementation is not a requirement, but it's best that users can access, edit and delete their personal data themselves by using a GUI. This is not only more convenient, but in most cases also more secure, as it is hard to identify users reliably during human interaction. NOTE: You need to respond to the request of user within 30 days, and you may also refuse the request if you have a legitimate reason for doing so.
