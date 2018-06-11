@@ -356,7 +356,6 @@ Done:
 * [ ] GitHub settings
 * [ ] Stack configuration
 * [ ] Removal of irrelevant examples
-* [ ] Additional steps for an old migrated project
 
 #### Temporary basic auth password
 
@@ -395,22 +394,11 @@ TODO: instructions for setting up multiple server containers for api.
 
 #### Examples
 
-The project template comes with a bunch of implementation examples. Start your local development environment (see [quick start](#quick-start)), browse the examples through, leave the ones that seem useful and delete all the rest.
+> To see the examples, start your local development environment: [quick start](#quick-start)
+
+The project template comes with a bunch of implementation examples. Browse the examples through, leave the ones that seem useful and delete all the rest.
 
 The client GUI uses the [Material-UI](https://material-ui-next.com/) component library by default. It's a good match with the [admin-on-rest](https://github.com/marmelab/admin-on-rest) GUI, but please consider also other alternatives based on customer requirements. For example [Elemental](http://elemental-ui.com/) is a good alternative.
-
-#### Additional steps for an old migrated project
-
-TODO: Something about additional steps if an old project was migrated.
-The following implementation changes:
-
-* Dockerfiles --> also for local development?
-* Stackdriver logging
-* Sentry
-* Secrets
-* Storage
-* Queues
-* Cron jobs
 
 ### Configuration for server environments
 

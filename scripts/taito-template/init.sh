@@ -34,22 +34,28 @@ fi
 echo
 echo "--- Choose stack ---"
 echo
+echo "NOTE: If you are unsure, just accept the defaults."
+echo
 
 echo "WEB user interface (Y/n)?"
 read -r confirm
-if [[ "${confirm}" =~ ^[Yy]$ ]]; then
+if [[ "${confirm}" =~ ^[Yy]*$ ]]; then
   stack_client=true
 fi
 echo
+echo "NOTE: WEB user interface is just a bunch of static files that are loaded"
+echo "to a web browser. If you need some process running on server or need to"
+echo "keep some secrets hidden from browser, you need API/server."
+echo
 echo "API on server (Y/n)?"
 read -r confirm
-if [[ "${confirm}" =~ ^[Yy]$ ]]; then
+if [[ "${confirm}" =~ ^[Yy]*$ ]]; then
   stack_server=true
 fi
 echo
 echo "Relational database (Y/n)?"
 read -r confirm
-if [[ "${confirm}" =~ ^[Yy]$ ]]; then
+if [[ "${confirm}" =~ ^[Yy]*$ ]]; then
   stack_database=true
 fi
 echo
@@ -247,6 +253,7 @@ cat temp > docker-compose.yaml
   sed ${sedi} -- '/  database:/d' ./scripts/helm.yaml
 
   sed ${sedi} -- '/postgres-db/d' taito-config.sh
+  sed ${sedi} -- '/db\./d' taito-config.sh
   sed ${sedi} -- '/DATABASE_/d' docker-compose.yaml
 fi
 
@@ -266,6 +273,8 @@ sed -n -e '/# server end/,$p' docker-nginx.conf
 } > temp
 truncate --size 0 docker-nginx.conf
 cat temp > docker-nginx.conf
+
+  sed ${sedi} -- "s/ci-prepare:server/ci-prepare:client/" cloudbuild.yaml
 
   sed ${sedi} -- '/server-template-server/d' docker-compose.yaml
   sed ${sedi} -- '/  server/d' taito-config.sh
@@ -299,6 +308,7 @@ cat temp > docker-compose.yaml
   sed ${sedi} -- '/  storage/d' taito-config.sh
   sed ${sedi} -- '/  storage:/d' ./scripts/helm.yaml
 
+  sed ${sedi} -- '/terraform/d' taito-config.sh
   sed ${sedi} -- '/\* storage/d' taito-config.sh
   sed ${sedi} -- '/\.gateway:/d' taito-config.sh
   sed ${sedi} -- '/\.multi:/d' taito-config.sh
