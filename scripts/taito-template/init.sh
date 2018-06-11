@@ -33,7 +33,6 @@ fi
 
 echo
 echo "--- Choose stack ---"
-echo
 echo "NOTE: If you are unsure, just accept the defaults."
 echo
 
@@ -47,7 +46,7 @@ echo "NOTE: WEB user interface is just a bunch of static files that are loaded"
 echo "to a web browser. If you need some process running on server or need to"
 echo "keep some secrets hidden from browser, you need API/server."
 echo
-echo "API on server (Y/n)?"
+echo "API/server (Y/n)?"
 read -r confirm
 if [[ "${confirm}" =~ ^[Yy]*$ ]]; then
   stack_server=true
