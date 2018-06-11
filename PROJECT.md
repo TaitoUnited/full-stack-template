@@ -1,15 +1,27 @@
+> NOTE: This article contains a short summary of the most important project details required for long-term maintenance. Provide other documentation like requirements analysis and meeting notes as additional resources (TIP: use [wiki](https://github.com/taitounited/server-template/wiki)).
+
+> NOTE: If project consists of multiple git repositories, you don't need to document these matters in all of them. Choose one repository for documenting the project details and leave a reference here.
+
 # Title
 
 Short description: purpose, company, etc.
 
-> NOTE: If project consists of multiple repositories, you don't need to documents these matters in all of them.
+Table of contents:
+
+* [Contacts](#contacts)
+* [Recurring issues and solutions](#recurring-issues-and-solutions)
+* [Conventions](#conventions)
+* [3rd party services: billing and control](#3rd-party-services-billing-and-control)
+* [Security](#security)
+* [Architecture Overview](#architecture-overview)
+* [Additional Resources](#additional-resources)
 
 ## Contacts
 
 * Project Manager: John Doe, Company co.
 * Designer: Jane Doe, Company co.
 
-> NOTE: Keep contact details somewhere else.
+> NOTE: It is recommended to use a shared address book or CRM for keeping the contact details like email and phone number up-to-date.
 
 ## Recurring issues and solutions
 
@@ -17,7 +29,7 @@ See trouble.txt or run `taito --trouble`.
 
 ## Conventions
 
-Project specific conventions.
+> Project specific conventions.
 
 ## 3rd party services: billing and control
 

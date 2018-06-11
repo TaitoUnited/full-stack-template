@@ -26,7 +26,7 @@ Table of contents:
 
 ## Links
 
-Non-production basic auth credentials: TODO: change `user` / `painipaini`
+Non-production basic auth credentials: TODO change `user` / `painipaini`
 
 [//]: # (GENERATED LINKS START)
 
@@ -372,6 +372,7 @@ Recommended settings for most projects.
 
 Options:
 * Data services: Allow GitHub to perform read-only analysis: on
+* Data services: Dependency graph: on
 * Data services: Vulnerability alerts: on
 
 Branches:
