@@ -1,5 +1,5 @@
 terraform {
   backend "local" {
-    path = "./${var.taito_resource_namespace}/terraform.tfstate"
+    path = "./${var.taito_env}/terraform.tfstate"
   }
 }
