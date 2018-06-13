@@ -32,7 +32,7 @@ export taito_suffix=""
 export taito_namespace="${taito_project}-${taito_env:?}"
 export taito_resource_namespace="${taito_company}-dev"
 export taito_registry="${template_default_registry:?}/${taito_zone}/${taito_repo_location}-${taito_repo_name}"
-export taito_app_url="https://${taito_namespace}.${template_default_domain:?}"
+export taito_app_url="https://${taito_project}-${taito_env:?}.${template_default_domain:?}"
 
 # Structure definitions for all plugins
 export taito_environments="dev prod"
@@ -59,10 +59,11 @@ export db_database_port="${db_database_proxy_port}"
 export dockerfile=Dockerfile
 
 # gcloud plugin
+# TODO gcloud_project_id = taito_zone... ??
+# TODO gcloud_resource_project_id = ... ??
 export gcloud_org_id="${template_default_provider_org_id:?}"
 export gcloud_region="${template_default_provider_region:?}"
 export gcloud_zone="${template_default_provider_zone:?}"
-export gcloud_billing_account="${template_default_provider_billing_account:-}"
 export gcloud_sql_proxy_port="${db_database_proxy_port}"
 export gcloud_cdn_enabled=false
 

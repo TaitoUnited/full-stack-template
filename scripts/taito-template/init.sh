@@ -415,7 +415,7 @@ rm LICENSE
 sed ${sedi} -- "s|TaitoUnited/server-template.git|${taito_organization}/${taito_repo_name}.git|g" package.json
 
 # Add some do not modify notes
-echo "Adding do not modify notes..."
+echo "Adding do-not-modify notes..."
 
 # Replace NOTE of README.md with a 'do not modify' note
 {
@@ -509,9 +509,8 @@ sed ${sedi} -- "s/\${template_default_domain:?}/${template_default_domain}/g" ta
 sed ${sedi} -- "s/\${template_default_zone:?}/${template_default_zone}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_zone_prod:?}/${template_default_zone_prod}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_provider:?}/${template_default_provider}/g" taito-config.sh
-sed ${sedi} -- "s/\${template_default_provider:?}/${template_default_provider_billing_account:-}/g" taito-config.sh
-sed ${sedi} -- "s/\${template_default_provider:?}/${template_default_provider_org_id}/g" taito-config.sh
-sed ${sedi} -- "s/\${template_default_provider:?}/${template_default_provider_org_id_prod}/g" taito-config.sh
+sed ${sedi} -- "s/\${template_default_provider_org_id:?}/${template_default_provider_org_id}/g" taito-config.sh
+sed ${sedi} -- "s/\${template_default_provider_org_id_prod:?}/${template_default_provider_org_id_prod}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_provider_region:?}/${template_default_provider_region}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_provider_zone:?}/${template_default_provider_zone}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_provider_region_prod:?}/${template_default_provider_region_prod}/g" taito-config.sh

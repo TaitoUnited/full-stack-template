@@ -24,6 +24,7 @@ metadata:
     # NOTE: see https://github.com/kubernetes/ingress/blob/master/controllers/nginx/configuration.md
     # TODO ingress.kubernetes.io/limit-connections
     # TODO ingress.kubernetes.io/limit-rps
+    # TODO remove hardcoded taitodev.com
 spec:
 {{ if .Values.ingress.tls }}
   tls:

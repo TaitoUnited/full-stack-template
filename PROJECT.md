@@ -1,6 +1,6 @@
 > NOTE: This article contains a short summary of the most important project details required for long-term maintenance. Provide other documentation like requirements analysis and meeting notes as additional resources (TIP: use [wiki](https://github.com/taitounited/server-template/wiki)).
 
-> NOTE: If project consists of multiple git repositories, you don't need to document these matters in all of them. Choose one repository for documenting the project details and leave a reference here.
+> NOTE: If project consists of multiple git repositories, you don't have to document these matters in all of them. Choose one repository for documenting the project details and leave a reference here.
 
 # Title
 

@@ -1,5 +1,6 @@
 # Override default settings for production env
 
+# TODO remove hardcoded taito-zone name
 repository: eu.gcr.io/gcloud-temp1/github-taitounited-server-template
 domains:
   # TODO set production domain

@@ -2,7 +2,7 @@
 
 [//]: # (TEMPLATE NOTE START)
 
-Server-template is a project template for applications and APIs running on server. It supports multiple alternative technologies, and you can choose the stack during configuration. The server-template is based on Kubernetes, but in the future it might also provide support for running functions on top of Kubernetes and major FaaS platforms.
+Server-template is a project template for applications and APIs running on server. It supports multiple alternative technologies, and you can choose the stack during configuration. The server-template is based on Kubernetes, but in the future it might also provide support for running functions on top of both Kubernetes and major FaaS platforms.
 
 Create a new project from this template by running `taito template create: server-template`. Later you can upgrade your project to the latest version of the template by running `taito template upgrade`. To ensure flawless upgrade, do not modify files that have a **do-not-modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files of the template instead, and then upgrade.
 
