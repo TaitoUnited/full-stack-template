@@ -1,11 +1,8 @@
 #!/bin/bash
 
-# Taito-cli settings
+# Taito-cli
 export taito_image="taitounited/taito-cli:latest"
 export taito_extensions=""
-# Enabled taito-cli plugins
-# - 'docker-compose:local' --> docker-compose is used only in local environment
-# - 'kubectl:-local' --> kubernetes is used in all other environments
 export taito_plugins=" \
   postgres-db sqitch-db \
   docker \
@@ -18,24 +15,28 @@ export taito_plugins=" \
   sentry \
 "
 
-# Basic project settings for all plugins
+# Project
 export taito_organization="${template_default_organization:?}"
-export taito_zone="${template_default_zone:?}"
-export taito_provider="${template_default_provider:?}"
-export taito_repo_location="github-${taito_organization}"
-export taito_repo_name="server-template"
 export taito_project="server-template"
 export taito_company="companyname"
 export taito_family=""
 export taito_application="template"
 export taito_suffix=""
+
+# Repositories
+# TODO change taito_repo and taito_registry naming, add also repo url?
+export taito_repo_location="github-${taito_organization}"
+export taito_repo_name="${taito_project}"
+export taito_registry="${template_default_registry:?}/${taito_zone}/${taito_repo_location}-${taito_repo_name}"
+
+# Provider and namespaces
+export taito_provider="${template_default_provider:?}"
+export taito_zone="${template_default_zone:?}"
 export taito_namespace="${taito_project}-${taito_env:?}"
 export taito_resource_namespace="${taito_company}-dev"
-export taito_registry="${template_default_registry:?}/${taito_zone}/${taito_repo_location}-${taito_repo_name}"
-export taito_app_url="https://${taito_project}-${taito_env:?}.${template_default_domain:?}"
-
-# Structure definitions for all plugins
 export taito_environments="dev prod"
+
+# Stack
 export taito_targets="
   admin
   client
@@ -55,10 +56,13 @@ export db_database_host="localhost"
 export db_database_proxy_port="5001"
 export db_database_port="${db_database_proxy_port}"
 
-# docker plugin
+# URLs
+export taito_app_url="https://${taito_project}-${taito_env:?}.${template_default_domain:?}"
+
+# Docker plugin
 export dockerfile=Dockerfile
 
-# gcloud plugin
+# Google Cloud plugin
 # TODO gcloud_project_id = taito_zone... ??
 # TODO gcloud_resource_project_id = ... ??
 export gcloud_org_id="${template_default_provider_org_id:?}"
@@ -70,6 +74,9 @@ export gcloud_cdn_enabled=false
 # Kubernetes plugin
 export kubectl_name="kube1" # TODO rename to common-kubernetes
 
+# Helm plugin
+# export helm_deploy_options="--recreate-pods" # Force restart
+
 # Template plugin
 export template_name="orig-template"
 export template_source_git="git@github.com:TaitoUnited"
@@ -77,8 +84,8 @@ export template_source_git="git@github.com:TaitoUnited"
 # Sentry plugin
 export sentry_organization="${taito_organization}"
 
-# Settings for builds
-# NOTE: Most of these should be enabled for dev and feature envs only
+# CI/CD settings
+# NOTE: Most of these should be enabled for dev and feat environments only
 export ci_exec_build=false        # build a container if does not exist already
 export ci_exec_deploy=true        # deploy automatically
 export ci_exec_test=false         # execute test suites after deploy
@@ -86,19 +93,10 @@ export ci_exec_test_wait=1        # how many seconds to wait for deployment/rest
 export ci_exec_test_init=false    # run 'init --clean' before each test suite
 export ci_exec_revert=false       # revert deploy automatically on fail
 
-# Override settings for different environments:
-# local, feat, dev, test, stag, prod
+# --- Override settings for different environments ---
+
 case "${taito_env}" in
-  prod)
-    # prod overrides
-    export taito_zone="${template_default_zone_prod:?}"
-    export gcloud_org_id="${template_default_provider_org_id_prod:?}"
-    export gcloud_region="${template_default_provider_region_prod:?}"
-    export gcloud_zone="${template_default_provider_zone_prod:?}"
-    export taito_resource_namespace="${taito_company}-prod"
-    ;;
-  stag)
-    # staging overrides
+  prod|stag)
     export taito_zone="${template_default_zone_prod:?}"
     export gcloud_org_id="${template_default_provider_org_id_prod:?}"
     export gcloud_region="${template_default_provider_region_prod:?}"
@@ -106,10 +104,8 @@ case "${taito_env}" in
     export taito_resource_namespace="${taito_company}-prod"
     ;;
   test)
-    # test overrides
     ;;
   dev|feat)
-    # dev and feature overrides
     export ci_exec_build=true        # allow build of a new container
     export ci_exec_deploy=true       # deploy automatically
     # NOTE: enable tests once you have implemented some integration or e2e tests
@@ -118,7 +114,6 @@ case "${taito_env}" in
     export ci_exec_revert=false      # revert deploy if previous steps failed
     ;;
   local)
-    # local overrides
     export ci_exec_test_init=false   # run 'init --clean' before each test suite
     export test_api_url="http://localhost:3332"
     export taito_app_url="http://localhost:8080"
@@ -132,19 +127,13 @@ esac
 
 # --- Derived values ---
 
-# Test suite parameters
-# NOTE: env variable is passed to the test without the test_xxx_ prefix
-export test_client_test_user="test"
-export test_client_test_password="password"
-export test_server_test_user="test"
-export test_server_test_password="password"
-export test_server_test_api_url="${taito_app_url}/api"
-
-# Basic project settings for all plugins
-export taito_admin_url="${taito_app_url}/admin/"
+# Namespaces
 export taito_resource_namespace_id="${taito_organization}-${taito_resource_namespace}"
 
-# gcloud plugin
+# URLs
+export taito_admin_url="${taito_app_url}/admin/"
+
+# Google Cloud plugin
 export gcloud_project="${taito_zone}"
 export gcloud_storage_locations="${gcloud_region}"
 export gcloud_storage_classes="REGIONAL"
@@ -161,7 +150,8 @@ export link_urls="\
   * docs=https://github.com/${taito_organization}/${taito_repo_name}/wiki Project documentation \
   * git=https://github.com/${taito_organization}/${taito_repo_name} GitHub repository \
   * kanban=https://github.com/${taito_organization}/${taito_repo_name}/projects Kanban boards \
-  * project[:ENV]=https://console.cloud.google.com/home/dashboard?project=${taito_resource_namespace_id} Google project (:ENV) \
+  * gproject[:ENV]=https://console.cloud.google.com/home/dashboard?project=${taito_resource_namespace_id} Google project (:ENV) \
+  * gservices[:ENV]=https://console.cloud.google.com/apis/dashboard?project=${taito_resource_namespace_id} Google services (:ENV) \
   * builds=https://console.cloud.google.com/gcr/builds?project=${taito_zone}&query=source.repo_source.repo_name%3D%22${taito_repo_location}-${taito_repo_name}%22 Build logs \
   * images=https://console.cloud.google.com/gcr/images/${taito_zone}/EU/${taito_repo_location}-${taito_repo_name}?project=${taito_zone} Container images \
   * artifacts=https://TODO-DOCS-AND-TEST-REPORTS Generated documentation and test reports \
@@ -174,9 +164,7 @@ export link_urls="\
 "
 
 # Secrets
-# NOTE: Secret naming: type.target_of_type.purpose[/namespace]:generation_method
-# NOTE: Alternative naming for external helm chart compatibility:
-#   projectname-purpose[/namespace]:generation_method
+# TODO change secret naming convention
 export taito_secrets="
   git.github.build:read/devops
   gcloud.cloudsql.proxy:copy/devops
@@ -188,3 +176,11 @@ export taito_secrets="
   user.${taito_project}-admin.auth:manual
   user.${taito_project}-user.auth:manual
 "
+
+# Test suite parameters
+# NOTE: env variable is passed to the test without the test_TARGET_ prefix
+export test_client_test_user="test"
+export test_client_test_password="password"
+export test_server_test_user="test"
+export test_server_test_password="password"
+export test_server_test_api_url="${taito_app_url}/api"

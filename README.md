@@ -60,10 +60,13 @@ Non-production basic auth credentials: TODO change `user` / `painipaini`
 
 ## Prerequisites
 
-* [docker-compose](https://docs.docker.com/compose/install/)
 * [node.js](https://nodejs.org/)
-* Optional but highly recommended: [taito-cli](https://github.com/TaitoUnited/taito-cli#readme)
-* Optional but highly recommended: eslint and prettier plugins for your code editor
+* [docker-compose](https://docs.docker.com/compose/install/)
+
+Optional but highly recommended:
+
+* [taito-cli](https://github.com/TaitoUnited/taito-cli#readme)
+* eslint and prettier plugins for your code editor
 
 ## Quick start
 
@@ -160,18 +163,19 @@ Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND
 
 > It's common that idle applications are run down to save resources on non-production environments. If your application seems to be down, you can start it by running `taito start:ENV`, or by pushing some changes to git.
 
-### Running without taito-cli
+### Without taito-cli
 
 You can run this project without taito-cli, but it is not recommended as you'll lose many of the additional features that taito-cli provides.
 
-Local development (requires [sqitch for postgres](http://sqitch.org/)):
+Local development:
 
-    npm install
-    npm run install-dev
-    docker-compose up
-    TODO: sqitch db deploy
+    npm install             # Install some libraries
+    npm run install-dev     # Install some libraries
+    docker-compose up       # Start wordpress and database
+    npm run                 # Show all scripts that you can run with npm
+    TODO: sqitch db deploy  # Requires [sqitch for postgres](http://sqitch.org/))
 
-Continuous integration:
+CI/CD:
 
 Taito-cli supports various infrastructures and technologies out-of-the-box, and you can also extend it by writing custom plugins. But if you want to build and deploy the project without taito-cli, you'll have to write the CI scripts yourself.
 
