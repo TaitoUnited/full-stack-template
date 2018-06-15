@@ -67,7 +67,7 @@ Backend:
 
 ### Data protection and privacy
 
-This section provides documentation a checklist for data protection and privacy. Most of these concern personal data (GDPR), but many of them can be applied to any confidential data to keep the data safe.
+This section provides documentation and a checklist for data protection and privacy. Most of the checklist steps concern personal data (GDPR), but many of them can, and should, be applied to any confidential data to keep the data safe.
 
 Glossary:
 
