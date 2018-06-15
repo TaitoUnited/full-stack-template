@@ -16,6 +16,7 @@
     ]
   },
   "_NoteThereWereAdded_Obsolete?": "axios, babel-polyfill, history, immutability-helper, prop-types, redux-actions, qs",
+  "_Note": "unused depencencies bevause admin GUI is still under construction",
   "dependencies": {
     "@material-ui/core": "~1.0.0",
     "@material-ui/icons": "~1.0.0",
@@ -45,7 +46,8 @@
     "redux-actions": "^2.4.0",
     "redux-form": "~7.3.0",
     "redux-saga": "~0.16.0",
-    "styled-components": "^3.3.0"
+    "styled-components": "^3.3.0",
+    "uglifyjs-webpack-plugin": "^1.2.5"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
