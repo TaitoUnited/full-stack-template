@@ -75,7 +75,7 @@ Glossary:
 * **Special category data (extra-sensitive PII):** For example medical/health information, religion, sexual orientation, or any information on/collected from a minor.
 * **Data controller:** The entity that determines the purposes, conditions and means of the processing of personal data. For example, the organization that owns the software system and its data.
 * **Data processor:** The entity that processes data on behalf of the Data Controller. For example, the company that hosts the software system and provides tehcnical support.
-* **Data Protection Officer (DPO):** Ensures that organisation processes personal data in compliance with data protection rules.
+* **[Data Protection Officer (DPO)](https://eugdprcompliant.com/what-is-a-data-protection-officer/):** Ensures that organisation processes personal data in compliance with data protection rules.
 
 #### Documentation
 
@@ -100,7 +100,6 @@ Checklist:
 * [ ] **User consent:** You must ask users to consent on the processing of their personal data in a clear and easily accessible form. You must be able to show that the user has consented, provide an easy way to withdraw consent at any time, and also ask consent again if changes have been made to the terms of service or privacy policy. Privacy consent needs to be given by means of a *clear affirmative act* which means that a pre-ticked checkbox doesn't suffice.  (TODO user consent is not required if: The basis for processing of personal data may be a contract, agreement, or transaction.)
 * [ ] **User consent and children:** If the user is below the age of 16 years, the consent must given or authorised by the holder of parental responsibility over the child. NOTE: The age limit is 13 years in some countries (e.g Finland, UK and Ireland).
 * [ ] **Terms of service:** It is convenient to ask consent for both the terms of service and privacy policy at the same time. This is ok, but both should be presented for user as separate documents to read. Terms of service is optional and it is not related to GDPR.
-* [ ] **Data Protection Officer contact details:** TODO ?
 * [ ] **Data tagging:** You may need to tag data based on user consent. For example, has the user accepted data usage for marketing purpose.
 * [ ] **Limited data access:** Grant access to personal data for only those who really need it. In most cases, a developer should not be a data processor, thus, a developer should not have access to any PII.
 * [ ] **3rd parties:** If you hand over personal data to 3rd parties (e.g. by using 3rd party SaaS services), make sure that they are GDPR compliant, and you have user concent for doing so. You can, however, hand over data also to non-compliant parties if it is necessary for the process itself, and you have explicit user consent for doing so (for example, making hotel reservations). NOTE: Google Analytics [forbids](https://support.google.com/analytics/answer/6366371?hl=en) storing any personal data.
