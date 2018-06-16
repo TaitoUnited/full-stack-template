@@ -30,11 +30,11 @@ export taito_repo_name="${taito_project}"
 export taito_registry="${template_default_registry:?}/${taito_zone}/${taito_repo_location}-${taito_repo_name}"
 
 # Provider and namespaces
-export taito_provider="${template_default_provider:?}"
-export taito_zone="${template_default_zone:?}"
-export taito_namespace="${taito_project}-${taito_env:?}"
-export taito_resource_namespace="${taito_company}-dev"
-export taito_environments="dev prod"
+export taito_provider="${template_default_provider:?}" # aws, azure, gcloud, ...
+export taito_zone="${template_default_zone:?}" # kube/postgres cluster project
+export taito_namespace="${taito_project}-${taito_env:?}" # kubernetes namespace
+export taito_resource_namespace="${taito_company}-dev" # additional resources project
+export taito_environments="dev test prod"
 
 # Stack
 export taito_targets="

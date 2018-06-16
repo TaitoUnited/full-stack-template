@@ -1,0 +1,29 @@
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: {{ template "name" . }}-certificate
+  labels:
+    app: {{ template "name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  secretName: {{ template "fullname" . }}-ssl
+  issuerRef:
+    name: common-letsencrypt-issuer
+    kind: ClusterIssuer
+  commonName: {{ template "fullname" . -}} .taitodev.com
+  # dnsNames:
+  #   - {{ template "fullname" . -}} .taitodev.com
+  acme:
+    config:
+    - http01:
+        ingressClass: nginx
+      domains:
+        - {{ template "fullname" . -}} .taitodev.com
+      {{- range $domain := .Values.domains }}
+        - {{ $domain }}
+      {{- end -}}
+
+# TODO use real production hostname as commonName
+# TODO list all domains
