@@ -75,25 +75,25 @@ spec:
           {{ if $root.Values.stack.server }}
           - path: {{ $root.Values.server.path | quote }}
             backend:
-              serviceName: {{ template "name" . }}-{{ $root.Values.stack.server }}
+              serviceName: {{ template "name" $root }}-{{ $root.Values.stack.server }}
               servicePort: {{ $root.Values.server.port }}
           {{ end }}
           {{ if and ($root.Values.stack.bot) ($root.Values.bot.path) }}
           - path: {{ $root.Values.bot.path | quote }}
             backend:
-              serviceName: {{ template "name" . }}-{{ $root.Values.stack.bot }}
+              serviceName: {{ template "name" $root }}-{{ $root.Values.stack.bot }}
               servicePort: {{ $root.Values.bot.port }}
           {{ end }}
           {{ if $root.Values.stack.admin }}
           - path: {{ $root.Values.admin.path | quote }}
             backend:
-              serviceName: {{ template "name" . }}-{{ $root.Values.stack.admin }}
+              serviceName: {{ template "name" $root }}-{{ $root.Values.stack.admin }}
               servicePort: {{ $root.Values.admin.port }}
           {{ end }}
           {{ if $root.Values.stack.client }}
           - path: {{ $root.Values.client.path | quote }}
             backend:
-              serviceName: {{ template "name" . }}-{{ $root.Values.stack.client }}
+              serviceName: {{ template "name" $root }}-{{ $root.Values.stack.client }}
               servicePort: {{ $root.Values.client.port }}
           {{ end }}
     {{- end -}}
