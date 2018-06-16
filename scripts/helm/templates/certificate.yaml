@@ -12,18 +12,17 @@ spec:
   issuerRef:
     name: common-letsencrypt-issuer
     kind: ClusterIssuer
-  commonName: {{ template "fullname" . -}} .taitodev.com
-  # dnsNames:
-  #   - {{ template "fullname" . -}} .taitodev.com
+  dnsNames:
+    {{- range $domain := .Values.domains }}
+    - {{ $domain }}
+    {{- end }}
+    - {{ template "fullname" . -}} .taitodev.com
   acme:
     config:
     - http01:
         ingressClass: nginx
       domains:
-        - {{ template "fullname" . -}} .taitodev.com
-      {{- range $domain := .Values.domains }}
+        {{- range $domain := .Values.domains }}
         - {{ $domain }}
-      {{- end -}}
-
-# TODO use real production hostname as commonName
-# TODO list all domains
+        {{- end }}
+        - {{ template "fullname" . -}} .taitodev.com
