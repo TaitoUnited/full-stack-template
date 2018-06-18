@@ -564,7 +564,7 @@ spec:
             - minio
             - gateway
             - gcs
-            - {{ .Values.zone.name }}
+            - {{ .Values.zone.resourceNamespace }}
           ports:
             - containerPort: {{ .Values.storage.port }}
           env:
