@@ -124,12 +124,14 @@ List all project related links and open one of them in browser:
     taito open -h
     taito open xxx
 
-Check dependencies:
+Check bundle size and dependencies:
 
-    # NOTE: Many of the `devDependencies` and `~` references are actually
-    # in use even if reported unused. But all unused `dependencies` can usually
-    # be removed from package.json.
-    taito depcheck
+    taito check size
+    taito check size:client
+    taito check deps
+    taito check deps:server
+
+> NOTE: Many of the `devDependencies` and `~` references are actually in use even if reported unused. But all unused `dependencies` can usually be removed from package.json.
 
 Cleaning:
 
