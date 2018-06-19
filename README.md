@@ -313,7 +313,7 @@ You can use any of the following types in your commit message. Use at least type
 
 ## Database migrations
 
-> If none of the environments do not yet contain any data that need to be preserved, you can just edit the existing deploy sql files directly and run `taito init:ENV --clean` manually before deploying the app to the environment. However, if you delete some of the existing deploy sql files, leave the revert scripts at place, or otherwise `taito init:ENV --clean` will fail.
+> If the environments do not yet contain any permanent data, you can just edit the existing deploy sql files directly and run `taito init:ENV --clean` before deploying the app to the environment. However, if you delete some of the existing `deploy/*.sql` files, leave revert scripts in place. Otherwise `taito init:ENV --clean` will fail because changes cannot be reverted.
 
 Add a new migration:
 
