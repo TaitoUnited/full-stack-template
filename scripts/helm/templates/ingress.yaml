@@ -32,10 +32,11 @@ spec:
     - {{ template "fullname" . -}} .taitodev.com
     secretName: {{ template "fullname" . }}-ssl
 
+  {{- $root := . -}}
   {{- range $domain := .Values.domains }}
   - hosts:
     - {{ $domain }}
-    secretName: {{ $domain }}-ssl
+    secretName: {{ template "fullname" $root }}-ssl
   {{- end -}}
 
 {{ end }}
