@@ -309,8 +309,6 @@ You can use any of the following types in your commit message. Use at least type
 * `ci`: Continuous integration changes (cloudbuild.yaml)
 * `chore`: maintenance
 
-> Optionally you can use `npm run commit` to write your commit messages by using commitizen, though often it is quicker to write commit messages by hand.
-
 ## Database migrations
 
 > If the environments do not yet contain any permanent data, you can just edit the existing deploy sql files directly and run `taito init:ENV --clean` before deploying the app to the environment. However, if you delete some of the existing `deploy/*.sql` files, leave revert scripts in place. Otherwise `taito init:ENV --clean` will fail because changes cannot be reverted.

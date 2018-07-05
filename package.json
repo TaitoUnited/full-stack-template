@@ -50,7 +50,6 @@
     "project-contacts": "cat PROJECT.md | sed -n -e '/^## Contacts.*$/,/^#.*$/{ /^## Contacts.*$/d; /^#.*$/d; p; }'",
     "docs": "echo TODO: generate docs in package.json",
     "scan": "echo 'Linting is executed in Dockerfiles during build' && echo 'TODO: execute code analysis here?'",
-    "commit": "echo 'Running commitizen locally' && git-cz",
     "commitmsg": "echo 'NOTE: Running validate-commit-msg locally' && validate-commit-msg",
     "precommit": "echo 'SKIP: Skipping linting on commit since we are already continuously linting during development.'",
     "prepush": "npm-run-all --parallel lint disabled-types unit",
@@ -60,9 +59,6 @@
     "release-post:prod": "semantic-release post"
   },
   "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    },
     "validate-commit-msg": {
       "types": [
         "wip",
@@ -106,8 +102,6 @@
     "url": "git+ssh://git@github.com:TaitoUnited/server-template.git"
   },
   "devDependencies": {
-    "commitizen": "^2.9.6",
-    "cz-conventional-changelog": "^2.1.0",
     "husky": "^0.14.3",
     "last-release-git": "0.0.3",
     "npm-run-all": "^4.1.3",

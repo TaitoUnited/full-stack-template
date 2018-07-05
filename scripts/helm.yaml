@@ -70,6 +70,7 @@ server:
   env:
     SENTRY_DSN: #sentryDSN
     DEBUG: false
+    # TODO remove ENV or set it automatically?
     ENV: production
     S3_URL: http://server-template-storage:9000/
     S3_REGION: europe-west1
