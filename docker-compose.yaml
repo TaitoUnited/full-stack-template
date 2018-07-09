@@ -1,7 +1,7 @@
 server-template-ingress:
   container_name: server-template-ingress
   image: nginx:1.13.8-alpine
-  restart: on-failure
+  restart: unless-stopped
   ports:
     - "8080:80"
   links:
@@ -17,7 +17,7 @@ server-template-admin:
   container_name: server-template-admin
   build: ./admin
   dockerfile: ${dockerfile}
-  restart: on-failure
+  restart: unless-stopped
   ports:
     - "3334"
   volumes:
@@ -42,7 +42,7 @@ server-template-client:
   container_name: server-template-client
   build: ./client
   dockerfile: ${dockerfile}
-  restart: on-failure
+  restart: unless-stopped
   ports:
     - "3333"
   volumes:
@@ -67,7 +67,7 @@ server-template-server:
   container_name: server-template-server
   build: ./server
   dockerfile: ${dockerfile}
-  restart: on-failure
+  restart: unless-stopped
   ports:
     - "3332"
   volumes:
@@ -111,7 +111,7 @@ server-template-server:
 #   container_name: server-template-bot
 #   build: ./bot
 #   dockerfile: ${dockerfile}
-#   restart: on-failure
+#   restart: unless-stopped
 #   ports:
 #     - "3330"
 #   volumes:
@@ -137,7 +137,7 @@ server-template-server:
 #   container_name: server-template-worker
 #   build: ./worker
 #   dockerfile: ${dockerfile}
-#   restart: on-failure
+#   restart: unless-stopped
 #   ports:
 #     - "3331"
 #   volumes:
@@ -175,7 +175,7 @@ server-template-server:
 server-template-cache:
   container_name: server-template-cache
   image: redis:alpine
-  restart: on-failure
+  restart: unless-stopped
   ports:
     - "6379"
 # cache end
@@ -184,7 +184,7 @@ server-template-cache:
 # server-template-queue:
 #   container_name: server-template-queue
 #   image: rabbitmq:alpine
-#   restart: on-failure
+#   restart: unless-stopped
 #   ports:
 #     - "5672"
 # queue end
@@ -195,7 +195,7 @@ server-template-cache:
 server-template-database:
   container_name: server-template-database
   image: postgres:9.6
-  restart: on-failure
+  restart: unless-stopped
   ports:
     - "6000:5432"
   environment:
@@ -210,7 +210,7 @@ server-template-database:
 server-template-storage:
   container_name: server-template-storage
   image: minio/minio:latest
-  restart: on-failure
+  restart: unless-stopped
   command: server /storage
   environment:
     MINIO_ACCESS_KEY: 070UEOQR6LX4YPZLFU0V
