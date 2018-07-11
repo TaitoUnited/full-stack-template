@@ -2,6 +2,8 @@
 zone:
   name:
   provider:
+  providerRegion:
+  providerZone:
   namespace:
   resourceNamespace:
 project:
@@ -80,8 +82,7 @@ worker:
 
 database:
   port: 5432
-  # TODO remove hardcoded value
-  db: gcloud-temp1:europe-west1:common-postgres
+  db: taito-zone:provider-region:my-postgres
   poolMin: 5
   poolMax: 10
 
@@ -90,7 +91,7 @@ storage:
   image: minio/minio
   replicas: 1
   host: storage
-  region: europe-west1-c
+  region: provider-region
 
 cache:
   port: 6379

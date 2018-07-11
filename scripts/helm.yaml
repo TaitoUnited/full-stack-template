@@ -106,7 +106,7 @@ storage:
   image: minio/minio
   replicas: 1
   host: storage
-  region: europe-west1-c
+  region: europe-west1
   secrets:
     MINIO_SECRET_KEY: storage.server-template.gateway
   env:
