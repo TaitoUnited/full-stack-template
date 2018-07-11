@@ -20,6 +20,7 @@ substitutions:
   _TEMPLATE_DEFAULT_PROVIDER_ZONE:
   _TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD:
   _TEMPLATE_DEFAULT_REGISTRY:
+  _TEMPLATE_DEFAULT_POSTGRES:
 
 steps:
 
@@ -51,6 +52,7 @@ steps:
     export template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     export template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     export template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    export template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
     export taito_env
     taito_env="$${branch_name}"
     if [[ "$${taito_env}" == "master" ]]; then
@@ -104,6 +106,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 # NOTE: We wait for ci-prepare step since it's the first step that
 # pulls the taito-cli image that is used in all subsequent steps
@@ -126,6 +129,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-release-pre
   waitFor: ['install']
@@ -146,6 +150,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: scan
   waitFor: ['install']
@@ -166,6 +171,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 # Build artifacts
 
@@ -188,6 +194,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-build-admin
   waitFor: ['ci-release-pre']
@@ -208,6 +215,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-push-admin
   waitFor: ['ci-build-admin']
@@ -228,6 +236,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-build-bot
   waitFor: ['ci-release-pre']
@@ -248,6 +257,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-push-bot
   waitFor: ['ci-build-bot']
@@ -268,6 +278,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-build-client
   waitFor: ['ci-release-pre']
@@ -288,6 +299,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-push-client
   waitFor: ['ci-build-client']
@@ -308,6 +320,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-build-server
   waitFor: ['ci-release-pre']
@@ -328,6 +341,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-push-server
   waitFor: ['ci-build-server']
@@ -348,6 +362,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-build-worker
   waitFor: ['ci-release-pre']
@@ -368,6 +383,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-push-worker
   waitFor: ['ci-build-worker']
@@ -388,6 +404,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 # Deploy to target environment
 
@@ -409,6 +426,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-deploy
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
@@ -428,6 +446,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 # Run tests against the target environment
 
@@ -449,6 +468,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: test
   waitFor: ['ci-wait']
@@ -469,6 +489,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-verify
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
@@ -488,6 +509,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 # Publish and release
 
@@ -509,6 +531,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-release-post
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
@@ -528,3 +551,4 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
