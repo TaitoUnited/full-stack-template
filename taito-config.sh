@@ -34,7 +34,7 @@ export taito_provider="${template_default_provider:?}" # aws, azure, gcloud, ...
 export taito_zone="${template_default_zone:?}" # kube/postgres cluster project
 export taito_namespace="${taito_project}-${taito_env:?}" # kubernetes namespace
 export taito_resource_namespace="${taito_company}-dev" # additional resources project
-export taito_environments="dev test prod"
+export taito_environments="dev prod"
 
 # Stack
 export taito_targets="
@@ -49,7 +49,7 @@ export taito_databases="database"
 export taito_storages="${taito_project}-${taito_env}"
 
 # Database definitions for database plugins
-export db_database_instance="common-postgres"
+export db_database_instance="${template_default_postgres:?}"
 export db_database_type="pg"
 export db_database_name="${taito_project//-/_}_${taito_env}"
 export db_database_host="localhost"
