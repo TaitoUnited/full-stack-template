@@ -49,6 +49,7 @@ export taito_targets="
 "
 export taito_databases="database"
 export taito_storages="${taito_project}-${taito_env}"
+export taito_networks="default"
 
 # Database definitions for database plugins
 export db_database_instance="${template_default_postgres:?}"
