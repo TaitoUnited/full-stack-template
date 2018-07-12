@@ -10,7 +10,8 @@ const skipAuthPaths = [
   /^\/auth\/login/,
 ];
 
-// NOTE: REMOVE THIS IF ONLY BASIC OR JWT AUTH IS REQUIRED
+// NOTE: DO NOT USE BASIC AUTH IN PRODUCTION!
+// TODO: IMPLEMENT JWT AUTH FOR CLIENT AND REMOVE BASIC AUTH!
 const determineAuthMethod = ctx => {
   let method = null;
   if (!skipAuthPaths.find(path => path.test(ctx.path))) {
@@ -30,7 +31,7 @@ const authMiddleware = app => {
   });
 
   // Basic auth
-  // NOTE: enable once proper sign in has been implemented
+  // NOTE: enable if required
   // app.use(async (ctx, next) => {
   //   if (ctx.state.clientAuthMethod === 'basic') {
   //     await basicAuth({
@@ -43,6 +44,7 @@ const authMiddleware = app => {
   // });
 
   // JWT auth
+  // TODO proper OpenID Connect / OAuth 2.0 auth
   app.use(
     jwt({
       secret: config.JWT_SECRET,
