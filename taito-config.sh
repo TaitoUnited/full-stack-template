@@ -161,8 +161,8 @@ export link_urls="\
   * logs:ENV#logs=https://console.cloud.google.com/logs/viewer?project=${taito_zone}&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F${kubectl_name}%2Fnamespace_id%2F${taito_namespace} Logs (:ENV) \
   * errors:ENV#errors=https://sentry.io/${taito_organization}/${taito_project}/?query=is%3Aunresolved+environment%3A${taito_env} Sentry errors (:ENV) \
   * uptime=https://app.google.stackdriver.com/uptime?project=${taito_zone} Uptime monitoring (Stackdriver) \
-  * feedback=https://TODO-ZENDESK User feedback (Zendesk) \
-  * performance=https://TODO-NEW-RELIC Performance metrics (New Relic) \
+  * feedback=https://TODO User feedback \
+  * performance=https://TODO Performance metrics \
 "
 
 # Secrets
