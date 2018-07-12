@@ -10,6 +10,7 @@ substitutions:
   _TEMPLATE_DEFAULT_TAITO_IMAGE:
   _TEMPLATE_DEFAULT_ORGANIZATION:
   _TEMPLATE_DEFAULT_DOMAIN:
+  _TEMPLATE_DEFAULT_DOMAIN_PROD:
   _TEMPLATE_DEFAULT_ZONE:
   _TEMPLATE_DEFAULT_ZONE_PROD:
   _TEMPLATE_DEFAULT_PROVIDER:
@@ -20,6 +21,7 @@ substitutions:
   _TEMPLATE_DEFAULT_PROVIDER_ZONE:
   _TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD:
   _TEMPLATE_DEFAULT_REGISTRY:
+  _TEMPLATE_DEFAULT_KUBERNETES:
   _TEMPLATE_DEFAULT_POSTGRES:
 
 steps:
@@ -42,6 +44,7 @@ steps:
     export template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     export template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     export template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    export template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
     export template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
     export template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     export template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
@@ -52,6 +55,7 @@ steps:
     export template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     export template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     export template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    export template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     export template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
     export taito_env
     taito_env="$${branch_name}"
@@ -96,6 +100,7 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
@@ -106,6 +111,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 # NOTE: We wait for ci-prepare step since it's the first step that
@@ -119,6 +125,7 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
@@ -129,6 +136,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-release-pre
@@ -140,6 +148,7 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
@@ -150,6 +159,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: scan
@@ -161,6 +171,7 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
@@ -171,6 +182,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 # Build artifacts
@@ -184,6 +196,7 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
@@ -194,6 +207,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-build-admin
@@ -205,6 +219,7 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
@@ -215,6 +230,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-push-admin
@@ -226,6 +242,7 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
@@ -236,6 +253,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-build-bot
@@ -247,6 +265,7 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
@@ -257,6 +276,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-push-bot
@@ -268,6 +288,7 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
@@ -278,6 +299,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-build-client
@@ -289,6 +311,7 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
@@ -299,6 +322,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-push-client
@@ -310,6 +334,7 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
@@ -320,6 +345,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-build-server
@@ -331,6 +357,7 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
@@ -341,6 +368,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-push-server
@@ -352,6 +380,7 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
@@ -362,6 +391,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-build-worker
@@ -373,6 +403,7 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
@@ -383,6 +414,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-push-worker
@@ -394,6 +426,7 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
@@ -404,6 +437,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 # Deploy to target environment
@@ -416,6 +450,7 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
@@ -426,6 +461,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-deploy
@@ -436,6 +472,7 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
@@ -446,6 +483,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 # Run tests against the target environment
@@ -458,6 +496,7 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
@@ -468,6 +507,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: test
@@ -479,6 +519,7 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
@@ -489,6 +530,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-verify
@@ -499,6 +541,7 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
@@ -509,6 +552,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 # Publish and release
@@ -521,6 +565,7 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
@@ -531,6 +576,7 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: ci-release-post
@@ -541,6 +587,7 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
@@ -551,4 +598,5 @@ steps:
     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}

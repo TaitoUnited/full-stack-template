@@ -23,12 +23,6 @@ export taito_family=""
 export taito_application="template"
 export taito_suffix=""
 
-# Repositories
-# TODO change taito_repo and taito_registry naming, add also repo url?
-export taito_repo_location="github-${taito_organization}"
-export taito_repo_name="${taito_project}"
-export taito_registry="${template_default_registry:?}/${taito_zone}/${taito_repo_location}-${taito_repo_name}"
-
 # Provider and namespaces
 export taito_provider="${template_default_provider:?}" # aws, azure, gcloud, ...
 export taito_provider_region="${template_default_provider_region:?}"
@@ -37,6 +31,12 @@ export taito_zone="${template_default_zone:?}" # kube/postgres cluster project
 export taito_namespace="${taito_project}-${taito_env:?}" # kubernetes namespace
 export taito_resource_namespace="${taito_company}-dev" # additional resources project
 export taito_environments="dev prod"
+
+# Repositories
+# TODO change taito_repo and taito_registry naming, add also repo url?
+export taito_repo_location="github-${taito_organization}"
+export taito_repo_name="${taito_project}"
+export taito_registry="${template_default_registry:?}/${taito_zone}/${taito_repo_location}-${taito_repo_name}"
 
 # Stack
 export taito_targets="
@@ -73,7 +73,7 @@ export gcloud_sql_proxy_port="${db_database_proxy_port}"
 export gcloud_cdn_enabled=false
 
 # Kubernetes plugin
-export kubectl_name="kube1" # TODO rename to common-kubernetes
+export kubectl_name="${template_default_kubernetes:?}"
 export kubectl_replicas="1"
 
 # Helm plugin
@@ -105,10 +105,9 @@ case "${taito_env}" in
     export taito_resource_namespace="${taito_company}-prod"
     export gcloud_org_id="${template_default_provider_org_id_prod:?}"
 
-    # TODO template default domain for stag (and prod)?
-    export taito_domain="${taito_project}-${taito_env:?}.${template_default_domain:?}"
+    # NOTE: Set production domain here
+    export taito_domain="${taito_project}-${taito_env:?}.${template_default_domain_prod:?}"
     export taito_app_url="https://${taito_domain}"
-
     export kubectl_replicas="2"
     ;;
   stag)
@@ -118,8 +117,7 @@ case "${taito_env}" in
     export taito_resource_namespace="${taito_company}-prod"
     export gcloud_org_id="${template_default_provider_org_id_prod:?}"
 
-    # TODO template default domain for stag (and prod)?
-    export taito_domain="${taito_project}-${taito_env:?}.${template_default_domain:?}"
+    export taito_domain="${taito_project}-${taito_env:?}.${template_default_domain_prod:?}"
     export taito_app_url="https://${taito_domain}"
     ;;
   test)
