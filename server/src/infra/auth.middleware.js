@@ -12,6 +12,7 @@ const skipAuthPaths = [
 
 // NOTE: DO NOT USE BASIC AUTH IN PRODUCTION!
 // TODO: IMPLEMENT JWT AUTH FOR CLIENT AND REMOVE BASIC AUTH!
+// TODO proper OpenID Connect / OAuth 2.0 auth
 const determineAuthMethod = ctx => {
   let method = null;
   if (!skipAuthPaths.find(path => path.test(ctx.path))) {
