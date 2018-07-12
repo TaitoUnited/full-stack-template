@@ -206,7 +206,7 @@ The following guidelines usually work well at least for a GUI implementation. Yo
 * A file should contain only nearby references (e.g. references to files in the same directory or in a subdirectory directly beneath it); with the exception of references to libraries and common directories, of course.
 * You cannot always follow the dependency guidelines mentioned above. If you break the guidelines, at least try to avoid making circular dependencies between directories. Also leave a `REFACTOR:` comment if the dependency is the kind that it should be refactored later.
 
-See [orig-template/client/src](https://github.com/TaitoUnited/orig-template/tree/master/client/src) as an example. (TODO: orig-template -> server-template)
+See [SERVER-TEMPLATE/client/src](https://github.com/TaitoUnited/SERVER-TEMPLATE/tree/master/client/src) as an example.
 
 ## Version control
 
@@ -376,8 +376,8 @@ Collaborators & teams:
 #### Stack configuration
 
 * Flow/typescript: You can enable `flow` or `typescript` by going through parts that say `NOTE: for flow` or `NOTE: for typescript`. (TODO: implement typescript support)
-* Alternative technologies: If you would rather use other technologies than react and node.js, you can copy alternative example implementations from [orig-template-alt](https://github.com/TaitoUnited/orig-template-alt/).
-* Adding stack components: If you later need to add new stack components (e.g. bot, queue, storage or worker), see [orig-template](https://github.com/TaitoUnited/orig-template/) for examples.
+* Alternative technologies: If you would rather use other technologies than react and node.js, you can copy alternative example implementations from [SERVER-TEMPLATE-alt](https://github.com/TaitoUnited/SERVER-TEMPLATE-alt/).
+* Adding stack components: If you later need to add new stack components (e.g. bot, queue, storage or worker), see [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) for examples.
 
 TODO: instructions for setting up multiple server containers for api.
 
@@ -414,7 +414,7 @@ Run `taito env apply:ENV` to create an environment (`feat`, `dev`, `test`, `stag
 
 The `scripts/heml.yaml` file contains default Kubernetes settings for all environments and the `scripts/helm-*.yaml` files contain environment specific overrides for them. By modying these files you can easily configure environment variables, resource requirements and autoscaling for your containers.
 
-> Do not modify the helm template located in `./scripts/helm` directory. Improve the original helm template located in [orig-template](https://github.com/TaitoUnited/orig-template/) repository instead.
+> Do not modify the helm template located in `./scripts/helm` directory. Improve the original helm template located in [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) repository instead.
 
 #### Secrets
 

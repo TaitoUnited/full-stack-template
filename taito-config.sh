@@ -81,7 +81,7 @@ export kubectl_replicas="1"
 # export helm_deploy_options="--recreate-pods" # Force restart
 
 # Template plugin
-export template_name="orig-template"
+export template_name="SERVER-TEMPLATE"
 export template_source_git="git@github.com:TaitoUnited"
 
 # Sentry plugin

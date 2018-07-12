@@ -425,7 +425,7 @@ echo "Adding do-not-modify notes..."
 sed '/TEMPLATE NOTE START/q' README.md
 echo
 echo "This file has been copied from \
-[orig-template](https://github.com/TaitoUnited/orig-template/). Keep \
+[SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/). Keep \
 modifications minimal and improve the original instead."
 echo
 sed -n -e '/TEMPLATE NOTE END/,$p' README.md
@@ -436,7 +436,7 @@ cat temp > README.md
 # Add 'do not modify' note to readme of helm chart
 echo \
 "> NOTE: This helm chart has been copied from \
-[orig-template](https://github.com/TaitoUnited/orig-template/). It is \
+[SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/). It is \
 located here only to avoid accidental build breaks. Do not modify it. \
 Improve the original instead." | \
   cat - scripts/helm/README.md > temp && \
@@ -446,7 +446,7 @@ Improve the original instead." | \
 # Add 'do not modify' note to readme of terraform
 echo \
 "> NOTE: These terraform scripts have been copied from \
-[orig-template](https://github.com/TaitoUnited/orig-template/). They are \
+[SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/). They are \
 located here only to avoid accidental build breaks. Do not modify them. \
 Improve the originals instead." | \
   cat - scripts/terraform/README.md > temp && \
@@ -455,7 +455,7 @@ Improve the originals instead." | \
 
 # Add 'do not modify' note to cloudbuild.yaml
 printf \
-"# NOTE: This file has been generated from orig-template by taito-cli.\n\
+"# NOTE: This file has been generated from SERVER-TEMPLATE by taito-cli.\n\
 # It is located here only to avoid accidental build breaks. Keep modifications \n\
 # minimal and improve the original instead.\n\n" | \
   cat - cloudbuild.yaml > temp && \
@@ -463,6 +463,7 @@ printf \
   cat temp > cloudbuild.yaml
 
 # Replace some strings
+# TODO init script is never run with os x -> remove darwin support?
 echo "Replacing project and company names in files. Please wait..."
 if [ "$(uname)" = "Darwin" ]; then
   find . -type f -exec sed -i '' \
@@ -472,7 +473,7 @@ if [ "$(uname)" = "Darwin" ]; then
   find . -type f -exec sed -i '' \
     -e "s/companyname/${taito_company}/g" 2> /dev/null {} \;
   find . -type f -exec sed -i '' \
-    -e "s/orig-template/server-template/g" 2> /dev/null {} \;
+    -e "s/SERVER-TEMPLATE/server-template/g" 2> /dev/null {} \;
 else
   find . -type f -exec sed -i \
     -e "s/server_template/${taito_repo_name_alt}/g" 2> /dev/null {} \;
@@ -481,7 +482,7 @@ else
   find . -type f -exec sed -i \
     -e "s/companyname/${taito_company}/g" 2> /dev/null {} \;
   find . -type f -exec sed -i \
-    -e "s/orig-template/server-template/g" 2> /dev/null {} \;
+    -e "s/SERVER-TEMPLATE/server-template/g" 2> /dev/null {} \;
 fi
 
 # Generate ports
