@@ -59,7 +59,8 @@ export db_database_proxy_port="5001"
 export db_database_port="${db_database_proxy_port}"
 
 # URLs
-export taito_app_url="https://${taito_project}-${taito_env:?}.${template_default_domain:?}"
+export taito_domain="${taito_project}-${taito_env:?}.${template_default_domain:?}"
+export taito_app_url="https://${taito_domain}"
 
 # Docker plugin
 export dockerfile=Dockerfile
@@ -73,6 +74,7 @@ export gcloud_cdn_enabled=false
 
 # Kubernetes plugin
 export kubectl_name="kube1" # TODO rename to common-kubernetes
+export kubectl_replicas="1"
 
 # Helm plugin
 # export helm_deploy_options="--recreate-pods" # Force restart
@@ -96,12 +98,29 @@ export ci_exec_revert=false       # revert deploy automatically on fail
 # --- Override settings for different environments ---
 
 case "${taito_env}" in
-  prod|stag)
+  prod)
     export taito_zone="${template_default_zone_prod:?}"
     export taito_provider_region="${template_default_provider_region_prod:?}"
     export taito_provider_zone="${template_default_provider_zone_prod:?}"
     export taito_resource_namespace="${taito_company}-prod"
     export gcloud_org_id="${template_default_provider_org_id_prod:?}"
+
+    # TODO template default domain for stag (and prod)?
+    export taito_domain="${taito_project}-${taito_env:?}.${template_default_domain:?}"
+    export taito_app_url="https://${taito_domain}"
+
+    export kubectl_replicas="2"
+    ;;
+  stag)
+    export taito_zone="${template_default_zone_prod:?}"
+    export taito_provider_region="${template_default_provider_region_prod:?}"
+    export taito_provider_zone="${template_default_provider_zone_prod:?}"
+    export taito_resource_namespace="${taito_company}-prod"
+    export gcloud_org_id="${template_default_provider_org_id_prod:?}"
+
+    # TODO template default domain for stag (and prod)?
+    export taito_domain="${taito_project}-${taito_env:?}.${template_default_domain:?}"
+    export taito_app_url="https://${taito_domain}"
     ;;
   test)
     ;;

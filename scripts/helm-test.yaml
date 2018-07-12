@@ -1,9 +1,0 @@
-# Override default settings for test env
-
-server:
-  env:
-    S3_BUCKET: server-template-test
-
-worker:
-  env:
-    S3_BUCKET: server-template-test

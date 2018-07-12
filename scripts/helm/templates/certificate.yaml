@@ -16,7 +16,6 @@ spec:
     {{- range $domain := .Values.domains }}
     - {{ $domain }}
     {{- end }}
-    - {{ template "fullname" . -}} .taitodev.com
   acme:
     config:
     - http01:
@@ -25,4 +24,3 @@ spec:
         {{- range $domain := .Values.domains }}
         - {{ $domain }}
         {{- end }}
-        - {{ template "fullname" . -}} .taitodev.com

@@ -24,14 +24,9 @@ metadata:
     # NOTE: see https://github.com/kubernetes/ingress/blob/master/controllers/nginx/configuration.md
     # TODO ingress.kubernetes.io/limit-connections
     # TODO ingress.kubernetes.io/limit-rps
-    # TODO remove hardcoded taitodev.com
 spec:
 {{ if .Values.ingress.tls }}
   tls:
-  - hosts:
-    - {{ template "fullname" . -}} .taitodev.com
-    secretName: {{ template "fullname" . }}-ssl
-
   {{- $root := . -}}
   {{- range $domain := .Values.domains }}
   - hosts:
@@ -41,33 +36,6 @@ spec:
 
 {{ end }}
   rules:
-    - host: {{ template "fullname" . -}} .taitodev.com
-      http:
-        paths:
-          {{ if .Values.stack.server }}
-          - path: {{ .Values.server.path | quote }}
-            backend:
-              serviceName: {{ template "name" . }}-{{ .Values.stack.server }}
-              servicePort: {{ .Values.server.port }}
-          {{ end }}
-          {{ if and (.Values.stack.bot) (.Values.bot.path) }}
-          - path: {{ .Values.bot.path | quote }}
-            backend:
-              serviceName: {{ template "name" . }}-{{ .Values.stack.bot }}
-              servicePort: {{ .Values.bot.port }}
-          {{ end }}
-          {{ if .Values.stack.admin }}
-          - path: {{ .Values.admin.path | quote }}
-            backend:
-              serviceName: {{ template "name" . }}-{{ .Values.stack.admin }}
-              servicePort: {{ .Values.admin.port }}
-          {{ end }}
-          {{ if .Values.stack.client }}
-          - path: {{ .Values.client.path | quote }}
-            backend:
-              serviceName: {{ template "name" . }}-{{ .Values.stack.client }}
-              servicePort: {{ .Values.client.port }}
-          {{ end }}
     {{- $root := . -}}
     {{- range $domain := .Values.domains }}
     - host: {{ $domain }}
