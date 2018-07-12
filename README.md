@@ -30,31 +30,7 @@ Non-production basic auth credentials: TODO change `user` / `painipaini`
 
 [//]: # (GENERATED LINKS START)
 
-* [API (dev)](https://server-template-dev.taitodev.com/api/infra/uptimez)
-* [API (prod)](https://server-template-prod.taitodev.com/api/infra/uptimez)
-* [Admin user interface (dev)](https://server-template-dev.taitodev.com/admin/)
-* [Admin user interface (prod)](https://server-template-prod.taitodev.com/admin/)
-* [Application (dev)](https://server-template-dev.taitodev.com)
-* [Application (prod)](https://server-template-prod.taitodev.com)
-* [Build logs](https://console.cloud.google.com/gcr/builds?project=gcloud-temp1&query=source.repo_source.repo_name%3D%22github-taitounited-server-template%22)
-* [Container images](https://console.cloud.google.com/gcr/images/gcloud-temp1/EU/github-taitounited-server-template?project=gcloud-temp1)
-* [Generated documentation and test reports](https://TODO-DOCS-AND-TEST-REPORTS)
-* [GitHub repository](https://github.com/taitounited/server-template)
-* [Google project (dev)](https://console.cloud.google.com/home/dashboard?project=taitounited-companyname-dev)
-* [Google project (prod)](https://console.cloud.google.com/home/dashboard?project=taitounited-companyname-prod)
-* [Google services (dev)](https://console.cloud.google.com/apis/dashboard?project=taitounited-companyname-dev)
-* [Google services (prod)](https://console.cloud.google.com/apis/dashboard?project=taitounited-companyname-prod)
-* [Kanban boards](https://github.com/taitounited/server-template/projects)
-* [Logs (dev)](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fserver-template-dev)
-* [Logs (prod)](https://console.cloud.google.com/logs/viewer?project=gcloud-temp1&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2Fkube1%2Fnamespace_id%2Fserver-template-prod)
-* [Performance metrics](https://TODO)  
-* [Project documentation](https://github.com/taitounited/server-template/wiki)
-* [Sentry errors (dev)](https://sentry.io/taitounited/server-template/?query=is%3Aunresolved+environment%3Adev)
-* [Sentry errors (prod)](https://sentry.io/taitounited/server-template/?query=is%3Aunresolved+environment%3Aprod)
-* [Storage bucket (dev)](https://console.cloud.google.com/storage/browser/server-template-dev?project=taitounited-companyname-dev)
-* [Storage bucket (prod)](https://console.cloud.google.com/storage/browser/server-template-prod?project=taitounited-companyname-prod)
-* [Uptime monitoring (Stackdriver)](https://app.google.stackdriver.com/uptime?project=gcloud-temp1)
-* [User feedback](https://TODO)
+LINKS WILL BE GENERATED HERE
 
 [//]: # (GENERATED LINKS END)
 
