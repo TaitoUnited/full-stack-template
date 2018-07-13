@@ -28,19 +28,11 @@ ingress:
 
 admin:
   replicas: ${kubectl_replicas}
-  autoscale: false
-  minReplicas: 2
-  maxReplicas: 5
-  targetCPUUtilizationPercentage: 50
   env:
     SENTRY_PUBLIC_DSN: #sentryPublicDSN
 
 bot:
   replicas: ${kubectl_replicas}
-  autoscale: false
-  minReplicas: 1
-  maxReplicas: 1
-  targetCPUUtilizationPercentage: 50
   secrets:
     ADMIN_PASSWORD: user.server-template-admin.auth
     USER_PASSWORD: user.server-template-user.auth
@@ -51,19 +43,11 @@ bot:
 
 client:
   replicas: ${kubectl_replicas}
-  autoscale: false
-  minReplicas: 2
-  maxReplicas: 5
-  targetCPUUtilizationPercentage: 50
   env:
     SENTRY_PUBLIC_DSN: #sentryPublicDSN
 
 server:
   replicas: ${kubectl_replicas}
-  autoscale: false
-  minReplicas: 2
-  maxReplicas: 5
-  targetCPUUtilizationPercentage: 50
   secrets:
     JWT_SECRET: jwt.server-template.auth
     ADMIN_PASSWORD: user.server-template-admin.auth
@@ -81,10 +65,6 @@ server:
 
 worker:
   replicas: ${kubectl_replicas}
-  autoscale: false
-  minReplicas: 2
-  maxReplicas: 5
-  targetCPUUtilizationPercentage: 50
   secrets:
     S3_KEY_SECRET: storage.server-template.gateway
   env:

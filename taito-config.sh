@@ -197,7 +197,7 @@ export taito_secrets="
   user.${taito_project}-user.auth:manual
 "
 
-# Test suite parameters
+# NOTE: Example test suite parameters (you may remove these)
 # NOTE: env variable is passed to the test without the test_TARGET_ prefix
 export test_client_test_user="test"
 export test_client_test_password="password"

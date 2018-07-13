@@ -36,7 +36,7 @@ ingress:
 admin:
   path: /admin
   port: 3334
-  replicas: 2
+  replicas: 1
   autoscale: false
   minReplicas: 2
   maxReplicas: 5
@@ -55,7 +55,7 @@ bot:
 client:
   path: /
   port: 3333
-  replicas: 2
+  replicas: 1
   autoscale: false
   minReplicas: 2
   maxReplicas: 5
@@ -65,7 +65,7 @@ server:
   path: /api
   port: 3332
   bindAddr: 0.0.0.0
-  replicas: 2
+  replicas: 1
   autoscale: false
   minReplicas: 2
   maxReplicas: 5
@@ -74,7 +74,7 @@ server:
 worker:
   port: 3331
   bindAddr: 0.0.0.0
-  replicas: 2
+  replicas: 1
   autoscale: false
   minReplicas: 2
   maxReplicas: 5
