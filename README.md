@@ -385,7 +385,7 @@ TODO: instructions for setting up multiple server containers for api.
 
 > To see the examples, start your local development environment: [quick start](#quick-start)
 
-The project template comes with a bunch of implementation examples. Browse the examples through, leave the ones that seem useful and delete all the rest. You can use the `taito depcheck` command to prune unused dependencies. NOTE: Many of the `devDependencies` and `~` references are actually in use even if reported unused by the tool. But all unused `dependencies` may usually be removed from package.json.
+The project template comes with a bunch of implementation examples. Browse the examples through, leave the ones that seem useful and delete all the rest. You can use the `taito check deps` command to prune unused dependencies. NOTE: Many of the `devDependencies` and `~` references are actually in use even if reported unused by the tool. But all unused `dependencies` may usually be removed from package.json.
 
 The client GUI uses the [Material-UI](https://material-ui-next.com/) component library by default. It's a good match with the [react-admin](https://github.com/marmelab/react-admin) GUI, but please consider also other alternatives based on customer requirements. For example [Elemental](http://elemental-ui.com/) is a good alternative.
 
