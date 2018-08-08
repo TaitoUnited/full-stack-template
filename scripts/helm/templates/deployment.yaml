@@ -202,6 +202,7 @@ spec:
             - prefix: COMMON_
               configMapRef:
                 name: {{ template "name" . }}-common
+            # TODO remove this. use .Values.server.secrets (range) for db also
             {{ if .Values.stack.database }}
             - prefix: DATABASE_
               configMapRef:

@@ -371,7 +371,9 @@ Collaborators & teams:
 * Teams: Select admin permission for the Admins team
 * Teams: Select write permission for the Developers team
 * Collaborators: Add additional collaborators if required.
-* Collaborators: Remove repository creator (= yourself) from the collaborator list (NOTE: Set all the other GitHub settings before this one!)
+* Collaborators: Remove repository creator (= yourself) from the collaborator list (NOTE: You may want to hold on to your admin rights until you have configured all GitHub settings properly and created a [server environment for development](#configuration-for-server-environments))
+
+> On critical projects you should grant write permissions only for those, who really require write access.
 
 #### Stack configuration
 
@@ -404,9 +406,9 @@ Done:
 
 #### Environments
 
-> You should remove unnecessary examples from database migrations (`./database`) and secrets (`taito-config.sh`) before creating the first server environment.
+Define environments with the `taito_environments` setting in `taito-config.sh`, and run `taito env apply:ENV` to create an environment (`feat`, `dev`, `test`, `stag` or `prod`).
 
-Run `taito env apply:ENV` to create an environment (`feat`, `dev`, `test`, `stag` or `prod`).
+> You should remove unnecessary examples from database migrations (`./database`) and secrets (`taito-config.sh`) before creating the first server environment.
 
 > All operations on production and staging environments require admin rights. Please contact devops personnel.
 

@@ -14,7 +14,7 @@
     "taito-init:local:clean": "npm run taito-init:clean && npm run clean:storage",
     "clean:storage": "if [ -d storage ]; then echo Cleaning storage; rm -rf ./storage/bucket/*; rm -rf ./storage/.minio.sys/buckets/bucket/*/; fi",
     "import-db-data": "if [ -f ./database/data/${taito_env}.sql ]; then taito db-import:${taito_env} ./database/data/${taito_env}.sql; fi",
-    "show-basic-auth": "echo * Non-production basic auth credentials: TODO user / painipaini",
+    "show-basic-auth": "echo '* Non-production basic auth credentials: TODO user / painipaini'",
     "info:local": "npm run show-basic-auth && echo && echo Usernames: 'admin', 'user' && taito secrets | grep 'Showing\\|PASSWORD'",
     "info:dev": "npm run show-basic-auth && echo && echo Usernames: 'admin', 'user' && taito secrets:dev | grep -A 1 'Showing\\|user.'",
     "info:test": "npm run show-basic-auth && echo Usernames: 'admin', 'user' && echo && taito secrets:test | grep -A 1 'Showing\\|user.'",
