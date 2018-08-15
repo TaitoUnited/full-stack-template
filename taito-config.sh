@@ -172,7 +172,7 @@ export link_urls="\
   * kanban=https://github.com/${taito_organization}/${taito_repo_name}/projects Kanban boards \
   * gproject[:ENV]=https://console.cloud.google.com/home/dashboard?project=${taito_resource_namespace_id} Google project (:ENV) \
   * gservices[:ENV]=https://console.cloud.google.com/apis/dashboard?project=${taito_resource_namespace_id} Google services (:ENV) \
-  * builds=https://console.cloud.google.com/gcr/builds?project=${taito_zone}&query=source.repo_source.repo_name%3D%22${taito_repo_location}-${taito_repo_name}%22 Build logs \
+  * builds=https://console.cloud.google.com/cloud-build/builds?project=${taito_zone}&query=source.repo_source.repo_name%3D%22${taito_repo_location}-${taito_repo_name}%22 Build logs \
   * images=https://console.cloud.google.com/gcr/images/${taito_zone}/EU/${taito_repo_location}-${taito_repo_name}?project=${taito_zone} Container images \
   * artifacts=https://TODO-DOCS-AND-TEST-REPORTS Generated documentation and test reports \
   * storage:ENV#storage=https://console.cloud.google.com/storage/browser/${taito_project}-${taito_env}?project=${taito_resource_namespace_id} Storage bucket (:ENV) \
