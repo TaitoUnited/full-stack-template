@@ -69,7 +69,7 @@ export dockerfile=Dockerfile
 # Google Cloud plugin
 # TODO gcloud_project_id = taito_zone... ??
 # TODO gcloud_resource_project_id = ... ??
-export gcloud_org_id="${template_default_provider_org_id:?}"
+export gcloud_org_id="${template_default_provider_org_id:?}"  # NOTE: leave empty for 'no organization'
 export gcloud_sql_proxy_port="${db_database_proxy_port}"
 export gcloud_cdn_enabled=false
 
