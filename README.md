@@ -223,7 +223,7 @@ You can manage environment and feature branches using taito-cli. Some examples:
     taito vc feat squash             # Merge current feature branch to the dev as a single commit
     taito vc feat pr                 # Create a pull-request for merging current feature branch to the dev branch
 
-> Alternatively you can use git commands directly. Just remember that merge between environment branches should always be executed as fast-forward.
+> Alternatively you can use git commands directly. Just remember that merge between environment branches should always be executed as fast-forward and changes should be merged in the correct order: (`feat`) -> `dev` -> `test` -> `stag` -> `master`. You should not commit any changes directly to test, stag or master branches.
 
 ### Development branches
 
