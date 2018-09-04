@@ -52,7 +52,9 @@
     "docs": "echo TODO: generate docs in package.json",
     "scan": "echo 'Linting is executed in Dockerfiles during build' && echo 'TODO: execute code analysis here?'",
     "commitmsg": "echo 'NOTE: Running validate-commit-msg locally' && validate-commit-msg",
-    "precommit": "echo 'SKIP: Skipping linting on commit since we are already continuously linting during development.'",
+    "precommit": "npm run precommit:branch && npm run precommit:lint",
+    "precommit:branch": "if git-branch-is -q test || git-branch-is -q stag || git-branch-is -q master; then echo 'ERROR: You cannot commit changes directly to this environment branch. Only fast-forward merge is allowed.' && echo && exit 1; fi",
+    "precommit:lint": "echo 'SKIP: Skipping linting on commit since we are already continuously linting during development.'",
     "prepush": "npm-run-all --parallel lint disabled-types unit",
     "types": "if [ -f .flowconfig ]; then flow; elif [ -f tsconfig.json ]; then echo TODO run typescript; fi",
     "disabled-types": "echo flow/typescript check disabled on prepush",
@@ -103,6 +105,7 @@
     "url": "git+ssh://git@github.com:TaitoUnited/server-template.git"
   },
   "devDependencies": {
+    "git-branch-is": "~2.0.0",
     "husky": "^0.14.3",
     "last-release-git": "0.0.3",
     "npm-run-all": "^4.1.3",
