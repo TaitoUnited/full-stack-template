@@ -2,7 +2,7 @@
 
 [//]: # (TEMPLATE NOTE START)
 
-Server-template is a project template for applications and APIs running on server. The server-template is based on running containers on docker-compose or Kubernetes, but in the future it will also provide support for running functions on top of popular FaaS platforms. Thus, you can deploy the same implementation almost anywhere.
+Server-template is a project template for applications and APIs running on server. The server-template is based on running containers on docker-compose or Kubernetes, but in the future it will also provide support for running functions on top of popular FaaS platforms. Thus, you can deploy the same implementation almost anywhere, and you can operate it with the same taito commands regardless of the underlying platform.
 
 The template comes with an example implementation that is based on React, Node.js, Postgres and a S3 compatible storage bucket, but you can easily replace them with other technologies (see [server-template-alt](https://github.com/TaitoUnited/server-template-alt)).
 

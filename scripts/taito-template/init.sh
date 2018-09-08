@@ -527,3 +527,5 @@ rm -f ./server/Gruntfile > /dev/null
 rm -f ./server/src/infra/authAuth0.middleware.js > /dev/null
 rm -f ./server/src/infra/authFirebase.middleware.js > /dev/null
 rm -f ./server/src/infra/authWordpress.middleware.js > /dev/null
+find ./server -name "swagger.yml" -type f -delete > /dev/null
+find ./server -name "swagger.yaml" -type f -delete > /dev/null
