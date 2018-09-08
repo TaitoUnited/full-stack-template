@@ -9,6 +9,7 @@ export default class InfraRoute extends BaseRoute {
   routes() {
     // Return configs that are required by web user interface or
     // 3rd party clients
+    // NOTE: This is a public endpoint. Do not return any secrets here!
     this.router.get('/config', async (ctx, next) => {
       ctx.body = {
         APP_VERSION: config.APP_VERSION,
@@ -19,11 +20,7 @@ export default class InfraRoute extends BaseRoute {
     // Polled by uptime monitor to check that the system is alive
     this.router.get('/uptimez', async (ctx, next) => {
       // Check that database is up
-      await ctx.state.getTx().any(`
-        SELECT *
-        FROM images
-        LIMIT 1
-      `);
+      await ctx.state.getTx().any('SELECT 1');
       ctx.body = {
         status: 'OK',
       };

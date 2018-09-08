@@ -161,7 +161,6 @@ sed -n -e '/# admin end/,$p' docker-nginx.conf
 truncate --size 0 docker-nginx.conf
 cat temp > docker-nginx.conf
 
-  sed ${sedi} -- '/server-template-admin/d' docker-compose.yaml
   sed ${sedi} -- '/  admin/d' taito-config.sh
   sed ${sedi} -- '/  admin:/d' ./scripts/helm.yaml
 
@@ -189,7 +188,6 @@ sed -n -e '/# bot end/,$p' docker-compose.yaml
 truncate --size 0 docker-compose.yaml
 cat temp > docker-compose.yaml
 
-  sed ${sedi} -- '/server-template-bot/d' docker-compose.yaml
   sed ${sedi} -- '/  bot/d' taito-config.sh
   sed ${sedi} -- '/  bot:/d' ./scripts/helm.yaml
 
@@ -221,7 +219,6 @@ sed -n -e '/# client end/,$p' docker-nginx.conf
 truncate --size 0 docker-nginx.conf
 cat temp > docker-nginx.conf
 
-  sed ${sedi} -- '/server-template-client/d' docker-compose.yaml
   sed ${sedi} -- '/  client/d' taito-config.sh
   sed ${sedi} -- '/  client:/d' ./scripts/helm.yaml
 
@@ -250,7 +247,6 @@ sed -n -e '/# database end/,$p' docker-compose.yaml
 truncate --size 0 docker-compose.yaml
 cat temp > docker-compose.yaml
 
-  sed ${sedi} -- '/server-template-database/d' docker-compose.yaml
   sed ${sedi} -- '/  database/d' taito-config.sh
   sed ${sedi} -- '/  database:/d' ./scripts/helm.yaml
 
@@ -278,7 +274,6 @@ cat temp > docker-nginx.conf
 
   sed ${sedi} -- "s/ci-prepare:server/ci-prepare:client/" cloudbuild.yaml
 
-  sed ${sedi} -- '/server-template-server/d' docker-compose.yaml
   sed ${sedi} -- '/  server/d' taito-config.sh
   sed ${sedi} -- '/  server:/d' ./scripts/helm.yaml
 
@@ -306,7 +301,6 @@ sed -n -e '/# storage end/,$p' docker-compose.yaml
 truncate --size 0 docker-compose.yaml
 cat temp > docker-compose.yaml
 
-  sed ${sedi} -- '/server-template-storage/d' docker-compose.yaml
   sed ${sedi} -- '/  storage/d' taito-config.sh
   sed ${sedi} -- '/  storage:/d' ./scripts/helm.yaml
 
@@ -314,7 +308,7 @@ cat temp > docker-compose.yaml
   sed ${sedi} -- '/\* storage/d' taito-config.sh
   sed ${sedi} -- '/\.gateway:/d' taito-config.sh
   sed ${sedi} -- '/\.multi:/d' taito-config.sh
-  sed ${sedi} -- '/S3_KEY_SECRET/d' ./scripts/helm.yaml
+  sed ${sedi} -- '/S3_/d' ./scripts/helm.yaml
   sed ${sedi} -- '/S3_/d' docker-compose.yaml
 fi
 
@@ -328,7 +322,6 @@ sed -n -e '/# worker end/,$p' docker-compose.yaml
 truncate --size 0 docker-compose.yaml
 cat temp > docker-compose.yaml
 
-  sed ${sedi} -- '/server-template-worker/d' docker-compose.yaml
   sed ${sedi} -- '/  worker/d' taito-config.sh
   sed ${sedi} -- '/  worker:/d' ./scripts/helm.yaml
 
@@ -352,7 +345,6 @@ sed -n -e '/# queue end/,$p' docker-compose.yaml
 truncate --size 0 docker-compose.yaml
 cat temp > docker-compose.yaml
 
-  sed ${sedi} -- '/server-template-queue/d' docker-compose.yaml
   sed ${sedi} -- '/  queue/d' taito-config.sh
   sed ${sedi} -- '/  queue:/d' ./scripts/helm.yaml
 fi
@@ -366,15 +358,8 @@ sed -n -e '/# cache end/,$p' docker-compose.yaml
 truncate --size 0 docker-compose.yaml
 cat temp > docker-compose.yaml
 
-  sed ${sedi} -- '/server-template-cache/d' docker-compose.yaml
   sed ${sedi} -- '/  cache/d' taito-config.sh
   sed ${sedi} -- '/  cache:/d' ./scripts/helm.yaml
-fi
-
-if [[ ! ${stack_cache} ]] && \
-   [[ ! ${stack_database} ]] && \
-   [[ ! ${stack_storage} ]]; then
-  sed ${sedi} -- '/# server links/d' docker-compose.yaml
 fi
 
 sed ${sedi} -- '/https:\/\/TODO/d' taito-config.sh
@@ -535,3 +520,10 @@ sed ${sedi} -- '/_TEMPLATE_DEFAULT_/d' cloudbuild.yaml
 sed ${sedi} -- '/template_default_taito_image/d' cloudbuild.yaml
 
 rm -f temp
+
+# Remove some files that are currently obsolete
+rm -f ./Jenkinsfile > /dev/null
+rm -f ./server/Gruntfile > /dev/null
+rm -f ./server/src/infra/authAuth0.middleware.js > /dev/null
+rm -f ./server/src/infra/authFirebase.middleware.js > /dev/null
+rm -f ./server/src/infra/authWordpress.middleware.js > /dev/null

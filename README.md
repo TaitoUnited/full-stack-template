@@ -2,7 +2,9 @@
 
 [//]: # (TEMPLATE NOTE START)
 
-Server-template is a project template for applications and APIs running on server. It supports multiple alternative technologies, and you can choose the stack during configuration. The server-template is based on Kubernetes, but in the future it might also provide support for running functions on top of both Kubernetes and major FaaS platforms.
+Server-template is a project template for applications and APIs running on server. The server-template is based on running containers on docker-compose or Kubernetes, but in the future it will also provide support for running functions on top of popular FaaS platforms. Thus, you can deploy the same implementation almost anywhere.
+
+The template comes with an example implementation that is based on React, Node.js, Postgres and a S3 compatible storage bucket, but you can easily replace them with other technologies (see [server-template-alt](https://github.com/TaitoUnited/server-template-alt)).
 
 Create a new project from this template by running `taito template create: server-template`. Later you can upgrade your project to the latest version of the template by running `taito template upgrade`. To ensure flawless upgrade, do not modify files that have a **do-not-modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files of the template instead, and then upgrade.
 
@@ -26,7 +28,7 @@ Table of contents:
 
 ## Links
 
-Non-production basic auth credentials: TODO change `user` / `painipaini`
+Non-production basic auth credentials: `user` / `painipaini`
 
 [//]: # (GENERATED LINKS START)
 
@@ -415,6 +417,8 @@ Define environments with the `taito_environments` setting in `taito-config.sh`, 
 #### Kubernetes
 
 The `scripts/heml.yaml` file contains default Kubernetes settings for all environments and the `scripts/helm-*.yaml` files contain environment specific overrides for them. By modying these files you can easily configure environment variables, resource requirements and autoscaling for your containers.
+
+You deploy configuration changes without rebuilding with the `taito deployment deploy:ENV` command.
 
 > Do not modify the helm template located in `./scripts/helm` directory. Improve the original helm template located in [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) repository instead.
 

@@ -1,5 +1,1 @@
 # NOTE: Here you can override default settings for production env
-
-# NOTE: Replace ${taito_domain} with the real production domain
-domains:
-  - ${taito_domain}
