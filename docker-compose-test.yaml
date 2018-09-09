@@ -13,14 +13,14 @@ services:
       - "/server/node_modules"
     networks:
       - test
-    links:
-      - server-template-database-proxy:server-template-database
+    depends_on:
+      - server-template-database
     environment:
       RUNNING_TESTS: "true"
 
   # taito-cli container serves as a database proxy
-  server-template-database-proxy:
-    container_name: server-template-database-proxy
+  server-template-database:
+    container_name: server-template-database
     image: taitounited/taito-cli:latest
     restart: unless-stopped
     entrypoint: /bin/sh -c "cd /project && taito db-proxy:${taito_env} 5432"
