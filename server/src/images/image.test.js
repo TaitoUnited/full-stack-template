@@ -6,8 +6,10 @@ const request = requestBase.defaults({
   json: true,
 });
 
-describe('post', () => {
-  describe('posts api', () => {
+describe('image', function examples() {
+  this.timeout(10000);
+
+  describe('images api', () => {
     before(async () => {
       // Nothing to do. Just an example.
       expect(true).to.equal(true);
@@ -23,8 +25,8 @@ describe('post', () => {
       expect(true).to.equal(true);
     });
 
-    it('GET /posts', async () => {
-      await request.get('/posts?offset=0&limit=10');
+    it('GET /images', async () => {
+      await request.get('/images?offset=0&limit=10');
       expect(true).to.equal(true);
     });
   });

@@ -14,13 +14,13 @@ services:
     networks:
       - test
     links:
-      - server-template-database:server-template-database
+      - server-template-database-proxy:server-template-database
     environment:
       RUNNING_TESTS: "true"
 
   # taito-cli container serves as a database proxy
-  server-template-database:
-    container_name: server-template-database
+  server-template-database-proxy:
+    container_name: server-template-database-proxy
     image: taitounited/taito-cli:latest
     restart: unless-stopped
     entrypoint: /bin/sh -c "cd /project && taito db-proxy:${taito_env} 5432"

@@ -126,14 +126,12 @@ case "${taito_env}" in
   dev|feat)
     export ci_exec_build=true        # allow build of a new container
     export ci_exec_deploy=true       # deploy automatically
-    # NOTE: enable tests once you have implemented some integration or e2e tests
-    export ci_exec_test=false        # execute test suites
+    export ci_exec_test=true         # execute test suites
     export ci_exec_test_init=false   # run 'init --clean' before each test suite
     export ci_exec_revert=false      # revert deploy if previous steps failed
     ;;
   local)
     export ci_exec_test_init=false   # run 'init --clean' before each test suite
-    export test_api_url="http://localhost:3332"
     export taito_app_url="http://localhost:8080"
     export db_database_external_port="6000"
     export db_database_host="${taito_project}-database"
@@ -201,24 +199,18 @@ export taito_secrets="
   user.${taito_project}-user.auth:manual
 "
 
-# NOTE: Example test suite parameters (you may remove these)
+# NOTE: Example test suite parameters
 # NOTE: env variable is passed to the test without the test_TARGET_ prefix
+export test_server_TEST_API_URL="https://user:painipaini@${taito_domain}/api"
+export test_server_DATABASE_HOST="${taito_project}-database"
+export test_server_DATABASE_PORT="5432"
+export test_server_DATABASE_ID="${db_database_name}"
+export test_server_DATABASE_USER="${db_database_name}_app"
+# TODO support all environments by reading this from secrets
+# --> secret naming must be refactored first so that we can easily reference env var here
+export test_server_DATABASE_SECRET="AhlekeLp47fqtPkg2EFrSy299OjzVA"
 
-
-# NOTE: Example rest suite parameters
-case "${taito_env}" in
-  local|dev|feature)
-    export test_server_test_api_url="${taito_app_url}/api"
-    export test_server_DATABASE_HOST="${taito_project}-database"
-    export test_server_DATABASE_PORT="5432"
-    export test_server_DATABASE_ID="${db_database_name}"
-    export test_server_DATABASE_USER="${db_database_name}_app"
-    # TODO support all environments by reading this from secrets
-    # --> secret naming must be refactored first so that we can easily reference env var here
-    export test_server_DATABASE_SECRET="AhlekeLp47fqtPkg2EFrSy299OjzVA"
-
-    if [[ "${taito_env}" == "local" ]]; then
-      export test_server_DATABASE_SECRET="secret"
-    fi
-    ;;
-esac
+if [[ "${taito_env}" == "local" ]]; then
+  export test_server_TEST_API_URL="http://localhost:3332"
+  export test_server_DATABASE_SECRET="secret"
+fi
