@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo TODO remove sleep
-sleep 10
+sleep 5
 
 export suite_name="${1:-*}"
 export test_name="${2:-*}"

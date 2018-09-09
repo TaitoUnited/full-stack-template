@@ -1,6 +1,8 @@
 // Configs
 
-const required = ['API_BINDADDR', 'API_PORT', 'ENV', 'DEBUG', 'APP_NAME'];
+// TODO put back
+// const required = ['API_BINDADDR', 'API_PORT', 'ENV', 'DEBUG', 'APP_NAME'];
+const required = [];
 
 const config = {};
 

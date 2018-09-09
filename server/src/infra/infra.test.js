@@ -7,7 +7,9 @@ const request = requestBase.defaults({
   json: true,
 });
 
-describe('infra', () => {
+describe('infra', function infra() {
+  this.timeout(10000);
+
   describe('infra api', () => {
     before(async () => {
       // Nothing to do. Just an example.
