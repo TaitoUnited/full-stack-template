@@ -8,6 +8,7 @@ services:
     container_name: server-template-server-test
     image: server-template-server-test:latest
     restart: unless-stopped
+    entrypoint: /bin/sh -c "sleep 10 && cd /server && ./test.sh suite1"
     volumes:
       - "./server:/server"
       - "/server/node_modules"
@@ -17,11 +18,17 @@ services:
       - server-template-database
     environment:
       RUNNING_TESTS: "true"
+      TEST_API_URL: "https://user:painipaini@server-template-dev.taitodev.com/api"
+      DATABASE_HOST: "server-template-database"
+      DATABASE_PORT: "5432"
+      DATABASE_ID: "server_template_dev"
+      DATABASE_USER: "server_template_dev_app"
+      DATABASE_SECRET: "AhlekeLp47fqtPkg2EFrSy299OjzVA"
 
   # taito-cli container serves as a database proxy
   server-template-database:
-    container_name: server-template-database
-    image: taitounited/taito-cli:latest
+    container_name: step_1
+    image: ${template_default_taito_image}
     restart: unless-stopped
     entrypoint: /bin/sh -c "cd /project && taito db-proxy:${taito_env} 5432"
     networks:
