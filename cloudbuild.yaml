@@ -510,10 +510,11 @@ steps:
     - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
+# TODO util-test:server -> test
 - id: test
   waitFor: ['ci-wait']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['test:$BRANCH_NAME']
+  args: ['util-test:server:$BRANCH_NAME']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
