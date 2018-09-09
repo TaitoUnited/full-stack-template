@@ -1,6 +1,6 @@
 # This file is used for running integration tests against a remote
-# environment. It is required only if your test scripts require a remote
-# database access through a database proxy.
+# environment. It is required only if your test implementations require
+# a remote database access through a database proxy.
 
 version: '3.5'
 services:
@@ -30,8 +30,8 @@ services:
       - "5432"
     volumes:
       - ".:/project"
-      - "${HOME}/.taito:/root/.taito"
-      - "${HOME}/.ssh:/root/.ssh"
+      # - "${HOME}/.taito:/root/.taito"
+      # - "${HOME}/.ssh:/root/.ssh"
     environment:
       taito_docker: 'true'
 
