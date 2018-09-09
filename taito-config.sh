@@ -89,12 +89,13 @@ export sentry_organization="${taito_organization}"
 
 # CI/CD settings
 # NOTE: Most of these should be enabled for dev and feat environments only
-export ci_exec_build=false        # build a container if does not exist already
-export ci_exec_deploy=true        # deploy automatically
-export ci_exec_test=false         # execute test suites after deploy
-export ci_exec_test_wait=60       # how many seconds to wait for deployment/restart
-export ci_exec_test_init=false    # run 'init --clean' before each test suite
-export ci_exec_revert=false       # revert deploy automatically on fail
+export ci_exec_build=false         # build a container if does not exist already
+export ci_exec_deploy=true         # deploy automatically
+export ci_exec_test=false          # execute test suites after deploy
+export ci_exec_test_db_proxy=true  # start db proxy for tests
+export ci_exec_test_wait=60        # how many seconds to wait for deployment/restart
+export ci_exec_test_init=false     # run 'init --clean' before each test suite
+export ci_exec_revert=false        # revert deploy automatically on fail
 
 # --- Override settings for different environments ---
 
@@ -202,24 +203,18 @@ export taito_secrets="
 # NOTE: Example test suite parameters
 # NOTE: env variable is passed to the test without the test_TARGET_ prefix
 export test_server_TEST_API_URL="https://user:painipaini@${taito_domain}/api"
-export test_server_DATABASE_HOST="${taito_project}-database"
-export test_server_DATABASE_PORT="5432"
+export test_server_DATABASE_HOST="localhost"
+export test_server_DATABASE_PORT="${db_database_port}"
 export test_server_DATABASE_ID="${db_database_name}"
 export test_server_DATABASE_USER="${db_database_name}_app"
 # TODO support all environments by reading this from secrets
 # --> secret naming must be refactored first so that we can easily reference env var here
 export test_server_DATABASE_SECRET="AhlekeLp47fqtPkg2EFrSy299OjzVA"
 
-# On local env we use api running on this container and connect
-# to database running on another
 if [[ "${taito_env}" == "local" ]]; then
+  # On local env we use api running on this container and connect
+  # to database running on another
   export test_server_TEST_API_URL="http://localhost:3332"
   export test_server_DATABASE_HOST="${taito_project}-database"
   export test_server_DATABASE_SECRET="secret"
-fi
-
-# On CI we connect to db proxy running on host
-if [[ "${taito_mode:-}" == "ci" ]]; then
-  export test_server_DATABASE_HOST="localhost"
-  export test_server_DATABASE_PORT="${db_database_port}"
 fi
