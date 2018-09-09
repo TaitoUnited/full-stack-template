@@ -2,11 +2,11 @@
 
 [//]: # (TEMPLATE NOTE START)
 
-Server-template is a project template for applications and APIs running on server. The server-template is based on running containers on docker-compose or Kubernetes, but in the future it will also provide support for running functions on top of popular FaaS platforms. Thus, you can deploy the same implementation almost anywhere, and you can operate it with the same taito commands regardless of the underlying platform.
+Server-template is a project template for applications and APIs running on server. The server-template is based on running containers on docker-compose or Kubernetes, but in the future it will also provide support for running functions on top of popular FaaS platforms. Thus, you can deploy the same implementation almost anywhere, and you can operate it with the same *taito-cli* commands regardless of the underlying platform.
 
-The template comes with an example implementation that is based on React, Node.js, Postgres and a S3 compatible storage bucket, but you can easily replace them with other technologies (see [server-template-alt](https://github.com/TaitoUnited/server-template-alt)).
+The template comes with an example implementation that is based on React, Node.js, Postgres and S3, but you can easily replace them with other technologies (see [server-template-alt](https://github.com/TaitoUnited/server-template-alt)).
 
-Create a new project from this template by running `taito template create: server-template`. Later you can upgrade your project to the latest version of the template by running `taito template upgrade`. To ensure flawless upgrade, do not modify files that have a **do-not-modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files of the template instead, and then upgrade.
+You can create a new project from this template by running `taito template create: server-template`. Later you can upgrade your project to the latest version of the template by running `taito template upgrade`. To ensure flawless upgrade, do not modify files that have a **do-not-modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files of the template instead, and then upgrade.
 
 You can also migrate an existing non-taito-cli project by running `taito template migrate: server-template` in your project root folder.
 
@@ -89,7 +89,7 @@ Run tests:
     taito test:client                       # run integration and end-to-end tests of client
     taito test:client billing receipt       # run the receipt test of billing test suite of client
 
-Start a shell on a container:
+Start shell on a container:
 
     taito shell:admin
     taito shell:client
@@ -102,7 +102,7 @@ Stop containers:
 List all project related links and open one of them in browser:
 
     taito open -h
-    taito open xxx
+    taito open NAME
 
 Check bundle size and dependencies:
 

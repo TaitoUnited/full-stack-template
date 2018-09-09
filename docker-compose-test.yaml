@@ -1,0 +1,39 @@
+# This file is used for running integration tests against a remote
+# environment. It is required only if your test scripts require a remote
+# database access through a database proxy.
+
+version: '3.6'
+services:
+  server-template-server-test:
+    container_name: server-template-server-test
+    image: server-template-server-test:latest
+    restart: unless-stopped
+    volumes:
+      - "./server:/server"
+      - "/server/node_modules"
+    networks:
+      - test
+    links:
+      - server-template-database:server-template-database
+    environment:
+      RUNNING_TESTS: "true"
+
+  # taito-cli container serves as a database proxy
+  server-template-database:
+    container_name: server-template-database
+    image: taitounited/taito-cli:latest
+    restart: unless-stopped
+    entrypoint: /bin/sh -c "cd /project && taito db-proxy:${taito_env} 5432"
+    networks:
+      - test
+    ports:
+      - "5432"
+    volumes:
+      - ".:/project"
+      - "${HOME}/.taito:/root/.taito"
+      - "${HOME}/.ssh:/root/.ssh"
+    environment:
+      taito_docker: 'true'
+
+networks:
+  test:

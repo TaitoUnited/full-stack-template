@@ -52,13 +52,15 @@ config.S3_KEY_ID = process.env.S3_KEY_ID;
 config.S3_KEY_SECRET = process.env.S3_KEY_SECRET;
 
 // Check requirements
-required.forEach(req => {
-  if (config[req] === undefined) {
-    throw new Error(
-      `FATAL: Configuration problem: param "${req}" undefined. ` +
-        'Maybe missing ENV var?'
-    );
-  }
-});
+if (process.env.RUNNING_TESTS !== 'true') {
+  required.forEach(req => {
+    if (config[req] === undefined) {
+      throw new Error(
+        `FATAL: Configuration problem: param "${req}" undefined. ` +
+          'Maybe missing ENV var?'
+      );
+    }
+  });
+}
 
 export default config;

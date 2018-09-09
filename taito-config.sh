@@ -170,8 +170,8 @@ export link_urls="\
   * docs=https://github.com/${taito_organization}/${taito_repo_name}/wiki Project documentation \
   * git=https://github.com/${taito_organization}/${taito_repo_name} GitHub repository \
   * kanban=https://github.com/${taito_organization}/${taito_repo_name}/projects Kanban boards \
-  * gproject[:ENV]=https://console.cloud.google.com/home/dashboard?project=${taito_resource_namespace_id} Google project (:ENV) \
-  * gservices[:ENV]=https://console.cloud.google.com/apis/credentials?project=${taito_resource_namespace_id} Google services (:ENV) \
+  * resources[:ENV]=https://console.cloud.google.com/home/dashboard?project=${taito_resource_namespace_id} Google resources (:ENV) \
+  * services[:ENV]=https://console.cloud.google.com/apis/credentials?project=${taito_resource_namespace_id} Google services (:ENV) \
   * builds=https://console.cloud.google.com/cloud-build/builds?project=${taito_zone}&query=source.repo_source.repo_name%3D%22${taito_repo_location}-${taito_repo_name}%22 Build logs \
   * images=https://console.cloud.google.com/gcr/images/${taito_zone}/EU/${taito_repo_location}-${taito_repo_name}?project=${taito_zone} Container images \
   * artifacts=https://TODO-DOCS-AND-TEST-REPORTS Generated documentation and test reports \
@@ -179,12 +179,16 @@ export link_urls="\
   * logs:ENV#logs=https://console.cloud.google.com/logs/viewer?project=${taito_zone}&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F${kubectl_name}%2Fnamespace_id%2F${taito_namespace} Logs (:ENV) \
   * errors:ENV#errors=https://sentry.io/${taito_organization}/${taito_project}/?query=is%3Aunresolved+environment%3A${taito_env} Sentry errors (:ENV) \
   * uptime=https://app.google.stackdriver.com/uptime?project=${taito_zone} Uptime monitoring (Stackdriver) \
+  * styleguide=https://TODO UI/UX style guide and designs \
+  * wireframes=https://TODO UI/UX wireframes \
   * feedback=https://TODO User feedback \
   * performance=https://TODO Performance metrics \
 "
 
 # Secrets
 # TODO change secret naming convention
+# TODO move github and db.build secrets out of Kubernetes since they
+# are required only during build
 export taito_secrets="
   git.github.build:read/devops
   gcloud.cloudsql.proxy:copy/devops
@@ -199,8 +203,22 @@ export taito_secrets="
 
 # NOTE: Example test suite parameters (you may remove these)
 # NOTE: env variable is passed to the test without the test_TARGET_ prefix
-export test_client_test_user="test"
-export test_client_test_password="password"
-export test_server_test_user="test"
-export test_server_test_password="password"
-export test_server_test_api_url="${taito_app_url}/api"
+
+
+# NOTE: Example rest suite parameters
+case "${taito_env}" in
+  local|dev|feature)
+    export test_server_test_api_url="${taito_app_url}/api"
+    export test_server_DATABASE_HOST="${taito_project}-database"
+    export test_server_DATABASE_PORT="5432"
+    export test_server_DATABASE_ID="${db_database_name}"
+    export test_server_DATABASE_USER="${db_database_name}_app"
+    # TODO support all environments by reading this from secrets
+    # --> secret naming must be refactored first so that we can easily reference env var here
+    export test_server_DATABASE_SECRET="AhlekeLp47fqtPkg2EFrSy299OjzVA"
+
+    if [[ "${taito_env}" == "local" ]]; then
+      export test_server_DATABASE_SECRET="secret"
+    fi
+    ;;
+esac
