@@ -519,6 +519,10 @@ sed ${sedi} -- "s|\${_TEMPLATE_DEFAULT_TAITO_IMAGE}|${template_default_taito_ima
 sed ${sedi} -- '/_TEMPLATE_DEFAULT_/d' cloudbuild.yaml
 sed ${sedi} -- '/template_default_taito_image/d' cloudbuild.yaml
 
+echo "Removing template settings from docker-compose-test.yaml..."
+
+sed ${sedi} -- '/template_default_/d' docker-compose-test.yaml
+
 rm -f temp
 
 # Remove some files that are currently obsolete
