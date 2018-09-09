@@ -23,7 +23,7 @@ services:
     container_name: server-template-database
     image: taitounited/taito-cli:latest
     restart: unless-stopped
-    entrypoint: /bin/sh -c "cd /project && taito db-proxy:${taito_env} 5432"
+    entrypoint: /bin/sh -c "echo WORKING!!!!!!!!!!!!!!! && cd /project && taito db-proxy:${taito_env} 5432"
     networks:
       - test
     ports:
