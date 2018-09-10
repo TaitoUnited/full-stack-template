@@ -18,17 +18,11 @@ services:
       - server-template-database
     environment:
       RUNNING_TESTS: "true"
-      TEST_API_URL: "https://user:painipaini@server-template-dev.taitodev.com/api"
-      DATABASE_HOST: "server-template-database"
-      DATABASE_PORT: "5432"
-      DATABASE_ID: "server_template_dev"
-      DATABASE_USER: "server_template_dev_app"
-      DATABASE_SECRET: "AhlekeLp47fqtPkg2EFrSy299OjzVA"
 
   # taito-cli container serves as a database proxy
   server-template-database:
-    container_name: step_1
-    image: ${template_default_taito_image}
+    container_name: server-template-database
+    image: taitounited/taito-cli:latest
     restart: unless-stopped
     entrypoint: /bin/sh -c "cd /project && taito db-proxy:${taito_env} 5432"
     networks:
@@ -37,8 +31,6 @@ services:
       - "5432"
     volumes:
       - ".:/project"
-      # - "${HOME}/.taito:/root/.taito"
-      # - "${HOME}/.ssh:/root/.ssh"
     environment:
       taito_docker: 'true'
       template_default_taito_image: ${template_default_taito_image}

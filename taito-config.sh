@@ -92,7 +92,6 @@ export sentry_organization="${taito_organization}"
 export ci_exec_build=false         # build a container if does not exist already
 export ci_exec_deploy=true         # deploy automatically
 export ci_exec_test=false          # execute test suites after deploy
-export ci_exec_test_db_proxy_on_host=false # start db proxy for tests
 export ci_exec_test_wait=60        # how many seconds to wait for deployment/restart
 export ci_exec_test_init=false     # run 'init --clean' before each test suite
 export ci_exec_revert=false        # revert deploy automatically on fail
@@ -216,4 +215,10 @@ if [[ "${taito_env}" == "local" ]]; then
   export test_server_TEST_API_URL="http://localhost:3332"
   # ...and connect to database running on another container
   export test_server_DATABASE_SECRET="secret"
+fi
+
+# Special settings for gcloud-builder
+if [[ ${taito_plugins} == *"gcloud-builder"* ]] && [[ "${taito_mode:-}" == "ci" ]]; then
+  export test_server_DATABASE_HOST="127.0.0.1"
+  export test_server_DATABASE_PORT="5001"
 fi
