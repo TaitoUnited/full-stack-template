@@ -88,7 +88,8 @@
     }
   },
   "release": {
-    "npmPublish": false
+    "npmPublish": false,
+    "ci": false
   },
   "repository": {
     "type": "git",

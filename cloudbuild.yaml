@@ -73,16 +73,11 @@ steps:
     fi
 
     echo "- Cancel all previous ongoing builds targetting the same branch"
-    # TODO just in case: filter builds that are newer than this build
-    # --> remeber to implement it also in the taito-cli cancel plugin
     gcloud builds list --ongoing | \
       grep "$${full_repo_name}@$${branch_name}" | \
       grep -v "$${build_id}" | \
       cut -d ' ' -f 1 | \
-      xargs -L1 gcloud container builds cancel
-
-    # echo "Delete kube credentials to avoid gcloud/kubectl version mismatch"
-    # rm -rf ~/.kube
+      xargs -L1 gcloud builds cancel
 
     echo "- We ignore all fails during cancel (hence the last echo)"
 
