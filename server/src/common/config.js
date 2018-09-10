@@ -1,8 +1,6 @@
 // Configs
 
-// TODO put back
-// const required = ['API_BINDADDR', 'API_PORT', 'ENV', 'DEBUG', 'APP_NAME'];
-const required = [];
+const required = ['API_BINDADDR', 'API_PORT', 'ENV', 'DEBUG', 'APP_NAME'];
 
 const config = {};
 
@@ -54,7 +52,7 @@ config.S3_KEY_ID = process.env.S3_KEY_ID;
 config.S3_KEY_SECRET = process.env.S3_KEY_SECRET;
 
 // Check requirements
-if (process.env.RUNNING_TESTS !== 'true') {
+if (process.env.taito_running_tests !== 'true') {
   required.forEach(req => {
     if (config[req] === undefined) {
       throw new Error(

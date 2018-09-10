@@ -16,7 +16,7 @@ services:
     depends_on:
       - server-template-database-test-proxy
     environment:
-      RUNNING_TESTS: "true"
+      taito_running_tests: "true"
 
   # taito-cli container serves as a database proxy
   server-template-database-test-proxy:
