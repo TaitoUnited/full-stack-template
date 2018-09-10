@@ -202,7 +202,7 @@ export taito_secrets="
 # Test suite parameters
 # NOTE: Variable is passed to the test without the test_TARGET_ prefix
 export test_server_TEST_API_URL="https://user:painipaini@${taito_domain}/api"
-export test_server_DATABASE_HOST="${taito_project}-database"
+export test_server_DATABASE_HOST="${taito_project}-database-test-proxy"
 export test_server_DATABASE_PORT="5432"
 export test_server_DATABASE_ID="${db_database_name}"
 export test_server_DATABASE_USER="${db_database_name}_app"
@@ -214,6 +214,7 @@ if [[ "${taito_env}" == "local" ]]; then
   # On local env we use api running on this container
   export test_server_TEST_API_URL="http://localhost:3332"
   # ...and connect to database running on another container
+  export test_server_DATABASE_HOST="${taito_project}-database"
   export test_server_DATABASE_SECRET="secret"
 fi
 

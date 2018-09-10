@@ -8,20 +8,19 @@ services:
     container_name: server-template-server-test
     image: server-template-server-test:latest
     restart: unless-stopped
-    entrypoint: /bin/sh -c "sleep 10 && cd /server && ./test.sh suite1"
     volumes:
       - "./server:/server"
       - "/server/node_modules"
     networks:
       - test
     depends_on:
-      - server-template-database
+      - server-template-database-test-proxy
     environment:
       RUNNING_TESTS: "true"
 
   # taito-cli container serves as a database proxy
-  server-template-database:
-    container_name: server-template-database
+  server-template-database-test-proxy:
+    container_name: server-template-database-test-proxy
     image: taitounited/taito-cli:latest
     restart: unless-stopped
     entrypoint: /bin/sh -c "cd /project && taito db-proxy:${taito_env} 5432"
