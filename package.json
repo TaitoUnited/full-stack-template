@@ -89,7 +89,7 @@
   },
   "release": {
     "npmPublish": false,
-    "ci": true,
+    "ci": false,
     "analyzeCommits": {
       "preset": "angular",
       "releaseRules": [
