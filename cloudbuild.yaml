@@ -75,7 +75,7 @@ steps:
     echo "- Cancel all previous ongoing builds targetting the same branch"
     # TODO just in case: filter builds that are newer than this build
     # --> remeber to implement it also in the taito-cli cancel plugin
-    gcloud beta container builds list --ongoing | \
+    gcloud builds list --ongoing | \
       grep "$${full_repo_name}@$${branch_name}" | \
       grep -v "$${build_id}" | \
       cut -d ' ' -f 1 | \
