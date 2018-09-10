@@ -60,7 +60,7 @@
     "types": "if [ -f .flowconfig ]; then flow; elif [ -f tsconfig.json ]; then echo TODO run typescript; fi",
     "disabled-types": "echo flow/typescript check disabled on prepush",
     "release-pre:prod": "semantic-release --dry-run",
-    "release-post:prod": "semantic-release"
+    "release-post:prod": "semantic-release --no-ci"
   },
   "commitlint": {
     "extends": [
@@ -89,7 +89,6 @@
   },
   "release": {
     "npmPublish": false,
-    "ci": false,
     "analyzeCommits": {
       "preset": "angular",
       "releaseRules": [
