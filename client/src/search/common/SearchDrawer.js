@@ -68,11 +68,10 @@ const SearchDrawer = ({
           */}
           <Button
             variant='raised'
-            onClick={() =>
-              onClear({
-                inputValues: { simpleText: inputValues.simpleText },
-                criteria: { simpleText: criteria.simpleText }
-              })
+            onClick={() => onClear({
+              inputValues: { simpleText: inputValues.simpleText },
+              criteria: { simpleText: criteria.simpleText }
+            })
             }
           >
             Clear

@@ -1,5 +1,7 @@
 import { delay } from 'redux-saga';
-import { call, put, takeLatest, select, fork } from 'redux-saga/effects';
+import {
+  call, put, takeLatest, select, fork
+} from 'redux-saga/effects';
 import queryString from 'query-string';
 
 import { addSearchStateToPath } from './utils';
@@ -69,14 +71,15 @@ function* fetch(action) {
       };
     });
 
+    // eslint-disable-next-line
     const executeSearch =
       // Execute search for current section only
-      section.startsWith(currentState.section) &&
+      section.startsWith(currentState.section)
       // UPDATE_CRITERIA triggers search only when search is requested
-      (action.type !== 'SEARCH/UPDATE_CRITERIA' || action.payload.doSearch) &&
+      && (action.type !== 'SEARCH/UPDATE_CRITERIA' || action.payload.doSearch)
       // SET and RELOAD trigger search only if simpleText is set
-      (action.type !== 'SEARCH/SET' || currentState.criteria.simpleText) &&
-      (action.type !== 'SEARCH/RELOAD' || currentState.criteria.simpleText);
+      && (action.type !== 'SEARCH/SET' || currentState.criteria.simpleText)
+      && (action.type !== 'SEARCH/RELOAD' || currentState.criteria.simpleText);
 
     if (executeSearch) {
       yield put({
@@ -199,9 +202,9 @@ function* pushBrowserHistory(action) {
         );
       });
       if (
-        action.type === 'SEARCH/REFRESH' ||
-        action.type === 'SEARCH/SELECT_ITEM' ||
-        action.type === 'SEARCH/SHOW_ITEM'
+        action.type === 'SEARCH/REFRESH'
+        || action.type === 'SEARCH/SELECT_ITEM'
+        || action.type === 'SEARCH/SHOW_ITEM'
       ) {
         window.history.replaceState({}, section, url);
       } else {

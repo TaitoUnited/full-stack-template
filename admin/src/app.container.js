@@ -14,7 +14,9 @@ import createRestClient from './common/api/restClient.api';
 import authProvider from './common/api/authProvider.api';
 import common, { commonSagas } from './common/common.ducks';
 
-import { PostIcon, PostList, PostCreate, PostShow, PostEdit } from './posts';
+import {
+  PostIcon, PostList, PostCreate, PostShow, PostEdit
+} from './posts';
 
 import commonFi from './common/messages/fi.messages';
 import postsEn from './posts/en.messages';

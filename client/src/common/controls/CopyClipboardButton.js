@@ -5,7 +5,7 @@ import { withTheme } from '@material-ui/core/styles';
 import { Button, Snackbar, IconButton } from '@material-ui/core';
 import { Close, Link as LinkIcon } from '@material-ui/icons';
 
-let uniqueId = 0;
+let uniqueIdCounter = 0;
 
 const propTypes = {
   buttonText: PropTypes.string.isRequired,
@@ -17,7 +17,7 @@ const propTypes = {
 class CopyToClipboardButton extends React.Component {
   state = {
     open: false,
-    uniqueId: ++uniqueId // eslint-disable-line
+    uniqueId: ++uniqueIdCounter // eslint-disable-line
   };
 
   openSnackbar = () => {
@@ -29,13 +29,16 @@ class CopyToClipboardButton extends React.Component {
   };
 
   render() {
-    const { buttonClass } = this.props;
+    const {
+      buttonText, infoMessage, copyContent, buttonClass
+    } = this.props;
+    const { uniqueId, open } = this.state;
     return (
       <span>
         {/* invisible input that contains to content to be copied */}
         <HiddenTextArea
-          id={`copyContent${this.state.uniqueId}`}
-          value={this.props.copyContent}
+          id={`copyContent${uniqueId}`}
+          value={copyContent}
           readOnly
         />
 
@@ -48,14 +51,15 @@ class CopyToClipboardButton extends React.Component {
             // prettier conflict?
             // eslint-disable-next-line
             const linkElement = document.getElementById(
-              `copyContent${this.state.uniqueId}`);
+              `copyContent${uniqueId}`
+            );
             linkElement.select();
             document.execCommand('Copy');
             linkElement.blur();
             this.openSnackbar();
           }}
         >
-          {this.props.buttonText}
+          {buttonText}
           <RightIcon />
         </Button>
 
@@ -65,13 +69,13 @@ class CopyToClipboardButton extends React.Component {
             vertical: 'bottom',
             horizontal: 'right'
           }}
-          open={this.state.open}
+          open={open}
           autoHideDuration={6000}
           onClose={this.closeSnackbar}
           SnackbarContentProps={{
             'aria-describedby': 'message-id'
           }}
-          message={<span id='message-id'>{this.props.infoMessage}</span>}
+          message={<span id='message-id'>{infoMessage}</span>}
           action={[
             <CloseButton
               key='close'

@@ -110,6 +110,8 @@ Check bundle size and dependencies:
     taito check size:client
     taito check deps
     taito check deps:server
+    taito check deps:server -u             # update packages interactively
+    taito check deps:server -y             # update all packages (non-iteractive)
 
 > NOTE: Many of the `devDependencies` and `~` references are actually in use even if reported unused. But all unused `dependencies` can usually be removed from package.json.
 

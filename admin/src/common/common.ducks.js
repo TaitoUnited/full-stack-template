@@ -1,5 +1,7 @@
 import { fetchUtils, DECLARE_RESOURCES } from 'react-admin';
-import { put, takeEvery, all, call } from 'redux-saga/effects';
+import {
+  put, takeEvery, all, call
+} from 'redux-saga/effects';
 import { createAction } from 'redux-actions';
 import update from 'immutability-helper';
 

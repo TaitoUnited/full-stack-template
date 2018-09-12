@@ -28,8 +28,9 @@ class Results extends React.Component {
   };
 
   componentDidMount() {
+    const { listenKeys } = this.props;
     window.addEventListener('resize', this.updateDimensions);
-    if (this.props.listenKeys) {
+    if (listenKeys) {
       document.addEventListener('keydown', this.keydownListener, false);
     }
     this.updateOpenedItemIndex();
@@ -40,8 +41,9 @@ class Results extends React.Component {
   }
 
   componentWillUnmount() {
+    const { listenKeys } = this.props;
     window.removeEventListener('resize', this.updateDimensions);
-    if (this.props.listenKeys) {
+    if (listenKeys) {
       document.removeEventListener('keydown', this.keydownListener, false);
     }
   }
@@ -51,8 +53,12 @@ class Results extends React.Component {
   };
 
   updateOpenedItemIndex = () => {
-    if (this.props.openedItemComponent) {
-      let index = this.props.results.selectedIndex;
+    const { openedItemComponent, results } = this.props;
+
+    const { openedItemIndex } = this.state;
+
+    if (openedItemComponent) {
+      let index = results.selectedIndex;
 
       if (index >= 0) {
         let item = document.getElementById(`results-item-${index}`);
@@ -69,61 +75,69 @@ class Results extends React.Component {
         }
       }
 
-      if (index !== this.state.openedItemIndex) {
+      if (index !== openedItemIndex) {
         this.setState({ openedItemIndex: index });
       }
     }
   };
 
   render() {
+    const {
+      results,
+      paging,
+      criteria,
+      filters,
+      itemComponent,
+      openedItemComponent,
+      onUpdatePaging,
+      onSelectItem,
+      onShowItem
+    } = this.props;
+
+    const { openedItemIndex } = this.state;
+
     let selectedProps = null;
 
-    const items = this.props.results.items.map((item, index) => {
-      const selected = index === this.props.results.selectedIndex;
+    const items = results.items.map((item, index) => {
+      const selected = index === results.selectedIndex;
 
-      const onPrev = prevFunc(
-        index,
-        this.props.paging,
-        this.props.onUpdatePaging,
-        this.props.onSelectItem
-      );
+      const onPrev = prevFunc(index, paging, onUpdatePaging, onSelectItem);
       const onNext = nextFunc(
         index,
-        this.props.results,
-        this.props.paging,
-        this.props.onUpdatePaging,
-        this.props.onSelectItem
+        results,
+        paging,
+        onUpdatePaging,
+        onSelectItem
       );
 
       const props = {
         index,
-        selectedIndex: this.props.results.selectedIndex,
+        selectedIndex: results.selectedIndex,
         key: item.id,
         item,
-        criteria: this.props.criteria,
-        paging: this.props.paging,
-        filters: this.props.filters,
-        resultNumber:
-          index + this.props.paging.pageSize * this.props.paging.page + 1, // eslint-disable-line
+        criteria,
+        paging,
+        filters,
+        resultNumber: index + paging.pageSize * paging.page + 1, // eslint-disable-line
         selected,
-        onShow: () => this.props.onShowItem(index),
-        onSelect: () => this.props.onSelectItem(index),
-        onUnselect: () => this.props.onSelectItem(-1),
+        onShow: () => onShowItem(index),
+        onSelect: () => onSelectItem(index),
+        onUnselect: () => onSelectItem(-1),
         onSelectPrev: onPrev,
         onSelectNext: onNext
       };
       if (selected) {
         selectedProps = props;
       }
-      return React.createElement(this.props.itemComponent, props);
+      return React.createElement(itemComponent, props);
     });
 
     // Insert opened item to the calculated position
-    if (this.state.openedItemIndex && selectedProps) {
+    if (openedItemIndex && selectedProps) {
       items.splice(
-        this.state.openedItemIndex,
+        openedItemIndex,
         0,
-        React.createElement(this.props.openedItemComponent, {
+        React.createElement(openedItemComponent, {
           ...selectedProps,
           key: 'opened-item' // `opened-${selectedProps.key}`
         })

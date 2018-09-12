@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { IconButton, withStyles } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 
+/* eslint-disable max-len */
 const SearchBar = ({ inputValues, onUpdateInputValue, onUpdateCriteria }) => (
   <SearchBarWrapper>
     <SearchBarContent>
@@ -11,15 +12,13 @@ const SearchBar = ({ inputValues, onUpdateInputValue, onUpdateCriteria }) => (
         placeholder='Search'
         value={inputValues.simpleText || ''}
         onChange={e => onUpdateInputValue('simpleText', e.target.value)}
-        onKeyPress={e =>
-          e.key === 'Enter' &&
-          onUpdateCriteria('simpleText', e.target.value, true)
+        onKeyPress={e => e.key === 'Enter'
+          && onUpdateCriteria('simpleText', e.target.value, true)
         }
       />
       <IconButton
         color='primary'
-        onClick={() =>
-          onUpdateCriteria('simpleText', inputValues.simpleText, true)
+        onClick={() => onUpdateCriteria('simpleText', inputValues.simpleText, true)
         }
       >
         <SearchIcon />

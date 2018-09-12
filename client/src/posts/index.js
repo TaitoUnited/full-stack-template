@@ -20,21 +20,23 @@ class PostsContainer extends Component {
     this.fetchPosts();
   }
 
-  onChangePost = post => {
+  onChangePost = newPost => {
+    const { post } = this.state;
     this.setState({
-      post: { ...this.state.post, ...post }
+      post: { ...post, ...newPost }
     });
   };
 
   onCreatePost = async () => {
-    const post = await api.create({ post: this.state.post });
+    const { post, posts } = this.state;
+    const newPost = await api.create({ post });
     this.setState({
       post: {
         subject: '',
         author: '',
         content: ''
       },
-      posts: [post, ...this.state.posts]
+      posts: [newPost, ...posts]
     });
   };
 
@@ -47,6 +49,7 @@ class PostsContainer extends Component {
   };
 
   render() {
+    const { post, posts } = this.state;
     return (
       <Page>
         <Typography variant='title'>Posts</Typography>
@@ -55,11 +58,11 @@ class PostsContainer extends Component {
           (TODO validation and real-time).
         </Typography>
         <PostForm
-          post={this.state.post}
+          post={post}
           onChangePost={this.onChangePost}
           onCreatePost={this.onCreatePost}
         />
-        <PostList posts={this.state.posts} />
+        <PostList posts={posts} />
       </Page>
     );
   }

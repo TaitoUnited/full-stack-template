@@ -20,6 +20,7 @@ class StackdriverStream {
   constructor(stream) {
     this.stream = stream;
   }
+
   write(e) {
     const formatted = {
       severity: stackdriverSeverityByBunyanLevel[e.level],

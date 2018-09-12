@@ -14,7 +14,8 @@ const propTypes = {
 // TODO use Select.js
 class PageSelect extends React.Component {
   componentDidMount() {
-    this.pageInput.value = this.props.paging.page + 1;
+    const { paging } = this.props;
+    this.pageInput.value = paging.page + 1;
     this.pageInput.min = 1;
   }
 
@@ -36,19 +37,22 @@ class PageSelect extends React.Component {
   };
 
   onSelect = () => {
+    const { paging, onSelectPage } = this.props;
     const page = Math.max(0, (parseInt(this.pageInput.value, 10) || 1) - 1);
-    if (page === this.props.paging.page || page < 0) {
+    if (page === paging.page || page < 0) {
       this.resetValue();
       return;
     }
-    this.props.onSelectPage(page);
+    onSelectPage(page);
   };
 
   resetValue = () => {
-    this.pageInput.value = this.props.paging.page + 1;
+    const { paging } = this.props;
+    this.pageInput.value = paging.page + 1;
   };
 
   render() {
+    const { numOfPages } = this.props;
     return (
       <Wrapper>
         <PageInput
@@ -62,7 +66,7 @@ class PageSelect extends React.Component {
           onWheel={this.onWheel}
         />
         /
-        {this.props.numOfPages}
+        {numOfPages}
       </Wrapper>
     );
   }

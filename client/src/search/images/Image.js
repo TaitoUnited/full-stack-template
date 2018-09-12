@@ -7,6 +7,7 @@ import { appear } from '~utils/animations.utils';
 import Circle from './Circle';
 
 // TODO: load thumbnail from server
+// eslint-disable-next-line
 const thumbUrl =
   'https://static.ilcdn.fi/viihdeuutiset/kahlekuningaskuva3ek2905_503_vd.jpg';
 
@@ -45,18 +46,27 @@ class Image extends Component {
   };
 
   showShortInfo = () => {
-    return !this.state.hover || this.props.selectedIndex !== -1;
+    const { selectedIndex } = this.props;
+    const { hover } = this.state;
+    return !hover || selectedIndex !== -1;
   };
 
   render() {
-    const { item } = this.props;
+    const {
+      item,
+      index,
+      selected,
+      onUnselect,
+      onSelect,
+      resultNumber
+    } = this.props;
+
+    const { width } = this.state;
+
     return (
       <ImageWrapper
-        id={`results-item-${this.props.index}`}
-        onClick={
-          this.mouseLeave &&
-          (this.props.selected ? this.props.onUnselect : this.props.onSelect)
-        }
+        id={`results-item-${index}`}
+        onClick={this.mouseLeave && (selected ? onUnselect : onSelect)}
         onMouseEnter={this.mouseEnter}
         onMouseLeave={this.mouseLeave}
       >
@@ -64,29 +74,35 @@ class Image extends Component {
           <ThumbnailImageWrapper>
             <ThumbnailImage
               src={thumbUrl}
-              alt={this.props.item.name}
+              alt={item.name}
               onLoad={this.updateImageProportions}
             />
-            <ResultNumber>{this.props.resultNumber}</ResultNumber>
+            <ResultNumber>{resultNumber}</ResultNumber>
             <ColorCodes>
               <Circle color='#ffed0f' text='Status circle' />
             </ColorCodes>
           </ThumbnailImageWrapper>
           {this.showShortInfo() && (
-            <ShortInfo width={this.state.width}>
+            <ShortInfo width={width}>
               <div>{item.filename}</div>
-              <div>by {item.author}</div>
+              <div>
+                by
+                {item.author}
+              </div>
             </ShortInfo>
           )}
           {!this.showShortInfo() && (
-            <LongInfo width={this.state.width}>
+            <LongInfo width={width}>
               <div>{item.filename}</div>
-              <div>by {item.author}</div>
+              <div>
+                by
+                {item.author}
+              </div>
               <p>{item.description}</p>
             </LongInfo>
           )}
         </ThumbContent>
-        {this.props.selected && (
+        {selected && (
           <SelectedMarker>
             <SelectedMarkerTringle />
           </SelectedMarker>

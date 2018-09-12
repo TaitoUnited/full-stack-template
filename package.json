@@ -38,17 +38,18 @@
     "test:client": "taito util-test:client:${taito_env}",
     "test:server": "taito util-test:server:${taito_env}",
     "test:worker": "echo DISABLED taito util-test:worker:${taito_env}",
-    "check-deps": "npm-run-all check-deps:root check-deps:admin check-deps:bot check-deps:client check-deps:server check-deps:worker ",
-    "check-deps:root": "echo --- ROOT --- && npm-check || : && npm run check-deps-note",
-    "check-deps:admin": "cd admin && echo --- ADMIN --- && npm-check || : && npm run check-deps-note",
-    "check-deps:bot": "cd bot && echo --- BOT --- && npm-check || : && npm run check-deps-note",
-    "check-deps:client": "cd client && echo --- CLIENT --- && npm-check || : && npm run check-deps-note",
-    "check-deps:server": "cd server && echo --- SERVER --- && npm-check || : && npm run check-deps-note",
-    "check-deps:worker": "cd worker && echo --- WORKER --- && npm-check || : && npm run check-deps-note",
-    "check-deps-note": "echo && echo 'NOTE: Many of the devDependencies and ~ references are actually in use even if reported unused. But all unused dependencies can usually be removed from package.json.' && echo",
-    "check-size": "npm-run-all --parallel check-size:admin check-size:client",
-    "check-size:admin": "cd admin && echo --- ADMIN --- && npm run analyze",
-    "check-size:client": "cd client && echo --- CLIENT --- && npm run analyze",
+    "_check-deps_comment": "TODO how to pass -u argument from check-deps to check-deps:TARGET?",
+    "check-deps": "npm-run-all \"check-deps:root {@}\" \"check-deps:admin {@}\" \"check-deps:bot {@}\" \"check-deps:client {@}\" \"check-deps:server {@}\" \"check-deps:worker {@}\" -- ",
+    "check-deps:root": "npm run _check-deps-script -- . ",
+    "check-deps:admin": "npm run _check-deps-script -- admin ",
+    "check-deps:bot": "npm run _check-deps-script -- bot ",
+    "check-deps:client": "npm run _check-deps-script -- client ",
+    "check-deps:server": "npm run _check-deps-script -- server ",
+    "check-deps:worker": "npm run _check-deps-script -- worker ",
+    "_check-deps-script": "sh -c 'echo --- ${0} --- && cd ${0} && (npm-check ${@} || :) && echo && echo \"NOTE: Many of the devDependencies and ~ references are actually in use even if reported unused. But all unused dependencies can usually be removed from package.json.\" && echo' ",
+    "check-size": "npm-run-all \"check-size:admin {@}\" \"check-size:client {@}\" -- ",
+    "check-size:admin": "cd admin && echo --- admin --- && npm run analyze -- ",
+    "check-size:client": "cd client && echo --- client --- && npm run analyze -- ",
     "project-contacts": "cat PROJECT.md | sed -n -e '/^## Contacts.*$/,/^#.*$/{ /^## Contacts.*$/d; /^#.*$/d; p; }'",
     "docs": "echo TODO: generate docs in package.json",
     "scan": "echo 'Linting is executed in Dockerfiles during build' && echo 'TODO: execute code analysis here?'",
@@ -92,17 +93,50 @@
     "analyzeCommits": {
       "preset": "angular",
       "releaseRules": [
-        {"type": "feat", "release": "minor"},
-        {"type": "fix", "release": "patch"},
-        {"type": "docs", "release": "patch"},
-        {"type": "style", "release": "patch"},
-        {"type": "refactor", "release": "patch"},
-        {"type": "perf", "release": "patch"},
-        {"type": "test", "release": "patch"},
-        {"type": "revert", "release": "patch"},
-        {"type": "build", "release": "patch"},
-        {"type": "ci", "release": "patch"},
-        {"type": "chore", "release": "patch"}
+        {
+          "type": "feat",
+          "release": "minor"
+        },
+        {
+          "type": "fix",
+          "release": "patch"
+        },
+        {
+          "type": "docs",
+          "release": "patch"
+        },
+        {
+          "type": "style",
+          "release": "patch"
+        },
+        {
+          "type": "refactor",
+          "release": "patch"
+        },
+        {
+          "type": "perf",
+          "release": "patch"
+        },
+        {
+          "type": "test",
+          "release": "patch"
+        },
+        {
+          "type": "revert",
+          "release": "patch"
+        },
+        {
+          "type": "build",
+          "release": "patch"
+        },
+        {
+          "type": "ci",
+          "release": "patch"
+        },
+        {
+          "type": "chore",
+          "release": "patch"
+        }
       ]
     }
   },
@@ -116,6 +150,6 @@
     "git-branch-is": "~2.0.0",
     "husky": "~0.14.3",
     "npm-run-all": "~4.1.3",
-    "semantic-release": "~15.9.14"
+    "semantic-release": "^15.9.15"
   }
 }

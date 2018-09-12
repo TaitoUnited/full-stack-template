@@ -24,26 +24,30 @@ const propTypes = {
 /* eslint-disable no-mixed-operators */
 class BrowseResults extends React.Component {
   onGoBack = () => {
-    this.props.history.push('/search/posts');
+    const { history } = this.props;
+    history.push('/search/posts');
   };
 
   render() {
-    const { paging, results, classes } = this.props;
-    const item = this.props.results.items[this.props.results.selectedIndex];
+    const {
+      paging, results, classes, onUpdatePaging, onShowItem
+    } = this.props;
+    const item = results.items[results.selectedIndex];
     const onPrev = prevFunc(
       results.selectedIndex,
       paging,
-      this.props.onUpdatePaging,
-      this.props.onShowItem
+      onUpdatePaging,
+      onShowItem
     );
     const onNext = nextFunc(
       results.selectedIndex,
       results,
       paging,
-      this.props.onUpdatePaging,
-      this.props.onShowItem
+      onUpdatePaging,
+      onShowItem
     );
 
+    // eslint-disable-next-line
     const postNumber =
       paging.page * paging.pageSize + results.selectedIndex + 1;
 
@@ -53,8 +57,8 @@ class BrowseResults extends React.Component {
           listenEsc={false}
           results={results}
           paging={paging}
-          onUpdatePaging={this.props.onUpdatePaging}
-          onSelectItem={this.props.onShowItem}
+          onUpdatePaging={onUpdatePaging}
+          onSelectItem={onShowItem}
         />
         <Post
           item={item}

@@ -19,9 +19,9 @@ const logger = {
 
 // Setup Sentry
 if (
-  process.env.COMMON_ENV !== 'local' &&
-  process.env.APP_SENTRY_PUBLIC_DSN &&
-  process.env.APP_SENTRY_PUBLIC_DSN.startsWith('https')
+  process.env.COMMON_ENV !== 'local'
+  && process.env.APP_SENTRY_PUBLIC_DSN
+  && process.env.APP_SENTRY_PUBLIC_DSN.startsWith('https')
 ) {
   // Determine env from hostname
   const envs = ['local', 'feat', 'dev', 'test', 'stag', 'prod'];

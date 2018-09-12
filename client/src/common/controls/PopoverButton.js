@@ -19,6 +19,8 @@ class PopoverButton extends React.Component {
     transformOriginHorizontal: 'center'
   };
 
+  buttonWrapper = null;
+
   handleChange = key => (event, value) => {
     this.setState({
       [key]: value
@@ -38,9 +40,9 @@ class PopoverButton extends React.Component {
     });
   };
 
-  buttonWrapper = null;
-
   render() {
+    const { icon, children } = this.props;
+
     const {
       open,
       anchorEl,
@@ -58,7 +60,7 @@ class PopoverButton extends React.Component {
           }}
           onClick={this.handleClickButton}
         >
-          {React.createElement(this.props.icon, {})}
+          {React.createElement(icon, {})}
         </IconButton>
         <Popover
           open={open}
@@ -73,7 +75,7 @@ class PopoverButton extends React.Component {
             horizontal: transformOriginHorizontal
           }}
         >
-          <PopoverContent>{this.props.children}</PopoverContent>
+          <PopoverContent>{children}</PopoverContent>
         </Popover>
       </div>
     );

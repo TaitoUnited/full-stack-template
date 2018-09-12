@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Paper, Button } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import FileDownloadIcon from '@material-ui/icons/FileDownload';
+import FileDownloadIcon from '@material-ui/icons/CloudDownload';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import PrintIcon from '@material-ui/icons/Print';
 import CopyClipboardButton from '~controls/CopyClipboardButton';
@@ -13,6 +13,7 @@ import Item from '~controls/paging/Item';
 import Circle from './Circle';
 
 // TODO: load thumbnail from server
+// eslint-disable-next-line
 const imageUrl =
   'https://static.ilcdn.fi/viihdeuutiset/kahlekuningaskuva3ek2905_503_vd.jpg';
 
@@ -42,7 +43,8 @@ class SelectedImage extends React.Component {
   scrollTo(newProps) {
     // Scroll the SelectedImage component into view if  image section has
     // changed
-    if (this.state.itemId !== newProps.item.id && this.anchorEl) {
+    const { itemId } = this.state;
+    if (itemId !== newProps.item.id && this.anchorEl) {
       this.setState({ itemId: newProps.item.id });
       setTimeout(() => {
         const domEl = ReactDOM.findDOMNode(this.anchorEl); // eslint-disable-line
@@ -61,7 +63,13 @@ class SelectedImage extends React.Component {
   }
 
   render() {
-    const { item, classes } = this.props;
+    const {
+      item,
+      classes,
+      onUnselect,
+      onSelectPrev,
+      onSelectNext
+    } = this.props;
     return (
       <SelectedImageWrapper
         ref={anchorEl => {
@@ -71,9 +79,9 @@ class SelectedImage extends React.Component {
         <Item
           selected
           showNav
-          onUnselect={this.props.onUnselect}
-          onSelectPrev={this.props.onSelectPrev}
-          onSelectNext={this.props.onSelectNext}
+          onUnselect={onUnselect}
+          onSelectPrev={onSelectPrev}
+          onSelectNext={onSelectNext}
           minHeight='20vh'
           padding='20px'
         >

@@ -127,8 +127,8 @@ const createRestClient = (apiUrl, httpClient = fetchUtils.fetchJson) => {
    */
   return (type, resource, params) => {
     const { url, options } = convertRESTRequestToHTTP(type, resource, params);
-    return httpClient(url, options).then(response =>
-      convertHTTPResponseToREST(response, type, resource, params));
+    // eslint-disable-next-line
+    return httpClient(url, options).then(response => convertHTTPResponseToREST(response, type, resource, params));
   };
 };
 

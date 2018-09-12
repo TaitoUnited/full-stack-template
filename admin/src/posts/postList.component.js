@@ -40,6 +40,7 @@ const PostFilter = ({ ...props }) => (
   </Filter>
 );
 
+/* eslint-disable max-len */
 const titleFieldStyle = {
   maxWidth: '20em',
   overflow: 'hidden',
@@ -57,8 +58,7 @@ const PostList = ({ ...props }) => (
         <SimpleList
           primaryText={record => record.title}
           secondaryText={record => `${record.views} views`}
-          tertiaryText={record =>
-            new Date(record.published_at).toLocaleDateString()
+          tertiaryText={record => new Date(record.published_at).toLocaleDateString()
           }
         />
       }

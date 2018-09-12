@@ -5,4 +5,6 @@ import PostCreate from './postCreate.component';
 import PostShow from './postShow.component';
 import PostEdit from './postEdit.component';
 
-export { PostIcon, PostList, PostCreate, PostShow, PostEdit };
+export {
+  PostIcon, PostList, PostCreate, PostShow, PostEdit
+};

@@ -1,11 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Circle = props => (
-  <CircleWrapper color={props.color}>
-    <ToolTip>
-      {props.text}
-    </ToolTip>
+const Circle = ({ color, text }) => (
+  <CircleWrapper color={color}>
+    <ToolTip>{text}</ToolTip>
   </CircleWrapper>
 );
 
@@ -41,7 +39,7 @@ const ToolTip = styled.span`
   z-index: 2;
 
   &:after {
-    content: " ";
+    content: ' ';
     position: absolute;
     top: 50%;
     right: 100%;

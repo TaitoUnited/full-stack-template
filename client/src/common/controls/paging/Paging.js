@@ -28,15 +28,19 @@ const pagingControlKeyPressed = event => {
 
 class Paging extends React.Component {
   componentDidMount() {
-    if (this.props.listenKeys) {
+    const { listenKeys } = this.props;
+    if (listenKeys) {
       document.addEventListener('keydown', this.keydownListener, false);
     }
   }
+
   componentWillUnmount() {
-    if (this.props.listenKeys) {
+    const { listenKeys } = this.props;
+    if (listenKeys) {
       document.removeEventListener('keydown', this.keydownListener, false);
     }
   }
+
   keydownListener = event => {
     /* eslint-disable */
     // TODO how to avoid ReactDOM.findDOMNode?
@@ -54,24 +58,36 @@ class Paging extends React.Component {
     }
     /* eslint-enable */
   };
+
   selectFirstPage = () => {
-    this.props.onSelectPage(0);
+    const { onSelectPage } = this.props;
+    onSelectPage(0);
   };
+
   selectPrevPage = () => {
-    this.props.onSelectPage(this.props.paging.page - 1);
+    const { onSelectPage, paging } = this.props;
+    onSelectPage(paging.page - 1);
   };
+
   selectNextPage = () => {
-    this.props.onSelectPage(this.props.paging.page + 1);
+    const { onSelectPage, paging } = this.props;
+    onSelectPage(paging.page + 1);
   };
+
   selectLastPage = () => {
-    this.props.onSelectPage(this.props.numOfPages - 1);
+    const { onSelectPage, numOfPages } = this.props;
+    onSelectPage(numOfPages - 1);
   };
+
   render() {
+    const {
+      bottom, paging, numOfPages, onSelectPage
+    } = this.props;
     return (
-      <PagerWrapper flex={10} bottom={this.props.bottom}>
+      <PagerWrapper flex={10} bottom={bottom}>
         <IconButton
           color='primary'
-          disabled={this.props.paging.page <= 0}
+          disabled={paging.page <= 0}
           onClick={this.selectFirstPage}
         >
           <FirstPageIcon />
@@ -79,27 +95,27 @@ class Paging extends React.Component {
         <IconButton
           ref={prevButton => (this.prevButton = prevButton)}
           color='primary'
-          disabled={this.props.paging.page <= 0}
+          disabled={paging.page <= 0}
           onClick={this.selectPrevPage}
         >
           <PrevPageIcon />
         </IconButton>
         <PageSelect
-          paging={this.props.paging}
-          onSelectPage={this.props.onSelectPage}
-          numOfPages={this.props.numOfPages}
+          paging={paging}
+          onSelectPage={onSelectPage}
+          numOfPages={numOfPages}
         />
         <IconButton
           ref={nextButton => (this.nextButton = nextButton)}
           color='primary'
-          disabled={this.props.paging.page >= this.props.numOfPages - 1}
+          disabled={paging.page >= numOfPages - 1}
           onClick={this.selectNextPage}
         >
           <NextPageIcon />
         </IconButton>
         <IconButton
           color='primary'
-          disabled={this.props.paging.page >= this.props.numOfPages - 1}
+          disabled={paging.page >= numOfPages - 1}
           onClick={this.selectLastPage}
         >
           <LastPageIcon />

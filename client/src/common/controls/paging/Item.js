@@ -17,8 +17,8 @@ const Item = ({
   children
 }) => (
   <FullHeightLayout minHeight={minHeight}>
-    {selected &&
-      showNav && (
+    {selected
+      && showNav && (
       <Side>
         <PrevButton
           variant='raised'
@@ -33,8 +33,8 @@ const Item = ({
     <Content flex={20} padding={padding}>
       {children}
     </Content>
-    {selected &&
-      showNav && (
+    {selected
+      && showNav && (
       <Side>
         <CloseButton
           key='close'

@@ -25,45 +25,54 @@ class KeyListener extends React.Component {
   componentDidMount() {
     document.addEventListener('keydown', this.keydownListener, false);
   }
+
   componentWillUnmount() {
     document.removeEventListener('keydown', this.keydownListener, false);
   }
 
   keydownListener = event => {
+    const {
+      listenEsc,
+      results,
+      paging,
+      onSelectItem,
+      onUpdatePaging
+    } = this.props;
     if (
-      !event.altKey &&
-      !event.shiftKey &&
-      !event.ctrlKey &&
-      !event.metaKey &&
-      event.target.nodeName !== 'INPUT'
+      !event.altKey
+      && !event.shiftKey
+      && !event.ctrlKey
+      && !event.metaKey
+      && event.target.nodeName !== 'INPUT'
     ) {
-      if (event.keyCode === 27 && this.props.listenEsc) {
+      if (event.keyCode === 27 && listenEsc) {
         // ESC
-        this.props.onSelectItem(-1);
+        onSelectItem(-1);
       }
       if (event.keyCode === 37) {
         // ArrowLeft
         const prev = prevFunc(
-          this.props.results.selectedIndex,
-          this.props.paging,
-          this.props.onUpdatePaging,
-          this.props.onSelectItem
+          results.selectedIndex,
+          paging,
+          onUpdatePaging,
+          onSelectItem
         );
         if (prev) prev('key');
       }
       if (event.keyCode === 39) {
         // ArrowRight
         const next = nextFunc(
-          this.props.results.selectedIndex,
-          this.props.results,
-          this.props.paging,
-          this.props.onUpdatePaging,
-          this.props.onSelectItem
+          results.selectedIndex,
+          results,
+          paging,
+          onUpdatePaging,
+          onSelectItem
         );
         if (next) next('key');
       }
     }
   };
+
   render() {
     return null;
   }

@@ -18,7 +18,8 @@ const propTypes = {
 
 class PostSummary extends Component {
   componentDidMount() {
-    if (this.props.selected) {
+    const { selected } = this.props;
+    if (selected) {
       this.node.scrollIntoView({
         behavior: 'instant',
         inline: 'center'
@@ -74,10 +75,16 @@ class PostSummary extends Component {
               )}
             >
               <HeadlineTopic selected={selected}>
-                {resultNumber}.&nbsp;&nbsp; {item.subject}
+                {resultNumber}
+                .&nbsp;&nbsp;
+                {' '}
+                {item.subject}
               </HeadlineTopic>
               <br />
-              <Information>by {item.author}</Information>
+              <Information>
+                by
+                {item.author}
+              </Information>
             </Headline>
           </Header>
           <InnerText>{item.content}</InnerText>

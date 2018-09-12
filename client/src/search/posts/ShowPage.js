@@ -15,19 +15,22 @@ class ShowPage extends React.Component {
   };
 
   componentWillMount() {
-    const { database, itemId } = this.props.match.params;
+    const { match } = this.props;
+    const { database, itemId } = match.params;
     this.read(database, itemId);
   }
 
   componentWillReceiveProps(nextProps) {
+    const { item } = this.state;
     const { database, itemId } = nextProps.match.params;
-    if (itemId !== this.state.item.itemId) {
+    if (itemId !== item.itemId) {
       this.read(database, itemId);
     }
   }
 
   onGoBack = () => {
-    this.props.history.goBack();
+    const { history } = this.props;
+    history.goBack();
   };
 
   async read(database, itemId) {
@@ -39,14 +42,12 @@ class ShowPage extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
+    const { item } = this.state;
     return (
-      <Post
-        item={this.state.item}
-        onGoBack={this.onGoBack}
-        classes={this.props.classes}
-      >
+      <Post item={item} onGoBack={this.onGoBack} classes={classes}>
         <Button variant='raised' color='primary' onClick={this.onGoBack}>
-          <NavigateBeforeIcon className={this.props.classes.leftIcon} />
+          <NavigateBeforeIcon className={classes.leftIcon} />
           Takaisin
         </Button>
       </Post>

@@ -1,6 +1,6 @@
-import jwt from 'koa-jwt';
+// import jwt from 'koa-jwt';
 // import basicAuth from 'koa-basic-auth';
-import config from '../common/config';
+// import config from '../common/config';
 import { mergeToLogCtx } from '../common/log.util';
 
 // auth is disabled for these paths
@@ -46,19 +46,20 @@ const authMiddleware = app => {
 
   // JWT auth
   // TODO proper OpenID Connect / OAuth 2.0 auth
-  app.use(
-    jwt({
-      secret: config.JWT_SECRET,
-      key: 'auth',
-      // Optionally get jwt from cookie, eg. for download links
-      // cookie: 'server-template'
-    }).unless({
-      paths: skipAuthPaths,
-      custom() {
-        return determineAuthMethod(this) !== 'jwt';
-      },
-    })
-  );
+  // TODO put back
+  // app.use(
+  //   jwt({
+  //     secret: config.JWT_SECRET,
+  //     key: 'auth',
+  //     // Optionally get jwt from cookie, eg. for download links
+  //     // cookie: 'server-template'
+  //   }).unless({
+  //     paths: skipAuthPaths,
+  //     custom() {
+  //       return determineAuthMethod(this) !== 'jwt';
+  //     },
+  //   })
+  // );
 
   // Determine user role
   // NOTE: The example supports two hardcoded users ('admin' and 'user')
