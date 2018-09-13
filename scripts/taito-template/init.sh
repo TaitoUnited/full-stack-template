@@ -110,7 +110,7 @@ if [[ ${mode} != "upgrade" ]]; then
   echo
   echo "Username:"
   read -r auth_username
-  until htpasswd -c scripts/helm/.htpasswd ${auth_username}
+  until htpasswd -c scripts/helm/.htpasswd "${auth_username}"
   do
     sleep 0.1
   done
@@ -306,8 +306,8 @@ cat temp > docker-compose.yaml
 
   sed ${sedi} -- '/terraform/d' taito-config.sh
   sed ${sedi} -- '/\* storage/d' taito-config.sh
-  sed ${sedi} -- '/\.gateway:/d' taito-config.sh
-  sed ${sedi} -- '/\.multi:/d' taito-config.sh
+  sed ${sedi} -- '/storage-gateway/d' taito-config.sh
+  sed ${sedi} -- '/gserviceaccount/d' taito-config.sh
   sed ${sedi} -- '/S3_/d' ./scripts/helm.yaml
   sed ${sedi} -- '/S3_/d' docker-compose.yaml
 fi
@@ -371,19 +371,19 @@ sed ${sedi} -- '/https:\/\/TODO/d' taito-config.sh
 echo "Pruning secrets..."
 
 if [[ ! ${secret_jwt} ]]; then
-  sed ${sedi} -- '/jwt\./d' taito-config.sh
+  sed ${sedi} -- '/jwt\.secret/d' taito-config.sh
   sed ${sedi} -- '/JWT_SECRET/d' ./scripts/helm.yaml
   sed ${sedi} -- '/JWT_SECRET/d' docker-compose.yaml
 fi
 
 if [[ ! ${secret_admin} ]]; then
-  sed ${sedi} -- '/admin\.auth/d' taito-config.sh
+  sed ${sedi} -- '/admin\.password/d' taito-config.sh
   sed ${sedi} -- '/ADMIN_PASSWORD/d' ./scripts/helm.yaml
   sed ${sedi} -- '/ADMIN_PASSWORD/d' docker-compose.yaml
 fi
 
 if [[ ! ${secret_user} ]]; then
-  sed ${sedi} -- '/user\.auth/d' taito-config.sh
+  sed ${sedi} -- '/user\.password/d' taito-config.sh
   sed ${sedi} -- '/USER_PASSWORD/d' ./scripts/helm.yaml
   sed ${sedi} -- '/USER_PASSWORD/d' docker-compose.yaml
 fi

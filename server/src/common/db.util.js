@@ -10,7 +10,7 @@ const cn = {
   port: parseInt(config.DATABASE_PORT, 10),
   database: config.DATABASE_ID,
   user: config.DATABASE_USER,
-  password: config.DATABASE_SECRET,
+  password: config.DATABASE_PASSWORD,
   poolSize: config.DATABASE_POOL_MAX,
 };
 

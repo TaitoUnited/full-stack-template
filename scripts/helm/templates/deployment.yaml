@@ -65,8 +65,8 @@ spec:
             - name: {{ $name }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ $value }}
-                  key: SECRET
+                  name: {{ regexReplaceAll "\\.[a-zA-Z]*$" $value "" }}
+                  key: {{ regexFind "[a-zA-Z]*$" $value }}
             {{- end }}
 {{ end }}
 
@@ -138,8 +138,8 @@ spec:
             - name: {{ $name }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ $value }}
-                  key: SECRET
+                  name: {{ regexReplaceAll "\\.[a-zA-Z]*$" $value "" }}
+                  key: {{ regexFind "[a-zA-Z]*$" $value }}
             {{- end }}
 {{ end }}
 
@@ -202,16 +202,19 @@ spec:
             - prefix: COMMON_
               configMapRef:
                 name: {{ template "name" . }}-common
-            # TODO remove this. use .Values.server.secrets (range) for db also
+            # TODO remove this. use .Values.db... for db also
             {{ if .Values.stack.database }}
             - prefix: DATABASE_
               configMapRef:
                 name: {{ template "name" . }}-database
-            - prefix: DATABASE_
-              secretRef:
-                name: db.{{ template "fullname" . }}.app
             {{ end }}
           env:
+            # TODO remove this. use .Values.server.secrets (range) for db also
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "fullname" . }}-db-app
+                  key: password
             {{- range $name, $value := .Values.server.env }}
             - name: {{ $name }}
               value: {{ $value | quote }}
@@ -220,8 +223,8 @@ spec:
             - name: {{ $name }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ $value }}
-                  key: SECRET
+                  name: {{ regexReplaceAll "\\.[a-zA-Z]*$" $value "" }}
+                  key: {{ regexFind "[a-zA-Z]*$" $value }}
             {{- end }}
             - name: API_PORT
               value: {{ .Values.server.port | quote }}
@@ -236,7 +239,8 @@ spec:
             - -verbose=false
             - --dir=/cloudsql
             - -instances={{ .Values.database.db }}=tcp:{{ .Values.database.port }}
-            - -credential_file=/secrets/cloudsql/SECRET
+            - -credential_file=/secrets/cloudsql/key
+            # TODO key --> from values
           volumeMounts:
             - name: cloudsql-instance-credentials
               mountPath: /secrets/cloudsql
@@ -249,7 +253,8 @@ spec:
       volumes:
         - name: cloudsql-instance-credentials
           secret:
-            secretName: gcloud.cloudsql.proxy
+            # TODO remove this. use .Values.server.secrets for db also
+            secretName: cloudsql-gserviceaccount
         - name: ssl-certs
           hostPath:
             path: /etc/ssl/certs
@@ -327,8 +332,8 @@ spec:
             - name: {{ $name }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ $value }}
-                  key: SECRET
+                  name: {{ regexReplaceAll "\\.[a-zA-Z]*$" $value "" }}
+                  key: {{ regexFind "[a-zA-Z]*$" $value }}
             {{- end }}
             - name: API_PORT
               value: {{ .Values.bot.port | quote }}
@@ -404,8 +409,8 @@ spec:
             - name: {{ $name }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ $value }}
-                  key: SECRET
+                  name: {{ regexReplaceAll "\\.[a-zA-Z]*$" $value "" }}
+                  key: {{ regexFind "[a-zA-Z]*$" $value }}
             {{- end }}
             - name: API_PORT
               value: {{ .Values.worker.port | quote }}
@@ -420,7 +425,8 @@ spec:
             - -verbose=false
             - --dir=/cloudsql
             - -instances={{ .Values.database.db }}=tcp:{{ .Values.database.port }}
-            - -credential_file=/secrets/cloudsql/SECRET
+            - -credential_file=/secrets/cloudsql/key
+            # TODO key --> from values
           volumeMounts:
             - name: cloudsql-instance-credentials
               mountPath: /secrets/cloudsql
@@ -433,7 +439,8 @@ spec:
       volumes:
         - name: cloudsql-instance-credentials
           secret:
-            secretName: gcloud.cloudsql.proxy
+            # TODO remove this. use .Values.worker.secrets for db also
+            secretName: cloudsql-gserviceaccount
         - name: ssl-certs
           hostPath:
             path: /etc/ssl/certs
@@ -483,8 +490,8 @@ spec:
             - name: {{ $name }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ $value }}
-                  key: SECRET
+                  name: {{ regexReplaceAll "\\.[a-zA-Z]*$" $value "" }}
+                  key: {{ regexFind "[a-zA-Z]*$" $value }}
             {{- end }}
 
 {{ end }}
@@ -529,8 +536,8 @@ spec:
             - name: {{ $name }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ $value }}
-                  key: SECRET
+                  name: {{ regexReplaceAll "\\.[a-zA-Z]*$" $value "" }}
+                  key: {{ regexFind "[a-zA-Z]*$" $value }}
             {{- end }}
 
 {{ end }}
@@ -570,7 +577,8 @@ spec:
             - containerPort: {{ .Values.storage.port }}
           env:
             - name: GOOGLE_APPLICATION_CREDENTIALS
-              value: /credentials/SECRET
+              value: /credentials/key
+              # TODO key --> from values
             {{- range $name, $value := .Values.storage.env }}
             - name: {{ $name }}
               value: {{ $value | quote }}
@@ -579,8 +587,8 @@ spec:
             - name: {{ $name }}
               valueFrom:
                 secretKeyRef:
-                  name: {{ $value }}
-                  key: SECRET
+                  name: {{ regexReplaceAll "\\.[a-zA-Z]*$" $value "" }}
+                  key: {{ regexFind "[a-zA-Z]*$" $value }}
             {{- end }}
           volumeMounts:
             - name: credentials
@@ -589,5 +597,6 @@ spec:
       volumes:
         - name: credentials
           secret:
-            secretName: gcloud.{{ .Values.project.name }}-{{ .Values.env }}.multi
+            # TODO read secretname from values
+            secretName: {{ .Values.project.name }}-{{ .Values.env }}-gserviceaccount
 {{ end }}

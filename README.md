@@ -345,18 +345,9 @@ NOTE: Some of the advanced operations might require admin credentials (e.g. stag
 ### Configuration for local development
 
 Done:
-* [ ] Temporary basic auth password
 * [ ] GitHub settings
 * [ ] Stack configuration
 * [ ] Removal of irrelevant examples
-
-#### Temporary basic auth password
-
-Write down the username/password to the beginning of this `README.md` file and to the `show-basic-auth` script of `package.json`:
-
-```
-"show-basic-auth": "echo Temporary basic auth username/password: ...",
-```
 
 #### GitHub settings
 
@@ -412,9 +403,15 @@ Done:
 
 Define environments with the `taito_environments` setting in `taito-config.sh`, and run `taito env apply:ENV` to create an environment (`feat`, `dev`, `test`, `stag` or `prod`).
 
-> You should remove unnecessary examples from database migrations (`./database`) and secrets (`taito-config.sh`) before creating the first server environment.
+If basic auth is used only for hiding non-production environments, use the same credentials for all environments and write them down to the beginning of this `README.md` file and to the `show-basic-auth` script of `package.json`:
 
-> All operations on production and staging environments require admin rights. Please contact devops personnel.
+```
+"show-basic-auth": "echo Temporary basic auth username/password: ...",
+```
+
+NOTE: You should remove unnecessary examples from database migrations (`./database`) and secrets (`taito-config.sh`) before creating the first server environment.
+
+NOTE: Operations on production and staging environments usually require admin rights. Please contact devops personnel if necessary.
 
 #### Kubernetes
 

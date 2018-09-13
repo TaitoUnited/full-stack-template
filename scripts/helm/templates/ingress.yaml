@@ -14,7 +14,7 @@ metadata:
 {{- if .Values.ingress.basicAuth }}
     ingress.kubernetes.io/auth-type: "basic"
     ingress.kubernetes.io/auth-realm: {{ .Chart.Name | quote }}
-    ingress.kubernetes.io/auth-secret: {{ template "name" . }}-basic-auth
+    ingress.kubernetes.io/auth-secret: {{ template "fullname" . }}-basic-auth
 {{- end -}}
 {{ if .Values.ingress.tls }}
     kubernetes.io/tls-acme: "true"

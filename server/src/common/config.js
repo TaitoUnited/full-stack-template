@@ -39,7 +39,7 @@ config.DATABASE_HOST = process.env.DATABASE_HOST;
 config.DATABASE_PORT = process.env.DATABASE_PORT;
 config.DATABASE_ID = process.env.DATABASE_ID;
 config.DATABASE_USER = process.env.DATABASE_USER;
-config.DATABASE_SECRET = process.env.DATABASE_SECRET;
+config.DATABASE_PASSWORD = process.env.DATABASE_PASSWORD;
 config.DATABASE_POOL_MAX = process.env.DATABASE_POOL_MAX
   ? parseInt(process.env.DATABASE_POOL_MAX, 10)
   : 10;

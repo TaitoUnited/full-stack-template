@@ -34,8 +34,8 @@ admin:
 bot:
   replicas: ${kubectl_replicas}
   secrets:
-    ADMIN_PASSWORD: user.server-template-admin.auth
-    USER_PASSWORD: user.server-template-user.auth
+    ADMIN_PASSWORD: ${taito_project}-${taito_env}-admin.password
+    USER_PASSWORD: ${taito_project}-${taito_env}-user.password
   env:
     SENTRY_DSN: #sentryDSN
     DEBUG: false
@@ -49,31 +49,31 @@ client:
 server:
   replicas: ${kubectl_replicas}
   secrets:
-    JWT_SECRET: jwt.server-template.auth
-    ADMIN_PASSWORD: user.server-template-admin.auth
-    USER_PASSWORD: user.server-template-user.auth
-    S3_KEY_SECRET: storage.server-template.gateway
+    JWT_SECRET: ${taito_project}-${taito_env}-jwt.secret
+    ADMIN_PASSWORD: ${taito_project}-${taito_env}-admin.password
+    USER_PASSWORD: ${taito_project}-${taito_env}-user.password
+    S3_KEY_SECRET: ${taito_project}-${taito_env}-storage-gateway.secret
   env:
     SENTRY_DSN: #sentryDSN
     DEBUG: false
     # TODO remove ENV or set it automatically?
     ENV: production
-    S3_URL: http://server-template-storage:9000/
+    S3_URL: http://${taito_project}-storage:9000/
     S3_REGION: ${taito_provider_region}
-    S3_BUCKET: server-template-${taito_env}
+    S3_BUCKET: ${taito_project}-${taito_env}
     S3_KEY_ID: 070UEOQR6LX4YPZLFU0V
 
 worker:
   replicas: ${kubectl_replicas}
   secrets:
-    S3_KEY_SECRET: storage.server-template.gateway
+    S3_KEY_SECRET: ${taito_project}-${taito_env}-storage-gateway.secret
   env:
     SENTRY_DSN: #sentryDSN
     DEBUG: false
     ENV: production
-    S3_URL: http://server-template-storage:9000/
+    S3_URL: http://${taito_project}-storage:9000/
     S3_REGION: ${taito_provider_region}
-    S3_BUCKET: server-template-${taito_env}
+    S3_BUCKET: ${taito_project}-${taito_env}
     S3_KEY_ID: 070UEOQR6LX4YPZLFU0V
 
 database:
@@ -89,7 +89,7 @@ storage:
   host: storage
   region: ${taito_provider_region}
   secrets:
-    MINIO_SECRET_KEY: storage.server-template.gateway
+    MINIO_SECRET_KEY: ${taito_project}-${taito_env}-storage-gateway.secret
   env:
     MINIO_ACCESS_KEY: 070UEOQR6LX4YPZLFU0V
 

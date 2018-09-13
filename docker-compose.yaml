@@ -102,7 +102,7 @@ services:
       DATABASE_ID: server_template_local
       DATABASE_DB: server_template_local
       DATABASE_USER: server_template_local_app
-      DATABASE_SECRET: secret
+      DATABASE_PASSWORD: secret
       DATABASE_POOL_MAX: '10'
       S3_URL: http://server-template-storage:9000/
       S3_REGION: milkyway
@@ -167,7 +167,7 @@ services:
   #     DATABASE_ID: server_template_local
   #     DATABASE_DB: server_template_local
   #     DATABASE_USER: server_template_local_app
-  #     DATABASE_SECRET: secret
+  #     DATABASE_PASSWORD: secret
   #     DATABASE_POOL_MAX: '10'
   #     S3_URL: http://server-template-storage:9000/
   #     S3_REGION: milkyway

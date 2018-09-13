@@ -184,19 +184,20 @@ export link_urls="\
 "
 
 # Secrets
-# TODO change secret naming convention
-# TODO move github and db.build secrets out of Kubernetes since they
-# are required only during build
+# NOTE: github-buildbot and db-mgr secrets are used by devops tools only.
+# Therefore they are located in devops namespace.
+export taito_secrets_version="2"
 export taito_secrets="
-  git.github.build:read/devops
-  gcloud.cloudsql.proxy:copy/devops
-  db.${db_database_name}.build/devops:random
-  db.${db_database_name}.app:random
-  storage.${taito_project}.gateway:random
-  gcloud.${taito_project}-${taito_env}.multi:file
-  jwt.${taito_project}.auth:random
-  user.${taito_project}-admin.auth:manual
-  user.${taito_project}-user.auth:manual
+  github-buildbot.token:read/devops
+  cloudsql-gserviceaccount.key:copy/devops
+  ${db_database_name}-db-mgr.password/devops:random
+  ${db_database_name}-db-app.password:random
+  ${taito_project}-${taito_env}-basic-auth.auth:htpasswd
+  ${taito_project}-${taito_env}-storage-gateway.secret:random
+  ${taito_project}-${taito_env}-gserviceaccount.key:file
+  ${taito_project}-${taito_env}-jwt.secret:random
+  ${taito_project}-${taito_env}-admin.password:manual
+  ${taito_project}-${taito_env}-user.password:manual
 "
 
 # Test suite parameters
@@ -208,14 +209,14 @@ export test_server_DATABASE_ID="${db_database_name}"
 export test_server_DATABASE_USER="${db_database_name}_app"
 # TODO support all environments by reading this from secrets
 # --> secret naming must be refactored first so that we can easily reference env var here
-export test_server_DATABASE_SECRET="AhlekeLp47fqtPkg2EFrSy299OjzVA"
+export test_server_DATABASE_PASSWORD="P8JH4m33RQshznTkTNxvQgFO9BWpkg"
 
 if [[ "${taito_env}" == "local" ]]; then
   # On local env we use api running on this container
   export test_server_TEST_API_URL="http://localhost:3332"
   # ...and connect to database running on another container
   export test_server_DATABASE_HOST="${taito_project}-database"
-  export test_server_DATABASE_SECRET="secret"
+  export test_server_DATABASE_PASSWORD="secret"
 fi
 
 # Special settings for gcloud-builder
