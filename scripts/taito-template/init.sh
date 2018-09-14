@@ -90,12 +90,6 @@ read -r confirm
 if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   stack_queue=true
 fi
-echo
-echo "Bot for automation/emulation (y/N)?"
-read -r confirm
-if [[ "${confirm}" =~ ^[Yy]$ ]]; then
-  stack_bot=true
-fi
 
 if [[ ${mode} != "upgrade" ]]; then
   echo
@@ -114,27 +108,6 @@ if [[ ${mode} != "upgrade" ]]; then
   do
     sleep 0.1
   done
-fi
-
-echo
-echo "--- Other secrets ---"
-echo
-echo "Do you need JWT (y/N)?"
-read -r confirm
-if [[ "${confirm}" =~ ^[Yy]$ ]]; then
-  secret_jwt=true
-fi
-echo
-echo "Do you need a shared admin password (y/N)?"
-read -r confirm
-if [[ "${confirm}" =~ ^[Yy]$ ]]; then
-  secret_admin=true
-fi
-echo
-echo "Do you need a shared user password (y/N)?"
-read -r confirm
-if [[ "${confirm}" =~ ^[Yy]$ ]]; then
-  secret_user=true
 fi
 
 ##############
@@ -176,30 +149,6 @@ cat temp > docker-nginx.conf
   sed ${sedi} -- 's/lint:admin //g' package.json
   sed ${sedi} -- 's/unit:admin //g' package.json
   sed ${sedi} -- 's/test:admin //g' package.json
-fi
-
-if [[ ! ${stack_bot} ]]; then
-  rm -rf bot
-
-{
-sed '/# bot start/q' docker-compose.yaml
-sed -n -e '/# bot end/,$p' docker-compose.yaml
-} > temp
-truncate --size 0 docker-compose.yaml
-cat temp > docker-compose.yaml
-
-  sed ${sedi} -- '/  bot/d' taito-config.sh
-  sed ${sedi} -- '/  bot:/d' ./scripts/helm.yaml
-
-  sed ${sedi} -- '/install-all:bot":/d' package.json
-  sed ${sedi} -- '/lint:bot":/d' package.json
-  sed ${sedi} -- '/unit:bot":/d' package.json
-  sed ${sedi} -- '/test:bot":/d' package.json
-
-  sed ${sedi} -- 's/install-all:bot //g' package.json
-  sed ${sedi} -- 's/lint:bot //g' package.json
-  sed ${sedi} -- 's/unit:bot //g' package.json
-  sed ${sedi} -- 's/test:bot //g' package.json
 fi
 
 if [[ ! ${stack_client} ]]; then
@@ -364,31 +313,6 @@ fi
 
 sed ${sedi} -- '/https:\/\/TODO/d' taito-config.sh
 
-################
-# Prune secrets
-################
-
-echo "Pruning secrets..."
-
-if [[ ! ${secret_jwt} ]]; then
-  sed ${sedi} -- '/jwt\.secret/d' taito-config.sh
-  sed ${sedi} -- '/JWT_SECRET/d' ./scripts/helm.yaml
-  sed ${sedi} -- '/JWT_SECRET/d' docker-compose.yaml
-fi
-
-if [[ ! ${secret_admin} ]]; then
-  sed ${sedi} -- '/admin\.password/d' taito-config.sh
-  sed ${sedi} -- '/ADMIN_PASSWORD/d' ./scripts/helm.yaml
-  sed ${sedi} -- '/ADMIN_PASSWORD/d' docker-compose.yaml
-fi
-
-if [[ ! ${secret_user} ]]; then
-  sed ${sedi} -- '/user\.password/d' taito-config.sh
-  sed ${sedi} -- '/USER_PASSWORD/d' ./scripts/helm.yaml
-  sed ${sedi} -- '/USER_PASSWORD/d' docker-compose.yaml
-fi
-
-echo "..."
 
 # Remove TODO links
 sed ${sedi} -- '/https:\/\/TODO/d' taito-config.sh
@@ -524,12 +448,3 @@ echo "Removing template settings from docker-compose-test.yaml..."
 sed ${sedi} -- '/template_default_/d' docker-compose-test.yaml
 
 rm -f temp
-
-# Remove some files that are currently obsolete
-rm -f ./Jenkinsfile > /dev/null
-rm -f ./server/Gruntfile > /dev/null
-rm -f ./server/src/infra/authAuth0.middleware.js > /dev/null
-rm -f ./server/src/infra/authFirebase.middleware.js > /dev/null
-rm -f ./server/src/infra/authWordpress.middleware.js > /dev/null
-find ./server -name "swagger.yml" -type f -delete > /dev/null
-find ./server -name "swagger.yaml" -type f -delete > /dev/null

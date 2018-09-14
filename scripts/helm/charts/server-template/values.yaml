@@ -1,0 +1,94 @@
+# Global settings for all charts
+global:
+  # These are given as command line parameters during build
+  zone:
+    name:
+    provider:
+    providerRegion:
+    providerZone:
+    namespace:
+    resourceNamespace:
+  project:
+    name:
+    company:
+    family:
+    application:
+    suffix:
+  build:
+    version:
+    commit:
+    imageTag:
+  # Common settings
+  logFormat: stackdriver
+  logLevel: info    # trace, debug, info, warn, error, fatal
+  debug: 'false'
+  repository: ${taito_registry}
+  imagePullPolicy: ''
+
+# Values for server-template chart
+server-template:
+
+  # Ingress
+  ingress:
+    class: nginx
+    tls: true
+    maxBodySize: 1m
+    basicAuth:
+      enabled: true
+      htpasswdSecret:
+    domains:
+
+  # Stack
+  services:
+    admin: true
+    client: true
+    cache: false
+    queue: false
+    server: true
+    storage: true
+    worker: false
+
+  # Defaults
+  serviceDefaults:
+    path:
+    port: 80
+    tier: backend
+    livenessPath: /healthz
+    replicas: 1
+    autoscale: false
+    minReplicas: 2
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 50
+    image: # 3rd party container image
+    env:
+      # Environment variables
+    secrets:
+      # Secrets
+    command:
+      # Command
+
+  # Services
+
+  admin:
+    path: /admin
+    tier: frontend
+
+  client:
+    path: /
+    tier: frontend
+
+  server:
+    path: /api
+    tier: backend
+
+  storage:
+    port: 9000
+    tier: backend
+
+  # TODO configure resources
+  # resources: {}
+    #  cpu: 100m
+    #  memory: 128Mi
+    #requests:
+    #  cpu: 100m
+    #  memory: 128Mi

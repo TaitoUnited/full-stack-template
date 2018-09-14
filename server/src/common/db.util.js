@@ -8,7 +8,7 @@ const pgp = pg({
 const cn = {
   host: config.DATABASE_HOST,
   port: parseInt(config.DATABASE_PORT, 10),
-  database: config.DATABASE_ID,
+  database: config.DATABASE_NAME,
   user: config.DATABASE_USER,
   password: config.DATABASE_PASSWORD,
   poolSize: config.DATABASE_POOL_MAX,

@@ -93,16 +93,14 @@ services:
       NODE_ENV: development # TODO remove?
       ENV: dev # TODO remove?
       DEBUG: 'false' # TODO remove?
-      API_BINDADDR: 0.0.0.0
+      SENTRY_DSN: #sentryDSN
       API_PORT: 3332
-      JWT_SECRET: secret
-      ADMIN_PASSWORD: painipaini
-      USER_PASSWORD: painipaini
+      API_BINDADDR: 0.0.0.0
       DATABASE_HOST: server-template-database
-      DATABASE_ID: server_template_local
-      DATABASE_DB: server_template_local
+      DATABASE_NAME: server_template_local
       DATABASE_USER: server_template_local_app
       DATABASE_PASSWORD: secret
+      DATABASE_POOL_MIN: '1'
       DATABASE_POOL_MAX: '10'
       S3_URL: http://server-template-storage:9000/
       S3_REGION: milkyway
@@ -164,8 +162,7 @@ services:
   #     API_BINDADDR: 0.0.0.0
   #     API_PORT: 3331
   #     DATABASE_HOST: server-template-database
-  #     DATABASE_ID: server_template_local
-  #     DATABASE_DB: server_template_local
+  #     DATABASE_NAME: server_template_local
   #     DATABASE_USER: server_template_local_app
   #     DATABASE_PASSWORD: secret
   #     DATABASE_POOL_MAX: '10'

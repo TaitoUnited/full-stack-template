@@ -8,9 +8,9 @@ const authorize = state => {
   const funcs = {};
 
   funcs.role = (...roles) => {
-    if (!state.role) {
+    if (!state.user || !state.user.role) {
       throw Boom.unauthorized('User not logged in');
-    } else if (!_.includes(roles, state.role)) {
+    } else if (!_.includes(roles, state.user.role)) {
       throw Boom.forbidden('No required role');
     }
     return funcs;

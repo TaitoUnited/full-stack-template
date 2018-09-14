@@ -13,7 +13,6 @@ import {
 } from './infra/logger.middleware';
 import transactionMiddleware from './infra/transaction.middleware';
 import requestMiddleware from './infra/request.middleware';
-import contextMiddleware from './infra/context.middleware';
 import authMiddleware from './infra/auth.middleware';
 import exceptionMiddleware from './infra/exception.middleware';
 import setupSentry from './infra/sentry.setup';
@@ -24,11 +23,10 @@ setupSentry();
 
 // Middlewares
 requestMiddleware(app);
-app.use(contextMiddleware);
+app.use(authMiddleware);
 app.use(setupLoggerMiddleware);
 app.use(loggerMiddleware);
 app.use(exceptionMiddleware);
-authMiddleware(app);
 app.use(transactionMiddleware);
 
 // Routes

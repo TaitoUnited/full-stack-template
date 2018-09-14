@@ -1,0 +1,27 @@
+{{- $root := . -}}
+{{- $defaults := .Values.serviceDefaults -}}
+
+{{- range $serviceName, $serviceEnabled := .Values.services -}}
+{{- if $serviceEnabled -}}
+{{- with (index $root.Values $serviceName) -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "name" $root }}-{{ $serviceName }}
+  labels:
+    app: {{ template "name" $root }}
+    chart: {{ $root.Chart.Name }}-{{ $root.Chart.Version | replace "+" "_" }}
+    release: {{ $root.Release.Name }}
+    heritage: {{ $root.Release.Service }}
+spec:
+  selector:
+    app: {{ template "name" $root }}
+    release: {{ $root.Release.Name }}
+    tier: {{ .tier | default $defaults.tier }}
+    role: {{ $serviceName }}
+  ports:
+    - port: {{ .port | default $defaults.port }}
+---
+{{ end }}
+{{ end }}
+{{ end }}

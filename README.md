@@ -8,7 +8,7 @@ The template comes with an example implementation that is based on React, Node.j
 
 You can create a new project from this template by running `taito template create: server-template`. Later you can upgrade your project to the latest version of the template by running `taito template upgrade`. To ensure flawless upgrade, do not modify files that have a **do-not-modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files of the template instead, and then upgrade.
 
-You can also migrate an existing non-taito-cli project by running `taito template migrate: server-template` in your project root folder.
+You can also migrate an existing non-taito-cli project by running `taito template migrate: server-template` in your project root folder. If, however, you are not going to use docker containers or functions on your production environment, see the [legacy-server-template](https://github.com/TaitoUnited/legacy-server-template) instead.
 
 [//]: # (TEMPLATE NOTE END)
 
@@ -372,11 +372,11 @@ Collaborators & teams:
 
 #### Stack configuration
 
+* Authentication: TODO not implemented (only ingress) -> link to issue
 * Flow/typescript: You can enable `flow` or `typescript` by going through parts that say `NOTE: for flow` or `NOTE: for typescript`. (TODO: implement typescript support)
+* TODO: instructions for setting up multiple server containers for api.
 * Alternative technologies: If you would rather use other technologies than react and node.js, you can copy alternative example implementations from [SERVER-TEMPLATE-alt](https://github.com/TaitoUnited/SERVER-TEMPLATE-alt/).
 * Adding stack components: If you later need to add new stack components (e.g. bot, queue, storage or worker), see [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) for examples.
-
-TODO: instructions for setting up multiple server containers for api.
 
 #### Examples
 

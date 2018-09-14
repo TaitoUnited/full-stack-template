@@ -2,7 +2,6 @@ import Raven from 'raven';
 import config from '../common/config';
 
 const setupSentry = () => {
-  /* eslint-disable max-len */
   if (
     process.env.COMMON_ENV !== 'local' &&
     process.env.APP_SENTRY_DSN &&
@@ -14,7 +13,6 @@ const setupSentry = () => {
       environment: process.env.COMMON_ENV,
     }).install();
   }
-  /* eslint-enable max-len */
 };
 
 export default setupSentry;

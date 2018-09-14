@@ -1,6 +1,5 @@
 mnt
 taito-run-env.sh
-scripts/helm/charts
 node_modules
 site-packages
 tmp

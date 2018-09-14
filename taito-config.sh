@@ -185,7 +185,7 @@ export link_urls="\
 
 # Secrets
 # NOTE: github-buildbot and db-mgr secrets are used by devops tools only.
-# Therefore they are located in devops namespace.
+# Therefore they are located in devops namespace only.
 export taito_secrets_version="2"
 export taito_secrets="
   github-buildbot.token:read/devops
@@ -195,9 +195,6 @@ export taito_secrets="
   ${taito_project}-${taito_env}-basic-auth.auth:htpasswd
   ${taito_project}-${taito_env}-storage-gateway.secret:random
   ${taito_project}-${taito_env}-gserviceaccount.key:file
-  ${taito_project}-${taito_env}-jwt.secret:random
-  ${taito_project}-${taito_env}-admin.password:manual
-  ${taito_project}-${taito_env}-user.password:manual
 "
 
 # Test suite parameters
@@ -205,7 +202,7 @@ export taito_secrets="
 export test_server_TEST_API_URL="https://user:painipaini@${taito_domain}/api"
 export test_server_DATABASE_HOST="${taito_project}-database-test-proxy"
 export test_server_DATABASE_PORT="5432"
-export test_server_DATABASE_ID="${db_database_name}"
+export test_server_DATABASE_NAME="${db_database_name}"
 export test_server_DATABASE_USER="${db_database_name}_app"
 # TODO support all environments by reading this from secrets
 # --> secret naming must be refactored first so that we can easily reference env var here

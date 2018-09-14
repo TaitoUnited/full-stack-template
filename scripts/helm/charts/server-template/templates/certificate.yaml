@@ -13,7 +13,7 @@ spec:
     name: common-letsencrypt-issuer
     kind: ClusterIssuer
   dnsNames:
-    {{- range $domain := .Values.domains }}
+    {{- range $domain := .Values.ingress.domains }}
     - {{ $domain }}
     {{- end }}
   acme:
@@ -21,6 +21,6 @@ spec:
     - http01:
         ingressClass: nginx
       domains:
-        {{- range $domain := .Values.domains }}
+        {{- range $domain := .Values.ingress.domains }}
         - {{ $domain }}
         {{- end }}

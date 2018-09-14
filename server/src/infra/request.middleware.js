@@ -4,10 +4,6 @@ import koaConvert from 'koa-convert';
 import koaBodyParser from 'koa-bodyparser';
 
 const requestMiddleware = app => {
-  // Use Cors
-  // TODO enable only if origin is in the list of allowed domains (env vars)
-  // app.use(cors());
-
   // Disable HTTP-cache
   app.use(
     koaCacheControl({

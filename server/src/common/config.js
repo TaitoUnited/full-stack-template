@@ -20,16 +20,6 @@ config.APP_VERSION = !process.env.BUILD_IMAGE_TAG
 config.API_PORT = process.env.API_PORT;
 config.API_BINDADDR = process.env.API_BINDADDR;
 
-// Secrets
-config.JWT_SECRET = process.env.JWT_SECRET;
-// NOTE: Use environment variable passwords only for a simple
-// 'shared username and password' use case. Passwords of real users should
-// always be hashed, salted and stored elsewhere
-config.passwords = {
-  admin: process.env.ADMIN_PASSWORD,
-  user: process.env.USER_PASSWORD,
-};
-
 // Cache
 config.CACHE_HOST = 'cache'; // process.env.CACHE_HOST;
 config.CACHE_PORT = process.env.CACHE_PORT;
@@ -37,7 +27,7 @@ config.CACHE_PORT = process.env.CACHE_PORT;
 // Database
 config.DATABASE_HOST = process.env.DATABASE_HOST;
 config.DATABASE_PORT = process.env.DATABASE_PORT;
-config.DATABASE_ID = process.env.DATABASE_ID;
+config.DATABASE_NAME = process.env.DATABASE_NAME;
 config.DATABASE_USER = process.env.DATABASE_USER;
 config.DATABASE_PASSWORD = process.env.DATABASE_PASSWORD;
 config.DATABASE_POOL_MAX = process.env.DATABASE_POOL_MAX
