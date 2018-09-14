@@ -3,7 +3,7 @@ import config from '../common/config';
 
 export default class InfraRoute extends BaseRoute {
   constructor(router) {
-    super(router, '/infra');
+    super(router, '/');
   }
 
   routes() {

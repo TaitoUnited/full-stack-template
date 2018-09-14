@@ -210,7 +210,7 @@ export test_server_DATABASE_PASSWORD="P8JH4m33RQshznTkTNxvQgFO9BWpkg"
 
 if [[ "${taito_env}" == "local" ]]; then
   # On local env we use api running on this container
-  export test_server_TEST_API_URL="http://localhost:3332"
+  export test_server_TEST_API_URL="http://localhost:8081"
   # ...and connect to database running on another container
   export test_server_DATABASE_HOST="${taito_project}-database"
   export test_server_DATABASE_PASSWORD="secret"

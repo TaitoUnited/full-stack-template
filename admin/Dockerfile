@@ -12,5 +12,5 @@ ENV NODE_ENV development
 RUN npm install --loglevel warn
 RUN npm run types-install
 COPY . /admin
-EXPOSE 3334
+EXPOSE 8081
 CMD npm install; npm run types-install; npm run start

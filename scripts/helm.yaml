@@ -30,8 +30,7 @@ server-template:
   # Defaults
   serviceDefaults:
     path:
-    port: 80
-    tier: backend
+    port: 8081
     livenessPath: /healthz
     replicas: ${kubectl_replicas}
     autoscale: false
@@ -50,18 +49,15 @@ server-template:
 
   admin:
     path: /admin
-    port: 3334
     tier: frontend
 
   client:
     path: /
-    port: 3333
     tier: frontend
 
   server:
     path: /api
-    port: 3332
-    livenessPath: /infra/healthz
+    tier: backend
     db:
       instance: ${taito_zone}:${taito_provider_region}:${db_database_instance}
       port: 5432
@@ -76,7 +72,7 @@ server-template:
       ENV: production
       DEBUG: false
       SENTRY_DSN: #sentryDSN
-      API_PORT: '3332'
+      API_PORT: '8081'
       API_BINDADDR: '0.0.0.0'
       DATABASE_HOST: '127.0.0.1'
       DATABASE_PORT: '5432'
@@ -91,6 +87,7 @@ server-template:
 
   storage:
     port: 9000
+    tier: backend
     livenessDisabled: true # TODO remove
     image: minio/minio
     host: storage

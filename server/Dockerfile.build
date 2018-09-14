@@ -41,6 +41,6 @@ RUN npm prune --production && \
     su node -s /bin/sh -c "node --version"
 
 USER node
-EXPOSE 3332
+EXPOSE 8081
 # TODO dump-init or tiny as init system? Kubernetes uses --init?
 CMD ["node", "./index.production.js"]

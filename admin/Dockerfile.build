@@ -38,5 +38,5 @@ RUN touch /var/run/nginx.pid && \
     mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 COPY ./config/nginx.conf /etc/nginx
 USER nginx
-EXPOSE 3334
+EXPOSE 8081
 # TODO dump-init or tiny as init system? Kubernetes uses --init?

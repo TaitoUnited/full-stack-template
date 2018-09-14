@@ -40,18 +40,18 @@ server-template:
 
   # Stack
   services:
-    admin: true
-    client: true
+    admin: false
+    client: false
     cache: false
     queue: false
-    server: true
-    storage: true
+    server: false
+    storage: false
     worker: false
 
   # Defaults
   serviceDefaults:
     path:
-    port: 80
+    port: 8081
     tier: backend
     livenessPath: /healthz
     replicas: 1
@@ -66,24 +66,6 @@ server-template:
       # Secrets
     command:
       # Command
-
-  # Services
-
-  admin:
-    path: /admin
-    tier: frontend
-
-  client:
-    path: /
-    tier: frontend
-
-  server:
-    path: /api
-    tier: backend
-
-  storage:
-    port: 9000
-    tier: backend
 
   # TODO configure resources
   # resources: {}

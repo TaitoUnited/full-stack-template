@@ -13,5 +13,5 @@ COPY ./package.json ./package-lock.* ./.flowconfi* /server/
 RUN npm install --loglevel warn
 RUN npm run types-install
 COPY . /server
-EXPOSE 3332
+EXPOSE 8081
 CMD npm install; npm run types-install; npm run start
