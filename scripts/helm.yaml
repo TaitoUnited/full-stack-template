@@ -1,7 +1,6 @@
 global:
   logFormat: stackdriver
   logLevel: info    # trace, debug, info, warn, error, fatal
-  debug: 'false'
   repository: ${taito_registry}
   imagePullPolicy: ''
 
@@ -68,7 +67,6 @@ server-template:
       S3_KEY_SECRET: ${taito_project}-${taito_env}-storage-gateway.secret
       DATABASE_PASSWORD: ${taito_project}-${taito_env}-db-app.password
     env:
-      # TODO remove ENV or set it automatically?
       ENV: production
       DEBUG: false
       SENTRY_DSN: #sentryDSN

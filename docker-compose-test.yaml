@@ -24,6 +24,7 @@ services:
     image: taitounited/taito-cli:latest
     restart: unless-stopped
     entrypoint: /bin/sh -c "cd /project && taito db-proxy:${taito_env} 5432"
+    user: taito
     networks:
       - test
     ports:

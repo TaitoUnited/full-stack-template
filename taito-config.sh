@@ -164,7 +164,7 @@ export kubectl_user="${kubectl_cluster}"
 export link_urls="\
   * app[:ENV]#app=${taito_app_url} Application (:ENV) \
   * admin[:ENV]#admin=${taito_admin_url} Admin user interface (:ENV) \
-  * api[:ENV]#app=${taito_app_url}/api/infra/uptimez API (:ENV) \
+  * api[:ENV]#app=${taito_app_url}/api/uptimez API (:ENV) \
   * docs=https://github.com/${taito_organization}/${taito_repo_name}/wiki Project documentation \
   * git=https://github.com/${taito_organization}/${taito_repo_name} GitHub repository \
   * kanban=https://github.com/${taito_organization}/${taito_repo_name}/projects Kanban boards \
@@ -192,7 +192,7 @@ export taito_secrets="
   cloudsql-gserviceaccount.key:copy/devops
   ${db_database_name}-db-mgr.password/devops:random
   ${db_database_name}-db-app.password:random
-  ${taito_project}-${taito_env}-basic-auth.auth:htpasswd
+  ${taito_project}-${taito_env}-basic-auth.auth:htpasswd-plain
   ${taito_project}-${taito_env}-storage-gateway.secret:random
   ${taito_project}-${taito_env}-gserviceaccount.key:file
 "

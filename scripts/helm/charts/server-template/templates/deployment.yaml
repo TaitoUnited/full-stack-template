@@ -4,10 +4,10 @@
 {{- $provider := .Values.global.zone.provider -}}
 {{- $defaults := .Values.serviceDefaults -}}
 
-{{- range $serviceName, $serviceEnabled := .Values.services -}}
-{{- if $serviceEnabled -}}
-{{- with (index $root.Values $serviceName) -}}
-{{ if .autoscale }}
+{{- range $serviceName, $serviceEnabled := .Values.services }}
+{{- if $serviceEnabled }}
+{{- with (index $root.Values $serviceName) }}
+{{- if .autoscale }}
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
@@ -19,15 +19,15 @@ metadata:
     heritage: {{ $root.Release.Service }}
 spec:
   scaleTargetRef:
-    apiVersion: extensions/v1beta1
+    apiVersion: apps/v1
     kind: Deployment
     name: {{ template "name" $root }}-{{ $serviceName }}
   minReplicas: {{ .minReplicas | default $defaults.minReplicas }}
   maxReplicas: {{ .maxReplicas | default $defaults.maxReplicas }}
   targetCPUUtilizationPercentage: {{ .targetCPUUtilizationPercentage | default $defaults.targetCPUUtilizationPercentage }}
 ---
-{{ end }}
-apiVersion: extensions/v1beta1
+{{- end }}
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "name" $root }}-{{ $serviceName }}
@@ -38,6 +38,12 @@ metadata:
     heritage: {{ $root.Release.Service }}
 spec:
   replicas: {{ .replicas | default $defaults.replicas }}
+  selector:
+    matchLabels:
+      app: {{ template "name" $root }}
+      release: {{ $root.Release.Name }}
+      tier: {{ .tier | default $defaults.tier }}
+      role: {{ $serviceName }}
   template:
     metadata:
       labels:
@@ -50,18 +56,16 @@ spec:
         - name: {{ template "name" $root }}-{{ $serviceName }}
           {{- if .image }}
           image: {{ .image }}
-          {{ else }}
+          {{- else }}
           image: {{ $global.repository -}} / {{- $serviceName -}} : {{- $global.build.imageTag }}
-          {{ end -}}
+          {{- end }}
           imagePullPolicy: {{ $root.Values.imagePullPolicy | quote }}
-
           {{- if .command }}
           command:
             {{- range .command }}
             - {{ . }}
             {{- end }}
           {{- end }}
-
           ports:
             - containerPort: {{ .port | default $defaults.port }}
           {{- if not .livenessDisabled }}
@@ -79,10 +83,10 @@ spec:
               configMapRef:
                 name: {{ template "name" $root }}-common
           env:
-            {{ if and (.serviceAccount) (eq $provider "gcloud") }}
+            {{- if and (.serviceAccount) (eq $provider "gcloud") }}
             - name: GOOGLE_APPLICATION_CREDENTIALS
               value: /serviceaccount/{{ regexFind "[a-zA-Z]*$" .serviceAccount.secret }}
-            {{ end }}
+            {{- end }}
             {{- range $name, $value := .env }}
             - name: {{ $name }}
               value: {{ $value | quote }}
@@ -94,15 +98,13 @@ spec:
                   name: {{ regexReplaceAll "\\.[a-zA-Z]*$" $value "" }}
                   key: {{ regexFind "[a-zA-Z]*$" $value }}
             {{- end }}
-
           volumeMounts:
-          {{ if and (.serviceAccount) (eq $provider "gcloud") }}
+          {{- if and (.serviceAccount) (eq $provider "gcloud") }}
             - name: serviceaccount
               mountPath: /serviceaccount
               readOnly: true
-          {{ end }}
-
-        {{ if and (.db) (ne $env "local") (eq $provider "gcloud") }}
+          {{- end }}
+        {{- if and (.db) (ne $env "local") (eq $provider "gcloud") }}
         - name: cloudsql-proxy
           image: gcr.io/cloudsql-docker/gce-proxy:1.11
           command:
@@ -119,10 +121,9 @@ spec:
               mountPath: /etc/ssl/certs
             - name: cloudsql
               mountPath: /cloudsql
-        {{ end }}
-
+        {{- end }}
       volumes:
-        {{ if and (.db) (ne $env "local") (eq $provider "gcloud") }}
+        {{- if and (.db) (ne $env "local") (eq $provider "gcloud") }}
         - name: cloudsql-instance-credentials
           secret:
             secretName: {{ regexReplaceAll "\\.[a-zA-Z]*$" .db.proxySecret "" }}
@@ -131,14 +132,13 @@ spec:
             path: /etc/ssl/certs
         - name: cloudsql
           emptyDir:
-        {{ end }}
-
-        {{ if and (.serviceAccount) (eq $provider "gcloud") }}
+        {{- end }}
+        {{- if and (.serviceAccount) (eq $provider "gcloud") }}
         - name: serviceaccount
           secret:
             secretName: {{ regexReplaceAll "\\.[a-zA-Z]*$" .serviceAccount.secret "" }}
-        {{ end }}
+        {{- end }}
 ---
-{{ end }}
-{{ end }}
-{{ end }}
+{{- end }}
+{{- end }}
+{{- end }}

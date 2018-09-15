@@ -26,17 +26,17 @@ describe('infra', function infra() {
       expect(true).to.equal(true);
     });
 
-    it('GET /infra/config', async () => {
-      await request.get('/infra/config');
+    it('GET /config', async () => {
+      await request.get('/config');
     });
 
-    it('GET /infra/uptimez', async () => {
-      const response = await request.get('/infra/uptimez');
+    it('GET /uptimez', async () => {
+      const response = await request.get('/uptimez');
       expect(response.status).to.equal('OK');
     });
 
-    it('GET /infra/healthz', async () => {
-      const response = await request.get('/infra/healthz');
+    it('GET /healthz', async () => {
+      const response = await request.get('/healthz');
       expect(response.status).to.equal('OK');
     });
   });

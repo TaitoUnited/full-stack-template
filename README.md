@@ -28,7 +28,7 @@ Table of contents:
 
 ## Links
 
-Non-production basic auth credentials: `user` / `painipaini`
+Non-production basic auth credentials: TODO
 
 [//]: # (GENERATED LINKS START)
 
@@ -372,19 +372,24 @@ Collaborators & teams:
 
 #### Stack configuration
 
-* Authentication: TODO not implemented (only ingress) -> link to issue
-* Flow/typescript: You can enable `flow` or `typescript` by going through parts that say `NOTE: for flow` or `NOTE: for typescript`. (TODO: implement typescript support)
-* TODO: instructions for setting up multiple server containers for api.
-* Alternative technologies: If you would rather use other technologies than react and node.js, you can copy alternative example implementations from [SERVER-TEMPLATE-alt](https://github.com/TaitoUnited/SERVER-TEMPLATE-alt/).
-* Adding stack components: If you later need to add new stack components (e.g. bot, queue, storage or worker), see [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) for examples.
+* **Authentication:** Authentication has not yet been implemented (see [issue](https://github.com/TaitoUnited/server-template/issues/11)). Currently ingress does provide basic authentation, but it is only meant for hiding non-production environments.
+* **Flow/typescript:** You can enable flow or typescript by going through parts with `NOTE: for flow` or `NOTE: for typescript` note. (TODO: implement typescript support)
+* **Alternative technologies:** If you would rather use other technologies than react and node.js, you can copy alternative example implementations from [SERVER-TEMPLATE-alt](https://github.com/TaitoUnited/SERVER-TEMPLATE-alt/).
+
+The template supports unlimited number of (micro-)services. You can add new services like this:
+
+1. Create a new directory for your service. Look [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) and [SERVER-TEMPLATE-alt](https://github.com/TaitoUnited/SERVER-TEMPLATE-alt/) for examples.
+2. Add the service to `taito_targets` variable in `taito-config.sh`
+3. Add the service to `docker-compose.yaml` and check that it works ok in local development environment.
+4. Add the service to `scripts/helm.yaml`.
 
 #### Examples
 
-> To see the examples, start your local development environment: [quick start](#quick-start)
+> To see the examples, start your local development environment first (see [quick start](#quick-start))
 
-The project template comes with a bunch of implementation examples. Browse the examples through, leave the ones that seem useful and delete all the rest. You can use the `taito check deps` command to prune unused dependencies. NOTE: Many of the `devDependencies` and `~` references are actually in use even if reported unused by the tool. But all unused `dependencies` may usually be removed from package.json.
+The project template comes with a bunch of implementation examples. Browse the examples through, leave the ones that seem useful and remove all the rest. You can use the `taito check deps` command to prune unused dependencies. NOTE: Many of the `devDependencies` and `~` references are actually in use even if reported unused by the tool. But all unused `dependencies` may usually be removed from package.json.
 
-The client GUI uses the [Material-UI](https://material-ui-next.com/) component library by default. It's a good match with the [react-admin](https://github.com/marmelab/react-admin) GUI, but please consider also other alternatives based on customer requirements. For example [Elemental](http://elemental-ui.com/) is a good alternative.
+The client GUI uses [Material-UI](https://material-ui-next.com/) component library by default. It's a good match with the [react-admin](https://github.com/marmelab/react-admin) GUI, but please consider also other alternatives based on customer requirements. For example [Elemental](http://elemental-ui.com/) is a good alternative.
 
 ### Configuration for server environments
 
@@ -395,19 +400,15 @@ Done:
 
 #### Basic settings
 
-1. Configure `taito-config.sh` if you need to change some settings. The default settings are ok for most projects.
+1. Modify `taito-config.sh` if you need to change some settings. The default settings are ok for most projects.
 2. Run `taito project apply`
 3. Commit and push changes
 
 #### Environments
 
-Define environments with the `taito_environments` setting in `taito-config.sh`, and run `taito env apply:ENV` to create an environment (`feat`, `dev`, `test`, `stag` or `prod`).
+Define environments with the `taito_environments` setting in `taito-config.sh`. You can create an environment by running `taito env apply:ENV`. Examples for environment names: `feat-orders`, `dev`, `test`, `stag`, `canary`, `prod`.
 
-If basic auth is used only for hiding non-production environments, use the same credentials for all environments and write them down to the beginning of this `README.md` file and to the `show-basic-auth` script of `package.json`:
-
-```
-"show-basic-auth": "echo Temporary basic auth username/password: ...",
-```
+If basic auth is used only for hiding non-production environments, you can use the same credentials for all environments. You should also write them down to the [Links](#links) section so that all project personnel can easily access the credentials.
 
 NOTE: You should remove unnecessary examples from database migrations (`./database`) and secrets (`taito-config.sh`) before creating the first server environment.
 

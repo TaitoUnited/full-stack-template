@@ -1,8 +1,8 @@
 # https://kubernetes.io/docs/tasks/administer-cluster/cpu-memory-limit/
 # https://k8s.io/docs/tasks/configure-pod-container/limits.yaml
 
-# TODO values
-# TODO affects the whole namespace. how to deploy?
+# TODO
+# NOTE: affects the whole namespace
 # apiVersion: v1
 # kind: LimitRange
 # metadata:

@@ -3,7 +3,7 @@ import config from '../common/config';
 
 export default class InfraRoute extends BaseRoute {
   constructor(router) {
-    super(router, '/');
+    super(router, '');
   }
 
   routes() {
@@ -27,7 +27,7 @@ export default class InfraRoute extends BaseRoute {
       next();
     });
 
-    // Polled by Kubernetes to check that container is alive
+    // Polled by Kubernetes to check that the container is alive
     this.router.get('/healthz', async (ctx, next) => {
       ctx.body = {
         status: 'OK',

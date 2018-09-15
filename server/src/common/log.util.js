@@ -56,10 +56,10 @@ class StackdriverStream {
       latency: e.latency,
     };
 
-    // Avoid unnecessary log by not logging /infra/healthz calls
+    // Avoid unnecessary log by not logging /healthz calls
     if (
-      formatted.message !== 'Request: GET /infra/healthz' &&
-      formatted.message !== 'Response: GET /infra/healthz'
+      formatted.message !== 'Request: GET /healthz' &&
+      formatted.message !== 'Response: GET /healthz'
     ) {
       this.stream.write(JSON.stringify(formatted));
       this.stream.write('\n');

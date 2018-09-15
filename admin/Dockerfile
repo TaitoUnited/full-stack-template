@@ -9,6 +9,8 @@ RUN apk --no-cache add ca-certificates wget && \
 WORKDIR /admin
 COPY ./package.json ./package-lock.* ./.flowconfi* /admin/
 ENV NODE_ENV development
+ENV API_ROOT ''
+ENV API_URL '/api'
 RUN npm install --loglevel warn
 RUN npm run types-install
 COPY . /admin

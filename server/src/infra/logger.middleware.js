@@ -1,7 +1,7 @@
 import uuid from 'uuid';
 import { log, namespace } from '../common/log.util';
 
-export const setupLoggerMiddleware = async (ctx, next) => {
+export const loggerMiddleware = async (ctx, next) => {
   // Wrap request in CLS for logging context etc.
   const context = namespace.createContext();
 
@@ -40,7 +40,7 @@ export const setupLoggerMiddleware = async (ctx, next) => {
   namespace.exit(context);
 };
 
-export const loggerMiddleware = async (ctx, next) => {
+export const latencyLoggerMiddleware = async (ctx, next) => {
   // Time how long request handling takes.
   const start = new Date();
   await next();
@@ -50,7 +50,7 @@ export const loggerMiddleware = async (ctx, next) => {
   log.info({ res: ctx.res, latency: ms }, `Response: ${ctx.method} ${ctx.url}`);
 };
 
-export const logTODO = app => {
+export const errorLoggerMiddleware = app => {
   app.on('error', (err, ctx) => {
     // TODO why bunyan logs the error twice?
     log.error(

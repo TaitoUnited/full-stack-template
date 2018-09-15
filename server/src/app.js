@@ -8,8 +8,8 @@ import routes from './routes';
 
 import {
   loggerMiddleware,
-  setupLoggerMiddleware,
-  logTODO,
+  latencyLoggerMiddleware,
+  errorLoggerMiddleware,
 } from './infra/logger.middleware';
 import transactionMiddleware from './infra/transaction.middleware';
 import requestMiddleware from './infra/request.middleware';
@@ -17,15 +17,15 @@ import authMiddleware from './infra/auth.middleware';
 import exceptionMiddleware from './infra/exception.middleware';
 import setupSentry from './infra/sentry.setup';
 
-// Setup
+// Init app
 const app = new Koa();
 setupSentry();
 
 // Middlewares
 requestMiddleware(app);
-app.use(authMiddleware);
-app.use(setupLoggerMiddleware);
 app.use(loggerMiddleware);
+app.use(latencyLoggerMiddleware);
+app.use(authMiddleware);
 app.use(exceptionMiddleware);
 app.use(transactionMiddleware);
 
@@ -41,7 +41,8 @@ app.use(
   })
 );
 
-logTODO(app);
+// More middlewares
+errorLoggerMiddleware(app);
 
 // Start the server.
 app.listen(config.API_PORT, config.API_BINDADDR, () =>

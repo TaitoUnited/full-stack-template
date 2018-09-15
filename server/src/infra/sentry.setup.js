@@ -3,7 +3,7 @@ import config from '../common/config';
 
 const setupSentry = () => {
   if (
-    process.env.COMMON_ENV !== 'local' &&
+    process.env.NODE_ENV !== 'development' &&
     process.env.APP_SENTRY_DSN &&
     process.env.APP_SENTRY_DSN.startsWith('https')
   ) {

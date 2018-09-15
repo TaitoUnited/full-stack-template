@@ -1,9 +1,9 @@
 {{- $root := . -}}
 {{- $defaults := .Values.serviceDefaults -}}
 
-{{- range $serviceName, $serviceEnabled := .Values.services -}}
-{{- if $serviceEnabled -}}
-{{- with (index $root.Values $serviceName) -}}
+{{- range $serviceName, $serviceEnabled := .Values.services }}
+{{- if $serviceEnabled }}
+{{- with (index $root.Values $serviceName) }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -22,6 +22,6 @@ spec:
   ports:
     - port: {{ .port | default $defaults.port }}
 ---
-{{ end }}
-{{ end }}
-{{ end }}
+{{- end }}
+{{- end }}
+{{- end }}

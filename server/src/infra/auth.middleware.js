@@ -1,10 +1,25 @@
+import { mergeToLogCtx } from '../common/log.util';
+
 const authMiddleware = async (ctx, next) => {
-  // NOTE: Using hard-coded role (no auth implemented).
-  ctx.state = {
-    user: {
-      role: 'admin',
-    },
+  // Determine user details
+  // NOTE: Using hard-coded user (no auth implemented).
+  const user = {
+    id: '1234-1234-1234-1234',
+    role: 'admin',
   };
+
+  // Add user to state
+  ctx.state.user = user;
+
+  // Log minimal user details
+  // NOTE: Do not log any personally identifiable information
+  mergeToLogCtx({
+    user: {
+      id: user.id,
+      role: user.role,
+    },
+  });
+
   await next();
 };
 

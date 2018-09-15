@@ -27,17 +27,11 @@ services:
       - "./admin:/admin"
       - "/admin/node_modules"
       - "/admin/flow-typed/npm"
-    environment:
-      COMMON_ENV: local
-      NODE_ENV: development
-      API_ROOT: ''
-      API_URL: '/api'
-      # NOTE: Remember that environment variables given to webpack are used only
-      # during build. You should not put any environment specific variables here
-      # because the same build artifacts (static files) will be used in
-      # multiple environments (dev, test, stag, prod). Read environment
-      # specific settings from the API. You can usually derive api location from
-      # the browser url of the GUI.
+    # NOTE: You should not put any environment specific variables here
+    # because they affect only during build time and the same build artifacts
+    # (static files) will be used in multiple environments (feat, dev, test,
+    # stag, canary, prod). Read environment specific settings from the API.
+    # You can usually derive api location from the browser url of the GUI.
   # admin end
 
   # client start
@@ -55,17 +49,11 @@ services:
       - "./client:/client"
       - "/client/node_modules"
       - "/client/flow-typed/npm"
-    environment:
-      COMMON_ENV: local
-      NODE_ENV: development
-      API_ROOT: ''
-      API_URL: '/api'
-      # NOTE: Remember that environment variables given to webpack are used only
-      # during build. You should not put any environment specific variables here
-      # because the same build artifacts (static files) will be used in
-      # multiple environments (dev, test, stag, prod). Read environment
-      # specific settings from the API. You can usually derive api location from
-      # the browser url of the GUI.
+    # NOTE: You should not put any environment specific variables here
+    # because they affect only during build time and the same build artifacts
+    # (static files) will be used in multiple environments (feat, dev, test,
+    # stag, canary, prod). Read environment specific settings from the API.
+    # You can usually derive api location from the browser url of the GUI.
   # client end
 
   # server start
@@ -86,13 +74,11 @@ services:
     environment:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
-      COMMON_ENV: local
       COMMON_DEBUG: 'false'
       COMMON_LOG_FORMAT: text
       COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
-      NODE_ENV: development # TODO remove?
-      ENV: dev # TODO remove?
-      DEBUG: 'false' # TODO remove?
+      ENV: local
+      DEBUG: 'false'
       SENTRY_DSN: #sentryDSN
       API_PORT: 8081
       API_BINDADDR: 0.0.0.0
@@ -107,6 +93,7 @@ services:
       S3_BUCKET: bucket
       S3_KEY_ID: 070UEOQR6LX4YPZLFU0V
       S3_KEY_SECRET: CVQVa33NekSiOJGnevSY5ITr8Rql8lFkp22WhLQ+
+      # USER_PASSWORD: password-example # SHOW ON INFO
   # server end
 
   # worker start
@@ -125,12 +112,10 @@ services:
   #     - "/worker/node_modules"
   #     - "/worker/flow-typed/npm"
   #   environment:
-  #     COMMON_ENV: local
   #     COMMON_DEBUG: 'true'
   #     COMMON_PROJECT: server-template
   #     COMMON_COMPANY: companyname
-  #     NODE_ENV: development
-  #     ENV: dev # TODO remove?
+  #     ENV: local
   #     DEBUG: 'false'
   #     API_BINDADDR: 0.0.0.0
   #     API_PORT: 8081

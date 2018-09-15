@@ -1,10 +1,9 @@
+// NOTE: remove this example
 export const examplesById = {
   example1: {
-    en: 'exaple1',
+    en: 'example1',
   },
   example2: {
-    en: 'exaple2',
+    en: 'example2',
   },
 };
-
-export const examplesById2 = {};

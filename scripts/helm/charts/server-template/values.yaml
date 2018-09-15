@@ -21,7 +21,6 @@ global:
   # Common settings
   logFormat: stackdriver
   logLevel: info    # trace, debug, info, warn, error, fatal
-  debug: 'false'
   repository: ${taito_registry}
   imagePullPolicy: ''
 

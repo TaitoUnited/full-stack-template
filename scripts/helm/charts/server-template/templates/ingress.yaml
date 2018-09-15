@@ -18,37 +18,37 @@ metadata:
     ingress.kubernetes.io/auth-type: "basic"
     ingress.kubernetes.io/auth-realm: {{ template "name" . }}
     ingress.kubernetes.io/auth-secret: {{ .Values.ingress.basicAuth.htpasswdSecret }}
-    {{- end -}}
-    {{ if .Values.ingress.tls }}
+    {{- end }}
+    {{- if .Values.ingress.tls }}
     kubernetes.io/tls-acme: "true"
     ingress.kubernetes.io/ssl-redirect: "true"
     ingress.kubernetes.io/force-ssl-redirect: "true"
-    {{ end }}
+    {{- end }}
     # NOTE: see https://github.com/kubernetes/ingress/blob/master/controllers/nginx/configuration.md
     # TODO ingress.kubernetes.io/limit-connections
     # TODO ingress.kubernetes.io/limit-rps
 spec:
-  {{ if .Values.ingress.tls }}
+  {{- if .Values.ingress.tls }}
   tls:
   {{- range $domain := .Values.ingress.domains }}
   - hosts:
     - {{ $domain }}
     secretName: {{ template "fullname" $root }}-ssl
-  {{- end -}}
-  {{ end }}
+  {{- end }}
+  {{- end }}
   rules:
     {{- range $domain := .Values.ingress.domains }}
     - host: {{ $domain }}
       http:
         paths:
-          {{- range $serviceName, $serviceEnabled := $root.Values.services -}}
-          {{- with (index $root.Values $serviceName) -}}
+          {{- range $serviceName, $serviceEnabled := $root.Values.services }}
+          {{- with (index $root.Values $serviceName) }}
           {{- if and $serviceEnabled .path }}
           - path: {{ .path | default $defaults.path | quote }}
             backend:
               serviceName: {{ template "name" $root }}-{{ $serviceName }}
               servicePort: {{ .port | default $defaults.port }}
           {{- end }}
-          {{- end -}}
-          {{- end -}}
-    {{- end -}}
+          {{- end }}
+          {{- end }}
+    {{- end }}

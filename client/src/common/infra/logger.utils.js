@@ -19,12 +19,12 @@ const logger = {
 
 // Setup Sentry
 if (
-  process.env.COMMON_ENV !== 'local'
+  process.env.NODE_ENV !== 'development'
   && process.env.APP_SENTRY_PUBLIC_DSN
   && process.env.APP_SENTRY_PUBLIC_DSN.startsWith('https')
 ) {
   // Determine env from hostname
-  const envs = ['local', 'feat', 'dev', 'test', 'stag', 'prod'];
+  const envs = ['local', 'feat', 'dev', 'test', 'stag', 'canary', 'prod'];
   const subdomainSplit = window.location.hostname.split('.')[0].split('-');
   const envSuffix = subdomainSplit[subdomainSplit.length - 1];
   const currentEnv = envs.includes(envSuffix) ? envSuffix : 'prod';

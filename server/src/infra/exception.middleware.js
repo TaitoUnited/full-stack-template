@@ -25,11 +25,6 @@ const exceptionMiddleware = async (ctx, next) => {
     // Create response
     ctx.status = error.status;
     ctx.body = { error };
-    if (err.status === 401 && ctx.myAppAuthMethod === 'basic') {
-      // Ask client to use basic auth
-      ctx.set('WWW-Authenticate', 'Basic');
-    }
-
     if (error.status >= 500) {
       // Unexpected error: emit the original error so that it will be logged
       // as error
