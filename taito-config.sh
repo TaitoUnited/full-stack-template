@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Taito-cli
+export taito_version="1"
 export taito_image="taitounited/taito-cli:latest"
 export taito_extensions=""
 export taito_plugins=" \
@@ -24,13 +25,14 @@ export taito_application="template"
 export taito_suffix=""
 
 # Provider and namespaces
+export taito_env="${taito_env/canary/prod}" # Canary points to prod
 export taito_provider="${template_default_provider:?}" # aws, azure, gcloud, ...
 export taito_provider_region="${template_default_provider_region:?}"
 export taito_provider_zone="${template_default_provider_zone:?}"
 export taito_zone="${template_default_zone:?}" # kube/postgres cluster project
 export taito_namespace="${taito_project}-${taito_env:?}" # kubernetes namespace
 export taito_resource_namespace="${taito_company}-dev" # additional resources project
-export taito_environments="dev prod"
+export taito_environments="dev canary prod"
 
 # Repositories
 # TODO change taito_repo and taito_registry naming, add also repo url?
@@ -60,7 +62,7 @@ export db_database_proxy_port="5001"
 export db_database_port="${db_database_proxy_port}"
 
 # URLs
-export taito_domain="${taito_project}-${taito_env:?}.${template_default_domain:?}"
+export taito_domain="${taito_project}-${taito_target_env:?}.${template_default_domain:?}"
 export taito_app_url="https://${taito_domain}"
 
 # Docker plugin
@@ -107,7 +109,7 @@ case "${taito_env}" in
     export gcloud_org_id="${template_default_provider_org_id_prod:?}"
 
     # NOTE: Set production domain here
-    export taito_domain="${taito_project}-${taito_env:?}.${template_default_domain_prod:?}"
+    export taito_domain="${taito_project}-${taito_target_env:?}.${template_default_domain_prod:?}"
     export taito_app_url="https://${taito_domain}"
     export kubectl_replicas="2"
     ;;
@@ -175,7 +177,7 @@ export link_urls="\
   * artifacts=https://TODO-DOCS-AND-TEST-REPORTS Generated documentation and test reports \
   * storage:ENV#storage=https://console.cloud.google.com/storage/browser/${taito_project}-${taito_env}?project=${taito_resource_namespace_id} Storage bucket (:ENV) \
   * logs:ENV#logs=https://console.cloud.google.com/logs/viewer?project=${taito_zone}&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F${kubectl_name}%2Fnamespace_id%2F${taito_namespace} Logs (:ENV) \
-  * errors:ENV#errors=https://sentry.io/${taito_organization}/${taito_project}/?query=is%3Aunresolved+environment%3A${taito_env} Sentry errors (:ENV) \
+  * errors:ENV#errors=https://sentry.io/${taito_organization}/${taito_project}/?query=is%3Aunresolved+environment%3A${taito_target_env} Sentry errors (:ENV) \
   * uptime=https://app.google.stackdriver.com/uptime?project=${taito_zone} Uptime monitoring (Stackdriver) \
   * styleguide=https://TODO UI/UX style guide and designs \
   * wireframes=https://TODO UI/UX wireframes \
@@ -186,7 +188,6 @@ export link_urls="\
 # Secrets
 # NOTE: github-buildbot and db-mgr secrets are used by devops tools only.
 # Therefore they are located in devops namespace only.
-export taito_secrets_version="2"
 export taito_secrets="
   github-buildbot.token:read/devops
   cloudsql-gserviceaccount.key:copy/devops

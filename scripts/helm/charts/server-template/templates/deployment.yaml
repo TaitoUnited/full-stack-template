@@ -11,7 +11,7 @@
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ template "name" $root }}-{{ $serviceName }}
+  name: {{ template "fullname" $root }}-{{ $serviceName }}
   labels:
     app: {{ template "name" $root }}
     chart: {{ $root.Chart.Name }}-{{ $root.Chart.Version | replace "+" "_" }}
@@ -30,7 +30,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "name" $root }}-{{ $serviceName }}
+  name: {{ template "fullname" $root }}-{{ $serviceName }}
   labels:
     app: {{ template "name" $root }}
     chart: {{ $root.Chart.Name }}-{{ $root.Chart.Version | replace "+" "_" }}
@@ -81,7 +81,7 @@ spec:
           envFrom:
             - prefix: COMMON_
               configMapRef:
-                name: {{ template "name" $root }}-common
+                name: {{ template "fullname" $root }}-common
           env:
             {{- if and (.serviceAccount) (eq $provider "gcloud") }}
             - name: GOOGLE_APPLICATION_CREDENTIALS

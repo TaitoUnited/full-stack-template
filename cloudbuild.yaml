@@ -57,11 +57,12 @@ steps:
     export template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
     export template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     export template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
-    export taito_env
-    taito_env="$${branch_name}"
-    if [[ "$${taito_env}" == "master" ]]; then
-      taito_env="prod"
+    export taito_target_env
+    taito_target_env="$${branch_name}"
+    if [[ "$${taito_target_env}" == "master" ]]; then
+      taito_target_env="prod"
     fi
+    export taito_env="$${taito_target_env}"
     source ./taito-config.sh
 
     echo "- Get gcloud credentials"

@@ -124,7 +124,7 @@ Cleaning:
     taito clean:npm                         # Delete node_modules directories
     taito clean                             # Clean everything
 
-The commands mentioned above work also for server environments (`feat`, `dev`, `test`, `stag`, `prod`). Some examples for dev environment:
+The commands mentioned above work also for server environments (`feat-NAME`, `dev`, `test`, `stag`, `canary`, `prod`). Some examples for dev environment:
 
     taito open app:dev                      # Open application in browser
     taito open admin:dev                    # Open admin GUI in browser
@@ -227,7 +227,7 @@ You can manage environment and feature branches using taito-cli. Some examples:
     taito vc feat squash             # Merge current feature branch to the dev as a single commit
     taito vc feat pr                 # Create a pull-request for merging current feature branch to the dev branch
 
-> Alternatively you can use git commands directly. Just remember that merge between environment branches should always be executed as fast-forward and changes should be merged in the correct order: (`feat`) -> `dev` -> `test` -> `stag` -> `master`. You should not commit any changes directly to test, stag or master branches.
+> Alternatively you can use git commands directly. Just remember that merge between environment branches should always be executed as fast-forward and changes should be merged in the correct order: (`feat-NAME`) -> `dev` -> `test` -> `stag` -> `canary` -> `master`. You should not commit any changes directly to test, stag, canary or master branches.
 
 ### Development branches
 
@@ -317,28 +317,26 @@ The CI/CD tool will deploy your database changes automatically to servers once y
 
 Deploying to different environments:
 
-* feat: Push to feat branch.
+* feat-NAME: Push to feat-NAME branch.
 * dev: Push to dev branch.
 * test: Merge changes to test branch using fast-forward.
 * stag: Merge changes to stag branch using fast-forward.
+* canary: Merge changes to canary branch using fast-forward. NOTE: Canary environment uses production resources (database, storage, 3rd party services) so be careful with database migrations.
 * prod: Merge changes to master branch using fast-forward. Version number and release notes are generated automatically by the CI/CD tool.
 
-> NOTE: Feat, test and stag branches are optional.
+> You can use taito-cli to [manage environment branches](#version-control). Feat-NAME, test, stag and canary environments are optional.
 
-> NOTE: You can use taito-cli to [manage environment branches](#version-control).
-
-> Automatic deployment might be turned off for critical environments (`ci_exec_deploy` setting in `taito-config.sh`). In such case the deployment must be run manually with the `taito -a deployment deploy:prod VERSION` command using an admin account after the CI/CD process has ended successfully.
+> Automatic deployment might be turned off for critical environments (`ci_exec_deploy` setting in `taito-config.sh`). In such case the deployment must be run manually with the `taito -a deployment deploy:prod VERSION` command using an personal admin account after the CI/CD process has ended successfully.
 
 Advanced features:
 
 * **Quick deploy**: If you are in a hurry, you can build, push and deploy a container directly to server with the `taito deployment build:TARGET:ENV` command e.g. `taito deployment build:client:dev`.
 * **Copy production data to staging**: Often it's a good idea to copy production database to staging before merging changes to the stag branch: `taito db copy to:stag prod`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db copyquick to:stag prod`), but it disconnects all other users connected to the production database until copying is finished and also requires that both databases are located in the same database cluster.
 * **Feature branch**: You can create also an environment for a feature branch: Destroy the old environment first if it exists (`taito env destroy:feat`) and create a new environment for your feature branch (`taito env apply:feat BRANCH`). Currently only one feature environment can exist at a time and therefore the old one needs to be destroyed before the new one is created.
-* **Alternative environments** TODO implement: You can create an alternative environment for an environment by running `taito env alt apply:ENV`. An alternative environment uses the same database as the main environment, but containers are built from an alternative branch. You can use alternative environments e.g. for canary releases and A/B testing by redirecting some of the users to the alternative environment.
 * **Revert app**: Revert application and database to the previous revision by running `taito deployment revert:ENV` (application and database steps are confirmed separately). If you need to revert to a specific revision, check current revision by running `taito deployment revision:ENV` first and then revert to a specific revision by running `taito deployment revert:ENV REVISION`.
 * **Debugging CI builds**: You can build and start production containers locally with the `taito start --clean --prod` command. You can also run any CI build steps defined in cloudbuild.yaml locally with taito-cli.
 
-NOTE: Some of the advanced operations might require admin credentials (e.g. staging/production operations). If you don't have an admin account, ask devops personnel to execute the operation for you.
+> Some of the advanced operations might require admin credentials (e.g. staging/canary/production operations). If you don't have an admin account, ask devops personnel to execute the operation for you.
 
 ## Configuration
 
