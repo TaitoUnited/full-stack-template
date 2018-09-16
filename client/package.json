@@ -7,7 +7,7 @@
     "pretty-quick": "pretty-quick",
     "lint": "eslint . --ignore-path .eslintignore --quiet",
     "unit": "echo TODO BABEL_ENV=test jest",
-    "start": "NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.js --public=localhost:8080",
+    "start": "NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.js --public=localhost:9999",
     "build": "NODE_ENV=production webpack -p --config ./config/webpack.prod.js --mode production",
     "analyze": "ANALYZE=true NODE_ENV=production webpack -p --config ./config/webpack.prod.js"
   },

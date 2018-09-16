@@ -4,8 +4,8 @@ const merge = require('webpack-merge');
 
 const base = require('./webpack.base.js');
 
-const PORT = 8081;
-const PUBLIC_PORT = 8080;
+const PORT = 8080;
+const PUBLIC_PORT = 9999;
 
 module.exports = merge.strategy({
   entry: 'prepend',

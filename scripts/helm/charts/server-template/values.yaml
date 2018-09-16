@@ -50,7 +50,7 @@ server-template:
   # Defaults
   serviceDefaults:
     path:
-    port: 8081
+    port: 8080
     tier: backend
     livenessPath: /healthz
     replicas: 1

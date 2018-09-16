@@ -14,5 +14,5 @@ ENV API_URL /api
 RUN npm install --loglevel warn
 RUN npm run types-install
 COPY . /client
-EXPOSE 8081
+EXPOSE 8080
 CMD npm install; npm run types-install; npm run start

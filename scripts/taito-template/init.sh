@@ -401,7 +401,7 @@ ingress_port=$(shuf -i 8000-9999 -n 1)
 db_port=$(shuf -i 6000-7999 -n 1)
 sed ${sedi} -- "s/6000/${db_port}/g" taito-config.sh &> /dev/null
 sed ${sedi} -- "s/6000/${db_port}/g" docker-compose.yaml &> /dev/null
-sed ${sedi} -- "s/8080/${ingress_port}/g" docker-compose.yaml taito-config.sh \
+sed ${sedi} -- "s/9999/${ingress_port}/g" docker-compose.yaml taito-config.sh \
   ./admin/package.json ./client/package.json &> /dev/null
 
 echo "Replacing template variables with the given settings..."

@@ -134,7 +134,7 @@ case "${taito_env}" in
     ;;
   local)
     export ci_exec_test_init=false   # run 'init --clean' before each test suite
-    export taito_app_url="http://localhost:8080"
+    export taito_app_url="http://localhost:9999"
     export db_database_external_port="6000"
     export db_database_host="${taito_project}-database"
     export db_database_port="5432"
@@ -211,7 +211,7 @@ export test_server_DATABASE_PASSWORD="P8JH4m33RQshznTkTNxvQgFO9BWpkg"
 
 if [[ "${taito_env}" == "local" ]]; then
   # On local env we use api running on this container
-  export test_server_TEST_API_URL="http://localhost:8081"
+  export test_server_TEST_API_URL="http://localhost:8080"
   # ...and connect to database running on another container
   export test_server_DATABASE_HOST="${taito_project}-database"
   export test_server_DATABASE_PASSWORD="secret"

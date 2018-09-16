@@ -29,7 +29,7 @@ server-template:
   # Defaults
   serviceDefaults:
     path:
-    port: 8081
+    port: 8080
     livenessPath: /healthz
     replicas: ${kubectl_replicas}
     autoscale: false
@@ -70,7 +70,7 @@ server-template:
       ENV: production
       DEBUG: false
       SENTRY_DSN: #sentryDSN
-      API_PORT: '8081'
+      API_PORT: '8080'
       API_BINDADDR: '0.0.0.0'
       DATABASE_HOST: '127.0.0.1'
       DATABASE_PORT: '5432'
