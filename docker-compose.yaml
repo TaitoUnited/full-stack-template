@@ -2,7 +2,7 @@ version: '3.5'
 services:
   server-template-ingress:
     container_name: server-template-ingress
-    image: nginx:1.13.8-alpine
+    image: nginx:1.15-alpine
     restart: unless-stopped
     networks:
       - default

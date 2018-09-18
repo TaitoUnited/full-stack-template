@@ -1,3 +1,1 @@
----------------------------------------
-### server-template TROUBLESHOOTING ###
----------------------------------------
+server-template TROUBLESHOOTING

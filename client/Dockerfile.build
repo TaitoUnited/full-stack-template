@@ -23,7 +23,7 @@ RUN npm run unit
 RUN npm run build && cp -r ./assets/* /build/
 
 # Production runtime
-FROM nginx:1.13.5-alpine
+FROM nginx:1.15-alpine
 ARG BUILD_VERSION
 LABEL version=${BUILD_VERSION} \
       company=companyname \
