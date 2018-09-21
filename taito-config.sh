@@ -29,7 +29,7 @@ export taito_provider_zone="${template_default_provider_zone:?}"
 export taito_zone="${template_default_zone:?}" # kube/postgres cluster project
 export taito_namespace="${taito_project}-${taito_env:?}" # kubernetes namespace
 export taito_resource_namespace="${taito_company}-dev" # additional resources project
-export taito_environments="dev canary prod"
+export taito_environments="dev test prod"
 
 # Repositories
 # TODO change taito_repo and taito_registry naming, add also repo url?
