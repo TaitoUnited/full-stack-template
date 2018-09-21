@@ -232,7 +232,9 @@ truncate --size 0 docker-compose.yaml
 cat temp > docker-compose.yaml
 
   sed ${sedi} -- '/  storage/d' taito-config.sh
-  sed ${sedi} -- '/  storage:/d' ./scripts/helm.yaml
+  sed ${sedi} -- '/    storage:/d' ./scripts/helm.yaml
+  sed ${sedi} -- '/    serviceAccount:/d' ./scripts/helm.yaml
+  sed ${sedi} -- '/.*taito_env}-gserviceaccount.key/d' ./scripts/helm.yaml
 
   sed ${sedi} -- '/terraform/d' taito-config.sh
   sed ${sedi} -- '/\* storage/d' taito-config.sh
