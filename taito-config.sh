@@ -21,8 +21,10 @@ export taito_family=""
 export taito_application="template"
 export taito_suffix=""
 
+# Alternative environments
+export taito_env="${taito_env/canary/prod}" # canary -> prod
+
 # Provider and namespaces
-export taito_env="${taito_env/canary/prod}" # Canary points to prod
 export taito_provider="${template_default_provider:?}" # aws, azure, gcloud, ...
 export taito_provider_region="${template_default_provider_region:?}"
 export taito_provider_zone="${template_default_provider_zone:?}"
