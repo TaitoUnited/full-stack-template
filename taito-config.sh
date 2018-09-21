@@ -1,9 +1,6 @@
 #!/bin/bash
 
 # Taito-cli
-export taito_version="1"
-export taito_image="taitounited/taito-cli:latest"
-export taito_extensions=""
 export taito_plugins=" \
   postgres-db sqitch-db \
   docker \
@@ -39,6 +36,7 @@ export taito_environments="dev canary prod"
 export taito_repo_location="github-${taito_organization}"
 export taito_repo_name="${taito_project}"
 export taito_registry="${template_default_registry:?}/${taito_zone}/${taito_repo_location}-${taito_repo_name}"
+# TODO define taito_registry and taito_repository separately?
 
 # Stack
 export taito_targets="
