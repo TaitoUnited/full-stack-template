@@ -239,7 +239,7 @@ cat temp > docker-compose.yaml
   sed ${sedi} -- '/terraform/d' taito-config.sh
   sed ${sedi} -- '/\* storage/d' taito-config.sh
   sed ${sedi} -- '/storage-gateway/d' taito-config.sh
-  sed ${sedi} -- '/gserviceaccount/d' taito-config.sh
+  sed ${sedi} -- '/gserviceaccount.key:file/d' taito-config.sh
   sed ${sedi} -- '/S3_/d' ./scripts/helm.yaml
   sed ${sedi} -- '/S3_/d' docker-compose.yaml
 fi
