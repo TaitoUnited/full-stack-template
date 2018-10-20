@@ -1,5 +1,5 @@
 # Builder, tester and runtime container for local development
-FROM node:8.11-alpine
+FROM node:8.12-alpine
 RUN apk add --update-cache build-base python git fontconfig
 # Required by the current flow version (can be removed later?)
 RUN apk --no-cache add ca-certificates wget && \
