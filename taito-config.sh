@@ -20,7 +20,10 @@ export taito_company="companyname"
 export taito_family=""
 export taito_application="template"
 export taito_suffix=""
+
+# Project hour reporting and issue management
 export toggl_project_id=""
+export toggl_tasks="" # For example "task:12345 another-task:67890"
 export jira_project_id=""
 
 # Environment mappings (for canary releases and A/B testing)
