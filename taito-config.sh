@@ -20,9 +20,12 @@ export taito_company="companyname"
 export taito_family=""
 export taito_application="template"
 export taito_suffix=""
+export toggl_project_id=""
+export jira_project_id=""
 
-# Alternative environments
+# Environment mappings (for canary releases and A/B testing)
 export taito_env="${taito_env/canary/prod}" # canary -> prod
+# EXAMPLE: export taito_env="${taito_env/feat-orders-b/prod}" # feat-orders-b -> prod
 
 # Provider and namespaces
 export taito_provider="${template_default_provider:?}" # aws, azure, gcloud, ...
@@ -128,7 +131,7 @@ case "${taito_env}" in
   dev|feat)
     export ci_exec_build=true        # allow build of a new container
     export ci_exec_deploy=true       # deploy automatically
-    # NOTE: enable tests once you have implemented some tests
+    # NOTE: enable tests once you have implemented some integration or e2e tests
     export ci_exec_test=false        # execute test suites
     export ci_exec_test_init=false   # run 'init --clean' before each test suite
     export ci_exec_revert=false      # revert deploy if previous steps failed

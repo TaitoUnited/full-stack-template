@@ -6,9 +6,9 @@ Server-template is a project template for applications and APIs running on serve
 
 The template comes with an example implementation that is based on React, Node.js, Postgres and S3, but you can easily replace them with other technologies (see [server-template-alt](https://github.com/TaitoUnited/server-template-alt)).
 
-You can create a new project from this template by running `taito template create: server-template`. Later you can upgrade your project to the latest version of the template by running `taito template upgrade`. To ensure flawless upgrade, do not modify files that have a **do-not-modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files of the template instead, and then upgrade.
+You can create a new project from this template by running `taito project create: server-template`. Later you can upgrade your project to the latest version of the template by running `taito project upgrade`. To ensure flawless upgrade, do not modify files that have a **do-not-modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files of the template instead, and then upgrade.
 
-You can also migrate an existing non-taito-cli project by running `taito template migrate: server-template` in your project root folder. If, however, you are not going to use docker containers or functions on your production environment, see the [legacy-server-template](https://github.com/TaitoUnited/legacy-server-template) instead.
+You can also migrate an existing non-taito-cli project by running `taito project migrate: server-template` in your project root folder. If, however, you are not going to use docker containers or functions on your production environment, see the [legacy-server-template](https://github.com/TaitoUnited/legacy-server-template) instead.
 
 [//]: # (TEMPLATE NOTE END)
 
@@ -174,11 +174,11 @@ Taito-cli supports various infrastructures and technologies out-of-the-box, and 
 
 ### Unit tests
 
-All unit tests are run automatically during build (see the `Dockerfile.build` files). You can use any test tools that have been installed as development dependency inside the container. Test reports should be placed at the `/xxx/test/reports` directory.
+All unit tests are run automatically during build (see the `Dockerfile.build` files). You can use any test tools that have been installed as development dependency inside the container. Test reports should be placed at the `/xxx/test/reports` directory. You can run unit tests manually with the `taito unit` command (see help with `taito unit -h`).
 
-You can run unit tests also in local environment with the `taito unit[:TARGET]` command, for example `taito unit:client`.
+> HINT: You should not test implementation. Instead, you should test behaviour of a public API that is designed not to change very often: public API of a class, module, library or service for example. This way you can make changes to the underlying implementation, and the existing unit tests protect you from breaking anything.
 
-> You can execute also browser and api tests using the same 'unit test' mechanism if you just mock the required APIs or DAOs so that the whole test can be run within one container.
+> HINT: Although browser tests cannot be considered as unit tests, you can execute also them with the *unit test* mechanism. You just have to mock the required APIs so that the whole test can be run within one container.
 
 ### Integration and end-to-end tests
 
@@ -341,6 +341,8 @@ Advanced features (TODO not all implemented yet):
 
 ## Configuration
 
+> HINT: To save some time, start your application locally while you are configuring the project: `taito install`, `taito start`, `taito init`.
+
 ### Configuration for local development
 
 Done:
@@ -431,4 +433,4 @@ You deploy configuration changes without rebuilding with the `taito deployment d
 
 ### Upgrading to the latest version of the project template
 
-Run `taito template upgrade`. The command copies the latest versions of reusable Helm charts, terraform templates and CI/CD scripts to your project folder, and also this README.md file. You should not make project specific modifications to them as they are designed to be reusable and easily configurable for various needs. Improve the originals instead, and then upgrade.
+Run `taito project upgrade`. The command copies the latest versions of reusable Helm charts, terraform templates and CI/CD scripts to your project folder, and also this README.md file. You should not make project specific modifications to them as they are designed to be reusable and easily configurable for various needs. Improve the originals instead, and then upgrade.
