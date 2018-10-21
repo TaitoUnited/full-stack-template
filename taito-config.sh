@@ -9,7 +9,7 @@ export taito_plugins=" \
   generate-secrets:-local kube-secrets:-local \
   kubectl:-local helm:-local \
   gcloud:-local gcloud-storage:-local gcloud-builder:-local \
-  semantic npm git links-global \
+  semantic-release npm git links-global \
   sentry \
 "
 
