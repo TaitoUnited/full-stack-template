@@ -6,7 +6,7 @@ WORKDIR /worker
 COPY ./package.json ./package-lock.* ./.flowconfi* /worker/
 ENV TARGET_ENV ${TARGET_ENV}
 ENV NODE_ENV development
-RUN npm install --loglevel warn
+RUN npm ci --loglevel warn
 RUN npm run types-install
 COPY . /worker
 RUN npm run lint

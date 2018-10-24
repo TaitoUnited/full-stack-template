@@ -16,7 +16,7 @@ ENV NODE_ENV development
 ENV API_ROOT ''
 ENV API_URL /api
 ENV APP_SENTRY_PUBLIC_DSN #sentryPublicDSN
-RUN npm install --loglevel warn
+RUN npm ci --loglevel warn
 RUN npm run types-install
 COPY . /client
 RUN npm run unit
