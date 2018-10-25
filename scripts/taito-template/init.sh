@@ -115,7 +115,7 @@ sed -n -e '/# admin end/,$p' docker-nginx.conf
 truncate --size 0 docker-nginx.conf
 cat temp > docker-nginx.conf
 
-  sed ${sedi} -- '/  admin/d' taito-config.sh
+  sed ${sedi} -- 's/ admin / /' taito-config.sh
   sed ${sedi} -- '/  admin:/d' ./scripts/helm.yaml
 
   sed ${sedi} -- '/\* admin/d' taito-config.sh
@@ -149,7 +149,7 @@ sed -n -e '/# client end/,$p' docker-nginx.conf
 truncate --size 0 docker-nginx.conf
 cat temp > docker-nginx.conf
 
-  sed ${sedi} -- '/  client/d' taito-config.sh
+  sed ${sedi} -- 's/ client / /' taito-config.sh
   sed ${sedi} -- '/  client:/d' ./scripts/helm.yaml
 
   sed ${sedi} -- '/  sentry/d' taito-config.sh
@@ -177,7 +177,7 @@ sed -n -e '/# database end/,$p' docker-compose.yaml
 truncate --size 0 docker-compose.yaml
 cat temp > docker-compose.yaml
 
-  sed ${sedi} -- '/  database/d' taito-config.sh
+  sed ${sedi} -- 's/ database / /' taito-config.sh
   sed ${sedi} -- '/  database:/d' ./scripts/helm.yaml
 
   sed ${sedi} -- '/postgres-db/d' taito-config.sh
@@ -204,7 +204,7 @@ cat temp > docker-nginx.conf
 
   sed ${sedi} -- "s/ci-prepare:server/ci-prepare:client/" cloudbuild.yaml
 
-  sed ${sedi} -- '/  server/d' taito-config.sh
+  sed ${sedi} -- 's/ server / /' taito-config.sh
   sed ${sedi} -- '/  server:/d' ./scripts/helm.yaml
 
   sed ${sedi} -- '/\* api/d' taito-config.sh
@@ -231,7 +231,7 @@ sed -n -e '/# storage end/,$p' docker-compose.yaml
 truncate --size 0 docker-compose.yaml
 cat temp > docker-compose.yaml
 
-  sed ${sedi} -- '/  storage/d' taito-config.sh
+  sed ${sedi} -- 's/ storage / /' taito-config.sh
   sed ${sedi} -- '/    storage:/d' ./scripts/helm.yaml
   sed ${sedi} -- '/    serviceAccount:/d' ./scripts/helm.yaml
   sed ${sedi} -- '/.*taito_env}-gserviceaccount.key/d' ./scripts/helm.yaml
@@ -290,7 +290,7 @@ sed -n -e '/# cache end/,$p' docker-compose.yaml
 truncate --size 0 docker-compose.yaml
 cat temp > docker-compose.yaml
 
-  sed ${sedi} -- '/  cache/d' taito-config.sh
+  sed ${sedi} -- 's/ cache / /' taito-config.sh
   sed ${sedi} -- '/  cache:/d' ./scripts/helm.yaml
 fi
 
