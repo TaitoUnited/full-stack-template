@@ -32,13 +32,18 @@ spec:
   tls:
   {{- range $domain := .Values.ingress.domains }}
   - hosts:
-    - {{ $domain }}
+    - {{ $domain.name }}
+    {{- if not $domain.certSecret }}
     secretName: {{ template "fullname" $root }}-ssl
+    {{- end }}
+    {{- if $domain.certSecret }}
+    secretName: {{ $domain.certSecret }}
+    {{- end }}
   {{- end }}
   {{- end }}
   rules:
     {{- range $domain := .Values.ingress.domains }}
-    - host: {{ $domain }}
+    - host: {{ $domain.name }}
       http:
         paths:
           {{- range $serviceName, $serviceEnabled := $root.Values.services }}

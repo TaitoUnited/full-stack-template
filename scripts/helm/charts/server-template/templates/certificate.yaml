@@ -14,7 +14,9 @@ spec:
     kind: ClusterIssuer
   dnsNames:
     {{- range $domain := .Values.ingress.domains }}
-    - {{ $domain }}
+    {{- if not $domain.certSecret }}
+    - {{ $domain.name }}
+    {{- end }}
     {{- end }}
   acme:
     config:
@@ -22,5 +24,7 @@ spec:
         ingressClass: nginx
       domains:
         {{- range $domain := .Values.ingress.domains }}
-        - {{ $domain }}
+        {{- if not $domain.certSecret }}
+        - {{ $domain.name }}
+        {{- end }}
         {{- end }}

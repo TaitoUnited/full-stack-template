@@ -14,7 +14,7 @@ server-template:
       enabled: true
       htpasswdSecret: ${taito_project}-${taito_env}-basic-auth
     domains:
-      - ${taito_domain}
+      - name: ${taito_domain}
 
   # Stack
   services:
