@@ -18,13 +18,19 @@ taito_plugins="
 # Project
 taito_organization="${template_default_organization:?}"
 taito_project="server-template"
-taito_project_messaging_channel="companyname"
 taito_company="companyname"
 taito_family=""
 taito_application="template"
 taito_suffix=""
 
-# Project hour reporting and issue management
+# Messaging
+taito_messaging_app=slack
+taito_messaging_channel=companyname
+taito_messaging_builds_channel=builds
+taito_messaging_monitoring_channel=monitoring
+taito_messaging_webhook=
+
+# Hour reporting and issue management
 toggl_project_id=""
 toggl_tasks="" # For example "task:12345 another-task:67890"
 jira_project_id=""
