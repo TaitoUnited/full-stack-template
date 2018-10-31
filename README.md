@@ -12,7 +12,7 @@ You can also migrate an existing non-taito-cli project by running `taito project
 
 [//]: # (TEMPLATE NOTE END)
 
-Project specific documentation is located in `PROJECT.md`. Remember to update it if you make changes related to architecture, integrations, or processing of personal data (GDPR).
+Project specific documentation is located in [PROJECT.md](PROJECT.md). Remember to update it if you make changes related to architecture, integrations, or processing of personal data (GDPR).
 
 Table of contents:
 
@@ -42,13 +42,12 @@ LINKS WILL BE GENERATED HERE
 
 * [node.js](https://nodejs.org/)
 * [docker-compose](https://docs.docker.com/compose/install/)
-
-Optional but highly recommended:
-
-* [taito-cli](https://github.com/TaitoUnited/taito-cli#readme)
-* eslint and prettier plugins for your code editor
+* Optional: [taito-cli](https://github.com/TaitoUnited/taito-cli#readme)
+* Optional: eslint and prettier plugins for your code editor
 
 ## Quick start
+
+> See the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/tree/master/docs/tutorial) for more thorough examples. You can run some of these commands also [without taito-cli](#without-taito-cli).
 
 Install linters and some libraries on host (add `--clean` for clean reinstall):
 
@@ -148,7 +147,7 @@ The commands mentioned above work also for server environments (`feat-NAME`, `de
     taito db diff:dev test                  # Show diff between dev and test schemas
     taito db copy between:test:dev          # Copy test database to dev
 
-Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to show command help (e.g `taito vc -h`, `taito db -h`, `taito db import -h`). For troubleshooting run `taito --trouble`. See PROJECT.md for project specific conventions and documentation.
+Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to show command help (e.g `taito vc -h`, `taito db -h`, `taito db import -h`). For troubleshooting run `taito --trouble`. See [PROJECT.md](PROJECT.md) for project specific conventions and documentation.
 
 > If you run into authorization errors, authenticate with the `taito --auth:ENV` command.
 
@@ -162,7 +161,7 @@ Local development:
 
     npm install             # Install some libraries
     npm run install-dev     # Install some libraries
-    docker-compose up       # Start wordpress and database
+    docker-compose up       # Start containers
     npm run                 # Show all scripts that you can run with npm
     TODO: sqitch db deploy  # Requires [sqitch for postgres](http://sqitch.org/))
 
@@ -174,7 +173,7 @@ Taito-cli supports various infrastructures and technologies out-of-the-box, and 
 
 ### Unit tests
 
-All unit tests are run automatically during build (see the `Dockerfile.build` files). You can use any test tools that have been installed as development dependency inside the container. Test reports should be placed at the `/xxx/test/reports` directory. You can run unit tests manually with the `taito unit` command (see help with `taito unit -h`).
+All unit tests are run automatically during build (see the `Dockerfile.build` files). You can use any test tools that have been installed as development dependency inside the container. Test reports should be placed at the /xxx/test/reports directory. You can run unit tests manually with the taito unit command (see help with taito unit -h).
 
 > HINT: You should not test implementation. Instead, you should test behaviour of a public API that is designed not to change very often: public API of a class, module, library or service for example. This way you can make changes to the underlying implementation, and the existing unit tests protect you from breaking anything.
 
@@ -182,9 +181,9 @@ All unit tests are run automatically during build (see the `Dockerfile.build` fi
 
 ### Integration and end-to-end tests
 
-All integration and end-to-end test suites are run automatically after application has been deployed to dev environment. You can use any test tools that have been installed as development dependency inside the `builder` container (see `Dockerfile.build`). Settings defined in `taito-config.sh` are passed to the tests, so you can specify your environment specific test settings there. You can also access the database as database proxy is run automatically in background and secrets are passed as environment variables to the tests. Test reports should be placed at the `/xxx/test/reports` directory.
+All integration and end-to-end test suites are run automatically after application has been deployed to dev environment. You can use any test tools that have been installed as development dependency inside the `builder` container (see `Dockerfile.build`). You can specify your environment specific test settings in `taito-config.sh` using `test_` as prefix. You can access database in your tests as database proxy is run automatically in background (see `docker-compose-test.yaml`). Test reports should be placed at the `/xxx/test/reports` directory.
 
-Tests are grouped in test suites (see `test-suites` files). All test suites are kept independent by cleaning up data before each test suite execution by running `taito init --clean`. If automatic data cleanup is not necessary, you can turn it off with the `ci_exec_test_init` setting in `taito-config.sh`.
+Tests are grouped in test suites (see the `test-suites` files). All test suites are kept independent by cleaning up data before each test suite execution by running `taito init --clean`. If automatic data cleanup is not necessary, you can turn it off with the `ci_exec_test_init` setting in `taito-config.sh`.
 
 You can run integration and end-to-end tests manually with the `taito test[:TARGET][:ENV] [SUITE] [TEST]` command, for example `taito test:server:dev`. When executing tests manually, the development container (`Dockerfile`) is used for executing the tests.
 
@@ -192,114 +191,27 @@ You can run integration and end-to-end tests manually with the `taito test[:TARG
 
 ## Structure
 
-> This section provides some common guidelines only. Project specific conventions are defined in PROJECT.md.
-
-An application should be divided in loosely coupled highly cohesive parts by using a modular directory structure. Some benefits of this kind of structure:
-
-* When making a change, it's easier to see how widely the change might affect the application.
-* When implementing a new feature, there is no need to jump around in the codebase as much.
-* It's easier for a new developer to implement new features without knowing the whole codebase.
-* Once the application grows, it's easier to split it into smaller parts that can be built and deployed independently.
-* Once the application grows and time passes, it's easier to rewrite some parts of the application using a newer technology without affecting the other parts.
-
-The following guidelines usually work well at least for a GUI implementation. You might need to break the guidelines once in a while, but still try to keep directories loosely coupled.
-
-* Create directory structure mainly based on domain concepts or features (`area`, `billing`, `trip`, `user`, ...) instead of technical type or layer (`actions`, `containers`, `components`, `css`, `utils`, ...).
-* Use such file naming that you can easily determine the type from a filename (e.g. `*.util.js`, `*.api.js`). This way you don't need to use additional directories for grouping files by type. Thus, you can freely place a file wherever it is needed. NOTE: It is ok to exclude type from GUI component filenames to keep import statements shorter. Just make sure that you can easily determine type and responsibility from a filename, and that you use the same naming convention throughout the codebase.
-* A directory should not contain any references outside of its boundary; with the exception of references to libraries and common directories. You can think of each directory as an independent concept (or subconcept), and each `common` directory as a library that is shared among closely related concepts (or subconcepts).
-* A file should contain only nearby references (e.g. references to files in the same directory or in a subdirectory directly beneath it); with the exception of references to libraries and common directories, of course.
-* You cannot always follow the dependency guidelines mentioned above. If you break the guidelines, at least try to avoid making circular dependencies between directories. Also leave a `REFACTOR:` comment if the dependency is the kind that it should be refactored later.
-
-See [SERVER-TEMPLATE/client/src](https://github.com/TaitoUnited/SERVER-TEMPLATE/tree/master/client/src) as an example.
+Project specific conventions are defined in [PROJECT.md](PROJECT.md#conventions). See [template wiki](https://github.com/TaitoUnited/SERVER-TEMPLATE/wiki/Structure) for some tips on how to design a modular directory structure.
 
 ## Version control
 
-You can manage environment and feature branches using taito-cli. Some examples:
+Development is done in dev and feature branches.
 
-    taito vc env list                # List all environment branches
-    taito vc env: dev                # Switch to the dev environment branch
-    taito vc env merge               # Merge the current environment branch to the next environment branch
+All commit messages must be structured according to the [Conventional Commits](http://conventionalcommits.org/) convention as application version number and release notes are generated automatically for production release by the [semantic-release](https://github.com/semantic-release/semantic-release) library.
 
-    taito vc feat list               # List all feature branches
-    taito vc feat: pricing           # Switch to the pricing feature branch
-    taito vc feat rebase             # Rebase current feature branch with dev branch
-    taito vc feat merge              # Merge current feature branch to the dev branch, optionally rebase first
-    taito vc feat squash             # Merge current feature branch to the dev as a single commit
-    taito vc feat pr                 # Create a pull-request for merging current feature branch to the dev branch
+You can manage environment and feature branches using taito-cli commands. Run `taito vc -h` for instructions. If you use git commands or git GUI tools instead, remember to follow the version control conventions defined by `taito vc conventions`.
 
-> Alternatively you can use git commands directly. Just remember that merge between environment branches should always be executed as fast-forward and changes should be merged in the correct order: (`feat-NAME`) -> `dev` -> `test` -> `stag` -> `canary` -> `master`. You should not commit any changes directly to test, stag, canary or master branches.
-
-### Development branches
-
-Development is executed in dev and feature branches. Using feature branches is optional, but they are recommended to be used at least in the following situations:
-
-* **Making changes to existing production functionality**: Use feature branches and pull-requests for code reviews. This will decrease the likelyhood that the change will brake something in production. It is also easier to keep the release log clean by using separate feature branches.
-* **A new project team member**: Use pull-requests for code reviews. This way you can help the new developer in getting familiar with the coding conventions and application logic of the project.
-* **Teaching a new technology**: Pull-requests can be very useful in teaching best practices for an another developer.
-
-Code reviews are very important at the beginning of a new software project, because this is the time when the basic foundation is built for the future development. At the beginning, however, it is usually more sensible to do occasional code reviews across the entire codebase instead of feature specific code reviews based on pull-requests.
-
-Note that most feature branches should be short-lived and located only on your local git repository, unless you are going to make a pull-request.
-
-### Commit messages
-
-All commit messages must be structured according to the [Conventional Commits](http://conventionalcommits.org/) convention as application version number and release notes are generated automatically during release by the [semantic-release](https://github.com/semantic-release/semantic-release) library. Commit messages are automatically validated before commit. You can also edit autogenerated release notes afterwards in GitHub (e.g. to combine some commits and clean up comments). Couple of commit message examples:
-
-```
-feat(dashboard): Added news on the dashboard.
-```
-
-```
-docs: Added news on the dashboard.
-
-[skip ci]
-```
-
-```
-fix(login): Fixed header alignment.
-
-Problem persists with IE9, but IE9 is no longer supported.
-
-Closes #87, #76
-```
-
-```
-feat(ux): New look and feel
-
-BREAKING CHANGE: Not really breaking anything, but it's a good time to
-increase the major version number.
-```
-
-Meanings:
-* Closes #xx, #xx: Closes issues
-* Issues #xx, #xx: References issues
-* BREAKING CHANGE: Introduces a breaking change that causes major version number to be increased in the next production release.
-* [skip ci]: Skips continuous integration build when the commit is pushed.
-
-You can use any of the following types in your commit message. Use at least types `fix` and `feat`.
-
-* `wip`: Work-in-progress (small commits that will be squashed later to one larger commit before merging them to one of the environment branches)
-* `feat`: A new feature
-* `fix`: A bug fix
-* `docs`: Documentation only changes
-* `style`: Code formatting
-* `refactor`: Refactoring
-* `perf`: Performance tuning
-* `test`: Implementing missing tests or correcting existing ones
-* `revert`: Revert previous commit.
-* `build`: Build system changes
-* `ci`: Continuous integration changes (cloudbuild.yaml)
-* `chore`: maintenance
+See [template wiki](https://github.com/TaitoUnited/SERVER-TEMPLATE/wiki/Version-control) for some additional information.
 
 ## Database migrations
 
-> If the environments do not yet contain any permanent data, you can just edit the existing deploy sql files directly and run `taito init:ENV --clean` before deploying the app to the environment. However, if you delete some of the existing `deploy/*.sql` files, leave revert scripts in place. Otherwise `taito init:ENV --clean` will fail because changes cannot be reverted.
+> If any of the environments do not yet contain any permanent data, you can just edit the existing deploy sql files directly and run `taito init:ENV --clean` before deploying the app to the environment. However, if you delete some of the existing `deploy/*.sql` files, leave revert scripts in place. Otherwise `taito init:ENV --clean` will fail because changes cannot be reverted.
 
 Add a new migration:
 
 1. Add a new step to migration plan:
 
-    `taito db add: NAME`, for example: `taito db add: role_enum'`
+    `taito db add: NAME`, for example: `taito db add: role_enum`
 
 2. Modify database/deploy/NAME.sql, database/revert/NAME.sql and database/verify/NAME.sql
 
@@ -317,27 +229,20 @@ The CI/CD tool will deploy your database changes automatically to servers once y
 
 Deploying to different environments:
 
-* feat-NAME: Push to feat-NAME branch.
-* dev: Push to dev branch.
-* test: Merge changes to test branch using fast-forward.
-* stag: Merge changes to stag branch using fast-forward.
-* canary: Merge changes to canary branch using fast-forward. NOTE: Canary environment uses production resources (database, storage, 3rd party services) so be careful with database migrations.
-* prod: Merge changes to master branch using fast-forward. Version number and release notes are generated automatically by the CI/CD tool.
+* **f-NAME**: Push to `feature/NAME` branch.
+* **dev**: Push to `dev` branch.
+* **test**: Merge changes to `test` branch using fast-forward.
+* **stag**: Merge changes to `stag` branch using fast-forward.
+* **canary**: Merge changes to `canary` branch using fast-forward. NOTE: Canary environment uses production resources (database, storage, 3rd party services) so be careful with database migrations.
+* **prod**: Merge changes to `master` branch using fast-forward. Version number and release notes are generated automatically by the CI/CD tool.
 
-> You can use taito-cli to [manage environment branches](#version-control). Simple projects require only two environments: `dev` and `prod`.
+Simple projects require only two environments: **dev** and **prod**.
+
+You can use `taito vc` commands to manage branches, and `taito deployment` commands to manage builds and deployments. Run `taito vc -h` and `taito deployment -h` for instructions. Run `taito open builds` to see the build logs.
+
+See [template wiki](https://github.com/TaitoUnited/SERVER-TEMPLATE/wiki/Deployment) for some additional information.
 
 > Automatic deployment might be turned off for critical environments (`ci_exec_deploy` setting in `taito-config.sh`). In such case the deployment must be run manually with the `taito -a deployment deploy:prod VERSION` command using a personal admin account after the CI/CD process has ended successfully.
-
-Advanced features (TODO not all implemented yet):
-
-* **Quickly deploy settings**: If you are in a hurry, you can deploy Helm/Kubernetes changes directly to an environment with the `taito deployment deploy:ENV`.
-* **Quickly deploy a container**: If you are in a hurry, you can build, push and deploy a single container directly to server with the `taito deployment build:TARGET:ENV` command e.g. `taito deployment build:client:dev`.
-* **Copy production data to staging**: Often it's a good idea to copy production database to staging before merging changes to the stag branch: `taito db copy between:prod:stag`, `taito storage copy between:prod:stag`. If you are sure nobody is using the production database, you can alternatively use the quick copy (`taito db copyquick between:prod:stag`), but it disconnects all other users connected to the production database until copying is finished and also requires that both databases are located in the same database cluster.
-* **Feature branch**: You can create an environment also for a feature branch: `taito env apply:feat-NAME`. The feature should reside in a branch named `feature/NAME`.
-* **Revert application**: Revert application to the previous revision by running `taito deployment revert:ENV`. If you need to revert to a specific revision, check current revision by running `taito deployment revision:ENV` first and then revert to a specific revision by running `taito deployment revert:ENV REVISION`. You can also deploy a specific version with `taito deployment deploy:ENV IMAGE_TAG|SEMANTIC_VERSION`.
-* **Debugging CI builds**: You can build and start production containers locally with the `taito start --clean --prod` command. You can also run any CI build steps defined in cloudbuild.yaml locally with taito-cli.
-
-> Some of the advanced operations might require admin credentials (e.g. staging/canary/production operations). If you don't have an admin account, ask devops personnel to execute the operation for you.
 
 ## Configuration
 
@@ -354,16 +259,19 @@ Done:
 
 Recommended settings for most projects.
 
-Options:
+**Options:**
+
 * Data services: Allow GitHub to perform read-only analysis: on
 * Data services: Dependency graph: on
 * Data services: Vulnerability alerts: on
 
-Branches:
+**Branches:**
+
 * Default branch: dev
 * Protected branch: master (TODO: more protection settings)
 
-Collaborators & teams:
+**Collaborators & teams:**
+
 * Teams: Select admin permission for the Admins team
 * Teams: Select write permission for the Developers team
 * Collaborators: Add additional collaborators if required.
