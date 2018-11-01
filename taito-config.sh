@@ -25,12 +25,6 @@ taito_family=
 taito_application=template
 taito_suffix=
 
-# Repositories
-# TODO variable naming, repo url, taito_registry and taito_repository separately?
-taito_repo_location=github-$taito_organization
-taito_repo_name=$taito_project
-taito_registry=${template_default_registry:?}/$taito_zone/$taito_repo_location-$taito_repo_name
-
 # Assets
 taito_project_icon=
 
@@ -49,6 +43,12 @@ taito_provider_zone=${template_default_provider_zone:?}
 taito_zone=${template_default_zone:?} # kube/postgres cluster project
 taito_namespace=$taito_project-$taito_env # kubernetes namespace
 taito_resource_namespace=$taito_company-dev # additional resources project
+
+# Repositories
+# TODO variable naming, repo url, taito_registry and taito_repository separately?
+taito_repo_location=github-$taito_organization
+taito_repo_name=$taito_project
+taito_registry=${template_default_registry:?}/$taito_zone/$taito_repo_location-$taito_repo_name
 
 # Stack
 taito_targets=" admin client cache database server storage "
