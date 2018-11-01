@@ -219,24 +219,24 @@ taito_secrets="
 # ------ Test suite settings ------
 # NOTE: Variable is passed to the test without the test_TARGET_ prefix
 
-test_server_TEST_API_URL="https://user:painipaini@$taito_domain/api"
-test_server_DATABASE_HOST="$taito_project-database-test-proxy"
-test_server_DATABASE_PORT="5432"
-test_server_DATABASE_NAME="$db_database_name"
-test_server_DATABASE_USER="$db_database_name_app"
+test_server_TEST_API_URL=https://user:painipaini@$taito_domain/api
+test_server_DATABASE_HOST=$taito_project-database-test-proxy
+test_server_DATABASE_PORT=5432
+test_server_DATABASE_NAME=$db_database_name
+test_server_DATABASE_USER=${db_database_name}_app
 # TODO support all environments by reading this from secrets
 test_server_DATABASE_PASSWORD="P8JH4m33RQshznTkTNxvQgFO9BWpkg"
 
 if [[ "$taito_env" == "local" ]]; then
   # On local env we use api running on the same container
-  test_server_TEST_API_URL="http://localhost:8080"
+  test_server_TEST_API_URL=http://localhost:8080
   # ...and connect to database running on an another container
-  test_server_DATABASE_HOST="$taito_project-database"
-  test_server_DATABASE_PASSWORD="secret"
+  test_server_DATABASE_HOST=$taito_project-database
+  test_server_DATABASE_PASSWORD=secret
 fi
 
 # Special settings for running tests on gcloud-builder
-if [[ $taito_plugins == *"gcloud-builder"* ]] && [[ "${taito_mode:-}" == "ci" ]]; then
-  test_server_DATABASE_HOST="127.0.0.1"
-  test_server_DATABASE_PORT="5001"
+if [[ $taito_plugins == *"gcloud-builder"* ]] && [[ ${taito_mode:-} == "ci" ]]; then
+  test_server_DATABASE_HOST=127.0.0.1
+  test_server_DATABASE_PORT=5001
 fi
