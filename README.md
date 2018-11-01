@@ -248,38 +248,11 @@ See [template wiki](https://github.com/TaitoUnited/SERVER-TEMPLATE/wiki/Deployme
 
 > HINT: To save some time, start your application locally while you are configuring the project: `taito install`, `taito start`, `taito init`.
 
-### Configuration for local development
+### Version control settings
 
-Done:
-* [ ] GitHub settings
-* [ ] Stack configuration
-* [ ] Removal of irrelevant examples
+`dev` branch should be set as the default branch. Run `taito open conventions` to see organization specific conventions.
 
-#### GitHub settings
-
-Recommended settings for most projects.
-
-**Options:**
-
-* Data services: Allow GitHub to perform read-only analysis: on
-* Data services: Dependency graph: on
-* Data services: Vulnerability alerts: on
-
-**Branches:**
-
-* Default branch: dev
-* Protected branch: master (TODO: more protection settings)
-
-**Collaborators & teams:**
-
-* Teams: Select admin permission for the Admins team
-* Teams: Select write permission for the Developers team
-* Collaborators: Add additional collaborators if required.
-* Collaborators: Remove repository creator (= yourself) from the collaborator list (NOTE: You may want to hold on to your admin rights until you have configured all GitHub settings properly and created a [server environment for development](#configuration-for-server-environments))
-
-> On critical projects you should grant write permissions only for those, who really require write access.
-
-#### Stack configuration
+### Stack configuration
 
 * **Authentication:** Authentication has not yet been implemented (see [issue](https://github.com/TaitoUnited/server-template/issues/11)). Currently ingress does provide basic authentation, but it is only meant for hiding non-production environments.
 * **Flow/typescript:** You can enable flow or typescript by going through parts with `NOTE: for flow` or `NOTE: for typescript` note. (TODO: implement typescript support)
@@ -292,7 +265,7 @@ The template supports unlimited number of (micro-)services. You can add new serv
 3. Add the service to `docker-compose.yaml` and check that it works ok in local development environment.
 4. Add the service to `scripts/helm.yaml`.
 
-#### Examples
+### Examples
 
 > To see the examples, start your local development environment first (see [quick start](#quick-start))
 
@@ -300,22 +273,15 @@ The project template comes with a bunch of implementation examples. Browse the e
 
 The client GUI uses [Material-UI](https://material-ui-next.com/) component library by default. It's a good match with the [react-admin](https://github.com/marmelab/react-admin) GUI, but please consider also other alternatives based on customer requirements. For example [Elemental](http://elemental-ui.com/) is a good alternative.
 
-### Configuration for server environments
+### Basic project settings
 
-Done:
-* [ ] Basic project settings
-* [ ] Dev environment
-* [ ] Prod environment
-
-#### Basic settings
-
-1. Modify `taito-config.sh` if you need to change some settings. The default settings are ok for most projects.
+1. Modify `taito-config.sh` if you need to change some settings. The default settings are ok for most projects, but you might want to define some links with `link_urls`.
 2. Run `taito project apply`
 3. Commit and push changes
 
-#### Environments
+### Remote environments
 
-Define environments with the `taito_environments` setting in `taito-config.sh`. You can create an environment by running `taito env apply:ENV`. Examples for environment names: `feat-orders`, `dev`, `test`, `stag`, `canary`, `prod`.
+Define remote environments with the `taito_environments` setting in `taito-config.sh`. You can create an environment by running `taito env apply:ENV`. Examples for environment names: `feat-orders`, `dev`, `test`, `stag`, `canary`, `prod`.
 
 If basic auth is used only for hiding non-production environments, you can use the same credentials for all environments. You should also write them down to the [Links](#links) section so that all project personnel can easily access the credentials.
 
@@ -323,7 +289,7 @@ NOTE: You should remove unnecessary examples from database migrations (`./databa
 
 NOTE: Operations on production and staging environments usually require admin rights. Please contact devops personnel if necessary.
 
-#### Kubernetes
+### Kubernetes
 
 The `scripts/heml.yaml` file contains default Kubernetes settings for all environments and the `scripts/helm-*.yaml` files contain environment specific overrides for them. By modying these files you can easily configure environment variables, resource requirements and autoscaling for your containers.
 
@@ -331,7 +297,7 @@ You deploy configuration changes without rebuilding with the `taito deployment d
 
 > Do not modify the helm template located in `./scripts/helm` directory. Improve the original helm template located in [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) repository instead.
 
-#### Secrets
+### Secrets
 
 1. Add a secret definition to `taito-config.sh` (taito_secrets)
 2. Map secret to an environment variable in `scripts/helm.yaml`
