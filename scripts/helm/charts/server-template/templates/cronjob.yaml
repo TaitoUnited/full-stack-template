@@ -1,0 +1,112 @@
+{{- $root := . -}}
+{{- $env := .Values.global.env -}}
+{{- $global := .Values.global -}}
+{{- $provider := .Values.global.zone.provider -}}
+{{- $defaults := .Values.serviceDefaults -}}
+
+{{- range $serviceName, $serviceEnabled := .Values.services }}
+{{- if $serviceEnabled }}
+{{- with (index $root.Values $serviceName) }}
+{{- range $job := .cronJobs }}
+{{- with (index $root.Values $serviceName) }}
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: {{ template "fullname" $root }}-{{ $serviceName }}-{{ $job.name }}
+  labels:
+    app: {{ template "name" $root }}
+    chart: {{ $root.Chart.Name }}-{{ $root.Chart.Version | replace "+" "_" }}
+    release: {{ $root.Release.Name }}
+    heritage: {{ $root.Release.Service }}
+spec:
+  schedule: {{ $job.schedule | quote }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: {{ $job.restartPolicy | default "OnFailure" }}
+          concurrencyPolicy: {{ $job.concurrencyPolicy | default "Allow" }}
+          startingDeadlineSeconds: {{ $job.startingDeadlineSeconds | default nil }}
+          lastScheduleTime: {{ $job.lastScheduleTime | default nil }}
+          suspend: {{ $job.suspend | default false }}
+          successfulJobsHistoryLimit: {{ $job.successfulJobsHistoryLimit | default 3 }}
+          failedJobsHistoryLimit: {{ $job.failedJobsHistoryLimit | default 1 }}
+          containers:
+            - name: {{ template "name" $root }}-{{ $serviceName }}-{{ $job.name }}
+              {{- if .image }}
+              image: {{ .image }}
+              {{- else }}
+              image: {{ $global.repository -}} / {{- $serviceName -}} : {{- $global.build.imageTag }}
+              {{- end }}
+              imagePullPolicy: {{ $root.Values.imagePullPolicy | quote }}
+              args:
+                {{- range $job.args }}
+                - {{ . }}
+                {{- end }}
+              envFrom:
+                - prefix: COMMON_
+                  configMapRef:
+                    name: {{ template "fullname" $root }}-common
+              env:
+                {{- if and (.serviceAccount) (eq $provider "gcloud") }}
+                - name: GOOGLE_APPLICATION_CREDENTIALS
+                  value: /serviceaccount/{{ regexFind "[a-zA-Z]*$" .serviceAccount.secret }}
+                {{- end }}
+                {{- range $name, $value := .env }}
+                - name: {{ $name }}
+                  value: {{ $value | quote }}
+                {{- end }}
+                {{- range $name, $value := .secrets }}
+                - name: {{ $name }}
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ regexReplaceAll "\\.[a-zA-Z]*$" $value "" }}
+                      key: {{ regexFind "[a-zA-Z]*$" $value }}
+                {{- end }}
+              volumeMounts:
+              {{- if and (.serviceAccount) (eq $provider "gcloud") }}
+                - name: serviceaccount
+                  mountPath: /serviceaccount
+                  readOnly: true
+              {{- end }}
+            {{- if and (.db) (ne $env "local") (eq $provider "gcloud") }}
+            - name: cloudsql-proxy
+              image: gcr.io/cloudsql-docker/gce-proxy:1.11
+              command:
+                - /cloud_sql_proxy
+                - -verbose=false
+                - --dir=/cloudsql
+                - -instances={{ .db.instance }}=tcp:{{ .db.port }}
+                - -credential_file=/secrets/cloudsql/{{ regexFind "[a-zA-Z]*$" .db.proxySecret }}
+              volumeMounts:
+                - name: cloudsql-instance-credentials
+                  mountPath: /secrets/cloudsql
+                  readOnly: true
+                - name: ssl-certs
+                  mountPath: /etc/ssl/certs
+                - name: cloudsql
+                  mountPath: /cloudsql
+            {{- end }}
+          volumes:
+            {{- if and (.db) (ne $env "local") (eq $provider "gcloud") }}
+            - name: cloudsql-instance-credentials
+              secret:
+                secretName: {{ regexReplaceAll "\\.[a-zA-Z]*$" .db.proxySecret "" }}
+            - name: ssl-certs
+              hostPath:
+                path: /etc/ssl/certs
+            - name: cloudsql
+              emptyDir:
+            {{- end }}
+            {{- if and (.serviceAccount) (eq $provider "gcloud") }}
+            - name: serviceaccount
+              secret:
+                secretName: {{ regexReplaceAll "\\.[a-zA-Z]*$" .serviceAccount.secret "" }}
+            {{- end }}
+---
+{{- end }}
+{{- end }}
+
+{{- end }}
+{{- end }}
+{{- end }}

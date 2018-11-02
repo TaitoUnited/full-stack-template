@@ -12,7 +12,7 @@ const authMiddleware = async (ctx, next) => {
   ctx.state.user = user;
 
   // Log minimal user details
-  // NOTE: Do not log any personally identifiable information
+  // NOTE: Do not log any personally identifiable information (GDPR)
   mergeToLogCtx({
     user: {
       id: user.id,

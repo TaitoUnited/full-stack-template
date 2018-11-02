@@ -25,6 +25,7 @@ server-template:
     server: true
     storage: true
     worker: false
+    sync: true
 
   # Defaults
   serviceDefaults:
@@ -82,6 +83,13 @@ server-template:
       S3_REGION: ${taito_provider_region}
       S3_BUCKET: ${taito_project}-${taito_env}
       S3_KEY_ID: 070UEOQR6LX4YPZLFU0V
+    cronJobs: # cron jobs that re-use the same Docker image and settings
+      - name: hello
+        schedule: "*/1 * * * *"
+        args:
+          - /bin/sh
+          - -c
+          - date; echo Hello from server
 
   storage:
     port: 9000
@@ -101,6 +109,17 @@ server-template:
       MINIO_SECRET_KEY: ${taito_project}-${taito_env}-storage-gateway.secret
     env:
       MINIO_ACCESS_KEY: 070UEOQR6LX4YPZLFU0V
+
+  sync:
+    type: job
+    image: debian:stretch
+    cronJobs:
+      - name: hello
+        schedule: "*/1 * * * *"
+        args:
+          - /bin/sh
+          - -c
+          - date; echo Hello from sync
 
   # TODO configure resources
   # resources: {}

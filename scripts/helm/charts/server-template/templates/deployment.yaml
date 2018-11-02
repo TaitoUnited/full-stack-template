@@ -7,6 +7,7 @@
 {{- range $serviceName, $serviceEnabled := .Values.services }}
 {{- if $serviceEnabled }}
 {{- with (index $root.Values $serviceName) }}
+{{- if not .type }}
 {{- if .autoscale }}
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
@@ -139,6 +140,7 @@ spec:
             secretName: {{ regexReplaceAll "\\.[a-zA-Z]*$" .serviceAccount.secret "" }}
         {{- end }}
 ---
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}
