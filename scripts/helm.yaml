@@ -25,7 +25,7 @@ server-template:
     server: true
     storage: true
     worker: false
-    sync: true
+    sync: false
 
   # Defaults
   serviceDefaults:
@@ -83,13 +83,14 @@ server-template:
       S3_REGION: ${taito_provider_region}
       S3_BUCKET: ${taito_project}-${taito_env}
       S3_KEY_ID: 070UEOQR6LX4YPZLFU0V
-    cronJobs: # cron jobs that re-use the same Docker image and settings
-      - name: hello
-        schedule: "*/1 * * * *"
-        args:
-          - /bin/sh
-          - -c
-          - date; echo Hello from server
+    # cron jobs that re-use the same Docker image and settings as server
+    # cronJobs:
+    #   - name: examplejob1
+    #     schedule: "30 2 * * *"
+    #     args:
+    #       - /bin/sh
+    #       - -c
+    #       - date; echo Hello from server
 
   storage:
     port: 9000
@@ -110,16 +111,18 @@ server-template:
     env:
       MINIO_ACCESS_KEY: 070UEOQR6LX4YPZLFU0V
 
+  # TODO: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/#ttl-mechanism-for-finished-jobs
+
   sync:
     type: job
-    image: debian:stretch
+    image: buildpack-deps:curl
     cronJobs:
-      - name: hello
-        schedule: "*/1 * * * *"
+      - name: examplejob2
+        schedule: "0 2 * * *"
         args:
           - /bin/sh
           - -c
-          - date; echo Hello from sync
+          - curl -s -S 'http://server-template-dev-server:8080/posts?offset=0&limit=1'
 
   # TODO configure resources
   # resources: {}

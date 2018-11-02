@@ -12,7 +12,7 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: {{ template "fullname" $root }}-{{ $serviceName }}-{{ $job.name }}
+  name: {{ template "fullname" $root }}-{{ $job.name }}
   labels:
     app: {{ template "name" $root }}
     chart: {{ $root.Chart.Name }}-{{ $root.Chart.Version | replace "+" "_" }}
@@ -32,17 +32,25 @@ spec:
           successfulJobsHistoryLimit: {{ $job.successfulJobsHistoryLimit | default 3 }}
           failedJobsHistoryLimit: {{ $job.failedJobsHistoryLimit | default 1 }}
           containers:
-            - name: {{ template "name" $root }}-{{ $serviceName }}-{{ $job.name }}
+            - name: {{ template "name" $root }}-{{ $job.name }}
               {{- if .image }}
               image: {{ .image }}
               {{- else }}
               image: {{ $global.repository -}} / {{- $serviceName -}} : {{- $global.build.imageTag }}
               {{- end }}
               imagePullPolicy: {{ $root.Values.imagePullPolicy | quote }}
+              {{- if $job.command }}
+              command:
+                {{- range $job.command }}
+                - {{ . }}
+                {{- end }}
+              {{- end }}
+              {{- if $job.args }}
               args:
                 {{- range $job.args }}
                 - {{ . }}
                 {{- end }}
+              {{- end }}
               envFrom:
                 - prefix: COMMON_
                   configMapRef:
