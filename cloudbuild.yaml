@@ -65,6 +65,13 @@ steps:
     export taito_env="$${taito_target_env}"
     source ./taito-config.sh
 
+    echo "- Get cluster credentials"
+    if ! gcloud container clusters get-credentials "$${kubectl_name}" \
+      --zone "$${gcloud_zone}"; then
+      echo "ERROR: Get cluster credentials failed"
+      exit 1
+    fi
+
     echo "- Cancel all previous ongoing builds targetting the same branch"
     gcloud builds list --ongoing | \
       grep "$${full_repo_name}@$${branch_name}" | \
