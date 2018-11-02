@@ -123,12 +123,13 @@ Cleaning:
     taito clean:npm                         # Delete node_modules directories
     taito clean                             # Clean everything
 
-The commands mentioned above work also for server environments (`feat-NAME`, `dev`, `test`, `stag`, `canary`, `prod`). Some examples for dev environment:
+The commands mentioned above work also for server environments (`f-NAME`, `dev`, `test`, `stag`, `canary`, `prod`). Some examples for dev environment:
 
     taito open app:dev                      # Open application in browser
     taito open admin:dev                    # Open admin GUI in browser
     taito info:dev                          # Show info
     taito status:dev                        # Show status of dev environment
+    taito open builds                       # Show build status and logs
     taito test:dev                          # Run integration and e2e tests
     taito shell:server:dev                  # Start a shell on server container
     taito logs:server:dev                   # Tail logs of server container
@@ -173,7 +174,7 @@ Taito-cli supports various infrastructures and technologies out-of-the-box, and 
 
 ### Unit tests
 
-All unit tests are run automatically during build (see the `Dockerfile.build` files). You can use any test tools that have been installed as development dependency inside the container. Test reports should be placed at the /xxx/test/reports directory. You can run unit tests manually with the taito unit command (see help with taito unit -h).
+All unit tests are run automatically during build (see the `Dockerfile.build` files). You can use any test tools that have been installed as development dependency inside the container. Test reports should be placed at the /xxx/test/reports directory. You can run unit tests manually with the `taito unit` command (see help with `taito unit -h`).
 
 > HINT: You should not test implementation. Instead, you should test behaviour of a public API that is designed not to change very often: public API of a class, module, library or service for example. This way you can make changes to the underlying implementation, and the existing unit tests protect you from breaking anything.
 
@@ -191,7 +192,7 @@ You can run integration and end-to-end tests manually with the `taito test[:TARG
 
 ## Structure
 
-Project specific conventions are defined in [PROJECT.md](PROJECT.md#conventions). See [template wiki](https://github.com/TaitoUnited/SERVER-TEMPLATE/wiki/Structure) for some tips on how to design a modular directory structure.
+Project specific conventions are defined in [PROJECT.md](PROJECT.md#conventions). See the [template wiki](https://github.com/TaitoUnited/SERVER-TEMPLATE/wiki/Structure) for some tips on how to design a modular directory structure.
 
 ## Version control
 
@@ -201,11 +202,9 @@ All commit messages must be structured according to the [Conventional Commits](h
 
 You can manage environment and feature branches using taito-cli commands. Run `taito vc -h` for instructions. If you use git commands or git GUI tools instead, remember to follow the version control conventions defined by `taito vc conventions`.
 
-See [template wiki](https://github.com/TaitoUnited/SERVER-TEMPLATE/wiki/Version-control) for some additional information.
+See the [template wiki](https://github.com/TaitoUnited/SERVER-TEMPLATE/wiki/Version-control) for some additional information.
 
 ## Database migrations
-
-> If any of the environments do not yet contain any permanent data, you can just edit the existing deploy sql files directly and run `taito init:ENV --clean` before deploying the app to the environment. However, if you delete some of the existing `deploy/*.sql` files, leave revert scripts in place. Otherwise `taito init:ENV --clean` will fail because changes cannot be reverted.
 
 Add a new migration:
 
@@ -221,6 +220,8 @@ Add a new migration:
 
 The CI/CD tool will deploy your database changes automatically to servers once you push your changes to git. Database migrations are executed using sqitch. More instructions on sqitch: [Sqitch tutorial](https://metacpan.org/pod/sqitchtutorial)
 
+> If any environment does not yet contain any permanent data, you can just edit the existing deploy sql files directly and run `taito init:ENV --clean` before deploying the app to the environment. However, if you delete some of the existing `deploy/*.sql` files, leave revert scripts in place. Otherwise `taito init:ENV --clean` will fail because changes cannot be reverted.
+
 > It is recommended that you put a table name at the beginning of your migration script name. This way the table creation script and all its alteration scripts remain close to each other in the file hierarchy.
 
 > REMINDER: Do not forget indexing. Once in a while you should review sql queries made by the application and check that essential indexes are in place in the database.
@@ -229,18 +230,18 @@ The CI/CD tool will deploy your database changes automatically to servers once y
 
 Deploying to different environments:
 
-* **f-NAME**: Push to `feature/NAME` branch.
-* **dev**: Push to `dev` branch.
-* **test**: Merge changes to `test` branch using fast-forward.
-* **stag**: Merge changes to `stag` branch using fast-forward.
-* **canary**: Merge changes to `canary` branch using fast-forward. NOTE: Canary environment uses production resources (database, storage, 3rd party services) so be careful with database migrations.
-* **prod**: Merge changes to `master` branch using fast-forward. Version number and release notes are generated automatically by the CI/CD tool.
+* **f-NAME**: Push to the `feature/NAME` branch.
+* **dev**: Push to the `dev` branch.
+* **test**: Merge changes to the `test` branch using fast-forward.
+* **stag**: Merge changes to the `stag` branch using fast-forward.
+* **canary**: Merge changes to the `canary` branch using fast-forward. NOTE: Canary environment uses production resources (database, storage, 3rd party services) so be careful with database migrations.
+* **prod**: Merge changes to the `master` branch using fast-forward. Version number and release notes are generated automatically by the CI/CD tool.
 
-Simple projects require only two environments: **dev** and **prod**.
+Simple projects require only two environments: **dev** and **prod**. You can list the environments with `taito vc env list`.
 
-You can use `taito vc` commands to manage branches, and `taito deployment` commands to manage builds and deployments. Run `taito vc -h` and `taito deployment -h` for instructions. Run `taito open builds` to see the build logs.
+You can use the `taito vc` commands to manage branches, and the `taito deployment` commands to manage builds and deployments. Run `taito vc -h` and `taito deployment -h` for instructions. Run `taito open builds` to see the build logs.
 
-See [template wiki](https://github.com/TaitoUnited/SERVER-TEMPLATE/wiki/Deployment) for some additional information.
+See the [template wiki](https://github.com/TaitoUnited/SERVER-TEMPLATE/wiki/Deployment) for some additional information.
 
 > Automatic deployment might be turned off for critical environments (`ci_exec_deploy` setting in `taito-config.sh`). In such case the deployment must be run manually with the `taito -a deployment deploy:prod VERSION` command using a personal admin account after the CI/CD process has ended successfully.
 
@@ -250,9 +251,9 @@ See [template wiki](https://github.com/TaitoUnited/SERVER-TEMPLATE/wiki/Deployme
 
 ### Version control settings
 
-`dev` branch should be set as the default branch. Run `taito open conventions` to see organization specific conventions.
+The **dev** branch should be set as the default branch. Run `taito open conventions` to see organization specific conventions.
 
-### Stack configuration
+### Stack
 
 * **Authentication:** Authentication has not yet been implemented (see [issue](https://github.com/TaitoUnited/server-template/issues/11)). Currently ingress does provide basic authentation, but it is only meant for hiding non-production environments.
 * **Flow/typescript:** You can enable flow or typescript by going through parts with `NOTE: for flow` or `NOTE: for typescript` note. (TODO: implement typescript support)
@@ -267,8 +268,6 @@ The template supports unlimited number of (micro-)services. You can add new serv
 
 ### Examples
 
-> To see the examples, start your local development environment first (see [quick start](#quick-start))
-
 The project template comes with a bunch of implementation examples. Browse the examples through, leave the ones that seem useful and remove all the rest. You can use the `taito check deps` command to prune unused dependencies. NOTE: Many of the `devDependencies` and `~` references are actually in use even if reported unused by the tool. But all unused `dependencies` may usually be removed from package.json.
 
 The client GUI uses [Material-UI](https://material-ui-next.com/) component library by default. It's a good match with the [react-admin](https://github.com/marmelab/react-admin) GUI, but please consider also other alternatives based on customer requirements. For example [Elemental](http://elemental-ui.com/) is a good alternative.
@@ -281,19 +280,19 @@ The client GUI uses [Material-UI](https://material-ui-next.com/) component libra
 
 ### Remote environments
 
-Define remote environments with the `taito_environments` setting in `taito-config.sh`. You can create an environment by running `taito env apply:ENV`. Examples for environment names: `feat-orders`, `dev`, `test`, `stag`, `canary`, `prod`.
+Define remote environments with the `taito_environments` setting in `taito-config.sh`. You can create an environment by running `taito env apply:ENV`. Examples for environment names: `f-orders`, `dev`, `test`, `stag`, `canary`, `prod`.
 
-If basic auth is used only for hiding non-production environments, you can use the same credentials for all environments. You should also write them down to the [Links](#links) section so that all project personnel can easily access the credentials.
+If basic auth is used only for hiding non-production environments, you can use the same credentials for all environments. In this case you should also write them down to the [Links](#links) section so that all project personnel can easily access the credentials.
 
 NOTE: You should remove unnecessary examples from database migrations (`./database`) and secrets (`taito-config.sh`) before creating the first server environment.
 
-NOTE: Operations on production and staging environments usually require admin rights. Please contact devops personnel if necessary.
+NOTE: Operations on production and staging environments usually require admin rights. Please contact DevOps personnel if necessary.
 
 ### Kubernetes
 
 The `scripts/heml.yaml` file contains default Kubernetes settings for all environments and the `scripts/helm-*.yaml` files contain environment specific overrides for them. By modying these files you can easily configure environment variables, resource requirements and autoscaling for your containers.
 
-You deploy configuration changes without rebuilding with the `taito deployment deploy:ENV` command.
+You can deploy configuration changes without rebuilding with the `taito deployment deploy:ENV` command.
 
 > Do not modify the helm template located in `./scripts/helm` directory. Improve the original helm template located in [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) repository instead.
 

@@ -7,9 +7,7 @@ import { appear } from '~utils/animations.utils';
 import Circle from './Circle';
 
 // TODO: load thumbnail from server
-// eslint-disable-next-line
-const thumbUrl =
-  'https://static.ilcdn.fi/viihdeuutiset/kahlekuningaskuva3ek2905_503_vd.jpg';
+const thumbUrl = '/lightning.jpg';
 
 const propTypes = {
   index: PropTypes.number.isRequired,

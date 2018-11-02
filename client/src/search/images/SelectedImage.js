@@ -12,10 +12,8 @@ import CopyClipboardButton from '~controls/CopyClipboardButton';
 import Item from '~controls/paging/Item';
 import Circle from './Circle';
 
-// TODO: load thumbnail from server
-// eslint-disable-next-line
-const imageUrl =
-  'https://static.ilcdn.fi/viihdeuutiset/kahlekuningaskuva3ek2905_503_vd.jpg';
+// TODO: load image from server
+const imageUrl = '/lightning.jpg';
 
 const propTypes = {
   item: PropTypes.object,
