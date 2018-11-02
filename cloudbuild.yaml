@@ -26,7 +26,7 @@ substitutions:
 
 steps:
 
-# NOTE: This first ugly step is an optimization. We execute cancel with
+# NOTE: This first step is an optimization. We execute cancel with
 # the google provided kubectl container instead of taito-cli, because it
 # doesn't need to be pulled before execution -> cancel executes immediately.
 - id: manual-cancel
@@ -64,14 +64,6 @@ steps:
     fi
     export taito_env="$${taito_target_env}"
     source ./taito-config.sh
-
-    echo "- Get gcloud credentials"
-    gcloud container clusters get-credentials "$${kubectl_name}" \
-      --zone "$${gcloud_zone}"
-    if [[ $$? -gt 0 ]]; then
-      echo "WARNING! Get gcloud credentials failed. Build cancel not possible."
-      # exit 1
-    fi
 
     echo "- Cancel all previous ongoing builds targetting the same branch"
     gcloud builds list --ongoing | \
