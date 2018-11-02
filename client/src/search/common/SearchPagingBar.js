@@ -18,7 +18,7 @@ const SearchPagingBar = ({
       <Info flex={1}>
         {results.totalCount}
         &nbsp;
-        {section === 'images' ? 'kuvaa' : 'tekstiä'}
+        {section === 'images' ? 'images' : 'posts'}
       </Info>
       {results.totalCount > 0 && (
         <Paging
