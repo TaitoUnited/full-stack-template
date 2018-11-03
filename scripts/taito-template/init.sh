@@ -7,6 +7,9 @@
 
 : "${template_default_taito_image:?}"
 : "${template_default_organization:?}"
+: "${template_default_organization_abbr:?}"
+: "${template_default_github_organization:?}"
+: "${template_default_sentry_organization:?}"
 : "${template_default_domain:?}"
 : "${template_default_domain_prod:?}"
 : "${template_default_zone:?}"
@@ -366,6 +369,9 @@ echo "Replacing template variables with the user specific settings..."
 
 # Replace template variables in taito-config.sh with user specific settings
 sed ${sedi} -- "s/\${template_default_organization:?}/${template_default_organization}/g" taito-config.sh
+sed ${sedi} -- "s/\${template_default_organization_abbr:?}/${template_default_organization_abbr}/g" taito-config.sh
+sed ${sedi} -- "s/\${template_default_github_organization:?}/${template_default_github_organization}/g" taito-config.sh
+sed ${sedi} -- "s/\${template_default_sentry_organization:?}/${template_default_sentry_organization}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_domain:?}/${template_default_domain}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_domain_prod:?}/${template_default_domain_prod}/g" taito-config.sh
 sed ${sedi} -- "s/\${template_default_zone:?}/${template_default_zone}/g" taito-config.sh

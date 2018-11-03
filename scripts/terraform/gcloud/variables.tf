@@ -4,6 +4,7 @@ variable "taito_resource_namespace" {}
 variable "taito_resource_namespace_id" {}
 variable "taito_provider" {}
 variable "taito_organization" {}
+variable "taito_organization_abbr" {}
 variable "taito_storages" {
   type = "list"
 }

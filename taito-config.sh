@@ -19,6 +19,7 @@ taito_plugins="
 
 # Project
 taito_organization=${template_default_organization:?}
+taito_organization_abbr=${template_default_organization_abbr:?}
 taito_project=server-template
 taito_company=companyname
 taito_family=
@@ -43,11 +44,11 @@ taito_provider_region=${template_default_provider_region:?}
 taito_provider_zone=${template_default_provider_zone:?}
 taito_zone=${template_default_zone:?} # kube/postgres cluster project
 taito_namespace=$taito_project-$taito_env # kubernetes namespace
-taito_resource_namespace=$taito_company-dev # additional resources project
+taito_resource_namespace=$taito_organization_abbr-$taito_company-dev # additional resources project
 
 # Repositories
 taito_vc_repository=$taito_project
-taito_vc_repository_base=github-$taito_organization
+taito_vc_repository_base=github-${template_default_github_organization:?}
 taito_image_registry=${template_default_registry:?}/$taito_zone/$taito_vc_repository_base-$taito_vc_repository
 
 # Stack
@@ -106,7 +107,7 @@ kubectl_replicas=1
 # helm_deploy_options="--recreate-pods" # Force restart
 
 # Sentry plugin
-sentry_organization=$taito_organization
+sentry_organization=${template_default_sentry_organization:?}
 
 # ------ Overrides for different environments ------
 
@@ -115,7 +116,7 @@ case $taito_env in
     taito_zone=${template_default_zone_prod:?}
     taito_provider_region=${template_default_provider_region_prod:?}
     taito_provider_zone=${template_default_provider_zone_prod:?}
-    taito_resource_namespace=$taito_company-prod
+    taito_resource_namespace=$taito_organization_abbr-$taito_company-prod
     gcloud_org_id=${template_default_provider_org_id_prod:?}
 
     # NOTE: Set production domain here
@@ -128,7 +129,7 @@ case $taito_env in
     taito_zone=${template_default_zone_prod:?}
     taito_provider_region=${template_default_provider_region_prod:?}
     taito_provider_zone=${template_default_provider_zone_prod:?}
-    taito_resource_namespace=$taito_company-prod
+    taito_resource_namespace=$taito_organization_abbr-$taito_company-prod
     gcloud_org_id=${template_default_provider_org_id_prod:?}
 
     taito_domain=$taito_project-$taito_env.${template_default_domain_prod:?}
@@ -161,7 +162,7 @@ esac
 taito_admin_url=$taito_app_url/admin/
 
 # Provider and namespaces
-taito_resource_namespace_id=$taito_organization-$taito_resource_namespace
+taito_resource_namespace_id=$taito_resource_namespace
 
 # Google Cloud plugin
 gcloud_region=$taito_provider_region
@@ -179,9 +180,9 @@ link_urls="
   * app[:ENV]=$taito_app_url Application (:ENV)
   * admin[:ENV]=$taito_admin_url Admin user interface (:ENV)
   * api[:ENV]=$taito_app_url/api/uptimez API (:ENV)
-  * docs=https://github.com/$taito_organization/$taito_vc_repository/wiki Project documentation
-  * git=https://github.com/$taito_organization/$taito_vc_repository GitHub repository
-  * kanban=https://github.com/$taito_organization/$taito_vc_repository/projects Kanban boards
+  * docs=https://github.com/${template_default_github_organization:?}/$taito_vc_repository/wiki Project documentation
+  * git=https://github.com/${template_default_github_organization:?}/$taito_vc_repository GitHub repository
+  * kanban=https://github.com/${template_default_github_organization:?}/$taito_vc_repository/projects Kanban boards
   * resources[:ENV]=https://console.cloud.google.com/home/dashboard?project=$taito_resource_namespace_id Google resources (:ENV)
   * services[:ENV]=https://console.cloud.google.com/apis/credentials?project=$taito_resource_namespace_id Google services (:ENV)
   * builds=https://console.cloud.google.com/cloud-build/builds?project=$taito_zone&query=source.repo_source.repo_name%3D%22$taito_vc_repository_base-$taito_vc_repository%22 Build logs
@@ -189,7 +190,7 @@ link_urls="
   * artifacts=https://TODO-DOCS-AND-TEST-REPORTS Generated documentation and test reports
   * storage:ENV=https://console.cloud.google.com/storage/browser/$taito_project-$taito_env?project=$taito_resource_namespace_id Storage bucket (:ENV)
   * logs:ENV=https://console.cloud.google.com/logs/viewer?project=$taito_zone&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F$kubectl_name%2Fnamespace_id%2F$taito_namespace Logs (:ENV)
-  * errors:ENV=https://sentry.io/$taito_organization/$taito_project/?query=is%3Aunresolved+environment%3A$taito_target_env Sentry errors (:ENV)
+  * errors:ENV=https://sentry.io/${template_default_sentry_organization:?}/$taito_project/?query=is%3Aunresolved+environment%3A$taito_target_env Sentry errors (:ENV)
   * uptime=https://app.google.stackdriver.com/uptime?project=$taito_zone Uptime monitoring (Stackdriver)
   * styleguide=https://TODO UI/UX style guide and designs
   * wireframes=https://TODO UI/UX wireframes

@@ -35,6 +35,9 @@ services:
       taito_docker: 'true'
       template_default_taito_image: ${template_default_taito_image}
       template_default_organization: ${template_default_organization}
+      template_default_organization_abbr: ${template_default_organization_abbr}
+      template_default_github_organization: ${template_default_github_organization}
+      template_default_sentry_organization: ${template_default_sentry_organization}
       template_default_domain: ${template_default_domain}
       template_default_domain_prod: ${template_default_domain_prod}
       template_default_zone: ${template_default_zone}
