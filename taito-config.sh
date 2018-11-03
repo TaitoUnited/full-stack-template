@@ -30,11 +30,12 @@ taito_project_icon=
 
 # Environments
 taito_environments="dev test prod"
-taito_env=${taito_env/canary/prod}    # canary -> prod
+taito_env=${taito_env/canary/prod} # canary -> prod
 
 # URLs
 taito_domain=$taito_project-$taito_target_env.${template_default_domain:?}
 taito_app_url=https://$taito_domain
+taito_cdn_url=
 
 # Provider and namespaces
 taito_provider=${template_default_provider:?} # aws, azure, gcloud, ...
@@ -45,16 +46,15 @@ taito_namespace=$taito_project-$taito_env # kubernetes namespace
 taito_resource_namespace=$taito_company-dev # additional resources project
 
 # Repositories
-# TODO variable naming, repo url, taito_registry and taito_repository separately?
-taito_repo_location=github-$taito_organization
-taito_repo_name=$taito_project
-taito_registry=${template_default_registry:?}/$taito_zone/$taito_repo_location-$taito_repo_name
+taito_vc_repository=$taito_project
+taito_vc_repository_base=github-$taito_organization
+taito_image_registry=${template_default_registry:?}/$taito_zone/$taito_vc_repository_base-$taito_vc_repository
 
 # Stack
 taito_targets=" admin client cache database server storage "
-taito_databases=database
-taito_storages=$taito_project-$taito_env
-taito_networks=default
+taito_databases="database"
+taito_storages="$taito_project-$taito_env"
+taito_networks="default"
 
 # Database definitions for database plugins
 db_database_instance=${template_default_postgres:?}
@@ -71,7 +71,21 @@ taito_messaging_builds_channel=builds
 taito_messaging_monitoring_channel=monitoring
 taito_messaging_webhook=
 
-# Hour reporting and issue management
+# Monitoring
+taito_monitoring_paths="/uptimez /admin/uptimez /api/uptimez"
+
+# CI/CD settings (most are enabled for dev and feat branches only)
+ci_exec_build=false        # build container image if it does not exist already
+ci_exec_deploy=true        # deploy automatically
+ci_exec_test=false         # execute test suites after deploy
+ci_exec_test_wait=60       # how many seconds to wait for deployment/restart
+ci_exec_test_init=false    # run 'init --clean' before each test suite
+ci_exec_revert=false       # revert deployment automatically on fail
+ci_static_assets_location= # location to publish all static files (CDN)
+
+# ------ Plugin specific settings ------
+
+# Hour reporting and issue management plugins
 toggl_project_id=
 toggl_tasks="" # For example "task:12345 another-task:67890"
 jira_project_id=
@@ -83,10 +97,6 @@ template_source_git=git@github.com:TaitoUnited
 # Google Cloud plugin
 gcloud_org_id=${template_default_provider_org_id:?}
 gcloud_sql_proxy_port=$db_database_proxy_port
-gcloud_cdn_enabled=false
-
-# Docker plugin
-dockerfile=Dockerfile
 
 # Kubernetes plugin
 kubectl_name=${template_default_kubernetes:?}
@@ -98,16 +108,7 @@ kubectl_replicas=1
 # Sentry plugin
 sentry_organization=$taito_organization
 
-# CI/CD settings
-# NOTE: Most of these should be enabled for dev and feat environments only
-ci_exec_build=false         # build a container if does not exist already
-ci_exec_deploy=true         # deploy automatically
-ci_exec_test=false          # execute test suites after deploy
-ci_exec_test_wait=60        # how many seconds to wait for deployment/restart
-ci_exec_test_init=false     # run 'init --clean' before each test suite
-ci_exec_revert=false        # revert deploy automatically on fail
-
-# ------ Settings for different environments ------
+# ------ Overrides for different environments ------
 
 case $taito_env in
   prod)
@@ -154,13 +155,13 @@ case $taito_env in
     # db_database_password=secret
 esac
 
-# ------ Derived values ------
-
-# Namespaces
-taito_resource_namespace_id=$taito_organization-$taito_resource_namespace
+# ------ Derived values after overrides ------
 
 # URLs
 taito_admin_url=$taito_app_url/admin/
+
+# Provider and namespaces
+taito_resource_namespace_id=$taito_organization-$taito_resource_namespace
 
 # Google Cloud plugin
 gcloud_region=$taito_provider_region
@@ -173,27 +174,18 @@ gcloud_storage_classes=REGIONAL
 kubectl_cluster=gke_${taito_zone}_${gcloud_zone}_${kubectl_name}
 kubectl_user=$kubectl_cluster
 
-# Monitoring
-monitoring_channel=monitoring
-monitoring_paths="/uptimez /admin/uptimez /api/uptimez"
-monitoring_log_alert_query="
-  resource.type=\"container\"
-  severity>=ERROR
-  labels.\"container.googleapis.com/namespace_name\":\"$taito_project-$taito_env\"
-"
-
 # Link plugin
 link_urls="
   * app[:ENV]=$taito_app_url Application (:ENV)
   * admin[:ENV]=$taito_admin_url Admin user interface (:ENV)
   * api[:ENV]=$taito_app_url/api/uptimez API (:ENV)
-  * docs=https://github.com/$taito_organization/$taito_repo_name/wiki Project documentation
-  * git=https://github.com/$taito_organization/$taito_repo_name GitHub repository
-  * kanban=https://github.com/$taito_organization/$taito_repo_name/projects Kanban boards
+  * docs=https://github.com/$taito_organization/$taito_vc_repository/wiki Project documentation
+  * git=https://github.com/$taito_organization/$taito_vc_repository GitHub repository
+  * kanban=https://github.com/$taito_organization/$taito_vc_repository/projects Kanban boards
   * resources[:ENV]=https://console.cloud.google.com/home/dashboard?project=$taito_resource_namespace_id Google resources (:ENV)
   * services[:ENV]=https://console.cloud.google.com/apis/credentials?project=$taito_resource_namespace_id Google services (:ENV)
-  * builds=https://console.cloud.google.com/cloud-build/builds?project=$taito_zone&query=source.repo_source.repo_name%3D%22$taito_repo_location-$taito_repo_name%22 Build logs
-  * images=https://console.cloud.google.com/gcr/images/$taito_zone/EU/$taito_repo_location-$taito_repo_name?project=$taito_zone Container images
+  * builds=https://console.cloud.google.com/cloud-build/builds?project=$taito_zone&query=source.repo_source.repo_name%3D%22$taito_vc_repository_base-$taito_vc_repository%22 Build logs
+  * images=https://console.cloud.google.com/gcr/images/$taito_zone/EU/$taito_vc_repository_base-$taito_vc_repository?project=$taito_zone Container images
   * artifacts=https://TODO-DOCS-AND-TEST-REPORTS Generated documentation and test reports
   * storage:ENV=https://console.cloud.google.com/storage/browser/$taito_project-$taito_env?project=$taito_resource_namespace_id Storage bucket (:ENV)
   * logs:ENV=https://console.cloud.google.com/logs/viewer?project=$taito_zone&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F$kubectl_name%2Fnamespace_id%2F$taito_namespace Logs (:ENV)
@@ -216,7 +208,10 @@ taito_secrets="
   $taito_project-$taito_env-gserviceaccount.key:file
 "
 
+
+
 # ------ Test suite settings ------
+
 # NOTE: Variable is passed to the test without the test_TARGET_ prefix
 
 test_server_TEST_API_URL=https://user:painipaini@$taito_domain/api

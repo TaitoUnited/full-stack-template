@@ -58,7 +58,7 @@ spec:
           {{- if .image }}
           image: {{ .image }}
           {{- else }}
-          image: {{ $global.repository -}} / {{- $serviceName -}} : {{- $global.build.imageTag }}
+          image: {{ $global.registry -}} / {{- $serviceName -}} : {{- $global.build.imageTag }}
           {{- end }}
           imagePullPolicy: {{ $root.Values.imagePullPolicy | quote }}
           {{- if .command }}

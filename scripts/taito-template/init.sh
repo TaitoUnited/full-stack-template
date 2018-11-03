@@ -2,8 +2,8 @@
 
 : "${taito_organization:?}"
 : "${taito_company:?}"
-: "${taito_repo_name:?}"
-: "${taito_repo_name_alt:?}"
+: "${taito_vc_repository:?}"
+: "${taito_vc_repository_alt:?}"
 
 : "${template_default_taito_image:?}"
 : "${template_default_organization:?}"
@@ -307,70 +307,36 @@ rm LICENSE
 # mv package.json.tmp package.json
 
 # Replace repository url in package.json
-sed ${sedi} -- "s|TaitoUnited/server-template.git|${taito_organization}/${taito_repo_name}.git|g" package.json
+sed ${sedi} -- "s|TaitoUnited/server-template.git|${taito_organization}/${taito_vc_repository}.git|g" package.json
 
 # Add some do not modify notes
 echo "Adding do-not-modify notes..."
 
-# Replace NOTE of README.md with a 'do not modify' note
+# Remove template note from README.md
 {
 sed '/TEMPLATE NOTE START/q' README.md
-echo
-echo "This file has been copied from \
-[SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/). Keep \
-modifications minimal and improve the original instead."
-echo
 sed -n -e '/TEMPLATE NOTE END/,$p' README.md
 } > temp
 truncate --size 0 README.md
 cat temp > README.md
-
-# Add 'do not modify' note to readme of helm chart
-echo \
-"> NOTE: This helm chart has been copied from \
-[SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/). It is \
-located here only to avoid accidental build breaks. Do not modify it. \
-Improve the original instead." | \
-  cat - scripts/helm/README.md > temp && \
-  truncate --size 0 scripts/helm/README.md && \
-  cat temp > scripts/helm/README.md
-
-# Add 'do not modify' note to readme of terraform
-echo \
-"> NOTE: These terraform scripts have been copied from \
-[SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/). They are \
-located here only to avoid accidental build breaks. Do not modify them. \
-Improve the originals instead." | \
-  cat - scripts/terraform/README.md > temp && \
-  truncate --size 0 scripts/terraform/README.md && \
-  cat temp > scripts/terraform/README.md
-
-# Add 'do not modify' note to cloudbuild.yaml
-printf \
-"# NOTE: This file has been generated from SERVER-TEMPLATE by taito-cli.\n\
-# It is located here only to avoid accidental build breaks. Keep modifications \n\
-# minimal and improve the original instead.\n\n" | \
-  cat - cloudbuild.yaml > temp && \
-  truncate --size 0 cloudbuild.yaml && \
-  cat temp > cloudbuild.yaml
 
 # Replace some strings
 # TODO init script is never run with os x -> remove darwin support?
 echo "Replacing project and company names in files. Please wait..."
 if [ "$(uname)" = "Darwin" ]; then
   find . -type f -exec sed -i '' \
-    -e "s/server_template/${taito_repo_name_alt}/g" 2> /dev/null {} \;
+    -e "s/server_template/${taito_vc_repository_alt}/g" 2> /dev/null {} \;
   find . -type f -exec sed -i '' \
-    -e "s/server-template/${taito_repo_name}/g" 2> /dev/null {} \;
+    -e "s/server-template/${taito_vc_repository}/g" 2> /dev/null {} \;
   find . -type f -exec sed -i '' \
     -e "s/companyname/${taito_company}/g" 2> /dev/null {} \;
   find . -type f -exec sed -i '' \
     -e "s/SERVER-TEMPLATE/server-template/g" 2> /dev/null {} \;
 else
   find . -type f -exec sed -i \
-    -e "s/server_template/${taito_repo_name_alt}/g" 2> /dev/null {} \;
+    -e "s/server_template/${taito_vc_repository_alt}/g" 2> /dev/null {} \;
   find . -type f -exec sed -i \
-    -e "s/server-template/${taito_repo_name}/g" 2> /dev/null {} \;
+    -e "s/server-template/${taito_vc_repository}/g" 2> /dev/null {} \;
   find . -type f -exec sed -i \
     -e "s/companyname/${taito_company}/g" 2> /dev/null {} \;
   find . -type f -exec sed -i \
@@ -394,7 +360,7 @@ sed ${sedi} -- "s/taito_company=\".*\"/taito_company=\"${taito_company}\"/g" tai
 sed ${sedi} -- "s/taito_family=\".*\"/taito_family=\"${taito_family:-}\"/g" taito-config.sh
 sed ${sedi} -- "s/taito_application=\".*\"/taito_application=\"${taito_application:-}\"/g" taito-config.sh
 sed ${sedi} -- "s/taito_suffix=\".*\"/taito_suffix=\"${taito_suffix:-}\"/g" taito-config.sh
-sed ${sedi} -- "s/taito_project=\".*\"/taito_project=\"${taito_repo_name}\"/g" taito-config.sh
+sed ${sedi} -- "s/taito_project=\".*\"/taito_project=\"${taito_vc_repository}\"/g" taito-config.sh
 
 echo "Replacing template variables with the user specific settings..."
 

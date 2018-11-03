@@ -1,7 +1,7 @@
 global:
   logFormat: stackdriver
   logLevel: info    # trace, debug, info, warn, error, fatal
-  repository: ${taito_registry}
+  registry: ${taito_image_registry}
   imagePullPolicy: ''
 
 server-template:
