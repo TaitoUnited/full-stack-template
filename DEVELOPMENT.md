@@ -1,8 +1,6 @@
 # Development
 
-This file has been copied from [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/). Keep modifications minimal and improve the original instead. Project specific conventions are located in [README.md](README.md#conventions).
-
-See the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/tree/master/docs/tutorial) for more thorough instructions. Note that you can use this template also [without taito-cli](#without-taito-cli).
+This file has been copied from [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/). Keep modifications minimal and improve the original instead. Project specific conventions are located in [README.md](README.md#conventions). See the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/tree/master/docs/tutorial) for more thorough development instructions. Note that you can use this template also [without taito-cli](#without-taito-cli).
 
 Table of contents:
 

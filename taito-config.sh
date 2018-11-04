@@ -3,6 +3,10 @@
 : "${taito_env:?}"
 : "${taito_target_env:?}"
 
+# Configuration instructions:
+# - https://github.com/TaitoUnited/taito-cli/blob/master/docs/manual/04-configuration.md
+# - https://github.com/TaitoUnited/taito-cli/blob/master/docs/plugins.md
+
 # Taito-cli
 taito_version=1
 taito_plugins="
@@ -17,7 +21,7 @@ taito_plugins="
   sentry
 "
 
-# Project
+# Project labeling
 taito_organization=${template_default_organization:?}
 taito_organization_abbr=${template_default_organization_abbr:?}
 taito_project=server-template
@@ -124,6 +128,11 @@ case $taito_env in
     taito_app_url=https://$taito_domain
     kubectl_replicas=2
     monitoring_enabled=true
+
+    # Settings for canary
+    if [[ $taito_target_env == "canary" ]]; then
+      taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
+    fi
     ;;
   stag)
     taito_zone=${template_default_zone_prod:?}

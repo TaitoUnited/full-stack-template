@@ -1,21 +1,21 @@
+> This page contains a short summary of the project itself. See [DEVELOPMENT.md](DEVELOPMENT.md) for development instructions.
+
 [//]: # (TEMPLATE NOTE START)
+
 # server-template
 
-Server-template is a project template for applications and APIs running on server. The server-template is based on running containers on docker-compose or Kubernetes, but in the future it will also provide support for running functions on top of popular FaaS platforms. Thus, you can deploy the same implementation almost anywhere, and you can operate it with the same *taito-cli* commands regardless of the underlying platform.
+Template for applications and APIs running on Kubernetes. The example implementation is based on React, Node.js, Postgres and S3, but you can choose the stack by selecting stack components from [server-template-alt](https://github.com/TaitoUnited/server-template-alt).
 
-The template comes with an example implementation that is based on React, Node.js, Postgres and S3, but you can easily replace them with other technologies (see [server-template-alt](https://github.com/TaitoUnited/server-template-alt)).
+> Support for [Knative](https://pivotal.io/knative), [Istio](https://istio.io/) and [Telepresence](https://www.telepresence.io/) will likely be added later, once they have matured enough.
 
 You can create a new project from this template by running `taito project create: server-template`. Later you can upgrade your project to the latest version of the template by running `taito project upgrade`. To ensure flawless upgrade, do not modify files that have a **do-not-modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files of the template instead, and then upgrade.
 
-You can also migrate an existing non-taito-cli project by running `taito project migrate: server-template` in your project root folder. If, however, you are not going to use docker containers or functions on your production environment, see the [legacy-server-template](https://github.com/TaitoUnited/legacy-server-template) instead.
+You can also migrate an existing non-taito-cli project by running `taito project migrate: server-template` in your project root folder.
 
 [//]: # (TEMPLATE NOTE END)
+# Project title
 
-> See the [DEVELOPMENT.md](DEVELOPMENT.md) for development instructions.
-
-# Title
-
-Short description: purpose, company, etc.
+Short description for the project: vision, purpose, company, etc.
 
 Table of contents:
 
@@ -23,7 +23,7 @@ Table of contents:
 * [Contacts](#contacts)
 * [Responsibilities](#responsibilities)
 * [Recurring issues and solutions](#recurring-issues-and-solutions)
-* [Notes](#notes)
+* [Miscellaneous notes](#miscellaneous-notes)
 * [Conventions](#conventions)
 * [Architecture Overview](#architecture-overview)
 * [Security](#security)
@@ -49,15 +49,13 @@ LINKS WILL BE GENERATED HERE
 
 ## Responsibilities
 
-> Billing and control of 3rd party services, etc.
+> Hosting, billing and control of 3rd party services, certificates, etc.
 
 ## Recurring issues and solutions
 
 See trouble.txt or run `taito --trouble`.
 
-## Notes
-
-> Misc notes
+## Miscellaneous notes
 
 ## Conventions
 
