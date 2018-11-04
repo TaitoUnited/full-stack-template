@@ -43,17 +43,16 @@ taito_app_url=https://$taito_domain
 taito_cdn_url=
 
 # Provider and namespaces
-taito_provider=${template_default_provider:?} # aws, azure, gcloud, ...
+taito_provider=${template_default_provider:?}
 taito_provider_region=${template_default_provider_region:?}
 taito_provider_zone=${template_default_provider_zone:?}
-taito_zone=${template_default_zone:?} # kube/postgres cluster project
-taito_namespace=$taito_project-$taito_env # kubernetes namespace
-taito_resource_namespace=$taito_organization_abbr-$taito_company-dev # additional resources project
+taito_zone=${template_default_zone:?}
+taito_namespace=$taito_project-$taito_env
+taito_resource_namespace=$taito_organization_abbr-$taito_company-dev
 
 # Repositories
 taito_vc_repository=$taito_project
-taito_vc_repository_base=github-${template_default_github_organization:?}
-taito_image_registry=${template_default_registry:?}/$taito_zone/$taito_vc_repository_base-$taito_vc_repository
+taito_image_registry=${template_default_registry:?}/$taito_zone/$taito_vc_repository
 
 # Stack
 taito_targets=" admin client cache database server storage "
@@ -194,8 +193,7 @@ link_urls="
   * kanban=https://github.com/${template_default_github_organization:?}/$taito_vc_repository/projects Kanban boards
   * resources[:ENV]=https://console.cloud.google.com/home/dashboard?project=$taito_resource_namespace_id Google resources (:ENV)
   * services[:ENV]=https://console.cloud.google.com/apis/credentials?project=$taito_resource_namespace_id Google services (:ENV)
-  * builds=https://console.cloud.google.com/cloud-build/builds?project=$taito_zone&query=source.repo_source.repo_name%3D%22$taito_vc_repository_base-$taito_vc_repository%22 Build logs
-  * images=https://console.cloud.google.com/gcr/images/$taito_zone/EU/$taito_vc_repository_base-$taito_vc_repository?project=$taito_zone Container images
+  * builds=https://console.cloud.google.com/cloud-build/builds?project=$taito_zone&query=source.repo_source.repo_name%3D%22$taito_vc_repository%22 Build logs
   * artifacts=https://TODO-DOCS-AND-TEST-REPORTS Generated documentation and test reports
   * storage:ENV=https://console.cloud.google.com/storage/browser/$taito_project-$taito_env?project=$taito_resource_namespace_id Storage bucket (:ENV)
   * logs:ENV=https://console.cloud.google.com/logs/viewer?project=$taito_zone&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F$kubectl_name%2Fnamespace_id%2F$taito_namespace Logs (:ENV)

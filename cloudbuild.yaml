@@ -1,12 +1,13 @@
 images: [
-  'eu.gcr.io/$PROJECT_ID/$REPO_NAME/admin:$COMMIT_SHA',
-  'eu.gcr.io/$PROJECT_ID/$REPO_NAME/client:$COMMIT_SHA',
-  'eu.gcr.io/$PROJECT_ID/$REPO_NAME/server:$COMMIT_SHA'
+  'eu.gcr.io/$PROJECT_ID/$_REPO_NAME/admin:$COMMIT_SHA',
+  'eu.gcr.io/$PROJECT_ID/$_REPO_NAME/client:$COMMIT_SHA',
+  'eu.gcr.io/$PROJECT_ID/$_REPO_NAME/server:$COMMIT_SHA'
 ]
 
 timeout: 1500s
 
 substitutions:
+  _REPO_NAME: server-template
   _TEMPLATE_DEFAULT_TAITO_IMAGE:
   _TEMPLATE_DEFAULT_ORGANIZATION:
   _TEMPLATE_DEFAULT_ORGANIZATION_ABBR:
@@ -39,8 +40,8 @@ steps:
     - branch_name=$BRANCH_NAME
     - commit_sha=$COMMIT_SHA
     - build_id=$BUILD_ID
-    - full_repo_name=$REPO_NAME
-    - image_path=eu.gcr.io/$PROJECT_ID/$REPO_NAME/server:$COMMIT_SHA
+    - full_repo_name=$_REPO_NAME
+    - image_path=eu.gcr.io/$PROJECT_ID/$_REPO_NAME/server:$COMMIT_SHA
   args:
   - '-c'
   - |
@@ -95,7 +96,7 @@ steps:
 - id: ci-prepare
   waitFor: ['-']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-prepare:server:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
+  args: ['ci-prepare:server:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -229,7 +230,7 @@ steps:
 - id: ci-build-admin
   waitFor: ['ci-release-pre']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-build:admin:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
+  args: ['ci-build:admin:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -255,7 +256,7 @@ steps:
 - id: ci-push-admin
   waitFor: ['ci-build-admin']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-push:admin:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
+  args: ['ci-push:admin:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -281,7 +282,7 @@ steps:
 - id: ci-build-bot
   waitFor: ['ci-release-pre']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-build:bot:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
+  args: ['ci-build:bot:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -307,7 +308,7 @@ steps:
 - id: ci-push-bot
   waitFor: ['ci-build-bot']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-push:bot:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
+  args: ['ci-push:bot:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -333,7 +334,7 @@ steps:
 - id: ci-build-client
   waitFor: ['ci-release-pre']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-build:client:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
+  args: ['ci-build:client:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -359,7 +360,7 @@ steps:
 - id: ci-push-client
   waitFor: ['ci-build-client']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-push:client:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
+  args: ['ci-push:client:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -385,7 +386,7 @@ steps:
 - id: ci-build-server
   waitFor: ['ci-release-pre']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-build:server:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
+  args: ['ci-build:server:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -411,7 +412,7 @@ steps:
 - id: ci-push-server
   waitFor: ['ci-build-server']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-push:server:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
+  args: ['ci-push:server:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -437,7 +438,7 @@ steps:
 - id: ci-build-worker
   waitFor: ['ci-release-pre']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-build:worker:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
+  args: ['ci-build:worker:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -463,7 +464,7 @@ steps:
 - id: ci-push-worker
   waitFor: ['ci-build-worker']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-push:worker:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$REPO_NAME']
+  args: ['ci-push:worker:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
