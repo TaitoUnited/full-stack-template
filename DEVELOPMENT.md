@@ -7,7 +7,7 @@ Table of contents:
 * [Prerequisites](#prerequisites)
 * [Quick start](#quick-start)
 * [Automated tests](#automated-tests)
-* [Structure](#structure)
+* [Code structure](#code-structure)
 * [Version control](#version-control)
 * [Database migrations](#database-migrations)
 * [Deployment](#deployment)
@@ -163,9 +163,9 @@ You can run integration and end-to-end tests manually with the `taito test[:TARG
 
 > Once you have implemented your first integration or e2e test, enable the CI test execution by setting `ci_exec_test=true` for dev environment.
 
-## Structure
+## Code structure
 
-Project specific conventions are defined in [README.md](README.md#conventions). See the [code structure](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/b-code-structure.md) appendix of the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for some tips on how to design a modular directory structure.
+Project specific conventions are defined in [README.md](README.md#conventions). See [code structure](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/b-code-structure.md) appendix of the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for some tips on how to design a modular directory structure.
 
 ## Version control
 
@@ -173,9 +173,7 @@ Development is done in dev and feature branches.
 
 All commit messages must be structured according to the [Conventional Commits](http://conventionalcommits.org/) convention as application version number and release notes are generated automatically for production release by the [semantic-release](https://github.com/semantic-release/semantic-release) library.
 
-You can manage environment and feature branches using taito-cli commands. Run `taito vc -h` for instructions. If you use git commands or git GUI tools instead, remember to follow the version control conventions defined by `taito vc conventions`.
-
-See the [version control](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/04-version-control.md) chapter of the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for some additional information.
+You can manage environment and feature branches using taito-cli commands. Run `taito vc -h` for instructions. If you use git commands or git GUI tools instead, remember to follow the version control conventions defined by `taito vc conventions`. See [version control](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/04-version-control.md) chapter of the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for some additional information.
 
 ## Database migrations
 
@@ -212,9 +210,7 @@ Deploying to different environments:
 
 Simple projects require only two environments: **dev** and **prod**. You can list the environments with `taito vc env list`.
 
-You can use the `taito vc` commands to manage branches, and the `taito deployment` commands to manage builds and deployments. Run `taito vc -h` and `taito deployment -h` for instructions. Run `taito open builds` to see the build logs.
-
-See the [version control](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/04-version-control.md) chapter of the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for some additional information.
+You can use the `taito vc` commands to manage branches, and the `taito deployment` commands to manage builds and deployments. Run `taito vc -h` and `taito deployment -h` for instructions. Run `taito open builds` to see the build logs. See [version control](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/04-version-control.md) chapter of the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for some additional information.
 
 > Automatic deployment might be turned off for critical environments (`ci_exec_deploy` setting in `taito-config.sh`). In such case the deployment must be run manually with the `taito -a deployment deploy:prod VERSION` command using a personal admin account after the CI/CD process has ended successfully.
 
@@ -253,13 +249,11 @@ The client GUI uses [Material-UI](https://material-ui-next.com/) component libra
 
 ### Remote environments
 
-Define remote environments with the `taito_environments` setting in `taito-config.sh`. You can create an environment by running `taito env apply:ENV`. Examples for environment names: `f-orders`, `dev`, `test`, `stag`, `canary`, `prod`.
+Define remote environments with the `taito_environments` setting in `taito-config.sh`. After that you can create an environment by running `taito env apply:ENV`. Examples for environment names: `f-orders`, `dev`, `test`, `stag`, `canary`, `prod`. Note that you should remove unnecessary examples from database migrations (`./database`) and secrets (`taito-config.sh`) before creating the first server environment.
 
-If basic auth is used only for hiding non-production environments, you can use the same credentials for all environments. In this case you should also write them down to the [Links](#links) section so that all project personnel can easily access the credentials.
+If basic auth is used only for hiding non-production environments, you can use the same credentials for all environments. In such case you should also write them down to the [links](README.md#links) section on README.md so that all project personnel can easily access the credentials.
 
-NOTE: You should remove unnecessary examples from database migrations (`./database`) and secrets (`taito-config.sh`) before creating the first server environment.
-
-NOTE: Operations on production and staging environments usually require admin rights. Please contact DevOps personnel if necessary.
+> Operations on production and staging environments usually require admin rights. Please contact DevOps personnel if necessary.
 
 ### Kubernetes
 

@@ -29,11 +29,11 @@ Table of contents:
 
 ## Links
 
-Non-production basic auth credentials: TODO
+Non-production basic auth credentials: CREDENTIALS
 
 [//]: # (GENERATED LINKS START)
 
-LINKS WILL BE GENERATED HERE
+*LINKS WILL BE GENERATED HERE*
 
 [//]: # (GENERATED LINKS END)
 
@@ -48,7 +48,7 @@ LINKS WILL BE GENERATED HERE
 
 ## Responsibilities
 
-> Hosting, billing and control of 3rd party services, SSL/TLS certificates, etc.
+Hosting, billing and control of 3rd party services, SSL/TLS certificates, etc.
 
 ## Recurring issues and solutions
 
@@ -56,15 +56,17 @@ See trouble.txt or run `taito --trouble`.
 
 ## Miscellaneous notes
 
+Misc notes.
+
 ## Conventions
 
-> Project specific conventions.
+Project specific conventions.
 
 ## Architecture Overview
 
 > TIP: You can use [Gravizo](https://www.gravizo.com) for making a architecture diagram if the diagram does not contain any confidential information. Note that architecture diagram is not mandatory if the architecture is very simple.
 
-TODO
+DIAGRAM
 
 ### Integrations
 
@@ -99,8 +101,8 @@ TODO
 
 ## Security
 
-> See the [security](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/d-security.md) appendix of the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md)
+See the [security](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/d-security.md) appendix of the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md).
 
 ## GDPR
 
-> See the [data protection and privacy](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/e-data-protection-and-privacy.md) appendix of the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md)
+See the [data protection and privacy](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/e-data-protection-and-privacy.md) appendix of the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md).
