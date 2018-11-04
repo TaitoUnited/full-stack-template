@@ -1,6 +1,6 @@
 # Development
 
-This file has been copied from [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/). Keep modifications minimal and improve the original instead. Project specific conventions are located in [README.md](README.md#conventions). See the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/tree/master/docs/tutorial) for more thorough development instructions. Note that you can use this template also [without taito-cli](#without-taito-cli).
+This file has been copied from [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/). Keep modifications minimal and improve the [original](https://github.com/TaitoUnited/SERVER-TEMPLATE/blob/dev/DEVELOPMENT.md) instead. Project specific conventions are located in [README.md](README.md#conventions). See the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for more thorough development instructions. Note that taito-cli is optional (see [without taito-cli](#without-taito-cli)).
 
 Table of contents:
 
@@ -165,7 +165,7 @@ You can run integration and end-to-end tests manually with the `taito test[:TARG
 
 ## Structure
 
-Project specific conventions are defined in [PROJECT.md](PROJECT.md#conventions). See the [template wiki](https://github.com/TaitoUnited/SERVER-TEMPLATE/wiki/Structure) for some tips on how to design a modular directory structure.
+Project specific conventions are defined in [README.md](README.md#conventions). See the [code structure](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/b-code-structure.md) appendix of the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for some tips on how to design a modular directory structure.
 
 ## Version control
 
@@ -175,7 +175,7 @@ All commit messages must be structured according to the [Conventional Commits](h
 
 You can manage environment and feature branches using taito-cli commands. Run `taito vc -h` for instructions. If you use git commands or git GUI tools instead, remember to follow the version control conventions defined by `taito vc conventions`.
 
-See the [template wiki](https://github.com/TaitoUnited/SERVER-TEMPLATE/wiki/Version-control) for some additional information.
+See the [version control](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/04-version-control.md) chapter of the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for some additional information.
 
 ## Database migrations
 
@@ -214,7 +214,7 @@ Simple projects require only two environments: **dev** and **prod**. You can lis
 
 You can use the `taito vc` commands to manage branches, and the `taito deployment` commands to manage builds and deployments. Run `taito vc -h` and `taito deployment -h` for instructions. Run `taito open builds` to see the build logs.
 
-See the [template wiki](https://github.com/TaitoUnited/SERVER-TEMPLATE/wiki/Deployment) for some additional information.
+See the [version control](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/04-version-control.md) chapter of the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for some additional information.
 
 > Automatic deployment might be turned off for critical environments (`ci_exec_deploy` setting in `taito-config.sh`). In such case the deployment must be run manually with the `taito -a deployment deploy:prod VERSION` command using a personal admin account after the CI/CD process has ended successfully.
 
