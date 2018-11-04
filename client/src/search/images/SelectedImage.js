@@ -13,7 +13,7 @@ import Item from '~controls/paging/Item';
 import Circle from './Circle';
 
 // TODO: load image from server
-const imageUrl = '/lightning.jpg';
+const imageUrl = '/image.jpg';
 
 const propTypes = {
   item: PropTypes.object,

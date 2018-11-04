@@ -7,7 +7,7 @@ import { appear } from '~utils/animations.utils';
 import Circle from './Circle';
 
 // TODO: load thumbnail from server
-const thumbUrl = '/lightning.jpg';
+const thumbUrl = '/image.jpg';
 
 const propTypes = {
   index: PropTypes.number.isRequired,
@@ -84,7 +84,7 @@ class Image extends Component {
             <ShortInfo width={width}>
               <div>{item.filename}</div>
               <div>
-                by
+                by&nbsp;
                 {item.author}
               </div>
             </ShortInfo>
@@ -93,7 +93,7 @@ class Image extends Component {
             <LongInfo width={width}>
               <div>{item.filename}</div>
               <div>
-                by
+                by&nbsp;
                 {item.author}
               </div>
               <p>{item.description}</p>

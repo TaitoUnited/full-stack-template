@@ -119,7 +119,7 @@ truncate --size 0 docker-nginx.conf
 cat temp > docker-nginx.conf
 
   sed ${sedi} -- 's/ admin / /' taito-config.sh
-  sed ${sedi} -- '/  admin:/d' ./scripts/helm.yaml
+  sed ${sedi} -- '/^    admin: true/d' ./scripts/helm.yaml
 
   sed ${sedi} -- '/\* admin/d' taito-config.sh
   sed ${sedi} -- '/REPO_NAME\/admin:/d' cloudbuild.yaml
@@ -153,7 +153,7 @@ truncate --size 0 docker-nginx.conf
 cat temp > docker-nginx.conf
 
   sed ${sedi} -- 's/ client / /' taito-config.sh
-  sed ${sedi} -- '/  client:/d' ./scripts/helm.yaml
+  sed ${sedi} -- '/^    client: true/d' ./scripts/helm.yaml
 
   sed ${sedi} -- '/  sentry/d' taito-config.sh
   sed ${sedi} -- '/\* app/d' taito-config.sh
@@ -181,7 +181,7 @@ truncate --size 0 docker-compose.yaml
 cat temp > docker-compose.yaml
 
   sed ${sedi} -- 's/ database / /' taito-config.sh
-  sed ${sedi} -- '/  database:/d' ./scripts/helm.yaml
+  # sed ${sedi} -- '/  database:/d' ./scripts/helm.yaml
 
   sed ${sedi} -- '/postgres-db/d' taito-config.sh
   sed ${sedi} -- '/db\./d' taito-config.sh
@@ -208,7 +208,7 @@ cat temp > docker-nginx.conf
   sed ${sedi} -- "s/ci-prepare:server/ci-prepare:client/" cloudbuild.yaml
 
   sed ${sedi} -- 's/ server / /' taito-config.sh
-  sed ${sedi} -- '/  server:/d' ./scripts/helm.yaml
+  sed ${sedi} -- '/^    server: true/d' ./scripts/helm.yaml
 
   sed ${sedi} -- '/\* api/d' taito-config.sh
   sed ${sedi} -- '/REPO_NAME\/server:/d' cloudbuild.yaml
@@ -235,7 +235,7 @@ truncate --size 0 docker-compose.yaml
 cat temp > docker-compose.yaml
 
   sed ${sedi} -- 's/ storage / /' taito-config.sh
-  sed ${sedi} -- '/    storage:/d' ./scripts/helm.yaml
+  sed ${sedi} -- '/^    storage: true/d' ./scripts/helm.yaml
   sed ${sedi} -- '/    serviceAccount:/d' ./scripts/helm.yaml
   sed ${sedi} -- '/.*taito_env}-gserviceaccount.key/d' ./scripts/helm.yaml
 
@@ -258,7 +258,7 @@ truncate --size 0 docker-compose.yaml
 cat temp > docker-compose.yaml
 
   sed ${sedi} -- '/  worker/d' taito-config.sh
-  sed ${sedi} -- '/  worker:/d' ./scripts/helm.yaml
+  sed ${sedi} -- '/^    worker: false/d' ./scripts/helm.yaml
 
   sed ${sedi} -- '/install-all:worker":/d' package.json
   sed ${sedi} -- '/lint:worker":/d' package.json
@@ -281,7 +281,7 @@ truncate --size 0 docker-compose.yaml
 cat temp > docker-compose.yaml
 
   sed ${sedi} -- '/  queue/d' taito-config.sh
-  sed ${sedi} -- '/  queue:/d' ./scripts/helm.yaml
+  sed ${sedi} -- '/^    queue: false/d' ./scripts/helm.yaml
 fi
 
 if [[ ! ${stack_cache} ]]; then
@@ -294,7 +294,7 @@ truncate --size 0 docker-compose.yaml
 cat temp > docker-compose.yaml
 
   sed ${sedi} -- 's/ cache / /' taito-config.sh
-  sed ${sedi} -- '/  cache:/d' ./scripts/helm.yaml
+  sed ${sedi} -- '/^    cache: false/d' ./scripts/helm.yaml
 fi
 
 sed ${sedi} -- '/https:\/\/TODO/d' taito-config.sh
@@ -359,11 +359,11 @@ sed ${sedi} -- "s/9999/${ingress_port}/g" docker-compose.yaml taito-config.sh \
 echo "Replacing template variables with the given settings..."
 
 # Replace template variables in taito-config.sh with the given settings
-sed ${sedi} -- "s/taito_company=\".*\"/taito_company=\"${taito_company}\"/g" taito-config.sh
-sed ${sedi} -- "s/taito_family=\".*\"/taito_family=\"${taito_family:-}\"/g" taito-config.sh
-sed ${sedi} -- "s/taito_application=\".*\"/taito_application=\"${taito_application:-}\"/g" taito-config.sh
-sed ${sedi} -- "s/taito_suffix=\".*\"/taito_suffix=\"${taito_suffix:-}\"/g" taito-config.sh
-sed ${sedi} -- "s/taito_project=\".*\"/taito_project=\"${taito_vc_repository}\"/g" taito-config.sh
+sed ${sedi} -- "s/taito_company=.*/taito_company=${taito_company}/g" taito-config.sh
+sed ${sedi} -- "s/taito_family=.*/taito_family=${taito_family:-}/g" taito-config.sh
+sed ${sedi} -- "s/taito_application=.*/taito_application=${taito_application:-}/g" taito-config.sh
+sed ${sedi} -- "s/taito_suffix=.*/taito_suffix=${taito_suffix:-}/g" taito-config.sh
+sed ${sedi} -- "s/taito_project=.*/taito_project=${taito_vc_repository}/g" taito-config.sh
 
 echo "Replacing template variables with the user specific settings..."
 

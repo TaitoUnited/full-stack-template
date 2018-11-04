@@ -243,7 +243,7 @@ The client GUI uses [Material-UI](https://material-ui-next.com/) component libra
 
 ### Basic project settings
 
-1. Modify `taito-config.sh` if you need to change some settings. The default settings are ok for most projects, but you might want to define some links with `link_urls`.
+1. Modify `taito-config.sh` if you need to change some settings. The default settings are ok for most projects.
 2. Run `taito project apply`
 3. Commit and push changes
 
