@@ -33,7 +33,7 @@ Non-production basic auth credentials: CREDENTIALS
 
 [//]: # (GENERATED LINKS START)
 
-*LINKS WILL BE GENERATED HERE*
+LINKS WILL BE GENERATED HERE
 
 [//]: # (GENERATED LINKS END)
 
@@ -64,9 +64,7 @@ Project specific conventions.
 
 ## Architecture Overview
 
-> TIP: You can use [Gravizo](https://www.gravizo.com) for making a architecture diagram if the diagram does not contain any confidential information. Note that architecture diagram is not mandatory if the architecture is very simple.
-
-DIAGRAM
+DIAGRAM: You can use [Gravizo](https://www.gravizo.com) for making a architecture diagram if the diagram does not contain any confidential information. Note that architecture diagram is not mandatory if the architecture is very simple.
 
 ### Integrations
 
@@ -77,7 +75,7 @@ DIAGRAM
 
 ### Processes
 
-> NOTE: Only non-trivial processes need to be described here (e.g. scheduled batch processing), though it might be a good idea to describe one or two basic scenarios also. Architecture is the main focus here. User stories should be documented elsewhere (e.g. wiki).
+Only non-trivial processes need to be described here (e.g. scheduled batch processing), though it might be a good idea to describe one or two basic scenarios also. Architecture is the main focus here. User stories should be documented elsewhere (e.g. wiki).
 
 #### Basic Scenario
 
