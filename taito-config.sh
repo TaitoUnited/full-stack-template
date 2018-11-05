@@ -64,7 +64,7 @@ taito_networks="default"
 db_database_instance=${template_default_postgres:?}
 db_database_type=pg
 db_database_name=${taito_project//-/_}_${taito_env}
-db_database_host=localhost
+db_database_host="127.0.0.1"
 db_database_proxy_port=5001
 db_database_port=$db_database_proxy_port
 
