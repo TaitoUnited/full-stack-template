@@ -76,6 +76,18 @@ if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   stack_admin=true
 fi
 echo
+echo "Static website (e.g. for documentation) (y/N)?"
+read -r confirm
+if [[ "${confirm}" =~ ^[Yy]$ ]]; then
+  stack_www=true
+fi
+echo
+echo "GraphQL gateway (y/N)?"
+read -r confirm
+if [[ "${confirm}" =~ ^[Yy]$ ]]; then
+  stack_graphql=true
+fi
+echo
 echo "Worker for background jobs (y/N)?"
 read -r confirm
 if [[ "${confirm}" =~ ^[Yy]$ ]]; then
@@ -224,6 +236,40 @@ cat temp > docker-nginx.conf
   sed ${sedi} -- 's/test:server //g' package.json
 fi
 
+if [[ ! ${stack_graphql} ]]; then
+  rm -rf graphql
+
+{
+sed '/# graphql start/q' docker-compose.yaml
+sed -n -e '/# graphql end/,$p' docker-compose.yaml
+} > temp
+truncate --size 0 docker-compose.yaml
+cat temp > docker-compose.yaml
+
+{
+sed '/# graphql start/q' docker-nginx.conf
+sed -n -e '/# graphql end/,$p' docker-nginx.conf
+} > temp
+truncate --size 0 docker-nginx.conf
+cat temp > docker-nginx.conf
+
+  sed ${sedi} -- 's/ graphql / /' taito-config.sh
+  sed ${sedi} -- '/^    graphql: true/d' ./scripts/helm.yaml
+
+  # sed ${sedi} -- '/\* api/d' taito-config.sh
+  sed ${sedi} -- '/REPO_NAME\/graphql:/d' cloudbuild.yaml
+
+  sed ${sedi} -- '/install-all:graphql":/d' package.json
+  sed ${sedi} -- '/lint:graphql":/d' package.json
+  sed ${sedi} -- '/unit:graphql":/d' package.json
+  sed ${sedi} -- '/test:graphql":/d' package.json
+
+  sed ${sedi} -- 's/install-all:graphql //g' package.json
+  sed ${sedi} -- 's/lint:graphql //g' package.json
+  sed ${sedi} -- 's/unit:graphql //g' package.json
+  sed ${sedi} -- 's/test:graphql //g' package.json
+fi
+
 if [[ ! ${stack_storage} ]]; then
   rm -rf storage
 
@@ -257,7 +303,7 @@ sed -n -e '/# worker end/,$p' docker-compose.yaml
 truncate --size 0 docker-compose.yaml
 cat temp > docker-compose.yaml
 
-  sed ${sedi} -- '/  worker/d' taito-config.sh
+  sed ${sedi} -- 's/ worker / /' taito-config.sh
   sed ${sedi} -- '/^    worker: false/d' ./scripts/helm.yaml
 
   sed ${sedi} -- '/install-all:worker":/d' package.json
@@ -271,6 +317,30 @@ cat temp > docker-compose.yaml
   sed ${sedi} -- 's/test:worker //g' package.json
 fi
 
+if [[ ! ${stack_www} ]]; then
+  rm -rf www
+
+{
+sed '/# www start/q' docker-compose.yaml
+sed -n -e '/# www end/,$p' docker-compose.yaml
+} > temp
+truncate --size 0 docker-compose.yaml
+cat temp > docker-compose.yaml
+
+  sed ${sedi} -- 's/ www / /' taito-config.sh
+  sed ${sedi} -- '/^    www: false/d' ./scripts/helm.yaml
+
+  sed ${sedi} -- '/install-all:www":/d' package.json
+  sed ${sedi} -- '/lint:www":/d' package.json
+  sed ${sedi} -- '/unit:www":/d' package.json
+  sed ${sedi} -- '/test:www":/d' package.json
+
+  sed ${sedi} -- 's/install-all:www //g' package.json
+  sed ${sedi} -- 's/lint:www //g' package.json
+  sed ${sedi} -- 's/unit:www //g' package.json
+  sed ${sedi} -- 's/test:www //g' package.json
+fi
+
 if [[ ! ${stack_queue} ]]; then
 
 {
@@ -280,8 +350,9 @@ sed -n -e '/# queue end/,$p' docker-compose.yaml
 truncate --size 0 docker-compose.yaml
 cat temp > docker-compose.yaml
 
-  sed ${sedi} -- '/  queue/d' taito-config.sh
+  sed ${sedi} -- 's/ queue / /' taito-config.sh
   sed ${sedi} -- '/^    queue: false/d' ./scripts/helm.yaml
+  sed ${sedi} -- '/^  # TODO queue/d' ./scripts/helm.yaml
 fi
 
 if [[ ! ${stack_cache} ]]; then
@@ -295,6 +366,7 @@ cat temp > docker-compose.yaml
 
   sed ${sedi} -- 's/ cache / /' taito-config.sh
   sed ${sedi} -- '/^    cache: false/d' ./scripts/helm.yaml
+  sed ${sedi} -- '/^  # TODO cache/d' ./scripts/helm.yaml
 fi
 
 sed ${sedi} -- '/https:\/\/TODO/d' taito-config.sh

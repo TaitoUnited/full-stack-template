@@ -56,6 +56,35 @@ services:
     # You can usually derive api location from the browser url of the GUI.
   # client end
 
+  # graphql start
+  server-template-graphql:
+    container_name: server-template-graphql
+    build:
+      context: ./graphql
+      dockerfile: ${dockerfile}
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      - "8080"
+    volumes:
+      - "./graphql:/graphql"
+      - "/graphql/node_modules"
+      - "/graphql/flow-typed/npm"
+    environment:
+      COMMON_COMPANY: companyname
+      COMMON_PROJECT: server-template
+      COMMON_DEBUG: 'false'
+      COMMON_LOG_FORMAT: text
+      COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
+      ENV: local
+      DEBUG: 'false'
+      GRAPHQL_PORT: 8080
+      GRAPHQL_BINDADDR: 0.0.0.0
+      API_HOST: server-template-server
+      API_PORT: 8080
+  # graphql end
+
   # server start
   server-template-server:
     container_name: server-template-server
@@ -131,15 +160,32 @@ services:
   #     S3_KEY_SECRET: CVQVa33NekSiOJGnevSY5ITr8Rql8lFkp22WhLQ+
   # worker end
 
+  # www start
+  # server-template-www:
+  #   container_name: server-template-www
+  #   build:
+  #     context: ./www
+  #     dockerfile: ${dockerfile}
+  #   restart: unless-stopped
+  #   networks:
+  #     - default
+  #   ports:
+  #     - "8080"
+  #   volumes:
+  #     - "./www:/www"
+  #     - "/www/node_modules"
+  #     - "/www/flow-typed/npm"
+  # www end
+
   # cache start
-  server-template-cache:
-    container_name: server-template-cache
-    image: redis:alpine
-    restart: unless-stopped
-    networks:
-      - default
-    ports:
-      - "6379"
+  # server-template-cache:
+  #   container_name: server-template-cache
+  #   image: redis:alpine
+  #   restart: unless-stopped
+  #   networks:
+  #     - default
+  #   ports:
+  #     - "6379"
   # cache end
 
   # queue start

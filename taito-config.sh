@@ -55,7 +55,7 @@ taito_vc_repository=$taito_project
 taito_image_registry=${template_default_registry:?}/$taito_zone/$taito_vc_repository
 
 # Stack
-taito_targets=" admin client cache database server storage "
+taito_targets=" admin client cache graphql database queue server storage worker www "
 taito_databases="database"
 taito_storages="$taito_project-$taito_env"
 taito_networks="default"
@@ -189,6 +189,7 @@ link_urls="
   * app[:ENV]=$taito_app_url Application (:ENV)
   * admin[:ENV]=$taito_admin_url Admin user interface (:ENV)
   * api[:ENV]=$taito_app_url/api/uptimez API (:ENV)
+  * graphql[:ENV]=$taito_app_url/graphql/uptimez API (:ENV)
   * docs=https://github.com/${template_default_github_organization:?}/$taito_vc_repository/wiki Project documentation
   * git=https://github.com/${template_default_github_organization:?}/$taito_vc_repository GitHub repository
   * kanban=https://github.com/${template_default_github_organization:?}/$taito_vc_repository/projects Kanban boards
@@ -223,6 +224,7 @@ taito_secrets="
 
 # NOTE: Variable is passed to the test without the test_TARGET_ prefix
 
+test_graphql_TEST_API_URL=https://user:painipaini@$taito_domain/graphql
 test_server_TEST_API_URL=https://user:painipaini@$taito_domain/api
 test_server_DATABASE_HOST=$taito_project-database-test-proxy
 test_server_DATABASE_PORT=5432
@@ -233,6 +235,7 @@ test_server_DATABASE_PASSWORD="P8JH4m33RQshznTkTNxvQgFO9BWpkg"
 
 if [[ "$taito_env" == "local" ]]; then
   # On local env we use api running on the same container
+  test_graphql_TEST_API_URL=http://localhost:8080
   test_server_TEST_API_URL=http://localhost:8080
   # ...and connect to database running on an another container
   test_server_DATABASE_HOST=$taito_project-database

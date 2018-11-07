@@ -9,8 +9,8 @@
     "unit": "mocha --require babel-core/register --recursive 'src/**/*.unit.js'",
     "test": "mocha --require babel-core/register --recursive \"src/**/${test_name:-*}.test.js\" \"test/**/${test_name:-*}.test.js\"",
     "start": "npm run start:dev",
-    "start:dev": "NODE_ENV=development nodemon -L ./index.js --ignore 'test/*.js' | bunyan -l debug",
-    "start:dev:trace": "NODE_ENV=development nodemon -L ./index.js --ignore 'test/*.js' | bunyan",
+    "start:dev": "NODE_ENV=development nodemon -L ./index.js --ignore 'test/*.js'",
+    "start:dev:trace": "NODE_ENV=development nodemon -L ./index.js --ignore 'test/*.js'",
     "start:prod": "NODE_ENV=production nodemon -L ./index.production.js",
     "build:prod": "NODE_ENV=production babel -d ../build --ignore node_modules ."
   },
@@ -18,23 +18,11 @@
   "dependencies": {
     "babel-polyfill": "~6.26.0",
     "babel-runtime": "~6.26.0",
-    "boom": "^7.2.0",
-    "bunyan": "~1.8.12",
-    "continuation-local-storage": "~3.2.1",
-    "jsonwebtoken": "~8.3.0",
     "koa": "~2.5.3",
-    "koa-basic-auth": "~3.0.0",
-    "koa-bodyparser": "~4.2.1",
     "koa-cache-control": "~2.0.0",
-    "koa-convert": "~1.2.0",
-    "koa-jwt": "~3.5.1",
+    "koa-proxy": "0.9.0",
     "koa-router": "^7.4.0",
-    "lodash": "~4.17.10",
-    "pg-promise": "~8.4.6",
-    "raven": "~2.6.4",
-    "request": "~2.88.0",
-    "request-promise-native": "~1.0.5",
-    "uuid": "~3.3.2"
+    "request-promise-native": "~1.0.5"
   },
   "devDependencies": {
     "babel-cli": "~6.26.0",

@@ -1,8 +1,11 @@
 images: [
   'eu.gcr.io/$PROJECT_ID/$_REPO_NAME/admin:$COMMIT_SHA',
   'eu.gcr.io/$PROJECT_ID/$_REPO_NAME/client:$COMMIT_SHA',
+  'eu.gcr.io/$PROJECT_ID/$_REPO_NAME/graphql:$COMMIT_SHA',
   'eu.gcr.io/$PROJECT_ID/$_REPO_NAME/server:$COMMIT_SHA'
 ]
+# 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME/worker:$COMMIT_SHA'
+# 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME/www:$COMMIT_SHA'
 timeout: 1500s
 # If you want to grant outsiders access to your build logs, you mey save
 # the logs to a separate bucket and grant the outsiders access to that bucket
@@ -280,58 +283,6 @@ steps:
     - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
-- id: ci-build-bot
-  waitFor: ['ci-release-pre']
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-build:bot:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME']
-  env:
-    - taito_mode=ci
-    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
-    - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
-    - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
-    - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
-    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
-    - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
-    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
-    - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
-    - template_default_provider_org_id=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID}
-    - template_default_provider_org_id_prod=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID_PROD}
-    - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
-    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
-    - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
-    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
-    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
-    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
-    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
-
-- id: ci-push-bot
-  waitFor: ['ci-build-bot']
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-push:bot:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME']
-  env:
-    - taito_mode=ci
-    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
-    - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
-    - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
-    - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
-    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
-    - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
-    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
-    - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
-    - template_default_provider_org_id=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID}
-    - template_default_provider_org_id_prod=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID_PROD}
-    - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
-    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
-    - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
-    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
-    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
-    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
-    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
-
 - id: ci-build-client
   waitFor: ['ci-release-pre']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
@@ -362,6 +313,58 @@ steps:
   waitFor: ['ci-build-client']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['ci-push:client:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME']
+  env:
+    - taito_mode=ci
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+    - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
+    - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
+    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+    - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
+    - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
+    - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
+    - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
+    - template_default_provider_org_id=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID}
+    - template_default_provider_org_id_prod=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID_PROD}
+    - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
+    - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+
+- id: ci-build-graphql
+  waitFor: ['ci-release-pre']
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
+  args: ['ci-build:graphql:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME']
+  env:
+    - taito_mode=ci
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+    - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
+    - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
+    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+    - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
+    - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
+    - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
+    - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
+    - template_default_provider_org_id=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID}
+    - template_default_provider_org_id_prod=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID_PROD}
+    - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
+    - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+
+- id: ci-push-graphql
+  waitFor: ['ci-build-graphql']
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
+  args: ['ci-push:graphql:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -436,57 +439,109 @@ steps:
     - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
-- id: ci-build-worker
-  waitFor: ['ci-release-pre']
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-build:worker:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME']
-  env:
-    - taito_mode=ci
-    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
-    - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
-    - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
-    - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
-    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
-    - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
-    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
-    - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
-    - template_default_provider_org_id=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID}
-    - template_default_provider_org_id_prod=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID_PROD}
-    - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
-    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
-    - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
-    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
-    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
-    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
-    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
-
-- id: ci-push-worker
-  waitFor: ['ci-build-worker']
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-push:worker:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME']
-  env:
-    - taito_mode=ci
-    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
-    - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
-    - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
-    - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
-    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
-    - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
-    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
-    - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
-    - template_default_provider_org_id=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID}
-    - template_default_provider_org_id_prod=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID_PROD}
-    - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
-    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
-    - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
-    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
-    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
-    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
-    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+# - id: ci-build-worker
+#   waitFor: ['ci-release-pre']
+#   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
+#   args: ['ci-build:worker:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME']
+#   env:
+#     - taito_mode=ci
+#     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+#     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
+#     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
+#     - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+#     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
+#     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+#     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
+#     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+#     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
+#     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
+#     - template_default_provider_org_id=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID}
+#     - template_default_provider_org_id_prod=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID_PROD}
+#     - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+#     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
+#     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+#     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+#     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+#     - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
+#     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+#
+# - id: ci-push-worker
+#   waitFor: ['ci-build-worker']
+#   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
+#   args: ['ci-push:worker:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME']
+#   env:
+#     - taito_mode=ci
+#     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+#     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
+#     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
+#     - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+#     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
+#     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+#     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
+#     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+#     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
+#     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
+#     - template_default_provider_org_id=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID}
+#     - template_default_provider_org_id_prod=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID_PROD}
+#     - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+#     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
+#     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+#     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+#     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+#     - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
+#     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+#
+# - id: ci-build-www
+#   waitFor: ['ci-release-pre']
+#   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
+#   args: ['ci-build:www:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME']
+#   env:
+#     - taito_mode=ci
+#     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+#     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
+#     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
+#     - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+#     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
+#     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+#     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
+#     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+#     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
+#     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
+#     - template_default_provider_org_id=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID}
+#     - template_default_provider_org_id_prod=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID_PROD}
+#     - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+#     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
+#     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+#     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+#     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+#     - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
+#     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+#
+# - id: ci-push-www
+#   waitFor: ['ci-build-www']
+#   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
+#   args: ['ci-push:www:$BRANCH_NAME', '$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME']
+#   env:
+#     - taito_mode=ci
+#     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+#     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
+#     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
+#     - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+#     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
+#     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+#     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
+#     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+#     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
+#     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
+#     - template_default_provider_org_id=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID}
+#     - template_default_provider_org_id_prod=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID_PROD}
+#     - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+#     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
+#     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+#     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+#     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
+#     - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
+#     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 # Deploy to target environment
 

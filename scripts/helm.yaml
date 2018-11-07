@@ -21,10 +21,12 @@ server-template:
     admin: true
     client: true
     cache: false
+    graphql: true
     queue: false
     server: true
     storage: true
     worker: false
+    www: false
     sync: false
 
   # Defaults
@@ -54,6 +56,21 @@ server-template:
   client:
     path: /
     tier: frontend
+
+  # TODO cache
+
+  graphql:
+    path: /graphql
+    tier: backend
+    env:
+      ENV: production
+      DEBUG: false
+      GRAPHQL_PORT: '8080'
+      GRAPHQL_BINDADDR: '0.0.0.0'
+      API_HOST: ${taito_project}-${taito_env}-server
+      API_PORT: '8080'
+
+  # TODO queue
 
   server:
     path: /api
@@ -111,6 +128,12 @@ server-template:
     env:
       MINIO_ACCESS_KEY: 070UEOQR6LX4YPZLFU0V
 
+  # TODO worker
+
+  www:
+    path: /docs
+    tier: frontend
+
   # TODO: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/#ttl-mechanism-for-finished-jobs
 
   sync:
@@ -122,7 +145,7 @@ server-template:
         args:
           - /bin/sh
           - -c
-          - curl -s -S 'http://server-template-dev-server:8080/posts?offset=0&limit=1'
+          - curl -s -S 'http://${taito_project}-${taito_env}-server:8080/posts?offset=0&limit=1'
 
   # TODO configure resources
   # resources: {}

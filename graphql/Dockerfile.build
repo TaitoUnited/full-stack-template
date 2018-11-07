@@ -1,0 +1,46 @@
+# Builder and tester container for production build
+FROM node:8.12-alpine as builder
+ARG TARGET_ENV=prod
+RUN apk add --update-cache build-base python git fontconfig
+# Required by the current flow version (can be removed later?)
+RUN apk --no-cache add ca-certificates wget && \
+  wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
+  wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.28-r0/glibc-2.28-r0.apk && \
+  apk add glibc-2.28-r0.apk
+WORKDIR /graphql
+COPY ./package.json ./package-lock.* ./.flowconfi* /graphql/
+ENV TARGET_ENV ${TARGET_ENV}
+ENV NODE_ENV development
+RUN npm ci --loglevel warn
+# RUN npm run types-install
+COPY . /graphql
+RUN npm run lint
+# RUN npm run types
+RUN npm run unit
+RUN npm run build:prod
+
+# Production runtime container
+FROM node:8.12-alpine
+ARG BUILD_VERSION
+LABEL version=${BUILD_VERSION} \
+      company=companyname \
+      project=server-template \
+      role=client
+ENV BUILD_VERSION ${BUILD_VERSION}
+ENV NODE_ENV production
+WORKDIR /build
+COPY --from=builder /build .
+COPY --from=builder /graphql/package.json .
+COPY --from=builder /graphql/node_modules ./node_modules
+
+# Delete development libraries and create node user if it doesn't exist
+RUN npm prune --production && \
+    addgroup -S -g 74839 node || \
+    adduser -S -u 74276 -s /bin/false node || \
+    addgroup node node || \
+    su node -s /bin/sh -c "node --version"
+
+USER node
+EXPOSE 8080
+# TODO dump-init or tiny as init system? Kubernetes uses --init?
+CMD ["node", "./index.production.js"]

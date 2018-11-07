@@ -1,0 +1,13 @@
+{
+  "name": "server-template-www",
+  "scripts": {
+    "types-install": "echo TODO",
+    "types": "echo TODO",
+    "pretty-quick": "echo TODO",
+    "lint": "echo TODO",
+    "unit": "echo TODO",
+    "start": "echo TODO",
+    "build": "echo TODO",
+    "analyze": "echo TODO"
+  }
+}
