@@ -306,6 +306,8 @@ cat temp > docker-compose.yaml
   sed ${sedi} -- 's/ worker / /' taito-config.sh
   sed ${sedi} -- '/^    worker: false/d' ./scripts/helm.yaml
 
+  sed ${sedi} -- '/REPO_NAME\/worker:/d' cloudbuild.yaml
+
   sed ${sedi} -- '/install-all:worker":/d' package.json
   sed ${sedi} -- '/lint:worker":/d' package.json
   sed ${sedi} -- '/unit:worker":/d' package.json
@@ -327,8 +329,17 @@ sed -n -e '/# www end/,$p' docker-compose.yaml
 truncate --size 0 docker-compose.yaml
 cat temp > docker-compose.yaml
 
+{
+sed '/# www start/q' docker-nginx.conf
+sed -n -e '/# www end/,$p' docker-nginx.conf
+} > temp
+truncate --size 0 docker-nginx.conf
+cat temp > docker-nginx.conf
+
   sed ${sedi} -- 's/ www / /' taito-config.sh
   sed ${sedi} -- '/^    www: false/d' ./scripts/helm.yaml
+
+  sed ${sedi} -- '/REPO_NAME\/www:/d' cloudbuild.yaml
 
   sed ${sedi} -- '/install-all:www":/d' package.json
   sed ${sedi} -- '/lint:www":/d' package.json
@@ -352,7 +363,6 @@ cat temp > docker-compose.yaml
 
   sed ${sedi} -- 's/ queue / /' taito-config.sh
   sed ${sedi} -- '/^    queue: false/d' ./scripts/helm.yaml
-  sed ${sedi} -- '/^  # TODO queue/d' ./scripts/helm.yaml
 fi
 
 if [[ ! ${stack_cache} ]]; then
@@ -366,7 +376,6 @@ cat temp > docker-compose.yaml
 
   sed ${sedi} -- 's/ cache / /' taito-config.sh
   sed ${sedi} -- '/^    cache: false/d' ./scripts/helm.yaml
-  sed ${sedi} -- '/^  # TODO cache/d' ./scripts/helm.yaml
 fi
 
 sed ${sedi} -- '/https:\/\/TODO/d' taito-config.sh
