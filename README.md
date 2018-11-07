@@ -13,7 +13,7 @@ You can also migrate an existing non-taito-cli project by running `taito project
 [//]: # (TEMPLATE NOTE END)
 # Project title
 
-Short description for the project: vision, purpose, company, etc.
+Short description of the project: vision, purpose, company, etc.
 
 Table of contents:
 

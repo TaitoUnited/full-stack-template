@@ -169,7 +169,7 @@ Project specific conventions are defined in [README.md](README.md#conventions). 
 
 ## Version control
 
-Development is done in dev and feature branches.
+Development is done in `dev` and `feature/*` branches. Hotfixes are done in `hotfix/*` branches. You should not commit changes to any other branch.
 
 All commit messages must be structured according to the [Conventional Commits](http://conventionalcommits.org/) convention as application version number and release notes are generated automatically for production release by the [semantic-release](https://github.com/semantic-release/semantic-release) library.
 
@@ -224,7 +224,7 @@ The **dev** branch should be set as the default branch. Run `taito open conventi
 
 ### Stack
 
-* **Authentication:** Authentication has not yet been implemented (see [issue](https://github.com/TaitoUnited/server-template/issues/11)). Currently ingress does provide basic authentation, but it is only meant for hiding non-production environments.
+* **Authentication:** Authentication has not yet been implemented to the template (see [issue](https://github.com/TaitoUnited/SERVER-TEMPLATE/issues/11)). Currently ingress does provide basic authentation, but it is only meant for hiding non-production environments. [Auth0 docs](https://auth0.com/docs) is a good starting point for your auth implementation.
 * **Flow/typescript:** You can enable flow or typescript by going through parts with `NOTE: for flow` or `NOTE: for typescript` note. (TODO: implement typescript support)
 * **Alternative technologies:** If you would rather use other technologies than React, Node.js and PostgreSQL, you can copy alternative example implementations from [SERVER-TEMPLATE-alt](https://github.com/TaitoUnited/SERVER-TEMPLATE-alt/).
 
@@ -265,9 +265,9 @@ You can deploy configuration changes without rebuilding with the `taito deployme
 
 ### Secrets
 
-1. Add a secret definition to `taito-config.sh` (taito_secrets)
-2. Map secret to an environment variable in `scripts/helm.yaml`
-3. Run `taito env rotate:ENV [SECRET]` to generate a secret value for an environment. Run the command for each environment separately. Note that the rotate command restarts all pods in the same namespace.
+1. Add a secret definition to the `taito_secrets` setting in `taito-config.sh`.
+2. Map the secret definition to an environment variable in `scripts/helm.yaml`
+3. Run `taito env rotate:ENV SECRET` to generate a secret value for an environment. Run the command for each environment separately. Note that the rotate command restarts all pods in the same namespace.
 
 > For local development you can just define secrets as normal environment variables in `docker-compose.yaml` given that they are not confidential.
 

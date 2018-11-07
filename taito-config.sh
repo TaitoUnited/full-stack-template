@@ -40,7 +40,7 @@ taito_env=${taito_env/canary/prod} # canary -> prod
 # URLs
 taito_domain=$taito_project-$taito_target_env.${template_default_domain:?}
 taito_app_url=https://$taito_domain
-taito_cdn_url=
+taito_static_url=
 
 # Provider and namespaces
 taito_provider=${template_default_provider:?}
@@ -162,6 +162,7 @@ case $taito_env in
 
     # TODO why this is not required for pg? mysql plugin requires it.
     # db_database_password=secret
+    ;;
 esac
 
 # ------ Derived values after overrides ------
