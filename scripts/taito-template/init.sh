@@ -57,49 +57,41 @@ read -r confirm
 if [[ "${confirm}" =~ ^[Yy]*$ ]]; then
   stack_server=true
 fi
-echo
 echo "Relational database (Y/n)?"
 read -r confirm
 if [[ "${confirm}" =~ ^[Yy]*$ ]]; then
   stack_database=true
 fi
-echo
 echo "Permanent object storage for files (y/N)?"
 read -r confirm
 if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   stack_storage=true
 fi
-echo
 echo "Administration GUI (y/N)?"
 read -r confirm
 if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   stack_admin=true
 fi
-echo
 echo "Static website (e.g. for documentation) (y/N)?"
 read -r confirm
 if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   stack_www=true
 fi
-echo
 echo "GraphQL gateway (y/N)?"
 read -r confirm
 if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   stack_graphql=true
 fi
-echo
 echo "Worker for background jobs (y/N)?"
 read -r confirm
 if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   stack_worker=true
 fi
-echo
 echo "Cache for performance optimizations (y/N)?"
 read -r confirm
 if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   stack_cache=true
 fi
-echo
 echo "Queue for background jobs or messaging (y/N)?"
 read -r confirm
 if [[ "${confirm}" =~ ^[Yy]$ ]]; then
