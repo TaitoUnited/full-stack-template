@@ -78,7 +78,11 @@ taito_messaging_webhook=
 # Monitoring
 taito_monitoring_paths="/uptimez /admin/uptimez /api/uptimez"
 
-# CI/CD settings (most are enabled for dev and feat branches only)
+# CI/CD settings
+# NOTE: Most of these should be enabled for dev and feat branches only.
+# That is, container image is built and tested on dev environment first.
+# After that the same container image will be deployed to other environments:
+# dev -> test -> stag -> canary -> prod
 ci_exec_build=false        # build container image if it does not exist already
 ci_exec_deploy=true        # deploy automatically
 ci_exec_test=false         # execute test suites after deploy
@@ -160,7 +164,9 @@ case $taito_env in
     db_database_host=$taito_project-database
     db_database_port=5432
 
-    # TODO why this is not required for pg? mysql plugin requires it.
+    # TODO why password is not required for pg? mysql plugin requires it.
+    # perhaps pg plugin uses 'secret' as password by default?
+    # db_database_username=root
     # db_database_password=secret
     ;;
 esac
@@ -195,7 +201,7 @@ link_urls="
   * kanban=https://github.com/${template_default_github_organization:?}/$taito_vc_repository/projects Kanban boards
   * resources[:ENV]=https://console.cloud.google.com/home/dashboard?project=$taito_resource_namespace_id Google resources (:ENV)
   * services[:ENV]=https://console.cloud.google.com/apis/credentials?project=$taito_resource_namespace_id Google services (:ENV)
-  * builds=https://console.cloud.google.com/cloud-build/builds?project=$taito_zone&query=source.repo_source.repo_name%3D%22github_${template_default_github_organization:?}_$taito_vc_repository%22 Build logs
+  * builds=https://console.cloud.google.com/cloud-build/builds?project=$taito_zone&query=source.repo_source.repo_name%3D%22github-${template_default_github_organization:?}-$taito_vc_repository%22 Build logs
   * artifacts=https://TODO-DOCS-AND-TEST-REPORTS Generated documentation and test reports
   * storage:ENV=https://console.cloud.google.com/storage/browser/$taito_project-$taito_env?project=$taito_resource_namespace_id Storage bucket (:ENV)
   * logs:ENV=https://console.cloud.google.com/logs/viewer?project=$taito_zone&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F$kubectl_name%2Fnamespace_id%2F$taito_namespace Logs (:ENV)

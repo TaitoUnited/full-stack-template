@@ -216,24 +216,27 @@ You can use the `taito vc` commands to manage branches, and the `taito deploymen
 
 ## Configuration
 
-> HINT: To save some time, start your application locally while you are configuring the project: `taito install`, `taito start`, `taito init`.
+> TIP: To save some time, start your application locally while you are configuring the project: `taito install`, `taito start`, `taito init`.
 
 ### Version control settings
 
-The **dev** branch should be set as the default branch. Run `taito open conventions` to see organization specific conventions.
+Run `taito open conventions` to see organization specific settings that you should configure for your git repository.
 
 ### Stack
 
-* **Authentication:** Authentication has not yet been implemented to the template (see [issue](https://github.com/TaitoUnited/SERVER-TEMPLATE/issues/11)). Currently ingress does provide basic authentation, but it is only meant for hiding non-production environments. [Auth0 docs](https://auth0.com/docs) is a good starting point for your auth implementation.
-* **Flow/typescript:** You can enable flow or typescript by going through parts with `NOTE: for flow` or `NOTE: for typescript` note. (TODO: implement typescript support)
-* **Alternative technologies:** If you would rather use other technologies than React, Node.js and PostgreSQL, you can copy alternative example implementations from [SERVER-TEMPLATE-alt](https://github.com/TaitoUnited/SERVER-TEMPLATE-alt/).
+**Alternative technologies:** If you would rather use other technologies than React, Node.js and PostgreSQL, you can copy alternative example implementations from [SERVER-TEMPLATE-alt](https://github.com/TaitoUnited/SERVER-TEMPLATE-alt/).
 
-The template supports unlimited number of (micro-)services. You can add new services like this:
+**Additional microservices:** The template supports unlimited number of microservices. You can add new services like this:
 
-1. Create a new directory for your service. Look [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) and [SERVER-TEMPLATE-alt](https://github.com/TaitoUnited/SERVER-TEMPLATE-alt/) for examples.
-2. Add the service to `taito_targets` variable in `taito-config.sh`
-3. Add the service to `docker-compose.yaml` and check that it works ok in local development environment.
-4. Add the service to `scripts/helm.yaml`.
+    1. Create a new directory for your service. Look [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) and [SERVER-TEMPLATE-alt](https://github.com/TaitoUnited/SERVER-TEMPLATE-alt/) for examples.
+    2. Add the service to `taito_targets` variable in `taito-config.sh`
+    3. Add the service to `docker-compose.yaml` and check that it works ok in local development environment.
+    4. Add the service to `scripts/helm.yaml`.
+    5. Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `check-deps`, `check-size`.
+
+**Flow/typescript:** You can enable flow or typescript by going through parts marked with a `NOTE: for flow` or `NOTE: for typescript` note. (TODO: implement typescript support)
+
+**Authentication:** Authentication has not yet been implemented to the template (see [issue](https://github.com/TaitoUnited/SERVER-TEMPLATE/issues/11)). Currently ingress does provide basic authentation, but it is only meant for hiding non-production environments. [Auth0 docs](https://auth0.com/docs) is a good starting point for your auth implementation.
 
 ### Examples
 
@@ -249,7 +252,7 @@ The client GUI uses [Material-UI](https://material-ui-next.com/) component libra
 
 ### Remote environments
 
-Define remote environments with the `taito_environments` setting in `taito-config.sh`. After that you can create an environment by running `taito env apply:ENV`. Examples for environment names: `f-orders`, `dev`, `test`, `stag`, `canary`, `prod`. Note that you should remove unnecessary examples from database migrations (`./database`) and secrets (`taito-config.sh`) before creating the first server environment.
+Define remote environments with the `taito_environments` setting in `taito-config.sh`. After that you can create an environment by running `taito env apply:ENV`. Examples for environment names: `f-orders`, `dev`, `test`, `stag`, `canary`, `prod`. Create a `dev` environment first, and the other environments later if required.
 
 If basic auth is used only for hiding non-production environments, you can use the same credentials for all environments. In such case you should also write them down to the [links](README.md#links) section on README.md so that all project personnel can easily access the credentials.
 
