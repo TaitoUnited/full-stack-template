@@ -121,7 +121,7 @@ The commands mentioned above work also for server environments (`f-NAME`, `dev`,
     taito db diff:dev test                  # Show diff between dev and test schemas
     taito db copy between:test:dev          # Copy test database to dev
 
-Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to show command help (e.g `taito vc -h`, `taito db -h`, `taito db import -h`). For troubleshooting run `taito --trouble`. See [PROJECT.md](PROJECT.md) for project specific conventions and documentation.
+Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to show command help (e.g `taito vc -h`, `taito db -h`, `taito db import -h`). For troubleshooting run `taito --trouble`. See [README.md](README.md) for project specific conventions and documentation.
 
 > If you run into authorization errors, authenticate with the `taito --auth:ENV` command.
 
@@ -171,7 +171,9 @@ Project specific conventions are defined in [README.md](README.md#conventions). 
 
 Development is done in `dev` and `feature/*` branches. Hotfixes are done in `hotfix/*` branches. You should not commit changes to any other branch.
 
-All commit messages must be structured according to the [Conventional Commits](http://conventionalcommits.org/) convention as application version number and release notes are generated automatically for production release by the [semantic-release](https://github.com/semantic-release/semantic-release) library.
+All commit messages must be structured according to the [Angular git commit convention](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines) (see also [Conventional Commits](http://conventionalcommits.org/)). This is because application version number and release notes are generated automatically for production release by the [semantic-release](https://github.com/semantic-release/semantic-release) library.
+
+> You can also use `wip` type for such feature branch commits that will be squashed during rebase.
 
 You can manage environment and feature branches using taito-cli commands. Run `taito vc -h` for instructions. If you use git commands or git GUI tools instead, remember to follow the version control conventions defined by `taito vc conventions`. See [version control](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/04-version-control.md) chapter of the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for some additional information.
 
@@ -199,7 +201,7 @@ The CI/CD tool will deploy your database changes automatically to servers once y
 
 ## Deployment
 
-Deploying to different environments:
+Container images are built for dev and feature branches only. Once built and tested successfully, the container images will be deployed to other environments on git branch merge:
 
 * **f-NAME**: Push to the `feature/NAME` branch.
 * **dev**: Push to the `dev` branch.
