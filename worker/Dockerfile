@@ -1,5 +1,5 @@
 # TODO: use multi-stage dockerfile also locally?
-FROM node:10.13-alpine
+FROM node:10-alpine
 RUN apk add --update-cache build-base python git fontconfig
 WORKDIR /worker
 ENV NODE_ENV development
