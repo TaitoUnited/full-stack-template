@@ -111,6 +111,7 @@ spec:
           command:
             - /cloud_sql_proxy
             - -verbose=false
+            - -log_debug_stdout=true
             - --dir=/cloudsql
             - -instances={{ .db.instance }}=tcp:{{ .db.port }}
             - -credential_file=/secrets/cloudsql/{{ regexFind "[a-zA-Z]*$" .db.proxySecret }}
