@@ -31,9 +31,7 @@ LABEL version=${BUILD_VERSION} \
       role=admin
 WORKDIR /build
 COPY --from=builder /build .
-RUN touch /var/run/nginx.pid && \
-    chown -R nginx:nginx /var/run/nginx.pid && \
-    chown -R nginx:nginx /var/cache/nginx && \
+RUN chown -R nginx:nginx /var/cache/nginx && \
     chown -R nginx:nginx /build && \
     mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 COPY ./config/nginx.conf /etc/nginx
