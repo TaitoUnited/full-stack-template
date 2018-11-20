@@ -82,6 +82,6 @@
     "webpack-dev-server": "~3.1.4",
     "webpack-merge": "~4.1.2"
   },
-  "_flowComment": "NOTE: for flow add also flow-bin and flow-typed",
+  "_flowComment": "NOTE: for flow add also flow-bin, flow-typed and babel-preset-flow",
   "_webpackServe": "TODO: replace webpack-dev-server with webpack-serve?"
 }
