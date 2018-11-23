@@ -22,15 +22,15 @@ Table of contents:
 
 ## Quick start
 
-Install linters and some libraries on host (add `--clean` for clean reinstall):
+Install linters and some libraries on host (add `--clean` to make a clean reinstall):
 
     taito install
 
-Start containers (add `--clean` for clean rebuild):
+Start containers (add `--clean` to make a clean rebuild, and to discard all data and db tables):
 
     taito start
 
-Make sure that everything has been initialized (e.g database) (add `--clean` for clean reinit):
+Make sure that everything has been initialized (e.g database) (add `--clean` to make a clean reinit):
 
     taito init
 
@@ -228,13 +228,13 @@ Run `taito open conventions` to see organization specific settings that you shou
 
 **Alternative technologies:** If you would rather use other technologies than React, Node.js and PostgreSQL, you can copy alternative example implementations from [SERVER-TEMPLATE-alt](https://github.com/TaitoUnited/SERVER-TEMPLATE-alt/).
 
-**Additional microservices:** The template supports unlimited number of microservices. You can add new services like this:
+**Additional microservices:** The template supports unlimited number of microservices. You can add a new microservice like this:
 
-    1. Create a new directory for your service. Look [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) and [SERVER-TEMPLATE-alt](https://github.com/TaitoUnited/SERVER-TEMPLATE-alt/) for examples.
-    2. Add the service to `taito_targets` variable in `taito-config.sh`
-    3. Add the service to `docker-compose.yaml` and check that it works ok in local development environment.
-    4. Add the service to `scripts/helm.yaml`.
-    5. Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `check-deps`, `check-size`.
+  1. Create a new directory for your service. Look [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) and [SERVER-TEMPLATE-alt](https://github.com/TaitoUnited/SERVER-TEMPLATE-alt/) for examples.
+  2. Add the service to `taito_targets` variable in `taito-config.sh`
+  3. Add the service to `docker-compose.yaml` and check that it works ok in local development environment.
+  4. Add the service to `scripts/helm.yaml`.
+  5. Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `check-deps`, `check-size`.
 
 **Flow/typescript:** You can enable flow or typescript by going through parts marked with a `NOTE: for flow` or `NOTE: for typescript` note. (TODO: implement typescript support)
 
