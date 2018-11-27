@@ -1,1 +1,1 @@
-require('babel-polyfill'); // emulate ES6 features
+require('@babel/polyfill'); // emulate ES6 features

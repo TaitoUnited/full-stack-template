@@ -1,19 +1,18 @@
 {
-  presets: [
+  "presets": [
     [
-      'env',
+      "@babel/preset-env",
       {
-        targets: {
-          node: 'current',
-        },
-      },
-    ],
-    // NOTE: for flow
-    // "flow"
+        "targets": {
+          "node": "current"
+        }
+      }
+      // NOTE: flow flow
+      // "@babel/preset-flow",
+    ]
   ],
-  plugins: [
-    'transform-object-rest-spread',
-    'syntax-async-functions',
-    'transform-runtime',
-  ],
+  "plugins": [
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-transform-runtime"
+  ]
 }

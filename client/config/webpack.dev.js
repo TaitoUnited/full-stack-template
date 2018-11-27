@@ -41,7 +41,7 @@ module.exports = merge.strategy({
     filename: 'app.js' // no need to add the hash in dev
   },
   entry: [
-    'babel-polyfill',
+    '@babel/polyfill',
     'react-hot-loader/patch',
     'webpack/hot/only-dev-server',
     'react',

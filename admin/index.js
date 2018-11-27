@@ -1,4 +1,4 @@
-import 'babel-polyfill'; // emulate ES6 features
+import '@babel/polyfill'; // emulate ES6 features
 
 import React from 'react';
 import ReactDOM from 'react-dom';
