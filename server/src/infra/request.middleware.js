@@ -1,6 +1,5 @@
 // import cors from 'kcors';
 import koaCacheControl from 'koa-cache-control';
-import koaConvert from 'koa-convert';
 import koaBodyParser from 'koa-bodyparser';
 
 const requestMiddleware = app => {
@@ -12,7 +11,7 @@ const requestMiddleware = app => {
   );
 
   // Parse body payloads (json, form data etc)
-  app.use(koaConvert(koaBodyParser()));
+  app.use(koaBodyParser());
 };
 
 export default requestMiddleware;
