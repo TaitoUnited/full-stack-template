@@ -15,15 +15,13 @@ module.exports = {
       '~utils': resolve(__dirname, '../src/common/utils'),
     },
     modules: [ resolve('.'), 'node_modules' ],
-    extensions: ['.json', '.jsx', '.js']
+    extensions: ['.json', '.mjs', '.jsx', '.js']
   },
 
   // context: resolve(__dirname, '.'),
   // node: { __filename: true },
 
-  entry: [
-    './index.js'
-  ],
+  entry: [ './index.js' ],
 
   // When webpack bundles your application, the bundled file(s) need to be saved
   // somewhere. Settings under `output` affect this.
