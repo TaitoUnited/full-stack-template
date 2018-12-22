@@ -227,16 +227,16 @@ services:
   # storage start
   server-template-storage:
     container_name: server-template-storage
-    image: minio/minio:latest
+    build:
+      context: ./storage
+      dockerfile: ${dockerfile}
     restart: unless-stopped
-    command: server /storage
+    command: server /service
     networks:
       - default
     environment:
       MINIO_ACCESS_KEY: 070UEOQR6LX4YPZLFU0V
       MINIO_SECRET_KEY: CVQVa33NekSiOJGnevSY5ITr8Rql8lFkp22WhLQ+
-    volumes:
-      - "./storage:/storage"
   # storage end
 
 networks:
