@@ -13,7 +13,7 @@ module.exports = merge.strategy({
   mode: 'development',
   devtool: 'inline-source-map',
   devServer: {
-    contentBase: './assets',
+    contentBase: resolve(__dirname, '../assets'),
     publicPath: '/',
     inline: true,
     historyApiFallback: true,
