@@ -24,7 +24,8 @@ services:
     ports:
       - "8080"
     volumes:
-      - "./admin:/admin"
+      - "./admin:/service"
+      - "./shared:/service/shared"
       - "/admin/node_modules"
       - "/admin/flow-typed/npm"
     # NOTE: You should not put any environment specific variables here
@@ -46,7 +47,8 @@ services:
     ports:
       - "8080"
     volumes:
-      - "./client:/client"
+      - "./client:/service"
+      - "./shared:/service/shared"
       - "/client/node_modules"
       - "/client/flow-typed/npm"
     # NOTE: You should not put any environment specific variables here
@@ -68,7 +70,8 @@ services:
     ports:
       - "8080"
     volumes:
-      - "./graphql:/graphql"
+      - "./graphql:/service"
+      - "./shared:/service/shared"
       - "/graphql/node_modules"
       - "/graphql/flow-typed/npm"
     environment:
@@ -97,7 +100,8 @@ services:
     ports:
       - "8080"
     volumes:
-      - "./server:/server"
+      - "./server:/service"
+      - "./shared:/service/shared"
       - "/server/node_modules"
       - "/server/flow-typed/npm"
     environment:
@@ -137,7 +141,8 @@ services:
   #   ports:
   #     - "8080"
   #   volumes:
-  #     - "./worker:/worker"
+  #     - "./worker:/service"
+  #     - "./shared:/service/shared"
   #     - "/worker/node_modules"
   #     - "/worker/flow-typed/npm"
   #   environment:
@@ -172,7 +177,8 @@ services:
   #   ports:
   #     - "8080"
   #   volumes:
-  #     - "./www:/www"
+  #     - "./www:/service"
+  #     - "./shared:/service/shared"
   #     - "/www/node_modules"
   #     - "/www/flow-typed/npm"
   # www end

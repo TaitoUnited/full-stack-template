@@ -1,5 +1,6 @@
 mnt
 taito-run-env.sh
+taito-user-config.sh
 node_modules
 site-packages
 tmp

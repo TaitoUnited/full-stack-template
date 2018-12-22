@@ -9,3 +9,6 @@ _build_git
 build
 *.swp
 .vscode
+
+# Shared directory
+shared

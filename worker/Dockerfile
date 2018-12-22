@@ -1,12 +1,14 @@
-# TODO: use multi-stage dockerfile also locally?
+# Builder, tester and runtime container for local development
+# NOTE: npm libraries are installed inside container to speed up build
 FROM node:10-alpine
-RUN apk add --update-cache build-base python git fontconfig
-WORKDIR /worker
+ARG SERVICE_DIR=.
+WORKDIR /service
 ENV NODE_ENV development
-RUN npm install nodemon -g
-COPY ./package.json ./package-lock.* ./.flowconfi* /worker/
+COPY ${SERVICE_DIR}/package.json \
+     ${SERVICE_DIR}/package-lock.* \
+     ${SERVICE_DIR}/.flowconfi* \
+     /service/
 RUN npm install --loglevel warn
 RUN npm run types-install
-COPY . /worker
 EXPOSE 8080
 CMD npm install; npm run types-install; npm run start

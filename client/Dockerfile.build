@@ -1,15 +1,13 @@
 # Builder and tester container for production build
 FROM node:10-alpine as builder
+ARG SERVICE_DIR=.
 ARG TARGET_ENV=prod
 ARG BUILD_VERSION
-RUN apk add --update-cache build-base python git
-# Required by the current flow version (can be removed later?)
-RUN apk --no-cache add ca-certificates wget && \
-  wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
-  wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.28-r0/glibc-2.28-r0.apk && \
-  apk add glibc-2.28-r0.apk
-WORKDIR /client
-COPY ./package.json ./package-lock.* ./.flowconfi* /client/
+WORKDIR /service
+COPY ${SERVICE_DIR}/package.json \
+     ${SERVICE_DIR}/package-lock.* \
+     ${SERVICE_DIR}/.flowconfi* \
+     /service/
 ENV TARGET_ENV ${TARGET_ENV}
 ENV BUILD_VERSION ${BUILD_VERSION}
 ENV NODE_ENV development
@@ -18,7 +16,7 @@ ENV API_URL /api
 ENV APP_SENTRY_PUBLIC_DSN #sentryPublicDSN
 RUN npm ci --loglevel warn
 RUN npm run types-install
-COPY . /client
+COPY ${SERVICE_DIR} /service
 RUN npm run unit
 RUN npm run build && cp -r ./assets/* /build/
 

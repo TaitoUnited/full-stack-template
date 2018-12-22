@@ -132,11 +132,15 @@ cat temp > docker-nginx.conf
   sed ${sedi} -- '/lint:admin":/d' package.json
   sed ${sedi} -- '/unit:admin":/d' package.json
   sed ${sedi} -- '/test:admin":/d' package.json
+  sed ${sedi} -- '/check-deps:admin":/d' package.json
+  sed ${sedi} -- '/check-size:admin":/d' package.json
 
   sed ${sedi} -- 's/install-all:admin //g' package.json
   sed ${sedi} -- 's/lint:admin //g' package.json
   sed ${sedi} -- 's/unit:admin //g' package.json
   sed ${sedi} -- 's/test:admin //g' package.json
+  sed ${sedi} -- 's/\\"check-deps:admin {@}\\" //g' package.json
+  sed ${sedi} -- 's/\\"check-size:admin {@}\\" //g' package.json
 fi
 
 if [[ ! ${stack_client} ]]; then
@@ -167,11 +171,15 @@ cat temp > docker-nginx.conf
   sed ${sedi} -- '/lint:client":/d' package.json
   sed ${sedi} -- '/unit:client":/d' package.json
   sed ${sedi} -- '/test:client":/d' package.json
+  sed ${sedi} -- '/check-deps:client":/d' package.json
+  sed ${sedi} -- '/check-size:client":/d' package.json
 
   sed ${sedi} -- 's/install-all:client //g' package.json
   sed ${sedi} -- 's/lint:client //g' package.json
   sed ${sedi} -- 's/unit:client //g' package.json
   sed ${sedi} -- 's/test:client //g' package.json
+  sed ${sedi} -- 's/\\"check-deps:client {@}\\" //g' package.json
+  sed ${sedi} -- 's/\\"check-size:client {@}\\" //g' package.json
 fi
 
 if [[ ! ${stack_database} ]]; then
@@ -221,11 +229,13 @@ cat temp > docker-nginx.conf
   sed ${sedi} -- '/lint:server":/d' package.json
   sed ${sedi} -- '/unit:server":/d' package.json
   sed ${sedi} -- '/test:server":/d' package.json
+  sed ${sedi} -- '/check-deps:server":/d' package.json
 
   sed ${sedi} -- 's/install-all:server //g' package.json
   sed ${sedi} -- 's/lint:server //g' package.json
   sed ${sedi} -- 's/unit:server //g' package.json
   sed ${sedi} -- 's/test:server //g' package.json
+  sed ${sedi} -- 's/\\"check-deps:server {@}\\" //g' package.json
 fi
 
 if [[ ! ${stack_graphql} ]]; then
@@ -255,11 +265,13 @@ cat temp > docker-nginx.conf
   sed ${sedi} -- '/lint:graphql":/d' package.json
   sed ${sedi} -- '/unit:graphql":/d' package.json
   sed ${sedi} -- '/test:graphql":/d' package.json
+  sed ${sedi} -- '/check-deps:graphql":/d' package.json
 
   sed ${sedi} -- 's/install-all:graphql //g' package.json
   sed ${sedi} -- 's/lint:graphql //g' package.json
   sed ${sedi} -- 's/unit:graphql //g' package.json
   sed ${sedi} -- 's/test:graphql //g' package.json
+  sed ${sedi} -- 's/\\"check-deps:graphql {@}\\" //g' package.json
 fi
 
 if [[ ! ${stack_storage} ]]; then
@@ -304,11 +316,13 @@ cat temp > docker-compose.yaml
   sed ${sedi} -- '/lint:worker":/d' package.json
   sed ${sedi} -- '/unit:worker":/d' package.json
   sed ${sedi} -- '/test:worker":/d' package.json
+  sed ${sedi} -- '/check-deps:worker":/d' package.json
 
   sed ${sedi} -- 's/install-all:worker //g' package.json
   sed ${sedi} -- 's/lint:worker //g' package.json
   sed ${sedi} -- 's/unit:worker //g' package.json
   sed ${sedi} -- 's/test:worker //g' package.json
+  sed ${sedi} -- 's/\\"check-deps:worker {@}\\" //g' package.json
 fi
 
 if [[ ! ${stack_www} ]]; then
@@ -337,11 +351,13 @@ cat temp > docker-nginx.conf
   sed ${sedi} -- '/lint:www":/d' package.json
   sed ${sedi} -- '/unit:www":/d' package.json
   sed ${sedi} -- '/test:www":/d' package.json
+  sed ${sedi} -- '/check-deps:www":/d' package.json
 
   sed ${sedi} -- 's/install-all:www //g' package.json
   sed ${sedi} -- 's/lint:www //g' package.json
   sed ${sedi} -- 's/unit:www //g' package.json
   sed ${sedi} -- 's/test:www //g' package.json
+  sed ${sedi} -- 's/\\"check-deps:www {@}\\" //g' package.json
 fi
 
 if [[ ! ${stack_queue} ]]; then

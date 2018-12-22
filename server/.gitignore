@@ -29,3 +29,6 @@ docs
 test/reports
 
 .vscode
+
+# Shared directory
+shared

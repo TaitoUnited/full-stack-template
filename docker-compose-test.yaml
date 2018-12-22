@@ -9,8 +9,10 @@ services:
     image: server-template-server-test:latest
     restart: unless-stopped
     volumes:
-      - "./server:/server"
+      - "./server:/service"
+      - "./shared:/service/shared"
       - "/server/node_modules"
+      - "/server/flow-typed/npm"
     networks:
       - test
     depends_on:

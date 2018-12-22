@@ -8,3 +8,7 @@ _build
 _build_git
 build
 *.swp
+.vscode
+
+# Shared directory
+shared

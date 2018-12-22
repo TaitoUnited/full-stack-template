@@ -22,7 +22,7 @@ Table of contents:
 
 ## Quick start
 
-Install linters and some libraries on host (add `--clean` to make a clean reinstall):
+Install linters and some libraries on host for code autocompletion purposes (add `--clean` to make a clean reinstall):
 
     taito install
 
@@ -98,6 +98,7 @@ Cleaning:
 
 The commands mentioned above work also for server environments (`f-NAME`, `dev`, `test`, `stag`, `canary`, `prod`). Some examples for dev environment:
 
+    taito --auth:dev                        # Authenticate to dev
     taito open app:dev                      # Open application in browser
     taito open admin:dev                    # Open admin GUI in browser
     taito info:dev                          # Show info
