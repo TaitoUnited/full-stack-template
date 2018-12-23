@@ -7,7 +7,7 @@ import { appear } from '~utils/animations.utils';
 import Circle from './Circle';
 
 // TODO: load thumbnail from server
-const thumbUrl = '/image.jpg';
+const thumbUrl = '/images/image.jpg';
 
 const propTypes = {
   index: PropTypes.number.isRequired,

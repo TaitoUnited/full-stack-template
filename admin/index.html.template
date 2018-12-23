@@ -4,15 +4,24 @@
     <base href="/admin/">
 
     <meta charset="utf-8">
-    <meta name="version" content="<%= htmlWebpackPlugin.options.version %>+<%= htmlWebpackPlugin.options.imageTag %>">
-    <meta name="viewport" content="width=device-width, initial-scale=1 , maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1 , maximum-scale=1.0, user-scalable=0">
+    <meta name="version" content="<%= htmlWebpackPlugin.options.version %>+<%= htmlWebpackPlugin.options.imageTag %>">
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
 
     <title><%= htmlWebpackPlugin.options.title %></title>
 
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />
-    <link rel="stylesheet" type="text/css" href="/defaults.css" />
+    <link rel="stylesheet" type="text/css" href="/css/defaults.css" />
 
   </head>
   <body>
