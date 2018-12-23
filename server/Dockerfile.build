@@ -2,6 +2,7 @@
 FROM node:10-alpine as builder
 ARG SERVICE_DIR=.
 ARG TARGET_ENV=prod
+RUN apk add --update-cache build-base python git fontconfig
 WORKDIR /service
 COPY ${SERVICE_DIR}/package.json \
      ${SERVICE_DIR}/package-lock.* \

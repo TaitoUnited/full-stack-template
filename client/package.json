@@ -25,7 +25,7 @@
     "immutability-helper": "^2.9.0",
     "lodash": "~4.17.10",
     "prop-types": "~15.6.2",
-    "query-string": "^6.2.0",
+    "query-string": "^5.1.1",
     "raven-js": "~3.27.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
