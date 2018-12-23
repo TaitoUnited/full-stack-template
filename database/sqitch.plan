@@ -2,6 +2,6 @@
 %project=server-template
 %uri=https://github.com/TaitoUnited/server-template/
 
-schema 2017-04-14T12:01:35Z Jukka Keski-Luopa <jj@macbookjj.local> # Added schema
-posts [schema] 2017-04-14T12:02:38Z Jukka Keski-Luopa <jj@macbookjj.local> # Added posts table
-images 2018-05-29T19:54:17Z root <root@c39d4ffc259e> # Added images table
+schema 2017-04-14T12:01:35Z John Doe <john.doe@domain.com> # Added schema
+posts [schema] 2017-04-14T12:02:38Z John Doe <john.doe@domain.com> # Added posts table
+files 2018-05-29T19:54:17Z John Doe <john.doe@domain.com> # Added files table

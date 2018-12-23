@@ -1,8 +1,8 @@
--- Deploy server-template:images to pg
+-- Deploy server-template:files to pg
 
 BEGIN;
 
-CREATE TABLE images (
+CREATE TABLE files (
   id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
   filename TEXT NOT NULL,
   description TEXT NOT NULL,

@@ -101,7 +101,7 @@ class SelectedImage extends React.Component {
                 />
 
                 <Button
-                  variant='raised'
+                  variant='contained'
                   color='primary'
                   className={classes.button}
                   onClick={() => window.open(imageUrl)}
@@ -111,7 +111,7 @@ class SelectedImage extends React.Component {
                 </Button>
 
                 <Button
-                  variant='raised'
+                  variant='contained'
                   color='primary'
                   className={classes.button}
                   onClick={() => (window.location = imageUrl)}
@@ -120,7 +120,7 @@ class SelectedImage extends React.Component {
                   <FileDownloadIcon className={classes.rightIcon} />
                 </Button>
                 <Button
-                  variant='raised'
+                  variant='contained'
                   color='primary'
                   className={classes.button}
                   onClick={() => window.print()}

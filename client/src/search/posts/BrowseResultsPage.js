@@ -66,13 +66,13 @@ class BrowseResults extends React.Component {
           onGoBack={this.onGoBack}
           classes={classes}
         >
-          <Button variant='raised' color='primary' onClick={this.onGoBack}>
+          <Button variant='contained' color='primary' onClick={this.onGoBack}>
             <NavigateBeforeIcon className={classes.leftIcon} />
             Back to results
           </Button>
           <Spacer />
           <Button
-            variant='raised'
+            variant='contained'
             color='primary'
             disabled={!onPrev}
             onClick={onPrev}
@@ -81,7 +81,7 @@ class BrowseResults extends React.Component {
           </Button>
           <Spacer />
           <Button
-            variant='raised'
+            variant='contained'
             color='primary'
             disabled={!onNext}
             onClick={onNext}

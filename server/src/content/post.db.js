@@ -1,20 +1,5 @@
 import { asCamelCase } from '../common/format.util';
 
-/**
- * Responsibilities of a db DAO:
- *
- * - Executes a database operation with the given parameters.
- * - Executes the database operation in the context of current transaction
- *   if transaction is present.
- * - Provides a set of fine-grained methods that services use to execute
- *   database operations.
- * - Each DAO should be responsible for only a small set of database tables
- *   (e.g 1-3). Create separate DAOs for such cases that a large
- *   multitable join is required (e.g. for searching and reporting).
- * - Consider using an ORM if your application is write-heavy
- *   (complex transactions that write to a large set of tables during the
- *   same transaction)
- */
 async function fetch(db, criteria, count) {
   const columns = count
     ? 'count(*)::integer'

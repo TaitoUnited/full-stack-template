@@ -57,7 +57,7 @@ const SearchDrawer = ({
         <StyledFormControl>
           {/*
           <Button
-            variant='raised'
+            variant='contained'
             color='primary'
             onClick={() =>
               onUpdateCriteria('simpleText', inputValues.simpleText, true)
@@ -67,7 +67,7 @@ const SearchDrawer = ({
           </Button>
           */}
           <Button
-            variant='raised'
+            variant='contained'
             onClick={() => onClear({
               inputValues: { simpleText: inputValues.simpleText },
               criteria: { simpleText: criteria.simpleText }

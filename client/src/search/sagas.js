@@ -1,4 +1,4 @@
-import imagesApi from '~entities/images.api';
+import filesApi from '~entities/files.api';
 import postsApi from '~entities/posts.api';
 import { searchSagas, searchSagasInit } from './common/sagas';
 
@@ -17,7 +17,7 @@ searchSagasInit(
   sectionsByPath,
   // apisBySection
   {
-    images: imagesApi,
+    images: filesApi,
     posts: postsApi
   },
   // criteriaTypeByName

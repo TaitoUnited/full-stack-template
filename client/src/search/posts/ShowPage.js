@@ -46,7 +46,7 @@ class ShowPage extends React.Component {
     const { item } = this.state;
     return (
       <Post item={item} onGoBack={this.onGoBack} classes={classes}>
-        <Button variant='raised' color='primary' onClick={this.onGoBack}>
+        <Button variant='contained' color='primary' onClick={this.onGoBack}>
           <NavigateBeforeIcon className={classes.leftIcon} />
           Takaisin
         </Button>

@@ -1,20 +1,5 @@
 import { asCamelCase } from '../common/format.util';
 
-/**
- * Responsibilities of a db DAO:
- *
- * - Executes a database operation with the given parameters.
- * - Executes the database operation in the context of current transaction
- *   if transaction is present.
- * - Provides a set of fine-grained methods that services use to execute
- *   database operations.
- * - Each DAO should be responsible for only a small set of database tables
- *   (e.g 1-3). Create separate DAOs for such cases that a large
- *   multitable join is required (e.g. for searching and reporting).
- * - Consider using an ORM if your application is write-heavy
- *   (complex transactions that write to a large set of tables during the
- *   same transaction)
- */
 async function fetch(db, criteria, count) {
   const columns = count
     ? 'count(*)::integer'
@@ -37,7 +22,7 @@ async function fetch(db, criteria, count) {
   const posts = await db.any(
     `
      SELECT ${columns}
-     FROM images
+     FROM files
      WHERE (author = $(author) OR $(author) IS NULL)
        AND (type = $(type) OR $(type) IS NULL)
        ${simpleTextClause}
@@ -54,38 +39,38 @@ async function fetch(db, criteria, count) {
   return count ? posts[0].count : asCamelCase(posts);
 }
 
-async function create(db, image) {
+async function create(db, file) {
   const data = await db.one(
     `
-    INSERT INTO images
+    INSERT INTO files
       (id, filename, description, author, type, created_at)
     VALUES
       (DEFAULT, $(filename), $(description), $(author), $(type), DEFAULT)
     RETURNING id
     `,
-    { ...image }
+    { ...file }
   );
   return data.id;
 }
 
 async function read(db, id) {
-  const image = await db.oneOrNone(
+  const file = await db.oneOrNone(
     `
     SELECT
       id, filename, description, author, type, created_at
-    FROM images
+    FROM files
     WHERE id = $(id)
     `,
     { id }
   );
-  return asCamelCase(image);
+  return asCamelCase(file);
 }
 
-async function update(db, image) {
+async function update(db, file) {
   // TODO SQL INJECTION EXAMPLE!
   const data = await db.one(
     `
-    UPDATE images
+    UPDATE files
     SET
       filename=$(filename),
       description=$(description),
@@ -94,20 +79,20 @@ async function update(db, image) {
     WHERE id = $(id)
     RETURNING id
     `,
-    { ...image }
+    { ...file }
   );
   return data.id;
 }
 
-async function patch(db, image) {
+async function patch(db, file) {
   // TODO
-  console.log(JSON.stringify(image));
+  console.log(JSON.stringify(file));
 }
 
 async function remove(db, id) {
   const data = await db.oneOrNone(
     `
-    DELETE FROM images
+    DELETE FROM files
     WHERE id = $(id)
     RETURNING id
     `,

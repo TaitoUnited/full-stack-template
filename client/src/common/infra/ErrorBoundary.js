@@ -1,4 +1,5 @@
 import React from 'react';
+import { hot } from 'react-hot-loader/root';
 
 import logger from './logger.utils';
 
@@ -39,4 +40,4 @@ export const withErrorBoundary = WrappedComponent => {
   };
 };
 
-export default ErrorBoundary;
+export default hot(ErrorBoundary);

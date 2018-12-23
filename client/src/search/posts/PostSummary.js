@@ -19,7 +19,7 @@ const propTypes = {
 class PostSummary extends Component {
   componentDidMount() {
     const { selected } = this.props;
-    if (selected) {
+    if (selected && this.node) {
       this.node.scrollIntoView({
         behavior: 'instant',
         inline: 'center'
@@ -28,7 +28,8 @@ class PostSummary extends Component {
   }
 
   componentWillReceiveProps(props) {
-    if (props.selected) {
+    const { selected } = props;
+    if (selected && this.node) {
       this.node.scrollIntoView({
         behavior: 'instant',
         inline: 'center'
@@ -51,7 +52,7 @@ class PostSummary extends Component {
     return (
       <TextWrapper
         id={`result${resultNumber}`}
-        innerRef={node => {
+        ref={node => {
           this.node = node;
         }}
       >

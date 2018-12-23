@@ -44,7 +44,7 @@ class CopyToClipboardButton extends React.Component {
 
         {/* the button */}
         <Button
-          variant='raised'
+          variant='contained'
           color='primary'
           className={buttonClass}
           onClick={() => {

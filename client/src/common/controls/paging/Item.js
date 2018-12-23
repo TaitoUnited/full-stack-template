@@ -21,7 +21,7 @@ const Item = ({
       && showNav && (
       <Side>
         <PrevButton
-          variant='raised'
+          variant='contained'
           color='primary'
           disabled={!onSelectPrev}
           onClick={onSelectPrev}
@@ -45,7 +45,7 @@ const Item = ({
           <CloseIcon />
         </CloseButton>
         <NextButton
-          variant='raised'
+          variant='contained'
           color='primary'
           disabled={!onSelectNext}
           onClick={onSelectNext}

@@ -78,7 +78,7 @@ class Post extends React.Component {
             />
             <Spacer />
             <Button
-              variant="raised"
+              variant="contained"
               color="primary"
               onClick={() => window.print()}
             >
@@ -88,7 +88,7 @@ class Post extends React.Component {
           </Actions>
         </Navigator>
         <Content
-          innerRef={node => {
+          ref={node => {
             this.content = node;
           }}
         >

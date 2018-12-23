@@ -1,14 +1,6 @@
 import BaseRoute from '../common/base.route';
-import PostService from './service';
+import PostService from './post.service';
 
-/**
- * Responsibilities of a route:
- *
- * - Routes http request paths to correct service methods
- * - Gets data from request context and gives it to service
- *   methods as parameters.
- * - Does some additional response formatting if necessary.
- */
 export default class PostRoute extends BaseRoute {
   constructor(router, postService) {
     super(router, '/posts');
