@@ -26,8 +26,8 @@ services:
     volumes:
       - "./admin:/service"
       - "./shared:/service/shared"
-      - "/admin/node_modules"
-      - "/admin/flow-typed/npm"
+      - "/service/node_modules"
+      - "/service/flow-typed/npm"
     # NOTE: You should not put any environment specific variables here
     # because they affect only during build time and the same build artifacts
     # (static files) will be used in multiple environments (feat, dev, test,
@@ -49,8 +49,8 @@ services:
     volumes:
       - "./client:/service"
       - "./shared:/service/shared"
-      - "/client/node_modules"
-      - "/client/flow-typed/npm"
+      - "/service/node_modules"
+      - "/service/flow-typed/npm"
     # NOTE: You should not put any environment specific variables here
     # because they affect only during build time and the same build artifacts
     # (static files) will be used in multiple environments (feat, dev, test,
@@ -72,8 +72,8 @@ services:
     volumes:
       - "./graphql:/service"
       - "./shared:/service/shared"
-      - "/graphql/node_modules"
-      - "/graphql/flow-typed/npm"
+      - "/service/node_modules"
+      - "/service/flow-typed/npm"
     environment:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
@@ -102,8 +102,8 @@ services:
     volumes:
       - "./server:/service"
       - "./shared:/service/shared"
-      - "/server/node_modules"
-      - "/server/flow-typed/npm"
+      - "/service/node_modules"
+      - "/service/flow-typed/npm"
     environment:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
@@ -143,8 +143,8 @@ services:
   #   volumes:
   #     - "./worker:/service"
   #     - "./shared:/service/shared"
-  #     - "/worker/node_modules"
-  #     - "/worker/flow-typed/npm"
+  #     - "/service/node_modules"
+  #     - "/service/flow-typed/npm"
   #   environment:
   #     COMMON_DEBUG: 'true'
   #     COMMON_PROJECT: server-template
@@ -179,8 +179,8 @@ services:
   #   volumes:
   #     - "./www:/service"
   #     - "./shared:/service/shared"
-  #     - "/www/node_modules"
-  #     - "/www/flow-typed/npm"
+  #     - "/service/node_modules"
+  #     - "/service/flow-typed/npm"
   # www end
 
   # cache start

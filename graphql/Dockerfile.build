@@ -27,7 +27,7 @@ LABEL version=${BUILD_VERSION} \
       role=client
 ENV BUILD_VERSION ${BUILD_VERSION}
 ENV NODE_ENV production
-WORKDIR /build
+WORKDIR /service
 COPY --from=builder /build .
 COPY --from=builder /service/package.json .
 COPY --from=builder /service/package-lock.json .

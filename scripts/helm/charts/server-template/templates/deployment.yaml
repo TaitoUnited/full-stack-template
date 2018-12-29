@@ -75,7 +75,7 @@ spec:
               path: {{ .livenessPath | default $defaults.livenessPath }}
               port: {{ .livenessPort | default .port | default $defaults.port }}
               scheme: HTTP
-            initialDelaySeconds: 60
+            initialDelaySeconds: 30
             periodSeconds: 15
             timeoutSeconds: 5
           {{- end }}

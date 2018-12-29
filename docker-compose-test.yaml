@@ -11,8 +11,8 @@ services:
     volumes:
       - "./server:/service"
       - "./shared:/service/shared"
-      - "/server/node_modules"
-      - "/server/flow-typed/npm"
+      - "/service/node_modules"
+      - "/service/flow-typed/npm"
     networks:
       - test
     depends_on:

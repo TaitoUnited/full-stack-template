@@ -13,8 +13,6 @@ module.exports = merge.strategy({
   mode: 'development',
   devtool: 'inline-source-map',
   devServer: {
-    // TODO: see https://github.com/webpack/webpack-dev-server/issues/1604
-    disableHostCheck: true,
     contentBase: resolve(__dirname, '../assets'),
     publicPath: '/',
     inline: true,
