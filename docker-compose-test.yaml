@@ -12,7 +12,8 @@ services:
       - "./server:/service"
       - "./shared:/service/shared"
       - "/service/node_modules"
-      - "/service/flow-typed/npm"
+      # NOTE: for flow
+      # - "/service/flow-typed/npm"
     networks:
       - test
     depends_on:

@@ -12,20 +12,22 @@ For more info see the [code structure](https://github.com/TaitoUnited/taito-cli/
 ## Responsibilities
 
 Responsibilities of a route:
-- Routes http request paths to correct service methods
-- Gets data from request context and gives it to service
-  methods as parameters.
-- Does some additional response formatting if necessary.
+- Routes http request paths to correct service methods.
+- Gets data from http request and gives it to service methods as parameters.
+- Does some http response formatting if necessary.
+- Http-based route can easily be replaced with a message-based implementation,
+  that communicates through a message queue instead direct http connection.
 
 Responsibilities of a service:
-- Authorizes that the user has a right to execute the operation with the
-  given parameters.
-- Validates the given parameters in the context of the operation
-  (json schema validation occurs in middleware, not here)
+- Authorizes that the user has a right to execute the operation with the given
+  parameters.
+- Validates the given parameters in the context of the operation.
+  NOTE: schema validation is usually implemented in middleware, not in service.
 - Executes the operation with the help of fine-grained DAOs and other services.
-- Should not operate on http request and response directly
-  (only in special circumstances)
-- Throws an exception in case of an error.
+- Should not operate on http request and http response directly
+  (allowed only in special circumstances).
+- Throws an exception in case of an error. Exceptions are converted to http
+  status responses in middleware, not in service.
 
 Responsibilities of a DAO (db):
 - Executes a database operation with the given parameters.
@@ -38,3 +40,7 @@ Responsibilities of a DAO (db):
   multitable join is required (e.g. for searching and reporting).
 - Consider using an ORM if your application is write-heavy (complex
   transactions that write to a large set of tables during the same transaction).
+
+> In a very small and simple implementation you may combine route, service
+and dao responsibilities into one class, but most implementations are not that
+small and simple.

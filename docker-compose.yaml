@@ -27,12 +27,8 @@ services:
       - "./admin:/service"
       - "./shared:/service/shared"
       - "/service/node_modules"
-      - "/service/flow-typed/npm"
-    # NOTE: You should not put any environment specific variables here
-    # because they affect only during build time and the same build artifacts
-    # (static files) will be used in multiple environments (feat, dev, test,
-    # stag, canary, prod). Read environment specific settings from the API.
-    # You can usually derive api location from the browser url of the GUI.
+      # NOTE: for flow
+      # - "/service/flow-typed/npm"
   # admin end
 
   # client start
@@ -50,12 +46,8 @@ services:
       - "./client:/service"
       - "./shared:/service/shared"
       - "/service/node_modules"
-      - "/service/flow-typed/npm"
-    # NOTE: You should not put any environment specific variables here
-    # because they affect only during build time and the same build artifacts
-    # (static files) will be used in multiple environments (feat, dev, test,
-    # stag, canary, prod). Read environment specific settings from the API.
-    # You can usually derive api location from the browser url of the GUI.
+      # NOTE: for flow
+      # - "/service/flow-typed/npm"
   # client end
 
   # graphql start
@@ -73,7 +65,8 @@ services:
       - "./graphql:/service"
       - "./shared:/service/shared"
       - "/service/node_modules"
-      - "/service/flow-typed/npm"
+      # NOTE: for flow
+      # - "/service/flow-typed/npm"
     environment:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
@@ -103,7 +96,8 @@ services:
       - "./server:/service"
       - "./shared:/service/shared"
       - "/service/node_modules"
-      - "/service/flow-typed/npm"
+      # NOTE: for flow
+      # - "/service/flow-typed/npm"
     environment:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
@@ -144,7 +138,8 @@ services:
   #     - "./worker:/service"
   #     - "./shared:/service/shared"
   #     - "/service/node_modules"
-  #     - "/service/flow-typed/npm"
+  #     # NOTE: for flow
+  #     # - "/service/flow-typed/npm"
   #   environment:
   #     COMMON_DEBUG: 'true'
   #     COMMON_PROJECT: server-template
@@ -180,7 +175,8 @@ services:
   #     - "./www:/service"
   #     - "./shared:/service/shared"
   #     - "/service/node_modules"
-  #     - "/service/flow-typed/npm"
+  #     # NOTE: for flow
+  #     # - "/service/flow-typed/npm"
   # www end
 
   # cache start
