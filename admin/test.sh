@@ -6,8 +6,8 @@ export test_name="${2:-*}"
 if [[ "${suite_name}" == "cypress"* ]] && [[ "${taito_mode:-}" != "ci" ]]; then
   npm run cypress:run
 elif [[ "${suite_name}" == "cypress"* ]] && [[ "${taito_mode}" == "ci" ]]; then
-  echo "SKIP: Cypress tests are currently disabled in ci mode because of an"
-  echo "connection problem."
+  echo "SKIP: Cypress tests are currently disabled in ci mode because of a"
+  echo "connection problem: https://github.com/cypress-io/cypress/issues/1639"
 else
   # TODO pass suite name and test name
   npm run test

@@ -1,6 +1,6 @@
 # Cypress tests
 
-> NOTE: Cypress tests are not currently run by CI, because of an connection timeout problem that might be related to [this issue](https://github.com/cypress-io/cypress/issues/1039).
+> NOTE: Cypress tests are not currently run by CI, because of an connection timeout problem that might be related to [this issue](https://github.com/cypress-io/cypress/issues/1639).
 
 This folder contains Cypress tests.
 
