@@ -7,6 +7,9 @@
     "pretty-quick": "pretty-quick",
     "lint": "eslint . --ignore-path .eslintignore --quiet",
     "unit": "echo TODO BABEL_ENV=test jest",
+    "test": "echo TODO run tests but not cypress",
+    "cypress:run": "echo NOTE: Cypress disabled for admin by default. Add cypress to dockerfiles and run \\'cypress run\\' here. See client as an example.",
+    "cypress:open": "echo NOTE: Cypress disabled for admin by default. Add cypress to dockerfiles and run \\'cypress open\\' here. See client as an example.",
     "start": "NODE_ENV=development webpack-dev-server --config ./config/webpack.dev.js --public=localhost:9999/admin/sockjs-node/",
     "build": "NODE_ENV=production webpack -p --config ./config/webpack.prod.js --mode production",
     "analyze": "ANALYZE=true NODE_ENV=production webpack -p --config ./config/webpack.prod.js"
@@ -78,6 +81,7 @@
     "eslint-config-prettier": "^3.3.0",
     "eslint-loader": "~2.1.0",
     "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-chai-friendly": "^0.4.1",
     "eslint-plugin-import": "~2.14.0",
     "eslint-plugin-jsx-a11y": "~6.1.1",
     "eslint-plugin-prettier": "^3.0.0",

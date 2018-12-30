@@ -7,7 +7,7 @@ env:
   es6: true
   mocha: true
 
-parser: "babel-eslint"
+parser: 'babel-eslint'
 
 parserOptions:
   ecmaVersion: 2017
@@ -17,29 +17,30 @@ plugins:
 
 # 0: off, 1: warning, 2: error
 rules:
+  # TODO: replace these custom rules with plugin recommendations
   prettier/prettier:
     - error
     - singleQuote: true
       trailingComma: es5
-  arrow-parens: [2, "as-needed"]
+  arrow-parens: [2, 'as-needed']
   # single quotes
-  quotes: [2, "single"]
-  jsx-quotes: [2, "prefer-single"]
+  quotes: [2, 'single']
+  jsx-quotes: [2, 'prefer-single']
   # 2 space indentation
   # indent: [2, 2]
   # Allow _function/variable names (to show privateness)
   no-underscore-dangle: 0
   # Commas always at the end of line
-  comma-style: [2, "last"]
+  comma-style: [2, 'last']
   comma-dangle:
     [
-      "error",
+      'error',
       {
-        "arrays": "only-multiline",
-        "objects": "only-multiline",
-        "imports": "only-multiline",
-        "exports": "only-multiline",
-        "functions": "ignore",
+        'arrays': 'only-multiline',
+        'objects': 'only-multiline',
+        'imports': 'only-multiline',
+        'exports': 'only-multiline',
+        'functions': 'ignore',
       },
     ]
   # 80 char line length

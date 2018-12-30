@@ -21,37 +21,65 @@ const SideBar = ({ menuVisible, onToggleMenu }) => (
   >
     <Content>
       <List>
-        <NaviLink to='/search/images' onClick={() => onToggleMenu()}>
+        <NaviLink
+          to='/search/images'
+          data-test='navigate-to-search-images'
+          onClick={() => onToggleMenu()}
+        >
           <ListItem button>
             <ListItemText primary='Search images' />
           </ListItem>
         </NaviLink>
-        <NaviLink to='/search/posts' onClick={() => onToggleMenu()}>
+        <NaviLink
+          to='/search/posts'
+          data-test='navigate-to-search-posts'
+          onClick={() => onToggleMenu()}
+        >
           <ListItem button>
             <ListItemText primary='Search posts' />
           </ListItem>
         </NaviLink>
-        <NaviLink to='/images' onClick={() => onToggleMenu()}>
+        <NaviLink
+          to='/images'
+          data-test='navigate-to-images'
+          onClick={() => onToggleMenu()}
+        >
           <ListItem button>
             <ListItemText primary='Images' />
           </ListItem>
         </NaviLink>
-        <NaviLink to='/posts' onClick={() => onToggleMenu()}>
+        <NaviLink
+          to='/posts'
+          data-test='navigate-to-posts'
+          onClick={() => onToggleMenu()}
+        >
           <ListItem button>
             <ListItemText primary='Posts' />
           </ListItem>
         </NaviLink>
-        <NaviLink to='/reports' onClick={() => onToggleMenu()}>
+        <NaviLink
+          to='/reports'
+          data-test='navigate-to-reports'
+          onClick={() => onToggleMenu()}
+        >
           <ListItem button>
             <ListItemText primary='Reports' />
           </ListItem>
         </NaviLink>
-        <NaviLink to='/layouts' onClick={() => onToggleMenu()}>
+        <NaviLink
+          to='/layouts'
+          data-test='navigate-to-layouts'
+          onClick={() => onToggleMenu()}
+        >
           <ListItem button>
             <ListItemText primary='Layouts and animations' />
           </ListItem>
         </NaviLink>
-        <AnchorLink href='/admin/' onClick={() => onToggleMenu()}>
+        <AnchorLink
+          href='/admin/'
+          data-test='navigate-to-admin'
+          onClick={() => onToggleMenu()}
+        >
           <ListItem button>
             <ListItemText primary='Admin GUI' />
           </ListItem>
@@ -67,6 +95,7 @@ const Content = withTheme()(styled.div`
 `);
 
 const NaviLink = styled(Link)`
+  display: block;
   text-decoration: none;
 `;
 

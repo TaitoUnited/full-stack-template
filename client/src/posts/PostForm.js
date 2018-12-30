@@ -12,17 +12,17 @@ const propTypes = {
 
 const PostForm = ({ post, onChangePost, onCreatePost }) => {
   return (
-    <StyledForm noValidate autoComplete='off'>
+    <StyledForm data-test='post-form' noValidate autoComplete='off'>
       <Row>
         <StyledTextField
-          id='subject'
+          data-test='subject-field'
           label='Subject'
           value={post.subject}
           onChange={e => onChangePost({ subject: e.target.value })}
           margin='normal'
         />
         <StyledTextField
-          id='author'
+          data-test='author-field'
           label='Author'
           value={post.author}
           onChange={e => onChangePost({ author: e.target.value })}
@@ -31,7 +31,7 @@ const PostForm = ({ post, onChangePost, onCreatePost }) => {
       </Row>
       <Row>
         <StyledTextField
-          id='content'
+          data-test='content-field'
           label='Content'
           value={post.content}
           onChange={e => onChangePost({ content: e.target.value })}
@@ -40,7 +40,12 @@ const PostForm = ({ post, onChangePost, onCreatePost }) => {
         />
       </Row>
       <Row>
-        <StyledButton variant='outlined' color='primary' onClick={onCreatePost}>
+        <StyledButton
+          data-test='add-post'
+          variant='outlined'
+          color='primary'
+          onClick={onCreatePost}
+        >
           Add
         </StyledButton>
       </Row>

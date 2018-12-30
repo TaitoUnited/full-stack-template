@@ -1,5 +1,8 @@
 extends:
   - airbnb # TODO use airbnb-base instead?
+  - plugin:cypress/recommended
+  # TODO: get recommended settings also from other plugins
+  # TODO: use plugin recommendations instead of airbnb?
   # NOTE: prettier disabled: https://github.com/prettier/prettier/issues/3437
   # - prettier
 
@@ -9,17 +12,22 @@ env:
   es6: true
   mocha: true
   jest: true
+  cypress/globals: true
 
 parser: 'babel-eslint'
 parserOptions:
   ecmaVersion: 2017
 
-# NOTE: prettier disabled: https://github.com/prettier/prettier/issues/3437
-# plugins:
-#   - prettier
+plugins:
+  - cypress
+  - chai-friendly
+  # TODO: add more plugins? (see package.json dependencies)
+  # NOTE: prettier disabled: https://github.com/prettier/prettier/issues/3437
+  # - prettier
 
 # 0: off, 1: warning, 2: error
 rules:
+  # TODO: replace these custom rules with plugin recommendations
   # NOTE: prettier disabled: https://github.com/prettier/prettier/issues/3437
   # prettier/prettier:
   #   - error
@@ -51,6 +59,9 @@ rules:
   # console is fine
   no-console: 0
   import/prefer-default-export: 0
+
+  # disable no-unused-expressions for chai
+  chai-friendly/no-unused-expressions: 2
 
   # allow return assign to keep simple arrow functions concise
   no-return-assign: 0

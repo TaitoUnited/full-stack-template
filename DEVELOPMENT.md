@@ -59,7 +59,16 @@ Run tests:
     taito unit:server trip                  # run the 'trip' unit test of server
     taito test                              # run all integration and end-to-end tests
     taito test:client                       # run integration and end-to-end tests of client
-    taito test:client billing receipt       # run the receipt test of billing test suite of client
+    taito test:client cypress               # run the cypress test suite of client
+    taito test:client cypress posts         # run the 'posts' test of the cypress test suite of client
+    taito test:client cypress 'pos*'        # run all tests of cypress test suite named pos*
+
+Open Cypress user interface:
+    taito cypress                           # open cypress for default target (client)
+    taito cypress:client                    # open cypress for client
+    taito cypress:admin                     # open cypress for admin
+
+> TIP: Testing personnel may run Cypress against any remote environment without taito-cli or docker. See `client/test/README.md` for more instructions.
 
 Start shell on a container:
 
@@ -105,6 +114,7 @@ The commands mentioned above work also for server environments (`f-NAME`, `dev`,
     taito status:dev                        # Show status of dev environment
     taito open builds                       # Show build status and logs
     taito test:dev                          # Run integration and e2e tests
+    taito cypress:client:dev                # Open cypress for client
     taito shell:server:dev                  # Start a shell on server container
     taito logs:server:dev                   # Tail logs of server container
     taito open logs:dev                     # Open logs on browser
@@ -156,7 +166,7 @@ All unit tests are run automatically during build (see the `Dockerfile.build` fi
 
 ### Integration and end-to-end tests
 
-All integration and end-to-end test suites are run automatically after application has been deployed to dev environment. You can use any test tools that have been installed as development dependency inside the `builder` container (see `Dockerfile.build`). You can specify your environment specific test settings in `taito-config.sh` using `test_` as prefix. You can access database in your tests as database proxy is run automatically in background (see `docker-compose-test.yaml`). If the test tools generate reports, they should be placed at the `/test/reports` directory.
+All integration and end-to-end test suites are run automatically after application has been deployed to dev environment. You can use any test tools that have been installed as development dependency inside the `builder` container (see `Dockerfile.build`). You can specify your environment specific test settings in `taito-config.sh` using `test_` as prefix. You can access database in your tests as database proxy is run automatically in background (see `docker-compose-test.yaml`). If the test tools generate reports, screenshots or videos, they should be placed at the `/service/test/reports`, `/service/test/screenshots` and `/service/test/videos` directories.
 
 Tests are grouped in test suites (see the `test-suites` files). All test suites are kept independent by cleaning up data before each test suite execution by running `taito init --clean`. If automatic data cleanup is not necessary, you can turn it off with the `ci_exec_test_init` setting in `taito-config.sh`.
 

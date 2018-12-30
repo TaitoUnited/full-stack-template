@@ -4,6 +4,23 @@
 
 version: '3.5'
 services:
+  server-template-client-test:
+    container_name: server-template-client-test
+    image: server-template-client-test:latest
+    restart: unless-stopped
+    volumes:
+      - "./client:/service"
+      - "./shared:/service/shared"
+      - "/service/node_modules"
+      # NOTE: for flow
+      # - "/service/flow-typed/npm"
+    networks:
+      - test
+    depends_on:
+      - server-template-database-test-proxy
+    environment:
+      taito_running_tests: "true"
+
   server-template-server-test:
     container_name: server-template-server-test
     image: server-template-server-test:latest
@@ -49,11 +66,9 @@ services:
       template_default_provider_org_id: ${template_default_provider_org_id}
       template_default_provider_region: ${template_default_provider_region}
       template_default_provider_zone: ${template_default_provider_zone}
-      template_default_provider_billing_account: ${template_default_provider_billing_account}
       template_default_provider_org_id_prod: ${template_default_provider_org_id_prod}
       template_default_provider_region_prod: ${template_default_provider_region_prod}
       template_default_provider_zone_prod: ${template_default_provider_zone_prod}
-      template_default_provider_billing_account_prod: ${template_default_provider_billing_account_prod}
       template_default_registry: ${template_default_registry}
       template_default_source_git: ${template_default_source_git}
       template_default_dest_git: ${template_default_dest_git}

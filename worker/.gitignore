@@ -27,8 +27,8 @@ flow-typed/npm
 # Generated docs
 docs
 test/reports
+test/screenshots
+test/videos
+shared
 
 .vscode
-
-# Shared directory
-shared

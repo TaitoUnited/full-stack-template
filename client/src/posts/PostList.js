@@ -9,7 +9,7 @@ const propTypes = {
 
 const PostList = ({ posts }) => {
   const postElements = posts.map(p => <Post key={p.id} post={p} />);
-  return <div>{postElements}</div>;
+  return <div data-test='posts'>{postElements}</div>;
 };
 
 PostList.propTypes = propTypes;

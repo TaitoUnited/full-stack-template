@@ -1,6 +1,9 @@
 node_modules
 flow-typed/npm
 test/reports
+test/screenshots
+test/videos
+shared
 credentials
 *.log
 .DS_Store
@@ -9,6 +12,3 @@ _build_git
 build
 *.swp
 .vscode
-
-# Shared directory
-shared

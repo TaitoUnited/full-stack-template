@@ -9,7 +9,8 @@ const TopBar = ({ onToggleMenu }) => (
   <StyledAppBar position='static'>
     <Toolbar>
       <MenuButton
-        aria-label='open drawer'
+        data-test='open-left-drawer'
+        aria-label='open left drawer'
         color='inherit'
         onClick={() => onToggleMenu()}
       >

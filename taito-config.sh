@@ -31,7 +31,7 @@ taito_application=template
 taito_suffix=
 
 # Assets
-taito_project_icon=
+taito_project_icon=$taito_project-dev.${template_default_domain:?}/favicon.ico
 
 # Environments
 taito_environments="dev test prod"
@@ -90,6 +90,7 @@ ci_exec_test_wait=60       # how many seconds to wait for deployment/restart
 ci_exec_test_init=false    # run 'init --clean' before each test suite
 ci_exec_revert=false       # revert deployment automatically on fail
 ci_static_assets_location= # location to publish all static files (CDN)
+ci_test_base_url="http://NOT-CONFIGURED-FOR-$taito_env"
 
 # ------ Plugin specific settings ------
 
@@ -148,6 +149,7 @@ case $taito_env in
     taito_app_url=https://$taito_domain
     ;;
   test)
+    ci_test_base_url=https://TODO:TODO@$taito_domain
     ;;
   dev|feat)
     ci_exec_build=true        # allow build of a new container
@@ -156,10 +158,12 @@ case $taito_env in
     ci_exec_test=false        # execute test suites
     ci_exec_test_init=false   # run 'init --clean' before each test suite
     ci_exec_revert=false      # revert deploy if previous steps failed
+    ci_test_base_url=https://user:painipaini@$taito_domain
     ;;
   local)
     ci_exec_test_init=false   # run 'init --clean' before each test suite
     taito_app_url=http://localhost:9999
+    ci_test_base_url=http://server-template-ingress:80
     db_database_external_port=6000
     db_database_host=$taito_project-database
     db_database_port=5432
@@ -227,29 +231,40 @@ taito_secrets="
 
 
 # ------ Test suite settings ------
-
 # NOTE: Variable is passed to the test without the test_TARGET_ prefix
 
-test_graphql_TEST_API_URL=https://user:painipaini@$taito_domain/graphql
-test_server_TEST_API_URL=https://user:painipaini@$taito_domain/api
-test_server_DATABASE_HOST=$taito_project-database-test-proxy
-test_server_DATABASE_PORT=5432
-test_server_DATABASE_NAME=$db_database_name
-test_server_DATABASE_USER=${db_database_name}_app
-# TODO support all environments by reading this from secrets
-test_server_DATABASE_PASSWORD="P8JH4m33RQshznTkTNxvQgFO9BWpkg"
+# Database connection
+test_all_DATABASE_HOST=$taito_project-database-test-proxy
+test_all_DATABASE_PORT=5432
+test_all_DATABASE_NAME=$db_database_name
+test_all_DATABASE_USER=${db_database_name}_app
+# TODO support all environments by reading password from secrets
+test_all_DATABASE_PASSWORD="P8JH4m33RQshznTkTNxvQgFO9BWpkg"
+if [[ "$taito_target_env" == "local" ]]; then
+  # On local env we connect to database running on an another container
+  test_all_DATABASE_HOST=$taito_project-database
+  test_all_DATABASE_PASSWORD=secret
+fi
 
-if [[ "$taito_env" == "local" ]]; then
-  # On local env we use api running on the same container
-  test_graphql_TEST_API_URL=http://localhost:8080
-  test_server_TEST_API_URL=http://localhost:8080
-  # ...and connect to database running on an another container
-  test_server_DATABASE_HOST=$taito_project-database
-  test_server_DATABASE_PASSWORD=secret
+# URLs
+test_admin_CYPRESS_baseUrl=$ci_test_base_url/admin
+test_client_CYPRESS_baseUrl=$ci_test_base_url
+test_graphql_TEST_API_URL=$ci_test_base_url/graphql
+test_server_TEST_API_URL=$ci_test_base_url/api
+if [[ "$taito_target_env" == "local" ]]; then
+  CYPRESS_baseUrl=$taito_app_url
+  if [[ $taito_target == "admin" ]]; then
+    CYPRESS_baseUrl=$taito_app_url/admin
+  fi
+else
+  CYPRESS_baseUrl=$ci_test_base_url
+  if [[ $taito_target == "admin" ]]; then
+    CYPRESS_baseUrl=$ci_test_base_url/admin
+  fi
 fi
 
 # Special settings for running tests on gcloud-builder
 if [[ $taito_plugins == *"gcloud-builder"* ]] && [[ ${taito_mode:-} == "ci" ]]; then
-  test_server_DATABASE_HOST=127.0.0.1
-  test_server_DATABASE_PORT=5001
+  test_all_DATABASE_HOST=127.0.0.1
+  test_all_DATABASE_PORT=5001
 fi
