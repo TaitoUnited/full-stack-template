@@ -86,7 +86,31 @@ const logFormatStreams = {
 
 const logger = bunyan.createLogger({
   name: config.APP_NAME,
-  serializers: bunyan.stdSerializers,
+  serializers: {
+    ...bunyan.stdSerializers,
+    req: req => {
+      if (!req || !req.connection) {
+        return req;
+      }
+
+      const headers =
+        process.env.COMMON_DEBUG === 'true'
+          ? req.headers
+          : {
+              'user-agent': req.headers['user-agent'],
+              referer: req.headers.referer,
+              'x-real-ip': req.headers['x-real-ip'],
+            };
+
+      return {
+        method: req.method,
+        url: req.url,
+        headers,
+        remoteAddress: req.connection.remoteAddress,
+        remotePort: req.connection.remotePort,
+      };
+    },
+  },
   level: process.env.COMMON_LOG_LEVEL || 'info',
   streams: logFormatStreams[process.env.COMMON_LOG_FORMAT || 'stackdriver'],
 });
