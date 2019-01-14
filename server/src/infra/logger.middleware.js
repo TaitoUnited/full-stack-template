@@ -21,19 +21,7 @@ export const loggerMiddleware = async (ctx, next) => {
 
   namespace.set('logCtx', {});
   namespace.set('reqId', reqId);
-  namespace.set(
-    'req',
-    // Log all request details only in debug mode
-    process.env.COMMON_DEBUG === 'true'
-      ? ctx.request
-      : {
-          headers: {
-            'user-agent': ctx.request.headers['user-agent'],
-            referer: ctx.request.headers.referer,
-            'x-real-ip': ctx.request.headers['x-real-ip'],
-          },
-        }
-  );
+  namespace.set('req', ctx.req);
 
   await next();
 
