@@ -42,6 +42,7 @@ server-template:
     image: # 3rd party container image
     env:
       # Environment variables
+      COMMON_ENV: ${taito_env}
     secrets:
       # Secrets
     command:
@@ -63,7 +64,6 @@ server-template:
     path: /graphql
     tier: backend
     env:
-      ENV: production
       DEBUG: false
       GRAPHQL_PORT: '8080'
       GRAPHQL_BINDADDR: '0.0.0.0'
@@ -85,7 +85,6 @@ server-template:
       S3_KEY_SECRET: ${taito_project}-${taito_env}-storage-gateway.secret
       DATABASE_PASSWORD: ${taito_project}-${taito_env}-db-app.password
     env:
-      ENV: production
       DEBUG: false
       SENTRY_DSN: #sentryDSN
       API_PORT: '8080'

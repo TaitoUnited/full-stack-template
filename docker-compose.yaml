@@ -80,7 +80,7 @@ services:
       COMMON_DEBUG: 'false'
       COMMON_LOG_FORMAT: text
       COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
-      ENV: local
+      COMMON_ENV: local
       DEBUG: 'false'
       GRAPHQL_PORT: 8080
       GRAPHQL_BINDADDR: 0.0.0.0
@@ -111,7 +111,7 @@ services:
       COMMON_DEBUG: 'false'
       COMMON_LOG_FORMAT: text
       COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
-      ENV: local
+      COMMON_ENV: local
       DEBUG: 'false'
       SENTRY_DSN: #sentryDSN
       API_PORT: 8080
@@ -151,7 +151,7 @@ services:
   #     COMMON_DEBUG: 'true'
   #     COMMON_PROJECT: server-template
   #     COMMON_COMPANY: companyname
-  #     ENV: local
+  #     COMMON_ENV: local
   #     DEBUG: 'false'
   #     API_BINDADDR: 0.0.0.0
   #     API_PORT: 8080

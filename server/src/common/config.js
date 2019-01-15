@@ -1,6 +1,12 @@
 // Configs
 
-const required = ['API_BINDADDR', 'API_PORT', 'ENV', 'DEBUG', 'APP_NAME'];
+const required = [
+  'API_BINDADDR',
+  'API_PORT',
+  'COMMON_ENV',
+  'DEBUG',
+  'APP_NAME',
+];
 
 const config = {};
 
@@ -11,7 +17,7 @@ function mapBool(input) {
 
 // Basic configs
 config.ROOT_PATH = __dirname;
-config.ENV = process.env.ENV;
+config.COMMON_ENV = process.env.COMMON_ENV;
 config.DEBUG = mapBool(process.env.COMMON_DEBUG);
 config.APP_NAME = 'server-template-server';
 config.APP_VERSION = !process.env.BUILD_IMAGE_TAG
