@@ -160,19 +160,17 @@ Taito-cli supports various infrastructures and technologies out-of-the-box, and 
 
 ## Automated tests
 
+> HINT: You should not test implementation in your test scripts. Instead, you should always find some kind 'public API' that is designed not to change very often, and test behaviour of that API. Here public API can be provided by class, module, library, service or UI for example. This way you can make changes to the underlying implementation, and the existing tests protect you from breaking anything.
+
 ### Unit tests
 
-All unit tests are run automatically during build (see the `Dockerfile.build` files). You can use any test tools that have been installed as development dependency inside the container. If the test tools generate reports, they should be placed at the `/test/reports` directory. You can run unit tests manually with the `taito unit` command (see help with `taito unit -h`).
-
-> HINT: You should not test implementation. Instead, you should test behaviour of a public API that is designed not to change very often: public API of a class, module, library or service for example. This way you can make changes to the underlying implementation, and the existing unit tests protect you from breaking anything.
-
-> HINT: Although browser tests cannot be considered as unit tests, you can execute also them with the *unit test* mechanism. You just have to mock the required APIs so that the whole test can be run within one container.
+All unit tests are run automatically during build (see the `Dockerfile.build` files). You can use any test tools that have been installed as development dependency inside the container. If the test tools generate reports, they should be placed at the `/service/test/reports` (`./test/reports`) directory inside the container. You can run unit tests manually with the `taito unit` command (see help with `taito unit -h`).
 
 ### Integration and end-to-end tests
 
 All integration and end-to-end test suites are run automatically after application has been deployed to dev environment. You can use any test tools that have been installed as development dependency inside the `builder` container (see `Dockerfile.build`). You can specify your environment specific test settings in `taito-config.sh` using `test_` as prefix. You can access database in your tests as database proxy is run automatically in background (see `docker-compose-test.yaml`). If the test tools generate reports, screenshots or videos, they should be placed at the `/service/test/reports`, `/service/test/screenshots` and `/service/test/videos` directories.
 
-Tests are grouped in test suites (see the `test-suites` files). All test suites are kept independent by cleaning up data before each test suite execution by running `taito init --clean`. If automatic data cleanup is not necessary, you can turn it off with the `ci_exec_test_init` setting in `taito-config.sh`.
+Tests are grouped in test suites (see the `test-suites` files). All test suites can be kept independent by cleaning up data before each test suite execution by running `taito init --clean`. You can enable data cleaning in `taito-config.sh` with the `ci_exec_test_init` setting, but you should use it for dev environment only.
 
 You can run integration and end-to-end tests manually with the `taito test[:TARGET][:ENV] [SUITE] [TEST]` command, for example `taito test:server:dev`. When executing tests manually, the development container (`Dockerfile`) is used for executing the tests.
 
@@ -237,7 +235,7 @@ You can use the `taito vc` commands to manage branches, and the `taito deploymen
 
 ### Version control settings
 
-Run `taito open conventions` to see organization specific settings that you should configure for your git repository.
+Run `taito open vc conventions` to see organization specific settings that you should configure for your git repository.
 
 ### Stack
 
@@ -277,7 +275,7 @@ If basic auth (htpasswd) is used only for hiding non-production environments, yo
 
 > If you have some trouble creating an environment, you can destroy it by running `taito env destroy:ENV` and then try again with `taito env apply:ENV`.
 
-> See [6. Remote environments](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/06-remote-environments.md) chapter of taito-cli tutorial for more thorough instructions.
+> See [6. Remote environments](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/05-remote-environments.md) chapter of taito-cli tutorial for more thorough instructions.
 
 > Operations on production and staging environments usually require admin rights. Please contact DevOps personnel if necessary.
 
