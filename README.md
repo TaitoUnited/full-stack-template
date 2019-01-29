@@ -39,6 +39,10 @@ LINKS WILL BE GENERATED HERE
 
 > You can update this section by configuring links in `taito-config.sh` and running `taito project docs`.
 
+## Usage
+
+> Some notes about testing and usage.
+
 ## Contacts
 
 * Project Manager: John Doe, Company co.
@@ -49,6 +53,10 @@ LINKS WILL BE GENERATED HERE
 ## Responsibilities
 
 Hosting, billing and control of 3rd party services, SSL/TLS certificates, etc.
+
+## Intellectual property rights
+
+> IPR ownership. Also update the LICENSE file. TODO license examples
 
 ## Recurring issues and solutions
 

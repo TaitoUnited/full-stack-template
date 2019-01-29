@@ -132,11 +132,6 @@ case $taito_env in
     taito_app_url=https://$taito_domain
     kubectl_replicas=2
     monitoring_enabled=true
-
-    # Settings for canary
-    if [[ $taito_target_env == "canary" ]]; then
-      taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
-    fi
     ;;
   stag)
     taito_zone=${template_default_zone_prod:?}
@@ -145,7 +140,7 @@ case $taito_env in
     taito_resource_namespace=$taito_organization_abbr-$taito_company-prod
     gcloud_org_id=${template_default_provider_org_id_prod:?}
 
-    taito_domain=$taito_project-$taito_env.${template_default_domain_prod:?}
+    taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
     taito_app_url=https://$taito_domain
     ;;
   test)
@@ -200,10 +195,9 @@ link_urls="
   * admin[:ENV]=$taito_admin_url Admin user interface (:ENV)
   * api[:ENV]=$taito_app_url/api/uptimez API (:ENV)
   * graphql[:ENV]=$taito_app_url/graphql/uptimez API (:ENV)
-  * docs=https://github.com/${template_default_github_organization:?}/$taito_vc_repository/wiki Project documentation
   * git=https://github.com/${template_default_github_organization:?}/$taito_vc_repository GitHub repository
-  * kanban=https://github.com/${template_default_github_organization:?}/$taito_vc_repository/projects Kanban boards
-  * resources[:ENV]=https://console.cloud.google.com/home/dashboard?project=$taito_resource_namespace_id Google resources (:ENV)
+  * docs=https://github.com/${template_default_github_organization:?}/$taito_vc_repository/wiki Project documentation
+  * project=https://github.com/${template_default_github_organization:?}/$taito_vc_repository/projects Project management
   * services[:ENV]=https://console.cloud.google.com/apis/credentials?project=$taito_resource_namespace_id Google services (:ENV)
   * builds=https://console.cloud.google.com/cloud-build/builds?project=$taito_zone&query=source.repo_source.repo_name%3D%22github-${template_default_github_organization:?}-$taito_vc_repository%22 Build logs
   * artifacts=https://TODO-DOCS-AND-TEST-REPORTS Generated documentation and test reports

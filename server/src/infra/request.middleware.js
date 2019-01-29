@@ -1,4 +1,3 @@
-// import cors from 'kcors';
 import koaCacheControl from 'koa-cache-control';
 import koaBodyParser from 'koa-bodyparser';
 

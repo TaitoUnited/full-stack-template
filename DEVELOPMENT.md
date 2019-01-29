@@ -235,7 +235,7 @@ You can use the `taito vc` commands to manage branches, and the `taito deploymen
 
 ### Version control settings
 
-Run `taito open vc conventions` to see organization specific settings that you should configure for your git repository.
+Run `taito open vc conventions` in the project directory to see organization specific settings that you should configure for your git repository.
 
 ### Stack
 
@@ -248,6 +248,7 @@ Run `taito open vc conventions` to see organization specific settings that you s
   3. Add the service to `docker-compose.yaml` and check that it works ok in local development environment.
   4. Add the service to `scripts/helm.yaml`.
   5. Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `check-deps`, `check-size`.
+  6. Add the service to `cloudbuild.yaml`.
 
 **Flow/TypeScript:** You can enable Flow or TypeScript by going through parts marked with a `NOTE: for flow` or `NOTE: for typescript` note. (TODO: implement typescript support)
 
