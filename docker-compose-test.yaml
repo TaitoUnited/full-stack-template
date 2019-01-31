@@ -38,7 +38,7 @@ services:
     environment:
       taito_running_tests: "true"
 
-  # taito-cli container serves as a database proxy
+  # Taito CLI container serves as a database proxy
   server-template-database-test-proxy:
     container_name: server-template-database-test-proxy
     image: taitounited/taito-cli:latest

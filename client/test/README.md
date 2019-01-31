@@ -30,4 +30,4 @@ Run tests in container using headless mode (against remote dev environment):
     taito test:client:dev cypress posts     # run the 'posts' test of the cypress test suite of client
     taito test:client:dev cypress 'pos*'    # run all tests of cypress test suite named pos*
 
-> TIP: Testing personnel can run Cypress against any remote environment without taito-cli: `cd client && npm install && npm run cypress:open`. The target app url is configured in `cypress.json` file. If, however, some of the cypress tests also use a direct database connection, user must also start a database proxy and configure database connection settings in `client/test/db.json`.
+> TIP: Testing personnel can run Cypress against any remote environment without Taito CLI: `cd client && npm install && npm run cypress:open`. The target app url is configured in `cypress.json` file. If, however, some of the cypress tests also use a direct database connection, user must also start a database proxy and configure database connection settings in `client/test/db.json`.

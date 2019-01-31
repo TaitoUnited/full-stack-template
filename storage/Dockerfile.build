@@ -1,0 +1,2 @@
+# Dummy dockerfile for 'taito start --prod'
+FROM minio/minio:latest

@@ -37,7 +37,7 @@ substitutions:
 steps:
 
 # NOTE: This first step is an optimization. We execute cancel with
-# the google provided kubectl container instead of taito-cli, because it
+# the google provided kubectl container instead of Taito CLI, because it
 # doesn't need to be pulled before execution -> cancel executes immediately.
 - id: manual-cancel
   name: 'gcr.io/cloud-builders/kubectl'
@@ -95,7 +95,7 @@ steps:
     echo "- We ignore all fails during cancel (hence the last echo)"
 
 
-# ----------------------- Taito-cli ----------------------------------
+# ----------------------- Taito CLI ----------------------------------
 
 # Preparing steps
 
@@ -126,7 +126,7 @@ steps:
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 # NOTE: We wait for ci-prepare step since it's the first step that
-# pulls the taito-cli image that is used in all subsequent steps
+# pulls the Taito CLI image that is used in all subsequent steps
 
 - id: install
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'

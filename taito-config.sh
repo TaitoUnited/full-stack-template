@@ -7,7 +7,7 @@
 # - https://github.com/TaitoUnited/taito-cli/blob/master/docs/manual/04-configuration.md
 # - https://github.com/TaitoUnited/taito-cli/blob/master/docs/plugins.md
 
-# Taito-cli
+# Taito CLI
 taito_version=1
 taito_plugins="
   postgres-db sqitch-db

@@ -1,6 +1,6 @@
 # Development
 
-This file has been copied from [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/). Keep modifications minimal and improve the [original](https://github.com/TaitoUnited/SERVER-TEMPLATE/blob/dev/DEVELOPMENT.md) instead. Project specific conventions are located in [README.md](README.md#conventions). See the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for more thorough development instructions. Note that taito-cli is optional (see [without taito-cli](#without-taito-cli)).
+This file has been copied from [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/). Keep modifications minimal and improve the [original](https://github.com/TaitoUnited/SERVER-TEMPLATE/blob/dev/DEVELOPMENT.md) instead. Project specific conventions are located in [README.md](README.md#conventions). See the [Taito CLI tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for more thorough development instructions. Note that Taito CLI is optional (see [without Taito CLI](#without-taito-cli)).
 
 Table of contents:
 
@@ -12,12 +12,13 @@ Table of contents:
 * [Database migrations](#database-migrations)
 * [Deployment](#deployment)
 * [Configuration](#configuration)
+* [Without Taito CLI](#without-taito-cli)
 
 ## Prerequisites
 
 * [node.js](https://nodejs.org/)
 * [docker-compose](https://docs.docker.com/compose/install/)
-* Optional: [taito-cli](https://github.com/TaitoUnited/taito-cli#readme)
+* Optional: [Taito CLI](https://github.com/TaitoUnited/taito-cli#readme)
 * Optional: eslint and prettier plugins for your code editor
 
 ## Quick start
@@ -54,6 +55,7 @@ Access database:
 
     taito db connect                        # access using a command-line tool
     taito db proxy                          # access using a database GUI tool
+                                            # look docker-compose.yaml for database user credentials
     taito db import: ./database/file.sql    # import a sql script to database
 
 Run tests:
@@ -72,7 +74,7 @@ Open Cypress user interface:
     taito cypress:client                    # open cypress for client
     taito cypress:admin                     # open cypress for admin
 
-> TIP: Testing personnel may run Cypress against any remote environment without taito-cli or docker. See `client/test/README.md` for more instructions.
+> TIP: Testing personnel may run Cypress against any remote environment without Taito CLI or docker. See `client/test/README.md` for more instructions.
 
 Start shell on a container:
 
@@ -126,6 +128,7 @@ The commands mentioned above work also for server environments (`f-NAME`, `dev`,
     taito init:dev --clean                  # Clean reinit for dev environment
     taito db connect:dev                    # Access database on command line
     taito db proxy:dev                      # Start a proxy for database access
+    taito secrets:dev                       # Show secrets (e.g. database user credentials)
     taito db rebase:dev                     # Rebase database by redeploying all migrations
     taito db import:dev ./database/file.sql # Import a file to database
     taito db dump:dev                       # Dump database to a file
@@ -142,25 +145,9 @@ Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND
 
 > It's common that idle applications are run down to save resources on non-production environments. If your application seems to be down, you can start it by running `taito start:ENV`, or by pushing some changes to git.
 
-### Without taito-cli
-
-You can run this project without taito-cli, but it is not recommended as you'll lose many of the additional features that taito-cli provides.
-
-Local development:
-
-    npm install             # Install some libraries
-    npm run install-dev     # Install some libraries
-    docker-compose up       # Start containers
-    npm run                 # Show all scripts that you can run with npm
-    TODO: sqitch db deploy  # Requires [sqitch for postgres](http://sqitch.org/))
-
-CI/CD:
-
-Taito-cli supports various infrastructures and technologies out-of-the-box, and you can also extend it by writing custom plugins. But if you want to build and deploy the project without taito-cli, you'll have to write the CI scripts yourself.
-
 ## Automated tests
 
-> HINT: You should not test implementation in your test scripts. Instead, you should always find some kind 'public API' that is designed not to change very often, and test behaviour of that API. Here public API can be provided by class, module, library, service or UI for example. This way you can make changes to the underlying implementation, and the existing tests protect you from breaking anything.
+> HINT: You should not test implementation in your test scripts. Instead, you should always find some kind 'public API' that is designed not to change very often, and you should test behaviour of that API. Here public API can be provided by class, module, library, service or UI, for example. This way you can make changes to the underlying implementation, and the existing tests protect you from breaking anything.
 
 ### Unit tests
 
@@ -178,7 +165,7 @@ You can run integration and end-to-end tests manually with the `taito test[:TARG
 
 ## Code structure
 
-Project specific conventions are defined in [README.md](README.md#conventions). See [software design](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/b-software-design.md) appendix of the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for some tips on how to design a modular directory structure.
+Project specific conventions are defined in [README.md](README.md#conventions). See [software design](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/b-software-design.md) appendix of the [Taito CLI tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for some tips on how to design a modular directory structure.
 
 ## Version control
 
@@ -188,7 +175,7 @@ All commit messages must be structured according to the [Angular git commit conv
 
 > You can also use `wip` type for such feature branch commits that will be squashed during rebase.
 
-You can manage environment and feature branches using taito-cli commands. Run `taito vc -h` for instructions. If you use git commands or git GUI tools instead, remember to follow the version control conventions defined by `taito vc conventions`. See [version control](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/03-version-control.md) chapter of the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for some additional information.
+You can manage environment and feature branches using Taito CLI commands. Run `taito vc -h` for instructions. If you use git commands or git GUI tools instead, remember to follow the version control conventions defined by `taito vc conventions`. See [version control](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/03-version-control.md) chapter of the [Taito CLI tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for some additional information.
 
 ## Database migrations
 
@@ -225,7 +212,7 @@ Container images are built for dev and feature branches only. Once built and tes
 
 Simple projects require only two environments: **dev** and **prod**. You can list the environments with `taito vc env list`.
 
-You can use the `taito vc` commands to manage branches, and the `taito deployment` commands to manage builds and deployments. Run `taito vc -h` and `taito deployment -h` for instructions. Run `taito open builds` to see the build logs. See [version control](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/03-version-control.md) chapter of the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for some additional information.
+You can use the `taito vc` commands to manage branches, and the `taito deployment` commands to manage builds and deployments. Run `taito vc -h` and `taito deployment -h` for instructions. Run `taito open builds` to see the build logs. See [version control](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/03-version-control.md) chapter of the [Taito CLI tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for some additional information.
 
 > Automatic deployment might be turned off for critical environments (`ci_exec_deploy` setting in `taito-config.sh`). In such case the deployment must be run manually with the `taito -a deployment deploy:prod VERSION` command using a personal admin account after the CI/CD process has ended successfully.
 
@@ -276,7 +263,7 @@ If basic auth (htpasswd) is used only for hiding non-production environments, yo
 
 > If you have some trouble creating an environment, you can destroy it by running `taito env destroy:ENV` and then try again with `taito env apply:ENV`.
 
-> See [6. Remote environments](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/05-remote-environments.md) chapter of taito-cli tutorial for more thorough instructions.
+> See [6. Remote environments](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/05-remote-environments.md) chapter of Taito CLI tutorial for more thorough instructions.
 
 > Operations on production and staging environments usually require admin rights. Please contact DevOps personnel if necessary.
 
@@ -299,3 +286,46 @@ You can deploy configuration changes without rebuilding with the `taito deployme
 ### Upgrading to the latest version of the project template
 
 Run `taito project upgrade`. The command copies the latest versions of reusable Helm charts, terraform templates and CI/CD scripts to your project folder, and also this README.md file. You should not make project specific modifications to them as they are designed to be reusable and easily configurable for various needs. Improve the originals instead, and then upgrade.
+
+### Without Taito CLI
+
+You can use this template also without Taito CLI.
+
+**Local development:**
+
+    npm install              # Install a minimal set of libraries on host
+    npm run install-dev      # Install more libraries on host (for editor autocompletion/linting)
+    docker-compose up        # Start the application
+    npm run sqitch (TODO)    # Run database migrations (requires Sqitch installed on host)
+    -> http://localhost:9999 # Open the application on browser (the port is defined in docker-compose.yaml)
+
+    psql / mysql ...         # Use psql or mysql to operate your database (requires psql/mysql installed on host)
+                             # DB port and credentials are defined in docker-compose.yaml
+                             # Example local development data is located in 'database/data/local.sql'
+    npm run ...              # Use npm to run npm scripts ('npm run' shows all the scripts)
+    docker-compose ...       # Use docker-compose to operate your application
+    docker ...               # Use docker to operate your containers
+
+**Testing:**
+
+Testing personnel may run Cypress against any remote environment without Taito CLI or docker. See `client/test/README.md` for more instructions.
+
+**Environments and CI/CD:**
+
+Taito CLI supports various infrastructures and technologies out-of-the-box, and you can also extend it by writing custom plugins. If you for some reason want to setup the application environments or run CI/CD steps without Taito CLI, you can write the scripts yourself by using the environment variable values defined in `taito-config.sh`.
+
+Creating an environment:
+
+* Use Terraform to create an environment, if your application requires some application specific external resources like storage buckets. Terraform scripts are located at `scripts/terraform/`. Note that the scripts assume that a cloud provider project defined by `taito_resource_namespace` and `taito_resource_namespace_id` already exists and Terraform is allowed to create resources for that project.
+* Create a relational database (or databases) for an environment e.g. by using cloud provider web UI. See `db_*` settings in `taito-config.sh` for database definitions. Create two user accounts for the database: `SERVER_TEMPLATE_ENV` for deploying the database migrations (broad user rights) and `SERVER_TEMPLATE_ENV_app` for the application (concise user rights). Configure also database extensions if required by the application (see `database/db.sql`).
+* Set Kubernetes secret values with `kubectl`. The secrets are defined by `taito_secrets` in `taito-config.sh`, and they are referenced in `scripts/helm*.yaml` files.
+
+Deploying the application:
+
+* Build all container images with [Docker](https://www.docker.com/) and push them to a Docker image registry.
+* Deploy database migrations with [Sqitch](http://sqitch.org/). Sqitch scripts are located in `database/`.
+* Deploy application to Kubernetes with [Helm](https://helm.sh/). Helm templates are located in `scripts/helm/` and environment specific values are located in `scripts/helm*.yaml`. Note that Helm does not support environment variables in value yaml files (this feature is implemented in the Taito CLI Helm plugin). Therefore you need to create a separate `scripts/heml-ENV.yaml` file for each environment and use hardcoded values in each.
+* Optional: Run automatic integration and e2e tests
+* Optional: Revert migrations and deployment if some of the tests fail.
+* Optional: Generate documentation and other artifacts, and publish them
+* Optional: Make a production release with semantic-release (see `package.json`)

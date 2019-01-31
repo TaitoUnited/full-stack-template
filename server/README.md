@@ -7,7 +7,7 @@ and common functionality shared between them are placed in the `src/common`
 directory. Furthermore, each of these may be further split into subparts that
 share a common directory between them (`src/PART/common`).
 
-For more info see the [code structure](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/b-code-structure.md) appendix of taito-cli tutorial.
+For more info see the [code structure](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/b-code-structure.md) appendix of Taito CLI tutorial.
 
 ## Responsibilities
 
