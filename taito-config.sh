@@ -37,11 +37,6 @@ taito_project_icon=$taito_project-dev.${template_default_domain:?}/favicon.ico
 taito_environments="dev test prod"
 taito_env=${taito_env/canary/prod} # canary -> prod
 
-# URLs
-taito_domain=$taito_project-$taito_target_env.${template_default_domain:?}
-taito_app_url=https://$taito_domain
-taito_static_url=
-
 # Provider and namespaces
 taito_provider=${template_default_provider:?}
 taito_provider_region=${template_default_provider_region:?}
@@ -49,6 +44,11 @@ taito_provider_zone=${template_default_provider_zone:?}
 taito_zone=${template_default_zone:?}
 taito_namespace=$taito_project-$taito_env
 taito_resource_namespace=$taito_organization_abbr-$taito_company-dev
+
+# URLs
+taito_domain=$taito_project-$taito_target_env.${template_default_domain:?}
+taito_app_url=https://$taito_domain
+taito_static_url=
 
 # Repositories
 taito_vc_repository=$taito_project
@@ -157,8 +157,8 @@ case $taito_env in
     ;;
   local)
     ci_exec_test_init=false   # run 'init --clean' before each test suite
-    taito_app_url=http://localhost:9999
     ci_test_base_url=http://server-template-ingress:80
+    taito_app_url=http://localhost:9999
     db_database_external_port=6000
     db_database_host=$taito_project-database
     db_database_port=5432
@@ -172,11 +172,15 @@ esac
 
 # ------ Derived values after overrides ------
 
-# URLs
-taito_admin_url=$taito_app_url/admin/
-
 # Provider and namespaces
 taito_resource_namespace_id=$taito_resource_namespace
+
+# URLs
+taito_admin_url=$taito_app_url/admin/
+taito_storage_url="https://console.cloud.google.com/storage/browser/$taito_project-$taito_env?project=$taito_resource_namespace_id"
+if [[ "$taito_env" == "local" ]]; then
+  taito_storage_url=http://localhost:9999/minio
+fi
 
 # Google Cloud plugin
 gcloud_region=$taito_provider_region
@@ -201,7 +205,7 @@ link_urls="
   * services[:ENV]=https://console.cloud.google.com/apis/credentials?project=$taito_resource_namespace_id Google services (:ENV)
   * builds=https://console.cloud.google.com/cloud-build/builds?project=$taito_zone&query=source.repo_source.repo_name%3D%22github-${template_default_github_organization:?}-$taito_vc_repository%22 Build logs
   * artifacts=https://TODO-DOCS-AND-TEST-REPORTS Generated documentation and test reports
-  * storage:ENV=https://console.cloud.google.com/storage/browser/$taito_project-$taito_env?project=$taito_resource_namespace_id Storage bucket (:ENV)
+  * storage:ENV=$taito_storage_url Storage bucket (:ENV)
   * logs:ENV=https://console.cloud.google.com/logs/viewer?project=$taito_zone&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F$kubectl_name%2Fnamespace_id%2F$taito_namespace Logs (:ENV)
   * errors:ENV=https://sentry.io/${template_default_sentry_organization:?}/$taito_project/?query=is%3Aunresolved+environment%3A$taito_target_env Sentry errors (:ENV)
   * uptime=https://app.google.stackdriver.com/uptime?project=$taito_zone Uptime monitoring (Stackdriver)

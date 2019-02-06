@@ -237,6 +237,8 @@ services:
     command: server /service
     networks:
       - default
+    ports:
+      - "9000"
     environment:
       MINIO_ACCESS_KEY: 070UEOQR6LX4YPZLFU0V
       MINIO_SECRET_KEY: CVQVa33NekSiOJGnevSY5ITr8Rql8lFkp22WhLQ+

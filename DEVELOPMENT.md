@@ -16,8 +16,8 @@ Table of contents:
 
 ## Prerequisites
 
-* [node.js](https://nodejs.org/)
-* [docker-compose](https://docs.docker.com/compose/install/)
+* [Node.js](https://nodejs.org/)
+* [Docker Compose](https://docs.docker.com/compose/install/)
 * Optional: [Taito CLI](https://github.com/TaitoUnited/taito-cli#readme)
 * Optional: eslint and prettier plugins for your code editor
 
@@ -218,7 +218,7 @@ You can use the `taito vc` commands to manage branches, and the `taito deploymen
 
 ## Configuration
 
-> TIP: To save some time, start your application locally while you are configuring the project: `taito install`, `taito start`, `taito init`.
+> TIP: To save some time, start your application locally while you are configuring the project: `taito install`, `taito start`, `taito init`. NOTE: Requires [Node.js](https://nodejs.org/) and [Docker Compose](https://docs.docker.com/compose/install/) installed on host.
 
 ### Version control settings
 
