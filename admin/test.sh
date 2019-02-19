@@ -3,11 +3,11 @@
 export suite_name="${1:-*}"
 export test_name="${2:-*}"
 
-if [[ "${suite_name}" == "cypress"* ]] && [[ "${taito_mode:-}" != "ci" ]]; then
+if [[ "${suite_name}" == "cypress"* ]] && [[ "${taito_env:?}" == "local" ]]; then
   npm run cypress:run
-elif [[ "${suite_name}" == "cypress"* ]] && [[ "${taito_mode}" == "ci" ]]; then
-  echo "SKIP: Cypress tests are currently disabled in ci mode because of a"
-  echo "connection problem: https://github.com/cypress-io/cypress/issues/1639"
+elif [[ "${suite_name}" == "cypress"* ]] && [[ "${taito_env:?}" != "local" ]]; then
+  echo "SKIP: Cypress tests are currently disabled for non-local env because of"
+  echo "a connection problem: https://github.com/cypress-io/cypress/issues/1639"
 else
   # TODO pass suite name and test name
   npm run test
