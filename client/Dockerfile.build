@@ -33,7 +33,6 @@ RUN chown -R nginx:nginx /var/cache/nginx && \
     chown -R nginx:nginx /service && \
     mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 COPY ./config/nginx.conf /etc/nginx
-# EXAMPLE: COPY ./config/.htpasswd /etc/nginx
 USER nginx
 EXPOSE 8080
 # TODO dump-init or tiny as init system? Kubernetes uses --init?

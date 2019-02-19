@@ -60,7 +60,6 @@
     "scan": "echo 'Linting is executed in Dockerfiles during build' && echo 'TODO: execute code analysis here?'",
     "precommit:branch": "if git-branch-is -q test || git-branch-is -q stag || git-branch-is -q master; then echo 'ERROR: You cannot commit changes directly to this environment branch. Only fast-forward merge is allowed.' && echo && exit 1; fi",
     "precommit:lint": "echo 'SKIP: Skipping linting on commit since we are already continuously linting during development.'",
-    "prepush": "if [[ $taito_mode != 'ci' ]]; then npm-run-all --parallel lint disabled-types unit; fi",
     "types": "if [ -f .flowconfig ]; then flow; elif [ -f tsconfig.json ]; then echo TODO run typescript; fi",
     "disabled-types": "echo flow/typescript check disabled on prepush",
     "release-pre:prod": "semantic-release --dry-run",
@@ -68,8 +67,9 @@
   },
   "husky": {
     "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "if [[ $taito_mode != 'ci' ]]; then npm run precommit:branch && npm run precommit:lint; fi",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+      "pre-push": "if [[ $taito_mode != 'ci' ]]; then npm-run-all --parallel lint disabled-types unit; fi"
     }
   },
   "commitlint": {
