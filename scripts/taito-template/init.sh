@@ -284,6 +284,13 @@ sed -n -e '/# storage end/,$p' docker-compose.yaml
 truncate --size 0 docker-compose.yaml
 cat temp > docker-compose.yaml
 
+{
+sed '/# storage start/q' docker-nginx.conf
+sed -n -e '/# storage end/,$p' docker-nginx.conf
+} > temp
+truncate --size 0 docker-nginx.conf
+cat temp > docker-nginx.conf
+
   sed ${sedi} -- 's/ storage / /' taito-config.sh
   sed ${sedi} -- '/^    storage: true/d' ./scripts/helm.yaml
   sed ${sedi} -- '/    serviceAccount:/d' ./scripts/helm.yaml
