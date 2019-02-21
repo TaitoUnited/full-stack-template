@@ -53,6 +53,7 @@ spec:
         tier: {{ .tier | default $defaults.tier }}
         role: {{ $serviceName }}
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: {{ template "name" $root }}-{{ $serviceName }}
           {{- if .image }}

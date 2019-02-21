@@ -31,6 +31,7 @@ spec:
           suspend: {{ $job.suspend | default false }}
           successfulJobsHistoryLimit: {{ $job.successfulJobsHistoryLimit | default 3 }}
           failedJobsHistoryLimit: {{ $job.failedJobsHistoryLimit | default 1 }}
+          automountServiceAccountToken: false
           containers:
             - name: {{ template "name" $root }}-{{ $job.name }}
               {{- if .image }}
