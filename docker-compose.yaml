@@ -9,8 +9,8 @@ services:
     ports:
       - "9999:80"
     volumes:
-      - "./docker-nginx.conf:/etc/nginx/nginx.conf"
-      - "./docker-nginx.htpasswd:/etc/nginx/.htpasswd"
+      - "./docker-nginx.conf:/etc/nginx/nginx.conf:delegated"
+      - "./docker-nginx.htpasswd:/etc/nginx/.htpasswd:delegated"
 
   # admin start
   server-template-admin:
@@ -24,8 +24,8 @@ services:
     ports:
       - "8080"
     volumes:
-      - "./admin:/service"
-      - "./shared:/service/shared"
+      - "./admin:/service:delegated"
+      - "./shared:/service/shared:delegated"
       - "/service/node_modules"
       # NOTE: for flow
       # - "/service/flow-typed/npm"
@@ -43,8 +43,8 @@ services:
     ports:
       - "8080"
     volumes:
-      - "./client:/service"
-      - "./shared:/service/shared"
+      - "./client:/service:delegated"
+      - "./shared:/service/shared:delegated"
       - "/service/node_modules"
       # NOTE: for flow
       # - "/service/flow-typed/npm"
@@ -69,8 +69,8 @@ services:
     ports:
       - "8080"
     volumes:
-      - "./graphql:/service"
-      - "./shared:/service/shared"
+      - "./graphql:/service:delegated"
+      - "./shared:/service/shared:delegated"
       - "/service/node_modules"
       # NOTE: for flow
       # - "/service/flow-typed/npm"
@@ -100,8 +100,8 @@ services:
     ports:
       - "8080"
     volumes:
-      - "./server:/service"
-      - "./shared:/service/shared"
+      - "./server:/service:delegated"
+      - "./shared:/service/shared:delegated"
       - "/service/node_modules"
       # NOTE: for flow
       # - "/service/flow-typed/npm"
@@ -142,8 +142,8 @@ services:
   #   ports:
   #     - "8080"
   #   volumes:
-  #     - "./worker:/service"
-  #     - "./shared:/service/shared"
+  #     - "./worker:/service:delegated"
+  #     - "./shared:/service/shared:delegated"
   #     - "/service/node_modules"
   #     # NOTE: for flow
   #     # - "/service/flow-typed/npm"
@@ -179,8 +179,8 @@ services:
   #   ports:
   #     - "8080"
   #   volumes:
-  #     - "./www:/service"
-  #     - "./shared:/service/shared"
+  #     - "./www:/service:delegated"
+  #     - "./shared:/service/shared:delegated"
   #     - "/service/node_modules"
   #     # NOTE: for flow
   #     # - "/service/flow-typed/npm"
@@ -224,7 +224,7 @@ services:
       POSTGRES_USER: server_template_local_app
       POSTGRES_PASSWORD: secret
     volumes:
-      - "./database:/docker-entrypoint-initdb.d"
+      - "./database:/docker-entrypoint-initdb.d:delegated"
   # database end
 
   # storage start

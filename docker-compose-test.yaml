@@ -9,8 +9,8 @@ services:
     image: server-template-client-test:latest
     restart: unless-stopped
     volumes:
-      - "./client:/service"
-      - "./shared:/service/shared"
+      - "./client:/service:delegated"
+      - "./shared:/service/shared:delegated"
       - "/service/node_modules"
       # NOTE: for flow
       # - "/service/flow-typed/npm"
@@ -26,8 +26,8 @@ services:
     image: server-template-server-test:latest
     restart: unless-stopped
     volumes:
-      - "./server:/service"
-      - "./shared:/service/shared"
+      - "./server:/service:delegated"
+      - "./shared:/service/shared:delegated"
       - "/service/node_modules"
       # NOTE: for flow
       # - "/service/flow-typed/npm"
@@ -50,7 +50,7 @@ services:
     ports:
       - "5432"
     volumes:
-      - ".:/project"
+      - ".:/project:delegated"
     environment:
       taito_docker: 'true'
       template_default_taito_image: ${template_default_taito_image}
