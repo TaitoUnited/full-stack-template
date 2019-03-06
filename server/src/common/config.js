@@ -18,6 +18,8 @@ function mapBool(input) {
 // Basic configs
 config.ROOT_PATH = __dirname;
 config.COMMON_ENV = process.env.COMMON_ENV;
+config.COMMON_DOMAIN = process.env.COMMON_DOMAIN;
+config.COMMON_URL = process.env.COMMON_URL;
 config.DEBUG = mapBool(process.env.COMMON_DEBUG);
 config.APP_NAME = 'server-template-server';
 config.APP_VERSION = !process.env.BUILD_IMAGE_TAG
