@@ -1,19 +1,21 @@
 images: [
-  'eu.gcr.io/$PROJECT_ID/$_REPO_NAME/admin:$COMMIT_SHA',
-  'eu.gcr.io/$PROJECT_ID/$_REPO_NAME/client:$COMMIT_SHA',
-  'eu.gcr.io/$PROJECT_ID/$_REPO_NAME/graphql:$COMMIT_SHA',
-  'eu.gcr.io/$PROJECT_ID/$_REPO_NAME/server:$COMMIT_SHA'
+  '$_IMAGE_REGISTRY/$_REPO_NAME/admin:$COMMIT_SHA',
+  '$_IMAGE_REGISTRY/$_REPO_NAME/client:$COMMIT_SHA',
+  '$_IMAGE_REGISTRY/$_REPO_NAME/graphql:$COMMIT_SHA',
+  '$_IMAGE_REGISTRY/$_REPO_NAME/server:$COMMIT_SHA'
 ]
-# 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME/worker:$COMMIT_SHA'
-# 'eu.gcr.io/$PROJECT_ID/$_REPO_NAME/www:$COMMIT_SHA'
+# '$_IMAGE_REGISTRY/$_REPO_NAME/worker:$COMMIT_SHA'
+# '$_IMAGE_REGISTRY/$_REPO_NAME/www:$COMMIT_SHA'
 timeout: 1500s
 
-# If you want to grant outsiders access to your build logs, you mey save
-# the logs to a separate bucket and grant the outsiders access to that bucket
+# If you want to grant outsiders access to your build logs, you may save
+# the logs to a separate bucket determined by the logsBucket setting and
+# grant the outsiders access to the bucket
 # logsBucket: 'gs://my-builds' # TODO _TEMPLATE_DEFAULT for this also
 
 substitutions:
   _REPO_NAME: server-template
+  _IMAGE_REGISTRY: eu.gcr.io/$PROJECT_ID
   _TEMPLATE_DEFAULT_TAITO_IMAGE:
   _TEMPLATE_DEFAULT_ORGANIZATION:
   _TEMPLATE_DEFAULT_ORGANIZATION_ABBR:
@@ -47,7 +49,7 @@ steps:
     - commit_sha=$COMMIT_SHA
     - build_id=$BUILD_ID
     - full_repo_name=$_REPO_NAME
-    - image_path=eu.gcr.io/$PROJECT_ID/$_REPO_NAME/server:$COMMIT_SHA
+    - image_path=$_IMAGE_REGISTRY/$_REPO_NAME/server:$COMMIT_SHA
   args:
   - '-c'
   - |

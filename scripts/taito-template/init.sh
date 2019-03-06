@@ -492,6 +492,7 @@ echo "Removing template settings from cloudbuild.yaml..."
 sed ${sedi} -- "s|\${_TEMPLATE_DEFAULT_TAITO_IMAGE}|${template_default_taito_image}|g" cloudbuild.yaml
 sed ${sedi} -- '/_TEMPLATE_DEFAULT_/d' cloudbuild.yaml
 sed ${sedi} -- '/template_default_taito_image/d' cloudbuild.yaml
+sed ${sedi} -- "s|_IMAGE_REGISTRY: eu.gcr.io/\$PROJECT_ID|_IMAGE_REGISTRY: ${template_default_registry}/${template_default_provider_zone}|" cloudbuild.yaml
 
 echo "Removing template settings from docker-compose-test.yaml..."
 
