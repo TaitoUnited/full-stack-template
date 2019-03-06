@@ -17,6 +17,8 @@ data:
   FAMILY: {{ .Values.global.project.family | quote }}
   APPLICATION: {{ .Values.global.project.application | quote }}
   SUFFIX: {{ .Values.global.project.suffix | quote }}
+  DOMAIN: {{ .Values.global.domain | quote }}
+  URL: {{ .Values.global.url | quote }}
   VERSION: {{ .Values.global.build.version | quote }}
   COMMIT: {{ .Values.global.build.commit | quote }}
   IMAGE_TAG: {{ .Values.global.build.imageTag | quote }}
