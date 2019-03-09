@@ -52,6 +52,7 @@ taito_static_url=
 
 # Repositories
 taito_vc_repository=$taito_project
+taito_vc_repository_url=github.com/${template_default_github_organization:?}/$taito_vc_repository
 taito_image_registry=${template_default_registry:?}/$taito_zone/$taito_vc_repository
 
 # Stack
@@ -199,9 +200,9 @@ link_urls="
   * admin[:ENV]=$taito_admin_url Admin user interface (:ENV)
   * api[:ENV]=$taito_app_url/api/uptimez API (:ENV)
   * graphql[:ENV]=$taito_app_url/graphql/uptimez API (:ENV)
-  * git=https://github.com/${template_default_github_organization:?}/$taito_vc_repository GitHub repository
-  * docs=https://github.com/${template_default_github_organization:?}/$taito_vc_repository/wiki Project documentation
-  * project=https://github.com/${template_default_github_organization:?}/$taito_vc_repository/projects Project management
+  * git=https://$taito_vc_repository_url GitHub repository
+  * docs=https://$taito_vc_repository_url/wiki Project documentation
+  * project=https://$taito_vc_repository_url/projects Project management
   * services[:ENV]=https://console.cloud.google.com/apis/credentials?project=$taito_resource_namespace_id Google services (:ENV)
   * builds=https://console.cloud.google.com/cloud-build/builds?project=$taito_zone&query=source.repo_source.repo_name%3D%22github_${template_default_github_organization:?}_$taito_vc_repository%22 Build logs
   * artifacts=https://TODO-DOCS-AND-TEST-REPORTS Generated documentation and test reports

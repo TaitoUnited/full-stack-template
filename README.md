@@ -20,6 +20,7 @@ Table of contents:
 * [Links](#links)
 * [Contacts](#contacts)
 * [Responsibilities](#responsibilities)
+* [Intellectual property rights](#intellectual-property-rights)
 * [Recurring issues and solutions](#recurring-issues-and-solutions)
 * [Miscellaneous notes](#miscellaneous-notes)
 * [Conventions](#conventions)
