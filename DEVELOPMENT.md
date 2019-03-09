@@ -11,8 +11,8 @@ Table of contents:
 * [Version control](#version-control)
 * [Database migrations](#database-migrations)
 * [Deployment](#deployment)
-* [Configuration](#configuration)
-* [Without Taito CLI](#without-taito-cli)
+* [Usage without Taito CLI](#usage-without-taito-cli)
+* [Upgrading](#upgrading)
 
 ## Prerequisites
 
@@ -216,78 +216,7 @@ You can use the `taito vc` commands to manage branches, and the `taito deploymen
 
 > Automatic deployment might be turned off for critical environments (`ci_exec_deploy` setting in `taito-config.sh`). In such case the deployment must be run manually with the `taito -a deployment deploy:prod VERSION` command using a personal admin account after the CI/CD process has ended successfully.
 
-## Configuration
-
-> TIP: To save some time, start your application locally while you are configuring the project: `taito install`, `taito start`, `taito init`. NOTE: Requires [Node.js](https://nodejs.org/) and [Docker Compose](https://docs.docker.com/compose/install/) installed on host.
-
-### Version control settings
-
-Run `taito open vc conventions` in the project directory to see organization specific settings that you should configure for your git repository.
-
-### Stack
-
-**Alternative technologies:** If you would rather use other technologies than React, Node.js and PostgreSQL, you can copy alternative example implementations from [alternatives](https://github.com/TaitoUnited/SERVER-TEMPLATE/tree/master/admin) directory.
-
-**Additional microservices:** The template supports unlimited number of microservices. You can add a new microservice like this:
-
-  1. Create a new directory for your service. Look [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) and [SERVER-TEMPLATE-alt](https://github.com/TaitoUnited/SERVER-TEMPLATE-alt/) for examples.
-  2. Add the service to `taito_targets` variable in `taito-config.sh`
-  3. Add the service to `docker-compose.yaml` and check that it works ok in local development environment.
-  4. Add the service to `scripts/helm.yaml`.
-  5. Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `check-deps`, `check-size`.
-  6. Add the service to `cloudbuild.yaml`.
-
-**Flow/TypeScript:** You can enable Flow or TypeScript by going through parts marked with a `NOTE: for flow` or `NOTE: for typescript` note. (TODO: implement typescript support)
-
-**Minikube:** If you would rather use minikube for local development instead of docker-compose, remove `docker-compose:local` plugin, and the `:-local` restriction from `kubectl:-local` and `helm:-local` plugins. These are configured with the `taito_plugins` setting in `taito-config.sh`. (TODO: Not tested on minikube yet. Probably needs some additional work.)
-
-**Authentication:** Authentication has not yet been implemented to the template (see [issue](https://github.com/TaitoUnited/SERVER-TEMPLATE/issues/11)). Currently ingress does provide basic authentation, but it is only meant for hiding non-production environments. [Auth0 docs](https://auth0.com/docs) is a good starting point for your auth implementation.
-
-### Examples
-
-The project template comes with a bunch of implementation examples. Browse the examples through, leave the ones that seem useful and remove all the rest. You can use the `taito check deps` command to prune unused dependencies. NOTE: Many of the `devDependencies` and `~` references are actually in use even if reported unused by the tool. But all unused `dependencies` may usually be removed from package.json.
-
-The client GUI uses [Material-UI](https://material-ui-next.com/) component library by default. It's a good match with the [react-admin](https://github.com/marmelab/react-admin) GUI, but please consider also other alternatives based on customer requirements. For example [Elemental](http://elemental-ui.com/) is a good alternative.
-
-### Basic project settings
-
-1. Modify `taito-config.sh` if you need to change some settings. The default settings are ok for most projects.
-2. Run `taito project apply`
-3. Commit and push changes
-
-### Remote environments
-
-Define remote environments with the `taito_environments` setting in `taito-config.sh`. Make sure that your authentication is in effect for an environment with `taito --auth:ENV`, and then create an environment by running `taito env apply:ENV`. Examples for environment names: `f-orders`, `dev`, `test`, `stag`, `canary`, `prod`. Create a `dev` environment first, and the other environments later if required.
-
-If basic auth (htpasswd) is used only for hiding non-production environments, you can use the same credentials for all environments. In such case you should also write them down to the [links](README.md#links) section on README.md so that all project personnel can easily access the credentials.
-
-> If you have some trouble creating an environment, you can destroy it by running `taito env destroy:ENV` and then try again with `taito env apply:ENV`.
-
-> See [6. Remote environments](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/05-remote-environments.md) chapter of Taito CLI tutorial for more thorough instructions.
-
-> Operations on production and staging environments usually require admin rights. Please contact DevOps personnel if necessary.
-
-### Kubernetes
-
-The `scripts/heml.yaml` file contains default Kubernetes settings for all environments and the `scripts/helm-*.yaml` files contain environment specific overrides for them. By modying these files you can easily configure environment variables, resource requirements and autoscaling for your containers.
-
-You can deploy configuration changes without rebuilding with the `taito deployment deploy:ENV` command.
-
-> Do not modify the helm template located in `./scripts/helm` directory. Improve the original helm template located in [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) repository instead.
-
-### Secrets
-
-1. Add a secret definition to the `taito_secrets` setting in `taito-config.sh`.
-2. Map the secret definition to an environment variable in `scripts/helm.yaml`
-3. Run `taito env rotate:ENV SECRET` to generate a secret value for an environment. Run the command for each environment separately. Note that the rotate command restarts all pods in the same namespace.
-
-> For local development you can just define secrets as normal environment variables in `docker-compose.yaml` given that they are not confidential.
-
-### Upgrading to the latest version of the project template
-
-Run `taito project upgrade`. The command copies the latest versions of reusable Helm charts, terraform templates and CI/CD scripts to your project folder, and also this README.md file. You should not make project specific modifications to them as they are designed to be reusable and easily configurable for various needs. Improve the originals instead, and then upgrade.
-
-### Without Taito CLI
+## Usage without Taito CLI
 
 You can use this template also without Taito CLI.
 
@@ -329,3 +258,7 @@ Deploying the application:
 * Optional: Revert migrations and deployment if some of the tests fail.
 * Optional: Generate documentation and other artifacts, and publish them
 * Optional: Make a production release with semantic-release (see `package.json`)
+
+## Upgrading
+
+Run `taito project upgrade`. The command copies the latest versions of reusable Helm charts, terraform templates and CI/CD scripts to your project folder, and also this README.md file. You should not make project specific modifications to them as they are designed to be reusable and easily configurable for various needs. Improve the originals instead, and then upgrade.
