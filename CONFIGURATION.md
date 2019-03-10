@@ -48,25 +48,52 @@ Run `taito open vc conventions` in the project directory to see organization spe
 
 **Authentication:** Authentication has not yet been implemented to the template (see [issue](https://github.com/TaitoUnited/SERVER-TEMPLATE/issues/11)). Currently ingress does provide basic authentation, but it is only meant for hiding non-production environments. [Auth0 docs](https://auth0.com/docs) is a good starting point for your auth implementation.
 
-* [ ] All done
-
-## Examples
-
-The project template comes with a bunch of implementation examples. Browse the examples through, leave the ones that seem useful and remove all the rest. You can use the `taito check deps` command to prune unused dependencies. NOTE: Many of the `devDependencies` and `~` references are actually in use even if reported unused by the tool. But all unused `dependencies` may usually be removed from package.json.
-
-The client GUI uses [Material-UI](https://material-ui-next.com/) component library by default. It's a good match with the [react-admin](https://github.com/marmelab/react-admin) GUI, but please consider also other alternatives based on customer requirements. For example [Elemental](http://elemental-ui.com/) is a good alternative.
+**Static site generator (www):** See the next chapter.
 
 * [ ] All done
 
-## Static site generator
+## Static site generator (www)
 
 Configure static site generator of your choice with the following instructions. Currently instructions are provided only for Gatsby, Hugo and Jekyll, but with some extra work the website-template may easily be used with any static site generator.
+
+Remove static site generators that you do not use from `www/install.sh`.
+
+    EDIT www/install.sh
 
 Start containers, and start a shell inside the www Docker container:
 
     taito install
     taito start
     taito shell:www
+
+*FOR GATSBY ONLY:* Create a new Gatsby site based on one of the [starters](https://www.gatsbyjs.org/starters?v=2):
+
+    npx gatsby new site https://github.com/sarasate/gate
+    rm -rf site/.git
+    exit
+
+*FOR GATSBY ONLY:* Edit some files:
+
+    EDIT docker-compose.yaml         # Enable `/service/site/node_modules` mount
+    EDIT www/site/gatsby-config.js   # Add pathPrefix setting: `pathPrefix: '/docs'`
+    EDIT taito-config.sh             # Add link: `* www-local=http://localhost:7463/docs Local docs`
+
+> The additional link is required because `commons.js` and `socket.io` are assumed to be running on `/` path (See [Gatsby.js issue](https://github.com/gatsbyjs/gatsby/issues/3721)).
+
+*FOR HUGO ONLY:* Create a new Hugo site (See [Hugo themes](https://themes.gohugo.io/) and [Hugo quick start](https://gohugo.io/getting-started/quick-start/) for more details):
+
+    hugo new site site
+    cd site
+    git clone https://github.com/budparr/gohugo-theme-ananke.git themes/ananke
+    rm -rf themes/ananke/.git
+    echo 'theme = "ananke"' >> config.toml
+    hugo new posts/my-first-post.md
+    exit
+
+*FOR HUGO ONLY:* If you have some trouble with links, you might also need to enable relative urls by using the following settings in `www/site/config.toml`:
+
+    baseURL = ""
+    relativeURLs = true
 
 *FOR JEKYLL ONLY:* Create a new site:
 
@@ -75,38 +102,19 @@ Start containers, and start a shell inside the www Docker container:
     exit
     exit
 
-*FOR HUGO ONLY:* Create a new Hugo site (See [Hugo quickstart](https://gohugo.io/getting-started/quick-start/) for more details):
-
-    hugo new site site
-    cd site
-    git clone https://github.com/budparr/gohugo-theme-ananke.git themes/ananke
-    echo 'theme = "ananke"' >> config.toml
-    hugo new posts/my-first-post.md
-    exit
-
-*FOR GATSBY ONLY:* Create a new Gatsby site based on one of the [starters](https://www.gatsbyjs.org/starters?v=2):
-
-    npx gatsby new site STARTER-SOURCE-URL-OF-MY-CHOICE
-    rm -rf site/.git
-    exit
-
-*FOR GATSBY ONLY:* Expose Gatsby development port outside the Docker container by adding options `--host 0.0.0.0 --port 8080` to the develop script:
-
-    EDIT www/site/package.json
-
-*FOR GATSBY ONLY:* Enable `/service/site/node_modules` mount in `docker-compose.yaml`:
-
-    EDIT docker-compose.yaml
-
 Restart containers and open the site on browser:
 
     taito stop
-    taito start
+    taito start --clean
     taito open www
 
-Remove static site generators that you do not use from `www/install.sh`.
+* [ ] All done
 
-    EDIT www/install.sh
+## Examples
+
+The project template comes with a bunch of implementation examples. Browse the examples through, leave the ones that seem useful and remove all the rest. You can use the `taito check deps` command to prune unused dependencies. NOTE: Many of the `devDependencies` and `~` references are actually in use even if reported unused by the tool. But all unused `dependencies` may usually be removed from package.json.
+
+The client GUI uses [Material-UI](https://material-ui-next.com/) component library by default. It's a good match with the [react-admin](https://github.com/marmelab/react-admin) GUI, but please consider also other alternatives based on customer requirements. For example [Elemental](http://elemental-ui.com/) is a good alternative.
 
 * [ ] All done
 

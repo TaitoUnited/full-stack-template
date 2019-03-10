@@ -76,6 +76,15 @@ const SideBar = ({ menuVisible, onToggleMenu }) => (
           </ListItem>
         </NaviLink>
         <AnchorLink
+          href='/docs/'
+          data-test='navigate-to-docs'
+          onClick={() => onToggleMenu()}
+        >
+          <ListItem button>
+            <ListItemText primary='Documentation' />
+          </ListItem>
+        </AnchorLink>
+        <AnchorLink
           href='/admin/'
           data-test='navigate-to-admin'
           onClick={() => onToggleMenu()}

@@ -1,0 +1,7 @@
+[
+  {
+    "id": "build",
+    "execute-command": "/service/build-webhook.sh",
+    "command-working-directory": "/service"
+  }
+]

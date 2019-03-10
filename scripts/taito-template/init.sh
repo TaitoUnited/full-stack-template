@@ -37,6 +37,10 @@ else
  sedi="-i"
 fi
 
+# Remove the example site
+rm -rf www/site
+sed -i -- '/    - "\/service\/site\/node_modules"/d' docker-compose.yaml
+
 echo
 echo "--- Choose stack ---"
 echo "NOTE: If you are unsure, just accept the defaults."
@@ -72,7 +76,7 @@ read -r confirm
 if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   stack_admin=true
 fi
-echo "Static website (e.g. for documentation) (y/N)?"
+echo "Static website (e.g. for API documentation or user guide) (y/N)?"
 read -r confirm
 if [[ "${confirm}" =~ ^[Yy]$ ]]; then
   stack_www=true
@@ -350,7 +354,7 @@ truncate --size 0 docker-nginx.conf
 cat temp > docker-nginx.conf
 
   sed ${sedi} -- 's/ www / /' taito-config.sh
-  sed ${sedi} -- '/^    www: false/d' ./scripts/helm.yaml
+  sed ${sedi} -- '/^    www: true/d' ./scripts/helm.yaml
 
   sed ${sedi} -- '/REPO_NAME\/www:/d' cloudbuild.yaml
 

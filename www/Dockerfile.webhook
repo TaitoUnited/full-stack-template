@@ -1,0 +1,39 @@
+FROM node:10 as builder
+ARG SERVICE_DIR=.
+ARG BUILD_VERSION
+LABEL version=${BUILD_VERSION} \
+      company=companyname \
+      project=website-template \
+      role=webhook
+RUN apt-get -y update && \
+    apt-get -y install git webhook
+
+WORKDIR /service
+COPY ${SERVICE_DIR}/*.sh \
+     ${SERVICE_DIR}/*.json \
+     /service/
+RUN . ./install.sh
+RUN mkdir -p /etc/webhook && ln -s /service/hooks.json /etc/webhook/hooks.json
+
+# Install, build and test site.
+COPY ${SERVICE_DIR} /service
+RUN mkdir -p /build && \
+    npm run install-site && \
+    npm run build && \
+    npm run unit
+
+# Store built site
+RUN mv /build /build-orig && \
+    mkdir -p /build
+
+# Prepare for node user
+RUN cp ~/.bashrc /home/node/.bashrc && \
+    chown -R node:node /service && \
+    chown -R node:node /build
+
+# Start webhook
+USER node
+EXPOSE 9000
+CMD . ~/.bashrc && \
+    ./build-webhook.sh install && \
+    webhook -verbose -port 9000 -urlprefix $WEBHOOK_URL_PREFIX

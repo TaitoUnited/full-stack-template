@@ -170,22 +170,22 @@ services:
   # worker end
 
   # www start
-  # server-template-www:
-  #   container_name: server-template-www
-  #   build:
-  #     context: ./www
-  #     dockerfile: ${dockerfile}
-  #   restart: unless-stopped
-  #   networks:
-  #     - default
-  #   ports:
-  #     - "8080"
-  #   volumes:
-  #     - "./www:/service:delegated"
-  #     - "./shared:/service/shared:delegated"
-  #     - "/service/node_modules"
-  #     # NOTE: for flow
-  #     # - "/service/flow-typed/npm"
+  server-template-www:
+    container_name: server-template-www
+    build:
+      context: ./www
+      dockerfile: ${dockerfile}
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      - "7463:8080"
+    volumes:
+      - "./www:/service:delegated"
+      - "/service/node_modules"
+      - "/service/site/node_modules"
+      # FOR GATSBY ONLY:
+      # - "/service/site/node_modules"
   # www end
 
   # cache start
