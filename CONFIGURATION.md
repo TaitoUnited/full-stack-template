@@ -27,7 +27,7 @@ Table of contents:
 
 Run `taito open vc conventions` in the project directory to see organization specific settings that you should configure for your git repository.
 
-[ ] All done
+* [ ] All done
 
 ## Stack
 
@@ -48,7 +48,7 @@ Run `taito open vc conventions` in the project directory to see organization spe
 
 **Authentication:** Authentication has not yet been implemented to the template (see [issue](https://github.com/TaitoUnited/SERVER-TEMPLATE/issues/11)). Currently ingress does provide basic authentation, but it is only meant for hiding non-production environments. [Auth0 docs](https://auth0.com/docs) is a good starting point for your auth implementation.
 
-[ ] All done
+* [ ] All done
 
 ## Examples
 
@@ -56,7 +56,7 @@ The project template comes with a bunch of implementation examples. Browse the e
 
 The client GUI uses [Material-UI](https://material-ui-next.com/) component library by default. It's a good match with the [react-admin](https://github.com/marmelab/react-admin) GUI, but please consider also other alternatives based on customer requirements. For example [Elemental](http://elemental-ui.com/) is a good alternative.
 
-[ ] All done
+* [ ] All done
 
 ## Static site generator
 
@@ -108,7 +108,7 @@ Remove static site generators that you do not use from `www/install.sh`.
 
     EDIT www/install.sh
 
-[ ] All done
+* [ ] All done
 
 ## Hosting options
 
@@ -118,7 +118,7 @@ By default the template deploys the site to Kubernetes running on Google Cloud. 
 2. Run `taito project apply`
 3. Commit and push changes
 
-[ ] All done
+* [ ] All done
 
 ## Remote environments
 
@@ -132,7 +132,7 @@ If basic auth (htpasswd) is used only for hiding non-production environments, yo
 
 > Operations on production and staging environments usually require admin rights. Please contact DevOps personnel if necessary.
 
-[ ] All done
+* [ ] All done
 
 ## Kubernetes
 
@@ -142,7 +142,7 @@ You can deploy configuration changes without rebuilding with the `taito deployme
 
 > Do not modify the helm template located in `./scripts/helm` directory. Improve the original helm template located in [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) repository instead.
 
-[ ] All done
+* [ ] All done
 
 ## Secrets
 
@@ -152,4 +152,4 @@ You can deploy configuration changes without rebuilding with the `taito deployme
 
 > For local development you can just define secrets as normal environment variables in `docker-compose.yaml` given that they are not confidential.
 
-[ ] All done
+* [ ] All done

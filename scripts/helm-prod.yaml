@@ -1,1 +1,7 @@
-# NOTE: Here you can override default settings for production env
+# NOTE: Here you can override default settings for production environment.
+# For example, you can diable basic authentication here.
+
+# server-template:
+#   ingress:
+#     basicAuth:
+#       enabled: false
