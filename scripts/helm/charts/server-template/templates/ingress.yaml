@@ -54,6 +54,16 @@ spec:
               serviceName: {{ template "fullname" $root }}-{{ $serviceName }}
               servicePort: {{ .port | default $defaults.port }}
           {{- end }}
+          {{- if and $serviceEnabled .sidecar }}
+          {{- if .sidecar.enabled }}
+          {{- if .sidecar.path }}
+          - path: {{ .sidecar.path | quote }}
+            backend:
+              serviceName: {{ template "fullname" $root }}-{{ $serviceName }}
+              servicePort: {{ .sidecar.port }}
+          {{- end }}
+          {{- end }}
+          {{- end }}
           {{- end }}
           {{- end }}
     {{- end }}

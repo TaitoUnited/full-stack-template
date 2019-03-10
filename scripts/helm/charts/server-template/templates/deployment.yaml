@@ -101,11 +101,80 @@ spec:
                   key: {{ regexFind "[a-zA-Z]*$" $value }}
             {{- end }}
           volumeMounts:
+          {{- if .sidecar }}
+          {{- if .sidecar.enabled }}
+          {{- if .sidecar.sharedVolume }}
+            - name: shared
+              mountPath: {{ .sidecar.sharedVolume.mountPath }}
+          {{- end }}
+          {{- end }}
+          {{- end }}
           {{- if and (.serviceAccount) (eq $provider "gcloud") }}
             - name: serviceaccount
               mountPath: /serviceaccount
               readOnly: true
           {{- end }}
+
+        {{- if .sidecar }}
+        {{- if .sidecar.enabled }}
+        - name: {{ template "name" $root }}-{{ .sidecar.name }}
+          {{- if .sidecar.image }}
+          image: {{ .sidecar.image }}
+          {{- else }}
+          image: {{ $global.registry -}} / {{- .sidecar.name -}} : {{- $global.build.imageTag }}
+          {{- end }}
+          imagePullPolicy: {{ $global.imagePullPolicy | quote }}
+          {{- if .sidecar.command }}
+          command:
+            {{- range .sidecar.command }}
+            - {{ . }}
+            {{- end }}
+          {{- end }}
+          ports:
+            - containerPort: {{ .sidecar.port | default $defaults.port }}
+          {{- if not .sidecar.livenessDisabled }}
+          livenessProbe:
+            httpGet:
+              path: {{ .sidecar.livenessPath | default $defaults.livenessPath }}
+              port: {{ .sidecar.livenessPort | default .sidecar.port | default $defaults.port }}
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            timeoutSeconds: 5
+          {{- end }}
+          envFrom:
+            - prefix: COMMON_
+              configMapRef:
+                name: {{ template "fullname" $root }}-common
+          env:
+            {{- if and (.sidecar.serviceAccount) (eq $provider "gcloud") }}
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: /serviceaccount/{{ regexFind "[a-zA-Z]*$" .serviceAccount.secret }}
+            {{- end }}
+            {{- range $name, $value := .sidecar.env }}
+            - name: {{ $name }}
+              value: {{ $value | quote }}
+            {{- end }}
+            {{- range $name, $value := .sidecar.secrets }}
+            - name: {{ $name }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ regexReplaceAll "\\.[a-zA-Z]*$" $value "" }}
+                  key: {{ regexFind "[a-zA-Z]*$" $value }}
+            {{- end }}
+          volumeMounts:
+          {{- if .sidecar.sharedVolume }}
+            - name: shared
+              mountPath: {{ .sidecar.sharedVolume.sidecarMountPath }}
+          {{- end }}
+          {{- if and (.sidecar.serviceAccount) (eq $provider "gcloud") }}
+            - name: serviceaccount
+              mountPath: /serviceaccount
+              readOnly: true
+          {{- end }}
+        {{- end }}
+        {{- end }}
+
         {{- if and (.db) (ne $env "local") (eq $provider "gcloud") }}
         - name: cloudsql-proxy
           image: gcr.io/cloudsql-docker/gce-proxy:1.13
@@ -126,6 +195,14 @@ spec:
               mountPath: /cloudsql
         {{- end }}
       volumes:
+        {{- if .sidecar }}
+        {{- if .sidecar.enabled }}
+        {{- if .sidecar.sharedVolume }}
+        - name: shared
+          emptyDir:
+        {{- end }}
+        {{- end }}
+        {{- end }}
         {{- if and (.db) (ne $env "local") (eq $provider "gcloud") }}
         - name: cloudsql-instance-credentials
           secret:

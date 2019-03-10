@@ -21,7 +21,17 @@ spec:
     tier: {{ .tier | default $defaults.tier }}
     role: {{ $serviceName }}
   ports:
-    - port: {{ .port | default $defaults.port }}
+    - name: service
+      port: {{ .port | default $defaults.port }}
+    {{- if .sidecar }}
+    {{- if .sidecar.enabled }}
+    {{- if .sidecar.port }}
+    - name: sidecar
+      port: {{ .sidecar.port}}
+    {{- end }}
+    {{- end }}
+    {{- end }}
+
 ---
 {{- end }}
 {{- end }}
