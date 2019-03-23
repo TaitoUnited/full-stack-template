@@ -70,6 +70,7 @@ Run tests:
     taito test:client cypress 'pos*'        # run all tests of cypress test suite named pos*
 
 Open Cypress user interface:
+
     taito cypress                           # open cypress for default target (client)
     taito cypress:client                    # open cypress for client
     taito cypress:admin                     # open cypress for admin
@@ -91,10 +92,20 @@ List all project related links and open one of them in browser:
     taito open -h
     taito open NAME
 
-Check bundle size and dependencies:
+Check code quality:
+
+    taito check code
+    taito check code:admin
+    taito check code:client
+    taito check code:server
+
+Check build size:
 
     taito check size
     taito check size:client
+
+Check dependencies (available updates, vulnerabilities):
+
     taito check deps
     taito check deps:server
     taito check deps:server -u             # update packages interactively
