@@ -25,7 +25,7 @@ Table of contents:
 
 ## Version control settings
 
-Run `taito open vc conventions` in the project directory to see organization specific settings that you should configure for your git repository.
+Run `taito open conventions` in the project directory to see organization specific settings that you should configure for your git repository.
 
 * [ ] All done
 
