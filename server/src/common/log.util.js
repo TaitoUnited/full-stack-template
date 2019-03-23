@@ -59,7 +59,9 @@ class StackdriverStream {
     // Avoid unnecessary log by not logging /healthz calls
     if (
       formatted.message !== 'Request: GET /healthz' &&
-      formatted.message !== 'Response: GET /healthz'
+      formatted.message !== 'Response: GET /healthz' &&
+      formatted.message !== 'Request: GET /uptimez' &&
+      formatted.message !== 'Response: GET /uptimez'
     ) {
       this.stream.write(JSON.stringify(formatted));
       this.stream.write('\n');

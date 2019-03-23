@@ -204,8 +204,8 @@ link_urls="
   * git=https://$taito_vc_repository_url GitHub repository
   * docs=https://$taito_vc_repository_url/wiki Project documentation
   * project=https://$taito_vc_repository_url/projects Project management
-  * services[:ENV]=https://console.cloud.google.com/apis/credentials?project=$taito_resource_namespace_id Google services (:ENV)
-  * builds=https://console.cloud.google.com/cloud-build/builds?project=$taito_zone&query=source.repo_source.repo_name%3D%22github_${template_default_github_organization:?}_$taito_vc_repository%22 Build logs
+  * services[:ENV]=https://console.cloud.google.com/apis/dashboard?project=$taito_resource_namespace_id Google services (:ENV)
+  * builds[:ENV]=https://console.cloud.google.com/cloud-build/builds?project=$taito_zone&query=source.repo_source.repo_name%3D%22github_${template_default_github_organization:?}_$taito_vc_repository%22 Build logs
   * artifacts=https://TODO-DOCS-AND-TEST-REPORTS Generated documentation and test reports
   * storage:ENV=$taito_storage_url Storage bucket (:ENV)
   * logs:ENV=https://console.cloud.google.com/logs/viewer?project=$taito_zone&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F$kubectl_name%2Fnamespace_id%2F$taito_namespace Logs (:ENV)
@@ -226,6 +226,7 @@ taito_secrets="
   $taito_project-$taito_env-basic-auth.auth:htpasswd-plain
   $taito_project-$taito_env-storage-gateway.secret:random
   $taito_project-$taito_env-gserviceaccount.key:file
+  $taito_project-$taito_env-scheduler.secret:random
 "
 
 

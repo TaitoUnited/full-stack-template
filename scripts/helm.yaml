@@ -29,7 +29,7 @@ server-template:
     storage: true
     worker: false
     www: true
-    sync: false
+    scheduler: false
 
   # Defaults
   serviceDefaults:
@@ -153,16 +153,18 @@ server-template:
 
   # TODO: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/#ttl-mechanism-for-finished-jobs
 
-  sync:
+  scheduler:
     type: job
     image: buildpack-deps:curl
+    secrets:
+      SCHEDULER_SECRET: ${taito_project}-${taito_env}-scheduler.secret
     cronJobs:
       - name: examplejob2
         schedule: "0 2 * * *"
         args:
           - /bin/sh
           - -c
-          - curl -s -S 'http://${taito_project}-${taito_env}-server:8080/posts?offset=0&limit=1'
+          - curl -sS -H "X-Secret: $SCHEDULER_SECRET" 'http://${taito_project}-${taito_env}-server:8080/posts?offset=0&limit=1'
 
   # TODO configure resources
   # resources: {}

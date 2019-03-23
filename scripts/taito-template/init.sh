@@ -37,6 +37,9 @@ else
  sedi="-i"
 fi
 
+# Remove the alternatives directory
+rm -rf alternatives
+
 # Remove the example site
 rm -rf www/site
 sed -i -- '/    - "\/service\/site\/node_modules"/d' docker-compose.yaml
@@ -132,12 +135,7 @@ cat temp > docker-nginx.conf
   sed ${sedi} -- '/\* admin/d' taito-config.sh
   sed ${sedi} -- '/REPO_NAME\/admin:/d' cloudbuild.yaml
 
-  sed ${sedi} -- '/install-all:admin":/d' package.json
-  sed ${sedi} -- '/lint:admin":/d' package.json
-  sed ${sedi} -- '/unit:admin":/d' package.json
-  sed ${sedi} -- '/test:admin":/d' package.json
-  sed ${sedi} -- '/check-deps:admin":/d' package.json
-  sed ${sedi} -- '/check-size:admin":/d' package.json
+  sed ${sedi} -- '/:admin":/d' package.json
 
   sed ${sedi} -- 's/install-all:admin //g' package.json
   sed ${sedi} -- 's/lint:admin //g' package.json
@@ -171,12 +169,7 @@ cat temp > docker-nginx.conf
   sed ${sedi} -- '/\* app/d' taito-config.sh
   sed ${sedi} -- '/REPO_NAME\/client:/d' cloudbuild.yaml
 
-  sed ${sedi} -- '/install-all:client":/d' package.json
-  sed ${sedi} -- '/lint:client":/d' package.json
-  sed ${sedi} -- '/unit:client":/d' package.json
-  sed ${sedi} -- '/test:client":/d' package.json
-  sed ${sedi} -- '/check-deps:client":/d' package.json
-  sed ${sedi} -- '/check-size:client":/d' package.json
+  sed ${sedi} -- '/:client":/d' package.json
 
   sed ${sedi} -- 's/install-all:client //g' package.json
   sed ${sedi} -- 's/lint:client //g' package.json
@@ -200,7 +193,8 @@ cat temp > docker-compose.yaml
   # sed ${sedi} -- '/  database:/d' ./scripts/helm.yaml
 
   sed ${sedi} -- '/postgres-db/d' taito-config.sh
-  sed ${sedi} -- '/db\./d' taito-config.sh
+  sed ${sedi} -- '/db_/d' taito-config.sh
+
   sed ${sedi} -- '/DATABASE_/d' docker-compose.yaml
 fi
 
@@ -229,11 +223,7 @@ cat temp > docker-nginx.conf
   sed ${sedi} -- '/\* api/d' taito-config.sh
   sed ${sedi} -- '/REPO_NAME\/server:/d' cloudbuild.yaml
 
-  sed ${sedi} -- '/install-all:server":/d' package.json
-  sed ${sedi} -- '/lint:server":/d' package.json
-  sed ${sedi} -- '/unit:server":/d' package.json
-  sed ${sedi} -- '/test:server":/d' package.json
-  sed ${sedi} -- '/check-deps:server":/d' package.json
+  sed ${sedi} -- '/:server":/d' package.json
 
   sed ${sedi} -- 's/install-all:server //g' package.json
   sed ${sedi} -- 's/lint:server //g' package.json
@@ -260,16 +250,13 @@ truncate --size 0 docker-nginx.conf
 cat temp > docker-nginx.conf
 
   sed ${sedi} -- 's/ graphql / /' taito-config.sh
+  sed ${sedi} -- '/graphql/d' taito-config.sh
   sed ${sedi} -- '/^    graphql: true/d' ./scripts/helm.yaml
 
   # sed ${sedi} -- '/\* api/d' taito-config.sh
   sed ${sedi} -- '/REPO_NAME\/graphql:/d' cloudbuild.yaml
 
-  sed ${sedi} -- '/install-all:graphql":/d' package.json
-  sed ${sedi} -- '/lint:graphql":/d' package.json
-  sed ${sedi} -- '/unit:graphql":/d' package.json
-  sed ${sedi} -- '/test:graphql":/d' package.json
-  sed ${sedi} -- '/check-deps:graphql":/d' package.json
+  sed ${sedi} -- '/:graphql":/d' package.json
 
   sed ${sedi} -- 's/install-all:graphql //g' package.json
   sed ${sedi} -- 's/lint:graphql //g' package.json
@@ -323,11 +310,7 @@ cat temp > docker-compose.yaml
 
   sed ${sedi} -- '/REPO_NAME\/worker:/d' cloudbuild.yaml
 
-  sed ${sedi} -- '/install-all:worker":/d' package.json
-  sed ${sedi} -- '/lint:worker":/d' package.json
-  sed ${sedi} -- '/unit:worker":/d' package.json
-  sed ${sedi} -- '/test:worker":/d' package.json
-  sed ${sedi} -- '/check-deps:worker":/d' package.json
+  sed ${sedi} -- '/:worker":/d' package.json
 
   sed ${sedi} -- 's/install-all:worker //g' package.json
   sed ${sedi} -- 's/lint:worker //g' package.json
@@ -358,11 +341,7 @@ cat temp > docker-nginx.conf
 
   sed ${sedi} -- '/REPO_NAME\/www:/d' cloudbuild.yaml
 
-  sed ${sedi} -- '/install-all:www":/d' package.json
-  sed ${sedi} -- '/lint:www":/d' package.json
-  sed ${sedi} -- '/unit:www":/d' package.json
-  sed ${sedi} -- '/test:www":/d' package.json
-  sed ${sedi} -- '/check-deps:www":/d' package.json
+  sed ${sedi} -- '/:www":/d' package.json
 
   sed ${sedi} -- 's/install-all:www //g' package.json
   sed ${sedi} -- 's/lint:www //g' package.json
