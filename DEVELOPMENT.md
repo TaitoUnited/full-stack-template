@@ -35,9 +35,9 @@ Make sure that everything has been initialized (e.g database) (add `--clean` to 
 
     taito init
 
-Open app in browser:
+Open client GUI in browser:
 
-    taito open app
+    taito open client
 
 Open admin GUI in browser:
 
@@ -125,7 +125,7 @@ Cleaning:
 The commands mentioned above work also for server environments (`f-NAME`, `dev`, `test`, `stag`, `canary`, `prod`). Some examples for dev environment:
 
     taito --auth:dev                        # Authenticate to dev
-    taito open app:dev                      # Open application in browser
+    taito open client:dev                   # Open client GUI in browser
     taito open admin:dev                    # Open admin GUI in browser
     taito info:dev                          # Show info
     taito status:dev                        # Show status of dev environment
