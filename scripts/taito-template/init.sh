@@ -97,6 +97,27 @@ function prune () {
     sed -i "s/\"check-deps:$name {@}\" //g" package.json
     sed -i "s/\"check-size:$name {@}\" //g" package.json
 
+    if [[ $name == "server" ]]; then
+      sed -i "s/ci-prepare:server/ci-prepare:client/" cloudbuild.yaml
+    fi
+
+    if [[ $name == "database" ]]; then
+      sed -i '/postgres-db/d' taito-config.sh
+      sed -i '/db_/d' taito-config.sh
+      sed -i '/DATABASE_/d' docker-compose.yaml
+      sed -i '/DATABASE_/d' ./scripts/helm.yaml
+    fi
+
+    if [[ $name == "storage" ]]; then
+      sed -i '/    serviceAccount:/d' ./scripts/helm.yaml
+      sed -i '/.*taito_env}-gserviceaccount.key/d' ./scripts/helm.yaml
+      sed -i '/terraform/d' taito-config.sh
+      sed -i '/storage-gateway/d' taito-config.sh
+      sed -i '/gserviceaccount.key:file/d' taito-config.sh
+      sed -i '/S3_/d' ./scripts/helm.yaml
+      sed -i '/S3_/d' docker-compose.yaml
+    fi
+
     rm -rf "$name"
   fi
 }
