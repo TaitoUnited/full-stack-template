@@ -68,8 +68,9 @@ function prune () {
 
   echo "$message"
   read -r confirm
-  if ( [[ "$message" == *"(y/N)"* ]] && [[ "${confirm}" =~ ^[Yy]$ ]] ) || \
-     ( [[ "$message" == *"(Y/n)"* ]] && [[ "${confirm}" =~ ^[Yy]*$ ]] ); then
+  if ( [[ "$message" == *"(y/N)"* ]] && ! [[ "${confirm}" =~ ^[Yy]$ ]] ) || \
+     ( [[ "$message" == *"(Y/n)"* ]] && ! [[ "${confirm}" =~ ^[Yy]*$ ]] ); then
+    echo "Removing ${name}..."
     if [[ $path ]]; then
       sed -i "/^        location $path {\$/,/^        }$/d" docker-nginx.conf
     fi
