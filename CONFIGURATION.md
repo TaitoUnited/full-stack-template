@@ -135,11 +135,19 @@ Define remote environments with the `taito_environments` setting in `taito-confi
 
 If basic auth (htpasswd) is used only for hiding non-production environments, you can use the same credentials for all environments. In such case you should also write them down to the [links](README.md#links) section on README.md so that all project personnel can easily access the credentials.
 
+> If you have problems with `taito open builds`, see the next chapter.
+
 > If you have some trouble creating an environment, you can destroy it by running `taito env destroy:ENV` and then try again with `taito env apply:ENV`.
 
 > See [6. Remote environments](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/05-remote-environments.md) chapter of Taito CLI tutorial for more thorough instructions.
 
 > Operations on production and staging environments usually require admin rights. Please contact DevOps personnel if necessary.
+
+* [ ] All done
+
+## Builds links
+
+If `taito open builds` command does not work, you can fix it in `link_urls` setting of `taito-config.sh` by trying the following formats: `github_myorganization_`, `github-myorganization-`, `github_MyOrganization_`, `github-MyOrganization-`.
 
 * [ ] All done
 
