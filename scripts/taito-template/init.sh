@@ -116,6 +116,7 @@ function prune () {
       sed -i '/gserviceaccount.key:file/d' taito-config.sh
       sed -i '/S3_/d' ./scripts/helm.yaml
       sed -i '/S3_/d' docker-compose.yaml
+      rm -rf ./scripts/terraform
     fi
 
     rm -rf "$name"
