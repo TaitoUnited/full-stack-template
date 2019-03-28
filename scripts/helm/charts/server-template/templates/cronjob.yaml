@@ -4,9 +4,9 @@
 {{- $provider := .Values.global.zone.provider -}}
 {{- $defaults := .Values.serviceDefaults -}}
 
-{{- range $serviceName, $serviceEnabled := .Values.services }}
-{{- if $serviceEnabled }}
-{{- with (index $root.Values $serviceName) }}
+{{- range $serviceName, $service := .Values.services }}
+{{- with $service }}
+{{- if or (not (hasKey . "enabled")) (.enabled) }}
 {{- range $job := .cronJobs }}
 {{- with (index $root.Values $serviceName) }}
 apiVersion: batch/v1beta1
@@ -61,9 +61,20 @@ spec:
                 - name: GOOGLE_APPLICATION_CREDENTIALS
                   value: /serviceaccount/{{ regexFind "[a-zA-Z]*$" .serviceAccount.secret }}
                 {{- end }}
+                {{- range $name, $value := $defaults.env }}
+                - name: {{ $name }}
+                  value: {{ $value | quote }}
+                {{- end }}
                 {{- range $name, $value := .env }}
                 - name: {{ $name }}
                   value: {{ $value | quote }}
+                {{- end }}
+                {{- range $name, $value := $defaults.secrets }}
+                - name: {{ $name }}
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ regexReplaceAll "\\.[a-zA-Z]*$" $value "" }}
+                      key: {{ regexFind "[a-zA-Z]*$" $value }}
                 {{- end }}
                 {{- range $name, $value := .secrets }}
                 - name: {{ $name }}

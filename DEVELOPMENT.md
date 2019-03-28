@@ -6,13 +6,13 @@ Table of contents:
 
 * [Prerequisites](#prerequisites)
 * [Quick start](#quick-start)
-* [Automated tests](#automated-tests)
 * [Code structure](#code-structure)
 * [Version control](#version-control)
 * [Database migrations](#database-migrations)
 * [Deployment](#deployment)
 * [Usage without Taito CLI](#usage-without-taito-cli)
 * [Upgrading](#upgrading)
+* [Configuration](#configuration)
 
 ## Prerequisites
 
@@ -156,24 +156,6 @@ Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND
 
 > It's common that idle applications are run down to save resources on non-production environments. If your application seems to be down, you can start it by running `taito start:ENV`, or by pushing some changes to git.
 
-## Automated tests
-
-> HINT: You should not test implementation in your test scripts. Instead, you should always find some kind 'public API' that is designed not to change very often, and you should test behaviour of that API. Here public API can be provided by class, module, library, service or UI, for example. This way you can make changes to the underlying implementation, and the existing tests protect you from breaking anything.
-
-### Unit tests
-
-All unit tests are run automatically during build (see the `Dockerfile.build` files). You can use any test tools that have been installed as development dependency inside the container. If the test tools generate reports, they should be placed at the `/service/test/reports` (`./test/reports`) directory inside the container. You can run unit tests manually with the `taito unit` command (see help with `taito unit -h`).
-
-### Integration and end-to-end tests
-
-All integration and end-to-end test suites are run automatically after application has been deployed to dev environment. You can use any test tools that have been installed as development dependency inside the `builder` container (see `Dockerfile.build`). You can specify your environment specific test settings in `taito-config.sh` using `test_` as prefix. You can access database in your tests as database proxy is run automatically in background (see `docker-compose-test.yaml`). If the test tools generate reports, screenshots or videos, they should be placed at the `/service/test/reports`, `/service/test/screenshots` and `/service/test/videos` directories.
-
-Tests are grouped in test suites (see the `test-suites` files). All test suites can be kept independent by cleaning up data before each test suite execution by running `taito init --clean`. You can enable data cleaning in `taito-config.sh` with the `ci_exec_test_init` setting, but you should use it for dev environment only.
-
-You can run integration and end-to-end tests manually with the `taito test[:TARGET][:ENV] [SUITE] [TEST]` command, for example `taito test:server:dev`. When executing tests manually, the development container (`Dockerfile`) is used for executing the tests.
-
-> Once you have implemented your first integration or e2e test, enable the CI test execution by setting `ci_exec_test=true` for dev environment.
-
 ## Code structure
 
 Project specific conventions are defined in [README.md](README.md#conventions). See [software design](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/b-software-design.md) appendix of the [Taito CLI tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for some tips on how to design a modular directory structure.
@@ -273,3 +255,7 @@ Deploying the application:
 ## Upgrading
 
 Run `taito project upgrade`. The command copies the latest versions of reusable Helm charts, terraform templates and CI/CD scripts to your project folder, and also this README.md file. You should not make project specific modifications to them as they are designed to be reusable and easily configurable for various needs. Improve the originals instead, and then upgrade.
+
+## Configuration
+
+See [CONFIGURATION.md](CONFIGURATION.md).

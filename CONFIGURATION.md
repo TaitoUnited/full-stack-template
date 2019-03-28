@@ -15,6 +15,7 @@ Table of contents:
 * [Remote environments](#remote-environments)
 * [Kubernetes](#kubernetes)
 * [Secrets](#secrets)
+* [Automated tests](#automated-tests)
 
 ## Prerequisites
 
@@ -159,5 +160,25 @@ You can deploy configuration changes without rebuilding with the `taito deployme
 3. Run `taito env rotate:ENV SECRET` to generate a secret value for an environment. Run the command for each environment separately. Note that the rotate command restarts all pods in the same namespace.
 
 > For local development you can just define secrets as normal environment variables in `docker-compose.yaml` given that they are not confidential.
+
+* [ ] All done
+
+## Automated tests
+
+### Unit tests
+
+All unit tests are run automatically during build (see the `Dockerfile.build` files). You can use any test tools that have been installed as development dependency inside the container. If the test tools generate reports, they should be placed at the `/service/test/reports` (`./test/reports`) directory inside the container. You can run unit tests manually with the `taito unit` command (see help with `taito unit -h`).
+
+* [ ] All done
+
+### Integration and end-to-end tests
+
+All integration and end-to-end test suites are run automatically after application has been deployed to dev environment. You can use any test tools that have been installed as development dependency inside the `builder` container (see `Dockerfile.build`). You can specify your environment specific test settings in `taito-config.sh` using `test_` as prefix. You can access database in your tests as database proxy is run automatically in background (see `docker-compose-test.yaml`). If the test tools generate reports, screenshots or videos, they should be placed at the `/service/test/reports`, `/service/test/screenshots` and `/service/test/videos` directories.
+
+Tests are grouped in test suites (see the `test-suites` files). All test suites can be kept independent by cleaning up data before each test suite execution by running `taito init --clean`. You can enable data cleaning in `taito-config.sh` with the `ci_exec_test_init` setting, but you should use it for dev environment only.
+
+You can run integration and end-to-end tests manually with the `taito test[:TARGET][:ENV] [SUITE] [TEST]` command, for example `taito test:server:dev`. When executing tests manually, the development container (`Dockerfile`) is used for executing the tests.
+
+> Once you have implemented your first integration or e2e test, enable the CI test execution by setting `ci_exec_test=true` for dev environment.
 
 * [ ] All done

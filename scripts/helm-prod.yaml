@@ -1,7 +1,14 @@
 # NOTE: Here you can override default settings for production environment.
 # For example, you can diable basic authentication here.
 
-# server-template:
-#   ingress:
-#     basicAuth:
-#       enabled: false
+server-template:
+  ingress:
+    basicAuth:
+      # enabled: false
+
+  serviceDefaults:
+    cpuRequest: 2m
+    cpuLimit: 200m
+    memoryRequest: 50Mi
+    memoryLimit: 256Mi
+    # TODO enable autoscaling

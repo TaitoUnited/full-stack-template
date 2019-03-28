@@ -26,8 +26,6 @@ global:
 
 # Values for server-template chart
 server-template:
-
-  # Ingress
   ingress:
     class: nginx
     tls: true
@@ -37,27 +35,20 @@ server-template:
       htpasswdSecret:
     domains:
 
-  # Stack
-  services:
-    admin: false
-    client: false
-    cache: false
-    queue: false
-    server: false
-    storage: false
-    worker: false
-
-  # Defaults
   serviceDefaults:
     path:
     port: 8080
     tier: backend
     livenessPath: /healthz
+    cpuRequest: 1m
+    cpuLimit: 10m
+    memoryRequest: 2Mi
+    memoryLimit: 100Mi
     replicas: 1
     autoscale: false
+    targetCPUUtilizationPercentage: 50
     minReplicas: 2
     maxReplicas: 5
-    targetCPUUtilizationPercentage: 50
     image: # 3rd party container image
     env:
       # Environment variables
@@ -65,6 +56,8 @@ server-template:
       # Secrets
     command:
       # Command
+
+  services:
 
   # TODO configure resources
   # resources: {}

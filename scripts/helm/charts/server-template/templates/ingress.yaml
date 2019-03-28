@@ -46,15 +46,15 @@ spec:
     - host: {{ $domain.name }}
       http:
         paths:
-          {{- range $serviceName, $serviceEnabled := $root.Values.services }}
-          {{- with (index $root.Values $serviceName) }}
-          {{- if and $serviceEnabled .path }}
+          {{- range $serviceName, $service := $root.Values.services }}
+          {{- with $service }}
+          {{- if and (or (not (hasKey . "enabled")) (.enabled)) (.path) }}
           - path: {{ .path | default $defaults.path | quote }}
             backend:
               serviceName: {{ template "fullname" $root }}-{{ $serviceName }}
               servicePort: {{ .port | default $defaults.port }}
           {{- end }}
-          {{- if and $serviceEnabled .sidecar }}
+          {{- if and (or (not (hasKey . "enabled")) (.enabled)) (.sidecar) }}
           {{- if .sidecar.enabled }}
           {{- if .sidecar.path }}
           - path: {{ .sidecar.path | quote }}

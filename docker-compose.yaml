@@ -12,7 +12,6 @@ services:
       - "./docker-nginx.conf:/etc/nginx/nginx.conf:delegated"
       - "./docker-nginx.htpasswd:/etc/nginx/.htpasswd:delegated"
 
-  # admin start
   server-template-admin:
     container_name: server-template-admin
     build:
@@ -29,9 +28,7 @@ services:
       - "/service/node_modules"
       # NOTE: for flow
       # - "/service/flow-typed/npm"
-  # admin end
 
-  # client start
   server-template-client:
     container_name: server-template-client
     build:
@@ -55,9 +52,6 @@ services:
       DATABASE_USER: server_template_local_app
       DATABASE_PASSWORD: secret
 
-  # client end
-
-  # graphql start
   server-template-graphql:
     container_name: server-template-graphql
     build:
@@ -88,9 +82,7 @@ services:
       GRAPHQL_BINDADDR: 0.0.0.0
       API_HOST: server-template-server
       API_PORT: 8080
-  # graphql end
 
-  # server start
   server-template-server:
     container_name: server-template-server
     build:
@@ -130,9 +122,7 @@ services:
       S3_KEY_ID: 070UEOQR6LX4YPZLFU0V
       S3_KEY_SECRET: CVQVa33NekSiOJGnevSY5ITr8Rql8lFkp22WhLQ+
       # USER_PASSWORD: password-example # SHOW ON INFO
-  # server end
 
-  # worker start
   # server-template-worker:
   #   container_name: server-template-worker
   #   build:
@@ -167,9 +157,7 @@ services:
   #     S3_BUCKET: bucket
   #     S3_KEY_ID: 070UEOQR6LX4YPZLFU0V
   #     S3_KEY_SECRET: CVQVa33NekSiOJGnevSY5ITr8Rql8lFkp22WhLQ+
-  # worker end
 
-  # www start
   server-template-www:
     container_name: server-template-www
     build:
@@ -186,9 +174,7 @@ services:
       - "/service/site/node_modules"
       # FOR GATSBY ONLY:
       # - "/service/site/node_modules"
-  # www end
 
-  # cache start
   # server-template-cache:
   #   container_name: server-template-cache
   #   image: redis:alpine
@@ -197,9 +183,7 @@ services:
   #     - default
   #   ports:
   #     - "6379"
-  # cache end
 
-  # queue start
   # server-template-queue:
   #   container_name: server-template-queue
   #   image: rabbitmq:alpine
@@ -208,11 +192,9 @@ services:
   #     - default
   #   ports:
   #     - "5672"
-  # queue end
 
   # "EXTERNAL RESOURCES"
 
-  # database start
   server-template-database:
     container_name: server-template-database
     image: postgres:9.6
@@ -227,9 +209,7 @@ services:
       POSTGRES_PASSWORD: secret
     volumes:
       - "./database:/docker-entrypoint-initdb.d:delegated"
-  # database end
 
-  # storage start
   server-template-storage:
     container_name: server-template-storage
     build:
@@ -244,7 +224,6 @@ services:
     environment:
       MINIO_ACCESS_KEY: 070UEOQR6LX4YPZLFU0V
       MINIO_SECRET_KEY: CVQVa33NekSiOJGnevSY5ITr8Rql8lFkp22WhLQ+
-  # storage end
 
 networks:
   default:

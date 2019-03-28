@@ -1,9 +1,9 @@
 {{- $root := . -}}
 {{- $defaults := .Values.serviceDefaults -}}
 
-{{- range $serviceName, $serviceEnabled := .Values.services }}
-{{- if $serviceEnabled }}
-{{- with (index $root.Values $serviceName) }}
+{{- range $serviceName, $service := .Values.services }}
+{{- with $service }}
+{{- if (or (not (hasKey . "enabled")) (.enabled)) }}
 {{- if not .type }}
 apiVersion: v1
 kind: Service
