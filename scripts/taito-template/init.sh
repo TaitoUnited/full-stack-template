@@ -106,6 +106,7 @@ function prune () {
       sed -i '/db_/d' taito-config.sh
       sed -i '/DATABASE_/d' docker-compose.yaml
       sed -i '/DATABASE_/d' ./scripts/helm.yaml
+      sed -i "/^      db:\$/,/^        proxySecret:.*$/d" ./scripts/helm.yaml
     fi
 
     if [[ $name == "storage" ]]; then
@@ -201,7 +202,7 @@ echo "Removing template settings from cloudbuild.yaml..."
 sed -i "s|\${_TEMPLATE_DEFAULT_TAITO_IMAGE}|${template_default_taito_image}|g" cloudbuild.yaml
 sed -i '/_TEMPLATE_DEFAULT_/d' cloudbuild.yaml
 sed -i '/template_default_taito_image/d' cloudbuild.yaml
-sed -i "s|_IMAGE_REGISTRY: eu.gcr.io/\$PROJECT_ID|_IMAGE_REGISTRY: ${template_default_registry}/${template_default_provider_zone}|" cloudbuild.yaml
+sed -i "s|_IMAGE_REGISTRY: eu.gcr.io/\$PROJECT_ID|_IMAGE_REGISTRY: ${template_default_registry}/${template_default_zone}|" cloudbuild.yaml
 
 echo "Removing template settings from docker-compose-test.yaml..."
 sed -i '/template_default_/d' docker-compose-test.yaml
