@@ -56,7 +56,9 @@ rm LICENSE
 ######################
 
 echo
-echo "--- Choose stack ---"
+echo "--------------------"
+echo "-   Choose stack   -"
+echo "--------------------"
 echo "NOTE: If you are unsure, just accept the defaults."
 echo
 
@@ -71,6 +73,7 @@ function prune () {
   if ( [[ "$message" == *"(y/N)"* ]] && ! [[ "${confirm}" =~ ^[Yy]$ ]] ) || \
      ( [[ "$message" == *"(Y/n)"* ]] && ! [[ "${confirm}" =~ ^[Yy]*$ ]] ); then
     echo "Removing ${name}..."
+    echo
     if [[ $path ]]; then
       sed -i "/^        location $path {\$/,/^        }$/d" docker-nginx.conf
     fi
@@ -79,6 +82,7 @@ function prune () {
     fi
 
     sed -i "/^  server-template-$name:\$/,/^$/d" docker-compose.yaml
+    sed -i "/^  # server-template-$name:\$/,/^$/d" docker-compose.yaml
     sed -i "/^    $name:\$/,/^$/d" ./scripts/helm.yaml
     sed -i "/REPO_NAME\\/$name:/d" cloudbuild.yaml
 
