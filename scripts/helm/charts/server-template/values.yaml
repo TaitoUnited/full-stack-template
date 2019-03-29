@@ -1,68 +1,48 @@
-# Global settings for all charts
-global:
-  # These are given as command line parameters during build
-  zone:
-    name:
-    provider:
-    providerRegion:
-    providerZone:
-    namespace:
-    resourceNamespace:
-  project:
-    name:
-    company:
-    family:
-    application:
-    suffix:
-  build:
-    version:
-    commit:
-    imageTag:
-  # Common settings
-  logFormat: stackdriver
-  logLevel: info    # trace, debug, info, warn, error, fatal
-  registry: ${taito_image_registry}
-  imagePullPolicy: ''
+rbac:
+  create: true
+serviceAccount:
+  create: true
+podSecurityPolicy:
+  enabled: true
 
-# Values for server-template chart
-server-template:
-  ingress:
-    class: nginx
-    tls: true
-    maxBodySize: 1m
-    basicAuth:
-      enabled: true
-      htpasswdSecret:
-    domains:
+ingress:
+  class: nginx
+  tls: true
+  maxBodySize: 1m
+  basicAuth:
+    enabled: true
+    htpasswdSecret:
+  domains:
 
-  serviceDefaults:
-    path:
-    port: 8080
-    tier: backend
-    livenessPath: /healthz
-    cpuRequest: 1m
-    cpuLimit: 10m
-    memoryRequest: 2Mi
-    memoryLimit: 100Mi
-    replicas: 1
-    autoscale: false
-    targetCPUUtilizationPercentage: 50
-    minReplicas: 2
-    maxReplicas: 5
-    image: # 3rd party container image
-    env:
-      # Environment variables
-    secrets:
-      # Secrets
-    command:
-      # Command
+serviceDefaults:
+  # Basics
+  image: # For 3rd party container image
+  command:
+  path:
+  port: 8080
+  tier:
+  livenessPath: /healthz
+  # Security
+  runAsUser:
+  fsGroup:
+  # Resources
+  cpuRequest: 2m
+  cpuLimit: 100m
+  memoryRequest: 50Mi
+  memoryLimit: 256Mi
+  # Scaling
+  replicas: 1
+  autoscale: false
+  minReplicas: 2
+  maxReplicas: 5
+  # TODO metrics:
+  # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
+  # TODO vertical autoscaling:
+  # https://cloud.google.com/kubernetes-engine/docs/how-to/vertical-pod-autoscaling
+  # Env
+  env:
+    # Environment variables
+  secrets:
+    # Secrets
 
-  services:
-
-  # TODO configure resources
-  # resources: {}
-    #  cpu: 100m
-    #  memory: 128Mi
-    #requests:
-    #  cpu: 100m
-    #  memory: 128Mi
+services:

@@ -7,6 +7,11 @@ global:
   imagePullPolicy: ''
 
 server-template:
+  # TODO: --enable-pod-security-policy:
+  # https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies
+  podSecurityPolicy:
+    enabled: false
+
   ingress:
     class: nginx
     tls: true

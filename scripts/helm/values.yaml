@@ -1,0 +1,25 @@
+# Global settings for all charts
+global:
+  # These are given as command line parameters during build
+  zone:
+    name:
+    provider:
+    providerRegion:
+    providerZone:
+    namespace:
+    resourceNamespace:
+  project:
+    name:
+    company:
+    family:
+    application:
+    suffix:
+  build:
+    version:
+    commit:
+    imageTag:
+  # Common settings
+  logFormat: stackdriver
+  logLevel: info    # trace, debug, info, warn, error, fatal
+  registry: ${taito_image_registry}
+  imagePullPolicy: ''
