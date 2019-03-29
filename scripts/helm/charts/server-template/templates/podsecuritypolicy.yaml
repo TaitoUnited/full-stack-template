@@ -1,6 +1,9 @@
 # https://docs.bitnami.com/kubernetes/how-to/secure-kubernetes-cluster-psp/
 # https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies
+# https://kubernetes.io/docs/concepts/policy/pod-security-policy/
 
+# TODO use RBAC: https://kubernetes.io/docs/concepts/policy/pod-security-policy/#authorizing-policies
+#
 # apiVersion: policy/v1beta1
 # kind: PodSecurityPolicy
 # metadata:

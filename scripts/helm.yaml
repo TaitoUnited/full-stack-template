@@ -25,6 +25,9 @@ server-template:
     port: 8080
     tier:
     livenessPath: /healthz
+    # Security
+    runAsUser:
+    fsGroup:
     # Resources
     cpuRequest: 2m
     cpuLimit: 100m
@@ -64,6 +67,8 @@ server-template:
       tier: backend
       livenessDisabled: true # TODO remove
       memoryRequest: 5Mi
+      runAsUser: 2
+      fsGroup: 2
 
     graphql:
       path: /graphql
@@ -119,6 +124,8 @@ server-template:
       tier: backend
       livenessPath: /minio/health/ready
       memoryRequest: 20Mi
+      runAsUser: 2
+      fsGroup: 2
       command:
         - minio
         - gateway
@@ -158,6 +165,9 @@ server-template:
       enabled: false
       type: job
       image: buildpack-deps:curl
+      memoryRequest: 1Mi
+      runAsUser: 2
+      fsGroup: 2
       secrets:
         SCHEDULER_SECRET: ${taito_project}-${taito_env}-scheduler.secret
       cronJobs:

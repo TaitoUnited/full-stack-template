@@ -40,6 +40,14 @@ spec:
               image: {{ $global.registry -}} / {{- $serviceName -}} : {{- $global.build.imageTag }}
               {{- end }}
               imagePullPolicy: {{ $global.imagePullPolicy | quote }}
+              securityContext:
+                {{- if $job.runAsUser }}
+                runAsUser: {{ $job.runAsUser }}
+                {{- end }}
+                {{- if $job.fsGroup }}
+                fsGroup: {{ $job.fsGroup }}
+                {{- end }}
+                allowPrivilegeEscalation: false
               {{- if $job.command }}
               command:
                 {{- range $job.command }}

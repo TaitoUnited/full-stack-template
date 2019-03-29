@@ -62,6 +62,14 @@ spec:
           image: {{ $global.registry -}} / {{- $serviceName -}} : {{- $global.build.imageTag }}
           {{- end }}
           imagePullPolicy: {{ $global.imagePullPolicy | quote }}
+          securityContext:
+            {{- if .runAsUser }}
+            runAsUser: {{ .runAsUser }}
+            {{- end }}
+            {{- if .fsGroup }}
+            fsGroup: {{ .fsGroup }}
+            {{- end }}
+            allowPrivilegeEscalation: false
           {{- if .command }}
           command:
             {{- range .command }}
@@ -142,6 +150,14 @@ spec:
           image: {{ $global.registry -}} / {{- .sidecar.name -}} : {{- $global.build.imageTag }}
           {{- end }}
           imagePullPolicy: {{ $global.imagePullPolicy | quote }}
+          securityContext:
+            {{- if .sidecar.runAsUser }}
+            runAsUser: {{ .sidecar.runAsUser }}
+            {{- end }}
+            {{- if .sidecar.fsGroup }}
+            fsGroup: {{ .sidecar.fsGroup }}
+            {{- end }}
+            allowPrivilegeEscalation: false
           {{- if .sidecar.command }}
           command:
             {{- range .sidecar.command }}
@@ -196,6 +212,10 @@ spec:
         {{- if and (.db) (ne $env "local") (eq $provider "gcloud") }}
         - name: cloudsql-proxy
           image: gcr.io/cloudsql-docker/gce-proxy:1.13
+          securityContext:
+            runAsUser: 2
+            fsGroup: 2
+            allowPrivilegeEscalation: false
           command:
             - /cloud_sql_proxy
             - -verbose=false
