@@ -6,7 +6,7 @@ global:
   registry: ${taito_image_registry}
   imagePullPolicy: ''
 
-server-template:
+full-stack:
   # TODO: --enable-pod-security-policy:
   # https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies
   podSecurityPolicy:

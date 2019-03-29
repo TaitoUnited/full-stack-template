@@ -1,4 +1,4 @@
 apiVersion: v1
 description: A Helm chart for applications and APIs running on server.
-name: helm
+name: server-template
 version: 1.0.0
