@@ -71,10 +71,11 @@ db_database_port=$db_database_proxy_port
 
 # Messaging
 taito_messaging_app=slack
-taito_messaging_channel=companyname
-taito_messaging_builds_channel=builds
-taito_messaging_monitoring_channel=monitoring
 taito_messaging_webhook=
+taito_messaging_channel=companyname
+taito_messaging_builds_channel=
+taito_messaging_monitoring_channel=
+taito_messaging_critical_channel=
 
 # Monitoring
 taito_monitoring_paths="/uptimez /admin/uptimez /api/uptimez"
