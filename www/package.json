@@ -1,6 +1,7 @@
 {
   "name": "website-template-www",
   "scripts": {
+    "types-install": "if [ -f .flowconfig ]; then flow-typed install; elif [ -f tsconfig.json ]; then echo TODO typescript install; fi",
     "install-site": "if [ -f ./site/package.json ]; then cd site && npm install; fi",
     "lint": "echo Linting disabled",
     "unit": "if [ -d ./site ]; then cd site && npm run test; fi",
