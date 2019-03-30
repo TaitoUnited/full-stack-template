@@ -7,13 +7,17 @@
 
 # Move old files away from project root
 (
+  set -e
   cd "${template_project_path}"
-  rm -rf ./old_root 2> /dev/null
+  rm -rf old_root 2> /dev/null
   rm -f taito-config.sh 2> /dev/null
-  mkdir -p ./old_root
-  shopt -s extglob dotglob
-  mv !(old_root) old_root
-  mv ./old_root/.git .
+  mkdir -p old_root
+  shopt -s dotglob
+  for file in *; do
+     if [[ $file != ".git" ]]; then
+       mv -- "$file" "old_root"
+     fi
+  done
 )
 
 # Copy all files from template root
