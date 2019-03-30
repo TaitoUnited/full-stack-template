@@ -32,6 +32,7 @@ echo
 echo
 echo "--- Manual steps ---"
 echo
-echo "Your old files are located in 'old_root/'. Move files to correct locations"
-echo "using the new folder structure and make it work locally on Docker Compose first."
+echo "Your old files are located at 'old_root/'. Move files to correct locations"
+echo "using the new folder structure and make the project work locally on"
+echo "Docker Compose first."
 echo
