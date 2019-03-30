@@ -9,9 +9,9 @@
 rm -rf "${template_project_path}/old_root" 2> /dev/null
 mkdir -p "${template_project_path}/old_root"
 shopt -s extglob dotglob
-mv !(old_root) old_root
+mv "${template_project_path}/!(old_root)" "${template_project_path}old_root"
 shopt -u extglob dotglob
-mv old_root/.git .
+mv "${template_project_path}/old_root/.git" "${template_project_path}"
 
 # Copy all files from template root
 rm -rf .git
