@@ -6,12 +6,15 @@
 ./scripts/taito-template/init.sh
 
 # Move old files away from project root
-rm -rf "${template_project_path}/old_root" 2> /dev/null
-mkdir -p "${template_project_path}/old_root"
-shopt -s extglob dotglob
-mv "${template_project_path}/!(old_root)" "${template_project_path}old_root"
-shopt -u extglob dotglob
-mv "${template_project_path}/old_root/.git" "${template_project_path}"
+(
+  cd "${template_project_path}"
+  rm -rf ./old_root 2> /dev/null
+  rm -f taito-config.sh 2> /dev/null
+  mkdir -p ./old_root
+  shopt -s extglob dotglob
+  mv !(old_root) old_root
+  mv ./old_root/.git .
+)
 
 # Copy all files from template root
 rm -rf .git
