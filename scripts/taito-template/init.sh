@@ -69,6 +69,7 @@ function prune () {
   local path2=$4
 
   echo "$message"
+  read -t 1 -n 10000 discard
   read -r confirm
   if ( [[ "$message" == *"(y/N)"* ]] && ! [[ "${confirm}" =~ ^[Yy]$ ]] ) || \
      ( [[ "$message" == *"(Y/n)"* ]] && ! [[ "${confirm}" =~ ^[Yy]*$ ]] ); then
@@ -208,3 +209,5 @@ echo "Removing template settings from docker-compose-test.yaml..."
 sed -i '/template_default_/d' docker-compose-test.yaml
 
 rm -f temp
+
+read -t 1 -n 10000 discard

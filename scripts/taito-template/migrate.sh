@@ -13,7 +13,10 @@
   mkdir -p old_root
   shopt -s dotglob
   for file in *; do
-     if [[ $file != ".git" ]] && [[ $file != "old_root" ]] [[ $file != "template-tmp" ]]; then
+     if [[ $file != ".git" ]] && \
+        [[ $file != "old_root" ]] && \
+        [[ $file != "template-tmp" ]]
+     then
        mv -- "$file" "old_root"
      fi
   done
