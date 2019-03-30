@@ -10,11 +10,10 @@
   set -e
   cd "${template_project_path}"
   rm -rf old_root 2> /dev/null
-  rm -f taito-config.sh 2> /dev/null
   mkdir -p old_root
   shopt -s dotglob
   for file in *; do
-     if [[ $file != ".git" ]] && [[ $file != "old_root" ]]; then
+     if [[ $file != ".git" ]] && [[ $file != "old_root" ]] [[ $file != "template-tmp" ]]; then
        mv -- "$file" "old_root"
      fi
   done
