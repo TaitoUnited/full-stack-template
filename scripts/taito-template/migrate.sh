@@ -32,8 +32,11 @@ echo
 echo
 echo "--- Manual steps ---"
 echo
-echo "- Move files from 'old_root' to the new folder structure and make the project"
-echo "  work locally on Docker Compose."
+echo "Move files from 'old_root' to the new folder structure and make the project"
+echo "work locally on Docker Compose."
+echo
+echo "Recommended additional steps:"
+echo "- Update libraries and other project dependencies."
 echo "- Make sure that the project includes at least one end-to-end test that is"
 echo "  run automatically by the CI/CD pipeline. The template includes a Cypress example."
 echo

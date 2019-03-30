@@ -18,10 +18,10 @@ echo
 echo
 echo "--- Manual steps ---"
 echo
-echo "Recommended additional steps:"
-echo "- Upgrade source image(s) in all Dockerfiles. Note that there might be"
+echo "Recommended steps:"
+echo "- Update source image(s) in all Dockerfiles. Note that there might be"
 echo "  multiple FROM clauses in each file."
-echo "- Upgrade all libraries."
+echo "- Update libraries and other project dependencies."
 echo
 echo "If something stops working, try the following:"
 echo "- Run 'taito --upgrade' to upgrade your taito-cli"
