@@ -3,11 +3,8 @@
 export suite_name="${1:-*}"
 export test_name="${2:-*}"
 
-if [[ "${suite_name}" == "cypress"* ]] && [[ "${taito_env:?}" == "local" ]]; then
+if [[ "${suite_name}" == "cypress"* ]]; then
   npm run cypress:run
-elif [[ "${suite_name}" == "cypress"* ]] && [[ "${taito_env:?}" != "local" ]]; then
-  echo "SKIP: Cypress tests are currently disabled for non-local env because of"
-  echo "a connection problem: https://github.com/cypress-io/cypress/issues/1639"
 else
   # TODO pass suite name and test name
   npm run test

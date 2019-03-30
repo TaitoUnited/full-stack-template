@@ -265,6 +265,15 @@ else
   fi
 fi
 
+# Hack to avoid basic auth on Electron browser startup:
+# https://github.com/cypress-io/cypress/issues/1639
+CYPRESS_baseUrlHack=$CYPRESS_baseUrl
+CYPRESS_baseUrl=https://www.google.com
+test_admin_CYPRESS_baseUrlHack=$test_admin_CYPRESS_baseUrl
+test_admin_CYPRESS_baseUrl=https://www.google.com
+test_client_CYPRESS_baseUrlHack=$test_client_CYPRESS_baseUrl
+test_client_CYPRESS_baseUrl=https://www.google.com
+
 # Special settings for running tests on gcloud-builder
 if [[ $taito_plugins == *"gcloud-builder"* ]] && [[ ${taito_mode:-} == "ci" ]]; then
   test_all_DATABASE_HOST=127.0.0.1
