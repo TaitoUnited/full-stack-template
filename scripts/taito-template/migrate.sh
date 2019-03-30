@@ -24,8 +24,9 @@
 
 # Copy all files from template root
 rm -rf .git
-yes | cp -- * "${template_project_path}" 2> /dev/null
-yes | cp -- .* "${template_project_path}" 2> /dev/null
+yes | cp -r * "${template_project_path}" 2> /dev/null || :
+yes | cp -r .* "${template_project_path}" 2> /dev/null || :
+
 
 echo
 echo

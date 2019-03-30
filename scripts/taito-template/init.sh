@@ -68,8 +68,8 @@ function prune () {
   local path=$3
   local path2=$4
 
-  echo "$message"
   read -t 1 -n 10000 discard
+  echo "$message"
   read -r confirm
   if ( [[ "$message" == *"(y/N)"* ]] && ! [[ "${confirm}" =~ ^[Yy]$ ]] ) || \
      ( [[ "$message" == *"(Y/n)"* ]] && ! [[ "${confirm}" =~ ^[Yy]*$ ]] ); then
@@ -211,3 +211,5 @@ sed -i '/template_default_/d' docker-compose-test.yaml
 rm -f temp
 
 read -t 1 -n 10000 discard
+
+echo init done
