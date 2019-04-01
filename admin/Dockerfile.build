@@ -35,7 +35,7 @@ RUN chown -R nginx:nginx /var/cache/nginx && \
     mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 RUN sed -i '/application\/json/a\    application/wasm wasm;' \
     /etc/nginx/mime.types
-COPY ./config/nginx.conf /etc/nginx
+COPY ./nginx.conf /etc/nginx
 COPY --from=builder /build .
 USER nginx
 EXPOSE 8080
