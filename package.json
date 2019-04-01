@@ -5,7 +5,7 @@
     "install-dev": "echo '# Installing all libraries on host for code editor support. TODO how to minimize as --only=dev affects devDepencies also?' && npm run install-all",
     "install-all": "npm-run-all install-all:admin install-all:client install-all:graphql install-all:server install-all:worker install-all:www ",
     "install-all:admin": "cd admin && npm install && npm run types-install",
-    "install-all:client": "cd client && npm install && npm run types-install",
+    "install-all:client": "cd client && npm install",
     "install-all:graphql": "cd graphql && npm install && npm run types-install",
     "install-all:server": "cd server && npm install && npm run types-install",
     "install-all:worker": "cd worker && npm install && npm run types-install",

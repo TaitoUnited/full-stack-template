@@ -12,6 +12,5 @@ ENV NODE_ENV development
 ENV API_ROOT ''
 ENV API_URL /api
 RUN npm install --loglevel warn
-RUN npm run types-install
 EXPOSE 8080
-CMD npm install; npm run types-install; npm run start
+CMD npm install; npm run start

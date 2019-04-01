@@ -17,7 +17,6 @@ ENV API_ROOT ''
 ENV API_URL /api
 ENV APP_SENTRY_PUBLIC_DSN #sentryPublicDSN
 RUN npm ci --loglevel warn
-RUN npm run types-install
 COPY ${SERVICE_DIR} /service
 RUN npm run unit
 RUN npm run build && cp -r ./assets/* /build/
@@ -35,7 +34,7 @@ RUN chown -R nginx:nginx /var/cache/nginx && \
     mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 RUN sed -i '/application\/json/a\    application/wasm wasm;' \
     /etc/nginx/mime.types
-COPY ./config/nginx.conf /etc/nginx
+COPY ./nginx.conf /etc/nginx
 COPY --from=builder /build .
 USER nginx
 EXPOSE 8080
