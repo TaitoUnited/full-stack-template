@@ -43,11 +43,9 @@ Run `taito open conventions` in the project directory to see organization specif
   5. Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `check-deps`, `check-size`.
   6. Add the service to `cloudbuild.yaml`.
 
-**Flow/TypeScript:** You can enable Flow or TypeScript by going through parts marked with a `NOTE: for flow` or `NOTE: for typescript` note. (TODO: implement typescript support)
-
 **Minikube:** If you would rather use minikube for local development instead of docker-compose, remove `docker-compose:local` plugin, and the `:-local` restriction from `kubectl:-local` and `helm:-local` plugins. These are configured with the `taito_plugins` setting in `taito-config.sh`. (TODO: Not tested on minikube yet. Probably needs some additional work.)
 
-**Authentication:** Authentication has not yet been implemented to the template (see [issue](https://github.com/TaitoUnited/SERVER-TEMPLATE/issues/11)). Currently ingress does provide basic authentation, but it is only meant for hiding non-production environments. [Auth0 docs](https://auth0.com/docs) is a good starting point for your auth implementation.
+**Authentication:** Ingress provides basic authentication, but it is only meant for hiding non-production environments. Here are some good technologies for implementing authentication: [Auth0](https://auth0.com), [Passport](http://www.passportjs.org/), [ORY Oathkeeper](https://www.ory.sh/api-access-control-kubernetes-cloud-native).
 
 **Static site generator (www):** See the next chapter.
 
@@ -121,7 +119,7 @@ The client GUI uses [Material-UI](https://material-ui-next.com/) component libra
 
 ## Hosting options
 
-By default the template deploys the site to Kubernetes running on Google Cloud. TODO: Support for Docker Compose on virtual machine, AWS, Azure, Digital Ocean, Scaleway.
+By default the template deploys the site to Kubernetes running on Google Cloud. TODO: Support for AWS, Azure, Digital Ocean, Scaleway.
 
 1. Modify `taito-config.sh` if you need to change some settings. The default settings are ok for most projects.
 2. Run `taito project apply`
@@ -145,7 +143,7 @@ If basic auth (htpasswd) is used only for hiding non-production environments, yo
 
 * [ ] All done
 
-## Builds links
+## Builds link
 
 If `taito open builds` command does not work, you can fix it in `link_urls` setting of `taito-config.sh` by trying the following formats: `github_myorganization_`, `github-myorganization-`, `github_MyOrganization_`, `github-MyOrganization-`.
 
@@ -153,7 +151,7 @@ If `taito open builds` command does not work, you can fix it in `link_urls` sett
 
 ## Kubernetes
 
-The `scripts/heml.yaml` file contains default Kubernetes settings for all environments and the `scripts/helm-*.yaml` files contain environment specific overrides for them. By modying these files you can easily configure environment variables, resource requirements and autoscaling for your containers.
+The `scripts/heml.yaml` file contains default Kubernetes settings for all environments and the `scripts/helm-*.yaml` files contain environment specific overrides for them. By modifying these files you can easily configure environment variables, resource requirements and autoscaling for your containers.
 
 You can deploy configuration changes without rebuilding with the `taito deployment deploy:ENV` command.
 
@@ -190,3 +188,11 @@ You can run integration and end-to-end tests manually with the `taito test[:TARG
 > Once you have implemented your first integration or e2e test, enable the CI test execution by setting `ci_exec_test=true` for dev environment.
 
 * [ ] All done
+
+## Uptime monitoring for production
+
+Run `taito open uptime` and configure uptime checks and alerts for all critical endpoints of your application. Use the existing policies as an example. Don't forget to test that the alerts work ok (for example, enable basic auth temporarily for production).
+
+TODO: Use terraform for uptime monitoring rules
+
+* [ ] Production done
