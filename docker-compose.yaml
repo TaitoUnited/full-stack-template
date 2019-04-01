@@ -28,6 +28,9 @@ services:
       - "/service/node_modules"
       # NOTE: for flow
       # - "/service/flow-typed/npm"
+    environment:
+      COMMON_COMPANY: companyname
+      COMMON_PROJECT: server-template
 
   server-template-client:
     container_name: server-template-client
@@ -46,6 +49,8 @@ services:
       # NOTE: for flow
       # - "/service/flow-typed/npm"
     environment:
+      COMMON_COMPANY: companyname
+      COMMON_PROJECT: server-template
       # NOTE: Database connection is for tests only
       DATABASE_HOST: server-template-database
       DATABASE_NAME: server_template_local

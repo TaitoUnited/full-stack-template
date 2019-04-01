@@ -105,6 +105,7 @@ function prune () {
     if [[ $name == "database" ]]; then
       sed -i '/postgres-db/d' taito-config.sh
       sed -i '/db_/d' taito-config.sh
+      sed -i '/Database/d' docker-compose.yaml
       sed -i '/DATABASE_/d' docker-compose.yaml
       sed -i '/DATABASE_/d' ./scripts/helm.yaml
       sed -i "/^      db:\$/,/^        proxySecret:.*$/d" ./scripts/helm.yaml
