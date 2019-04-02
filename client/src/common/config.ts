@@ -1,4 +1,4 @@
-type APP_ENV = 'local' | 'feat' | 'dev' | 'test' | 'stag' | 'canary';
+type APP_ENV = 'local' | 'feat' | 'dev' | 'test' | 'stag' | 'canary' | 'prod';
 
 const envs = ['localhost', 'feat', 'dev', 'test', 'stag', 'canary', 'prod'];
 const subdomainSplit = window.location.hostname.split('.')[0].split('-');
