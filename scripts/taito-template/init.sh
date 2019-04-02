@@ -124,12 +124,11 @@ function prune () {
     if [[ $name == "storage" ]]; then
       sed -i '/    serviceAccount:/d' ./scripts/helm.yaml
       sed -i '/.*taito_env}-gserviceaccount.key/d' ./scripts/helm.yaml
-      sed -i '/terraform/d' taito-config.sh
       sed -i '/storage-gateway/d' taito-config.sh
       sed -i '/gserviceaccount.key:file/d' taito-config.sh
+      sed -i '/taito_storages/d' taito-config.sh
       sed -i '/S3_/d' ./scripts/helm.yaml
       sed -i '/S3_/d' docker-compose.yaml
-      rm -rf ./scripts/terraform
     fi
 
     rm -rf "$name"

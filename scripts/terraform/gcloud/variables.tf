@@ -10,6 +10,7 @@ variable "taito_organization" {}
 variable "taito_organization_abbr" {}
 variable "taito_storages" {
   type = "list"
+  default = []
 }
 variable "taito_monitoring_names" {
   type = "list"

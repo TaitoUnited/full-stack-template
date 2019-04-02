@@ -13,7 +13,8 @@ resource "google_storage_bucket_acl" "bucket_acl" {
     "google_service_account.service_account",
     "google_storage_bucket.bucket"
   ]
-  bucket = "${google_storage_bucket.bucket.name}"
+  count = "${length(var.taito_storages)}"
+  bucket = "${element(var.taito_storages, count.index)}"
 
   role_entity = [
     # TODO owner -> writer
