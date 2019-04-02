@@ -74,8 +74,8 @@ taito_messaging_app=slack
 taito_messaging_webhook=
 taito_messaging_channel=companyname
 taito_messaging_builds_channel=builds
-taito_messaging_monitoring_channel=monitoring
 taito_messaging_critical_channel=critical
+taito_messaging_monitoring_channel=monitoring
 
 # Monitoring
 taito_monitoring_names=" admin client graphql server www "
