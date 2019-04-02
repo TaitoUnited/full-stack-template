@@ -42,7 +42,7 @@ LINKS WILL BE GENERATED HERE
 
 ## Usage
 
-> Some notes about testing and usage.
+> Some notes about testing and usage either here or in a separate document.
 
 ## Contacts
 
@@ -108,8 +108,8 @@ Only non-trivial processes need to be described here (e.g. scheduled batch proce
 
 ## Security
 
-See the [security](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/d-security.md) appendix of the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md).
+> Add security details either here or in a separate document. See the [security](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/d-security.md) appendix of the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md).
 
 ## GDPR
 
-See the [data protection and privacy](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/e-data-protection-and-privacy.md) appendix of the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md).
+> Add GDPR details either here or in a separate document. See the [data protection and privacy](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/e-data-protection-and-privacy.md) appendix of the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md).

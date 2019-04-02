@@ -16,7 +16,7 @@ taito_plugins="
   terraform:-local
   generate-secrets:-local kube-secrets:-local
   kubectl:-local helm:-local
-  gcloud:-local gcloud-storage:-local gcloud-builder:-local
+  gcloud:-local gcloud-storage:-local gcloud-builder:-local gcloud-monitoring:-local
   semantic-release npm git links-global
   sentry
 "
@@ -73,12 +73,16 @@ db_database_port=$db_database_proxy_port
 taito_messaging_app=slack
 taito_messaging_webhook=
 taito_messaging_channel=companyname
-taito_messaging_builds_channel=
-taito_messaging_monitoring_channel=
-taito_messaging_critical_channel=
+taito_messaging_builds_channel=builds
+taito_messaging_monitoring_channel=monitoring
+taito_messaging_critical_channel=critical
 
 # Monitoring
-taito_monitoring_paths="/uptimez /admin/uptimez /api/uptimez"
+taito_monitoring_names=" admin client graphql server "
+taito_monitoring_paths=" /admin/uptimez /uptimez /graphql/uptimez /api/uptimez "
+taito_monitoring_timeouts=" 5s 5s 10s 10s "
+# You can list all monitoring channels with `taito env info:prod`
+taito_monitoring_uptime_channels="${template_default_monitoring_uptime_channels_prod:-}"
 
 # CI/CD settings
 # NOTE: Most of these should be enabled for dev and feat branches only.

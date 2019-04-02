@@ -21,6 +21,7 @@
 : "${template_default_provider_region_prod:?}"
 : "${template_default_provider_zone:?}"
 : "${template_default_provider_zone_prod:?}"
+: "${template_default_monitoring_uptime_channels_prod:-}"
 : "${template_default_registry:?}"
 : "${template_default_source_git:?}"
 : "${template_default_dest_git:?}"
@@ -90,6 +91,8 @@ function prune () {
     sed -i "s/ $name / /" taito-config.sh
     sed -i "/\\* $name/d" taito-config.sh
 
+    sed -i "s/ \/$name/uptimez / /" taito-config.sh
+
     sed -i "/:$name\":/d" package.json
     sed -i "s/install-all:$name //g" package.json
     sed -i "s/lint:$name //g" package.json
@@ -98,7 +101,14 @@ function prune () {
     sed -i "s/\"check-deps:$name {@}\" //g" package.json
     sed -i "s/\"check-size:$name {@}\" //g" package.json
 
+    sed -i "/^    {\\/\\*$name\\*\\/\$/,/^    }.*$/d" scripts/terraform/gcloud/monitoring.tf
+
+    if [[ $name == "client" ]]; then
+      sed -i "s/ /uptimez / /" taito-config.sh
+    fi
+
     if [[ $name == "server" ]]; then
+      sed -i "s/ /api/uptimez / /" taito-config.sh
       sed -i "s/ci-prepare:server/ci-prepare:client/" cloudbuild.yaml
     fi
 
@@ -192,6 +202,7 @@ sed -i "s/\${template_default_provider_region:?}/${template_default_provider_reg
 sed -i "s/\${template_default_provider_zone:?}/${template_default_provider_zone}/g" taito-config.sh
 sed -i "s/\${template_default_provider_region_prod:?}/${template_default_provider_region_prod}/g" taito-config.sh
 sed -i "s/\${template_default_provider_zone_prod:?}/${template_default_provider_zone_prod}/g" taito-config.sh
+sed -i "s/\${template_default_monitoring_uptime_channels_prod:?}/${template_default_monitoring_uptime_channels_prod}/g" taito-config.sh
 sed -i "s/\${template_default_registry:?}/${template_default_registry}/g" taito-config.sh
 sed -i "s/\${template_default_source_git:?}/${template_default_source_git}/g" taito-config.sh
 sed -i "s/\${template_default_dest_git:?}/${template_default_dest_git}/g" taito-config.sh

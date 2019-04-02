@@ -189,10 +189,8 @@ You can run integration and end-to-end tests manually with the `taito test[:TARG
 
 * [ ] All done
 
-## Uptime monitoring for production
+## DNS configuration for production
 
-Run `taito open uptime` and configure uptime checks and alerts for all critical endpoints of your application. Use the existing policies as an example. Don't forget to test the alerts work ok (for example, enable basic authentication temporarily for production).
-
-TODO: Use terraform for uptime monitoring rules
+Configure DNS settings for production environment. Set `taito_domain` in `taito-config.sh` for production environment.
 
 * [ ] Production done
