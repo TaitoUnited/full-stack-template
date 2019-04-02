@@ -112,6 +112,10 @@ function prune () {
       sed -i "s/ci-prepare:server/ci-prepare:client/" cloudbuild.yaml
     fi
 
+    if [[ $name == "www" ]]; then
+      sed -i "s/ /docs/uptimez / /" taito-config.sh
+    fi
+
     if [[ $name == "database" ]]; then
       sed -i '/postgres-db/d' taito-config.sh
       sed -i '/db_/d' taito-config.sh

@@ -78,9 +78,9 @@ taito_messaging_monitoring_channel=monitoring
 taito_messaging_critical_channel=critical
 
 # Monitoring
-taito_monitoring_names=" admin client graphql server "
-taito_monitoring_paths=" /admin/uptimez /uptimez /graphql/uptimez /api/uptimez "
-taito_monitoring_timeouts=" 5s 5s 10s 10s "
+taito_monitoring_names=" admin client graphql server www "
+taito_monitoring_paths=" /admin/uptimez /uptimez /graphql/uptimez /api/uptimez /docs/uptimez "
+taito_monitoring_timeouts=" 5s 5s 10s 10s 5s "
 # You can list all monitoring channels with `taito env info:prod`
 taito_monitoring_uptime_channels="${template_default_monitoring_uptime_channels_prod:-}"
 
