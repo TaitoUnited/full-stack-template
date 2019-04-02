@@ -188,9 +188,3 @@ You can run integration and end-to-end tests manually with the `taito test[:TARG
 > Once you have implemented your first integration or e2e test, enable the CI test execution by setting `ci_exec_test=true` for dev environment.
 
 * [ ] All done
-
-## DNS configuration for production
-
-Configure DNS settings for production environment. Set `taito_domain` in `taito-config.sh` for production environment.
-
-* [ ] Production done

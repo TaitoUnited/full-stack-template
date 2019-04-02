@@ -133,8 +133,8 @@ case $taito_env in
     taito_resource_namespace=$taito_organization_abbr-$taito_company-prod
     gcloud_org_id=${template_default_provider_org_id_prod:?}
 
-    # NOTE: Set production domain here
-    taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
+    # NOTE: Set production domain here once you have configured DNS
+    taito_domain=
     taito_app_url=https://$taito_domain
     kubectl_replicas=2
     monitoring_enabled=true
