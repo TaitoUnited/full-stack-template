@@ -47,6 +47,7 @@ taito_resource_namespace=$taito_organization_abbr-$taito_company-dev
 
 # URLs
 taito_domain=$taito_project-$taito_target_env.${template_default_domain:?}
+taito_default_domain=$taito_project-$taito_target_env.${template_default_domain:?}
 taito_app_url=https://$taito_domain
 taito_static_url=
 
@@ -135,6 +136,7 @@ case $taito_env in
 
     # NOTE: Set production domain here once you have configured DNS
     taito_domain=
+    taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
     taito_app_url=https://$taito_domain
     kubectl_replicas=2
     monitoring_enabled=true
@@ -147,6 +149,7 @@ case $taito_env in
     gcloud_org_id=${template_default_provider_org_id_prod:?}
 
     taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
+    taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
     taito_app_url=https://$taito_domain
     ;;
   test)
