@@ -1,14 +1,20 @@
 import React from 'react';
 
-import Post from './Post';
+import PostItem from './PostItem';
+import { Post } from './post.types';
 
 interface Props {
-  posts: any;
+  posts: Post[];
 }
 
 const PostList = ({ posts }: Props) => {
-  const postElements = posts.map(p => <Post key={p.id} post={p} />);
-  return <div data-test="posts">{postElements}</div>;
+  return (
+    <div data-test="posts">
+      {posts.map(p => (
+        <PostItem key={p.id} post={p} />
+      ))}
+    </div>
+  );
 };
 
 export default PostList;

@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { withTheme } from '@material-ui/core/styles';
 
 import {
   SwipeableDrawer,
@@ -85,10 +84,10 @@ const SideBar = ({ menuVisible, toggleMenu }: Props) => (
   </SwipeableDrawer>
 );
 
-const Content = withTheme()(styled.div`
+const Content = styled.div`
   width: 240px;
   padding: ${props => props.theme.spacing.unit * 3}px 0;
-`);
+`;
 
 const NaviLink = styled(Link)`
   display: block;
@@ -101,8 +100,7 @@ const AnchorLink = styled.a`
 
 export default connect(
   (state: any) => ({
-    // TODO: maybe use selector
-    menuVisible: state.navigation.menuVisible,
+    menuVisible: state.navigation.menuVisible, // TODO: maybe use selector
   }),
   {
     toggleMenu: navigation.actions.toggleMenu,
