@@ -27,12 +27,12 @@ const SideBar = ({ menuVisible, toggleMenu }: Props) => (
     <Content>
       <List>
         <NaviLink
-          to="/images"
-          data-test="navigate-to-images"
+          to="/orders"
+          data-test="navigate-to-orders"
           onClick={() => toggleMenu()}
         >
           <ListItem button>
-            <ListItemText primary="Images" />
+            <ListItemText primary="Orders" />
           </ListItem>
         </NaviLink>
         <NaviLink
