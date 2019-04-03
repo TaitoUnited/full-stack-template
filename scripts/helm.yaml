@@ -67,7 +67,7 @@ full-stack:
       memoryRequest: 2Mi
 
     cache:
-      image: redis:alpine
+      image: redis:5.0-alpine
       port: 6397
       tier: backend
       livenessDisabled: true # TODO remove
@@ -124,7 +124,7 @@ full-stack:
       #       - date; echo Hello from server
 
     storage:
-      image: minio/minio
+      image: minio/minio:RELEASE.2019-03-27T22-35-21Z
       port: 9000
       tier: backend
       livenessPath: /minio/health/ready
@@ -142,6 +142,9 @@ full-stack:
         MINIO_SECRET_KEY: ${taito_project}-${taito_env}-storage-gateway.secret
       env:
         MINIO_ACCESS_KEY: 070UEOQR6LX4YPZLFU0V
+        # TODO: set MINIO_CONFIG_DIR that is writable for current user?
+        # --> custom image needs to be built because there is no writable dir
+        # --> or just mount dummy emptry dir that is writable?
 
     worker:
       enabled: false

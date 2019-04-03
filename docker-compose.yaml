@@ -182,21 +182,12 @@ services:
 
   # server-template-cache:
   #   container_name: server-template-cache
-  #   image: redis:alpine
+  #   image: redis:5.0-alpine
   #   restart: unless-stopped
   #   networks:
   #     - default
   #   ports:
   #     - "6379"
-
-  # server-template-queue:
-  #   container_name: server-template-queue
-  #   image: rabbitmq:alpine
-  #   restart: unless-stopped
-  #   networks:
-  #     - default
-  #   ports:
-  #     - "5672"
 
   # "EXTERNAL RESOURCES"
 
