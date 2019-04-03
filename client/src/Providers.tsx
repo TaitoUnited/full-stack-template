@@ -4,10 +4,10 @@ import { createBrowserHistory } from 'history';
 import { ConnectedRouter } from 'connected-react-router';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 
-import { ThemeProvider } from '~styled';
 import theme from '~theme';
-import configureStore from '~common/store';
+import { ThemeProvider } from '~styled';
 import { connectApiToStore } from '~common/services/api';
+import configureStore from './store';
 
 const history = createBrowserHistory();
 const store = configureStore(history);
