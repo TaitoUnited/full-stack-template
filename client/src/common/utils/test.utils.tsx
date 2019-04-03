@@ -7,10 +7,6 @@ import { Catalogs } from '@lingui/core';
 import theme from '~theme';
 import { ThemeProvider } from '~styled';
 
-// Mock translation component since we don't care about translation in tests
-const Trans = (props: any) => <span>{props.children}</span>;
-jest.mock('@lingui/macro', () => ({ Trans }));
-
 // NOTE: we only need to add theme related providers so that certain
 // UI components work properly when testing them
 export const renderWithProviders = (TestableComponent: JSX.Element) => {
