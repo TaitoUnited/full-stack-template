@@ -3,7 +3,7 @@ import { Typography } from '@material-ui/core';
 import { Trans } from '@lingui/macro';
 
 // import * as api from '~services/api';
-import { Page, withErrorBoundary } from '~ui';
+import { Page } from '~ui';
 import PostForm from './PostForm';
 import PostList from './PostList';
 
@@ -12,7 +12,7 @@ interface State {
   posts: any[];
 }
 
-class PostsContainer extends React.Component<any, State> {
+class Posts extends React.Component<any, State> {
   state = {
     post: {
       subject: '',
@@ -76,4 +76,4 @@ class PostsContainer extends React.Component<any, State> {
   }
 }
 
-export default withErrorBoundary(PostsContainer) as any;
+export default Posts;

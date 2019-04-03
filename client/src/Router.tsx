@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
+import { ErrorBoundary } from '~common/ui';
 
 // Code split routes
 const Orders = React.lazy(() => import('./orders'));
@@ -9,10 +10,38 @@ const Settings = React.lazy(() => import('./settings'));
 
 const Router = () => (
   <React.Suspense fallback="Loading...">
-    <Route path="/orders" render={navProps => <Orders {...navProps} />} />
-    <Route path="/posts" render={navProps => <Posts {...navProps} />} />
-    <Route path="/reports" render={navProps => <Reports {...navProps} />} />
-    <Route path="/settings" render={navProps => <Settings {...navProps} />} />
+    <Route
+      path="/orders"
+      render={navProps => (
+        <ErrorBoundary>
+          <Orders {...navProps} />
+        </ErrorBoundary>
+      )}
+    />
+    <Route
+      path="/posts"
+      render={navProps => (
+        <ErrorBoundary>
+          <Posts {...navProps} />
+        </ErrorBoundary>
+      )}
+    />
+    <Route
+      path="/reports"
+      render={navProps => (
+        <ErrorBoundary>
+          <Reports {...navProps} />
+        </ErrorBoundary>
+      )}
+    />
+    <Route
+      path="/settings"
+      render={navProps => (
+        <ErrorBoundary>
+          <Settings {...navProps} />
+        </ErrorBoundary>
+      )}
+    />
   </React.Suspense>
 );
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography } from '@material-ui/core';
 import { Trans } from '@lingui/macro';
 
-import { Page, withErrorBoundary } from '~ui';
+import { Page } from '~ui';
 
 const Orders = () => (
   <Page>
@@ -13,4 +13,4 @@ const Orders = () => (
   </Page>
 );
 
-export default withErrorBoundary(Orders) as any;
+export default Orders;

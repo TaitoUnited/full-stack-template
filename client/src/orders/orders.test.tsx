@@ -9,5 +9,5 @@ afterEach(cleanup);
 
 test('Renders with correct title', () => {
   const { getByText } = renderWithProviders(<Orders />);
-  expect(getByText('Orders')).toBeDefined();
+  expect(getByText('Orders')).toBeInTheDocument();
 });
