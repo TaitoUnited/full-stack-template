@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 
 import styled from '~styled';
-import { navigation } from './navigation/navigation.model';
+import { navigation } from './navigation.model';
 
 interface Props {
   toggleMenu: (visible?: boolean) => any;
@@ -26,6 +26,15 @@ const SideBar = ({ menuVisible, toggleMenu }: Props) => (
   >
     <Content>
       <List>
+        <NaviLink
+          to="/settings"
+          data-test="navigate-to-settings"
+          onClick={() => toggleMenu()}
+        >
+          <ListItem button>
+            <ListItemText primary="Settings" />
+          </ListItem>
+        </NaviLink>
         <NaviLink
           to="/orders"
           data-test="navigate-to-orders"

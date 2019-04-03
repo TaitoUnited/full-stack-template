@@ -1,5 +1,6 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
+import { Trans } from '@lingui/macro';
 
 // import * as api from '~services/api';
 import { Page, withErrorBoundary } from '~ui';
@@ -57,7 +58,9 @@ class PostsContainer extends React.Component<any, State> {
     const { post, posts } = this.state;
     return (
       <Page>
-        <Typography variant="title">Posts</Typography>
+        <Typography variant="title">
+          <Trans>Posts</Trans>
+        </Typography>
         <Typography>
           Demonstrates vanilla React, form validation and real-time updates
           (TODO validation and real-time).

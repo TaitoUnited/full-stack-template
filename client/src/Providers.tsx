@@ -7,6 +7,7 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from '~theme';
 import { ThemeProvider } from '~styled';
 import { connectApiToStore } from '~common/services/api';
+import { I18nProvider } from '~ui';
 import configureStore from './store';
 
 const history = createBrowserHistory();
@@ -18,9 +19,11 @@ const Providers = ({ children }: { children: React.ReactNode }) => (
   <Provider store={store}>
     <ThemeProvider theme={theme}>
       <MuiThemeProvider theme={theme}>
-        <ConnectedRouter history={history}>
-          <div style={{ width: '100vw', height: '100vh' }}>{children}</div>
-        </ConnectedRouter>
+        <I18nProvider>
+          <ConnectedRouter history={history}>
+            <div style={{ width: '100vw', height: '100vh' }}>{children}</div>
+          </ConnectedRouter>
+        </I18nProvider>
       </MuiThemeProvider>
     </ThemeProvider>
   </Provider>
