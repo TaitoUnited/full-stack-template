@@ -1,10 +1,9 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
 import { Trans } from '@lingui/macro';
-import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { Page, withErrorBoundary } from '~ui';
+import { Page } from '~ui';
 import { Lang } from '~common/services/i18n';
 import styled from '~common/styled';
 import { settings } from './settings.model';
@@ -46,16 +45,11 @@ const LangButton = styled('button')<{ active: boolean }>`
   margin-right: 16px;
 `;
 
-const enhance = compose(
-  withErrorBoundary,
-  connect(
-    (state: any) => ({
-      language: state.settings.language,
-    }),
-    {
-      changeLanguage: settings.actions.changeLanguage,
-    }
-  )
-);
-
-export default enhance(Settings) as any;
+export default connect(
+  (state: any) => ({
+    language: state.settings.language,
+  }),
+  {
+    changeLanguage: settings.actions.changeLanguage,
+  }
+)(Settings) as any;

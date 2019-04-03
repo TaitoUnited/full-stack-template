@@ -2,9 +2,9 @@ import React from 'react';
 import { Typography } from '@material-ui/core';
 import { Trans } from '@lingui/macro';
 
-import { Page, withErrorBoundary } from '~ui';
+import { Page } from '~ui';
 
-const Files = () => (
+const Reports = () => (
   <Page>
     <Typography variant="title">
       <Trans>Reports</Trans>
@@ -16,4 +16,4 @@ const Files = () => (
   </Page>
 );
 
-export default withErrorBoundary(Files) as any;
+export default Reports;

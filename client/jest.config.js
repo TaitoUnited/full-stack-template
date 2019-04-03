@@ -12,9 +12,9 @@ module.exports = {
       '<rootDir>/__mocks__/fileMock.js',
     '^~common(.*)$': '<rootDir>/src/common$1',
     '^~ui(.*)$': '<rootDir>/src/common/ui',
-    '^~theme(.*)$': '<rootDir>/src/common/theme$1',
-    '^~styled(.*)$': '<rootDir>/src/common/styled$1',
-    '^~utils(.*)$': '<rootDir>/src/common/utils',
-    '^~services(.*)$': '<rootDir>/src/common/services',
+    '^~theme(.*)$': '<rootDir>/src/common/theme',
+    '^~styled(.*)$': '<rootDir>/src/common/styled',
+    '^~utils(.*)$': '<rootDir>/src/common/utils$1',
+    '^~services(.*)$': '<rootDir>/src/common/services$1',
   },
 };
