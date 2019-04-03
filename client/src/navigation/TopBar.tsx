@@ -4,7 +4,7 @@ import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 
 import styled from '~styled';
-import { navigation } from './navigation/navigation.model';
+import { navigation } from './navigation.model';
 
 interface Props {
   toggleMenu: (visible?: boolean) => any;

@@ -1,0 +1,1 @@
+/* eslint-disable */export default{languageData:{"plurals":function(n,ord){var s=String(n).split("."),v0=!s[1];if(ord)return"other";return n==1&&v0?"one":"other"}},messages:{"Change language":"Vaihda kieli","Orders":"Tilaukset","Posts":"Julkaisut","Reports":"Raportit","Settings":"Asetukset"}};

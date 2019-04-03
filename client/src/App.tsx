@@ -1,8 +1,8 @@
 import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import TopBar from './TopBar';
-import SideBar from './SideBar';
+import TopBar from './navigation/TopBar';
+import SideBar from './navigation/SideBar';
 import Router from './Router';
 import Providers from './Providers';
 

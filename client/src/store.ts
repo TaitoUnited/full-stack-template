@@ -5,6 +5,7 @@ import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import { History } from 'history';
 
 import navigationReducer from './navigation/navigation.model';
+import settingsReducer from './settings/settings.model';
 
 function* rootSaga(): any {
   yield all([
@@ -28,6 +29,7 @@ export default function configureStore(history: History) {
 
   const rootReducer = combineReducers({
     // NOTE: add reducers here
+    settings: settingsReducer,
     navigation: navigationReducer,
     router: connectRouter(history),
   });
