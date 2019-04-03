@@ -124,7 +124,7 @@ Cleaning:
 
 The commands mentioned above work also for server environments (`f-NAME`, `dev`, `test`, `stag`, `canary`, `prod`). Some examples for dev environment:
 
-    taito --auth:dev                        # Authenticate to dev
+    taito auth:dev                        # Authenticate to dev
     taito open client:dev                   # Open client GUI in browser
     taito open admin:dev                    # Open admin GUI in browser
     taito info:dev                          # Show info
@@ -152,7 +152,7 @@ The commands mentioned above work also for server environments (`f-NAME`, `dev`,
 
 Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to show command help (e.g `taito db -h`, `taito db import -h`). For troubleshooting run `taito --trouble`. See [README.md](README.md) for project specific conventions and documentation.
 
-> If you run into authorization errors, authenticate with the `taito --auth:ENV` command.
+> If you run into authorization errors, authenticate with the `taito auth:ENV` command.
 
 > It's common that idle applications are run down to save resources on non-production environments. If your application seems to be down, you can start it by running `taito start:ENV`, or by pushing some changes to git.
 

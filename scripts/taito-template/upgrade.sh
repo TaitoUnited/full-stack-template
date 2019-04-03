@@ -24,7 +24,7 @@ echo "  multiple FROM clauses in each file."
 echo "- Update libraries and other project dependencies."
 echo
 echo "If something stops working, try the following:"
-echo "- Run 'taito --upgrade' to upgrade your taito-cli"
+echo "- Run 'taito upgrade' to upgrade your taito-cli"
 echo "- Compare scripts/helm*.yaml with the template"
 echo "- Compare taito-config.sh with the template"
 echo "- Compare package.json with the template"
