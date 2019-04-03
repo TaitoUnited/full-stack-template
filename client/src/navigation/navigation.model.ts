@@ -1,5 +1,7 @@
 import { createActions, handleActions } from 'redux-actions';
 
+// NOTE: use any Redux framework you want to reduce the boilerplate
+
 const initialState = {
   menuVisible: false,
 };
