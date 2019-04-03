@@ -1,2 +1,2 @@
-// Just ignore all css files in tests
+// Just ignore all css/image/etc files in tests
 module.exports = {};
