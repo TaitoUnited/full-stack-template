@@ -12,7 +12,7 @@ const Router = () => (
   <React.Suspense fallback="Loading...">
     <Route
       path="/orders"
-      render={navProps => (
+      render={(navProps: any) => (
         <ErrorBoundary>
           <Orders {...navProps} />
         </ErrorBoundary>
@@ -20,7 +20,7 @@ const Router = () => (
     />
     <Route
       path="/posts"
-      render={navProps => (
+      render={(navProps: any) => (
         <ErrorBoundary>
           <Posts {...navProps} />
         </ErrorBoundary>
@@ -28,7 +28,7 @@ const Router = () => (
     />
     <Route
       path="/reports"
-      render={navProps => (
+      render={(navProps: any) => (
         <ErrorBoundary>
           <Reports {...navProps} />
         </ErrorBoundary>
@@ -36,7 +36,7 @@ const Router = () => (
     />
     <Route
       path="/settings"
-      render={navProps => (
+      render={(navProps: any) => (
         <ErrorBoundary>
           <Settings {...navProps} />
         </ErrorBoundary>

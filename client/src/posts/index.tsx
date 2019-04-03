@@ -6,13 +6,14 @@ import { Trans } from '@lingui/macro';
 import { Page } from '~ui';
 import PostForm from './PostForm';
 import PostList from './PostList';
+import { PostDraft, Post } from './post.types';
 
 interface State {
-  post: any;
-  posts: any[];
+  post: PostDraft;
+  posts: Post[];
 }
 
-class Posts extends React.Component<any, State> {
+class Posts extends React.Component<{}, State> {
   state = {
     post: {
       subject: '',
@@ -26,7 +27,7 @@ class Posts extends React.Component<any, State> {
     this.fetchPosts();
   }
 
-  onChangePost = (newPost: any) => {
+  onChangePost = (newPost: PostDraft) => {
     const { post } = this.state;
     this.setState({
       post: { ...post, ...newPost },
