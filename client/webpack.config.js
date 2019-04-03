@@ -44,7 +44,6 @@ module.exports = function(env, argv) {
       modules: [path.resolve('.'), 'node_modules'],
       extensions: ['.json', '.mjs', '.jsx', '.js', '.ts', '.tsx'],
       // Add aliases here and remember to update tsconfig.json "paths" too
-      // NOTE: aliases below are are just examples
       alias: {
         '~common': path.resolve(__dirname, 'src/common'),
         '~theme': path.resolve(__dirname, 'src/common/theme'),

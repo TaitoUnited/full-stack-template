@@ -10,7 +10,7 @@ module.exports = {
     '\\.(css|less)$': '<rootDir>/__mocks__/fileMock.js',
     '\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
       '<rootDir>/__mocks__/fileMock.js',
-    '^~common(.*)$': '<rootDir>/src/common',
+    '^~common(.*)$': '<rootDir>/src/common$1',
     '^~ui(.*)$': '<rootDir>/src/common/ui',
     '^~theme(.*)$': '<rootDir>/src/common/theme$1',
     '^~styled(.*)$': '<rootDir>/src/common/styled$1',

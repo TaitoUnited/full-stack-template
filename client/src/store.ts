@@ -4,10 +4,12 @@ import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import { History } from 'history';
 
-import navigationReducer from '../navigation/navigation.model';
+import navigationReducer from './navigation/navigation.model';
 
 function* rootSaga(): any {
-  yield all([]);
+  yield all([
+    // NOTE: add sagas here
+  ]);
 }
 
 export default function configureStore(history: History) {
@@ -25,6 +27,7 @@ export default function configureStore(history: History) {
   const enhancer = composeEnhancers(applyMiddleware(...middlewares));
 
   const rootReducer = combineReducers({
+    // NOTE: add reducers here
     navigation: navigationReducer,
     router: connectRouter(history),
   });
