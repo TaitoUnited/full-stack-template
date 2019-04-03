@@ -2,10 +2,10 @@ import React from 'react';
 import { Button, TextField } from '@material-ui/core';
 
 import styled from '~styled';
-import { Post } from './post.types';
+import { PostDraft } from './post.types';
 
 interface Props {
-  post: Post;
+  post: PostDraft;
   onChangePost: any;
   onCreatePost: any;
 }
