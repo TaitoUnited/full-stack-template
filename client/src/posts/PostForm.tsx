@@ -1,14 +1,11 @@
 import React from 'react';
-import { withTheme } from '@material-ui/core/styles';
 import { Button, TextField } from '@material-ui/core';
+
 import styled from '~styled';
+import { Post } from './post.types';
 
 interface Props {
-  post: {
-    subject: string;
-    author: string;
-    content: string;
-  };
+  post: Post;
   onChangePost: any;
   onCreatePost: any;
 }
@@ -56,21 +53,21 @@ const PostForm = ({ post, onChangePost, onCreatePost }: Props) => {
   );
 };
 
-const StyledForm = withTheme()(styled.form`
+const StyledForm = styled.form`
   && {
     max-width: 700px;
     margin-bottom: ${props => props.theme.spacing.unit * 4}px;
   }
-`);
+`;
 
-const Row = withTheme()(styled.div`
+const Row = styled.div`
   && {
     display: flex;
     flex-wrap: wrap;
   }
-`);
+`;
 
-const StyledTextField = withTheme()(styled(TextField)`
+const StyledTextField = styled(TextField)`
   && {
     margin-right: ${props => props.theme.spacing.unit * 2}px;
     flex: 1;
@@ -80,14 +77,14 @@ const StyledTextField = withTheme()(styled(TextField)`
       margin-right: 0;
     }
   }
-`);
+`;
 
-const StyledButton = withTheme()(styled(Button)`
+const StyledButton = styled(Button)`
   && {
     margin: ${props => props.theme.spacing.unit}px;
     margin-left: 0;
     margin-top: ${props => props.theme.spacing.unit * 3}px;
   }
-`);
+`;
 
 export default PostForm;

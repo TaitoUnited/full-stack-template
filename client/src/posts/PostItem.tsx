@@ -1,16 +1,13 @@
 import React from 'react';
+
 import styled from '~styled';
-import { withTheme } from '@material-ui/core/styles';
+import { Post } from './post.types';
 
 interface Props {
-  post: {
-    subject: string;
-    author: string;
-    content: string;
-  };
+  post: Post;
 }
 
-const Post = ({ post }: Props) => (
+const PostItem = ({ post }: Props) => (
   <Wrapper>
     <div>
       Subject:
@@ -24,9 +21,9 @@ const Post = ({ post }: Props) => (
   </Wrapper>
 );
 
-const Wrapper = withTheme()(styled.div`
+const Wrapper = styled.div`
   margin: ${props => props.theme.spacing.unit}px 0
     ${props => props.theme.spacing.unit}px 0;
-`);
+`;
 
-export default Post;
+export default PostItem;
