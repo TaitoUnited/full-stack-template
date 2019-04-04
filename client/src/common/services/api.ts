@@ -6,6 +6,7 @@ import axios, {
 } from 'axios';
 
 import config from '../config';
+import { Post, PostDraft } from '../../posts/post.types';
 
 interface Store {
   dispatch: (action: any) => any;
@@ -52,7 +53,7 @@ export const connectApiToStore = (store: Store) => {
 api.http.interceptors.response.use(
   (response: AxiosResponse) => {
     console.log('> API response', response);
-    // Unwrap since axios data
+    // Unwrap `data` fields since axios wrap response inside `data` field
     return response.data;
   },
   (error: AxiosError) => {
@@ -77,4 +78,15 @@ api.http.interceptors.response.use(
 
 // Exported API methods
 
-// export const fetchUser = (): Promise<User> => api.http.get('/user');
+export const createPost = async (post: PostDraft): Promise<Post> => {
+  const res = await api.http.post('/posts', post);
+  return res.data;
+};
+
+export const fetchPosts = async (params: { offset: number; limit: number }) => {
+  const res = await api.http.get('/posts', { params });
+  return {
+    items: res.data,
+    totalCount: res.totalCount,
+  };
+};

@@ -6,4 +6,5 @@ export interface PostDraft {
 
 export interface Post extends PostDraft {
   id: string;
+  createdAt: string;
 }
