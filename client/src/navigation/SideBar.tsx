@@ -1,13 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-
-import {
-  SwipeableDrawer,
-  List,
-  ListItem,
-  ListItemText,
-} from '@material-ui/core';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 
 import styled from '~styled';
 import { navigation } from './navigation.model';

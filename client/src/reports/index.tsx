@@ -1,12 +1,12 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 import { Trans } from '@lingui/macro';
 
 import { Page } from '~ui';
 
 const Reports = () => (
   <Page>
-    <Typography variant="title">
+    <Typography variant="h6">
       <Trans>Reports</Trans>
     </Typography>
     <Typography>

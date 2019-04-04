@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 import { Trans } from '@lingui/macro';
 
 // import * as api from '~services/api';
@@ -59,7 +59,7 @@ class Posts extends React.Component<{}, State> {
     const { post, posts } = this.state;
     return (
       <Page>
-        <Typography variant="title">
+        <Typography variant="h6">
           <Trans>Posts</Trans>
         </Typography>
         <Typography>

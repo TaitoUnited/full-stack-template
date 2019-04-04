@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 import { Trans } from '@lingui/macro';
 import { connect } from 'react-redux';
 
@@ -15,7 +15,7 @@ interface Props {
 
 const Settings = ({ language, changeLanguage }: Props) => (
   <Page>
-    <Typography variant="title">
+    <Typography variant="h6">
       <Trans>Settings</Trans>
     </Typography>
     <Typography>
