@@ -21,7 +21,7 @@
     "@lingui/react": "2.7.4",
     "@material-ui/core": "3.9.3",
     "@material-ui/icons": "3.0.2",
-    "@sentry/browser": "4.6.6",
+    "@sentry/browser": "5.0.5",
     "@types/lingui__core": "2.7.0",
     "@types/lingui__macro": "2.7.3",
     "@types/lingui__react": "2.5.2",
