@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, TextField } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 import styled from '~styled';
 import { PostDraft } from './post.types';

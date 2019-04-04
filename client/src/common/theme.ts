@@ -1,8 +1,8 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 
 const theme = createMuiTheme({
-  palette: {
-    // NOTE: You can define the basic palette of the application here
+  typography: {
+    useNextVariants: true,
   },
 });
 
