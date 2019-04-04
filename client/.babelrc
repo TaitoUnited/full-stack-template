@@ -1,5 +1,8 @@
 {
   "presets": [
+    // TODO: consider adding tree-shakeability to material-ui
+    // https://github.com/mui-org/material-ui/issues/11281#issuecomment-389932873
+    // https://material-ui.com/guides/minimizing-bundle-size/
     [
       "@babel/preset-env",
       {

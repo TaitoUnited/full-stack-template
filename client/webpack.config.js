@@ -196,6 +196,14 @@ module.exports = function(env, argv) {
       // Extract third-party libraries (lodash, etc.) to a separate vendor chunk
       splitChunks: {
         cacheGroups: {
+          // Separate sentry into it's own bundle since it is huge
+          sentry: {
+            test: /[\\/]node_modules[\\/](@sentry)[\\/]/,
+            name: 'sentry',
+            chunks: 'all',
+            priority: 30,
+          },
+
           // Group most libs into one vendor bundle
           vendor: {
             test: /[\\/]node_modules[\\/]/,
@@ -205,7 +213,7 @@ module.exports = function(env, argv) {
           },
 
           // TODO: not sure if this is necessary...
-          // This puts eg. uikit components into a separate chunk.
+          // This puts eg. ui components into a separate chunk.
           // https://itnext.io/react-router-and-webpack-v4-code-splitting-using-splitchunksplugin-f0a48f110312
           common: {
             name: 'common',
