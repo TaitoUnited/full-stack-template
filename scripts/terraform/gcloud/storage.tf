@@ -6,7 +6,13 @@ resource "google_storage_bucket" "bucket" {
   versioning = {
     enabled = "true"
   }
-  prevent_destroy = true
+  /* TODO: enable localhost only for dev and feat environments */
+  cors = {
+    origin = [ "localhost", "${var.taito_domain}" ]
+  }
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 resource "google_storage_bucket_acl" "bucket_acl" {
@@ -18,7 +24,9 @@ resource "google_storage_bucket_acl" "bucket_acl" {
   bucket = "${element(var.taito_storages, count.index)}"
 
   role_entity = [
-    # TODO owner -> writer
-    "OWNER:user-${google_service_account.service_account.email}"
+    "OWNER:project-owners-${data.google_project.project.number}",
+    "OWNER:project-editors-${data.google_project.project.number}",
+    "READER:project-viewers-${data.google_project.project.number}",
+    "WRITER:user-${google_service_account.service_account.email}"
   ]
 }
