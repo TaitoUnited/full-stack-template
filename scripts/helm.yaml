@@ -12,6 +12,15 @@ full-stack:
   podSecurityPolicy:
     enabled: false
 
+  persistence:
+    enabled: false
+    existingClaim:
+    storageClass:
+    # NOTE: Google does not support ReadWriteMany
+    # --> all containers will be placed on the same Kubernetes node
+    accessMode: ReadWriteOnce
+    size: 8Gi
+
   ingress:
     class: nginx
     tls: true
@@ -47,6 +56,17 @@ full-stack:
     # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
     # TODO vertical autoscaling:
     # https://cloud.google.com/kubernetes-engine/docs/how-to/vertical-pod-autoscaling
+    # Sidecar
+    sidecar:
+    # Mounts
+    temporaryVolumeMounts:
+      # - mountPath: /mnt/data
+      #   volumePath: data
+      #   readOnly: false
+    persistentVolumeMounts:
+      # - mountPath: /mnt/data
+      #   volumePath: data
+      #   readOnly: false
     # Env
     env:
       # Environment variables
@@ -142,9 +162,7 @@ full-stack:
         MINIO_SECRET_KEY: ${taito_project}-${taito_env}-storage-gateway.secret
       env:
         MINIO_ACCESS_KEY: 070UEOQR6LX4YPZLFU0V
-        # TODO: set MINIO_CONFIG_DIR that is writable for current user?
-        # --> custom image needs to be built because there is no writable dir
-        # --> or just mount dummy emptry dir that is writable?
+        MINIO_CONFIG_DIR: /tmp
 
     worker:
       enabled: false

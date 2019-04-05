@@ -1,7 +1,7 @@
 # Builder, tester and runtime container for local development
 # NOTE: Use the same cypress version both in Dockerfile and package.json to
 #       avoid unnecessary cypress download
-FROM taitounited/cypress:3.14-node10
+FROM taitounited/cypress:3.2.0-node10
 ARG SERVICE_DIR=.
 ENV NODE_ENV development
 

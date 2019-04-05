@@ -6,6 +6,7 @@ resource "google_storage_bucket" "bucket" {
   versioning = {
     enabled = "true"
   }
+  prevent_destroy = true
 }
 
 resource "google_storage_bucket_acl" "bucket_acl" {
