@@ -2,7 +2,7 @@
 
 : "${template_project_path:?}"
 
-# Init
+${taito_setv:?}
 ./scripts/taito-template/init.sh
 
 # Move old files away from project root
