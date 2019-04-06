@@ -132,7 +132,7 @@ steps:
 - id: artifact-prepare
   waitFor: ['install']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-prepare:$BRANCH_NAME']
+  args: ['artifact-prepare:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}

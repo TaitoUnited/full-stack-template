@@ -90,8 +90,8 @@ function prune () {
     sed -i "/^    $name:\$/,/^$/d" ./scripts/helm.yaml
 
     sed -i "/REPO_NAME\\/$name:/d" cloudbuild.yaml
-    sed -i "/^- id: ci-build-$name\$/,/^$/d" cloudbuild.yaml
-    sed -i "/^- id: ci-push-$name\$/,/^$/d" cloudbuild.yaml
+    sed -i "/^- id: artifact-build-$name\$/,/^$/d" cloudbuild.yaml
+    sed -i "/^- id: artifact-push-$name\$/,/^$/d" cloudbuild.yaml
 
     sed -i "s/ $name / /" taito-config.sh
     sed -i "/\\* $name/d" taito-config.sh
@@ -114,7 +114,6 @@ function prune () {
 
     if [[ $name == "server" ]]; then
       sed -i "s/ /api/uptimez / /" taito-config.sh
-      sed -i "s/ci-prepare:server/ci-prepare:client/" cloudbuild.yaml
     fi
 
     if [[ $name == "www" ]]; then
