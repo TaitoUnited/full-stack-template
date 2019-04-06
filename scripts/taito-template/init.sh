@@ -88,11 +88,13 @@ function prune () {
     sed -i "/^  server-template-$name:\$/,/^$/d" docker-compose.yaml
     sed -i "/^  # server-template-$name:\$/,/^$/d" docker-compose.yaml
     sed -i "/^    $name:\$/,/^$/d" ./scripts/helm.yaml
+
     sed -i "/REPO_NAME\\/$name:/d" cloudbuild.yaml
+    sed -i "/^- id: ci-build-$name\$/,/^$/d" cloudbuild.yaml
+    sed -i "/^- id: ci-push-$name\$/,/^$/d" cloudbuild.yaml
 
     sed -i "s/ $name / /" taito-config.sh
     sed -i "/\\* $name/d" taito-config.sh
-
     sed -i "s/ \/$name/uptimez / /" taito-config.sh
 
     sed -i "/:$name\":/d" package.json
@@ -103,7 +105,8 @@ function prune () {
     sed -i "s/\"check-deps:$name {@}\" //g" package.json
     sed -i "s/\"check-size:$name {@}\" //g" package.json
 
-    sed -i "/^    {\\/\\*$name\\*\\/\$/,/^    }.*$/d" scripts/terraform/gcloud/monitoring.tf
+    sed -i "/^    {\\/\\*$name\\*\\/\$/,/^    }.*$/d" \
+      scripts/terraform/gcloud/monitoring.tf
 
     if [[ $name == "client" ]]; then
       sed -i "s/ /uptimez / /" taito-config.sh
