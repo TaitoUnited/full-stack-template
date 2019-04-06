@@ -102,37 +102,8 @@ steps:
 
 # Preparing steps
 
-- id: ci-prepare
-  waitFor: ['-']
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-prepare:server:$BRANCH_NAME', '$COMMIT_SHA']
-  env:
-    - taito_mode=ci
-    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
-    - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
-    - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
-    - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
-    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
-    - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
-    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
-    - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
-    - template_default_provider_org_id=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID}
-    - template_default_provider_org_id_prod=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID_PROD}
-    - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
-    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
-    - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
-    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
-    - template_default_monitoring_uptime_channels_prod=${_TEMPLATE_DEFAULT_MONITORING_UPTIME_CHANNELS_PROD}
-    - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
-    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
-    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
-
-# NOTE: We wait for ci-prepare step since it's the first step that
-# pulls the Taito CLI image that is used in all subsequent steps
-
 - id: install
+  waitFor: ['-']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['install:$BRANCH_NAME']
   env:
@@ -158,10 +129,10 @@ steps:
     - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
-- id: ci-release-pre
+- id: artifact-prepare
   waitFor: ['install']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-release-pre:$BRANCH_NAME']
+  args: ['artifact-prepare:$BRANCH_NAME']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -241,10 +212,10 @@ steps:
     - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
-- id: ci-build-admin
-  waitFor: ['ci-release-pre']
+- id: artifact-build-admin
+  waitFor: ['artifact-prepare']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-build:admin:$BRANCH_NAME', '$COMMIT_SHA']
+  args: ['artifact-build:admin:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -268,10 +239,10 @@ steps:
     - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
-- id: ci-push-admin
-  waitFor: ['ci-build-admin']
+- id: artifact-push-admin
+  waitFor: ['artifact-build-admin']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-push:admin:$BRANCH_NAME', '$COMMIT_SHA']
+  args: ['artifact-push:admin:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -295,10 +266,10 @@ steps:
     - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
-- id: ci-build-client
-  waitFor: ['ci-release-pre']
+- id: artifact-build-client
+  waitFor: ['artifact-prepare']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-build:client:$BRANCH_NAME', '$COMMIT_SHA']
+  args: ['artifact-build:client:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -322,10 +293,10 @@ steps:
     - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
-- id: ci-push-client
-  waitFor: ['ci-build-client']
+- id: artifact-push-client
+  waitFor: ['artifact-build-client']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-push:client:$BRANCH_NAME', '$COMMIT_SHA']
+  args: ['artifact-push:client:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -349,10 +320,10 @@ steps:
     - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
-- id: ci-build-graphql
-  waitFor: ['ci-release-pre']
+- id: artifact-build-graphql
+  waitFor: ['artifact-prepare']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-build:graphql:$BRANCH_NAME', '$COMMIT_SHA']
+  args: ['artifact-build:graphql:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -376,10 +347,10 @@ steps:
     - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
-- id: ci-push-graphql
-  waitFor: ['ci-build-graphql']
+- id: artifact-push-graphql
+  waitFor: ['artifact-build-graphql']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-push:graphql:$BRANCH_NAME', '$COMMIT_SHA']
+  args: ['artifact-push:graphql:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -403,10 +374,10 @@ steps:
     - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
-- id: ci-build-server
-  waitFor: ['ci-release-pre']
+- id: artifact-build-server
+  waitFor: ['artifact-prepare']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-build:server:$BRANCH_NAME', '$COMMIT_SHA']
+  args: ['artifact-build:server:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -430,10 +401,10 @@ steps:
     - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
-- id: ci-push-server
-  waitFor: ['ci-build-server']
+- id: artifact-push-server
+  waitFor: ['artifact-build-server']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-push:server:$BRANCH_NAME', '$COMMIT_SHA']
+  args: ['artifact-push:server:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -457,64 +428,10 @@ steps:
     - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
-# - id: ci-build-worker
-#   waitFor: ['ci-release-pre']
-#   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-#   args: ['ci-build:worker:$BRANCH_NAME', '$COMMIT_SHA']
-#   env:
-#     - taito_mode=ci
-#     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-#     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
-#     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-#     - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
-#     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
-#     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
-#     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
-#     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
-#     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
-#     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
-#     - template_default_provider_org_id=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID}
-#     - template_default_provider_org_id_prod=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID_PROD}
-#     - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
-#     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
-#     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
-#     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
-#     - template_default_monitoring_uptime_channels_prod=${_TEMPLATE_DEFAULT_MONITORING_UPTIME_CHANNELS_PROD}
-#     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
-#     - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
-#     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
-#
-# - id: ci-push-worker
-#   waitFor: ['ci-build-worker']
-#   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-#   args: ['ci-push:worker:$BRANCH_NAME', '$COMMIT_SHA']
-#   env:
-#     - taito_mode=ci
-#     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-#     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
-#     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-#     - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
-#     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
-#     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
-#     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
-#     - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
-#     - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
-#     - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
-#     - template_default_provider_org_id=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID}
-#     - template_default_provider_org_id_prod=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID_PROD}
-#     - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
-#     - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
-#     - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
-#     - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
-#     - template_default_monitoring_uptime_channels_prod=${_TEMPLATE_DEFAULT_MONITORING_UPTIME_CHANNELS_PROD}
-#     - template_default_registry=${_TEMPLATE_DEFAULT_REGISTRY}
-#     - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
-#     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
-
-- id: ci-build-www
-  waitFor: ['ci-release-pre']
+- id: artifact-build-www
+  waitFor: ['artifact-prepare']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-build:www:$BRANCH_NAME', '$COMMIT_SHA']
+  args: ['artifact-build:www:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -538,10 +455,10 @@ steps:
     - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
-- id: ci-push-www
-  waitFor: ['ci-build-www']
+- id: artifact-push-www
+  waitFor: ['artifact-build-www']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-push:www:$BRANCH_NAME', '$COMMIT_SHA']
+  args: ['artifact-push:www:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -593,9 +510,9 @@ steps:
     - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
-- id: ci-deploy
+- id: deployment-deploy
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-deploy:$BRANCH_NAME', '$COMMIT_SHA']
+  args: ['deployment-deploy:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -621,9 +538,9 @@ steps:
 
 # Run tests against the target environment
 
-- id: ci-wait
+- id: deployment-wait
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-wait:$BRANCH_NAME']
+  args: ['deployment-wait:$BRANCH_NAME']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -648,7 +565,7 @@ steps:
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
 - id: test
-  waitFor: ['ci-wait']
+  waitFor: ['deployment-wait']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['test:$BRANCH_NAME']
   env:
@@ -674,9 +591,9 @@ steps:
     - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
-- id: ci-verify
+- id: deployment-verify
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-verify:$BRANCH_NAME']
+  args: ['deployment-verify:$BRANCH_NAME']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -702,9 +619,9 @@ steps:
 
 # Publish and release
 
-- id: ci-publish
+- id: artifact-publish
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-publish:$BRANCH_NAME']
+  args: ['artifact-publish:$BRANCH_NAME']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -728,9 +645,9 @@ steps:
     - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
 
-- id: ci-release-post
+- id: artifact-release
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['ci-release-post:$BRANCH_NAME']
+  args: ['artifact-release:$BRANCH_NAME']
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
