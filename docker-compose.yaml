@@ -55,7 +55,8 @@ services:
       DATABASE_HOST: server-template-database
       DATABASE_NAME: server_template_local
       DATABASE_USER: server_template_local_app
-      DATABASE_PASSWORD: secret
+      # TODO: use secrets
+      DATABASE_PASSWORD: ${taito_default_password}
 
   server-template-graphql:
     container_name: server-template-graphql
@@ -194,11 +195,11 @@ services:
 
 secrets:
   DATABASE_PASSWORD:
-    file: ./secrets/${db_database_name}-db-app.password
+    file: ./secrets/${taito_env}/${db_database_name}-db-app.password
   S3_KEY_SECRET:
-    file: ./secrets/${taito_project}-${taito_env}-storage-gateway.secret
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-storage-gateway.secret
   EXAMPLE_SECRET:
-    file: ./secrets/${taito_project}-${taito_env}-example.secret
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-example.secret
 
 networks:
   default:

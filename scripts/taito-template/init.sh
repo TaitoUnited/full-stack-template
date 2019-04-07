@@ -87,6 +87,9 @@ function prune () {
 
     sed -i "/^  server-template-$name:\$/,/^$/d" docker-compose.yaml
     sed -i "/^  # server-template-$name:\$/,/^$/d" docker-compose.yaml
+    if [[ -f docker-compose-test.yaml ]]; then
+      sed -i "/^  server-template-$name-test:\$/,/^$/d" docker-compose-test.yaml
+    fi
     sed -i "/^    $name:\$/,/^$/d" ./scripts/helm.yaml
 
     sed -i "/REPO_NAME\\/$name:/d" cloudbuild.yaml
@@ -128,6 +131,7 @@ function prune () {
       sed -i '/db-/d' docker-compose.yaml
       sed -i '/DATABASE_/d' ./scripts/helm.yaml
       sed -i "/^      db:\$/,/^        proxySecret:.*$/d" ./scripts/helm.yaml
+      rm -f docker-compose-test.yaml
     fi
 
     if [[ $name == "storage" ]]; then

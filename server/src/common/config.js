@@ -1,5 +1,22 @@
 import fs from 'fs';
 
+// Helpers
+
+const readSecretSync = filename => {
+  let value = null;
+  try {
+    value = fs.readFileSync(filename, 'utf8');
+  } catch (err) {
+    console.warn(`WARNING: failed to read secret from ${filename}`);
+  }
+  return value;
+};
+
+const mapBool = input => {
+  if (input === '0' || input === 'false' || input === 'f') return false;
+  return !!input;
+};
+
 // Configs
 
 const required = [
@@ -8,14 +25,10 @@ const required = [
   'COMMON_ENV',
   'DEBUG',
   'APP_NAME',
+  'DATABASE_PASSWORD',
 ];
 
 const config = {};
-
-function mapBool(input) {
-  if (input === '0' || input === 'false' || input === 'f') return false;
-  return !!input;
-}
 
 // Basic configs
 config.ROOT_PATH = __dirname;
@@ -39,10 +52,7 @@ config.DATABASE_HOST = process.env.DATABASE_HOST;
 config.DATABASE_PORT = process.env.DATABASE_PORT;
 config.DATABASE_NAME = process.env.DATABASE_NAME;
 config.DATABASE_USER = process.env.DATABASE_USER;
-config.DATABASE_PASSWORD = fs.readFileSync(
-  '/run/secrets/DATABASE_PASSWORD',
-  'utf8'
-);
+config.DATABASE_PASSWORD = readSecretSync('/run/secrets/DATABASE_PASSWORD');
 config.DATABASE_POOL_MAX = process.env.DATABASE_POOL_MAX
   ? parseInt(process.env.DATABASE_POOL_MAX, 10)
   : 10;

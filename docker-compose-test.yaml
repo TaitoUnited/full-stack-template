@@ -4,6 +4,23 @@
 
 version: '3.5'
 services:
+  server-template-admin-test:
+    container_name: server-template-admin-test
+    image: server-template-admin-test:latest
+    restart: unless-stopped
+    volumes:
+      - "./admin:/service:delegated"
+      - "./shared:/service/shared:delegated"
+      - "/service/node_modules"
+    networks:
+      - test
+    depends_on:
+      - server-template-database-test-proxy
+    secrets:
+      - DATABASE_PASSWORD
+    environment:
+      taito_running_tests: "true"
+
   server-template-client-test:
     container_name: server-template-client-test
     image: server-template-client-test:latest
@@ -12,12 +29,29 @@ services:
       - "./client:/service:delegated"
       - "./shared:/service/shared:delegated"
       - "/service/node_modules"
-      # NOTE: for flow
-      # - "/service/flow-typed/npm"
     networks:
       - test
     depends_on:
       - server-template-database-test-proxy
+    secrets:
+      - DATABASE_PASSWORD
+    environment:
+      taito_running_tests: "true"
+
+  server-template-graphql-test:
+    container_name: server-template-graphql-test
+    image: server-template-graphql-test:latest
+    restart: unless-stopped
+    volumes:
+      - "./graphql:/service:delegated"
+      - "./shared:/service/shared:delegated"
+      - "/service/node_modules"
+    networks:
+      - test
+    depends_on:
+      - server-template-database-test-proxy
+    secrets:
+      - DATABASE_PASSWORD
     environment:
       taito_running_tests: "true"
 
@@ -29,12 +63,12 @@ services:
       - "./server:/service:delegated"
       - "./shared:/service/shared:delegated"
       - "/service/node_modules"
-      # NOTE: for flow
-      # - "/service/flow-typed/npm"
     networks:
       - test
     depends_on:
       - server-template-database-test-proxy
+    secrets:
+      - DATABASE_PASSWORD
     environment:
       taito_running_tests: "true"
 
@@ -76,6 +110,10 @@ services:
       template_default_kubernetes: ${template_default_kubernetes}
       template_default_postgres: ${template_default_postgres}
       template_default_mysql: ${template_default_mysql}
+
+secrets:
+  DATABASE_PASSWORD:
+    file: ./tmp/secrets/${taito_env}/${db_database_name}-db-app.password
 
 networks:
   test:

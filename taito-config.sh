@@ -83,6 +83,9 @@ taito_monitoring_timeouts=" 5s 5s 10s 10s 5s "
 # You can list all monitoring channels with `taito env info:prod`
 taito_monitoring_uptime_channels="${template_default_monitoring_uptime_channels_prod:-}"
 
+# Misc
+taito_default_password=secret1234
+
 # CI/CD settings
 # NOTE: Most of these should be enabled for dev and feat branches only.
 # That is, container image is built and tested on dev environment first.
@@ -248,12 +251,9 @@ test_all_DATABASE_HOST=$taito_project-database-test-proxy
 test_all_DATABASE_PORT=5432
 test_all_DATABASE_NAME=$db_database_name
 test_all_DATABASE_USER=${db_database_name}_app
-# TODO support all environments by reading password from secrets
-test_all_DATABASE_PASSWORD="P8JH4m33RQshznTkTNxvQgFO9BWpkg"
 if [[ "$taito_target_env" == "local" ]]; then
   # On local env we connect to database running on an another container
   test_all_DATABASE_HOST=$taito_project-database
-  test_all_DATABASE_PASSWORD=secret
 fi
 
 # URLs
