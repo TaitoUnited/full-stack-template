@@ -26,8 +26,6 @@ services:
       - "./admin:/service:delegated"
       - "./shared:/service/shared:delegated"
       - "/service/node_modules"
-      # NOTE: for flow
-      # - "/service/flow-typed/npm"
     environment:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
@@ -46,8 +44,10 @@ services:
       - "./client:/service:delegated"
       - "./shared:/service/shared:delegated"
       - "/service/node_modules"
-      # NOTE: for flow
-      # - "/service/flow-typed/npm"
+    secrets:
+      # NOTE: Database connection is for tests only
+      - DATABASE_PASSWORD
+      - EXAMPLE_SECRET
     environment:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
@@ -55,8 +55,6 @@ services:
       DATABASE_HOST: server-template-database
       DATABASE_NAME: server_template_local
       DATABASE_USER: server_template_local_app
-      # TODO: use secrets
-      DATABASE_PASSWORD: ${taito_default_password}
 
   server-template-graphql:
     container_name: server-template-graphql
@@ -72,8 +70,6 @@ services:
       - "./graphql:/service:delegated"
       - "./shared:/service/shared:delegated"
       - "/service/node_modules"
-      # NOTE: for flow
-      # - "/service/flow-typed/npm"
     environment:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
@@ -103,8 +99,6 @@ services:
       - "./server:/service:delegated"
       - "./shared:/service/shared:delegated"
       - "/service/node_modules"
-      # NOTE: for flow
-      # - "/service/flow-typed/npm"
     secrets:
       - DATABASE_PASSWORD
       - S3_KEY_SECRET
