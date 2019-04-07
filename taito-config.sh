@@ -13,7 +13,7 @@ taito_plugins="
   terraform:-local generate-secrets
   docker docker-compose:local kubectl:-local helm:-local
   postgres-db sqitch-db
-  npm git links-global
+  npm git-global links-global
   semantic-release sentry
   gcloud:-local gcloud-storage:-local
   gcloud-builder:-local gcloud-monitoring:-local
