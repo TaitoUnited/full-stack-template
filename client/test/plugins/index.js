@@ -9,9 +9,19 @@
 // ***********************************************************
 
 // import pg from 'pg-promise';
+const fs = require('fs');
 const pg = require('pg-promise');
-
 const pgp = pg({});
+
+const readSecretSync = filename => {
+  let value = null;
+  try {
+    value = fs.readFileSync(filename, 'utf8');
+  } catch (err) {
+    console.warn(`WARNING: failed to read secret from ${filename}`);
+  }
+  return value;
+};
 
 let dbOverrides = {};
 try {
@@ -45,9 +55,12 @@ module.exports = (on, config) => {
     password:
       process.env.DATABASE_PASSWORD
       || dbOverrides.DATABASE_PASSWORD
+      || readSecretSync('/run/secrets/DATABASE_PASSWORD')
+      || process.env.taito_default_password
       || 'secret',
     poolSize: 2
   };
+  console.log(`PASSSORDASDFASFASDFSDFSAD ${dbConfig.password}`);
   console.log('--------------------------------------------------------------');
   console.log(`URL: ${config.baseUrl}`);
   console.log(
