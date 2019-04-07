@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 // Configs
 
 const required = [
@@ -37,7 +39,10 @@ config.DATABASE_HOST = process.env.DATABASE_HOST;
 config.DATABASE_PORT = process.env.DATABASE_PORT;
 config.DATABASE_NAME = process.env.DATABASE_NAME;
 config.DATABASE_USER = process.env.DATABASE_USER;
-config.DATABASE_PASSWORD = process.env.DATABASE_PASSWORD;
+config.DATABASE_PASSWORD = fs.readFileSync(
+  '/run/secrets/DATABASE_PASSWORD',
+  'utf8'
+);
 config.DATABASE_POOL_MAX = process.env.DATABASE_POOL_MAX
   ? parseInt(process.env.DATABASE_POOL_MAX, 10)
   : 10;

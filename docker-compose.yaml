@@ -104,6 +104,10 @@ services:
       - "/service/node_modules"
       # NOTE: for flow
       # - "/service/flow-typed/npm"
+    secrets:
+      - DATABASE_PASSWORD
+      - S3_KEY_SECRET
+      - EXAMPLE_SECRET
     environment:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
@@ -118,15 +122,12 @@ services:
       DATABASE_HOST: server-template-database
       DATABASE_NAME: server_template_local
       DATABASE_USER: server_template_local_app
-      DATABASE_PASSWORD: secret
       DATABASE_POOL_MIN: '1'
       DATABASE_POOL_MAX: '10'
       S3_URL: http://server-template-storage:9000/
       S3_REGION: milkyway
       S3_BUCKET: bucket
       S3_KEY_ID: 070UEOQR6LX4YPZLFU0V
-      S3_KEY_SECRET: CVQVa33NekSiOJGnevSY5ITr8Rql8lFkp22WhLQ+
-      # USER_PASSWORD: password-example # SHOW ON INFO
 
   # server-template-worker:
   #   container_name: server-template-worker
@@ -199,10 +200,12 @@ services:
       - default
     ports:
       - "6000:5432"
+    secrets:
+      - DATABASE_PASSWORD
     environment:
       POSTGRES_DB: server_template_local
       POSTGRES_USER: server_template_local_app
-      POSTGRES_PASSWORD: secret
+      POSTGRES_PASSWORD_FILE: /run/secrets/DATABASE_PASSWORD
     volumes:
       - "./database:/docker-entrypoint-initdb.d:delegated"
 
@@ -217,9 +220,19 @@ services:
       - default
     ports:
       - "9000"
+    secrets:
+      - S3_KEY_SECRET
     environment:
       MINIO_ACCESS_KEY: 070UEOQR6LX4YPZLFU0V
-      MINIO_SECRET_KEY: CVQVa33NekSiOJGnevSY5ITr8Rql8lFkp22WhLQ+
+      MINIO_SECRET_KEY_FILE: /run/secrets/S3_KEY_SECRET
+
+secrets:
+  DATABASE_PASSWORD:
+    file: ./secrets/${db_database_name}-db-app.password
+  S3_KEY_SECRET:
+    file: ./secrets/${taito_project}-${taito_env}-storage-gateway.secret
+  EXAMPLE_SECRET:
+    file: ./secrets/${taito_project}-${taito_env}-example.secret
 
 networks:
   default:

@@ -125,18 +125,20 @@ function prune () {
       sed -i '/db_/d' taito-config.sh
       sed -i '/Database/d' docker-compose.yaml
       sed -i '/DATABASE_/d' docker-compose.yaml
+      sed -i '/db-/d' docker-compose.yaml
       sed -i '/DATABASE_/d' ./scripts/helm.yaml
       sed -i "/^      db:\$/,/^        proxySecret:.*$/d" ./scripts/helm.yaml
     fi
 
     if [[ $name == "storage" ]]; then
-      sed -i '/    serviceAccount:/d' ./scripts/helm.yaml
-      sed -i '/.*taito_env}-gserviceaccount.key/d' ./scripts/helm.yaml
       sed -i '/storage-gateway/d' taito-config.sh
       sed -i '/gserviceaccount.key:file/d' taito-config.sh
       sed -i '/taito_storages/d' taito-config.sh
-      sed -i '/S3_/d' ./scripts/helm.yaml
       sed -i '/S3_/d' docker-compose.yaml
+      sed -i '/storage-/d' docker-compose.yaml
+      sed -i '/    serviceAccount:/d' ./scripts/helm.yaml
+      sed -i '/.*taito_env}-gserviceaccount.key/d' ./scripts/helm.yaml
+      sed -i '/S3_/d' ./scripts/helm.yaml
     fi
 
     rm -rf "$name"

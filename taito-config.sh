@@ -10,15 +10,13 @@
 # Taito CLI
 taito_version=1
 taito_plugins="
+  terraform:-local generate-secrets
+  docker docker-compose:local kubectl:-local helm:-local
   postgres-db sqitch-db
-  docker
-  docker-compose:local
-  terraform:-local
-  generate-secrets:-local kube-secrets:-local
-  kubectl:-local helm:-local
-  gcloud:-local gcloud-storage:-local gcloud-builder:-local gcloud-monitoring:-local
-  semantic-release npm git links-global
-  sentry
+  npm git links-global
+  semantic-release sentry
+  gcloud:-local gcloud-storage:-local
+  gcloud-builder:-local gcloud-monitoring:-local
 "
 
 # Project labeling
@@ -226,15 +224,18 @@ link_urls="
 "
 
 # Secrets
-taito_secrets="
+taito_remote_secrets="
   github-buildbot.token:read/devops
   cloudsql-gserviceaccount.key:copy/devops
   $db_database_name-db-mgr.password/devops:random
-  $db_database_name-db-app.password:random
   $taito_project-$taito_env-basic-auth.auth:htpasswd-plain
-  $taito_project-$taito_env-storage-gateway.secret:random
   $taito_project-$taito_env-gserviceaccount.key:file
   $taito_project-$taito_env-scheduler.secret:random
+"
+taito_secrets="
+  $db_database_name-db-app.password:random
+  $taito_project-$taito_env-storage-gateway.secret:random
+  $taito_project-$taito_env-example.secret:manual
 "
 
 

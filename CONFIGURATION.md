@@ -1,6 +1,6 @@
 # Configuration
 
-> TIP: To save some time, start your application locally while you are configuring the project: `taito install`, `taito start`, `taito init`. NOTE: Requires [Node.js](https://nodejs.org/) and [Docker Compose](https://docs.docker.com/compose/install/) installed on host.
+> TIP: To save some time, start your application locally while you are configuring the project: `taito env apply`, `taito start`, `taito init`. NOTE: Requires [Node.js](https://nodejs.org/) and [Docker Compose](https://docs.docker.com/compose/install/) installed on host.
 
 This file has been copied from [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/). Keep modifications minimal and improve the [original](https://github.com/TaitoUnited/SERVER-TEMPLATE/blob/dev/CONFIGURATION.md) instead. Note that Taito CLI is optional (see [usage without Taito CLI](DEVELOPMENT.md#usage-without-taito-cli)).
 
@@ -61,7 +61,7 @@ Remove static site generators that you do not use from `www/install.sh`.
 
 Start containers, and start a shell inside the www Docker container:
 
-    taito install
+    taito env apply
     taito start
     taito shell:www
 
@@ -162,7 +162,7 @@ You can deploy configuration changes without rebuilding with the `taito deployme
 ## Secrets
 
 1. Add a secret definition to the `taito_secrets` setting in `taito-config.sh`.
-2. Map the secret definition to an environment variable in `scripts/helm.yaml`
+2. Map the secret definition to a secret in `docker-compose.yaml` for Docker Compose and in `scripts/helm.yaml` for Kubernetes.
 3. Run `taito env rotate:ENV SECRET` to generate a secret value for an environment. Run the command for each environment separately. Note that the rotate command restarts all pods in the same namespace.
 
 > For local development you can just define secrets as normal environment variables in `docker-compose.yaml` given that they are not confidential.

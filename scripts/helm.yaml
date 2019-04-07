@@ -117,8 +117,8 @@ full-stack:
       serviceAccount:
         secret: ${taito_project}-${taito_env}-gserviceaccount.key
       secrets:
-        S3_KEY_SECRET: ${taito_project}-${taito_env}-storage-gateway.secret
         DATABASE_PASSWORD: ${taito_project}-${taito_env}-db-app.password
+        S3_KEY_SECRET: ${taito_project}-${taito_env}-storage-gateway.secret
       env:
         DEBUG: false
         SENTRY_DSN: #sentryDSN
@@ -159,9 +159,10 @@ full-stack:
       serviceAccount:
         secret: ${taito_project}-${taito_env}-gserviceaccount.key
       secrets:
-        MINIO_SECRET_KEY: ${taito_project}-${taito_env}-storage-gateway.secret
+        S3_KEY_SECRET: ${taito_project}-${taito_env}-storage-gateway.secret
       env:
         MINIO_ACCESS_KEY: 070UEOQR6LX4YPZLFU0V
+        MINIO_SECRET_KEY_FILE: /run/secrets/S3_KEY_SECRET
         MINIO_CONFIG_DIR: /tmp
 
     worker:
