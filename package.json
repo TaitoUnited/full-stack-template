@@ -15,7 +15,7 @@
     "taito-init:local:clean": "npm run taito-init:clean && npm run clean:storage",
     "clean:storage": "if [ -d storage ]; then echo Cleaning storage; rm -rf ./storage/bucket/*; rm -rf ./storage/.minio.sys/buckets/bucket/*/; fi",
     "import-db-data": "if [ -f ./database/data/${taito_env}.sql ]; then taito db-import:${taito_env} ./database/data/${taito_env}.sql; fi",
-    "info:local": "cat docker-compose.yaml | grep '# SHOW ON INFO'",
+    "info:local": "yes | taito secrets:${taito_env}",
     "info": "yes | taito secrets:${taito_env} | grep :\\{PLAIN\\} | sed -e 's|{PLAIN}| |'",
     "info_todo_comment": "TODO autoconfirm on taito secrets:prod",
     "lint": "echo Running lint locally && npm-run-all --parallel lint:admin lint:client lint:graphql lint:server lint:worker lint:www ",

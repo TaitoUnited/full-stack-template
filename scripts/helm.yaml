@@ -68,11 +68,13 @@ full-stack:
       #   volumePath: data
       #   readOnly: false
     # Env
+    secrets:
+      # Secrets as mounted files
+    secretEnv:
+      # Secrets as environment variables (not recommended)
     env:
       # Environment variables
       COMMON_ENV: ${taito_env}
-    secrets:
-      # Secrets
 
   services:
 
@@ -158,11 +160,11 @@ full-stack:
         - ${taito_resource_namespace}
       serviceAccount:
         secret: ${taito_project}-${taito_env}-gserviceaccount.key
-      secrets:
-        S3_KEY_SECRET: ${taito_project}-${taito_env}-storage-gateway.secret
+      secretEnv:
+        # Minio requires secret as environment variable in gateway mode
+        MINIO_SECRET_KEY: ${taito_project}-${taito_env}-storage-gateway.secret
       env:
         MINIO_ACCESS_KEY: 070UEOQR6LX4YPZLFU0V
-        MINIO_SECRET_KEY_FILE: /run/secrets/S3_KEY_SECRET
         MINIO_CONFIG_DIR: /tmp
 
     worker:
@@ -203,6 +205,6 @@ full-stack:
           args:
             - /bin/sh
             - -c
-            - curl -sS -H "X-Secret: $SCHEDULER_SECRET" 'http://${taito_project}-${taito_env}-server:8080/posts?offset=0&limit=1'
+            - curl -sS -H "X-Secret: $(cat $SCHEDULER_SECRET)" 'http://${taito_project}-${taito_env}-server:8080/posts?offset=0&limit=1'
 
     # TODO: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/#ttl-mechanism-for-finished-jobs
