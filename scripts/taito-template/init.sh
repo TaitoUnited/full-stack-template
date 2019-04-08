@@ -135,6 +135,7 @@ function prune () {
     fi
 
     if [[ $name == "storage" ]]; then
+      sed -i "s/service_account_enabled=true/service_account_enabled=false/" taito-config.sh
       sed -i '/storage-gateway/d' taito-config.sh
       sed -i '/gserviceaccount.key:file/d' taito-config.sh
       sed -i '/taito_storages/d' taito-config.sh

@@ -21,7 +21,7 @@ resource "google_storage_bucket_acl" "bucket_acl" {
     "google_service_account.service_account",
     "google_storage_bucket.bucket"
   ]
-  count = "${length(var.taito_storages)}"
+  count = "${var.gcloud_service_account_enabled == "true" ? length(var.taito_storages) : 0}"
   bucket = "${element(var.taito_storages, count.index)}"
 
   role_entity = [

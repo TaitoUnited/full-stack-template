@@ -1,5 +1,5 @@
 resource "google_monitoring_uptime_check_config" "https" {
-  count = "${var.taito_env == "prod" ? length(var.taito_monitoring_names) : 0}"
+  count = "${length(var.taito_monitoring_names)}"
 
   project = "${var.taito_zone}"
   display_name = "${var.taito_project}-${var.taito_env}-${element(var.taito_monitoring_names, count.index)}"
@@ -20,7 +20,8 @@ resource "google_monitoring_uptime_check_config" "https" {
 
 resource "google_monitoring_alert_policy" "https" {
   depends_on = ["google_monitoring_uptime_check_config.https"]
-  count = "${var.taito_env == "prod" && length(var.taito_monitoring_names) > 0 ? 1 : 0}"
+  count = "${length(var.taito_monitoring_names) > 0 ? 1 : 0}"
+  enabled = "true"
 
   project = "${var.taito_zone}"
   display_name = "${var.taito_project}-${var.taito_env}"
