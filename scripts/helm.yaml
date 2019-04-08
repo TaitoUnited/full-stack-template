@@ -205,6 +205,6 @@ full-stack:
           args:
             - /bin/sh
             - -c
-            - curl -sS -H "X-Secret: $(cat $SCHEDULER_SECRET)" 'http://${taito_project}-${taito_env}-server:8080/posts?offset=0&limit=1'
+            - curl -sS -H "X-Secret:$(cat $SCHEDULER_SECRET)" http://${taito_project}-${taito_env}-server:8080/posts?offset=0&limit=1
 
     # TODO: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/#ttl-mechanism-for-finished-jobs
