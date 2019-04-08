@@ -43,9 +43,9 @@ Open admin GUI in browser:
 
     taito open admin
 
-Open API in browser:
+Open server API in browser:
 
-    taito open api
+    taito open server
 
 Show user accounts and other information that you can use to log in:
 

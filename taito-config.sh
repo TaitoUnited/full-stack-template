@@ -205,11 +205,11 @@ kubectl_user=$kubectl_cluster
 
 # Link plugin
 link_urls="
-  * client[:ENV]=$taito_app_url Application (:ENV)
-  * admin[:ENV]=$taito_admin_url Admin user interface (:ENV)
-  * server[:ENV]=$taito_app_url/api/uptimez API (:ENV)
+  * client[:ENV]=$taito_app_url Application GUI (:ENV)
+  * admin[:ENV]=$taito_admin_url Admin GUI (:ENV)
+  * server[:ENV]=$taito_app_url/api/uptimez Server API (:ENV)
   * www[:ENV]=$taito_app_url/docs Generated documentation (:ENV)
-  * graphql[:ENV]=$taito_app_url/graphql/uptimez API (:ENV)
+  * graphql[:ENV]=$taito_app_url/graphql/uptimez GraphQL API (:ENV)
   * git=https://$taito_vc_repository_url GitHub repository
   * docs=https://$taito_vc_repository_url/wiki Project documentation
   * project=https://$taito_vc_repository_url/projects Project management
