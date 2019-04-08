@@ -8,7 +8,8 @@ resource "google_storage_bucket" "bucket" {
   }
   /* TODO: enable localhost only for dev and feat environments */
   cors = {
-    origin = [ "localhost", "${var.taito_domain}" ]
+    origin = [ "http://localhost", "https://${var.taito_domain}" ]
+    method = [ "GET" ]
   }
   lifecycle {
     prevent_destroy = true
