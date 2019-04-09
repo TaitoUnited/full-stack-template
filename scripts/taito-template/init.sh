@@ -190,12 +190,12 @@ echo "Generating unique random ports (avoid conflicts with other projects)..."
 ingress_port=$(shuf -i 8000-9999 -n 1)
 db_port=$(shuf -i 6000-7999 -n 1)
 www_port=$(shuf -i 5000-5999 -n 1)
-sed -i "s/7463/${www_port}/g" taito-config.sh &> /dev/null
-sed -i "s/7463/${www_port}/g" docker-compose.yaml &> /dev/null
-sed -i "s/6000/${db_port}/g" taito-config.sh &> /dev/null
-sed -i "s/6000/${db_port}/g" docker-compose.yaml &> /dev/null
+sed -i "s/7463/${www_port}/g" taito-config.sh docker-compose.yaml \
+  TAITOLESS.md &> /dev/null
+sed -i "s/6000/${db_port}/g" taito-config.sh docker-compose.yaml \
+  TAITOLESS.md &> /dev/null
 sed -i "s/9999/${ingress_port}/g" docker-compose.yaml taito-config.sh \
-  ./admin/package.json ./client/package.json &> /dev/null
+  ./admin/package.json ./client/package.json TAITOLESS.md &> /dev/null
 
 echo "Replacing template variables with the given settings..."
 sed -i "s/taito_company=.*/taito_company=${taito_company}/g" taito-config.sh

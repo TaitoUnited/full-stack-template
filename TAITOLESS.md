@@ -15,34 +15,48 @@ Table of contents:
 
 * [Node.js](https://nodejs.org/)
 * [Docker Compose](https://docs.docker.com/compose/install/)
+* PostgreSQL client
 * Optional: eslint and prettier plugins for your code editor
 
 ## Quick start
 
-Install libraries on host:
+Install some libraries on host:
 
     npm install
     npm run install-dev
+
+Setup local secrets:
+
+    TODO
 
 Start containers:
 
     docker-compose up
 
-Run database migrations with sqitch:
+Run database migrations with sqitch and import init data:
 
     npm run sqitch
+    TODO import database/data/local.sql
 
-Open the application on browser (the port is defined in docker-compose.yaml):
+Open the application on browser:
 
-    --> http://localhost:9999
+    http://localhost:9999
 
 Open admin GUI in browser:
 
-    --> http://localhost:9999/admin
+    http://localhost:9999/admin
 
 Open server API in browser:
 
-    --> http://localhost:9999/api/healthz
+    http://localhost:9999/api/healthz
+
+Open www site in browser:
+
+    http://localhost:7463/docs
+
+Connect to database:
+
+    TODO
 
 Use `npm`, `docker-compose` and `docker` normally to run commands and operate containers.
 
