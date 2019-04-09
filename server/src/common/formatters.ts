@@ -7,6 +7,7 @@ const camel = (obj: any): any => {
 
 type MatchArray<T, O> = T extends any[] ? O[] : O;
 
+// TODO: Does not support deep objects
 export const asCamelCase = <T>(
   obj: NonPromise<T>
 ): NonPromise<MatchArray<T, any>> => {

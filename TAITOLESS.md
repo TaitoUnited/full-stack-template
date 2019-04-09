@@ -16,7 +16,7 @@ Table of contents:
 * [Node.js](https://nodejs.org/)
 * [Docker Compose](https://docs.docker.com/compose/install/)
 * PostgreSQL client
-* Optional: eslint and prettier plugins for your code editor
+* Optional: eslint/tslint and prettier plugins for your code editor
 
 ## Quick start
 
