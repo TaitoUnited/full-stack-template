@@ -113,15 +113,15 @@ function prune () {
       scripts/terraform/gcloud/monitoring.tf
 
     if [[ $name == "client" ]]; then
-      sed -i "s/ /uptimez / /" taito-config.sh
+      sed -i "s/ \\/uptimez / /" taito-config.sh
     fi
 
     if [[ $name == "server" ]]; then
-      sed -i "s/ /api/uptimez / /" taito-config.sh
+      sed -i "s/ \\/api\\/uptimez / /" taito-config.sh
     fi
 
     if [[ $name == "www" ]]; then
-      sed -i "s/ /docs/uptimez / /" taito-config.sh
+      sed -i "s/ \\/docs\\/uptimez / /" taito-config.sh
     fi
 
     if [[ $name == "database" ]]; then
