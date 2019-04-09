@@ -2,6 +2,5 @@
 %project=server-template
 %uri=https://github.com/TaitoUnited/server-template/
 
-schema 2017-04-14T12:01:35Z John Doe <john.doe@domain.com> # Added schema
-posts [schema] 2017-04-14T12:02:38Z John Doe <john.doe@domain.com> # Added posts table
-files 2018-05-29T19:54:17Z John Doe <john.doe@domain.com> # Added files table
+updated_at_trigger 2019-04-09T15:16:52Z taito <taito@a8158c667797> # Function for updated_at update trigger.
+posts 2019-04-09T15:17:35Z taito <taito@e84f94821d69> # Table for posts.

@@ -5,10 +5,8 @@ ARG SERVICE_DIR=.
 WORKDIR /service
 ENV NODE_ENV development
 COPY ${SERVICE_DIR}/package.json \
-     ${SERVICE_DIR}/package-lock.* \
-     ${SERVICE_DIR}/.flowconfi* \
-     /service/
+  ${SERVICE_DIR}/package-lock.* \
+  /service/
 RUN npm install --loglevel warn
-RUN npm run types-install
 EXPOSE 8080
-CMD npm install; npm run types-install; npm run start
+CMD npm install; npm run start

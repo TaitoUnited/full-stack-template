@@ -48,7 +48,7 @@ class Posts extends React.Component<{}, State> {
   };
 
   fetchPosts = async () => {
-    const { items } = await api.fetchPosts({ offset: 0, limit: 20 });
+    const { items } = await api.fetchPosts();
     this.setState({ posts: items });
   };
 

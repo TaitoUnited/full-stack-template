@@ -1,7 +1,8 @@
--- Verify server_template:posts on pg
+-- Verify server-template:posts on pg
 
 BEGIN;
 
-SELECT id FROM posts WHERE FALSE;
+SELECT id, created_at, updated_at, subject, content, author
+FROM posts;
 
 ROLLBACK;

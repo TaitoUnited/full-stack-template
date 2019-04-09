@@ -79,14 +79,13 @@ api.http.interceptors.response.use(
 // Exported API methods
 
 export const createPost = async (post: PostDraft): Promise<Post> => {
-  const res = await api.http.post('/posts', post);
+  const res = await api.http.post('/posts', { data: post });
   return res.data;
 };
 
-export const fetchPosts = async (params: { offset: number; limit: number }) => {
-  const res = await api.http.get('/posts', { params });
+export const fetchPosts = async () => {
+  const res = await api.http.get('/posts');
   return {
     items: res.data,
-    totalCount: res.totalCount,
   };
 };

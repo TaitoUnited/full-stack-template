@@ -6,15 +6,12 @@ RUN apk add --update-cache build-base python git fontconfig
 WORKDIR /service
 COPY ${SERVICE_DIR}/package.json \
      ${SERVICE_DIR}/package-lock.* \
-     ${SERVICE_DIR}/.flowconfi* \
      /service/
 ENV TARGET_ENV ${TARGET_ENV}
 ENV NODE_ENV development
 RUN npm ci --loglevel warn
-RUN npm run types-install
 COPY ${SERVICE_DIR} /service
 RUN npm run lint
-RUN npm run types
 RUN npm run unit
 RUN npm run build:prod
 
@@ -22,8 +19,8 @@ RUN npm run build:prod
 FROM node:10-alpine
 ARG BUILD_VERSION
 LABEL version=${BUILD_VERSION} \
-      company=companyname \
-      project=server-template \
+      company=ekorent \
+      project=ekorent-carsharing \
       role=client
 ENV BUILD_VERSION ${BUILD_VERSION}
 ENV NODE_ENV production
@@ -43,4 +40,4 @@ RUN npm prune --production && \
 USER node
 EXPOSE 8080
 # TODO dump-init or tiny as init system? Kubernetes uses --init?
-CMD ["node", "./index.production.js"]
+CMD ["node", "./index.js"]

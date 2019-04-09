@@ -1,7 +1,0 @@
-node_modules
-flow-typed/npm
-*.log
-*.md
-test/reports
-test/screenshots
-test/videos
