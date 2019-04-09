@@ -99,7 +99,7 @@ function prune () {
 
     sed -i "s/ $name / /" taito-config.sh
     sed -i "/\\* $name/d" taito-config.sh
-    sed -i "s/ \/$name/uptimez / /" taito-config.sh
+    sed -i "s/ \\/$name\\/uptimez / /" taito-config.sh
 
     sed -i "/:$name\":/d" package.json
     sed -i "s/install-all:$name //g" package.json

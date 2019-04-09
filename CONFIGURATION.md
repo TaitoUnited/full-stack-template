@@ -21,8 +21,8 @@ Table of contents:
 
 * [Node.js](https://nodejs.org/)
 * [Docker Compose](https://docs.docker.com/compose/install/)
-* Optional: [Taito CLI](https://github.com/TaitoUnited/taito-cli#readme)
-* Optional: eslint and prettier plugins for your code editor
+* [Taito CLI](https://github.com/TaitoUnited/taito-cli#readme) (or see [TAITOLESS.md](TAITOLESS.md))
+* Optional: eslint/tslint and prettier plugins for your code editor
 
 ## Version control settings
 
