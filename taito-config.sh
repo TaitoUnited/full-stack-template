@@ -10,7 +10,8 @@
 # Taito CLI
 taito_version=1
 taito_plugins="
-  terraform:-local generate-secrets dev-secrets
+  terraform:-local
+  gcloud-secrets:-local default-secrets generate-secrets
   docker docker-compose:local kubectl:-local helm:-local
   postgres-db sqitch-db
   npm git-global links-global

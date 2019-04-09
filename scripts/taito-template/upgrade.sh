@@ -8,6 +8,7 @@ ${taito_setv:?}
 # Copy files from template to project
 yes | cp CONFIGURATION.md "${template_project_path}"
 yes | cp DEVELOPMENT.md "${template_project_path}"
+yes | cp TAITOLESS.md "${template_project_path}"
 yes | cp cloudbuild.yaml "${template_project_path}"
 
 mkdir -p "${template_project_path}/scripts/helm"

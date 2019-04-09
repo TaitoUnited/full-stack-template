@@ -40,14 +40,15 @@ ${taito_setv:?}
 # Template note from README.md
 sed -i "/^.*(TEMPLATE NOTE START)$/,/^.*(TEMPLATE NOTE END)$/d" README.md
 
-# Alternatives directory
+# Some directories
 rm -rf alternatives
+rm -rf function
 
 # Example site
 rm -rf www/site
 sed -i '/    - "\/service\/site\/node_modules"/d' docker-compose.yaml
 
-# TODO links
+# 'TODO links'
 sed -i '/https:\/\/TODO/d' taito-config.sh
 
 # MIT license

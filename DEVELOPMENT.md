@@ -1,6 +1,6 @@
 # Development
 
-This file has been copied from [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/). Keep modifications minimal and improve the [original](https://github.com/TaitoUnited/SERVER-TEMPLATE/blob/dev/DEVELOPMENT.md) instead. Project specific conventions are located in [README.md](README.md#conventions). See the [Taito CLI tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for more thorough development instructions. Note that Taito CLI is optional (see [without Taito CLI](#without-taito-cli)).
+This file has been copied from [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/). Keep modifications minimal and improve the [original](https://github.com/TaitoUnited/SERVER-TEMPLATE/blob/dev/DEVELOPMENT.md) instead. Project specific conventions are located in [README.md](README.md#conventions). See the [Taito CLI tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for more thorough development instructions. Note that Taito CLI is optional (see [TAITOLESS.md](TAITOLESS.md)).
 
 Table of contents:
 
@@ -10,7 +10,6 @@ Table of contents:
 * [Version control](#version-control)
 * [Database migrations](#database-migrations)
 * [Deployment](#deployment)
-* [Usage without Taito CLI](#usage-without-taito-cli)
 * [Upgrading](#upgrading)
 * [Configuration](#configuration)
 
@@ -18,7 +17,7 @@ Table of contents:
 
 * [Node.js](https://nodejs.org/)
 * [Docker Compose](https://docs.docker.com/compose/install/)
-* Optional: [Taito CLI](https://github.com/TaitoUnited/taito-cli#readme)
+* [Taito CLI](https://github.com/TaitoUnited/taito-cli#readme) (or see [TAITOLESS.md](TAITOLESS.md))
 * Optional: eslint and prettier plugins for your code editor
 
 ## Quick start
@@ -210,49 +209,6 @@ Simple projects require only two environments: **dev** and **prod**. You can lis
 You can use the taito commands to manage branches, builds, and deployments. Run `taito env -h`, `taito feat -h`, `taito hotfix -h`, and `taito deployment -h` for instructions. Run `taito open builds` to see the build logs. See [version control](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/03-version-control.md) chapter of the [Taito CLI tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for some additional information.
 
 > Automatic deployment might be turned off for critical environments (`ci_exec_deploy` setting in `taito-config.sh`). In such case the deployment must be run manually with the `taito -a deployment deploy:prod VERSION` command using a personal admin account after the CI/CD process has ended successfully.
-
-## Usage without Taito CLI
-
-You can use this template also without Taito CLI.
-
-**Local development:**
-
-    npm install              # Install a minimal set of libraries on host
-    npm run install-dev      # Install more libraries on host (for editor autocompletion/linting)
-    docker-compose up        # Start the application
-    npm run sqitch (TODO)    # Run database migrations (requires Sqitch installed on host)
-    -> http://localhost:9999 # Open the application on browser (the port is defined in docker-compose.yaml)
-
-    psql / mysql ...         # Use psql or mysql to operate your database (requires psql/mysql installed on host)
-                             # DB port and credentials are defined in docker-compose.yaml
-                             # Example local development data is located in 'database/data/local.sql'
-    npm run ...              # Use npm to run npm scripts ('npm run' shows all the scripts)
-    docker-compose ...       # Use docker-compose to operate your application
-    docker ...               # Use docker to operate your containers
-
-**Testing:**
-
-Testing personnel may run Cypress against any remote environment without Taito CLI or docker. See `client/test/README.md` for more instructions.
-
-**Environments and CI/CD:**
-
-Taito CLI supports various infrastructures and technologies out-of-the-box, and you can also extend it by writing custom plugins. If you for some reason want to setup the application environments or run CI/CD steps without Taito CLI, you can write the scripts yourself by using the environment variable values defined in `taito-config.sh`.
-
-Creating an environment:
-
-* Use Terraform to create an environment, if your application requires some application specific external resources like storage buckets. Terraform scripts are located at `scripts/terraform/`. Note that the scripts assume that a cloud provider project defined by `taito_resource_namespace` and `taito_resource_namespace_id` already exists and Terraform is allowed to create resources for that project.
-* Create a relational database (or databases) for an environment e.g. by using cloud provider web UI. See `db_*` settings in `taito-config.sh` for database definitions. Create two user accounts for the database: `SERVER_TEMPLATE_ENV` for deploying the database migrations (broad user rights) and `SERVER_TEMPLATE_ENV_app` for the application (concise user rights). Configure also database extensions if required by the application (see `database/db.sql`).
-* Set Kubernetes secret values with `kubectl`. The secrets are defined by `taito_secrets` in `taito-config.sh`, and they are referenced in `scripts/helm*.yaml` files.
-
-Deploying the application:
-
-* Build all container images with [Docker](https://www.docker.com/) and push them to a Docker image registry.
-* Deploy database migrations with [Sqitch](http://sqitch.org/). Sqitch scripts are located in `database/`.
-* Deploy application to Kubernetes with [Helm](https://helm.sh/). Helm templates are located in `scripts/helm/` and environment specific values are located in `scripts/helm*.yaml`. Note that Helm does not support environment variables in value yaml files (this feature is implemented in the Taito CLI Helm plugin). Therefore you need to create a separate `scripts/heml-ENV.yaml` file for each environment and use hardcoded values in each.
-* Optional: Run automatic integration and e2e tests
-* Optional: Revert migrations and deployment if some of the tests fail.
-* Optional: Generate documentation and other artifacts, and publish them
-* Optional: Make a production release with semantic-release (see `package.json`)
 
 ## Upgrading
 
