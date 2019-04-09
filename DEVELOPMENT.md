@@ -46,6 +46,10 @@ Open server API in browser:
 
     taito open server
 
+Open www site in browser:
+
+    taito open www
+
 Show user accounts and other information that you can use to log in:
 
     taito info

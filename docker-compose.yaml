@@ -133,6 +133,7 @@ services:
     networks:
       - default
     ports:
+      # TODO: Temporary hack for https://github.com/gatsbyjs/gatsby/issues/3721
       - "7463:8080"
     volumes:
       - "./www:/service:delegated"
