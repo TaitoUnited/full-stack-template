@@ -11,10 +11,8 @@ COPY ${SERVICE_DIR}/package.json \
 ENV TARGET_ENV ${TARGET_ENV}
 ENV NODE_ENV development
 RUN npm ci --loglevel warn
-RUN npm run types-install
 COPY ${SERVICE_DIR} /service
 RUN npm run lint
-RUN npm run types
 RUN npm run unit
 RUN npm run build:prod
 

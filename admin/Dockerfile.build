@@ -17,7 +17,6 @@ ENV API_ROOT ''
 ENV API_URL /api
 ENV APP_SENTRY_PUBLIC_DSN #sentryPublicDSN
 RUN npm ci --loglevel warn
-RUN npm run types-install
 COPY ${SERVICE_DIR} /service
 RUN npm run unit
 RUN npm run build && cp -r ./assets/* /build/

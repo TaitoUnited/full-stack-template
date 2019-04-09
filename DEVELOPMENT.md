@@ -22,7 +22,7 @@ Table of contents:
 
 ## Quick start
 
-Create a local environment by installing some libraries and generating secrets (add `--clean` to recreate a clean environment):
+Create local environment by installing some libraries and generating secrets (add `--clean` to recreate clean environment):
 
     taito env apply
 
