@@ -1,5 +1,5 @@
 {
-  "name": "ekorent-carsharing-server",
+  "name": "server-template-server",
   "private": true,
   "scripts": {
     "test": "mocha -r ts-node/register --timeout 20000 test/**/*.ts",

@@ -18,7 +18,7 @@ const config = {
 
   // Basic
   ROOT_PATH: __dirname,
-  APP_NAME: "ekorent-carsharing-server",
+  APP_NAME: "server-template-server",
   DEBUG: Boolean(process.env.COMMON_DEBUG),
   APP_VERSION: !process.env.BUILD_IMAGE_TAG
     ? `${process.env.BUILD_VERSION}+local`
