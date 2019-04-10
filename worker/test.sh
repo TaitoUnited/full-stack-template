@@ -4,11 +4,7 @@ export suite_name="${1:-*}"
 export test_name="${2:-*}"
 
 case $suite_name in
-  test)
+  mocha)
     npm run test
-    ;;
-  *)
-    echo "ERROR: Uknown test suite: ${suite_name}"
-    exit 1
     ;;
 esac

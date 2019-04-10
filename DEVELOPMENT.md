@@ -65,12 +65,14 @@ Run tests:
 
     taito unit                              # run all unit tests
     taito unit:server                       # run unit tests of server
-    taito unit:server trip                  # run the 'trip' unit test of server
+    taito unit:server formatters            # run the 'formatters' unit test of server
+
     taito test                              # run all integration and end-to-end tests
-    taito test:client                       # run integration and end-to-end tests of client
-    taito test:client cypress               # run the cypress test suite of client
-    taito test:client cypress posts         # run the 'posts' test of the cypress test suite of client
-    taito test:client cypress 'pos*'        # run all tests of cypress test suite named pos*
+    taito test:server - posts               # run the 'posts' test of server default test suite
+    taito test:server mocha cars            # run the 'cars' test of server mocha test suite
+    taito test:client                       # run all integration and end-to-end tests of client
+    taito test:client - posts               # run the 'posts' test of client default test suite
+    taito test:client cypress 'car*'        # run all 'car*' tests of client cypress test suite
 
 Open Cypress user interface:
 
@@ -86,9 +88,11 @@ Start shell on a container:
     taito shell:client
     taito shell:server
 
-Stop containers:
+Restart and stop:
 
-    taito stop
+    taito restart:server                    # restart the server container
+    taito restart                           # restart all containers
+    taito stop                              # stop all containers
 
 List all project related links and open one of them in browser:
 

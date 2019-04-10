@@ -7,11 +7,4 @@ case $suite_name in
   cypress)
     npm run cypress:run
     ;;
-  test)
-    npm run test
-    ;;
-  *)
-    echo "ERROR: Uknown test suite: ${suite_name}"
-    exit 1
-    ;;
 esac

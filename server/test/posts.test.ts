@@ -9,7 +9,7 @@ const request = requestBase.defaults({
   resolveWithFullResponse: true
 });
 
-describe("posts api", () => {
+describe("posts", () => {
   before(async () => {
     // Nothing to do. Just an example.
     expect(true).to.equal(true);
