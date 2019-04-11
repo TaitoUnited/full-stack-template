@@ -51,14 +51,14 @@ class StackdriverStream extends Transform {
   ) {
     chunk.severity = stackdriverSeverityByBunyanLevel[chunk.level];
     chunk.labels = {
-      project: project.COMMON_PROJECT,
-      company: project.COMMON_COMPANY,
-      family: project.COMMON_FAMILY,
-      application: project.COMMON_APPLICATION,
-      suffix: project.COMMON_SUFFIX,
-      domain: project.COMMON_DOMAIN,
-      imageTag: project.COMMON_IMAGE_TAG,
-      env: project.COMMON_ENV
+      project: config.COMMON_PROJECT,
+      company: config.COMMON_COMPANY,
+      family: config.COMMON_FAMILY,
+      application: config.COMMON_APPLICATION,
+      suffix: config.COMMON_SUFFIX,
+      domain: config.COMMON_DOMAIN,
+      imageTag: config.COMMON_IMAGE_TAG,
+      env: config.COMMON_ENV
     };
     const messageParts = [];
     if (chunk.requestId) {
