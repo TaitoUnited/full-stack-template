@@ -1,5 +1,6 @@
 import bunyan, { LogLevel } from "bunyan";
 import { Transform, TransformCallback, TransformOptions } from "stream";
+
 import config from "./config";
 
 const stackdriverSeverityByBunyanLevel = {
@@ -10,6 +11,8 @@ const stackdriverSeverityByBunyanLevel = {
   [bunyan.ERROR]: "ERROR",
   [bunyan.FATAL]: "CRITICAL"
 };
+
+const allowedHeaders = ["user-agent", "referer", "x-real-ip"];
 
 // Adds Stackdriver severity level to log entries
 class StackdriverStream extends Transform {
@@ -31,6 +34,7 @@ class StackdriverStream extends Transform {
       req?: {
         method: string;
         url: string;
+        headers: any;
       };
       res?: {
         statusCode: number;
@@ -55,6 +59,19 @@ class StackdriverStream extends Transform {
     }
     if (chunk.req) {
       messageParts.push(`request=${chunk.req.method} ${chunk.req.url}`);
+
+      if (chunk.req.headers) {
+        const filteredHeaders = Object.keys(chunk.req.headers)
+          .filter(key => allowedHeaders.includes(key))
+          .reduce(
+            (h, key) => {
+              h[key] = (chunk.req as any).headers[key];
+              return h;
+            },
+            {} as any
+          );
+        chunk.req.headers = filteredHeaders;
+      }
     }
     if (chunk.res) {
       messageParts.push(`response=${chunk.res.statusCode}`);
