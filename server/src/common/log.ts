@@ -45,12 +45,14 @@ class StackdriverStream extends Transform {
       requestMs?: {
         toJSON: () => number;
       };
+      labels?: any;
     },
     _: string,
     callback: TransformCallback
   ) {
     chunk.severity = stackdriverSeverityByBunyanLevel[chunk.level];
     chunk.labels = {
+      ...chunk.labels,
       project: config.COMMON_PROJECT,
       company: config.COMMON_COMPANY,
       family: config.COMMON_FAMILY,
