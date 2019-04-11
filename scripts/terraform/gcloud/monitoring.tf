@@ -14,6 +14,7 @@ resource "google_monitoring_uptime_check_config" "https" {
 
   http_check {
     use_ssl = true
+    port = 443
     path = "${element(var.taito_monitoring_paths, count.index)}"
   }
 }
