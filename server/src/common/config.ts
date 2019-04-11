@@ -13,8 +13,15 @@ export const readSecretSync = (secret: string) => {
 
 const config = {
   // Environment
-  NODE_ENV: process.env.NODE_ENV, // development / production
+  COMMON_PROJECT: process.env.COMMON_PROJECT,
+  COMMON_COMPANY: process.env.COMMON_COMPANY,
+  COMMON_FAMILY: process.env.COMMON_FAMILY,
+  COMMON_APPLICATION: process.env.COMMON_APPLICATION,
+  COMMON_SUFFIX: process.env.COMMON_SUFFIX,
+  COMMON_DOMAIN: process.env.COMMON_DOMAIN,
+  COMMON_IMAGE_TAG: process.env.COMMON_IMAGE_TAG,
   COMMON_ENV: process.env.COMMON_ENV, // dev / test / stag / prod
+  NODE_ENV: process.env.NODE_ENV, // development / production
 
   // Basic
   ROOT_PATH: __dirname,

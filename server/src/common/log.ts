@@ -50,6 +50,16 @@ class StackdriverStream extends Transform {
     callback: TransformCallback
   ) {
     chunk.severity = stackdriverSeverityByBunyanLevel[chunk.level];
+    chunk.labels = {
+      project: project.COMMON_PROJECT,
+      company: project.COMMON_COMPANY,
+      family: project.COMMON_FAMILY,
+      application: project.COMMON_APPLICATION,
+      suffix: project.COMMON_SUFFIX,
+      domain: project.COMMON_DOMAIN,
+      imageTag: project.COMMON_IMAGE_TAG,
+      env: project.COMMON_ENV
+    };
     const messageParts = [];
     if (chunk.requestId) {
       messageParts.push(`requestId=${chunk.requestId}`);
