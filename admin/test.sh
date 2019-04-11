@@ -5,6 +5,13 @@ export test_name="${2:-*}"
 
 case $suite_name in
   cypress)
-    npm run cypress:run
+    if [ "$taito_mode" == "ci" ]]; then
+      echo
+      echo "Cypress disabled on CI because of:"
+      echo "https://github.com/cypress-io/cypress-docker-images/issues/39"
+      echo
+    else
+      npm run cypress:run
+    fi
     ;;
 esac
