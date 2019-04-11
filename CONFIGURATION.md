@@ -147,7 +147,7 @@ If basic auth (htpasswd) is used only for hiding non-production environments, yo
 
 ## Builds link
 
-If `taito open builds` command does not work, you can fix it in `link_urls` setting of `taito-config.sh` by trying the following formats: `github_myorganization_`, `github-myorganization-`, `github_MyOrganization_`, `github-MyOrganization-`.
+Make sure that the `taito open builds:dev` command works ok. If it does not work, you can fix it in `link_urls` setting of `taito-config.sh` by trying the following formats: `github_myorganization_`, `github-myorganization-`, `github_MyOrganization_`, `github-MyOrganization-`.
 
 * [ ] All done
 
@@ -159,8 +159,6 @@ You can deploy configuration changes without rebuilding with the `taito deployme
 
 > Do not modify the helm template located in `./scripts/helm` directory. Improve the original helm template located in [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) repository instead.
 
-* [ ] All done
-
 ## Secrets
 
 1. Add a secret definition to the `taito_secrets` setting in `taito-config.sh`.
@@ -169,15 +167,11 @@ You can deploy configuration changes without rebuilding with the `taito deployme
 
 > For local development you can just define secrets as normal environment variables in `docker-compose.yaml` given that they are not confidential.
 
-* [ ] All done
-
 ## Automated tests
 
 ### Unit tests
 
 All unit tests are run automatically during build (see the `Dockerfile.build` files). You can use any test tools that have been installed as development dependency inside the container. If the test tools generate reports, they should be placed at the `/service/test/reports` (`./test/reports`) directory inside the container. You can run unit tests manually with the `taito unit` command (see help with `taito unit -h`).
-
-* [ ] All done
 
 ### Integration and end-to-end tests
 
@@ -186,7 +180,3 @@ All integration and end-to-end test suites are run automatically after applicati
 Tests are grouped in test suites (see the `test-suites` files). All test suites can be kept independent by cleaning up data before each test suite execution by running `taito init --clean`. You can enable data cleaning in `taito-config.sh` with the `ci_exec_test_init` setting, but you should use it for dev environment only.
 
 You can run integration and end-to-end tests manually with the `taito test[:TARGET][:ENV] [SUITE] [TEST]` command, for example `taito test:server:dev`. When executing tests manually, the development container (`Dockerfile`) is used for executing the tests.
-
-> Once you have implemented your first integration or e2e test, enable the CI test execution by setting `ci_exec_test=true` for dev environment.
-
-* [ ] All done
