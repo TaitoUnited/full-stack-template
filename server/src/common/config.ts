@@ -1,13 +1,32 @@
 import fs from "fs";
 
-export const readSecretSync = (secret: string) => {
-  let value;
+export const readFileSync = (path: string) => {
   try {
-    value = fs.readFileSync(`/run/secrets/${secret}`, "utf8");
+    return fs.readFileSync(`/run/secrets/${secret}`, "utf8");
   } catch (err) {
-    // tslint:disable-next-line
-    console.warn(`WARNING: Failed to read secret ${secret}`);
+    return null;
   }
+};
+
+export const readSecretSync = (secret: string) => {
+  let value = fs.readFileSync(`/run/secrets/${secret}`, "utf8");
+
+  // TODO: remove (temporary hack for docker/util-test.sh taito-cli plugin)
+  if (
+    !value &&
+    secret === "DATABASE_PASSWORD" &&
+    process.env.taito_running_tests === "true"
+  ) {
+    value = fs.readFileSync(
+      `/project/tmp/secrets/${process.env.taito_env}/${
+        process.env.db_database_name
+      }-db-app.password`,
+      "utf8"
+    );
+  }
+
+  // tslint:disable-next-line
+  if (!value) console.warn(`WARNING: Failed to read secret ${secret}`);
   return value;
 };
 
