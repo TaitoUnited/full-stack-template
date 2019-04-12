@@ -9,7 +9,7 @@ export const readFileSync = (path: string) => {
 };
 
 export const readSecretSync = (secret: string) => {
-  let value = readFileSync(`/run/secrets/${secret}`, "utf8");
+  let value = readFileSync(`/run/secrets/${secret}`);
 
   // TODO: remove (temporary hack for docker/util-test.sh taito-cli plugin)
   if (
@@ -24,7 +24,7 @@ export const readSecretSync = (secret: string) => {
     console.log(`Reading db secret for ci: ${ciSecret}`);
     // tslint:disable-next-line
     console.log(`Current directory: ${process.cwd()}`);
-    value = readFileSync(ciSecret, "utf8");
+    value = readFileSync(ciSecret);
   }
 
   // tslint:disable-next-line
