@@ -4,7 +4,7 @@ export const readFileSync = (path: string) => {
   try {
     return fs.readFileSync(path, "utf8");
   } catch (err) {
-    return null;
+    return undefined;
   }
 };
 
