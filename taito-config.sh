@@ -14,10 +14,10 @@ taito_plugins="
   gcloud-secrets:-local default-secrets generate-secrets
   docker docker-compose:local kubectl:-local helm:-local
   postgres-db sqitch-db
-  npm git-global links-global
-  semantic-release sentry
   gcloud:-local gcloud-storage:-local
   gcloud-builder:-local gcloud-monitoring:-local
+  npm git-global links-global
+  semantic-release sentry
 "
 
 # Project labeling
