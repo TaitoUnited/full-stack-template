@@ -4,8 +4,7 @@
 full-stack:
   ingress:
     basicAuth:
-      # enabled: false
-
+      enabled: true
   serviceDefaults:
     cpuRequest: 2m
     cpuLimit: 200m
