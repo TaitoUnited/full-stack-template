@@ -50,6 +50,7 @@ sed -i '/    - "\/service\/site\/node_modules"/d' docker-compose.yaml
 
 # 'TODO links'
 sed -i '/https:\/\/TODO/d' taito-config.sh
+sed -i "/# TEMPLATE-REMOVE/d" taito-config.sh
 
 # MIT license
 # TODO leave a reference to the original?

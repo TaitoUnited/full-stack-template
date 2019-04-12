@@ -132,6 +132,7 @@ case $taito_env in
 
     # NOTE: Set production domain here once you have configured DNS
     taito_domain=
+    taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?} # TEMPLATE-REMOVE
     taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
     taito_app_url=https://$taito_domain
     kubectl_replicas=2
