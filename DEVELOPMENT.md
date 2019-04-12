@@ -102,9 +102,11 @@ List all project related links and open one of them in browser:
 Check code quality:
 
     taito check code
+    <!-- TODO
     taito check code:admin
     taito check code:client
     taito check code:server
+    -->
 
 Check build size:
 
