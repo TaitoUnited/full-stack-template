@@ -17,9 +17,9 @@ export const readSecretSync = (secret: string) => {
     secret === "DATABASE_PASSWORD" &&
     process.env.taito_running_tests === "true"
   ) {
-    const ciSecret = `/project/tmp/secrets/${process.env.taito_env}/${
-      process.env.db_database_name
-    }-db-app.password`;
+    const ciSecret = `${process.cwd()}/../tmp/secrets/${
+      process.env.taito_env
+    }/${process.env.db_database_name}-db-app.password`;
     // tslint:disable-next-line
     console.log(`Reading db secret for ci: ${ciSecret}`);
     // tslint:disable-next-line
