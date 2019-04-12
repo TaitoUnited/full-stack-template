@@ -2,7 +2,7 @@ import fs from "fs";
 
 export const readFileSync = (path: string) => {
   try {
-    return fs.readFileSync(`/run/secrets/${secret}`, "utf8");
+    return fs.readFileSync(path, "utf8");
   } catch (err) {
     return null;
   }
@@ -17,12 +17,14 @@ export const readSecretSync = (secret: string) => {
     secret === "DATABASE_PASSWORD" &&
     process.env.taito_running_tests === "true"
   ) {
-    value = fs.readFileSync(
-      `/project/tmp/secrets/${process.env.taito_env}/${
-        process.env.db_database_name
-      }-db-app.password`,
-      "utf8"
-    );
+    const ciSecret = `/project/tmp/secrets/${process.env.taito_env}/${
+      process.env.db_database_name
+    }-db-app.password`;
+    // tslint:disable-next-line
+    console.log(`Reading db secret for ci: ${ciSecret}`);
+    // tslint:disable-next-line
+    console.log(`Current directory: ${process.cwd()}`);
+    value = fs.readFileSync(ciSecret, "utf8");
   }
 
   // tslint:disable-next-line
