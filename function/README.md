@@ -1,1 +1,1 @@
-TODO: Implement functions support with the Serverless Framework.
+TODO: Implement functions support with Cloud Run / knative.

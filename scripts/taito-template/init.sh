@@ -27,6 +27,7 @@
 : "${template_default_dest_git:?}"
 : "${template_default_kubernetes:?}"
 : "${template_default_postgres:?}"
+: "${template_default_storage_class:?}"
 
 : "${template_project_path:?}"
 : "${mode:?}"
@@ -225,10 +226,30 @@ sed -i "s/\${template_default_monitoring_uptime_channels_prod:-}/${template_defa
 sed -i "s/\${template_default_registry:?}/${template_default_registry}/g" taito-config.sh
 sed -i "s/\${template_default_source_git:?}/${template_default_source_git}/g" taito-config.sh
 sed -i "s/\${template_default_dest_git:?}/${template_default_dest_git}/g" taito-config.sh
+
+# Kubernetes
 sed -i \
   "s/\${template_default_kubernetes:?}/${template_default_kubernetes}/g" taito-config.sh
+
+# Database
 sed -i \
   "s/\${template_default_postgres:?}/${template_default_postgres}/g" taito-config.sh
+
+# Storage
+sed -i "s/\${template_default_storage_class:-}/${template_default_storage_class:-}/g" taito-config.sh
+sed -i "s/\${template_default_storage_class_prod:-}/${template_default_storage_class_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_storage_location:-}/${template_default_storage_location:-}/g" taito-config.sh
+sed -i "s/\${template_default_storage_location_prod:-}/${template_default_storage_location_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_storage_days:-}/${template_default_storage_days:-}/g" taito-config.sh
+sed -i "s/\${template_default_storage_days_prod:-}/${template_default_storage_days_prod:-}/g" taito-config.sh
+
+# Backups
+sed -i "s/\${template_default_backup_class:-}/${template_default_backup_class:-}/g" taito-config.sh
+sed -i "s/\${template_default_backup_class_prod:-}/${template_default_backup_class_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_backup_location:-}/${template_default_backup_location:-}/g" taito-config.sh
+sed -i "s/\${template_default_backup_location_prod:-}/${template_default_backup_location_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_backup_days:-}/${template_default_backup_days:-}/g" taito-config.sh
+sed -i "s/\${template_default_backup_days_prod:-}/${template_default_backup_days_prod:-}/g" taito-config.sh
 
 echo "Setting random name..."
 if [[ ! ${taito_random_name} ]]; then

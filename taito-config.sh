@@ -70,6 +70,16 @@ db_database_host="127.0.0.1"
 db_database_proxy_port=5001
 db_database_port=$db_database_proxy_port
 
+# Storage definitions for Terraform
+taito_storage_classes="${template_default_storage_class:-}"
+taito_storage_locations="${template_default_storage_location:-}"
+taito_storage_days=${template_default_storage_days:-}
+
+# Storage backup definitions for Terraform
+taito_backup_classes="${template_default_backup_class:-}"
+taito_backup_locations="${template_default_backup_location:-}"
+taito_backup_days="${template_default_backup_days:-}"
+
 # Messaging
 taito_messaging_app=slack
 taito_messaging_webhook=
@@ -138,6 +148,16 @@ case $taito_env in
     taito_app_url=https://$taito_domain
     kubectl_replicas=2
 
+    # Storage definitions for Terraform
+    taito_storage_classes="${template_default_storage_class_prod:-}"
+    taito_storage_locations="${template_default_storage_location_prod:-}"
+    taito_storage_days=${template_default_storage_days_prod:-}
+
+    # Storage backup definitions for Terraform
+    taito_backup_classes="${template_default_backup_class_prod:-}"
+    taito_backup_locations="${template_default_backup_location_prod:-}"
+    taito_backup_days="${template_default_backup_days_prod:-}"
+
     # Monitoring
     taito_monitoring_targets=" admin client graphql server www "
     taito_monitoring_paths=" /admin/uptimez /uptimez /graphql/uptimez /api/uptimez /docs/uptimez "
@@ -199,8 +219,6 @@ fi
 gcloud_region=$taito_provider_region
 gcloud_zone=$taito_provider_zone
 gcloud_project=$taito_zone
-gcloud_storage_locations=$gcloud_region
-gcloud_storage_classes=REGIONAL
 
 # Kubernetes plugin
 kubectl_cluster=gke_${taito_zone}_${gcloud_zone}_${kubectl_name}
