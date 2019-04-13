@@ -24,6 +24,7 @@ taito_plugins="
 taito_organization=${template_default_organization:?}
 taito_organization_abbr=${template_default_organization_abbr:?}
 taito_project=server-template
+taito_random_name=server-template
 taito_company=companyname
 taito_family=
 taito_application=template
@@ -58,7 +59,7 @@ taito_image_registry=${template_default_registry:?}/$taito_zone/$taito_vc_reposi
 # Stack
 taito_targets=" admin client cache graphql database queue server storage worker www "
 taito_databases="database"
-taito_storages="$taito_project-$taito_env"
+taito_storages="$taito_random_name-$taito_env"
 taito_networks="default"
 
 # Database definitions for database plugins
@@ -138,7 +139,7 @@ case $taito_env in
     kubectl_replicas=2
 
     # Monitoring
-    taito_monitoring_names=" admin client graphql server www "
+    taito_monitoring_targets=" admin client graphql server www "
     taito_monitoring_paths=" /admin/uptimez /uptimez /graphql/uptimez /api/uptimez /docs/uptimez "
     taito_monitoring_timeouts=" 5s 5s 5s 5s 5s "
     # You can list all monitoring channels with `taito env info:prod`
@@ -189,7 +190,7 @@ taito_resource_namespace_id=$taito_resource_namespace
 
 # URLs
 taito_admin_url=$taito_app_url/admin/
-taito_storage_url="https://console.cloud.google.com/storage/browser/$taito_project-$taito_env?project=$taito_resource_namespace_id"
+taito_storage_url="https://console.cloud.google.com/storage/browser/$taito_random_name-$taito_env?project=$taito_resource_namespace_id"
 if [[ "$taito_env" == "local" ]]; then
   taito_storage_url=http://localhost:9999/minio
 fi

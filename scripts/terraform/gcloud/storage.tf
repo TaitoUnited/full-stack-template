@@ -3,14 +3,26 @@ resource "google_storage_bucket" "bucket" {
   name = "${element(var.taito_storages, count.index)}"
   location = "${element(var.gcloud_storage_locations, count.index)}"
   storage_class = "${element(var.gcloud_storage_classes, count.index)}"
-  versioning = {
-    enabled = "true"
-  }
+
   /* TODO: enable localhost only for dev and feat environments */
   cors = {
     origin = [ "http://localhost", "https://${var.taito_domain}" ]
     method = [ "GET" ]
   }
+
+  versioning = {
+    enabled = "true"
+  }
+  lifecycle_rule {
+    action {
+      type = "Delete"
+    }
+    condition {
+      is_live = "false"
+      age = 60
+    }
+  }
+
   lifecycle {
     prevent_destroy = true
   }

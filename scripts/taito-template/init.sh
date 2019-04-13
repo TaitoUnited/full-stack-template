@@ -230,6 +230,12 @@ sed -i \
 sed -i \
   "s/\${template_default_postgres:?}/${template_default_postgres}/g" taito-config.sh
 
+echo "Setting random name..."
+if [[ ! ${taito_random_name} ]]; then
+  taito_random_name=$(taito -q util random words: 3)
+fi
+sed -i "s/^taito_random_name=.*$/taito_random_name=${taito_random_name}/g" taito-config.sh
+
 echo "Removing template settings from cloudbuild.yaml..."
 sed -i "s|\${_TEMPLATE_DEFAULT_TAITO_IMAGE}|${template_default_taito_image}|g" cloudbuild.yaml
 sed -i '/_TEMPLATE_DEFAULT_/d' cloudbuild.yaml

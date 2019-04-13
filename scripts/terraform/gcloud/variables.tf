@@ -12,7 +12,7 @@ variable "taito_storages" {
   type = "list"
   default = []
 }
-variable "taito_monitoring_names" {
+variable "taito_monitoring_targets" {
   type = "list"
   default = []
 }
