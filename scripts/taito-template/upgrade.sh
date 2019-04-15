@@ -10,10 +10,16 @@ yes | cp CONFIGURATION.md "${template_project_path}"
 yes | cp DEVELOPMENT.md "${template_project_path}"
 yes | cp TAITOLESS.md "${template_project_path}"
 yes | cp cloudbuild.yaml "${template_project_path}"
+sed -i "s/\[ \] All done/[x] All done/g" CONFIGURATION.md
 
+# Copy helm requirements
 mkdir -p "${template_project_path}/scripts/helm"
 yes | cp -r "scripts/helm/requirements.yaml" \
   "${template_project_path}/scripts/helm/requirements.yaml" 2> /dev/null
+
+# Copy terraform scripts
+rm -rf "${template_project_path}/scripts/terraform/common"
+cp -r scripts/terraform/common "${template_project_path}/scripts/terraform/common"
 
 echo
 echo

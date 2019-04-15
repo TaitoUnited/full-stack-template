@@ -41,9 +41,10 @@ ${taito_setv:?}
 # Template note from README.md
 sed -i "/^.*(TEMPLATE NOTE START)$/,/^.*(TEMPLATE NOTE END)$/d" README.md
 
-# Some directories
+# Some files and directories
 rm -rf alternatives
 rm -rf function
+rm -f scripts/terraform/.gitignore
 
 # Example site
 rm -rf www/site

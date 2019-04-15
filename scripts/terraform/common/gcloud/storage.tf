@@ -36,5 +36,5 @@ resource "google_storage_bucket_iam_member" "bucket_service_account_member" {
   count = "${var.gcloud_service_account_enabled == "true" ? length(var.taito_storages) : 0}"
   bucket = "${element(var.taito_storages, count.index)}"
   role          = "roles/storage.objectAdmin"
-  member        = "serviceAccount:${data.google_service_account.service_account.email}"
+  member        = "serviceAccount:${google_service_account.service_account.email}"
 }
