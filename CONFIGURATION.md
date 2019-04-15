@@ -32,7 +32,7 @@ Run `taito open conventions` in the project directory to see organization specif
 
 ## Stack
 
-**Alternative technologies:** If you would rather use other technologies than React, Node.js and PostgreSQL, you can copy alternative example implementations from [alternatives](https://github.com/TaitoUnited/SERVER-TEMPLATE/tree/master/admin) directory.
+**Alternative technologies:** If you would rather use other technologies than React, Node.js and PostgreSQL, you can copy alternative example implementations from [alternatives](https://github.com/TaitoUnited/SERVER-TEMPLATE/tree/master/alternatives) directory.
 
 **Additional microservices:** The template supports unlimited number of microservices. You can add a new microservice like this:
 
@@ -133,7 +133,7 @@ By default the template deploys the site to Kubernetes running on Google Cloud. 
 
 Define remote environments with the `taito_environments` setting in `taito-config.sh`. Make sure that your authentication is in effect for an environment with `taito auth:ENV`, and then create an environment by running `taito env apply:ENV`. Examples for environment names: `f-orders`, `dev`, `test`, `stag`, `canary`, `prod`. Create a `dev` environment first, and the other environments later if required.
 
-If basic auth (htpasswd) is used only for hiding non-production environments, you can use the same credentials for all environments. In such case you should also write them down to the [links](README.md#links) section on README.md so that all project personnel can easily access the credentials.
+If basic auth (htpasswd) is used only for hiding non-production environments, you can use the same credentials for all environments. In such case you should also write them down to the [links](README.md#links) section on README.md so that all project personnel can easily access the credentials. NOTE: You must also set basic auth credentials to `taito-config.sh` (see `ci_test_base_url=https://user:painipaini@$taito_domain`), or otherwise the CI tests will fail.
 
 > If you have problems with `taito open builds`, see the next chapter.
 
