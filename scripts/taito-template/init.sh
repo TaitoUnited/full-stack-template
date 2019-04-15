@@ -112,8 +112,9 @@ function prune () {
     sed -i "s/\"check-deps:$name {@}\" //g" package.json
     sed -i "s/\"check-size:$name {@}\" //g" package.json
 
+    # TODO: temporary solution. remove once using terraform v0.12
     sed -i "/^    {\\/\\*$name\\*\\/\$/,/^    }.*$/d" \
-      scripts/terraform/gcloud/monitoring.tf
+      scripts/terraform/common/gcloud/monitoring.tf
 
     if [[ $name == "client" ]]; then
       sed -i "s/ \\/uptimez / /" taito-config.sh
