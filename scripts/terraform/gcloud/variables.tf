@@ -32,10 +32,6 @@ variable "taito_backup_locations" {
   type = "list"
   default = []
 }
-variable "taito_backup_classes" {
-  type = "list"
-  default = []
-}
 variable "taito_backup_days" {
   type = "list"
   default = []

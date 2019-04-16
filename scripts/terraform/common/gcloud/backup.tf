@@ -2,10 +2,10 @@ data "google_storage_transfer_project_service_account" "backup_bucket_transfer" 
 }
 
 resource "google_storage_bucket" "backup_bucket" {
-  count = "${length(var.taito_backup_classes)}"
+  count = "${length(var.taito_backup_days)}"
   name = "${element(var.taito_storages, count.index)}-backup"
   location = "${element(var.taito_backup_locations, count.index)}"
-  storage_class = "${element(var.taito_backup_classes, count.index)}"
+  storage_class = "${element(var.taito_backup_days, count.index) >= 90 ? "COLDLINE" : "NEARLINE"}"
 
   labels {
     project = "${var.taito_project}"
@@ -34,7 +34,7 @@ resource "google_storage_bucket" "backup_bucket" {
 }
 
 resource "google_storage_bucket_iam_member" "backup_bucket_transfer_member" {
-  count         = "${length(var.taito_backup_classes)}"
+  count         = "${length(var.taito_backup_days)}"
   bucket        = "${element(var.taito_storages, count.index)}-backup"
   role          = "roles/storage.objectAdmin"
   member        = "serviceAccount:${data.google_storage_transfer_project_service_account.backup_bucket_transfer.email}"
@@ -44,7 +44,7 @@ resource "google_storage_bucket_iam_member" "backup_bucket_transfer_member" {
 }
 
 resource "google_storage_bucket_iam_member" "backup_bucket_transfer_member_legacy" {
-  count         = "${length(var.taito_backup_classes)}"
+  count         = "${length(var.taito_backup_days)}"
   bucket        = "${element(var.taito_storages, count.index)}-backup"
   role          = "roles/storage.legacyBucketReader"
   member        = "serviceAccount:${data.google_storage_transfer_project_service_account.backup_bucket_transfer.email}"
@@ -54,7 +54,7 @@ resource "google_storage_bucket_iam_member" "backup_bucket_transfer_member_legac
 }
 
 resource "google_storage_bucket_iam_member" "bucket_transfer_member" {
-  count         = "${length(var.taito_backup_classes)}"
+  count         = "${length(var.taito_backup_days)}"
   bucket        = "${element(var.taito_storages, count.index)}"
   role          = "roles/storage.objectViewer"
   member        = "serviceAccount:${data.google_storage_transfer_project_service_account.backup_bucket_transfer.email}"
@@ -64,7 +64,7 @@ resource "google_storage_bucket_iam_member" "bucket_transfer_member" {
 }
 
 resource "google_storage_bucket_iam_member" "bucket_transfer_member_legacy" {
-  count         = "${length(var.taito_backup_classes)}"
+  count         = "${length(var.taito_backup_days)}"
   bucket        = "${element(var.taito_storages, count.index)}"
   role          = "roles/storage.legacyBucketReader"
   member        = "serviceAccount:${data.google_storage_transfer_project_service_account.backup_bucket_transfer.email}"
@@ -74,7 +74,7 @@ resource "google_storage_bucket_iam_member" "bucket_transfer_member_legacy" {
 }
 
 resource "google_storage_transfer_job" "backup_bucket_transfer" {
-    count = "${length(var.taito_backup_classes)}"
+    count = "${length(var.taito_backup_days)}"
     description = "${element(var.taito_storages, count.index)} backup"
 
     transfer_spec {

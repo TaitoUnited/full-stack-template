@@ -24,7 +24,6 @@ module "common-gcloud" {
   taito_storage_days = "${var.taito_storage_days}"
 
   taito_backup_locations = "${var.taito_backup_locations}"
-  taito_backup_classes = "${var.taito_backup_classes}"
   taito_backup_days = "${var.taito_backup_days}"
 
   taito_monitoring_targets = "${var.taito_monitoring_targets}"

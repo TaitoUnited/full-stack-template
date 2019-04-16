@@ -76,7 +76,6 @@ taito_storage_locations="${template_default_storage_location:-}"
 taito_storage_days=${template_default_storage_days:-}
 
 # Storage backup definitions for Terraform
-taito_backup_classes="${template_default_backup_class:-}"
 taito_backup_locations="${template_default_backup_location:-}"
 taito_backup_days="${template_default_backup_days:-}"
 
@@ -154,7 +153,6 @@ case $taito_env in
     taito_storage_days=${template_default_storage_days_prod:-}
 
     # Storage backup definitions for Terraform
-    taito_backup_classes="${template_default_backup_class_prod:-}"
     taito_backup_locations="${template_default_backup_location_prod:-}"
     taito_backup_days="${template_default_backup_days_prod:-}"
 
