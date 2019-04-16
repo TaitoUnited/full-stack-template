@@ -4,6 +4,12 @@ resource "google_storage_bucket" "bucket" {
   location = "${element(var.taito_storage_locations, count.index)}"
   storage_class = "${element(var.taito_storage_classes, count.index)}"
 
+  labels {
+    project = "${var.taito_project}"
+    env = "${var.taito_env}"
+    purpose = "storage"
+  }
+
   /* TODO: enable localhost only for dev and feat environments */
   cors = {
     origin = [ "http://localhost", "https://${var.taito_domain}" ]
