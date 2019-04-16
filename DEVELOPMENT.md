@@ -22,11 +22,13 @@ Table of contents:
 
 ## Quick start
 
+> TIP: Startup in a cleaned and initialized environment with a single command: `taito env apply --clean --start --init`.
+
 Create local environment by installing some libraries and generating secrets (add `--clean` to recreate clean environment):
 
     taito env apply
 
-Start containers (add `--clean` to make a clean rebuild, and to discard all data and db tables):
+Start containers (add `--clean` to make a clean rebuild and to discard all data, add `--init` to run `taito init` automatically after start):
 
     taito start
 
