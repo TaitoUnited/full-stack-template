@@ -23,7 +23,7 @@ resource "google_storage_bucket" "backup_bucket" {
       type = "Delete"
     }
     condition {
-      is_live = "false"
+      with_state = "ARCHIVED"
       age = "${element(var.taito_backup_days, count.index)}"
     }
   }
