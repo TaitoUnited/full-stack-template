@@ -177,6 +177,12 @@ prune "Queue for background jobs or messaging (y/N)?" queue
 # Replace some strings
 #######################
 
+echo "Setting random name..."
+if [[ ! ${taito_random_name} ]] || [[ ${taito_random_name} == "server-template" ]]; then
+  taito_random_name=$(taito -q util random words: 3)
+fi
+sed -i "s/^taito_random_name=.*$/taito_random_name=${taito_random_name}/" taito-config.sh
+
 echo "Replacing git repository url"
 sed -i "s|TaitoUnited/server-template.git|${taito_organization}/${taito_vc_repository}.git|g" package.json
 
@@ -252,12 +258,6 @@ sed -i "s/\${template_default_backup_location:-}/${template_default_backup_locat
 sed -i "s/\${template_default_backup_location_prod:-}/${template_default_backup_location_prod:-}/g" taito-config.sh
 sed -i "s/\${template_default_backup_days:-}/${template_default_backup_days:-}/g" taito-config.sh
 sed -i "s/\${template_default_backup_days_prod:-}/${template_default_backup_days_prod:-}/g" taito-config.sh
-
-echo "Setting random name..."
-if [[ ! ${taito_random_name} ]]; then
-  taito_random_name=$(taito -q util random words: 3)
-fi
-sed -i "s/^taito_random_name=.*$/taito_random_name=${taito_random_name}/g" taito-config.sh
 
 echo "Removing template settings from cloudbuild.yaml..."
 sed -i "s|\${_TEMPLATE_DEFAULT_TAITO_IMAGE}|${template_default_taito_image}|g" cloudbuild.yaml
