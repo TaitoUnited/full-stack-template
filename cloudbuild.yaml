@@ -18,7 +18,8 @@ substitutions:
   _TEMPLATE_DEFAULT_TAITO_IMAGE:
   _TEMPLATE_DEFAULT_ORGANIZATION:
   _TEMPLATE_DEFAULT_ORGANIZATION_ABBR:
-  _TEMPLATE_DEFAULT_GITHUB_ORGANIZATION:
+  _TEMPLATE_DEFAULT_GIT_ORGANIZATION:
+  _TEMPLATE_DEFAULT_GIT_URL:
   _TEMPLATE_DEFAULT_SENTRY_ORGANIZATION:
   _TEMPLATE_DEFAULT_DOMAIN:
   _TEMPLATE_DEFAULT_DOMAIN_PROD:
@@ -56,7 +57,8 @@ steps:
     export template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     export template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     export template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    export template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+    export template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
+    export template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
     export template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     export template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     export template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -111,7 +113,8 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
+    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -138,7 +141,8 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
+    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -165,7 +169,8 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
+    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -194,7 +199,8 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
+    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -221,7 +227,8 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
+    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -248,7 +255,8 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
+    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -275,7 +283,8 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
+    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -302,7 +311,8 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
+    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -329,7 +339,8 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
+    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -356,7 +367,8 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
+    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -383,7 +395,8 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
+    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -410,7 +423,8 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
+    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -437,7 +451,8 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
+    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -464,7 +479,8 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
+    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -492,7 +508,8 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
+    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -518,7 +535,8 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
+    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -546,7 +564,8 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
+    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -573,7 +592,8 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
+    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -599,7 +619,8 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
+    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -627,7 +648,8 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
+    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -653,7 +675,8 @@ steps:
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_github_organization=${_TEMPLATE_DEFAULT_GITHUB_ORGANIZATION}
+    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
+    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
