@@ -34,7 +34,7 @@ taito_suffix=
 taito_project_icon=$taito_project-dev.${template_default_domain:?}/favicon.ico
 
 # Environments
-taito_environments="dev test prod"
+taito_environments="${template_default_environments:?}"
 taito_env=${taito_env/canary/prod} # canary -> prod
 
 # Provider and namespaces

@@ -6,6 +6,7 @@
 : "${taito_vc_repository_alt:?}"
 
 : "${template_default_taito_image:?}"
+: "${template_default_environments:?}"
 : "${template_default_organization:?}"
 : "${template_default_organization_abbr:?}"
 : "${template_default_git_organization:?}"
@@ -178,10 +179,10 @@ prune "Queue for background jobs or messaging (y/N)?" queue
 # Replace some strings
 #######################
 
-echo "Setting random name..."
 if [[ ! ${taito_random_name} ]] || [[ ${taito_random_name} == "server-template" ]]; then
-  taito_random_name=$(taito -q util random words: 3)
+  taito_random_name="$(taito -q util random words: 3)"
 fi
+echo "Setting random name: ${taito_random_name}"
 sed -i "s/^taito_random_name=.*$/taito_random_name=${taito_random_name}/" taito-config.sh
 
 echo "Replacing git repository url"
@@ -216,10 +217,11 @@ sed -i "s/taito_suffix=.*/taito_suffix=${taito_suffix:-}/g" taito-config.sh
 sed -i "s/taito_project=.*/taito_project=${taito_vc_repository}/g" taito-config.sh
 
 echo "Replacing template variables with the user specific settings..."
+sed -i "s/\${template_default_environments:?}/${template_default_environments}/g" taito-config.sh
 sed -i "s/\${template_default_organization:?}/${template_default_organization}/g" taito-config.sh
 sed -i "s/\${template_default_organization_abbr:?}/${template_default_organization_abbr}/g" taito-config.sh
 sed -i "s/\${template_default_git_organization:?}/${template_default_git_organization}/g" taito-config.sh
-sed -i "s/\${template_default_git_url:?}/${template_default_git_url}/g" taito-config.sh
+sed -i "s/\${template_default_git_url:?}/${template_default_git_url//\//\\/}/g" taito-config.sh
 sed -i "s/\${template_default_sentry_organization:?}/${template_default_sentry_organization}/g" taito-config.sh
 sed -i "s/\${template_default_domain:?}/${template_default_domain}/g" taito-config.sh
 sed -i "s/\${template_default_domain_prod:?}/${template_default_domain_prod}/g" taito-config.sh

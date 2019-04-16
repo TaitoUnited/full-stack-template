@@ -88,6 +88,7 @@ services:
     environment:
       taito_docker: 'true'
       template_default_taito_image: ${template_default_taito_image}
+      template_default_environments: ${template_default_environments}
       template_default_organization: ${template_default_organization}
       template_default_organization_abbr: ${template_default_organization_abbr}
       template_default_git_organization: ${template_default_git_organization}
