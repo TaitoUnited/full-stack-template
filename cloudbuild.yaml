@@ -113,7 +113,7 @@ steps:
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_taito_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
@@ -142,7 +142,7 @@ steps:
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_taito_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
@@ -171,7 +171,7 @@ steps:
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_taito_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
@@ -202,7 +202,7 @@ steps:
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_taito_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
@@ -231,7 +231,7 @@ steps:
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_taito_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
@@ -260,7 +260,7 @@ steps:
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_taito_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
@@ -289,7 +289,7 @@ steps:
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_taito_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
@@ -318,7 +318,7 @@ steps:
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_taito_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
@@ -347,7 +347,7 @@ steps:
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_taito_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
@@ -376,7 +376,7 @@ steps:
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_taito_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
@@ -405,7 +405,7 @@ steps:
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_taito_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
@@ -434,7 +434,7 @@ steps:
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_taito_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
@@ -463,7 +463,7 @@ steps:
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_taito_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
@@ -492,7 +492,7 @@ steps:
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_taito_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
@@ -522,7 +522,7 @@ steps:
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_taito_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
@@ -550,7 +550,7 @@ steps:
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_taito_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
@@ -580,7 +580,7 @@ steps:
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_taito_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
@@ -609,7 +609,7 @@ steps:
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_taito_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
@@ -637,7 +637,7 @@ steps:
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_taito_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
@@ -667,7 +667,7 @@ steps:
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_taito_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
@@ -695,7 +695,7 @@ steps:
   env:
     - taito_mode=ci
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_taito_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
     - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
