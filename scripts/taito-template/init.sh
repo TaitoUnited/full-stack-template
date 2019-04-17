@@ -65,10 +65,11 @@ rm LICENSE
 ######################
 
 echo
-echo "--------------------"
-echo "-   Choose stack   -"
-echo "--------------------"
-echo "NOTE: If you are unsure, just accept the defaults."
+echo "######################"
+echo "#    Choose stack"
+echo "######################"
+echo
+echo "If you are unsure, just accept the defaults."
 echo
 
 function prune () {
