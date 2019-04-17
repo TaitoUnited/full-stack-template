@@ -22,7 +22,7 @@ Table of contents:
 
 ## Quick start
 
-> TIP: Startup in a cleaned and initialized environment with a single command: `taito env apply --clean --start --init`.
+> TIP: Start application in a cleaned and initialized local environment with a single command: `taito kaboom`. This is essentially the same thing as running `taito env apply --clean`, `taito start --clean`, and `taito init --clean`.
 
 Create local environment by installing some libraries and generating secrets (add `--clean` to recreate clean environment):
 
