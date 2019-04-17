@@ -1,25 +1,8 @@
 # Configuration
 
-> TIP: To save some time, start application in a cleaned and initialized local environment by running: `cd server-template` + `taito kaboom`. Once the command starts to install libraries, leave it on the background, and continue with configuration. NOTE: The command requires [Node.js](https://nodejs.org/) and [Docker Compose](https://docs.docker.com/compose/install/) installed on host.
+> TIP: To save some time, start application in a cleaned and initialized local environment by running: `cd server-template` and `taito kaboom`. Once the command starts to install libraries, leave it on the background, and continue with configuration.
 
 This file has been copied from [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/). Keep modifications minimal and improve the [original](https://github.com/TaitoUnited/SERVER-TEMPLATE/blob/dev/CONFIGURATION.md) instead. Note that Taito CLI is optional (see [TAITOLESS.md](TAITOLESS.md)).
-
-Table of contents (basics):
-
-* [Prerequisites](#prerequisites)
-* [Version control settings](#version-control-settings)
-* [Stack](#stack)
-* [Examples](#examples)
-* [Static site generator](#static-site-generator)
-* [Hosting options](#hosting-options)
-* [Your first remote environment (dev)](#your-first-remote-environment-dev)
-
-Table of contents (advanced):
-
-* [Remote environments](#remote-environments)
-* [Kubernetes](#kubernetes)
-* [Secrets](#secrets)
-* [Automated tests](#automated-tests)
 
 ## Prerequisites
 
