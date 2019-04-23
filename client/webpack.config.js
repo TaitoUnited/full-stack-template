@@ -3,8 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
-const WebpackPwaManifest = require('webpack-pwa-manifest');
+const WebappWebpackPlugin = require('webapp-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
@@ -18,7 +17,6 @@ const COPYRIGHT = 'Copyright ' + y + ' Taito United Oy - All rights reserved.';
 const OUTPUT_DIR = '../../build';
 const ASSETS_DIR = 'assets';
 const PWA_ICON_DIR = ASSETS_DIR + '/icon.png';
-const FAVICON_DIR = ASSETS_DIR + '/icon.png';
 const DEV_PORT = 8080;
 const PUBLIC_PORT = 9999;
 
@@ -72,48 +70,35 @@ module.exports = function(env, argv) {
         filename: isProd ? '[name].[contenthash].css' : '[name].css',
       }),
 
-      // Make build faster for dev
-      isProd &&
-        new FaviconsWebpackPlugin({
-          logo: path.resolve(__dirname, FAVICON_DIR),
-          prefix: '[hash].',
+      new WebappWebpackPlugin({
+        /* TODO:
+         * At the moment there is a bug where the generated png icon
+         * will have an ugly grey border around it but it should be fixed
+         * as soon as `webapp-webpack-plugin` updates it's dependency of
+         * https://github.com/haydenbleasel/favicons
+         * So keep an eye on updates for `webapp-webpack-plugin` !!!
+         */
+        logo: path.resolve(__dirname, PWA_ICON_DIR),
+        cache: true, // Make builds faster
+        prefix: 'assets/', // Where to put pwa icons, manifests, etc.
+        favicons: {
+          appName: 'server-template',
+          appShortName: 'Taito',
+          appDescription: 'Taito template app',
+          developerName: 'Taito United',
+          developerURL: 'https://github.com/TaitoUnited',
+          background: '#ffffff',
+          theme_color: '#15994C',
+          orientation: 'portrait',
+          display: 'standalone',
+          start_url: '.',
           icons: {
-            favicons: true, // Generate only favicons
-            android: false,
-            appleIcon: false,
-            appleStartup: false,
-            firefox: false,
+            // Don't include unnecessary icons
+            coast: false,
+            yandex: false,
+            windows: false,
           },
-        }),
-
-      // Generate manifest.json for PWA
-      new WebpackPwaManifest({
-        name: 'server-template',
-        short_name: 'Taito',
-        description: 'Taito template app',
-        orientation: 'portrait',
-        display: 'standalone',
-        start_url: '.',
-        background_color: '#ffffff',
-        theme_color: '#15994C',
-        inject: true,
-        ios: true,
-        icons: [
-          {
-            src: path.resolve(__dirname, PWA_ICON_DIR),
-            sizes: [120, 152, 167, 180, 1024],
-            ios: true,
-          },
-          {
-            src: path.resolve(__dirname, PWA_ICON_DIR),
-            size: 1024,
-            ios: 'startup',
-          },
-          {
-            src: path.resolve(__dirname, PWA_ICON_DIR),
-            sizes: [36, 48, 72, 96, 144, 192, 512],
-          },
-        ],
+        },
       }),
 
       // If you use moment add any locales you need here
