@@ -1,4 +1,4 @@
-import styled from '~common/styled';
+import styled from 'styled-components';
 
 const LangButton = styled('button')<{ active: boolean }>`
   color: ${props => (props.active ? '#3f51b5' : '#222')};

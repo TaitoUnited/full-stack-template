@@ -3,9 +3,9 @@ import { Provider } from 'react-redux';
 import { createBrowserHistory } from 'history';
 import { ConnectedRouter } from 'connected-react-router';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import { ThemeProvider } from 'styled-components';
 
 import theme from '~theme';
-import { ThemeProvider } from '~styled';
 import { connectApiToStore } from '~common/services/api';
 import { I18nProvider } from '~ui';
 import configureStore from './store';

@@ -21,7 +21,6 @@
       "~utils/*": ["src/common/utils/*"],
       "~services/*": ["src/common/services/*"],
       "~theme": ["src/common/theme"],
-      "~styled": ["src/common/styled"],
       "~ui": ["src/common/ui/index.ts"],
     },
     "types": [

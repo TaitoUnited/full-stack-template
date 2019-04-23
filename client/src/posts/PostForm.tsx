@@ -1,8 +1,8 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import styled from 'styled-components';
 
-import styled from '~styled';
 import { PostDraft } from './post.types';
 
 interface Props {
@@ -19,14 +19,14 @@ const PostForm = ({ post, onChangePost, onCreatePost }: Props) => {
           data-test="subject-field"
           label="Subject"
           value={post.subject}
-          onChange={e => onChangePost({ subject: e.target.value })}
+          onChange={(e: any) => onChangePost({ subject: e.target.value })}
           margin="normal"
         />
         <StyledTextField
           data-test="author-field"
           label="Author"
           value={post.author}
-          onChange={e => onChangePost({ author: e.target.value })}
+          onChange={(e: any) => onChangePost({ author: e.target.value })}
           margin="normal"
         />
       </Row>
@@ -35,7 +35,7 @@ const PostForm = ({ post, onChangePost, onCreatePost }: Props) => {
           data-test="content-field"
           label="Content"
           value={post.content}
-          onChange={e => onChangePost({ content: e.target.value })}
+          onChange={(e: any) => onChangePost({ content: e.target.value })}
           margin="normal"
           multiline
         />
@@ -68,7 +68,7 @@ const Row = styled.div`
   }
 `;
 
-const StyledTextField = styled(TextField)`
+const StyledTextField = styled(TextField)<any>`
   && {
     margin-right: ${props => props.theme.spacing.unit * 2}px;
     flex: 1;
@@ -80,7 +80,7 @@ const StyledTextField = styled(TextField)`
   }
 `;
 
-const StyledButton = styled(Button)`
+const StyledButton = styled(Button)<any>`
   && {
     margin: ${props => props.theme.spacing.unit}px;
     margin-left: 0;

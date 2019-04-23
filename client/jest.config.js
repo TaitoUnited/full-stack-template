@@ -13,7 +13,6 @@ module.exports = {
     '^~common(.*)$': '<rootDir>/src/common$1',
     '^~ui(.*)$': '<rootDir>/src/common/ui$1',
     '^~theme(.*)$': '<rootDir>/src/common/theme$1',
-    '^~styled(.*)$': '<rootDir>/src/common/styled$1',
     '^~utils(.*)$': '<rootDir>/src/common/utils$1',
     '^~services(.*)$': '<rootDir>/src/common/services$1',
   },

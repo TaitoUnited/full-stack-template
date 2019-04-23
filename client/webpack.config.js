@@ -45,7 +45,6 @@ module.exports = function(env, argv) {
       alias: {
         '~common': path.resolve(__dirname, 'src/common'),
         '~theme': path.resolve(__dirname, 'src/common/theme'),
-        '~styled': path.resolve(__dirname, 'src/common/styled'),
         '~ui': path.resolve(__dirname, 'src/common/ui/index'),
         '~utils': path.resolve(__dirname, 'src/common/utils'),
         '~services': path.resolve(__dirname, 'src/common/services'),
