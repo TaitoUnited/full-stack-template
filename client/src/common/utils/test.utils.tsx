@@ -3,9 +3,9 @@ import { render } from 'react-testing-library';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { I18nProvider } from '@lingui/react';
 import { Catalogs } from '@lingui/core';
+import { ThemeProvider } from 'styled-components';
 
 import theme from '~theme';
-import { ThemeProvider } from '~styled';
 
 // NOTE: we only need to add theme related providers so that certain
 // UI components work properly when testing them

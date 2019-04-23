@@ -5,8 +5,8 @@ import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import styled from 'styled-components';
 
-import styled from '~styled';
 import { navigation } from './navigation.model';
 
 interface Props {

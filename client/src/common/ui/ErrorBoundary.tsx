@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Sentry from '@sentry/browser';
+import styled from 'styled-components';
 
-import styled from '~styled';
 import config from '../config';
 
 interface Props {

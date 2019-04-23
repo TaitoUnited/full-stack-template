@@ -1,4 +1,4 @@
-import { css, keyframes } from '~styled';
+import { css, keyframes } from 'styled-components';
 import { BREAKPOINTS } from '../constants';
 
 export const appear = keyframes`
