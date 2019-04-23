@@ -142,10 +142,28 @@ module.exports = function(env, argv) {
 
       // Generate a Service Worker automatically to cache generated JS files
       // NOTE: this should be the last plugin in the list!
-      // Remove this plugin if you don't want to use service workers
-      new WorkboxPlugin.InjectManifest({
-        swSrc: './src/sw.js',
+      new WorkboxPlugin.GenerateSW({
         swDest: 'sw.js',
+
+        clientsClaim: true,
+
+        // NOTE: `skipWaiting` with lazy-loaded content might lead to nasty bugs
+        // https://stackoverflow.com/questions/51715127/what-are-the-downsides-to-using-skipwaiting-and-clientsclaim-with-workbox
+        skipWaiting: false,
+
+        // Exclude images from the precache
+        exclude: [/\.(?:png|jpg|jpeg|svg)$/],
+
+        runtimeCaching: [
+          {
+            urlPattern: /\.(?:png|gif|jpg|jpeg|svg)$/,
+            handler: 'CacheFirst',
+          },
+          {
+            urlPattern: /.*(?:googleapis|gstatic)\.com/,
+            handler: 'StaleWhileRevalidate',
+          },
+        ],
       }),
     ].filter(Boolean),
 
