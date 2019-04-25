@@ -1,0 +1,78 @@
+image:
+  name: $template_default_taito_image
+  username: $template_default_taito_image_username
+  password: $template_default_taito_image_password
+  email: $template_default_taito_image_email
+options:
+  max-time: 60
+
+pipelines:
+  default:
+    # Install libraries
+    - step:
+        script:
+          - export taito_mode=ci
+          - taito install:$BITBUCKET_BRANCH
+    - parallel:
+      # Do preparations, code scans, and documentation generation in parallel
+      - step:
+          script:
+            - export taito_mode=ci
+            - taito artifact-prepare:$BITBUCKET_BRANCH
+      - step:
+          script:
+            - export taito_mode=ci
+            - taito scan:$BITBUCKET_BRANCH
+      - step:
+          script:
+            - export taito_mode=ci
+            - taito docs:$BITBUCKET_BRANCH
+      # Build and push container images in parallel
+      - step: # admin
+          script:
+            - export taito_mode=ci
+            - taito artifact-build:admin:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
+            - taito artifact-push:admin:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
+      - step: # client
+          script:
+            - export taito_mode=ci
+            - taito artifact-build:client:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
+            - taito artifact-push:client:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
+      - step: # graphql
+          script:
+            - export taito_mode=ci
+            - taito artifact-build:graphql:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
+            - taito artifact-push:graphql:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
+      - step: # server
+          script:
+            - export taito_mode=ci
+            - taito artifact-build:server:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
+            - taito artifact-push:server:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
+      - step: # www
+          script:
+            - export taito_mode=ci
+            - taito artifact-build:www:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
+            - taito artifact-push:www:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
+    # Deploy the changes
+    - step:
+        script:
+          - export taito_mode=ci
+          - taito db-deploy:$BITBUCKET_BRANCH
+    - step:
+        script:
+          - export taito_mode=ci
+          - taito deployment-deploy:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
+    # Test and verify deployment
+    - step:
+        script:
+          - export taito_mode=ci
+          - taito deployment-wait:$BITBUCKET_BRANCH
+          # TODO: tests require docker images from the previous steps!
+          # - taito test:$BITBUCKET_BRANCH
+          # - taito deployment-verify:$BITBUCKET_BRANCH
+    # Publish artifacts and release
+    - step:
+        script:
+          - export taito_mode=ci
+          - taito artifact-publish:$BITBUCKET_BRANCH
+          - taito artifact-release:$BITBUCKET_BRANCH

@@ -23,12 +23,12 @@ Run `taito open conventions` in the project directory to see organization specif
 
 **Additional microservices:** The template supports unlimited number of microservices. You can add a new microservice like this:
 
-  1. Create a new directory for your service. Look [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) and [SERVER-TEMPLATE-alt](https://github.com/TaitoUnited/SERVER-TEMPLATE-alt/) for examples.
+  1. Create a new directory for your service. Look [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) and [alternatives](https://github.com/TaitoUnited/SERVER-TEMPLATE/tree/master/alternatives) for examples.
   2. Add the service to `taito_targets` variable in `taito-config.sh`
   3. Add the service to `docker-compose.yaml` and check that it works ok in local development environment.
   4. Add the service to `scripts/helm.yaml`.
   5. Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `check-deps`, `check-size`.
-  6. Add the service to `cloudbuild.yaml`.
+  6. Add the service to your CI/CD script (`.yml/.yaml` or `Jenkinsfile` in project root or `.github/main.workflow`).
 
 **Istio:** TODO: Istio support.
 
@@ -110,6 +110,8 @@ You can deploy configuration changes without rebuilding with the `taito deployme
 > Do not modify the helm template located in `./scripts/helm` directory. Improve the original helm template located in [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) repository instead.
 
 ## Secrets
+
+You can add a new secret like this:
 
 1. Add a secret definition to the `taito_secrets` setting in `taito-config.sh`.
 2. Map the secret definition to a secret in `docker-compose.yaml` for Docker Compose and in `scripts/helm.yaml` for Kubernetes.

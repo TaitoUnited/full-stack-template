@@ -52,13 +52,33 @@ rm -f scripts/terraform/.gitignore
 rm -rf www/site
 sed -i '/    - "\/service\/site\/node_modules"/d' docker-compose.yaml
 
-# 'TODO links'
+# 'TODO links' from taito-config.sh
 sed -i '/https:\/\/TODO/d' taito-config.sh
 sed -i "/# TEMPLATE-REMOVE/d" taito-config.sh
 
-# MIT license
+# Template MIT license
 # TODO leave a reference to the original?
 rm LICENSE
+
+######################
+# Choose CI/CD
+######################
+
+ci=${template_default_ci:-}
+while [[ " aws azure bitbucket github gitlab gcloud jenkins shell travis " != *" $ci "* ]]; do
+  echo "Select CI/CD: aws, azure, bitbucket, github, gitlab, gcloud, jenkins, shell, or travis"
+  read -r ci
+done
+
+if [[ ${template_default_ci_deploy_with_spinnaker:-} ]]; then
+  ci_deploy_with_spinnaker=$template_default_ci_deploy_with_spinnaker
+else
+  echo "Use Spinnaker for deployment (y/N)?"
+  read -r confirm
+  if [[ ${confirm} =~ ^[Yy]$ ]]; then
+    ci_deploy_with_spinnaker=true
+  fi
+fi
 
 ######################
 # Choose stack
@@ -99,10 +119,6 @@ function prune () {
     fi
     sed -i "/^    $name:\$/,/^$/d" ./scripts/helm.yaml
 
-    sed -i "/REPO_NAME\\/$name:/d" cloudbuild.yaml
-    sed -i "/^- id: artifact-build-$name\$/,/^$/d" cloudbuild.yaml
-    sed -i "/^- id: artifact-push-$name\$/,/^$/d" cloudbuild.yaml
-
     sed -i "s/ $name / /" taito-config.sh
     sed -i "/\\* $name/d" taito-config.sh
     sed -i "s/ \\/$name\\/uptimez / /" taito-config.sh
@@ -118,6 +134,19 @@ function prune () {
     # TODO: temporary solution. remove once using terraform v0.12
     sed -i "/^    {\\/\\*$name\\*\\/\$/,/^    }.*$/d" \
       scripts/terraform/common/gcloud/monitoring.tf
+
+    # Prune target from CI/CD scripts
+    sed -i "/^action \"artifact:$name\"/,/^}$/d" .github/main.workflow
+    # TODO PRUNE .gitlab-ci.yml
+    # TODO PRUNE .travis.yml
+    # TODO PRUNE aws-pipelines.yml
+    # TODO PRUNE azure-pipelines.yml
+    sed -i "/:$name:/d" build.sh
+    sed -i "/- step: # $name/,/taito artifact-push:$name/d" bitbucket-pipelines.yml
+    sed -i "/REPO_NAME\\/$name:/d" cloudbuild.yaml
+    sed -i "/^- id: artifact-build-$name\$/,/^$/d" cloudbuild.yaml
+    sed -i "/^- id: artifact-push-$name\$/,/^$/d" cloudbuild.yaml
+    # TODO PRUNE Jenkinsfile
 
     if [[ $name == "client" ]]; then
       sed -i "s/ \\/uptimez / /" taito-config.sh
@@ -264,15 +293,112 @@ sed -i "s/\${template_default_backup_location_prod:-}/${template_default_backup_
 sed -i "s/\${template_default_backup_days:-}/${template_default_backup_days:-}/g" taito-config.sh
 sed -i "s/\${template_default_backup_days_prod:-}/${template_default_backup_days_prod:-}/g" taito-config.sh
 
-echo "Removing template settings from cloudbuild.yaml..."
-sed -i "s|\${_TEMPLATE_DEFAULT_TAITO_IMAGE}|${template_default_taito_image}|g" cloudbuild.yaml
-sed -i '/_TEMPLATE_DEFAULT_/d' cloudbuild.yaml
-sed -i '/template_default_taito_image/d' cloudbuild.yaml
-sed -i "s|_IMAGE_REGISTRY: eu.gcr.io/\$PROJECT_ID|_IMAGE_REGISTRY: ${template_default_registry}/${template_default_zone}|" cloudbuild.yaml
-
 echo "Removing template settings from docker-compose-test.yaml..."
 sed -i '/template_default_/d' docker-compose-test.yaml
 
+######################
+# Initialize CI/CD
+######################
+
+echo "Initializing CI/CD: $ci"
+ci_script=
+
+# aws
+if [[ $ci == "aws" ]]; then
+  ci_script=aws-pipelines.yml
+  echo "NOTE: AWS CI/CD not yet implemented. Implement it in '${ci_script}'."
+  read -r
+else
+  rm -f aws-pipelines.yml
+fi
+
+# azure
+if [[ $ci == "azure" ]]; then
+  ci_script=azure-pipelines.yml
+  echo "NOTE: Azure CI/CD not yet implemented. Implement it in '${ci_script}'."
+  read -r
+else
+  rm -f azure-pipelines.yml
+fi
+
+# bitbucket
+if [[ $ci == "bitbucket" ]]; then
+  ci_script=bitbucket-pipelines.yml
+else
+  rm -f bitbucket-pipelines.yml
+fi
+
+# github
+if [[ $ci == "github" ]]; then
+  ci_script=.github/main.workflow
+  echo "NOTE: GitHub CI/CD not yet implemented. Implement it in '${ci_script}'."
+  read -r
+else
+  rm -rf .github
+fi
+
+# gitlab
+if [[ $ci == "gitlab" ]]; then
+  ci_script=.gitlab-ci.yml
+  echo "NOTE: GitLab CI/CD not yet implemented. Implement it in '${ci_script}'."
+  read -r
+else
+  rm -rf .gitlab-ci.yml
+fi
+
+# gcloud
+if [[ $ci == "gcloud" ]]; then
+  ci_script=cloudbuild.yaml
+  sed -i "s|\${_TEMPLATE_DEFAULT_TAITO_IMAGE}|${template_default_taito_image}|g" cloudbuild.yaml
+  sed -i '/_TEMPLATE_DEFAULT_/d' cloudbuild.yaml
+  sed -i '/template_default_taito_image/d' cloudbuild.yaml
+  sed -i "s|_IMAGE_REGISTRY: eu.gcr.io/\$PROJECT_ID|_IMAGE_REGISTRY: ${template_default_registry}/${template_default_zone}|" cloudbuild.yaml
+else
+  rm -f cloudbuild.yaml
+fi
+
+# jenkins
+if [[ $ci == "jenkins" ]]; then
+  ci_script=Jenkinsfile
+  echo "NOTE: Jenkins CI/CD not yet implemented. Implement it in '${ci_script}'."
+  read -r
+else
+  rm -f Jenkinsfile
+fi
+
+# shell
+if [[ $ci == "shell" ]]; then
+  ci_script=build.sh
+else
+  rm -f build.sh
+fi
+
+# spinnaker
+if [[ $ci_deploy_with_spinnaker == "true" ]]; then
+  echo "NOTE: Spinnaker CI/CD not yet implemented."
+  read -r
+fi
+
+# travis
+if [[ $ci == "travis" ]]; then
+  ci_script=.travis.yml
+  echo "NOTE: Travis CI/CD not yet implemented. Implement it in '${ci_script}'."
+  read -r
+else
+  rm -f .travis.yml
+fi
+
+# common
+sed -i "s/\$template_default_taito_image_username/${template_default_taito_image_username:-}/g" "${ci_script}"
+sed -i "s/\$template_default_taito_image_password/${template_default_taito_image_password:-}/g" "${ci_script}"
+sed -i "s/\$template_default_taito_image_email/${template_default_taito_image_email:-}/g" "${ci_script}"
+sed -i "s/\$template_default_taito_image/${template_default_taito_image}/g" "${ci_script}"
+
+######################
+# Clean up
+######################
+
+echo "Cleaning up"
 rm -f temp
 
 read -t 1 -n 10000 discard
