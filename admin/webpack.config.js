@@ -156,11 +156,11 @@ module.exports = function(env, argv) {
           host: '0.0.0.0',
           port: DEV_PORT,
           publicPath: '/',
-          // public: 'localhost:' + PUBLIC_PORT, // Fix HMR inside Docker container
+          // Fix HMR inside Docker container
+          public: `localhost:${PUBLIC_PORT}/admin/sockjs-node`,
           hot: true,
           historyApiFallback: true,
           stats: 'minimal',
-          disableHostCheck: true, // For headless cypress tests running in container
           lazy: false,
           watchOptions: {
             aggregateTimeout: 300,
