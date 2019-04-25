@@ -28,13 +28,9 @@ const messages = {
   },
 };
 
-// REAL
 const API_URL = process.env.API_URL as string;
 const restClient = createRestClient(API_URL);
 const history = createBrowserHistory({ basename: 'admin' });
-
-// REAL
-
 const i18nProvider = (locale: 'fi' | 'en') => messages[locale];
 
 const App = () => (
@@ -48,17 +44,14 @@ const App = () => (
     customReducers={{ common }}
     customSagas={[commonSagas]}
   >
-    {() => [
-      <Resource
-        key="posts"
-        name="posts"
-        list={PostList}
-        create={PostCreate}
-        edit={PostEdit}
-        show={PostShow}
-        icon={PostIcon}
-      />,
-    ]}
+    <Resource
+      name="posts"
+      list={PostList}
+      create={PostCreate}
+      edit={PostEdit}
+      show={PostShow}
+      icon={PostIcon}
+    />
   </Admin>
 );
 
