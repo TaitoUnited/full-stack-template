@@ -12,10 +12,12 @@ Start containers, and start a shell inside the www Docker container:
     taito start
     taito shell:www
 
-*FOR GATSBY ONLY:* Create a new Gatsby site based on one of the [starters](https://www.gatsbyjs.org/starters?v=2):
+*FOR GATSBY ONLY:* Create a new Gatsby site based on one of the [starters](https://www.gatsbyjs.org/starters?v=2) (NOTE: Select 'npm' as package manager and ignore the 'git commit' error):
 
+    su node
     npx gatsby new site https://github.com/sarasate/gate
     rm -rf site/.git
+    exit
     exit
 
 *FOR GATSBY ONLY:* Edit some files:

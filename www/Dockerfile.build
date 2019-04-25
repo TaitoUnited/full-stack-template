@@ -10,6 +10,8 @@ ENV BUILD_VERSION ${BUILD_VERSION}
 ENV NODE_ENV development
 ENV APP_SENTRY_PUBLIC_DSN #sentryPublicDSN
 
+RUN mkdir /service && chown node:node /service
+
 WORKDIR /service
 COPY ${SERVICE_DIR}/*.sh \
      ${SERVICE_DIR}/package* \
