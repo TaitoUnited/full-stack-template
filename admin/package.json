@@ -78,6 +78,7 @@
     "source-map-loader": "0.2.4",
     "style-loader": "0.23.1",
     "typescript": "3.4.5",
+    "webapp-webpack-plugin": "2.7.0",
     "webpack": "4.30.0",
     "webpack-bundle-analyzer": "3.3.2",
     "webpack-cli": "3.3.0",

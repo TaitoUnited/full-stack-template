@@ -4,12 +4,15 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const WebappWebpackPlugin = require('webapp-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 
 const y = new Date().getFullYear();
 const COPYRIGHT = 'Copyright ' + y + ' Taito United Oy - All rights reserved.';
 const OUTPUT_DIR = '../../build';
+const ASSETS_DIR = 'assets';
+const ICON_DIR = ASSETS_DIR + '/icon.png';
 const DEV_PORT = 8080;
 const PUBLIC_PORT = 9999;
 
@@ -56,6 +59,29 @@ module.exports = function(env, argv) {
       // Extract imported CSS into separate file for caching
       new MiniCssExtractPlugin({
         filename: isProd ? '[name].[contenthash].css' : '[name].css',
+      }),
+
+      new WebappWebpackPlugin({
+        logo: path.resolve(__dirname, ICON_DIR),
+        cache: true, // Make builds faster
+        prefix: 'assets/', // Where to put pwa icons, manifests, etc.
+        favicons: {
+          appName: 'server-template-admin',
+          appShortName: 'Taito Admin',
+          appDescription: 'Taito admin template app',
+          developerName: 'Taito United',
+          developerURL: 'https://github.com/TaitoUnited',
+          background: '#ffffff',
+          theme_color: '#0C6298',
+          display: 'standalone',
+          start_url: '.',
+          icons: {
+            // Don't include unnecessary icons
+            coast: false,
+            yandex: false,
+            windows: false,
+          },
+        },
       }),
 
       // If you use moment add any locales you need here
