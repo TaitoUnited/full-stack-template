@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "outDir": "./build/",
+    "module": "commonjs",
+    "target": "esnext",
+    "noEmit": true,
+    "jsx": "react",
+    "lib": ["esnext", "dom"],
+    "rootDir": "src",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "baseUrl": "./",
+    "typeRoots": ["./src/types", "./node_modules/@types"]
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "build", "jest", "test", "__mocks__", "src/sw.js"]
+}

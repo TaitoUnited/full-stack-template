@@ -1,5 +1,3 @@
-import '@babel/polyfill'; // emulate ES6 features
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader'; // eslint-disable-line
