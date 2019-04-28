@@ -24,7 +24,7 @@
 : "${template_default_provider_zone:?}"
 : "${template_default_provider_zone_prod:?}"
 : "${template_default_monitoring_uptime_channels_prod:-}"
-: "${template_default_registry:?}"
+: "${template_default_container_registry:?}"
 : "${template_default_source_git:?}"
 : "${template_default_dest_git:?}"
 : "${template_default_kubernetes:?}"
@@ -265,7 +265,7 @@ sed -i "s/\${template_default_provider_zone:?}/${template_default_provider_zone}
 sed -i "s/\${template_default_provider_region_prod:?}/${template_default_provider_region_prod}/g" taito-config.sh
 sed -i "s/\${template_default_provider_zone_prod:?}/${template_default_provider_zone_prod}/g" taito-config.sh
 sed -i "s/\${template_default_monitoring_uptime_channels_prod:-}/${template_default_monitoring_uptime_channels_prod//\//\\\/}/g" taito-config.sh
-sed -i "s/\${template_default_registry:?}/${template_default_registry}/g" taito-config.sh
+sed -i "s/\${template_default_container_registry:?}/${template_default_container_registry}/g" taito-config.sh
 sed -i "s/\${template_default_source_git:?}/${template_default_source_git}/g" taito-config.sh
 sed -i "s/\${template_default_dest_git:?}/${template_default_dest_git}/g" taito-config.sh
 
@@ -352,7 +352,7 @@ if [[ $ci == "gcloud" ]]; then
   sed -i "s|\${_TEMPLATE_DEFAULT_TAITO_IMAGE}|${template_default_taito_image}|g" cloudbuild.yaml
   sed -i '/_TEMPLATE_DEFAULT_/d' cloudbuild.yaml
   sed -i '/template_default_taito_image/d' cloudbuild.yaml
-  sed -i "s|_IMAGE_REGISTRY: eu.gcr.io/\$PROJECT_ID|_IMAGE_REGISTRY: ${template_default_registry}/${template_default_zone}|" cloudbuild.yaml
+  sed -i "s|_IMAGE_REGISTRY: eu.gcr.io/\$PROJECT_ID|_IMAGE_REGISTRY: ${template_default_container_registry}/${template_default_zone}|" cloudbuild.yaml
 else
   rm -f cloudbuild.yaml
 fi
