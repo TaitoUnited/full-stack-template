@@ -305,10 +305,10 @@ echo "Configuring provider settings for ${template_default_provider}"
 if [[ "${template_default_provider}" == "gcloud" ]]; then
   echo "gcloud already configured by default"
 elif [[ "${template_default_provider}" == "aws" ]]; then
-  sed -i "s/ gcloud-secrets:-local//" taito-config.sh
-  sed -i "s/ gcloud:-local/aws:-local/" taito-config.sh
-  sed -i "s/ gcloud-storage:-local/aws-storage:-local/" taito-config.sh
-  sed -i "s/ gcloud-monitoring:-local//" taito-config.sh
+  sed -i "s/ gcloud-secrets:-local/ /" taito-config.sh
+  sed -i "s/ gcloud:-local/ aws:-local/" taito-config.sh
+  sed -i "s/ gcloud-storage:-local/ aws-storage:-local/" taito-config.sh
+  sed -i "s/ gcloud-monitoring:-local/ /" taito-config.sh
 else
   echo "ERROR: Unknown provider '${template_default_provider}'"
   exit 1
@@ -425,7 +425,7 @@ sed -i "s/\$template_default_taito_image/${template_default_taito_image}/g" "${c
 ##############################
 
 if [[ "${template_default_git_provider}" != "github.com" ]]; then
-  echo "Disable semantic-release for git provider '${template_default_git_provider}'"
+  echo "Disabling semantic-release for git provider '${template_default_git_provider}'"
   echo "TODO: implement semantic-release support for '${template_default_git_provider}'"
   sed -i "s/prod\": \"semantic-release/prod\": \"echo DISABLED semantic-release/g" package.json
 fi
