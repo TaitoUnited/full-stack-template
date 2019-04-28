@@ -15,7 +15,7 @@ taito_plugins="
   docker docker-compose:local kubectl:-local helm:-local
   postgres-db sqitch-db
   gcloud:-local gcloud-storage:-local
-  gcloud-builder:-local gcloud-monitoring:-local
+  gcloud-ci:-local gcloud-monitoring:-local
   npm git-global links-global
   semantic-release sentry
 "
@@ -304,8 +304,8 @@ test_admin_CYPRESS_baseUrl=https://www.google.com
 test_client_CYPRESS_baseUrlHack=$test_client_CYPRESS_baseUrl
 test_client_CYPRESS_baseUrl=https://www.google.com
 
-# Special settings for running tests on gcloud-builder
-if [[ $taito_plugins == *"gcloud-builder"* ]] && [[ ${taito_mode:-} == "ci" ]]; then
+# Special settings for running tests on gcloud-ci
+if [[ $taito_plugins == *"gcloud-ci"* ]] && [[ ${taito_mode:-} == "ci" ]]; then
   test_all_DATABASE_HOST=127.0.0.1
   test_all_DATABASE_PORT=5001
 fi

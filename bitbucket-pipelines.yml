@@ -13,12 +13,13 @@ pipelines:
         script:
           - export taito_mode=ci
           - taito install:$BITBUCKET_BRANCH
+    - step:
+        script:
+          - export taito_mode=ci
+          - taito artifact-prepare:$BITBUCKET_BRANCH
     - parallel:
-      # Do preparations, code scans, and documentation generation in parallel
-      - step:
-          script:
-            - export taito_mode=ci
-            - taito artifact-prepare:$BITBUCKET_BRANCH
+      # Execute code scans, documentation generation, and container build/push
+      # in parallel
       - step:
           script:
             - export taito_mode=ci
@@ -27,7 +28,6 @@ pipelines:
           script:
             - export taito_mode=ci
             - taito docs:$BITBUCKET_BRANCH
-      # Build and push container images in parallel
       - step: # admin
           script:
             - export taito_mode=ci

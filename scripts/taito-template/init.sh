@@ -16,6 +16,7 @@
 : "${template_default_domain_prod:?}"
 : "${template_default_zone:?}"
 : "${template_default_zone_prod:?}"
+: "${template_default_git_provider:?}"
 : "${template_default_provider:?}"
 : "${template_default_provider_org_id:?}"
 : "${template_default_provider_org_id_prod:?}"
@@ -296,6 +297,23 @@ sed -i "s/\${template_default_backup_days_prod:-}/${template_default_backup_days
 echo "Removing template settings from docker-compose-test.yaml..."
 sed -i '/template_default_/d' docker-compose-test.yaml
 
+############################
+# Replace provider settings
+############################
+
+echo "Configuring provider settings for ${template_default_provider}"
+if [[ "${template_default_provider}" == "gcloud" ]]; then
+  echo "gcloud already configured by default"
+elif [[ "${template_default_provider}" == "aws" ]]; then
+  sed -i "s/ gcloud-secrets:-local//" taito-config.sh
+  sed -i "s/ gcloud:-local/aws:-local/" taito-config.sh
+  sed -i "s/ gcloud-storage:-local/aws-storage:-local/" taito-config.sh
+  sed -i "s/ gcloud-monitoring:-local//" taito-config.sh
+else
+  echo "ERROR: Unknown provider '${template_default_provider}'"
+  exit 1
+fi
+
 ######################
 # Initialize CI/CD
 ######################
@@ -306,6 +324,7 @@ ci_script=
 # aws
 if [[ $ci == "aws" ]]; then
   ci_script=aws-pipelines.yml
+  sed -i "s/ gcloud-ci:-local/aws-ci:-local/" taito-config.sh
   echo "NOTE: AWS CI/CD not yet implemented. Implement it in '${ci_script}'."
   read -r
 else
@@ -315,6 +334,7 @@ fi
 # azure
 if [[ $ci == "azure" ]]; then
   ci_script=azure-pipelines.yml
+  sed -i "s/ gcloud-ci:-local/azure-ci:-local/" taito-config.sh
   echo "NOTE: Azure CI/CD not yet implemented. Implement it in '${ci_script}'."
   read -r
 else
@@ -324,6 +344,7 @@ fi
 # bitbucket
 if [[ $ci == "bitbucket" ]]; then
   ci_script=bitbucket-pipelines.yml
+  sed -i "s/ gcloud-ci:-local/bitbucket-ci:-local/" taito-config.sh
 else
   rm -f bitbucket-pipelines.yml
 fi
@@ -331,6 +352,7 @@ fi
 # github
 if [[ $ci == "github" ]]; then
   ci_script=.github/main.workflow
+  sed -i "s/ gcloud-ci:-local/github-ci:-local/" taito-config.sh
   echo "NOTE: GitHub CI/CD not yet implemented. Implement it in '${ci_script}'."
   read -r
 else
@@ -340,6 +362,7 @@ fi
 # gitlab
 if [[ $ci == "gitlab" ]]; then
   ci_script=.gitlab-ci.yml
+  sed -i "s/ gcloud-ci:-local/gitlab-ci:-local/" taito-config.sh
   echo "NOTE: GitLab CI/CD not yet implemented. Implement it in '${ci_script}'."
   read -r
 else
@@ -360,6 +383,7 @@ fi
 # jenkins
 if [[ $ci == "jenkins" ]]; then
   ci_script=Jenkinsfile
+  sed -i "s/ gcloud-ci:-local/jenkins-ci:-local/" taito-config.sh
   echo "NOTE: Jenkins CI/CD not yet implemented. Implement it in '${ci_script}'."
   read -r
 else
@@ -369,6 +393,7 @@ fi
 # shell
 if [[ $ci == "shell" ]]; then
   ci_script=build.sh
+  sed -i "s/ gcloud-ci:-local//" taito-config.sh
 else
   rm -f build.sh
 fi
@@ -382,6 +407,7 @@ fi
 # travis
 if [[ $ci == "travis" ]]; then
   ci_script=.travis.yml
+  sed -i "s/ gcloud-ci:-local/travis-ci:-local/" taito-config.sh
   echo "NOTE: Travis CI/CD not yet implemented. Implement it in '${ci_script}'."
   read -r
 else
@@ -393,6 +419,16 @@ sed -i "s/\$template_default_taito_image_username/${template_default_taito_image
 sed -i "s/\$template_default_taito_image_password/${template_default_taito_image_password:-}/g" "${ci_script}"
 sed -i "s/\$template_default_taito_image_email/${template_default_taito_image_email:-}/g" "${ci_script}"
 sed -i "s/\$template_default_taito_image/${template_default_taito_image}/g" "${ci_script}"
+
+##############################
+# Initialize semantic-release
+##############################
+
+if [[ "${template_default_git_provider}" != "github.com" ]]; then
+  echo "Disable semantic-release for git provider '${template_default_git_provider}'"
+  echo "TODO: implement semantic-release support for '${template_default_git_provider}'"
+  sed -i "s/prod\": \"semantic-release/prod\": \"echo DISABLED semantic-release/g" package.json
+fi
 
 ######################
 # Clean up
