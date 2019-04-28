@@ -64,7 +64,7 @@ rm LICENSE
 # Choose CI/CD
 ######################
 
-ci=${template_default_ci:-}
+ci=${template_default_ci_provider:-}
 while [[ " aws azure bitbucket github gitlab gcloud jenkins shell travis " != *" $ci "* ]]; do
   echo "Select CI/CD: aws, azure, bitbucket, github, gitlab, gcloud, jenkins, shell, or travis"
   read -r ci

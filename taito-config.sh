@@ -229,7 +229,7 @@ link_urls="
   * server[:ENV]=$taito_app_url/api/uptimez Server API (:ENV)
   * www[:ENV]=$taito_app_url/docs Generated documentation (:ENV)
   * graphql[:ENV]=$taito_app_url/graphql/uptimez GraphQL API (:ENV)
-  * git=https://$taito_vc_repository_url GitHub repository
+  * git=https://$taito_vc_repository_url Git repository
   * docs=https://$taito_vc_repository_url/wiki Project documentation
   * project=https://$taito_vc_repository_url/projects Project management
   * services[:ENV]=https://console.cloud.google.com/apis/dashboard?project=$taito_resource_namespace_id Google services (:ENV)
