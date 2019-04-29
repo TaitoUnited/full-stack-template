@@ -1,7 +1,7 @@
 provider "google" {
   project = "${var.taito_resource_namespace_id}"
-  region = "${var.gcloud_region}"
-  zone = "${var.gcloud_zone}"
+  region = "${var.taito_provider_region}"
+  zone = "${var.taito_provider_zone}"
 }
 
 data "google_project" "project" {}

@@ -48,7 +48,7 @@ full-stack:
     memoryRequest: 50Mi
     memoryLimit: 256Mi
     # Scaling
-    replicas: ${kubectl_replicas}
+    replicas: ${kubernetes_replicas}
     autoscale: false
     minReplicas: 2
     maxReplicas: 5

@@ -1,7 +1,7 @@
 provider "google" {
   project = "${var.taito_resource_namespace_id}"
-  region = "${var.gcloud_region}"
-  zone = "${var.gcloud_zone}"
+  region = "${var.taito_provider_region}"
+  zone = "${var.taito_provider_zone}"
 }
 
 module "common-gcloud" {
@@ -15,6 +15,8 @@ module "common-gcloud" {
   taito_resource_namespace = "${var.taito_resource_namespace}"
   taito_resource_namespace_id = "${var.taito_resource_namespace_id}"
   taito_provider = "${var.taito_provider}"
+  taito_provider_region = "${var.taito_provider_region}"
+  taito_provider_zone = "${var.taito_provider_zone}"
   taito_organization = "${var.taito_organization}"
   taito_organization_abbr = "${var.taito_organization_abbr}"
 
@@ -31,8 +33,5 @@ module "common-gcloud" {
   taito_monitoring_timeouts = "${var.taito_monitoring_timeouts}"
   taito_monitoring_uptime_channels = "${var.taito_monitoring_uptime_channels}"
 
-  gcloud_org_id = "${var.gcloud_org_id}"
   gcloud_service_account_enabled = "${var.gcloud_service_account_enabled}"
-  gcloud_region = "${var.gcloud_region}"
-  gcloud_zone = "${var.gcloud_zone}"
 }

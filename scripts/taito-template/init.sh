@@ -29,6 +29,8 @@
 : "${template_default_source_git:?}"
 : "${template_default_dest_git:?}"
 : "${template_default_kubernetes:?}"
+: "${template_default_kubernetes_cluster_prefix:?}"
+: "${template_default_kubernetes_cluster_prefix_prod:?}"
 : "${template_default_postgres:?}"
 : "${template_default_storage_class:?}"
 
@@ -273,6 +275,10 @@ sed -i "s/\${template_default_dest_git:?}/${template_default_dest_git}/g" taito-
 # Kubernetes
 sed -i \
   "s/\${template_default_kubernetes:?}/${template_default_kubernetes}/g" taito-config.sh
+sed -i \
+  "s/\${template_default_kubernetes_cluster_prefix:?}/${template_default_kubernetes_cluster_prefix}/g" taito-config.sh
+sed -i \
+  "s/\${template_default_kubernetes_cluster_prefix_prod:?}/${template_default_kubernetes_cluster_prefix_prod}/g" taito-config.sh
 
 # Database
 sed -i \
@@ -309,6 +315,7 @@ elif [[ "${template_default_provider}" == "aws" ]]; then
   sed -i "s/ gcloud:-local/ aws:-local/" taito-config.sh
   sed -i "s/ gcloud-storage:-local/ aws-storage:-local/" taito-config.sh
   sed -i "s/ gcloud-monitoring:-local//" taito-config.sh
+  sed -i '/gserviceaccount/d' taito-config.sh
 else
   echo "ERROR: Unknown provider '${template_default_provider}'"
   exit 1
@@ -375,7 +382,7 @@ if [[ $ci == "gcloud" ]]; then
   sed -i "s|\${_TEMPLATE_DEFAULT_TAITO_IMAGE}|${template_default_taito_image}|g" cloudbuild.yaml
   sed -i '/_TEMPLATE_DEFAULT_/d' cloudbuild.yaml
   sed -i '/template_default_taito_image/d' cloudbuild.yaml
-  sed -i "s|_IMAGE_REGISTRY: eu.gcr.io/\$PROJECT_ID|_IMAGE_REGISTRY: ${template_default_container_registry}/${template_default_zone}|" cloudbuild.yaml
+  sed -i "s|_IMAGE_REGISTRY: eu.gcr.io/\$PROJECT_ID|_IMAGE_REGISTRY: ${template_default_container_registry}|" cloudbuild.yaml
 else
   rm -f cloudbuild.yaml
 fi
@@ -428,6 +435,7 @@ if [[ "${template_default_git_provider}" != "github.com" ]]; then
   echo "Disabling semantic-release for git provider '${template_default_git_provider}'"
   echo "TODO: implement semantic-release support for '${template_default_git_provider}'"
   sed -i "s/prod\": \"semantic-release/prod\": \"echo DISABLED semantic-release/g" package.json
+  sed -i '/github-buildbot/d' taito-config.sh
 fi
 
 ######################

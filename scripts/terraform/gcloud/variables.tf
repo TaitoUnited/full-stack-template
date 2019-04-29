@@ -6,6 +6,8 @@ variable "taito_namespace" {}
 variable "taito_resource_namespace" {}
 variable "taito_resource_namespace_id" {}
 variable "taito_provider" {}
+variable "taito_provider_region" {}
+variable "taito_provider_zone" {}
 variable "taito_organization" {}
 variable "taito_organization_abbr" {}
 
@@ -56,7 +58,4 @@ variable "taito_monitoring_uptime_channels" {
 }
 
 /* Google Cloud */
-variable "gcloud_org_id" {}
 variable "gcloud_service_account_enabled" {}
-variable "gcloud_region" {}
-variable "gcloud_zone" {}
