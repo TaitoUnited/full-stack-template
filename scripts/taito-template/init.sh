@@ -323,6 +323,12 @@ elif [[ "${template_default_provider}" == "aws" ]]; then
   sed -i "s/kubernetes_db_proxy_enabled=false/kubernetes_db_proxy_enabled=true/" taito-config.sh
   sed -i '/gserviceaccount/d' taito-config.sh
 
+  # Links
+  sed -i '/* services/d' taito-config.sh
+  sed -i "s|^  \\* logs:ENV=.*|  * logs:ENV=https://${template_default_provider_region}.console.aws.amazon.com/cloudwatch/home?region=${template_default_provider_region}#logs: Logs (:ENV)|" taito-config.sh
+  # TODO: monitoring
+
+  # AWS credentials
   sed -i '/^  _IMAGE_REGISTRY:/a\  _AWS_ACCESS_KEY_ID:\n  _AWS_SECRET_ACCESS_KEY:' cloudbuild.yaml
   sed -i '/^    - taito_mode=ci/a\    - AWS_ACCESS_KEY_ID=$_AWS_ACCESS_KEY_ID\n    - AWS_SECRET_ACCESS_KEY=$_AWS_SECRET_ACCESS_KEY' cloudbuild.yaml
   sed -i "/^    # TODO: should be implemented in taito-cli plugin\$/,/^$/d" cloudbuild.yaml
@@ -363,7 +369,12 @@ fi
 # bitbucket
 if [[ $ci == "bitbucket" ]]; then
   ci_script=bitbucket-pipelines.yml
-  sed -i "s/ gcloud-ci:-local/bitbucket-ci:-local/" taito-config.sh
+  sed -i "s/ gcloud-ci:-local/ bitbucket-ci:-local/" taito-config.sh
+
+  # Links
+  sed -i "s|^  \\* builds.*|  * builds=https://bitbucket.org/${template_default_git_organization:?}/${taito_vc_repository}/addon/pipelines/home Build logs|" taito-config.sh
+  sed -i "s|^  \\* project=.*|  * project=https://bitbucket.org/${template_default_git_organization:?}/${taito_vc_repository}/addon/trello/trello-board Project management|" taito-config.sh
+  # TODO: project documentation
 else
   rm -f bitbucket-pipelines.yml
 fi
