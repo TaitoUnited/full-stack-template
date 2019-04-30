@@ -48,9 +48,7 @@ The client GUI uses [Material-UI](https://material-ui-next.com/) component libra
 
 * [ ] All done
 
-## Hosting options
-
-By default the template deploys the site to Kubernetes running on Google Cloud. TODO: Support for AWS, Azure, Digital Ocean, Scaleway.
+## Basic settings
 
 1. Modify `taito-config.sh` if you need to change some settings. The default settings are ok for most projects.
 2. Run `taito project apply`
