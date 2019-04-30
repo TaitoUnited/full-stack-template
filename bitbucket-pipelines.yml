@@ -4,10 +4,12 @@ image:
   password: $template_default_taito_image_password
   email: $template_default_taito_image_email
 options:
+  docker: true
   max-time: 60
 
 pipelines:
-  default:
+  branches:
+    '{dev,test,stag,canary,master}':
     # Install libraries
     - step:
         script:
@@ -76,3 +78,25 @@ pipelines:
           - export taito_mode=ci
           - taito artifact-publish:$BITBUCKET_BRANCH
           - taito artifact-release:$BITBUCKET_BRANCH
+    - parallel:
+      # Verify images by pushing them with the -untested tag prefix
+      - step: # admin
+          script:
+            - export taito_mode=ci
+            - taito artifact-verify:admin:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
+      - step: # client
+          script:
+            - export taito_mode=ci
+            - taito artifact-verify:client:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
+      - step: # graphql
+          script:
+            - export taito_mode=ci
+            - taito artifact-verify:graphql:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
+      - step: # server
+          script:
+            - export taito_mode=ci
+            - taito artifact-verify:server:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
+      - step: # www
+          script:
+            - export taito_mode=ci
+            - taito artifact-verify:www:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
