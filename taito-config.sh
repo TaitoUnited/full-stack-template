@@ -16,8 +16,8 @@ taito_plugins="
   docker docker-compose:local kubectl:-local helm:-local
   postgres-db sqitch-db
   gcloud-storage:-local
-  gcloud-ci:-local
   gcloud-monitoring:-local
+  gcloud-ci:-local
   npm git-global links-global
   semantic-release sentry
 "

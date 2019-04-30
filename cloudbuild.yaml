@@ -5,7 +5,7 @@ images: [
   '$_IMAGE_REGISTRY/$_REPO_NAME/server:$COMMIT_SHA',
   '$_IMAGE_REGISTRY/$_REPO_NAME/www:$COMMIT_SHA'
 ]
-timeout: 1500s
+timeout: 3000s
 
 # If you want to grant outsiders access to your build logs, you may save
 # the logs to a separate bucket determined by the logsBucket setting and
@@ -97,6 +97,7 @@ steps:
     export taito_env="$${taito_target_env}"
     source ./taito-config.sh
 
+    # TODO: should be implemented in taito-cli plugin
     echo "- Get cluster credentials"
     if ! gcloud container clusters get-credentials "$${kubernetes_name}" \
       --zone "$${taito_provider_zone}"; then

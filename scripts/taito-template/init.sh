@@ -273,12 +273,9 @@ sed -i "s/\${template_default_source_git:?}/${template_default_source_git}/g" ta
 sed -i "s/\${template_default_dest_git:?}/${template_default_dest_git}/g" taito-config.sh
 
 # Kubernetes
-sed -i \
-  "s/\${template_default_kubernetes:?}/${template_default_kubernetes}/g" taito-config.sh
-sed -i \
-  "s/\${template_default_kubernetes_cluster_prefix:?}/${template_default_kubernetes_cluster_prefix}/g" taito-config.sh
-sed -i \
-  "s/\${template_default_kubernetes_cluster_prefix_prod:?}/${template_default_kubernetes_cluster_prefix_prod}/g" taito-config.sh
+sed -i "s/\${template_default_kubernetes:?}/${template_default_kubernetes}/g" taito-config.sh
+sed -i "s|\${template_default_kubernetes_cluster_prefix:?}|${template_default_kubernetes_cluster_prefix}|g" taito-config.sh
+sed -i "s|\${template_default_kubernetes_cluster_prefix_prod:?}|${template_default_kubernetes_cluster_prefix_prod}|g" taito-config.sh
 
 # Database
 sed -i \
@@ -319,12 +316,18 @@ echo "Configuring provider settings for ${template_default_provider}"
 if [[ "${template_default_provider}" == "gcloud" ]]; then
   echo "gcloud already configured by default"
 elif [[ "${template_default_provider}" == "aws" ]]; then
-  sed -i "s/ gcloud-secrets:-local//" taito-config.sh
   sed -i "s/ gcloud:-local/ aws:-local/" taito-config.sh
+  sed -i "s/ gcloud-secrets:-local//" taito-config.sh
   sed -i "s/ gcloud-storage:-local/ aws-storage:-local/" taito-config.sh
-  sed -i "s/ gcloud-monitoring:-local//" taito-config.sh
+  sed -i '/gcloud-monitoring:-local/d' taito-config.sh
   sed -i "s/kubernetes_db_proxy_enabled=false/kubernetes_db_proxy_enabled=true/" taito-config.sh
   sed -i '/gserviceaccount/d' taito-config.sh
+
+  sed -i '/^  _IMAGE_REGISTRY:/a\  _AWS_ACCESS_KEY_ID:\n  _AWS_SECRET_ACCESS_KEY:' cloudbuild.yaml
+  sed -i '/^    - taito_mode=ci/a\    - AWS_ACCESS_KEY_ID=$_AWS_ACCESS_KEY_ID\n    - AWS_SECRET_ACCESS_KEY=$_AWS_SECRET_ACCESS_KEY' cloudbuild.yaml
+  sed -i "/^    # TODO: should be implemented in taito-cli plugin\$/,/^$/d" cloudbuild.yaml
+
+  echo "TODO: remove Google Cloud storage gateway"
 else
   echo "ERROR: Unknown provider '${template_default_provider}'"
   exit 1
