@@ -283,6 +283,14 @@ sed -i \
 # Database
 sed -i \
   "s/\${template_default_postgres:?}/${template_default_postgres}/g" taito-config.sh
+sed -i \
+  "s/\${template_default_postgres_host:?}/${template_default_postgres_host}/g" taito-config.sh
+sed -i \
+  "s/\${template_default_postgres_host_prod:?}/${template_default_postgres_host_prod}/g" taito-config.sh
+sed -i \
+  "s/\${template_default_postgres_master_username:?}/${template_default_postgres_master_username}/g" taito-config.sh
+sed -i \
+  "s/\${template_default_postgres_master_password_hint:?}/${template_default_postgres_master_password_hint}/g" taito-config.sh
 
 # Storage
 sed -i "s/\${template_default_storage_class:-}/${template_default_storage_class:-}/g" taito-config.sh
@@ -315,6 +323,7 @@ elif [[ "${template_default_provider}" == "aws" ]]; then
   sed -i "s/ gcloud:-local/ aws:-local/" taito-config.sh
   sed -i "s/ gcloud-storage:-local/ aws-storage:-local/" taito-config.sh
   sed -i "s/ gcloud-monitoring:-local//" taito-config.sh
+  sed -i "s/kubernetes_db_proxy_enabled=false/kubernetes_db_proxy_enabled=true/" taito-config.sh
   sed -i '/gserviceaccount/d' taito-config.sh
 else
   echo "ERROR: Unknown provider '${template_default_provider}'"

@@ -126,7 +126,7 @@ full-stack:
         SENTRY_DSN: #sentryDSN
         API_PORT: '8080'
         API_BINDADDR: '0.0.0.0'
-        DATABASE_HOST: '127.0.0.1'
+        DATABASE_HOST: '${db_database_real_host}'
         DATABASE_PORT: '5432'
         DATABASE_NAME: ${db_database_name}
         DATABASE_USER: ${db_database_name}_app

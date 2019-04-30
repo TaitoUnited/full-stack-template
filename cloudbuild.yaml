@@ -39,6 +39,10 @@ substitutions:
   _TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX:
   _TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD:
   _TEMPLATE_DEFAULT_POSTGRES:
+  _TEMPLATE_DEFAULT_POSTGRES_HOST:
+  _TEMPLATE_DEFAULT_POSTGRES_HOST_PROD:
+  _TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME:
+  _TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT:
 
 steps:
 
@@ -81,6 +85,10 @@ steps:
     export template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
     export template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
     export template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    export template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    export template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    export template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    export template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
     export taito_target_env
     taito_target_env="$${branch_name}"
     if [[ "$${taito_target_env}" == "master" ]]; then
@@ -140,6 +148,10 @@ steps:
     - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
     - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
 - id: artifact-prepare
   waitFor: ['install']
@@ -171,6 +183,10 @@ steps:
     - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
     - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
 - id: scan
   waitFor: ['install']
@@ -202,6 +218,10 @@ steps:
     - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
     - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
 # Build artifacts
 
@@ -235,6 +255,10 @@ steps:
     - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
     - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
 - id: artifact-build-admin
   waitFor: ['artifact-prepare']
@@ -266,6 +290,10 @@ steps:
     - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
     - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
 - id: artifact-push-admin
   waitFor: ['artifact-build-admin']
@@ -297,6 +325,10 @@ steps:
     - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
     - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
 - id: artifact-build-client
   waitFor: ['artifact-prepare']
@@ -328,6 +360,10 @@ steps:
     - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
     - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
 - id: artifact-push-client
   waitFor: ['artifact-build-client']
@@ -359,6 +395,10 @@ steps:
     - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
     - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
 - id: artifact-build-graphql
   waitFor: ['artifact-prepare']
@@ -390,6 +430,10 @@ steps:
     - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
     - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
 - id: artifact-push-graphql
   waitFor: ['artifact-build-graphql']
@@ -421,6 +465,10 @@ steps:
     - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
     - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
 - id: artifact-build-server
   waitFor: ['artifact-prepare']
@@ -452,6 +500,10 @@ steps:
     - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
     - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
 - id: artifact-push-server
   waitFor: ['artifact-build-server']
@@ -483,6 +535,10 @@ steps:
     - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
     - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
 - id: artifact-build-www
   waitFor: ['artifact-prepare']
@@ -514,6 +570,10 @@ steps:
     - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
     - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
 - id: artifact-push-www
   waitFor: ['artifact-build-www']
@@ -545,6 +605,10 @@ steps:
     - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
     - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
 # Deploy to target environment
 
@@ -577,6 +641,10 @@ steps:
     - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
     - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
 - id: deployment-deploy
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
@@ -607,6 +675,10 @@ steps:
     - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
     - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
 # Run tests against the target environment
 
@@ -639,6 +711,10 @@ steps:
     - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
     - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
 - id: test
   waitFor: ['deployment-wait']
@@ -670,6 +746,10 @@ steps:
     - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
     - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
 - id: deployment-verify
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
@@ -700,6 +780,10 @@ steps:
     - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
     - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
 # Publish and release
 
@@ -732,6 +816,10 @@ steps:
     - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
     - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
 - id: artifact-release
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
@@ -762,3 +850,7 @@ steps:
     - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
     - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
