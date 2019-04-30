@@ -10,12 +10,14 @@
 # Taito CLI
 taito_version=1
 taito_plugins="
+  gcloud:-local
   terraform:-local
   gcloud-secrets:-local default-secrets generate-secrets
   docker docker-compose:local kubectl:-local helm:-local
   postgres-db sqitch-db
-  gcloud:-local gcloud-storage:-local
-  gcloud-ci:-local gcloud-monitoring:-local
+  gcloud-storage:-local
+  gcloud-ci:-local
+  gcloud-monitoring:-local
   npm git-global links-global
   semantic-release sentry
 "
