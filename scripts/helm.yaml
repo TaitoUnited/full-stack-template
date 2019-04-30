@@ -23,6 +23,7 @@ full-stack:
 
   ingress:
     class: nginx
+    oldRewritePolicy: false
     tls: true
     maxBodySize: 1m
     basicAuth:
@@ -127,7 +128,7 @@ full-stack:
         API_PORT: '8080'
         API_BINDADDR: '0.0.0.0'
         DATABASE_HOST: '${db_database_real_host}'
-        DATABASE_PORT: '5432'
+        DATABASE_PORT: '${db_database_real_port}'
         DATABASE_NAME: ${db_database_name}
         DATABASE_USER: ${db_database_name}_app
         DATABASE_POOL_MIN: '5'
