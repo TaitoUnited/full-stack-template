@@ -1,6 +1,5 @@
 #!/bin/bash
 # shellcheck disable=SC2034
-: "${taito_env:?}"
 : "${taito_target_env:?}"
 
 # Configuration instructions:

@@ -68,21 +68,19 @@ You may run Cypress against any remote environment without Taito CLI or docker. 
 
 Instructions defined in [CONFIGURATION.md](CONFIGURATION.md) apply. You just need to run commands with `npm` or `docker-compose` directly instead of Taito CLI. If you want to setup the application environments or run CI/CD steps without Taito CLI, see the following instructions.
 
-## Creating an environment
+### Creating an environment
 
-* TODO: run taito-config.sh to set environment variables
-* Optional: If your application requires some application specific external resources like storage buckets, run terraform scripts are located at `scripts/terraform/`. Note that the scripts assume that a cloud provider project defined by `taito_resource_namespace` and `taito_resource_namespace_id` already exists and Terraform is allowed to create resources for that project.
-* Create a relational database (or databases) for an environment e.g. by using cloud provider web UI. See `db_*` settings in `taito-config.sh` for database definitions. Create two user accounts for the database: `SERVER_TEMPLATE_ENV` for deploying the database migrations (broad user rights) and `SERVER_TEMPLATE_ENV_app` for the application (concise user rights). Configure also database extensions if required by the application (see `database/db.sql`).
+* Run taito-config.sh to set the environment variables:
+    ```
+    set -a
+    taito_target_env=dev
+    . taito-config.sh
+    set +a
+    ```
+* Run terraform scripts that are located at `scripts/terraform/`. Note that the scripts assume that a cloud provider project defined by `taito_resource_namespace` and `taito_resource_namespace_id` already exists and Terraform is allowed to create resources for that project.
+* (TODO create database with terraform) -> Create a relational database (or databases) for an environment e.g. by using cloud provider web UI. See `db_*` settings in `taito-config.sh` for database definitions. Create two user accounts for the database: `SERVER_TEMPLATE_ENV` for deploying the database migrations (broad user rights) and `SERVER_TEMPLATE_ENV_app` for the application (concise user rights). Configure also database extensions if required by the application (see `database/db.sql`).
 * Set Kubernetes secret values with `kubectl`. The secrets are defined by `taito_secrets` in `taito-config.sh`, and they are referenced in `scripts/helm*.yaml` files.
 
-## Deploying the application (CI/CD)
+### Setting up CI/CD
 
-> TODO: support `taito project eject` that will eject minimal set of scripts to project directory so that CI/CD continues to work even without taito-cli.
-
-* Build all container images with [Docker](https://www.docker.com/) and push them to a Docker image registry.
-* Deploy database migrations with [Sqitch](http://sqitch.org/). Sqitch scripts are located in `database/`.
-* Deploy application to Kubernetes with [Helm](https://helm.sh/). Helm templates are located in `scripts/helm/` and environment specific values are located in `scripts/helm*.yaml`. Note that Helm does not support environment variables in value yaml files (this feature is implemented in the Taito CLI Helm plugin). Therefore you need to create a separate `scripts/heml-ENV.yaml` file for each environment and use hardcoded values in each.
-* Optional: Run automatic integration and e2e tests
-* Optional: Revert migrations and deployment if some of the tests fail.
-* Optional: Generate documentation and other artifacts, and publish them
-* Optional: Make a production release with semantic-release (see `package.json`)
+You can easily implement CI/CD steps without Taito CLI. See [continuous integration and delivery](https://github.com/TaitoUnited/taito-cli/blob/master/docs/manual/05-continuous-integration-and-delivery.md) chapter of Taito CLI manual for instructions.
