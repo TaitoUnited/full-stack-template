@@ -3,7 +3,7 @@
 : "${taito_target_env:?}"
 
 # Configuration instructions:
-# - https://github.com/TaitoUnited/taito-cli/blob/master/docs/manual/04-configuration.md
+# - https://github.com/TaitoUnited/taito-cli/blob/master/docs/manual/05-configuration.md
 # - https://github.com/TaitoUnited/taito-cli/blob/master/docs/plugins.md
 
 # Taito CLI
