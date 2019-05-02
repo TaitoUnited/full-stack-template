@@ -160,10 +160,10 @@ steps:
 
 # Build artifacts in parallel
 
-- id: artifact-build-admin
+- id: artifact-prepare-admin
   waitFor: ['build-prepare']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-build:admin:$BRANCH_NAME', '$COMMIT_SHA']
+  args: ['artifact-prepare:admin:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
     # NOTE: These are removed by 'taito project create'
@@ -196,46 +196,10 @@ steps:
     - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
     - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
-- id: artifact-push-admin
-  waitFor: ['artifact-build-admin']
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-push:admin:$BRANCH_NAME', '$COMMIT_SHA']
-  env:
-    - taito_mode=ci
-    # NOTE: These are removed by 'taito project create'
-    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
-    - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
-    - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
-    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
-    - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
-    - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
-    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
-    - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
-    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
-    - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
-    - template_default_provider_org_id=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID}
-    - template_default_provider_org_id_prod=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID_PROD}
-    - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
-    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
-    - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
-    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
-    - template_default_monitoring_uptime_channels_prod=${_TEMPLATE_DEFAULT_MONITORING_UPTIME_CHANNELS_PROD}
-    - template_default_container_registry=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY}
-    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
-    - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
-    - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
-    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
-    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
-    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
-    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
-    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
-
-- id: artifact-build-client
+- id: artifact-prepare-client
   waitFor: ['build-prepare']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-build:client:$BRANCH_NAME', '$COMMIT_SHA']
+  args: ['artifact-prepare:client:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
     # NOTE: These are removed by 'taito project create'
@@ -268,46 +232,10 @@ steps:
     - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
     - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
-- id: artifact-push-client
-  waitFor: ['artifact-build-client']
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-push:client:$BRANCH_NAME', '$COMMIT_SHA']
-  env:
-    - taito_mode=ci
-    # NOTE: These are removed by 'taito project create'
-    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
-    - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
-    - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
-    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
-    - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
-    - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
-    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
-    - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
-    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
-    - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
-    - template_default_provider_org_id=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID}
-    - template_default_provider_org_id_prod=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID_PROD}
-    - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
-    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
-    - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
-    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
-    - template_default_monitoring_uptime_channels_prod=${_TEMPLATE_DEFAULT_MONITORING_UPTIME_CHANNELS_PROD}
-    - template_default_container_registry=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY}
-    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
-    - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
-    - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
-    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
-    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
-    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
-    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
-    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
-
-- id: artifact-build-graphql
+- id: artifact-prepare-graphql
   waitFor: ['build-prepare']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-build:graphql:$BRANCH_NAME', '$COMMIT_SHA']
+  args: ['artifact-prepare:graphql:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
     # NOTE: These are removed by 'taito project create'
@@ -340,46 +268,10 @@ steps:
     - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
     - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
-- id: artifact-push-graphql
-  waitFor: ['artifact-build-graphql']
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-push:graphql:$BRANCH_NAME', '$COMMIT_SHA']
-  env:
-    - taito_mode=ci
-    # NOTE: These are removed by 'taito project create'
-    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
-    - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
-    - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
-    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
-    - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
-    - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
-    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
-    - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
-    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
-    - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
-    - template_default_provider_org_id=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID}
-    - template_default_provider_org_id_prod=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID_PROD}
-    - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
-    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
-    - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
-    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
-    - template_default_monitoring_uptime_channels_prod=${_TEMPLATE_DEFAULT_MONITORING_UPTIME_CHANNELS_PROD}
-    - template_default_container_registry=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY}
-    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
-    - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
-    - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
-    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
-    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
-    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
-    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
-    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
-
-- id: artifact-build-server
+- id: artifact-prepare-server
   waitFor: ['build-prepare']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-build:server:$BRANCH_NAME', '$COMMIT_SHA']
+  args: ['artifact-prepare:server:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
     # NOTE: These are removed by 'taito project create'
@@ -412,82 +304,10 @@ steps:
     - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
     - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
-- id: artifact-push-server
-  waitFor: ['artifact-build-server']
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-push:server:$BRANCH_NAME', '$COMMIT_SHA']
-  env:
-    - taito_mode=ci
-    # NOTE: These are removed by 'taito project create'
-    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
-    - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
-    - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
-    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
-    - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
-    - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
-    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
-    - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
-    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
-    - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
-    - template_default_provider_org_id=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID}
-    - template_default_provider_org_id_prod=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID_PROD}
-    - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
-    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
-    - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
-    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
-    - template_default_monitoring_uptime_channels_prod=${_TEMPLATE_DEFAULT_MONITORING_UPTIME_CHANNELS_PROD}
-    - template_default_container_registry=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY}
-    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
-    - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
-    - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
-    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
-    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
-    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
-    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
-    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
-
-- id: artifact-build-www
+- id: artifact-prepare-www
   waitFor: ['build-prepare']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-build:www:$BRANCH_NAME', '$COMMIT_SHA']
-  env:
-    - taito_mode=ci
-    # NOTE: These are removed by 'taito project create'
-    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
-    - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
-    - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
-    - template_default_git_organization=${_TEMPLATE_DEFAULT_GIT_ORGANIZATION}
-    - template_default_git_url=${_TEMPLATE_DEFAULT_GIT_URL}
-    - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
-    - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
-    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
-    - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
-    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
-    - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
-    - template_default_provider_org_id=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID}
-    - template_default_provider_org_id_prod=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID_PROD}
-    - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
-    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
-    - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
-    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
-    - template_default_monitoring_uptime_channels_prod=${_TEMPLATE_DEFAULT_MONITORING_UPTIME_CHANNELS_PROD}
-    - template_default_container_registry=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY}
-    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
-    - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
-    - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
-    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
-    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
-    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
-    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
-    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
-
-- id: artifact-push-www
-  waitFor: ['artifact-build-www']
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-push:www:$BRANCH_NAME', '$COMMIT_SHA']
+  args: ['artifact-prepare:www:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
     # NOTE: These are removed by 'taito project create'
@@ -630,7 +450,6 @@ steps:
     - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
 - id: test
-  waitFor: ['deployment-wait']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['test:$BRANCH_NAME']
   env:

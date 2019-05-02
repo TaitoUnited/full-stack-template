@@ -13,7 +13,7 @@ This file has been copied from [SERVER-TEMPLATE](https://github.com/TaitoUnited/
 
 ## Version control settings
 
-Run `taito open conventions` in the project directory to see organization specific settings that you should configure for your git repository.
+Run `taito open conventions` in the project directory to see organization specific settings that you should configure for your git repository. At least you should set `dev` as the default branch to avoid people using master branch for development by accident.
 
 * [ ] All done
 
@@ -30,7 +30,9 @@ Run `taito open conventions` in the project directory to see organization specif
   5. Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `check-deps`, `check-size`.
   6. Add the service to your CI/CD script (`.yml/.yaml` or `Jenkinsfile` in project root or `.github/main.workflow`).
 
-**Istio:** TODO: Istio support.
+**Kafka:** TODO: Kafka for event-driven microservices.
+
+**Istio:** TODO: Istio service mesh.
 
 **Minikube:** If you would rather use minikube for local development instead of docker-compose, remove `docker-compose:local` plugin, and the `:-local` restriction from `kubectl:-local` and `helm:-local` plugins. These are configured with the `taito_plugins` setting in `taito-config.sh`. (TODO: Not tested on minikube yet. Probably needs some additional work.)
 
@@ -44,7 +46,7 @@ Run `taito open conventions` in the project directory to see organization specif
 
 The project template comes with a bunch of implementation examples. Browse the examples through, leave the ones that seem useful and remove all the rest. You can use the `taito check deps` command to prune unused dependencies. NOTE: Many of the `devDependencies` and `~` references are actually in use even if reported unused by the tool. But all unused `dependencies` may usually be removed from package.json.
 
-The client GUI uses [Material-UI](https://material-ui-next.com/) component library by default. It's a good match with the [react-admin](https://github.com/marmelab/react-admin) GUI, but please consider also other alternatives based on customer requirements. For example [Elemental](http://elemental-ui.com/) is a good alternative.
+The client GUI uses [Material-UI](https://material-ui-next.com/) component library by default. It's a good match with the [react-admin](https://github.com/marmelab/react-admin) GUI, but please consider also other alternatives based on customer requirements. For example [Semantic UI React](https://react.semantic-ui.com/) and [Elemental](http://elemental-ui.com/) are also good alternatives.
 
 * [ ] All done
 

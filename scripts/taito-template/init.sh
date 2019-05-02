@@ -145,10 +145,10 @@ function prune () {
     # TODO PRUNE aws-pipelines.yml
     # TODO PRUNE azure-pipelines.yml
     sed -i "/:$name:/d" build.sh
-    sed -i "/- step: # $name/,/taito artifact-push:$name/d" bitbucket-pipelines.yml
+    sed -i "/- step: # $name prepare/,/$name-tester.docker/d" bitbucket-pipelines.yml
+    sed -i "/- step: # $name release/,/taito artifact-release:$name/d" bitbucket-pipelines.yml
     sed -i "/REPO_NAME\\/$name:/d" cloudbuild.yaml
-    sed -i "/^- id: artifact-build-$name\$/,/^$/d" cloudbuild.yaml
-    sed -i "/^- id: artifact-push-$name\$/,/^$/d" cloudbuild.yaml
+    sed -i "/^- id: artifact-prepare-$name\$/,/^$/d" cloudbuild.yaml
     # TODO PRUNE Jenkinsfile
 
     if [[ $name == "client" ]]; then
