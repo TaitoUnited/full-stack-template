@@ -154,7 +154,7 @@ sed -i "s/7463/${www_port}/g" taito-config.sh docker-compose.yaml \
 sed -i "s/6000/${db_port}/g" taito-config.sh docker-compose.yaml \
   TAITOLESS.md &> /dev/null
 sed -i "s/9999/${ingress_port}/g" docker-compose.yaml taito-config.sh \
-  ./admin/package.json ./client/package.json TAITOLESS.md &> /dev/null
+  ./admin/package.json ./client/package.json TAITOLESS.md &> /dev/null || :
 
 ./scripts/taito-template/common.sh
 echo init done
