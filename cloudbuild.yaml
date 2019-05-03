@@ -113,7 +113,7 @@ steps:
       grep "$${full_repo_name}@$${branch_name}" | \
       grep -v "$${build_id}" | \
       cut -d ' ' -f 1 | \
-      xargs -L1 gcloud builds cancel
+      xargs -L1 gcloud builds cancel 2> /dev/null
 
     echo "- We ignore all fails during cancel (hence the last echo)"
 
