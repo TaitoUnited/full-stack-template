@@ -317,7 +317,4 @@ fi
 # Clean up
 ######################
 
-echo "Cleaning up"
-rm -f temp
-
 read -t 1 -n 10000 discard
