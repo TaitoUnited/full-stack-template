@@ -23,16 +23,12 @@ echo "If you are unsure, just accept the defaults."
 echo
 
 function prune () {
-  local message;
-  local name;
-  local path;
-  local path2;
-  message=$1
-  name=$2
-  path=$3
-  path2=$4
+  local message=$1
+  local name=$2
+  local path=$3
+  local path2=$4
 
-  read -t 1 -n 10000 discard
+  read -t 1 -n 10000 discard || :
   echo "$message"
   read -r confirm
   if ( [[ "$message" == *"(y/N)"* ]] && ! [[ "${confirm}" =~ ^[Yy]$ ]] ) || \

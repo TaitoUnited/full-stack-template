@@ -317,4 +317,4 @@ fi
 # Clean up
 ######################
 
-read -t 1 -n 10000 discard
+read -t 1 -n 10000 discard || :
