@@ -10,7 +10,6 @@ workflow "Build, deploy, test, publish" {
 # Prepare build
 
 action "build-prepare" {
-  needs = "install"
   uses = "docker://$template_default_taito_image"
   runs = ["bash", "-c", "taito build-prepare:${GITHUB_REF#refs/heads/}"]
   env = {
@@ -79,7 +78,6 @@ action "artifact-prepare:www" {
 # Deploy
 
 action "db-deploy" {
-  needs = "TODO: how to wait for all previous steps?"
   uses = "docker://$template_default_taito_image"
   runs = ["bash", "-c", "taito db-deploy:${GITHUB_REF#refs/heads/}"]
   env = {
@@ -87,7 +85,6 @@ action "db-deploy" {
   }
 }
 action "deployment-deploy" {
-  needs = "db-deploy"
   uses = "docker://$template_default_taito_image"
   runs = ["bash", "-c", "taito deployment-deploy:${GITHUB_REF#refs/heads/} $GITHUB_SHA"]
   env = {
@@ -98,7 +95,6 @@ action "deployment-deploy" {
 # Test and verify deployment
 
 action "deployment-wait" {
-  needs = "deployment-deploy"
   uses = "docker://$template_default_taito_image"
   runs = ["bash", "-c", "taito deployment-wait:${GITHUB_REF#refs/heads/}"]
   env = {
@@ -106,7 +102,6 @@ action "deployment-wait" {
   }
 }
 action "test" {
-  needs = "deployment-wait"
   uses = "docker://$template_default_taito_image"
   runs = ["bash", "-c", "taito test:${GITHUB_REF#refs/heads/}"]
   env = {
@@ -114,7 +109,6 @@ action "test" {
   }
 }
 action "deployment-verify" {
-  needs = "test"
   uses = "docker://$template_default_taito_image"
   runs = ["bash", "-c", "taito deployment-verify:${GITHUB_REF#refs/heads/}"]
   env = {
@@ -125,7 +119,7 @@ action "deployment-verify" {
 # Release artifacts
 
 action "artifact-release:admin" {
-  needs = "build-prepare"
+  needs = "deployment-verify"
   uses = "docker://$template_default_taito_image"
   runs = [
     "bash", "-c",
@@ -136,7 +130,7 @@ action "artifact-release:admin" {
   }
 }
 action "artifact-release:client" {
-  needs = "build-prepare"
+  needs = "deployment-verify"
   uses = "docker://$template_default_taito_image"
   runs = [
     "bash", "-c",
@@ -147,7 +141,7 @@ action "artifact-release:client" {
   }
 }
 action "artifact-release:graphql" {
-  needs = "build-prepare"
+  needs = "deployment-verify"
   uses = "docker://$template_default_taito_image"
   runs = [
     "bash", "-c",
@@ -158,7 +152,7 @@ action "artifact-release:graphql" {
   }
 }
 action "artifact-release:server" {
-  needs = "build-prepare"
+  needs = "deployment-verify"
   uses = "docker://$template_default_taito_image"
   runs = [
     "bash", "-c",
@@ -169,7 +163,7 @@ action "artifact-release:server" {
   }
 }
 action "artifact-release:www" {
-  needs = "build-prepare"
+  needs = "deployment-verify"
   uses = "docker://$template_default_taito_image"
   runs = [
     "bash", "-c",
@@ -183,7 +177,6 @@ action "artifact-release:www" {
 # Release build
 
 action "build-release" {
-  needs = "deployment-verify"
   uses = "docker://$template_default_taito_image"
   runs = [
     "bash", "-c",

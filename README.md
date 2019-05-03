@@ -4,7 +4,7 @@
 
 # server-template
 
-Template for applications and APIs running on Kubernetes. The example implementation is based on React, Node.js, Postgres and S3, but you can choose your own custom stack by selecting stack components from [server-template-alt](https://github.com/TaitoUnited/server-template-alt). Support for [Knative](https://pivotal.io/knative), [Istio](https://istio.io/) and [Telepresence](https://www.telepresence.io/) will likely be added later, once they have matured enough.
+Template for applications and APIs running on Kubernetes. The example implementation is based on React, Node.js, Postgres and S3, but you can choose your own custom stack by selecting stack components from [alternatives](https://github.com/TaitoUnited/server-template/tree/master/alternatives). Support for [Knative](https://pivotal.io/knative), [Istio](https://istio.io/) and [Telepresence](https://www.telepresence.io/) will likely be added later, once they have matured enough.
 
 You can create a new project from this template by running `taito project create: server-template`. Later you can upgrade your project to the latest version of the template by running `taito project upgrade`. To ensure flawless upgrade, do not modify files that have a **do-not-modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files of the template instead, and then upgrade.
 
