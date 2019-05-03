@@ -153,8 +153,10 @@ sed -i "s/\${template_default_backup_location_prod:-}/${template_default_backup_
 sed -i "s/\${template_default_backup_days:-}/${template_default_backup_days:-}/g" taito-config.sh
 sed -i "s/\${template_default_backup_days_prod:-}/${template_default_backup_days_prod:-}/g" taito-config.sh
 
-echo "Removing template settings from docker-compose-test.yaml..."
-sed -i '/template_default_/d' docker-compose-test.yaml
+if [[ -f docker-compose-test.yaml ]]; then
+  echo "Removing template settings from docker-compose-test.yaml..."
+  sed -i '/template_default_/d' docker-compose-test.yaml
+fi
 
 ############################
 # Replace provider settings

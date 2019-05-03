@@ -20,6 +20,9 @@ pipelines:
         script:
           - export taito_mode=ci
           - taito build-prepare:$BITBUCKET_BRANCH
+        artifacts:
+          - taitoflag_version
+          - taitoflag_images_exist
     # Prepare artifacts in parallel
     - parallel:
       - step: # admin prepare
