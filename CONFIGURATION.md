@@ -78,7 +78,9 @@ Write down the basic auth credentials to `taito-config.sh`:
 
 Push some changes to dev branch:
 
-    taito push             # Or just git push
+    taito stage            # Or just 'git add .'
+    taito commit           # Or just 'git commit'
+    taito push             # Or just 'git push'
 
 See it build and deploy:
 
