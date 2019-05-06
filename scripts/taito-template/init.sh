@@ -84,6 +84,7 @@ function prune () {
 
     if [[ $name == "server" ]]; then
       sed -i "s/ \\/api\\/uptimez / /" taito-config.sh
+      sed -i "s/ \\/api\\/docs / /" taito-config.sh
     fi
 
     if [[ $name == "www" ]]; then
