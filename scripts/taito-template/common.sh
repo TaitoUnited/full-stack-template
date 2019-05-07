@@ -19,6 +19,7 @@
 : "${template_default_zone_prod:?}"
 : "${template_default_git_provider:?}"
 : "${template_default_provider:?}"
+: "${template_default_provider_prod:?}"
 : "${template_default_provider_org_id:?}"
 : "${template_default_provider_org_id_prod:?}"
 : "${template_default_provider_region:?}"
@@ -32,6 +33,8 @@
 : "${template_default_kubernetes:?}"
 : "${template_default_kubernetes_cluster_prefix:?}"
 : "${template_default_kubernetes_cluster_prefix_prod:?}"
+: "${template_default_ci_exec_deploy:?}"
+: "${template_default_ci_exec_deploy_prod:?}"
 
 : "${template_project_path:?}"
 : "${mode:?}"
@@ -65,16 +68,6 @@ while [[ " aws azure bitbucket github gitlab gcloud jenkins shell travis " != *"
   read -r ci
 done
 
-if [[ ${template_default_ci_deploy_with_spinnaker:-} ]]; then
-  ci_deploy_with_spinnaker=$template_default_ci_deploy_with_spinnaker
-else
-  echo "Use Spinnaker for deployment (y/N)?"
-  read -r confirm
-  if [[ ${confirm} =~ ^[Yy]$ ]]; then
-    ci_deploy_with_spinnaker=true
-  fi
-fi
-
 #######################
 # Replace some strings
 #######################
@@ -107,6 +100,7 @@ sed -i "s/\${template_default_domain_prod:?}/${template_default_domain_prod}/g" 
 sed -i "s/\${template_default_zone:?}/${template_default_zone}/g" taito-config.sh
 sed -i "s/\${template_default_zone_prod:?}/${template_default_zone_prod}/g" taito-config.sh
 sed -i "s/\${template_default_provider:?}/${template_default_provider}/g" taito-config.sh
+sed -i "s/\${template_default_provider_prod:-\$template_default_provider}/${template_default_provider_prod}/g" taito-config.sh
 sed -i "s/\${template_default_provider_org_id:?}/${template_default_provider_org_id}/g" taito-config.sh
 sed -i "s/\${template_default_provider_org_id_prod:?}/${template_default_provider_org_id_prod}/g" taito-config.sh
 sed -i "s/\${template_default_provider_region:?}/${template_default_provider_region}/g" taito-config.sh
@@ -118,24 +112,28 @@ sed -i "s|\${template_default_container_registry:?}|${template_default_container
 sed -i "s/\${template_default_source_git:?}/${template_default_source_git}/g" taito-config.sh
 sed -i "s/\${template_default_dest_git:?}/${template_default_dest_git}/g" taito-config.sh
 
+# CI/CD
+sed -i "s/\${template_default_ci_exec_deploy:-true}/${template_default_ci_exec_deploy}/g" taito-config.sh
+sed -i "s/\${template_default_ci_exec_deploy_prod:-true}/${template_default_ci_exec_deploy_prod}/g" taito-config.sh
+
 # Kubernetes
 sed -i "s/\${template_default_kubernetes:?}/${template_default_kubernetes}/g" taito-config.sh
 sed -i "s|\${template_default_kubernetes_cluster_prefix:?}|${template_default_kubernetes_cluster_prefix}|g" taito-config.sh
 sed -i "s|\${template_default_kubernetes_cluster_prefix_prod:?}|${template_default_kubernetes_cluster_prefix_prod}|g" taito-config.sh
 
 # Postgres
-sed -i "s/\${template_default_postgres:?}/${template_default_postgres}/g" taito-config.sh
-sed -i "s/\${template_default_postgres_host:?}/${template_default_postgres_host}/g" taito-config.sh
-sed -i "s/\${template_default_postgres_host_prod:?}/${template_default_postgres_host_prod}/g" taito-config.sh
-sed -i "s/\${template_default_postgres_master_username:?}/${template_default_postgres_master_username}/g" taito-config.sh
-sed -i "s/\${template_default_postgres_master_password_hint:?}/${template_default_postgres_master_password_hint}/g" taito-config.sh
+sed -i "s/\${template_default_postgres:?}/${template_default_postgres:-}/g" taito-config.sh
+sed -i "s/\${template_default_postgres_host:?}/${template_default_postgres_host:-}/g" taito-config.sh
+sed -i "s/\${template_default_postgres_host_prod:?}/${template_default_postgres_host_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_postgres_master_username:?}/${template_default_postgres_master_username:-}/g" taito-config.sh
+sed -i "s/\${template_default_postgres_master_password_hint:?}/${template_default_postgres_master_password_hint:-}/g" taito-config.sh
 
 # MySQL
-sed -i "s/\${template_default_mysql:?}/${template_default_mysql}/g" taito-config.sh
-sed -i "s/\${template_default_mysql_host:?}/${template_default_mysql_host}/g" taito-config.sh
-sed -i "s/\${template_default_mysql_host_prod:?}/${template_default_mysql_host_prod}/g" taito-config.sh
-sed -i "s/\${template_default_mysql_master_username:?}/${template_default_mysql_master_username}/g" taito-config.sh
-sed -i "s/\${template_default_mysql_master_password_hint:?}/${template_default_mysql_master_password_hint}/g" taito-config.sh
+sed -i "s/\${template_default_mysql:?}/${template_default_mysql:-}/g" taito-config.sh
+sed -i "s/\${template_default_mysql_host:?}/${template_default_mysql_host:-}/g" taito-config.sh
+sed -i "s/\${template_default_mysql_host_prod:?}/${template_default_mysql_host_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_mysql_master_username:?}/${template_default_mysql_master_username:-}/g" taito-config.sh
+sed -i "s/\${template_default_mysql_master_password_hint:?}/${template_default_mysql_master_password_hint:-}/g" taito-config.sh
 
 # Storage
 sed -i "s/\${template_default_storage_class:-}/${template_default_storage_class:-}/g" taito-config.sh
@@ -156,37 +154,6 @@ sed -i "s/\${template_default_backup_days_prod:-}/${template_default_backup_days
 if [[ -f docker-compose-test.yaml ]]; then
   echo "Removing template settings from docker-compose-test.yaml..."
   sed -i '/template_default_/d' docker-compose-test.yaml
-fi
-
-############################
-# Replace provider settings
-############################
-
-echo "Configuring provider settings for ${template_default_provider}"
-if [[ "${template_default_provider}" == "gcloud" ]]; then
-  echo "gcloud already configured by default"
-elif [[ "${template_default_provider}" == "aws" ]]; then
-  sed -i "s/ gcloud:-local/ aws:-local/" taito-config.sh
-  sed -i "s/ gcloud-secrets:-local//" taito-config.sh
-  sed -i "s/ gcloud-storage:-local/ aws-storage:-local/" taito-config.sh
-  sed -i '/gcloud-monitoring:-local/d' taito-config.sh
-  sed -i "s/kubernetes_db_proxy_enabled=false/kubernetes_db_proxy_enabled=true/" taito-config.sh
-  sed -i '/gserviceaccount/d' taito-config.sh
-
-  # Links
-  sed -i '/* services/d' taito-config.sh
-  sed -i "s|^  \\* logs:ENV=.*|  * logs:ENV=https://${template_default_provider_region}.console.aws.amazon.com/cloudwatch/home?region=${template_default_provider_region}#logs: Logs (:ENV)|" taito-config.sh
-  # TODO: monitoring
-
-  # AWS credentials
-  sed -i '/^  _IMAGE_REGISTRY:/a\  _AWS_ACCESS_KEY_ID:\n  _AWS_SECRET_ACCESS_KEY:' cloudbuild.yaml
-  sed -i '/^    - taito_mode=ci/a\    - AWS_ACCESS_KEY_ID=$_AWS_ACCESS_KEY_ID\n    - AWS_SECRET_ACCESS_KEY=$_AWS_SECRET_ACCESS_KEY' cloudbuild.yaml
-  sed -i "/^    # TODO: should be implemented in taito-cli plugin\$/,/^$/d" cloudbuild.yaml
-
-  echo "TODO: remove Google Cloud storage gateway"
-else
-  echo "ERROR: Unknown provider '${template_default_provider}'"
-  exit 1
 fi
 
 ######################
@@ -277,12 +244,6 @@ if [[ $ci == "shell" ]]; then
   sed -i "s/ gcloud-ci:-local//" taito-config.sh
 else
   rm -f build.sh
-fi
-
-# spinnaker
-if [[ $ci_deploy_with_spinnaker == "true" ]]; then
-  echo "NOTE: Spinnaker CI/CD not yet implemented."
-  read -r
 fi
 
 # travis
