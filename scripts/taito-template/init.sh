@@ -8,7 +8,10 @@ ${taito_setv:?}
 
 # Remove some files and directories
 rm -rf alternatives
+
+# Function not supported yet
 rm -rf function
+sed -i "s/ function / /" taito-config.sh
 
 # Remote the example site
 rm -rf www/site

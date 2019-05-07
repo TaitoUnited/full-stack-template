@@ -56,10 +56,13 @@ taito_vc_repository_url=${template_default_git_url:?}/$taito_vc_repository
 taito_image_registry=${template_default_container_registry:?}/$taito_vc_repository
 
 # Stack
-taito_targets=" admin client cache graphql database queue server storage worker www "
-taito_databases="database"
+taito_targets=" admin client cache graphql database function queue server storage worker www "
 taito_storages="$taito_random_name-$taito_env"
 taito_networks="default"
+
+# Stack types ('container' by default)
+taito_target_type_database=database
+taito_target_type_function=function
 
 # Database definitions for database plugins
 db_database_instance=${template_default_postgres:?}
