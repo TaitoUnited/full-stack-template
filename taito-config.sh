@@ -267,6 +267,7 @@ taito_secrets="
 # Define database mgr password for automatic CI/CD deployments
 if [[ $ci_exec_deploy == "true" ]]; then
   taito_remote_secrets="
+    $taito_remote_secrets
     $db_database_name-db-mgr.password/devops:random
   "
 fi
