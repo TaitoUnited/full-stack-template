@@ -12,6 +12,7 @@
 : "${template_default_organization_abbr:?}"
 : "${template_default_vc_organization:?}"
 : "${template_default_vc_url:?}"
+: "${template_default_vc_url_prod:?}"
 : "${template_default_sentry_organization:?}"
 : "${template_default_domain:?}"
 : "${template_default_domain_prod:?}"
@@ -97,6 +98,7 @@ sed -i "s/\${template_default_organization:?}/${template_default_organization}/g
 sed -i "s/\${template_default_organization_abbr:?}/${template_default_organization_abbr}/g" taito-config.sh
 sed -i "s/\${template_default_vc_organization:?}/${template_default_vc_organization}/g" taito-config.sh
 sed -i "s|\${template_default_vc_url:?}|${template_default_vc_url}|g" taito-config.sh
+sed -i "s|\${template_default_vc_url_prod:?}|${template_default_vc_url_prod}|g" taito-config.sh
 sed -i "s/\${template_default_sentry_organization:?}/${template_default_sentry_organization}/g" taito-config.sh
 sed -i "s/\${template_default_domain:?}/${template_default_domain}/g" taito-config.sh
 sed -i "s/\${template_default_domain_prod:?}/${template_default_domain_prod}/g" taito-config.sh
@@ -184,6 +186,57 @@ sed -i "s/\$template_default_taito_image_username/${template_default_taito_image
 sed -i "s/\$template_default_taito_image_password/${template_default_taito_image_password:-}/g" ${ci_scripts}
 sed -i "s/\$template_default_taito_image_email/${template_default_taito_image_email:-}/g" ${ci_scripts}
 sed -i "s|\$template_default_taito_image|${template_default_taito_image}|g" ${ci_scripts}
+
+################################
+# Remove obsolete CI/CD scripts
+################################
+
+echo "Removing obsolete CI/CD scripts"
+
+# aws
+if [[ $ci != "aws" ]] && [[ $template_default_ci_provider_prod != "aws" ]]; then
+  rm -f aws-pipelines.yml
+fi
+
+# azure
+if [[ $ci != "azure" ]] && [[ $template_default_ci_provider_prod != "azure" ]]; then
+  rm -f azure-pipelines.yml
+fi
+
+# bitbucket
+if [[ $ci != "bitbucket" ]] && [[ $template_default_ci_provider_prod != "bitbucket" ]]; then
+  rm -f bitbucket-pipelines.yml
+fi
+
+# github
+if [[ $ci != "github" ]] && [[ $template_default_ci_provider_prod != "github" ]]; then
+  rm -rf .github
+fi
+
+# gitlab
+if [[ $ci != "gitlab" ]] && [[ $template_default_ci_provider_prod != "gitlab" ]]; then
+  rm -rf .gitlab-ci.yml
+fi
+
+# gcloud
+if [[ $ci != "gcloud" ]] && [[ $template_default_ci_provider_prod != "gcloud" ]]; then
+  rm -f cloudbuild.yaml
+fi
+
+# jenkins
+if [[ $ci != "jenkins" ]] && [[ $template_default_ci_provider_prod != "jenkins" ]]; then
+  rm -f Jenkinsfile
+fi
+
+# shell
+if [[ $ci != "shell" ]] && [[ $template_default_ci_provider_prod != "shell" ]]; then
+  rm -f build.sh
+fi
+
+# travis
+if [[ $ci != "travis" ]] && [[ $template_default_ci_provider_prod != "travis" ]]; then
+  rm -f .travis.yml
+fi
 
 ##############################
 # Initialize semantic-release

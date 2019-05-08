@@ -172,6 +172,7 @@ case $taito_env in
     # CI/CD and repositories
     taito_ci_provider=${template_default_ci_provider_prod:?}
     taito_vc_provider=${template_default_vc_provider_prod:?}
+    taito_vc_repository_url=${template_default_vc_url_prod:?}/$taito_vc_repository
     taito_image_registry=${template_default_container_registry_prod:?}/$taito_vc_repository
     ci_exec_deploy=${template_default_ci_exec_deploy_prod:-true}
     ;;
@@ -192,6 +193,7 @@ case $taito_env in
     # CI/CD
     taito_ci_provider=${template_default_ci_provider_prod:?}
     taito_vc_provider=${template_default_vc_provider_prod:?}
+    taito_vc_repository_url=${template_default_vc_url_prod:?}/$taito_vc_repository
     taito_image_registry=${template_default_container_registry_prod:?}/$taito_vc_repository
     ci_exec_deploy=${template_default_ci_exec_deploy_prod:-true}
     ;;
