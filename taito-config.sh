@@ -351,7 +351,7 @@ case $taito_ci_provider in
 esac
 
 case $taito_vc_provider in
-  bitbucket)
+  bitbucket.org)
     taito_plugins="
       ${taito_plugins}
       bitbucket-ci:-local
@@ -362,7 +362,7 @@ case $taito_vc_provider in
       * project=https://$taito_vc_repository_url/addon/trello/trello-board Project management
     "
     ;;
-  github)
+  github.com)
     taito_plugins="
       ${taito_plugins}
       gcloud-ci:-local
