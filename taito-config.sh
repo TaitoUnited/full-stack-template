@@ -287,7 +287,7 @@ case $taito_provider in
 
     link_urls="
       ${link_urls}
-      * logs:ENV=https://${template_default_provider_region}.console.aws.amazon.com/cloudwatch/home?region=${template_default_provider_region}#logs: Logs (:ENV)
+      * logs:ENV=https://${taito_provider_region}.console.aws.amazon.com/cloudwatch/home?region=${taito_provider_region}#logs: Logs (:ENV)
     "
     ;;
   gcloud)

@@ -32,6 +32,7 @@
 : "${template_default_provider_zone_prod:?}"
 : "${template_default_monitoring_uptime_channels_prod:-}"
 : "${template_default_container_registry:?}"
+: "${template_default_container_registry_prod:?}"
 : "${template_default_source_git:?}"
 : "${template_default_dest_git:?}"
 : "${template_default_kubernetes:?}"
@@ -114,6 +115,7 @@ sed -i "s/\${template_default_provider_region_prod:?}/${template_default_provide
 sed -i "s/\${template_default_provider_zone_prod:?}/${template_default_provider_zone_prod}/g" taito-config.sh
 sed -i "s|\${template_default_monitoring_uptime_channels_prod:-}|${template_default_monitoring_uptime_channels_prod}|g" taito-config.sh
 sed -i "s|\${template_default_container_registry:?}|${template_default_container_registry}|g" taito-config.sh
+sed -i "s|\${template_default_container_registry_prod:?}|${template_default_container_registry_prod}|g" taito-config.sh
 sed -i "s/\${template_default_source_git:?}/${template_default_source_git}/g" taito-config.sh
 sed -i "s/\${template_default_dest_git:?}/${template_default_dest_git}/g" taito-config.sh
 
