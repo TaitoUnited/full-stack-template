@@ -352,10 +352,6 @@ esac
 
 case $taito_vc_provider in
   bitbucket.org)
-    taito_plugins="
-      ${taito_plugins}
-      bitbucket-ci:-local
-    "
     link_urls="
       ${link_urls}
       * docs=https://$taito_vc_repository_url/wiki/Home Project documentation
@@ -363,10 +359,6 @@ case $taito_vc_provider in
     "
     ;;
   github.com)
-    taito_plugins="
-      ${taito_plugins}
-      gcloud-ci:-local
-    "
     link_urls="
       ${link_urls}
       * docs=https://$taito_vc_repository_url/wiki Project documentation
