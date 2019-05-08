@@ -9,7 +9,7 @@ if [ "${1}" = "install" ]; then
     cp -rf /build-orig/* /build
   fi
   # Clone git and install libraries for real-time builds
-  git clone "https://${WEBHOOK_GIT_TOKEN}@${GIT_REPOSITORY_URL}" repository && \
+  git clone "https://${WEBHOOK_VC_TOKEN}@${VC_REPOSITORY_URL}" repository && \
   cd /service/repository/www && \
   git checkout "${COMMON_ENV}" && \
   npm run install-site

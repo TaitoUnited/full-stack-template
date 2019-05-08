@@ -10,14 +10,17 @@
 : "${template_default_environments:?}"
 : "${template_default_organization:?}"
 : "${template_default_organization_abbr:?}"
-: "${template_default_git_organization:?}"
-: "${template_default_git_url:?}"
+: "${template_default_vc_organization:?}"
+: "${template_default_vc_url:?}"
 : "${template_default_sentry_organization:?}"
 : "${template_default_domain:?}"
 : "${template_default_domain_prod:?}"
 : "${template_default_zone:?}"
 : "${template_default_zone_prod:?}"
-: "${template_default_git_provider:?}"
+: "${template_default_vc_provider:?}"
+: "${template_default_vc_provider_prod:?}"
+: "${template_default_ci_provider:?}"
+: "${template_default_ci_provider_prod:?}"
 : "${template_default_provider:?}"
 : "${template_default_provider_prod:?}"
 : "${template_default_provider_org_id:?}"
@@ -92,15 +95,15 @@ echo "Replacing template variables with the user specific settings..."
 sed -i "s/\${template_default_environments:?}/${template_default_environments}/g" taito-config.sh
 sed -i "s/\${template_default_organization:?}/${template_default_organization}/g" taito-config.sh
 sed -i "s/\${template_default_organization_abbr:?}/${template_default_organization_abbr}/g" taito-config.sh
-sed -i "s/\${template_default_git_organization:?}/${template_default_git_organization}/g" taito-config.sh
-sed -i "s|\${template_default_git_url:?}|${template_default_git_url}|g" taito-config.sh
+sed -i "s/\${template_default_vc_organization:?}/${template_default_vc_organization}/g" taito-config.sh
+sed -i "s|\${template_default_vc_url:?}|${template_default_vc_url}|g" taito-config.sh
 sed -i "s/\${template_default_sentry_organization:?}/${template_default_sentry_organization}/g" taito-config.sh
 sed -i "s/\${template_default_domain:?}/${template_default_domain}/g" taito-config.sh
 sed -i "s/\${template_default_domain_prod:?}/${template_default_domain_prod}/g" taito-config.sh
 sed -i "s/\${template_default_zone:?}/${template_default_zone}/g" taito-config.sh
 sed -i "s/\${template_default_zone_prod:?}/${template_default_zone_prod}/g" taito-config.sh
 sed -i "s/\${template_default_provider:?}/${template_default_provider}/g" taito-config.sh
-sed -i "s/\${template_default_provider_prod:-\$template_default_provider}/${template_default_provider_prod}/g" taito-config.sh
+sed -i "s/\${template_default_provider_prod:?}/${template_default_provider_prod}/g" taito-config.sh
 sed -i "s/\${template_default_provider_org_id:?}/${template_default_provider_org_id}/g" taito-config.sh
 sed -i "s/\${template_default_provider_org_id_prod:?}/${template_default_provider_org_id_prod}/g" taito-config.sh
 sed -i "s/\${template_default_provider_region:?}/${template_default_provider_region}/g" taito-config.sh
@@ -113,6 +116,10 @@ sed -i "s/\${template_default_source_git:?}/${template_default_source_git}/g" ta
 sed -i "s/\${template_default_dest_git:?}/${template_default_dest_git}/g" taito-config.sh
 
 # CI/CD
+sed -i "s/\${template_default_ci_provider:?}/${template_default_ci_provider}/g" taito-config.sh
+sed -i "s/\${template_default_ci_provider_prod:?}/${template_default_ci_provider_prod}/g" taito-config.sh
+sed -i "s/\${template_default_vc_provider:?}/${template_default_vc_provider}/g" taito-config.sh
+sed -i "s/\${template_default_vc_provider_prod:?}/${template_default_vc_provider_prod}/g" taito-config.sh
 sed -i "s/\${template_default_ci_exec_deploy:-true}/${template_default_ci_exec_deploy}/g" taito-config.sh
 sed -i "s/\${template_default_ci_exec_deploy_prod:-true}/${template_default_ci_exec_deploy_prod}/g" taito-config.sh
 
@@ -161,114 +168,30 @@ fi
 ######################
 
 echo "Initializing CI/CD: $ci"
-ci_script=
 
-# aws
-if [[ $ci == "aws" ]]; then
-  ci_script=aws-pipelines.yml
-  sed -i "s/ gcloud-ci:-local/aws-ci:-local/" taito-config.sh
-  echo "NOTE: AWS CI/CD not yet implemented. Implement it in '${ci_script}'."
-  read -r
-else
-  rm -f aws-pipelines.yml
-fi
+# Remove extra template stuff from cloudbuild.yaml
+sed -i "s|\${_TEMPLATE_DEFAULT_TAITO_IMAGE}|${template_default_taito_image}|g" cloudbuild.yaml
+sed -i '/_TEMPLATE_DEFAULT_/d' cloudbuild.yaml
+sed -i '/taito project create/d' cloudbuild.yaml
+sed -i '/template_default_taito_image/d' cloudbuild.yaml
+sed -i "s|_IMAGE_REGISTRY: eu.gcr.io/\$PROJECT_ID|_IMAGE_REGISTRY: ${template_default_container_registry}|" cloudbuild.yaml
 
-# azure
-if [[ $ci == "azure" ]]; then
-  ci_script=azure-pipelines.yml
-  sed -i "s/ gcloud-ci:-local/azure-ci:-local/" taito-config.sh
-  echo "NOTE: Azure CI/CD not yet implemented. Implement it in '${ci_script}'."
-  read -r
-else
-  rm -f azure-pipelines.yml
-fi
+ci_scripts="aws-pipelines.yml azure-pipelines.yml bitbucket-pipelines.yml \
+  .github/main.workflow .gitlab-ci.yml cloudbuild.yaml Jenkinsfile build.sh \
+  .travis.yml"
 
-# bitbucket
-if [[ $ci == "bitbucket" ]]; then
-  ci_script=bitbucket-pipelines.yml
-  sed -i "s/ gcloud-ci:-local/ bitbucket-ci:-local/" taito-config.sh
-
-  # Links
-  sed -i "s|^  \\* builds.*|  * builds=https://bitbucket.org/${template_default_git_organization:?}/${taito_vc_repository}/addon/pipelines/home Build logs|" taito-config.sh
-  sed -i "s|^  \\* project=.*|  * project=https://bitbucket.org/${template_default_git_organization:?}/${taito_vc_repository}/addon/trello/trello-board Project management|" taito-config.sh
-  # TODO: project documentation
-else
-  rm -f bitbucket-pipelines.yml
-fi
-
-# github
-if [[ $ci == "github" ]]; then
-  ci_script=.github/main.workflow
-  sed -i "s/ gcloud-ci:-local/github-ci:-local/" taito-config.sh
-  echo "NOTE: GitHub CI/CD not yet implemented. Implement it in '${ci_script}'."
-  read -r
-else
-  rm -rf .github
-fi
-
-# gitlab
-if [[ $ci == "gitlab" ]]; then
-  ci_script=.gitlab-ci.yml
-  sed -i "s/ gcloud-ci:-local/gitlab-ci:-local/" taito-config.sh
-  echo "NOTE: GitLab CI/CD not yet implemented. Implement it in '${ci_script}'."
-  read -r
-else
-  rm -rf .gitlab-ci.yml
-fi
-
-# gcloud
-if [[ $ci == "gcloud" ]]; then
-  ci_script=cloudbuild.yaml
-  sed -i "s|\${_TEMPLATE_DEFAULT_TAITO_IMAGE}|${template_default_taito_image}|g" cloudbuild.yaml
-  sed -i '/_TEMPLATE_DEFAULT_/d' cloudbuild.yaml
-  sed -i '/taito project create/d' cloudbuild.yaml
-  sed -i '/template_default_taito_image/d' cloudbuild.yaml
-  sed -i "s|_IMAGE_REGISTRY: eu.gcr.io/\$PROJECT_ID|_IMAGE_REGISTRY: ${template_default_container_registry}|" cloudbuild.yaml
-else
-  rm -f cloudbuild.yaml
-fi
-
-# jenkins
-if [[ $ci == "jenkins" ]]; then
-  ci_script=Jenkinsfile
-  sed -i "s/ gcloud-ci:-local/jenkins-ci:-local/" taito-config.sh
-  echo "NOTE: Jenkins CI/CD not yet implemented. Implement it in '${ci_script}'."
-  read -r
-else
-  rm -f Jenkinsfile
-fi
-
-# shell
-if [[ $ci == "shell" ]]; then
-  ci_script=build.sh
-  sed -i "s/ gcloud-ci:-local//" taito-config.sh
-else
-  rm -f build.sh
-fi
-
-# travis
-if [[ $ci == "travis" ]]; then
-  ci_script=.travis.yml
-  sed -i "s/ gcloud-ci:-local/travis-ci:-local/" taito-config.sh
-  echo "NOTE: Travis CI/CD not yet implemented. Implement it in '${ci_script}'."
-  read -r
-else
-  rm -f .travis.yml
-fi
-
-# common
-sed -i "s/\$template_default_taito_image_username/${template_default_taito_image_username:-}/g" "${ci_script}"
-sed -i "s/\$template_default_taito_image_password/${template_default_taito_image_password:-}/g" "${ci_script}"
-sed -i "s/\$template_default_taito_image_email/${template_default_taito_image_email:-}/g" "${ci_script}"
-sed -i "s|\$template_default_taito_image|${template_default_taito_image}|g" "${ci_script}"
+sed -i "s/\$template_default_taito_image_username/${template_default_taito_image_username:-}/g" ${ci_scripts}
+sed -i "s/\$template_default_taito_image_password/${template_default_taito_image_password:-}/g" ${ci_scripts}
+sed -i "s/\$template_default_taito_image_email/${template_default_taito_image_email:-}/g" ${ci_scripts}
+sed -i "s|\$template_default_taito_image|${template_default_taito_image}|g" ${ci_scripts}
 
 ##############################
 # Initialize semantic-release
 ##############################
 
-if [[ "${template_default_git_provider}" != "github.com" ]]; then
-  echo "Disabling semantic-release for git provider '${template_default_git_provider}'"
-  echo "TODO: implement semantic-release support for '${template_default_git_provider}'"
+if [[ "${template_default_vc_provider}" != "github.com" ]]; then
+  echo "Disabling semantic-release for git provider '${template_default_vc_provider}'"
+  echo "TODO: implement semantic-release support for '${template_default_vc_provider}'"
   sed -i "s/release-pre:prod\": \"semantic-release/_release-pre:prod\": \"echo DISABLED semantic-release/g" package.json
   sed -i "s/release-post:prod\": \"semantic-release/_release-post:prod\": \"echo DISABLED semantic-release/g" package.json
   sed -i '/github-buildbot/d' taito-config.sh

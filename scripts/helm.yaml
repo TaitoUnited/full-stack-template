@@ -187,9 +187,9 @@ full-stack:
         livenessDisabled: true
         secrets:
           WEBHOOK_URL_PREFIX: ${taito_project}-${taito_env}-webhook.urlprefix
-          WEBHOOK_GIT_TOKEN: ${taito_project}-${taito_env}-webhook.gittoken
+          WEBHOOK_VC_TOKEN: ${taito_project}-${taito_env}-webhook.gittoken
         env:
-          GIT_REPOSITORY_URL: ${taito_vc_repository_url}.git
+          VC_REPOSITORY_URL: ${taito_vc_repository_url}.git
 
     scheduler:
       enabled: false
