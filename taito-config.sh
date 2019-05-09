@@ -188,6 +188,7 @@ case $taito_env in
     taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
     taito_app_url=https://$taito_domain
     kubernetes_cluster="${template_default_kubernetes_cluster_prefix_prod:?}${kubernetes_name}"
+    kubernetes_replicas=2
     db_database_real_host="${template_default_postgres_host_prod:?}"
 
     # CI/CD
