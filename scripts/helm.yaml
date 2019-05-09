@@ -117,7 +117,8 @@ full-stack:
       port: 9092
       tier: backend
       livenessDisabled: true # TODO remove
-      memoryRequest: 5Mi
+      memoryRequest: 50Mi
+      memoryLimit: 512Mi
       env:
         KAFKA_ZOOKEEPER_CONNECT: ${taito_project}-${taito_env}-zookeeper:2181
         ALLOW_PLAINTEXT_LISTENER: 'yes'
@@ -129,7 +130,6 @@ full-stack:
       port: 2181
       tier: backend
       livenessDisabled: true # TODO remove
-      memoryRequest: 5Mi
       env:
         ALLOW_ANONYMOUS_LOGIN: 'yes'
 
