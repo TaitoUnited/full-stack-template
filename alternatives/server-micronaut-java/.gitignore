@@ -1,0 +1,20 @@
+Thumbs.db
+.DS_Store
+.gradle
+build/
+target/
+out/
+.idea
+*.iml
+*.ipr
+*.iws
+
+# NOTE: These are not ignored to avoid files owned by root on linux
+# NOTE: .classpath is required as non-hidden file for ide-java to work
+# .classpath
+# .project
+# .settings
+/.apt_generated/
+
+# eclipse
+bin

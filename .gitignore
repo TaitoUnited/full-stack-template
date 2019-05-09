@@ -15,3 +15,7 @@ template-tmp
 *.tmp
 *.pyc
 *~
+
+# Eclipse
+.metadata
+RemoteSystemsTempFiles

@@ -1,0 +1,19 @@
+# Builder and tester container for production build
+FROM adoptopenjdk/openjdk11-openj9:jdk-11.0.1.13-alpine-slim as builder
+ARG SERVICE_DIR=.
+WORKDIR /service
+COPY ${SERVICE_DIR} /service
+RUN ./gradlew && ./gradlew copyRuntimeDeps
+
+FROM adoptopenjdk/openjdk11-openj9:jdk-11.0.1.13-alpine-slim
+LABEL version=${BUILD_VERSION} \
+      company=companyname \
+      project=server-template \
+      role=client
+ENV BUILD_VERSION ${BUILD_VERSION}
+WORKDIR /service
+COPY --from=builder /build/libs/*.jar server.jar
+USER daemon # TODO
+EXPOSE 8080
+# TODO: how to use secrets file in application.yml
+CMD DATABASE_PASSWORD=$(cat /run/secrets/DATABASE_PASSWORD) java -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -Dcom.sun.management.jmxremote -noverify ${JAVA_OPTS} -jar server.jar

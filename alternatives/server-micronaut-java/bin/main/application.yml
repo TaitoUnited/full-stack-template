@@ -1,0 +1,23 @@
+---
+micronaut:
+  application:
+    name: server
+  io:
+    watch:
+      paths: src/main/java
+      restart: true
+
+---
+datasources:
+  default:
+    url: jdbc:postgresql://${DATABASE_HOST}:5432/${DATABASE_NAME}
+    username: ${DATABASE_USER}
+    password: ${DATABASE_PASSWORD}
+    minimum-idle: ${DATABASE_POOL_MIN}
+    maximum-pool-size: ${DATABASE_POOL_MAX}
+    driverClassName: org.postgresql.Driver
+
+---
+kafka:
+  bootstrap:
+    servers: localhost:9092

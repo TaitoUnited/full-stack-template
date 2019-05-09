@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+set -e
+
+# Generate jooq classes
+./gradlew copyGenerateDeps
+rm -rf src/main/gen/jooq
+java -classpath "/build/gen/*:." org.jooq.codegen.GenerationTool jooq.xml

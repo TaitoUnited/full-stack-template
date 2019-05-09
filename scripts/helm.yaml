@@ -91,6 +91,7 @@ full-stack:
 
     cache:
       image: redis:5.0-alpine
+      replicas: 1
       port: 6397
       tier: backend
       livenessDisabled: true # TODO remove
