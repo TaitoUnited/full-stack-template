@@ -5,6 +5,6 @@ export test_name="${2:-*}"
 
 case $suite_name in
   junit)
-    ./gradlew test
+    echo "TODO test"
     ;;
 esac

@@ -1,0 +1,6 @@
+{
+  "scripts": {
+    "lint": "echo TODO lint",
+    "unit": "echo TODO unit"
+  }
+}
