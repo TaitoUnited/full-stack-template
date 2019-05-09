@@ -120,7 +120,7 @@ full-stack:
       memoryRequest: 5Mi
       env:
         KAFKA_ZOOKEEPER_CONNECT: ${taito_project}-${taito_env}-zookeeper:2181
-        ALLOW_PLAINTEXT_LISTENER: yes
+        ALLOW_PLAINTEXT_LISTENER: 'yes'
 
     # TODO: proper setup for Zookeeper
     zookeeper:
@@ -131,7 +131,7 @@ full-stack:
       livenessDisabled: true # TODO remove
       memoryRequest: 5Mi
       env:
-        ALLOW_ANONYMOUS_LOGIN: yes
+        ALLOW_ANONYMOUS_LOGIN: 'yes'
 
     server:
       path: /api

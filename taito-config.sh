@@ -57,7 +57,7 @@ taito_vc_repository_url=${template_default_vc_url:?}/$taito_vc_repository
 taito_image_registry=${template_default_container_registry:?}/$taito_vc_repository
 
 # Stack
-taito_targets=" admin client cache graphql database function kafka server storage worker www "
+taito_targets=" admin client cache graphql database function kafka zookeeper server storage worker www "
 taito_storages="$taito_random_name-$taito_env"
 taito_networks="default"
 

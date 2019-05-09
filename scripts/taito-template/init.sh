@@ -92,6 +92,7 @@ function prune () {
       sed -i "/KAFKA/d" ./scripts/helm.yaml
 
       # Remove also Zookeeper
+      sed -i "s/ zookeeper / /" taito-config.sh
       sed -i "/^  server-template-zookeeper:\$/,/^$/d" docker-compose.yaml
       sed -i "/^  # server-template-zookeeper:\$/,/^$/d" docker-compose.yaml
       sed -i "/^    zookeeper:\$/,/^$/d" ./scripts/helm.yaml
