@@ -21,7 +21,7 @@ ARG BUILD_VERSION
 LABEL version=${BUILD_VERSION} \
       company=companyname \
       project=server-template \
-      role=client
+      role=server
 ENV BUILD_VERSION ${BUILD_VERSION}
 ENV NODE_ENV production
 WORKDIR /service

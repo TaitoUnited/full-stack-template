@@ -13,7 +13,7 @@ plugins {
 version "0.1"
 group "server"
 
-project.buildDir = '/build'
+project.buildDir = '../build'
 
 repositories {
     mavenCentral()
@@ -97,10 +97,10 @@ tasks.withType(JavaCompile){
 
 task copyRuntimeDeps(type: Copy) {
   from configurations.runtime
-  into '/build/libs'
+  into '../build/libs'
 }
 
 task copyGenerateDeps(type: Copy) {
   from configurations.generate
-  into '/build/gen'
+  into '../build/gen'
 }
