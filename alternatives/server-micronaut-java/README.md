@@ -2,4 +2,4 @@
 
 ## Autorestart
 
-You can disable autorestart in `src/main/resources/application.yml` if you would rather restart manually with `taito restart:server`.
+You can turn autorestart on/off in `src/main/resources/application.yml`. Note that you can manually restart the server at anytime with `taito restart:server`.

@@ -90,6 +90,16 @@ function prune () {
       sed -i "s/ \\/api\\/docs / /" taito-config.sh
     fi
 
+    if [[ $name == "kafka" ]]; then
+      sed -i "/KAFKA/d" docker-compose.yaml
+      sed -i "/KAFKA/d" ./scripts/helm.yaml
+
+      # Remove also Zookeeper
+      sed -i "/^  server-template-zookeeper:\$/,/^$/d" docker-compose.yaml
+      sed -i "/^  # server-template-zookeeper:\$/,/^$/d" docker-compose.yaml
+      sed -i "/^    zookeeper:\$/,/^$/d" ./scripts/helm.yaml
+    fi
+
     if [[ $name == "www" ]]; then
       sed -i "s/ \\/docs\\/uptimez / /" taito-config.sh
     fi
@@ -118,10 +128,22 @@ function prune () {
     fi
 
     rm -rf "$name"
+  else
+    if [[ $name == "kafka" ]]; then
+      echo "Use external Kafka cluster (Y/n)?"
+      read -r confirm
+      if [[ ${confirm} =~ ^[Yy]*$ ]]; then
+        sed -i "s/KAFKA_HOST:.*$/KAFKA_HOST: TODO/g" ./scripts/helm.yaml
+        sed -i "/^    $name:\$/,/^$/d" ./scripts/helm.yaml
+        sed -i "/^    zookeeper:\$/,/^$/d" ./scripts/helm.yaml
+      fi
+    fi
   fi
 }
 
 prune "WEB user interface (Y/n)?" client \\/
+prune "Administration GUI (y/N)?" admin \\/admin
+prune "Static website (e.g. for API documentation or user guide) (y/N)?" www \\/docs
 
 echo
 echo "NOTE: WEB user interface is just a bunch of static files that are loaded"
@@ -129,15 +151,13 @@ echo "to a web browser. If you need some process running on server or need to"
 echo "keep some secrets hidden from browser, you need API/server."
 echo
 
-prune "API/server (Y/n)?" server \\/api
+prune "API/services (Y/n)?" server \\/api
+prune "GraphQL gateway (y/N)?" graphql \\/graphql
+prune "Kafka for event-based streaming/queuing (y/N)?" kafka
+prune "In-memory cache (Redis) for performance optimizations (y/N)?" cache
+prune "Worker for background jobs (y/N)?" worker
 prune "Relational database (Y/n)?" database
 prune "Permanent object storage for files (y/N)?" storage \\/bucket \\/minio
-prune "Administration GUI (y/N)?" admin \\/admin
-prune "Static website (e.g. for API documentation or user guide) (y/N)?" www \\/docs
-prune "GraphQL gateway (y/N)?" graphql \\/graphql
-prune "Worker for background jobs (y/N)?" worker
-prune "Cache for performance optimizations (y/N)?" cache
-prune "Queue for background jobs or messaging (y/N)?" queue
 
 echo "Replacing project and company names in files. Please wait..."
 find . -type f -exec sed -i \

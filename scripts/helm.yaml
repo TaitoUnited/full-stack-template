@@ -110,6 +110,29 @@ full-stack:
         API_HOST: ${taito_project}-${taito_env}-server
         API_PORT: '8080'
 
+    # TODO: proper setup for Kafka
+    kafka:
+      image: bitnami/kafka:latest
+      replicas: 1
+      port: 9092
+      tier: backend
+      livenessDisabled: true # TODO remove
+      memoryRequest: 5Mi
+      env:
+        KAFKA_ZOOKEEPER_CONNECT: ${taito_project}-${taito_env}-zookeeper:2181
+        ALLOW_PLAINTEXT_LISTENER: yes
+
+    # TODO: proper setup for Zookeeper
+    zookeeper:
+      image: bitnami/zookeeper:latest
+      replicas: 1
+      port: 2181
+      tier: backend
+      livenessDisabled: true # TODO remove
+      memoryRequest: 5Mi
+      env:
+        ALLOW_ANONYMOUS_LOGIN: yes
+
     server:
       path: /api
       tier: backend
@@ -128,6 +151,8 @@ full-stack:
         SENTRY_DSN: #sentryDSN
         API_PORT: '8080'
         API_BINDADDR: '0.0.0.0'
+        KAFKA_HOST: ${taito_project}-${taito_env}-kafka
+        KAFKA_PORT: 9092
         DATABASE_HOST: '${db_database_real_host}'
         DATABASE_PORT: '${db_database_real_port}'
         DATABASE_NAME: ${db_database_name}

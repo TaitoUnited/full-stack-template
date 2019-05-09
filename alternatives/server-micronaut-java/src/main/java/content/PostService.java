@@ -1,11 +1,11 @@
 package content;
 
+import io.micronaut.spring.tx.annotation.Transactional;
+
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-// import io.micronaut.spring.tx.annotation.Transactional;
 
 @Singleton
 public class PostService {
@@ -17,7 +17,10 @@ public class PostService {
     return postDAO.fetch();
   }
 
-  // @Transactional
+  // TODO: @Transactional does not work properly?
+  // package org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy
+  // not in classpath?
+  @Transactional
   public Post create(Post post) {
     return postDAO.create(post);
   }

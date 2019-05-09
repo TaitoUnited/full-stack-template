@@ -114,6 +114,8 @@ services:
       SENTRY_DSN: #sentryDSN
       API_PORT: 8080
       API_BINDADDR: 0.0.0.0
+      KAFKA_HOST: server-template-kafka
+      KAFKA_PORT: 9092
       DATABASE_HOST: server-template-database
       DATABASE_NAME: server_template_local
       DATABASE_USER: server_template_local_app
@@ -150,6 +152,23 @@ services:
       - default
     ports:
       - "6379"
+
+  server-template-kafka:
+    container_name: server-template-kafka
+    image: 'bitnami/kafka:latest'
+    ports:
+      - '9092'
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=server-template-zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+
+  server-template-zookeeper:
+    container_name: server-template-zookeeper
+    image: 'bitnami/zookeeper:latest'
+    ports:
+      - '2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
 
   # "EXTERNAL RESOURCES"
 

@@ -5,11 +5,12 @@ micronaut:
   io:
     watch:
       paths: src/main/java
-      restart: true
+      restart: false
 
 ---
 datasources:
   default:
+    # TODO: DATABASE_PORT
     url: jdbc:postgresql://${DATABASE_HOST}:5432/${DATABASE_NAME}
     username: ${DATABASE_USER}
     password: ${DATABASE_PASSWORD}
@@ -20,4 +21,7 @@ datasources:
 ---
 kafka:
   bootstrap:
-    servers: localhost:9092
+    servers: ${KAFKA_HOST}:${KAFKA_PORT}
+  producers:
+    default:
+      retries: 5
