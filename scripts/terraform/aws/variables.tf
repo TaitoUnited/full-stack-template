@@ -10,6 +10,11 @@ variable "taito_provider_user_profile" {
   default = ""
 }
 
+variable "taito_container_registry_provider" {
+  type = "string"
+  default = ""
+}
+
 variable "taito_targets" {
   type = "list"
 }

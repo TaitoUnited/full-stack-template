@@ -15,6 +15,7 @@ module "common-aws" {
   taito_vc_repository = "${var.taito_vc_repository}"
   taito_provider_user_profile = "${var.taito_provider_user_profile}"
   taito_targets = "${var.taito_targets}"
+  taito_container_registry_provider = "${var.taito_container_registry_provider}"
 
   taito_storages = "${var.taito_storages}"
   taito_storage_locations = "${var.taito_storage_locations}"

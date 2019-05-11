@@ -1,6 +1,6 @@
 # NOTE: This is a quick example that has not yet been tested at all.
 # Here we run the same CI/CD steps that are defined also in
-# bitbucket-pipelines.yml, cloudbuild.yaml, and build.sh.
+# bitbucket-pipelines.yml, cloudbuild.yaml, and local-ci.sh.
 
 workflow "Build, deploy, test, publish" {
   on = "push"

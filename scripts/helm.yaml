@@ -3,7 +3,7 @@ global:
   url: https://${taito_domain}
   logFormat: stackdriver
   logLevel: info    # trace, debug, info, warn, error, fatal
-  registry: ${taito_image_registry}
+  registry: ${taito_container_registry}
   imagePullPolicy: ''
 
 full-stack:

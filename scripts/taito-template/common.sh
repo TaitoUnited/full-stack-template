@@ -30,7 +30,11 @@
 : "${template_default_provider_region_prod:?}"
 : "${template_default_provider_zone:?}"
 : "${template_default_provider_zone_prod:?}"
+: "${template_default_host:?}"
+: "${template_default_host_prod:?}"
 : "${template_default_monitoring_uptime_channels_prod:-}"
+: "${template_default_container_registry_provider:?}"
+: "${template_default_container_registry_provider_prod:?}"
 : "${template_default_container_registry:?}"
 : "${template_default_container_registry_prod:?}"
 : "${template_default_source_git:?}"
@@ -68,8 +72,8 @@ rm LICENSE
 ######################
 
 ci=${template_default_ci_provider:-}
-while [[ " aws azure bitbucket github gitlab gcloud jenkins shell travis " != *" $ci "* ]]; do
-  echo "Select CI/CD: aws, azure, bitbucket, github, gitlab, gcloud, jenkins, shell, or travis"
+while [[ " aws azure bitbucket github gitlab gcloud jenkins local travis " != *" $ci "* ]]; do
+  echo "Select CI/CD: aws, azure, bitbucket, github, gitlab, gcloud, jenkins, local, or travis"
   read -r ci
 done
 
@@ -110,12 +114,12 @@ sed -i "s/\${template_default_provider_prod:?}/${template_default_provider_prod}
 sed -i "s/\${template_default_provider_org_id:?}/${template_default_provider_org_id}/g" taito-config.sh
 sed -i "s/\${template_default_provider_org_id_prod:?}/${template_default_provider_org_id_prod}/g" taito-config.sh
 sed -i "s/\${template_default_provider_region:?}/${template_default_provider_region}/g" taito-config.sh
-sed -i "s/\${template_default_provider_zone:?}/${template_default_provider_zone}/g" taito-config.sh
 sed -i "s/\${template_default_provider_region_prod:?}/${template_default_provider_region_prod}/g" taito-config.sh
+sed -i "s/\${template_default_provider_zone:?}/${template_default_provider_zone}/g" taito-config.sh
 sed -i "s/\${template_default_provider_zone_prod:?}/${template_default_provider_zone_prod}/g" taito-config.sh
+sed -i "s/\${template_default_host:-}/${template_default_host}/g" taito-config.sh
+sed -i "s/\${template_default_host_prod:-}/${template_default_host_prod}/g" taito-config.sh
 sed -i "s|\${template_default_monitoring_uptime_channels_prod:-}|${template_default_monitoring_uptime_channels_prod}|g" taito-config.sh
-sed -i "s|\${template_default_container_registry:?}|${template_default_container_registry}|g" taito-config.sh
-sed -i "s|\${template_default_container_registry_prod:?}|${template_default_container_registry_prod}|g" taito-config.sh
 sed -i "s/\${template_default_source_git:?}/${template_default_source_git}/g" taito-config.sh
 sed -i "s/\${template_default_dest_git:?}/${template_default_dest_git}/g" taito-config.sh
 
@@ -124,6 +128,10 @@ sed -i "s/\${template_default_ci_provider:?}/${template_default_ci_provider}/g" 
 sed -i "s/\${template_default_ci_provider_prod:?}/${template_default_ci_provider_prod}/g" taito-config.sh
 sed -i "s/\${template_default_vc_provider:?}/${template_default_vc_provider}/g" taito-config.sh
 sed -i "s/\${template_default_vc_provider_prod:?}/${template_default_vc_provider_prod}/g" taito-config.sh
+sed -i "s/\${template_default_container_registry_provider:?}/${template_default_container_registry_provider}/g" taito-config.sh
+sed -i "s/\${template_default_container_registry_provider_prod:?}/${template_default_container_registry_provider_prod}/g" taito-config.sh
+sed -i "s|\${template_default_container_registry:?}|${template_default_container_registry}|g" taito-config.sh
+sed -i "s|\${template_default_container_registry_prod:?}|${template_default_container_registry_prod}|g" taito-config.sh
 sed -i "s/\${template_default_ci_exec_deploy:-true}/${template_default_ci_exec_deploy}/g" taito-config.sh
 sed -i "s/\${template_default_ci_exec_deploy_prod:-true}/${template_default_ci_exec_deploy_prod}/g" taito-config.sh
 
@@ -181,7 +189,7 @@ sed -i '/template_default_taito_image/d' cloudbuild.yaml
 sed -i "s|_IMAGE_REGISTRY: eu.gcr.io/\$PROJECT_ID|_IMAGE_REGISTRY: ${template_default_container_registry}|" cloudbuild.yaml
 
 ci_scripts="aws-pipelines.yml azure-pipelines.yml bitbucket-pipelines.yml \
-  .github/main.workflow .gitlab-ci.yml cloudbuild.yaml Jenkinsfile build.sh \
+  .github/main.workflow .gitlab-ci.yml cloudbuild.yaml Jenkinsfile local-ci.sh \
   .travis.yml"
 
 sed -i "s/\$template_default_taito_image_username/${template_default_taito_image_username:-}/g" ${ci_scripts}
@@ -231,8 +239,8 @@ if [[ $ci != "jenkins" ]] && [[ $template_default_ci_provider_prod != "jenkins" 
 fi
 
 # shell
-if [[ $ci != "shell" ]] && [[ $template_default_ci_provider_prod != "shell" ]]; then
-  rm -f build.sh
+if [[ $ci != "local" ]] && [[ $template_default_ci_provider_prod != "local" ]]; then
+  rm -f local-ci.sh
 fi
 
 # travis

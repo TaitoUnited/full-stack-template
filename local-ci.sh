@@ -6,12 +6,13 @@ BRANCH=$1     # e.g. dev, test, stag, canary, or prod
 IMAGE_TAG=$2  # e.g. commit SHA
 
 # Set environment variables
-set -e
-set -a
-taito_mode=ci
-taito_target_env=${BRANCH/master/prod}
-. taito-config.sh
-set +a
+# set -e
+# set -a
+# taito_mode=ci
+# taito_target_env=${BRANCH/master/prod}
+# . taito-config.sh
+# set +a
+export taito_mode=ci
 
 # Prepare build
 taito build-prepare:$BRANCH $IMAGE_TAG

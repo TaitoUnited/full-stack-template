@@ -21,5 +21,5 @@ global:
   # Common settings
   logFormat: stackdriver
   logLevel: info    # trace, debug, info, warn, error, fatal
-  registry: ${taito_image_registry}
+  registry: ${taito_container_registry}
   imagePullPolicy: ''

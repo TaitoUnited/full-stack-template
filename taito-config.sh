@@ -43,6 +43,10 @@ taito_zone=${template_default_zone:?}
 taito_namespace=$taito_project-$taito_env
 taito_resource_namespace=$taito_organization_abbr-$taito_company-dev
 
+# Hosts
+taito_host="${template_default_host:-}"
+taito_host_dir="/projects/$taito_namespace"
+
 # URLs
 taito_domain=$taito_project-$taito_target_env.${template_default_domain:?}
 taito_default_domain=$taito_project-$taito_target_env.${template_default_domain:?}
@@ -54,7 +58,8 @@ taito_ci_provider=${template_default_ci_provider:?}
 taito_vc_provider=${template_default_vc_provider:?}
 taito_vc_repository=$taito_project
 taito_vc_repository_url=${template_default_vc_url:?}/$taito_vc_repository
-taito_image_registry=${template_default_container_registry:?}/$taito_vc_repository
+taito_container_registry_provider=${template_default_container_registry_provider:?}
+taito_container_registry=${template_default_container_registry:?}/$taito_vc_repository
 
 # Stack
 taito_targets=" admin client cache graphql database function kafka zookeeper server storage worker www "
@@ -143,6 +148,7 @@ case $taito_env in
     taito_provider_region=${template_default_provider_region_prod:?}
     taito_provider_zone=${template_default_provider_zone_prod:?}
     taito_resource_namespace=$taito_organization_abbr-$taito_company-prod
+    taito_host="${template_default_host_prod:-}"
 
     # NOTE: Set production domain here once you have configured DNS
     taito_domain=
@@ -171,9 +177,10 @@ case $taito_env in
 
     # CI/CD and repositories
     taito_ci_provider=${template_default_ci_provider_prod:?}
+    taito_container_registry_provider=${template_default_container_registry_provider_prod:?}
     taito_vc_provider=${template_default_vc_provider_prod:?}
     taito_vc_repository_url=${template_default_vc_url_prod:?}/$taito_vc_repository
-    taito_image_registry=${template_default_container_registry_prod:?}/$taito_vc_repository
+    taito_container_registry=${template_default_container_registry_prod:?}/$taito_vc_repository
     ci_exec_deploy=${template_default_ci_exec_deploy_prod:-true}
     ;;
   stag)
@@ -183,6 +190,7 @@ case $taito_env in
     taito_provider_region=${template_default_provider_region_prod:?}
     taito_provider_zone=${template_default_provider_zone_prod:?}
     taito_resource_namespace=$taito_organization_abbr-$taito_company-prod
+    taito_host="${template_default_host_prod:-}"
 
     taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
     taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
@@ -193,9 +201,10 @@ case $taito_env in
 
     # CI/CD
     taito_ci_provider=${template_default_ci_provider_prod:?}
+    taito_container_registry_provider=${template_default_container_registry_provider_prod:?}
     taito_vc_provider=${template_default_vc_provider_prod:?}
     taito_vc_repository_url=${template_default_vc_url_prod:?}/$taito_vc_repository
-    taito_image_registry=${template_default_container_registry_prod:?}/$taito_vc_repository
+    taito_container_registry=${template_default_container_registry_prod:?}/$taito_vc_repository
     ci_exec_deploy=${template_default_ci_exec_deploy_prod:-true}
     ;;
   test)
@@ -316,6 +325,17 @@ case $taito_provider in
     kubernetes_db_proxy_enabled=false # use google cloud sql proxy instead
     gcloud_service_account_enabled=true
     ;;
+  ssh)
+    taito_plugins="
+      ssh:-local
+      run:-local
+      ${taito_plugins}
+    "
+    # Use docker-compose instead of Kubernetes and Helm
+    taito_plugins="${taito_plugins/docker-compose:local/docker-compose}"
+    taito_plugins="${taito_plugins/kubectl:-local/}"
+    taito_plugins="${taito_plugins/helm:-local/}"
+    ;;
 esac
 
 case $taito_ci_provider in
@@ -349,6 +369,12 @@ case $taito_ci_provider in
       "
     fi
     ;;
+  local)
+    taito_plugins="
+      ${taito_plugins}
+      local-ci:-local
+    "
+    ;;
 esac
 
 case $taito_vc_provider in
@@ -365,6 +391,18 @@ case $taito_vc_provider in
       * docs=https://$taito_vc_repository_url/wiki Project documentation
       * project=https://$taito_vc_repository_url/projects Project management
     "
+    ;;
+esac
+
+case $taito_container_registry_provider in
+  docker)
+    taito_plugins="
+      ${taito_plugins}
+      gcloud-registry:-local
+    "
+    ;;
+  ssh)
+    taito_container_registry=${taito_host}
     ;;
 esac
 
