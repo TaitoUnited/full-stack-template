@@ -112,12 +112,13 @@ full-stack:
 
     # TODO: proper setup for Kafka
     kafka:
+      enabled: false
       image: bitnami/kafka:latest
       replicas: 1
       port: 9092
       tier: backend
       livenessDisabled: true # TODO remove
-      memoryRequest: 50Mi
+      memoryRequest: 100Mi
       memoryLimit: 512Mi
       env:
         KAFKA_ZOOKEEPER_CONNECT: ${taito_project}-${taito_env}-zookeeper:2181
@@ -125,11 +126,14 @@ full-stack:
 
     # TODO: proper setup for Zookeeper
     zookeeper:
+      enabled: false
       image: bitnami/zookeeper:latest
       replicas: 1
       port: 2181
       tier: backend
       livenessDisabled: true # TODO remove
+      memoryRequest: 100Mi
+      memoryLimit: 512Mi
       env:
         ALLOW_ANONYMOUS_LOGIN: 'yes'
 
