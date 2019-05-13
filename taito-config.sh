@@ -337,7 +337,9 @@ case $taito_provider in
     taito_plugins="${taito_plugins/kubectl:-local/}"
     taito_plugins="${taito_plugins/helm:-local/}"
     # ssh plugin as database proxy
-    . ./taito-user-config.sh # TODO
+    if [[ -f taito-user-config.sh ]]; then
+      . ./taito-user-config.sh # TODO
+    fi
     . "${taito_util_path:-}/read-database-config.sh" "${taito_target:-}"
     export ssh_db_proxy="\
       -L 0.0.0.0:${database_port:-}:${database_host:-}:${database_real_port:-} ${taito_ssh_user:-$taito_host_username}@${database_real_host:-}"
