@@ -135,9 +135,6 @@ kubernetes_db_proxy_enabled=true
 # Helm plugin
 # helm_deploy_options="--recreate-pods" # Force restart
 
-# Sentry plugin
-sentry_organization=${template_default_sentry_organization:?}
-
 # ------ Overrides for different environments ------
 
 case $taito_env in
@@ -416,9 +413,11 @@ case $taito_container_registry_provider in
 esac
 
 if [[ $taito_plugins == *"sentry"* ]]; then
+  sentry_organization=${template_default_sentry_organization:-}
+
   link_urls="
     ${link_urls}
-    * errors:ENV=https://sentry.io/${template_default_sentry_organization:?}/$taito_project/?query=is%3Aunresolved+environment%3A$taito_target_env Sentry errors (:ENV)
+    * errors:ENV=https://sentry.io/${template_default_sentry_organization:-}/$taito_project/?query=is%3Aunresolved+environment%3A$taito_target_env Sentry errors (:ENV)
   "
 fi
 

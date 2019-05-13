@@ -13,7 +13,6 @@
 : "${template_default_vc_organization:?}"
 : "${template_default_vc_url:?}"
 : "${template_default_vc_url_prod:?}"
-: "${template_default_sentry_organization:?}"
 : "${template_default_domain:?}"
 : "${template_default_domain_prod:?}"
 : "${template_default_zone:?}"
@@ -24,8 +23,6 @@
 : "${template_default_ci_provider_prod:?}"
 : "${template_default_provider:?}"
 : "${template_default_provider_prod:?}"
-: "${template_default_host:?}"
-: "${template_default_host_prod:?}"
 : "${template_default_source_git:?}"
 : "${template_default_dest_git:?}"
 : "${template_default_ci_exec_deploy:?}"
@@ -90,7 +87,7 @@ sed -i "s/\${template_default_organization_abbr:?}/${template_default_organizati
 sed -i "s/\${template_default_vc_organization:?}/${template_default_vc_organization}/g" taito-config.sh
 sed -i "s|\${template_default_vc_url:?}|${template_default_vc_url}|g" taito-config.sh
 sed -i "s|\${template_default_vc_url_prod:?}|${template_default_vc_url_prod}|g" taito-config.sh
-sed -i "s/\${template_default_sentry_organization:?}/${template_default_sentry_organization}/g" taito-config.sh
+sed -i "s/\${template_default_sentry_organization:-}/${template_default_sentry_organization}/g" taito-config.sh
 sed -i "s/\${template_default_domain:?}/${template_default_domain}/g" taito-config.sh
 sed -i "s/\${template_default_domain_prod:?}/${template_default_domain_prod}/g" taito-config.sh
 sed -i "s/\${template_default_zone:?}/${template_default_zone}/g" taito-config.sh
@@ -103,8 +100,6 @@ sed -i "s/\${template_default_provider_region:-}/${template_default_provider_reg
 sed -i "s/\${template_default_provider_region_prod:-}/${template_default_provider_region_prod}/g" taito-config.sh
 sed -i "s/\${template_default_provider_zone:-}/${template_default_provider_zone}/g" taito-config.sh
 sed -i "s/\${template_default_provider_zone_prod:-}/${template_default_provider_zone_prod}/g" taito-config.sh
-sed -i "s/\${template_default_host:-}/${template_default_host}/g" taito-config.sh
-sed -i "s/\${template_default_host_prod:-}/${template_default_host_prod}/g" taito-config.sh
 sed -i "s|\${template_default_monitoring_uptime_channels_prod:-}|${template_default_monitoring_uptime_channels_prod}|g" taito-config.sh
 sed -i "s/\${template_default_source_git:?}/${template_default_source_git}/g" taito-config.sh
 sed -i "s/\${template_default_dest_git:?}/${template_default_dest_git}/g" taito-config.sh
