@@ -36,16 +36,12 @@ taito_env=${taito_env/canary/prod} # canary -> prod
 
 # Provider and namespaces
 taito_provider=${template_default_provider:?}
-taito_provider_org_id=${template_default_provider_org_id:?}
-taito_provider_region=${template_default_provider_region:?}
-taito_provider_zone=${template_default_provider_zone:?}
+taito_provider_org_id=${template_default_provider_org_id:-}
+taito_provider_region=${template_default_provider_region:-}
+taito_provider_zone=${template_default_provider_zone:-}
 taito_zone=${template_default_zone:?}
 taito_namespace=$taito_project-$taito_env
 taito_resource_namespace=$taito_organization_abbr-$taito_company-dev
-
-# Hosts
-taito_host="${template_default_host:-}"
-taito_host_dir="/projects/$taito_namespace"
 
 # URLs
 taito_domain=$taito_project-$taito_target_env.${template_default_domain:?}
@@ -53,13 +49,17 @@ taito_default_domain=$taito_project-$taito_target_env.${template_default_domain:
 taito_app_url=https://$taito_domain
 taito_static_url=
 
+# Hosts
+taito_host="${taito_domain}"
+taito_host_dir="/projects/$taito_namespace"
+
 # CI/CD and repositories
 taito_ci_provider=${template_default_ci_provider:?}
 taito_vc_provider=${template_default_vc_provider:?}
 taito_vc_repository=$taito_project
 taito_vc_repository_url=${template_default_vc_url:?}/$taito_vc_repository
-taito_container_registry_provider=${template_default_container_registry_provider:?}
-taito_container_registry=${template_default_container_registry:?}/$taito_vc_repository
+taito_container_registry_provider=${template_default_container_registry_provider:-}
+taito_container_registry=${template_default_container_registry:-}/$taito_vc_repository
 
 # Stack
 taito_targets=" admin client cache graphql database function kafka zookeeper server storage worker www "
@@ -71,15 +71,15 @@ taito_target_type_database=database
 taito_target_type_function=function
 
 # Database definitions for database plugins
-db_database_instance=${template_default_postgres:?}
+db_database_instance=${template_default_postgres:-}
 db_database_type=pg
 db_database_name=${taito_project//-/_}_${taito_env}
 db_database_host="127.0.0.1"
 db_database_port=5001
-db_database_real_host="${template_default_postgres_host:?}"
+db_database_real_host="${template_default_postgres_host:-}"
 db_database_real_port=5432
-db_database_master_username="${template_default_postgres_master_username:?}"
-db_database_master_password_hint="${template_default_postgres_master_password_hint:?}"
+db_database_master_username="${template_default_postgres_master_username:-}"
+db_database_master_password_hint="${template_default_postgres_master_password_hint:-}"
 
 # Storage definitions for Terraform
 taito_storage_classes="${template_default_storage_class:-}"
@@ -127,8 +127,8 @@ template_name=SERVER-TEMPLATE
 template_source_git=git@github.com:TaitoUnited
 
 # Kubernetes plugin
-kubernetes_name=${template_default_kubernetes:?}
-kubernetes_cluster="${template_default_kubernetes_cluster_prefix:?}${kubernetes_name}"
+kubernetes_name=${template_default_kubernetes:-}
+kubernetes_cluster="${template_default_kubernetes_cluster_prefix:-}${kubernetes_name}"
 kubernetes_replicas=1
 kubernetes_db_proxy_enabled=true
 
@@ -144,20 +144,20 @@ case $taito_env in
   prod)
     taito_zone=${template_default_zone_prod:?}
     taito_provider=${template_default_provider_prod:?}
-    taito_provider_org_id=${template_default_provider_org_id_prod:?}
-    taito_provider_region=${template_default_provider_region_prod:?}
-    taito_provider_zone=${template_default_provider_zone_prod:?}
+    taito_provider_org_id=${template_default_provider_org_id_prod:-}
+    taito_provider_region=${template_default_provider_region_prod:-}
+    taito_provider_zone=${template_default_provider_zone_prod:-}
     taito_resource_namespace=$taito_organization_abbr-$taito_company-prod
-    taito_host="${template_default_host_prod:-}"
 
     # NOTE: Set production domain here once you have configured DNS
     taito_domain=
     taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?} # TEMPLATE-REMOVE
     taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
     taito_app_url=https://$taito_domain
-    kubernetes_cluster="${template_default_kubernetes_cluster_prefix_prod:?}${kubernetes_name}"
+    taito_host="${taito_domain}"
+    kubernetes_cluster="${template_default_kubernetes_cluster_prefix_prod:-}${kubernetes_name}"
     kubernetes_replicas=2
-    db_database_real_host="${template_default_postgres_host_prod:?}"
+    db_database_real_host="${template_default_postgres_host_prod:-}"
 
     # Storage definitions for Terraform
     taito_storage_classes="${template_default_storage_class_prod:-}"
@@ -176,35 +176,35 @@ case $taito_env in
     taito_monitoring_uptime_channels="${template_default_monitoring_uptime_channels_prod:-}"
 
     # CI/CD and repositories
+    taito_container_registry_provider=${template_default_container_registry_provider_prod:-}
+    taito_container_registry=${template_default_container_registry_prod:-}/$taito_vc_repository
     taito_ci_provider=${template_default_ci_provider_prod:?}
-    taito_container_registry_provider=${template_default_container_registry_provider_prod:?}
     taito_vc_provider=${template_default_vc_provider_prod:?}
     taito_vc_repository_url=${template_default_vc_url_prod:?}/$taito_vc_repository
-    taito_container_registry=${template_default_container_registry_prod:?}/$taito_vc_repository
     ci_exec_deploy=${template_default_ci_exec_deploy_prod:-true}
     ;;
   stag)
     taito_zone=${template_default_zone_prod:?}
     taito_provider=${template_default_provider_prod:?}
-    taito_provider_org_id=${template_default_provider_org_id_prod:?}
-    taito_provider_region=${template_default_provider_region_prod:?}
-    taito_provider_zone=${template_default_provider_zone_prod:?}
+    taito_provider_org_id=${template_default_provider_org_id_prod:-}
+    taito_provider_region=${template_default_provider_region_prod:-}
+    taito_provider_zone=${template_default_provider_zone_prod:-}
     taito_resource_namespace=$taito_organization_abbr-$taito_company-prod
-    taito_host="${template_default_host_prod:-}"
 
     taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
     taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
     taito_app_url=https://$taito_domain
-    kubernetes_cluster="${template_default_kubernetes_cluster_prefix_prod:?}${kubernetes_name}"
+    taito_host="${taito_domain}"
+    kubernetes_cluster="${template_default_kubernetes_cluster_prefix_prod:-}${kubernetes_name}"
     kubernetes_replicas=2
-    db_database_real_host="${template_default_postgres_host_prod:?}"
+    db_database_real_host="${template_default_postgres_host_prod:-}"
 
     # CI/CD
+    taito_container_registry_provider=${template_default_container_registry_provider_prod:-}
+    taito_container_registry=${template_default_container_registry_prod:-}/$taito_vc_repository
     taito_ci_provider=${template_default_ci_provider_prod:?}
-    taito_container_registry_provider=${template_default_container_registry_provider_prod:?}
     taito_vc_provider=${template_default_vc_provider_prod:?}
     taito_vc_repository_url=${template_default_vc_url_prod:?}/$taito_vc_repository
-    taito_container_registry=${template_default_container_registry_prod:?}/$taito_vc_repository
     ci_exec_deploy=${template_default_ci_exec_deploy_prod:-true}
     ;;
   test)
@@ -325,16 +325,23 @@ case $taito_provider in
     kubernetes_db_proxy_enabled=false # use google cloud sql proxy instead
     gcloud_service_account_enabled=true
     ;;
-  ssh)
+  linux)
     taito_plugins="
       ssh:-local
       run:-local
       ${taito_plugins}
     "
+    run_scripts_location="scripts/linux-provider"
     # Use docker-compose instead of Kubernetes and Helm
     taito_plugins="${taito_plugins/docker-compose:local/docker-compose}"
     taito_plugins="${taito_plugins/kubectl:-local/}"
     taito_plugins="${taito_plugins/helm:-local/}"
+    # ssh plugin as database proxy
+    . ./taito-user-config.sh # TODO
+    . "${taito_util_path:-}/read-database-config.sh" "${taito_target:-}"
+    export ssh_db_proxy="\
+      -L 0.0.0.0:${database_port:-}:${database_host:-}:${database_real_port:-} ${taito_ssh_user:-$taito_host_username}@${database_real_host:-}"
+    export ssh_forward_for_db="${ssh_db_proxy}"
     ;;
 esac
 
