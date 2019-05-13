@@ -6,8 +6,14 @@ import io.micronaut.http.annotation.Get;
 import java.util.Collections;
 import java.util.Map;
 
+import javax.inject.Inject;
+
+import org.jooq.DSLContext;
+
 @Controller("/")
 public class InfraController {
+
+  private @Inject DSLContext jooq;
 
   @Get("/healthz")
   public Map<String, String> healthz() {
@@ -16,6 +22,7 @@ public class InfraController {
 
   @Get("/uptimez")
   public Map<String, String> uptimez() {
+    jooq.fetch("SELECT 1");
     return Collections.singletonMap("status", "OK");
   }
 
