@@ -1,0 +1,222 @@
+version: '3.5'
+services:
+  server-template-ingress:
+    container_name: server-template-ingress
+    image: nginx:1.15-alpine
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      # __IMAGE_TAG__
+      - "__PORT__:80"
+    volumes:
+      - "./docker-nginx.conf:/etc/nginx/nginx.conf:delegated"
+      - "./docker-nginx.htpasswd:/etc/nginx/.htpasswd:delegated"
+
+  server-template-admin:
+    container_name: server-template-admin
+    build:
+      context: ./admin
+      dockerfile: ${dockerfile}
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      - "8080"
+    volumes:
+      - "./admin:/service:delegated"
+      - "./shared:/service/shared:delegated"
+      - "/service/node_modules"
+    environment:
+      COMMON_COMPANY: companyname
+      COMMON_PROJECT: server-template
+
+  server-template-client:
+    container_name: server-template-client
+    build:
+      context: ./client
+      dockerfile: ${dockerfile}
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      - "8080"
+    volumes:
+      - "./client:/service:delegated"
+      - "./shared:/service/shared:delegated"
+      - "/service/node_modules"
+    secrets:
+      # NOTE: Database connection is for tests only
+      - DATABASE_PASSWORD
+      - EXAMPLE_SECRET
+    environment:
+      COMMON_COMPANY: companyname
+      COMMON_PROJECT: server-template
+      # NOTE: Database connection is for tests only
+      DATABASE_HOST: server-template-database
+      DATABASE_NAME: server_template_local
+      DATABASE_USER: server_template_local_app
+
+  server-template-graphql:
+    container_name: server-template-graphql
+    build:
+      context: ./graphql
+      dockerfile: ${dockerfile}
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      - "8080"
+    volumes:
+      - "./graphql:/service:delegated"
+      - "./shared:/service/shared:delegated"
+      - "/service/node_modules"
+    environment:
+      COMMON_COMPANY: companyname
+      COMMON_PROJECT: server-template
+      COMMON_DOMAIN: localhost
+      COMMON_URL: http://localhost:9999
+      COMMON_DEBUG: 'false'
+      COMMON_LOG_FORMAT: text
+      COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
+      COMMON_ENV: local
+      DEBUG: 'false'
+      GRAPHQL_PORT: 8080
+      GRAPHQL_BINDADDR: 0.0.0.0
+      API_HOST: server-template-server
+      API_PORT: 8080
+
+  server-template-server:
+    container_name: server-template-server
+    build:
+      context: ./server
+      dockerfile: ${dockerfile}
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      - "8080"
+    volumes:
+      - "./server:/service:delegated"
+      - "./shared:/service/shared:delegated"
+      - "/service/node_modules"
+    secrets:
+      - DATABASE_PASSWORD
+      - S3_KEY_SECRET
+      - EXAMPLE_SECRET
+    environment:
+      COMMON_COMPANY: companyname
+      COMMON_PROJECT: server-template
+      COMMON_DEBUG: 'false'
+      COMMON_LOG_FORMAT: text
+      COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
+      COMMON_ENV: local
+      DEBUG: 'false'
+      SENTRY_DSN: #sentryDSN
+      API_PORT: 8080
+      API_BINDADDR: 0.0.0.0
+      KAFKA_HOST: server-template-kafka
+      KAFKA_PORT: 9092
+      DATABASE_HOST: server-template-database
+      DATABASE_NAME: server_template_local
+      DATABASE_USER: server_template_local_app
+      DATABASE_POOL_MIN: '1'
+      DATABASE_POOL_MAX: '10'
+      S3_URL: http://server-template-storage:9000/
+      S3_REGION: milkyway
+      S3_BUCKET: bucket
+      S3_KEY_ID: minio
+
+  server-template-www:
+    container_name: server-template-www
+    build:
+      context: ./www
+      dockerfile: ${dockerfile}
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      # TODO: Temporary hack for https://github.com/gatsbyjs/gatsby/issues/3721
+      - "7463:8080"
+    volumes:
+      - "./www:/service:delegated"
+      - "/service/node_modules"
+      - "/service/site/node_modules"
+      # FOR GATSBY ONLY:
+      # - "/service/site/node_modules"
+
+  server-template-cache:
+    container_name: server-template-cache
+    image: redis:5.0-alpine
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      - "6379"
+
+  server-template-kafka:
+    container_name: server-template-kafka
+    image: 'bitnami/kafka:latest'
+    ports:
+      - '9092'
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=server-template-zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+
+  server-template-zookeeper:
+    container_name: server-template-zookeeper
+    image: 'bitnami/zookeeper:latest'
+    ports:
+      - '2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+  # "EXTERNAL RESOURCES"
+
+  server-template-database:
+    container_name: server-template-database
+    image: postgres:9.6
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      - "6000:5432"
+    secrets:
+      - DATABASE_PASSWORD
+    environment:
+      POSTGRES_DB: server_template_local
+      POSTGRES_USER: server_template_local_app
+      POSTGRES_PASSWORD_FILE: /run/secrets/DATABASE_PASSWORD
+    volumes:
+      - "./database:/docker-entrypoint-initdb.d:delegated"
+
+  server-template-storage:
+    container_name: server-template-storage
+    build:
+      context: ./storage
+      dockerfile: ${dockerfile}
+    restart: unless-stopped
+    command: server /service
+    networks:
+      - default
+    ports:
+      - "9000"
+    secrets:
+      - S3_KEY_SECRET
+    environment:
+      MINIO_ACCESS_KEY: minio
+      # MINIO requires key as environment variable?
+      MINIO_SECRET_KEY: secret1234
+
+secrets:
+  DATABASE_PASSWORD:
+    file: ./secrets/${taito_env}/${db_database_name}-db-app.password
+  S3_KEY_SECRET:
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-storage-gateway.secret
+  EXAMPLE_SECRET:
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-example.secret
+
+networks:
+  default:
+
+# EOF

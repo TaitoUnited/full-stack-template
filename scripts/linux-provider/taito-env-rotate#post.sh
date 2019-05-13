@@ -5,11 +5,10 @@
 : "${taito_host_dir:?}"
 : "${taito_env:?}"
 : "${taito_namespace:?}"
-: "${taito_domain:?}"
-
-CLIENT_MAX_BODY_SIZE=1m
 
 . "${taito_cli_path}/plugins/ssh/util/opts.sh"
+
+# TODO: duplicate code with taito-env-apply#post.sh
 
 echo "[Copy changed secrets to ${taito_host}:/tmp]"
 (
@@ -31,13 +30,9 @@ ssh ${opts} "${taito_ssh_user}@${taito_host}" "
     rm -f /tmp/${taito_namespace}-secrets.tar &&
     echo &&
 
-    if which createsite &> /dev/null; then
-      createsite ${taito_namespace} ${taito_domain} $CLIENT_MAX_BODY_SIZE;
-    else
-      echo NOTE: createsite command does not exist. &&
-      echo Configure routing for domain ${taito_domain} yourself. &&
-      echo Press enter to continue &&
-      read -r;
-    fi
+    echo [Restart docker-compose] &&
+    docker-compose -f docker-compose-remote.yaml stop &&
+    docker-compose -f docker-compose-remote.yaml -d up
   '
 "
+echo
