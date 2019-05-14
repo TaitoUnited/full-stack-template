@@ -108,6 +108,10 @@ sed -i "s/\${template_default_dest_git:?}/${template_default_dest_git}/g" taito-
 sed -i "s/\${template_default_host:-}/${template_default_host:-}/g" taito-config.sh
 sed -i "s/\${template_default_host_prod:-}/${template_default_host_prod:-}/g" taito-config.sh
 
+# Misc providers
+sed -i "s/\${template_default_uptime_provider:-}/${template_default_uptime_provider:-}/g" taito-config.sh
+sed -i "s/\${template_default_uptime_provider_prod:-}/${template_default_uptime_provider_prod:-}/g" taito-config.sh
+
 # CI/CD
 sed -i "s/\${template_default_ci_provider:?}/${template_default_ci_provider}/g" taito-config.sh
 sed -i "s/\${template_default_ci_provider_prod:?}/${template_default_ci_provider_prod}/g" taito-config.sh
