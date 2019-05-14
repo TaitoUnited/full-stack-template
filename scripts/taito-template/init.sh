@@ -62,8 +62,10 @@ function prune () {
     sed -i "s/\"check-size:$name {@}\" //g" package.json
 
     # TODO: temporary solution. remove once using terraform v0.12
+    if [[ -f scripts/terraform/common/gcloud-uptime/uptime.tf ]]; then
     sed -i "/^    {\\/\\*$name\\*\\/\$/,/^    }.*$/d" \
-      scripts/terraform/common/gcloud/monitoring.tf
+      scripts/terraform/common/gcloud-uptime/uptime.tf
+    fi
 
     # Prune target from CI/CD scripts
     sed -i "/^action \"artifact:$name\"/,/^}$/d" .github/main.workflow
