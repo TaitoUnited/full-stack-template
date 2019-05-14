@@ -188,8 +188,6 @@ case $taito_env in
     taito_container_registry_provider=${template_default_container_registry_provider_prod:-}
     taito_container_registry=${template_default_container_registry_prod:-}/$taito_vc_repository
     taito_ci_provider=${template_default_ci_provider_prod:?}
-    taito_vc_provider=${template_default_vc_provider_prod:?}
-    taito_vc_repository_url=${template_default_vc_url_prod:?}/$taito_vc_repository
     ci_exec_deploy=${template_default_ci_exec_deploy_prod:-true}
     ;;
   stag)
@@ -221,8 +219,6 @@ case $taito_env in
     taito_container_registry_provider=${template_default_container_registry_provider_prod:-}
     taito_container_registry=${template_default_container_registry_prod:-}/$taito_vc_repository
     taito_ci_provider=${template_default_ci_provider_prod:?}
-    taito_vc_provider=${template_default_vc_provider_prod:?}
-    taito_vc_repository_url=${template_default_vc_url_prod:?}/$taito_vc_repository
     ci_exec_deploy=${template_default_ci_exec_deploy_prod:-true}
     ;;
   test)
@@ -405,14 +401,14 @@ case $taito_ci_provider in
 esac
 
 case $taito_vc_provider in
-  bitbucket.org)
+  bitbucket)
     link_urls="
       ${link_urls}
       * docs=https://$taito_vc_repository_url/wiki/Home Project documentation
       * project=https://$taito_vc_repository_url/addon/trello/trello-board Project management
     "
     ;;
-  github.com)
+  github)
     link_urls="
       ${link_urls}
       * docs=https://$taito_vc_repository_url/wiki Project documentation

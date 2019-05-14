@@ -22,7 +22,6 @@ substitutions:
   _TEMPLATE_DEFAULT_ORGANIZATION_ABBR:
   _TEMPLATE_DEFAULT_VC_ORGANIZATION:
   _TEMPLATE_DEFAULT_VC_URL:
-  _TEMPLATE_DEFAULT_VC_URL_PROD:
   _TEMPLATE_DEFAULT_SENTRY_ORGANIZATION:
   _TEMPLATE_DEFAULT_DOMAIN:
   _TEMPLATE_DEFAULT_DOMAIN_PROD:
@@ -40,7 +39,6 @@ substitutions:
   _TEMPLATE_DEFAULT_CI_PROVIDER:
   _TEMPLATE_DEFAULT_CI_PROVIDER_PROD:
   _TEMPLATE_DEFAULT_VC_PROVIDER:
-  _TEMPLATE_DEFAULT_VC_PROVIDER_PROD:
   _TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER:
   _TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER_PROD:
   _TEMPLATE_DEFAULT_CONTAINER_REGISTRY:
@@ -78,7 +76,6 @@ steps:
     export template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     export template_default_vc_organization=${_TEMPLATE_DEFAULT_VC_ORGANIZATION}
     export template_default_vc_url=${_TEMPLATE_DEFAULT_VC_URL}
-    export template_default_vc_url_prod=${_TEMPLATE_DEFAULT_VC_URL_PROD}
     export template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     export template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     export template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -96,7 +93,6 @@ steps:
     export template_default_ci_provider=${_TEMPLATE_DEFAULT_CI_PROVIDER}
     export template_default_ci_provider_prod=${_TEMPLATE_DEFAULT_CI_PROVIDER_PROD}
     export template_default_vc_provider=${_TEMPLATE_DEFAULT_VC_PROVIDER}
-    export template_default_vc_provider_prod=${_TEMPLATE_DEFAULT_VC_PROVIDER_PROD}
     export template_default_container_registry_provider=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER}
     export template_default_container_registry_provider_prod=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER_PROD}
     export template_default_container_registry=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY}
@@ -153,7 +149,6 @@ steps:
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_vc_organization=${_TEMPLATE_DEFAULT_VC_ORGANIZATION}
     - template_default_vc_url=${_TEMPLATE_DEFAULT_VC_URL}
-    - template_default_vc_url_prod=${_TEMPLATE_DEFAULT_VC_URL_PROD}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -171,7 +166,6 @@ steps:
     - template_default_ci_provider=${_TEMPLATE_DEFAULT_CI_PROVIDER}
     - template_default_ci_provider_prod=${_TEMPLATE_DEFAULT_CI_PROVIDER_PROD}
     - template_default_vc_provider=${_TEMPLATE_DEFAULT_VC_PROVIDER}
-    - template_default_vc_provider_prod=${_TEMPLATE_DEFAULT_VC_PROVIDER_PROD}
     - template_default_container_registry_provider=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER}
     - template_default_container_registry_provider_prod=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER_PROD}
     - template_default_container_registry=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY}
@@ -200,7 +194,6 @@ steps:
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_vc_organization=${_TEMPLATE_DEFAULT_VC_ORGANIZATION}
     - template_default_vc_url=${_TEMPLATE_DEFAULT_VC_URL}
-    - template_default_vc_url_prod=${_TEMPLATE_DEFAULT_VC_URL_PROD}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -218,7 +211,6 @@ steps:
     - template_default_ci_provider=${_TEMPLATE_DEFAULT_CI_PROVIDER}
     - template_default_ci_provider_prod=${_TEMPLATE_DEFAULT_CI_PROVIDER_PROD}
     - template_default_vc_provider=${_TEMPLATE_DEFAULT_VC_PROVIDER}
-    - template_default_vc_provider_prod=${_TEMPLATE_DEFAULT_VC_PROVIDER_PROD}
     - template_default_container_registry_provider=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER}
     - template_default_container_registry_provider_prod=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER_PROD}
     - template_default_container_registry=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY}
@@ -245,7 +237,6 @@ steps:
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_vc_organization=${_TEMPLATE_DEFAULT_VC_ORGANIZATION}
     - template_default_vc_url=${_TEMPLATE_DEFAULT_VC_URL}
-    - template_default_vc_url_prod=${_TEMPLATE_DEFAULT_VC_URL_PROD}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -263,7 +254,6 @@ steps:
     - template_default_ci_provider=${_TEMPLATE_DEFAULT_CI_PROVIDER}
     - template_default_ci_provider_prod=${_TEMPLATE_DEFAULT_CI_PROVIDER_PROD}
     - template_default_vc_provider=${_TEMPLATE_DEFAULT_VC_PROVIDER}
-    - template_default_vc_provider_prod=${_TEMPLATE_DEFAULT_VC_PROVIDER_PROD}
     - template_default_container_registry_provider=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER}
     - template_default_container_registry_provider_prod=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER_PROD}
     - template_default_container_registry=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY}
@@ -290,7 +280,6 @@ steps:
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_vc_organization=${_TEMPLATE_DEFAULT_VC_ORGANIZATION}
     - template_default_vc_url=${_TEMPLATE_DEFAULT_VC_URL}
-    - template_default_vc_url_prod=${_TEMPLATE_DEFAULT_VC_URL_PROD}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -308,7 +297,6 @@ steps:
     - template_default_ci_provider=${_TEMPLATE_DEFAULT_CI_PROVIDER}
     - template_default_ci_provider_prod=${_TEMPLATE_DEFAULT_CI_PROVIDER_PROD}
     - template_default_vc_provider=${_TEMPLATE_DEFAULT_VC_PROVIDER}
-    - template_default_vc_provider_prod=${_TEMPLATE_DEFAULT_VC_PROVIDER_PROD}
     - template_default_container_registry_provider=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER}
     - template_default_container_registry_provider_prod=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER_PROD}
     - template_default_container_registry=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY}
@@ -335,7 +323,6 @@ steps:
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_vc_organization=${_TEMPLATE_DEFAULT_VC_ORGANIZATION}
     - template_default_vc_url=${_TEMPLATE_DEFAULT_VC_URL}
-    - template_default_vc_url_prod=${_TEMPLATE_DEFAULT_VC_URL_PROD}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -353,7 +340,6 @@ steps:
     - template_default_ci_provider=${_TEMPLATE_DEFAULT_CI_PROVIDER}
     - template_default_ci_provider_prod=${_TEMPLATE_DEFAULT_CI_PROVIDER_PROD}
     - template_default_vc_provider=${_TEMPLATE_DEFAULT_VC_PROVIDER}
-    - template_default_vc_provider_prod=${_TEMPLATE_DEFAULT_VC_PROVIDER_PROD}
     - template_default_container_registry_provider=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER}
     - template_default_container_registry_provider_prod=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER_PROD}
     - template_default_container_registry=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY}
@@ -380,7 +366,6 @@ steps:
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_vc_organization=${_TEMPLATE_DEFAULT_VC_ORGANIZATION}
     - template_default_vc_url=${_TEMPLATE_DEFAULT_VC_URL}
-    - template_default_vc_url_prod=${_TEMPLATE_DEFAULT_VC_URL_PROD}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -398,7 +383,6 @@ steps:
     - template_default_ci_provider=${_TEMPLATE_DEFAULT_CI_PROVIDER}
     - template_default_ci_provider_prod=${_TEMPLATE_DEFAULT_CI_PROVIDER_PROD}
     - template_default_vc_provider=${_TEMPLATE_DEFAULT_VC_PROVIDER}
-    - template_default_vc_provider_prod=${_TEMPLATE_DEFAULT_VC_PROVIDER_PROD}
     - template_default_container_registry_provider=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER}
     - template_default_container_registry_provider_prod=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER_PROD}
     - template_default_container_registry=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY}
@@ -426,7 +410,6 @@ steps:
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_vc_organization=${_TEMPLATE_DEFAULT_VC_ORGANIZATION}
     - template_default_vc_url=${_TEMPLATE_DEFAULT_VC_URL}
-    - template_default_vc_url_prod=${_TEMPLATE_DEFAULT_VC_URL_PROD}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -444,7 +427,6 @@ steps:
     - template_default_ci_provider=${_TEMPLATE_DEFAULT_CI_PROVIDER}
     - template_default_ci_provider_prod=${_TEMPLATE_DEFAULT_CI_PROVIDER_PROD}
     - template_default_vc_provider=${_TEMPLATE_DEFAULT_VC_PROVIDER}
-    - template_default_vc_provider_prod=${_TEMPLATE_DEFAULT_VC_PROVIDER_PROD}
     - template_default_container_registry_provider=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER}
     - template_default_container_registry_provider_prod=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER_PROD}
     - template_default_container_registry=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY}
@@ -470,7 +452,6 @@ steps:
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_vc_organization=${_TEMPLATE_DEFAULT_VC_ORGANIZATION}
     - template_default_vc_url=${_TEMPLATE_DEFAULT_VC_URL}
-    - template_default_vc_url_prod=${_TEMPLATE_DEFAULT_VC_URL_PROD}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -488,7 +469,6 @@ steps:
     - template_default_ci_provider=${_TEMPLATE_DEFAULT_CI_PROVIDER}
     - template_default_ci_provider_prod=${_TEMPLATE_DEFAULT_CI_PROVIDER_PROD}
     - template_default_vc_provider=${_TEMPLATE_DEFAULT_VC_PROVIDER}
-    - template_default_vc_provider_prod=${_TEMPLATE_DEFAULT_VC_PROVIDER_PROD}
     - template_default_container_registry_provider=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER}
     - template_default_container_registry_provider_prod=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER_PROD}
     - template_default_container_registry=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY}
@@ -516,7 +496,6 @@ steps:
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_vc_organization=${_TEMPLATE_DEFAULT_VC_ORGANIZATION}
     - template_default_vc_url=${_TEMPLATE_DEFAULT_VC_URL}
-    - template_default_vc_url_prod=${_TEMPLATE_DEFAULT_VC_URL_PROD}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -534,7 +513,6 @@ steps:
     - template_default_ci_provider=${_TEMPLATE_DEFAULT_CI_PROVIDER}
     - template_default_ci_provider_prod=${_TEMPLATE_DEFAULT_CI_PROVIDER_PROD}
     - template_default_vc_provider=${_TEMPLATE_DEFAULT_VC_PROVIDER}
-    - template_default_vc_provider_prod=${_TEMPLATE_DEFAULT_VC_PROVIDER_PROD}
     - template_default_container_registry_provider=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER}
     - template_default_container_registry_provider_prod=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER_PROD}
     - template_default_container_registry=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY}
@@ -560,7 +538,6 @@ steps:
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_vc_organization=${_TEMPLATE_DEFAULT_VC_ORGANIZATION}
     - template_default_vc_url=${_TEMPLATE_DEFAULT_VC_URL}
-    - template_default_vc_url_prod=${_TEMPLATE_DEFAULT_VC_URL_PROD}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -578,7 +555,6 @@ steps:
     - template_default_ci_provider=${_TEMPLATE_DEFAULT_CI_PROVIDER}
     - template_default_ci_provider_prod=${_TEMPLATE_DEFAULT_CI_PROVIDER_PROD}
     - template_default_vc_provider=${_TEMPLATE_DEFAULT_VC_PROVIDER}
-    - template_default_vc_provider_prod=${_TEMPLATE_DEFAULT_VC_PROVIDER_PROD}
     - template_default_container_registry_provider=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER}
     - template_default_container_registry_provider_prod=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER_PROD}
     - template_default_container_registry=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY}
@@ -604,7 +580,6 @@ steps:
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_vc_organization=${_TEMPLATE_DEFAULT_VC_ORGANIZATION}
     - template_default_vc_url=${_TEMPLATE_DEFAULT_VC_URL}
-    - template_default_vc_url_prod=${_TEMPLATE_DEFAULT_VC_URL_PROD}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -622,7 +597,6 @@ steps:
     - template_default_ci_provider=${_TEMPLATE_DEFAULT_CI_PROVIDER}
     - template_default_ci_provider_prod=${_TEMPLATE_DEFAULT_CI_PROVIDER_PROD}
     - template_default_vc_provider=${_TEMPLATE_DEFAULT_VC_PROVIDER}
-    - template_default_vc_provider_prod=${_TEMPLATE_DEFAULT_VC_PROVIDER_PROD}
     - template_default_container_registry_provider=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER}
     - template_default_container_registry_provider_prod=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER_PROD}
     - template_default_container_registry=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY}
@@ -650,7 +624,6 @@ steps:
     - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
     - template_default_vc_organization=${_TEMPLATE_DEFAULT_VC_ORGANIZATION}
     - template_default_vc_url=${_TEMPLATE_DEFAULT_VC_URL}
-    - template_default_vc_url_prod=${_TEMPLATE_DEFAULT_VC_URL_PROD}
     - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
     - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
     - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
@@ -668,7 +641,6 @@ steps:
     - template_default_ci_provider=${_TEMPLATE_DEFAULT_CI_PROVIDER}
     - template_default_ci_provider_prod=${_TEMPLATE_DEFAULT_CI_PROVIDER_PROD}
     - template_default_vc_provider=${_TEMPLATE_DEFAULT_VC_PROVIDER}
-    - template_default_vc_provider_prod=${_TEMPLATE_DEFAULT_VC_PROVIDER_PROD}
     - template_default_container_registry_provider=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER}
     - template_default_container_registry_provider_prod=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER_PROD}
     - template_default_container_registry=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY}
