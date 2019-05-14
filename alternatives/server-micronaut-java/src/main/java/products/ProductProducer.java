@@ -1,13 +1,13 @@
-package management;
+package products;
 
 import io.micronaut.configuration.kafka.annotation.KafkaClient;
 import io.micronaut.configuration.kafka.annotation.KafkaKey;
 import io.micronaut.configuration.kafka.annotation.Topic;
 
 @KafkaClient
-public interface UserProducer {
+public interface ProductProducer {
 
-  @Topic("users")
-  void send(@KafkaKey String id, String username);
+  @Topic("products")
+  void send(@KafkaKey String id, String name);
 
 }

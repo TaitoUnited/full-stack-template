@@ -8,15 +8,15 @@ import io.micronaut.configuration.kafka.annotation.OffsetReset;
 import io.micronaut.configuration.kafka.annotation.Topic;
 
 @KafkaListener(offsetReset = OffsetReset.EARLIEST)
-public class UserListener {
+public class ProductListener {
 
   @Inject
   PostService postService;
 
-  @Topic("users")
-  public void receive(@KafkaKey String id, String username) {
-    postService.create(new Post(null, "User " + username + " was added!",
-        "Let's make him/her feel welcome", "System"));
+  @Topic("products")
+  public void receive(@KafkaKey String operation, String filter) {
+    postService.create(new Post(null, "Products fetch",
+        "Someone is interested of our products. Go and sell!", "System"));
   }
 
 }
