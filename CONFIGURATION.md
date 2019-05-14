@@ -19,11 +19,11 @@ Run `taito open conventions` in the project directory to see organization specif
 
 ## Stack
 
-**Minikube:** If you would rather use minikube for local development instead of docker-compose, remove `docker-compose:local` plugin, and the `:-local` restriction from `kubectl:-local` and `helm:-local` plugins. These are configured with the `taito_plugins` setting in `taito-config.sh`. Note that you can also permanently define your preference in your personal or organizational taito-config.sh to avoid manual work every time you create a new project: `template_default_engine_local="minikube"`. (TODO: Not tested on minikube yet. Probably needs some additional work.).
+**Minikube:** If you would rather use minikube for local development instead of docker-compose, remove `docker-compose:local` plugin, and the `:-local` restriction from `kubectl:-local` and `helm:-local` plugins. These are configured with the `taito_plugins` setting in `taito-config.sh`. Note that you can also permanently define your preference in your personal or organizational taito-config.sh to avoid manual change every time you create a new project, for example: `template_default_engine_local="minikube"`. (TODO: Not tested on minikube yet. Probably needs some additional work.).
 
-**Alternative technologies:** If you would rather use other technologies than React, Node.js and PostgreSQL, you can copy alternative example implementations from [alternatives](https://github.com/TaitoUnited/SERVER-TEMPLATE/tree/master/alternatives) directory. Note that you can also permanently define your preference in your personal or organizational taito-config.sh to avoid manual copying every time you create a new project: `template_default_alternatives="client-vue server-micronaut-java"`.
+**Alternative technologies:** If you would rather use other technologies than React, Node.js and PostgreSQL, you can copy alternative example implementations from [alternatives](https://github.com/TaitoUnited/SERVER-TEMPLATE/tree/master/alternatives) directory. Note that you can also permanently define your preference in your personal or organizational taito-config.sh to avoid manual copying every time you create a new project, for example: `template_default_alternatives="client-vue server-micronaut-java"`.
 
-**Additional microservices:** You can use both monorepo and multirepo approach with this template. If you are going for multirepo, just create a separate project for each microservice. If you are going for monorepo or something in between multirepo and monorepo approaches, you can add a new microservice to this repository like this:
+**Additional microservices:** You can use either monorepo or multirepo approach with this template. If you are going for multirepo, just create a separate project for each microservice. If you are going for monorepo, or something in between multirepo and monorepo approaches, you can add a new microservice to the same repository like this:
 
   1. Create a new directory for your service. Look [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) and [alternatives](https://github.com/TaitoUnited/SERVER-TEMPLATE/tree/master/alternatives) for examples.
   2. Add the service to `taito_targets` variable in `taito-config.sh`
@@ -76,9 +76,9 @@ Write down the basic auth credentials to [README.md#links](README.md#links):
 
 Write down the basic auth credentials to `taito-config.sh`:
 
-    EDIT taito-config.sh   # Edit this: ci_test_base_url=https://user:painipaini@...
+    EDIT taito-config.sh   # Edit this: ci_test_base_url=https://username:secretpassword@...
 
-Push some changes to dev branch:
+Push some changes to dev branch with a [Conventional Commits](http://conventionalcommits.org/) commit message `chore: configuration`:
 
     taito stage            # Or just 'git add .'
     taito commit           # Or just 'git commit'
@@ -87,7 +87,9 @@ Push some changes to dev branch:
 See it build and deploy:
 
     taito open builds:dev
+    taito status:dev
     taito open client:dev
+    taito open server:dev
 
 > If you have some trouble creating an environment, you can destroy it by running `taito env destroy:dev` and then try again with `taito env apply:dev`.
 

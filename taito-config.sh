@@ -231,7 +231,7 @@ case $taito_env in
     ci_exec_test=true         # execute test suites
     ci_exec_test_init=false   # run 'init --clean' before each test suite
     ci_exec_revert=false      # revert deploy if previous steps failed
-    ci_test_base_url=https://user:painipaini@$taito_domain
+    ci_test_base_url=https://username:secretpassword@$taito_domain
     ;;
   local)
     ci_exec_test_init=false   # run 'init --clean' before each test suite
