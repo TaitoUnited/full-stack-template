@@ -39,23 +39,5 @@ variable "taito_backup_days" {
   default = []
 }
 
-/* Monitoring */
-variable "taito_monitoring_targets" {
-  type = "list"
-  default = []
-}
-variable "taito_monitoring_paths" {
-  type = "list"
-  default = []
-}
-variable "taito_monitoring_timeouts" {
-  type = "list"
-  default = []
-}
-variable "taito_monitoring_uptime_channels" {
-  type = "list"
-  default = []
-}
-
 /* Google Cloud */
 variable "gcloud_service_account_enabled" {}

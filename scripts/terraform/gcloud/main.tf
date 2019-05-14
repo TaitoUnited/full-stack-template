@@ -28,10 +28,5 @@ module "common-gcloud" {
   taito_backup_locations = "${var.taito_backup_locations}"
   taito_backup_days = "${var.taito_backup_days}"
 
-  taito_monitoring_targets = "${var.taito_monitoring_targets}"
-  taito_monitoring_paths = "${var.taito_monitoring_paths}"
-  taito_monitoring_timeouts = "${var.taito_monitoring_timeouts}"
-  taito_monitoring_uptime_channels = "${var.taito_monitoring_uptime_channels}"
-
   gcloud_service_account_enabled = "${var.gcloud_service_account_enabled}"
 }

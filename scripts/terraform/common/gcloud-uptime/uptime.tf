@@ -1,9 +1,9 @@
 resource "google_monitoring_uptime_check_config" "https" {
-  count = "${length(var.taito_monitoring_targets)}"
+  count = "${length(var.taito_uptime_targets)}"
 
   project = "${var.taito_zone}"
-  display_name = "${var.taito_project}-${var.taito_env}-${element(var.taito_monitoring_targets, count.index)}"
-  timeout = "${element(var.taito_monitoring_timeouts, count.index)}"
+  display_name = "${var.taito_project}-${var.taito_env}-${element(var.taito_uptime_targets, count.index)}"
+  timeout = "${element(var.taito_uptime_timeouts, count.index)}"
 
   monitored_resource {
     type = "uptime_url"
@@ -15,18 +15,18 @@ resource "google_monitoring_uptime_check_config" "https" {
   http_check {
     use_ssl = true
     port = 443
-    path = "${element(var.taito_monitoring_paths, count.index)}"
+    path = "${element(var.taito_uptime_paths, count.index)}"
   }
 }
 
 resource "google_monitoring_alert_policy" "https" {
   depends_on = ["google_monitoring_uptime_check_config.https"]
-  count = "${length(var.taito_monitoring_targets) > 0 ? 1 : 0}"
+  count = "${length(var.taito_uptime_targets) > 0 ? 1 : 0}"
   enabled = "true"
 
   project = "${var.taito_zone}"
   display_name = "${var.taito_project}-${var.taito_env}"
-  notification_channels = "${var.taito_monitoring_uptime_channels}"
+  notification_channels = "${var.taito_uptime_uptime_channels}"
 
   combiner = "OR"
   conditions = [

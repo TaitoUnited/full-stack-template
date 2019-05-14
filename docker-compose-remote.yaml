@@ -1,3 +1,6 @@
+# This file is used for running Docker Compose on remote servers. It is not
+# needed if you use Kubernetes instead.
+
 version: '3.5'
 services:
   server-template-ingress:
@@ -7,44 +10,32 @@ services:
     networks:
       - default
     ports:
-      # __IMAGE_TAG__
       - "__PORT__:80"
+    secrets:
+      - BASIC_AUTH_HTPASSWD
     volumes:
       - "./docker-nginx.conf:/etc/nginx/nginx.conf:delegated"
-      - "./docker-nginx.htpasswd:/etc/nginx/.htpasswd:delegated"
 
   server-template-admin:
     container_name: server-template-admin
-    build:
-      context: ./admin
-      dockerfile: ${dockerfile}
+    image: host/server-template/admin:__IMAGE_TAG__
     restart: unless-stopped
     networks:
       - default
     ports:
       - "8080"
-    volumes:
-      - "./admin:/service:delegated"
-      - "./shared:/service/shared:delegated"
-      - "/service/node_modules"
     environment:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
 
   server-template-client:
     container_name: server-template-client
-    build:
-      context: ./client
-      dockerfile: ${dockerfile}
+    image: host/server-template/client:__IMAGE_TAG__
     restart: unless-stopped
     networks:
       - default
     ports:
       - "8080"
-    volumes:
-      - "./client:/service:delegated"
-      - "./shared:/service/shared:delegated"
-      - "/service/node_modules"
     secrets:
       # NOTE: Database connection is for tests only
       - DATABASE_PASSWORD
@@ -52,25 +43,15 @@ services:
     environment:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
-      # NOTE: Database connection is for tests only
-      DATABASE_HOST: server-template-database
-      DATABASE_NAME: server_template_local
-      DATABASE_USER: server_template_local_app
 
   server-template-graphql:
     container_name: server-template-graphql
-    build:
-      context: ./graphql
-      dockerfile: ${dockerfile}
+    image: host/server-template/graphql:__IMAGE_TAG__
     restart: unless-stopped
     networks:
       - default
     ports:
       - "8080"
-    volumes:
-      - "./graphql:/service:delegated"
-      - "./shared:/service/shared:delegated"
-      - "/service/node_modules"
     environment:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
@@ -88,18 +69,12 @@ services:
 
   server-template-server:
     container_name: server-template-server
-    build:
-      context: ./server
-      dockerfile: ${dockerfile}
+    image: host/server-template/server:__IMAGE_TAG__
     restart: unless-stopped
     networks:
       - default
     ports:
       - "8080"
-    volumes:
-      - "./server:/service:delegated"
-      - "./shared:/service/shared:delegated"
-      - "/service/node_modules"
     secrets:
       - DATABASE_PASSWORD
       - S3_KEY_SECRET
@@ -117,9 +92,9 @@ services:
       API_BINDADDR: 0.0.0.0
       KAFKA_HOST: server-template-kafka
       KAFKA_PORT: 9092
-      DATABASE_HOST: server-template-database
-      DATABASE_NAME: server_template_local
-      DATABASE_USER: server_template_local_app
+      DATABASE_HOST: ${taito_domain}
+      DATABASE_NAME: server_template_${taito_env}
+      DATABASE_USER: server_template_${taito_env}_app
       DATABASE_POOL_MIN: '1'
       DATABASE_POOL_MAX: '10'
       S3_URL: http://server-template-storage:9000/
@@ -129,21 +104,12 @@ services:
 
   server-template-www:
     container_name: server-template-www
-    build:
-      context: ./www
-      dockerfile: ${dockerfile}
+    image: host/server-template/www:__IMAGE_TAG__
     restart: unless-stopped
     networks:
       - default
     ports:
-      # TODO: Temporary hack for https://github.com/gatsbyjs/gatsby/issues/3721
-      - "7463:8080"
-    volumes:
-      - "./www:/service:delegated"
-      - "/service/node_modules"
-      - "/service/site/node_modules"
-      # FOR GATSBY ONLY:
-      # - "/service/site/node_modules"
+      - "8080"
 
   server-template-cache:
     container_name: server-template-cache
@@ -171,42 +137,14 @@ services:
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
 
-  # "EXTERNAL RESOURCES"
-
-  server-template-database:
-    container_name: server-template-database
-    image: postgres:9.6
-    restart: unless-stopped
-    networks:
-      - default
-    ports:
-      - "6000:5432"
-    secrets:
-      - DATABASE_PASSWORD
-    environment:
-      POSTGRES_DB: server_template_local
-      POSTGRES_USER: server_template_local_app
-      POSTGRES_PASSWORD_FILE: /run/secrets/DATABASE_PASSWORD
-    volumes:
-      - "./database:/docker-entrypoint-initdb.d:delegated"
-
-  server-template-storage:
-    container_name: server-template-storage
-    build:
-      context: ./storage
-      dockerfile: ${dockerfile}
-    restart: unless-stopped
-    command: server /service
-    networks:
-      - default
-    ports:
-      - "9000"
-    secrets:
-      - S3_KEY_SECRET
-    environment:
-      MINIO_ACCESS_KEY: minio
-      # MINIO requires key as environment variable?
-      MINIO_SECRET_KEY: secret1234
+  # TODO
+  # watchtower:
+  #   restart: always
+  #   image: index.docker.io/v2tec/watchtower
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - ./watchtower-config.json:/config.json
+  #   command: --interval 60
 
 secrets:
   DATABASE_PASSWORD:
@@ -215,8 +153,8 @@ secrets:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-storage-gateway.secret
   EXAMPLE_SECRET:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-example.secret
+  BASIC_AUTH_HTPASSWD:
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-basic-auth.auth
 
 networks:
   default:
-
-# EOF

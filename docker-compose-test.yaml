@@ -1,5 +1,5 @@
 # This file is used for running integration tests against a remote
-# environment. It is required only if your test implementations require
+# environment. It is needed only if your test implementations require
 # a remote database access through a database proxy.
 
 version: '3.5'

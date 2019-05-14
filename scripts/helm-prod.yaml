@@ -1,10 +1,6 @@
 # NOTE: Here you can override default settings for production environment.
-# For example, you can diable basic authentication here.
 
 full-stack:
-  ingress:
-    basicAuth:
-      enabled: true
   serviceDefaults:
     cpuRequest: 2m
     cpuLimit: 200m

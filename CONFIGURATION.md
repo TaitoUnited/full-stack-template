@@ -19,22 +19,24 @@ Run `taito open conventions` in the project directory to see organization specif
 
 ## Stack
 
-**Alternative technologies:** If you would rather use other technologies than React, Node.js and PostgreSQL, you can copy alternative example implementations from [alternatives](https://github.com/TaitoUnited/SERVER-TEMPLATE/tree/master/alternatives) directory.
+**Minikube:** If you would rather use minikube for local development instead of docker-compose, remove `docker-compose:local` plugin, and the `:-local` restriction from `kubectl:-local` and `helm:-local` plugins. These are configured with the `taito_plugins` setting in `taito-config.sh`. Note that you can also permanently define your preference in your personal or organizational taito-config.sh to avoid manual work every time you create a new project: `template_default_engine_local="minikube"`. (TODO: Not tested on minikube yet. Probably needs some additional work.).
 
-**Additional microservices:** The template supports unlimited number of microservices. You can add a new microservice like this:
+**Alternative technologies:** If you would rather use other technologies than React, Node.js and PostgreSQL, you can copy alternative example implementations from [alternatives](https://github.com/TaitoUnited/SERVER-TEMPLATE/tree/master/alternatives) directory. Note that you can also permanently define your preference in your personal or organizational taito-config.sh to avoid manual copying every time you create a new project: `template_default_alternatives="client-vue server-micronaut-java"`.
+
+**Additional microservices:** You can use both monorepo and multirepo approach with this template. If you are going for multirepo, just create a separate project for each microservice. If you are going for monorepo or something in between multirepo and monorepo approaches, you can add a new microservice to this repository like this:
 
   1. Create a new directory for your service. Look [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) and [alternatives](https://github.com/TaitoUnited/SERVER-TEMPLATE/tree/master/alternatives) for examples.
   2. Add the service to `taito_targets` variable in `taito-config.sh`
-  3. Add the service to `docker-compose.yaml` and check that it works ok in local development environment.
+  3. Add the service to `docker-compose*.yaml` files and check that it works ok in local development environment.
   4. Add the service to `scripts/helm.yaml`.
   5. Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `check-deps`, `check-size`.
   6. Add the service to your CI/CD script (`.yml/.yaml` or `Jenkinsfile` in project root or `.github/main.workflow`).
 
 **Kafka:** TODO: Kafka for event-driven microservices.
 
-**Istio:** TODO: Istio service mesh.
+**API gateway:** TODO: nginx-ingress by default.
 
-**Minikube:** If you would rather use minikube for local development instead of docker-compose, remove `docker-compose:local` plugin, and the `:-local` restriction from `kubectl:-local` and `helm:-local` plugins. These are configured with the `taito_plugins` setting in `taito-config.sh`. (TODO: Not tested on minikube yet. Probably needs some additional work.)
+**Istio:** TODO: Istio service mesh.
 
 **Authentication:** Ingress provides basic authentication, but it is only meant for hiding non-production environments. Here are some good technologies for implementing authentication: [Auth0](https://auth0.com), [Passport](http://www.passportjs.org/), [ORY Oathkeeper](https://www.ory.sh/api-access-control-kubernetes-cloud-native).
 

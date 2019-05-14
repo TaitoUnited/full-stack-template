@@ -27,7 +27,7 @@ full-stack:
     tls: true
     maxBodySize: 1m
     basicAuth:
-      enabled: true
+      enabled: ${taito_basic_auth_enabled}
       htpasswdSecret: ${taito_project}-${taito_env}-basic-auth
     domains:
       - name: ${taito_domain}

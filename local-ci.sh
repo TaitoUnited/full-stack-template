@@ -12,6 +12,8 @@ IMAGE_TAG=$2  # e.g. commit SHA
 # taito_target_env=${BRANCH/master/prod}
 # . taito-config.sh
 # set +a
+
+set -e
 export taito_mode=ci
 
 # Prepare build

@@ -32,7 +32,7 @@ taito_project_icon=$taito_project-dev.${template_default_domain:?}/favicon.ico
 
 # Environments
 taito_environments="${template_default_environments:?}"
-taito_env=${taito_env/canary/prod} # canary -> prod
+taito_env=${taito_target_env/canary/prod} # canary -> prod
 
 # Provider and namespaces
 taito_provider=${template_default_provider:?}
@@ -50,16 +50,36 @@ taito_app_url=https://$taito_domain
 taito_static_url=
 
 # Hosts
-taito_host="${taito_domain}"
+taito_host="${template_default_host:-}"
 taito_host_dir="/projects/$taito_namespace"
 
-# CI/CD and repositories
-taito_ci_provider=${template_default_ci_provider:?}
+# Version control
 taito_vc_provider=${template_default_vc_provider:?}
 taito_vc_repository=$taito_project
 taito_vc_repository_url=${template_default_vc_url:?}/$taito_vc_repository
+
+# CI/CD
+taito_ci_provider=${template_default_ci_provider:?}
+
+# Container registry
 taito_container_registry_provider=${template_default_container_registry_provider:-}
 taito_container_registry=${template_default_container_registry:-}/$taito_vc_repository
+
+# Messaging
+taito_messaging_provider=slack
+taito_messaging_webhook=
+taito_messaging_channel=companyname
+taito_messaging_builds_channel=builds
+taito_messaging_critical_channel=critical
+taito_messaging_monitoring_channel=monitoring
+
+# Uptime monitoring
+taito_uptime_provider=${template_default_uptime_provider:-}
+taito_uptime_targets=" admin client graphql server www "
+taito_uptime_paths=" /admin/uptimez /uptimez /graphql/uptimez /api/uptimez /docs/uptimez "
+taito_uptime_timeouts=" 5s 5s 5s 5s 5s "
+# You can list all monitoring channels with `taito env info:ENV`
+taito_uptime_uptime_channels="${template_default_monitoring_uptime_channels:-}"
 
 # Stack
 taito_targets=" admin client cache graphql database function kafka zookeeper server storage worker www "
@@ -90,18 +110,11 @@ taito_storage_days=${template_default_storage_days:-}
 taito_backup_locations="${template_default_backup_location:-}"
 taito_backup_days="${template_default_backup_days:-}"
 
-# Messaging
-taito_messaging_app=slack
-taito_messaging_webhook=
-taito_messaging_channel=companyname
-taito_messaging_builds_channel=builds
-taito_messaging_critical_channel=critical
-taito_messaging_monitoring_channel=monitoring
-
-# Misc
+# Misc settings
+taito_basic_auth_enabled=true
 taito_default_password=secret1234
 
-# CI/CD settings
+# CI/CD default settings
 # NOTE: Most of these should be enabled for dev and feat branches only.
 # That is, container image is built and tested on dev environment first.
 # After that the same container image will be deployed to other environments:
@@ -117,11 +130,6 @@ ci_test_base_url="http://NOT-CONFIGURED-FOR-$taito_env"
 
 # ------ Plugin and provider specific settings ------
 
-# Hour reporting and issue management plugins
-toggl_project_id=
-toggl_tasks="" # For example "task:12345 another-task:67890"
-jira_project_id=
-
 # Template plugin
 template_name=SERVER-TEMPLATE
 template_source_git=git@github.com:TaitoUnited
@@ -135,10 +143,20 @@ kubernetes_db_proxy_enabled=true
 # Helm plugin
 # helm_deploy_options="--recreate-pods" # Force restart
 
+# Hour reporting and issue management plugins
+toggl_project_id=
+toggl_tasks="" # For example "task:12345 another-task:67890"
+jira_project_id=
+
 # ------ Overrides for different environments ------
 
 case $taito_env in
   prod)
+    # Settings
+    taito_basic_auth_enabled=true
+    kubernetes_replicas=2
+
+    # Provider and namespaces
     taito_zone=${template_default_zone_prod:?}
     taito_provider=${template_default_provider_prod:?}
     taito_provider_org_id=${template_default_provider_org_id_prod:-}
@@ -146,31 +164,25 @@ case $taito_env in
     taito_provider_zone=${template_default_provider_zone_prod:-}
     taito_resource_namespace=$taito_organization_abbr-$taito_company-prod
 
-    # NOTE: Set production domain here once you have configured DNS
+    # Domain and resources
     taito_domain=
     taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?} # TEMPLATE-REMOVE
     taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
     taito_app_url=https://$taito_domain
-    taito_host="${taito_domain}"
+    taito_host="${template_default_host_prod:-}"
     kubernetes_cluster="${template_default_kubernetes_cluster_prefix_prod:-}${kubernetes_name}"
-    kubernetes_replicas=2
     db_database_real_host="${template_default_postgres_host_prod:-}"
 
-    # Storage definitions for Terraform
+    # Storage settings
     taito_storage_classes="${template_default_storage_class_prod:-}"
     taito_storage_locations="${template_default_storage_location_prod:-}"
     taito_storage_days=${template_default_storage_days_prod:-}
-
-    # Storage backup definitions for Terraform
     taito_backup_locations="${template_default_backup_location_prod:-}"
     taito_backup_days="${template_default_backup_days_prod:-}"
 
     # Monitoring
-    taito_monitoring_targets=" admin client graphql server www "
-    taito_monitoring_paths=" /admin/uptimez /uptimez /graphql/uptimez /api/uptimez /docs/uptimez "
-    taito_monitoring_timeouts=" 5s 5s 5s 5s 5s "
-    # You can list all monitoring channels with `taito env info:prod`
-    taito_monitoring_uptime_channels="${template_default_monitoring_uptime_channels_prod:-}"
+    taito_uptime_provider=${template_default_uptime_provider_prod:-}
+    taito_uptime_channels="${template_default_monitoring_uptime_channels_prod:-}"
 
     # CI/CD and repositories
     taito_container_registry_provider=${template_default_container_registry_provider_prod:-}
@@ -181,6 +193,11 @@ case $taito_env in
     ci_exec_deploy=${template_default_ci_exec_deploy_prod:-true}
     ;;
   stag)
+    # Settings
+    taito_basic_auth_enabled=true
+    kubernetes_replicas=2
+
+    # Provider and namespaces
     taito_zone=${template_default_zone_prod:?}
     taito_provider=${template_default_provider_prod:?}
     taito_provider_org_id=${template_default_provider_org_id_prod:-}
@@ -188,15 +205,19 @@ case $taito_env in
     taito_provider_zone=${template_default_provider_zone_prod:-}
     taito_resource_namespace=$taito_organization_abbr-$taito_company-prod
 
+    # Domain and resources
     taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
     taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
     taito_app_url=https://$taito_domain
-    taito_host="${taito_domain}"
+    taito_host="${template_default_host_prod:-}"
     kubernetes_cluster="${template_default_kubernetes_cluster_prefix_prod:-}${kubernetes_name}"
-    kubernetes_replicas=2
     db_database_real_host="${template_default_postgres_host_prod:-}"
 
-    # CI/CD
+    # Monitoring
+    taito_uptime_provider=${template_default_uptime_provider_prod:-}
+    taito_uptime_channels="${template_default_monitoring_uptime_channels_prod:-}"
+
+    # CI/CD and repositories
     taito_container_registry_provider=${template_default_container_registry_provider_prod:-}
     taito_container_registry=${template_default_container_registry_prod:-}/$taito_vc_repository
     taito_ci_provider=${template_default_ci_provider_prod:?}
@@ -335,9 +356,9 @@ case $taito_provider in
     taito_plugins="${taito_plugins/helm:-local/}"
     # ssh plugin as database proxy
     if [[ -f taito-user-config.sh ]]; then
-      . ./taito-user-config.sh # TODO
+      . ./taito-user-config.sh # TODO: hack
     fi
-    . "${taito_util_path:-}/read-database-config.sh" "${taito_target:-}"
+    . "${taito_util_path:-}/read-database-config.sh" "${taito_target:-}"  # TODO: hack
     export ssh_db_proxy="\
       -L 0.0.0.0:${database_port:-}:${database_host:-}:${database_real_port:-} ${taito_ssh_user:-$taito_host_username}@${database_real_host:-}"
     export ssh_forward_for_db="${ssh_db_proxy}"
@@ -407,9 +428,6 @@ case $taito_container_registry_provider in
       gcloud-registry:-local
     "
     ;;
-  ssh)
-    taito_container_registry=${taito_host}
-    ;;
 esac
 
 if [[ $taito_plugins == *"sentry"* ]]; then
@@ -422,6 +440,7 @@ if [[ $taito_plugins == *"sentry"* ]]; then
 fi
 
 # ------ Test suite settings ------
+
 # NOTE: Variable is passed to the test without the test_TARGET_ prefix
 
 # Database connection
