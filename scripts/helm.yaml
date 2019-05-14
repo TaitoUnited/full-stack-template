@@ -40,6 +40,7 @@ full-stack:
     port: 8080
     tier:
     livenessPath: /healthz
+    livenessInitialDelay: 3
     # Security
     runAsUser:
     fsGroup:
@@ -141,6 +142,7 @@ full-stack:
       path: /api
       tier: backend
       memoryRequest: 50Mi
+      livenessInitialDelay: 120
       db:
         instance: ${taito_zone}:${taito_provider_region}:${db_database_instance}
         port: 5432
