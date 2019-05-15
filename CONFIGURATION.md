@@ -23,7 +23,7 @@ Run `taito open conventions` in the project directory to see organization specif
 
 **Alternative technologies:** If you would rather use other technologies than React, Node.js and PostgreSQL, you can copy alternative example implementations from [alternatives](https://github.com/TaitoUnited/SERVER-TEMPLATE/tree/master/alternatives) directory. Note that you can also permanently define your preference in your personal or organizational taito-config.sh to avoid manual copying every time you create a new project, for example: `template_default_alternatives="client-vue server-micronaut-java"`.
 
-**Additional microservices:** You can use either monorepo or multirepo approach with this template. If you are going for multirepo, just create a separate project for each microservice. If you are going for monorepo, or something in between multirepo and monorepo approaches, you can add a new microservice to the same repository like this:
+**Additional microservices:** You can use either monorepo or multirepo approach with this template. If you are going for multirepo, just create a separate project for each microservice. If you want some of them to share the same namespace, define common `taito_namespace` in taito-config.sh. If you are going for monorepo, or something in between multirepo and monorepo approaches, you can add a new microservice to a repository like this:
 
   1. Create a new directory for your service. Look [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) and [alternatives](https://github.com/TaitoUnited/SERVER-TEMPLATE/tree/master/alternatives) for examples.
   2. Add the service to `taito_targets` variable in `taito-config.sh`
