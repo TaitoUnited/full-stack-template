@@ -35,8 +35,8 @@ ssh ${opts} "${taito_ssh_user}@${taito_host}" "
     echo
 
     echo [Restart docker-compose]
-    docker-compose -f docker-compose-remote.yaml stop
-    docker-compose -f docker-compose-remote.yaml -d up
+    docker-compose -f docker-compose.yaml stop
+    docker-compose -f docker-compose.yaml -d up
   '
 "
 echo

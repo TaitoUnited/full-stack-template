@@ -1,5 +1,6 @@
 #!/bin/bash
 # shellcheck disable=SC2034
+set -a
 : "${taito_target_env:?}"
 
 # Configuration instructions:
@@ -480,3 +481,5 @@ if [[ $taito_plugins == *"gcloud-ci"* ]] && [[ ${taito_mode:-} == "ci" ]]; then
   test_all_DATABASE_HOST=127.0.0.1
   test_all_DATABASE_PORT=5001
 fi
+
+set +a
