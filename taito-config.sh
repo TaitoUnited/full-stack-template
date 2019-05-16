@@ -394,10 +394,6 @@ case $taito_ci_provider in
     fi
     ;;
   local)
-    taito_plugins="
-      ${taito_plugins}
-      local-ci:-local
-    "
     ;;
 esac
 
