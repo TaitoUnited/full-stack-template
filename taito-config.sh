@@ -432,17 +432,35 @@ case $taito_vc_provider in
 esac
 
 case $taito_container_registry_provider in
-  docker)
+  aws)
+    # Enable AWS auth
+    taito_plugins="${taito_plugins/aws:-local/}"
     taito_plugins="
+      aws:-local
       ${taito_plugins}
-      gcloud-registry:-local
     "
+    ;;
+  docker)
+    # Enable Docker Hub auth
+    taito_plugins="
+      docker-registry:-local
+      ${taito_plugins}
+    "
+    ;;
+  gcloud)
+    # Enable gcloud auth
+    taito_plugins="${taito_plugins/gcloud:-local/}"
+    taito_plugins="
+      gcloud:-local
+      ${taito_plugins}
+    "
+    ;;
+  local)
     ;;
 esac
 
 if [[ $taito_plugins == *"sentry"* ]]; then
   sentry_organization=${template_default_sentry_organization:-}
-
   link_urls="
     ${link_urls}
     * errors:ENV=https://sentry.io/${template_default_sentry_organization:-}/$taito_project/?query=is%3Aunresolved+environment%3A$taito_target_env Sentry errors (:ENV)
