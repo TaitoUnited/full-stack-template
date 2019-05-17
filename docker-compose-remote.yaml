@@ -18,7 +18,7 @@ services:
 
   server-template-admin:
     container_name: server-template-admin
-    image: host/server-template/admin:_IMAGE_TAG_
+    image: local/server-template/admin:_IMAGE_TAG_
     restart: unless-stopped
     networks:
       - default
@@ -30,7 +30,7 @@ services:
 
   server-template-client:
     container_name: server-template-client
-    image: host/server-template/client:_IMAGE_TAG_
+    image: local/server-template/client:_IMAGE_TAG_
     restart: unless-stopped
     networks:
       - default
@@ -46,7 +46,7 @@ services:
 
   server-template-graphql:
     container_name: server-template-graphql
-    image: host/server-template/graphql:_IMAGE_TAG_
+    image: local/server-template/graphql:_IMAGE_TAG_
     restart: unless-stopped
     networks:
       - default
@@ -69,7 +69,7 @@ services:
 
   server-template-server:
     container_name: server-template-server
-    image: host/server-template/server:_IMAGE_TAG_
+    image: local/server-template/server:_IMAGE_TAG_
     restart: unless-stopped
     networks:
       - default
@@ -104,7 +104,7 @@ services:
 
   server-template-www:
     container_name: server-template-www
-    image: host/server-template/www:_IMAGE_TAG_
+    image: local/server-template/www:_IMAGE_TAG_
     restart: unless-stopped
     networks:
       - default
