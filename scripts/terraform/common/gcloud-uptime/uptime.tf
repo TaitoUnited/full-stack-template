@@ -1,7 +1,7 @@
 resource "google_monitoring_uptime_check_config" "https" {
   count = "${length(var.taito_uptime_targets)}"
 
-  project = "${var.taito_zone}"
+  project = "${var.taito_uptime_namespace_id}"
   display_name = "${var.taito_project}-${var.taito_env}-${element(var.taito_uptime_targets, count.index)}"
   timeout = "${element(var.taito_uptime_timeouts, count.index)}"
 
@@ -24,7 +24,7 @@ resource "google_monitoring_alert_policy" "https" {
   count = "${length(var.taito_uptime_targets) > 0 ? 1 : 0}"
   enabled = "true"
 
-  project = "${var.taito_zone}"
+  project = "${var.taito_uptime_namespace_id}"
   display_name = "${var.taito_project}-${var.taito_env}"
   notification_channels = "${var.taito_uptime_uptime_channels}"
 

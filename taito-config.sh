@@ -76,6 +76,7 @@ taito_messaging_monitoring_channel=monitoring
 
 # Uptime monitoring
 taito_uptime_provider=${template_default_uptime_provider:-}
+taito_uptime_provider_org_id=${template_default_uptime_provider_org_id:-}
 taito_uptime_targets=" admin client graphql server www "
 taito_uptime_paths=" /admin/uptimez /uptimez /graphql/uptimez /api/uptimez /docs/uptimez "
 taito_uptime_timeouts=" 5s 5s 5s 5s 5s "
@@ -183,6 +184,7 @@ case $taito_env in
 
     # Monitoring
     taito_uptime_provider=${template_default_uptime_provider_prod:-}
+    taito_uptime_provider_org_id=${template_default_uptime_provider_org_id_prod:-}
     taito_uptime_channels="${template_default_monitoring_uptime_channels_prod:-}"
 
     # CI/CD and repositories
@@ -214,6 +216,7 @@ case $taito_env in
 
     # Monitoring
     taito_uptime_provider=${template_default_uptime_provider_prod:-}
+    taito_uptime_provider_org_id=${template_default_uptime_provider_org_id_prod:-}
     taito_uptime_channels="${template_default_monitoring_uptime_channels_prod:-}"
 
     # CI/CD and repositories
@@ -253,6 +256,7 @@ esac
 
 # Provider and namespaces
 taito_resource_namespace_id=$taito_resource_namespace
+taito_uptime_namespace_id=$taito_zone
 
 # URLs
 taito_admin_url=$taito_app_url/admin/
@@ -328,7 +332,6 @@ case $taito_provider in
       ${link_urls}
       * services[:ENV]=https://console.cloud.google.com/apis/dashboard?project=$taito_resource_namespace_id Google services (:ENV)
       * logs:ENV=https://console.cloud.google.com/logs/viewer?project=$taito_zone&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F$kubernetes_name%2Fnamespace_id%2F$taito_namespace Logs (:ENV)
-      * uptime=https://app.google.stackdriver.com/uptime?project=$taito_zone&f.search=$taito_project Uptime monitoring (Stackdriver)
     "
 
     taito_remote_secrets="
@@ -359,6 +362,20 @@ case $taito_provider in
     export ssh_db_proxy="\
       -L 0.0.0.0:${database_port:-}:${database_host:-}:${database_real_port:-} ${taito_ssh_user:-$taito_host_username}@${database_real_host:-}"
     export ssh_forward_for_db="${ssh_db_proxy}"
+    ;;
+esac
+
+case $taito_uptime_provider in
+  gcloud)
+    taito_plugins="${taito_plugins/gcloud:-local/}"
+    taito_plugins="
+      gcloud:-local
+      ${taito_plugins}
+    "
+    link_urls="
+      ${link_urls}
+      * uptime=https://app.google.stackdriver.com/uptime?project=$taito_zone&f.search=$taito_project Uptime monitoring (Stackdriver)
+    "
     ;;
 esac
 
