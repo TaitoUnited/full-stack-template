@@ -35,10 +35,10 @@ ssh ${opts} "${taito_ssh_user}@${taito_host}" "
     rm -f /tmp/${taito_namespace}-secrets.tar
     echo
 
-    if which createsite &> /dev/null; then
-      createsite ${taito_namespace} ${taito_domain} $CLIENT_MAX_BODY_SIZE
+    if which createtaitosite &> /dev/null; then
+      createtaitosite ${taito_namespace} ${taito_domain} $CLIENT_MAX_BODY_SIZE
     else
-      echo NOTE: createsite command does not exist.
+      echo NOTE: createtaitosite command does not exist.
       echo Configure routing for domain ${taito_domain} yourself.
       echo Press enter to continue
       read -r

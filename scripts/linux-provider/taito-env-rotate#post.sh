@@ -35,8 +35,9 @@ ssh ${opts} "${taito_ssh_user}@${taito_host}" "
     echo
 
     echo [Restart docker-compose]
-    docker-compose -f docker-compose.yaml stop
-    docker-compose -f docker-compose.yaml -d up
+    cd ${taito_host_dir}
+    docker-compose stop
+    docker-compose -d up
   '
 "
 echo

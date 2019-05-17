@@ -64,7 +64,17 @@ ssh ${opts} "${taito_ssh_user}@${taito_host}" "
     rm -f /tmp/${taito_namespace}.tar
     echo
     echo [Replace port and image tag in docker-compose-remote.yaml]
-    PORT=\$(getsiteport ${taito_namespace})
+    PORT=\$(gettaitositeport ${taito_namespace} 2> /dev/null || :)
+    if [[ ! \${PORT} ]]; then
+      PORT=\$(cat PORT 2> /dev/null || :)
+    fi
+    if [[ ! \${PORT} ]]; then
+      echo NOTE: gettaitositeport command does not exist.
+      echo Internal ingress port cannot be determined automatically.
+      echo Give internal ingress port:
+      read -r PORT
+      printf \"%s\" \$PORT > PORT
+    fi
     sed -i \"s/_PORT_/\${PORT}/g\" docker-compose-remote.yaml
     sed -i \"s/_IMAGE_TAG_/${image_tag}/g\" docker-compose-remote.yaml
     echo
@@ -86,7 +96,7 @@ ssh ${opts} "${taito_ssh_user}@${taito_host}" "
     (. taito-config.sh && docker-compose -f docker-compose-remote.yaml pull || :)
     echo
     echo [Stop docker-compose using the old configuration]
-    (. taito-config.sh && docker-compose stop)
+    (. taito-config.sh && docker-compose stop || :)
     echo
     echo [Start docker-compose using the new configuration]
     . taito-config.sh
