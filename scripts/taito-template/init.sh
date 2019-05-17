@@ -13,6 +13,7 @@ sed -i "s/ function / /" taito-config.sh
 # Remote the example site
 rm -rf www/site
 sed -i '/    - "\/service\/site\/node_modules"/d' docker-compose.yaml
+sed -i '/    - "\/service\/site\/node_modules"/d' docker-compose-remote.yaml
 
 echo
 echo "######################"
@@ -43,11 +44,9 @@ function prune () {
     fi
 
     sed -i "/^  server-template-$name:\$/,/^$/d" docker-compose.yaml
+    sed -i "/^  server-template-$name:\$/,/^$/d" docker-compose-remote.yaml
     sed -i "/^  # server-template-$name:\$/,/^$/d" docker-compose.yaml
-    if [[ -f docker-compose-remote.yaml ]]; then
-      sed -i "/^  server-template-$name:\$/,/^$/d" docker-compose-remote.yaml
-      sed -i "/^  # server-template-$name:\$/,/^$/d" docker-compose-remote.yaml
-    fi
+    sed -i "/^  # server-template-$name:\$/,/^$/d" docker-compose-remote.yaml
     if [[ -f docker-compose-test.yaml ]]; then
       sed -i "/^  server-template-$name-test:\$/,/^$/d" docker-compose-test.yaml
       sed -i "/^  # server-template-$name-test:\$/,/^$/d" docker-compose-test.yaml
@@ -96,12 +95,15 @@ function prune () {
 
     if [[ $name == "kafka" ]]; then
       sed -i "/KAFKA/d" docker-compose.yaml
+      sed -i "/KAFKA/d" docker-compose-remote.yaml
       sed -i "/KAFKA/d" ./scripts/helm.yaml
 
       # Remove also Zookeeper
       sed -i "s/ zookeeper / /" taito-config.sh
       sed -i "/^  server-template-zookeeper:\$/,/^$/d" docker-compose.yaml
+      sed -i "/^  server-template-zookeeper:\$/,/^$/d" docker-compose-remote.yaml
       sed -i "/^  # server-template-zookeeper:\$/,/^$/d" docker-compose.yaml
+      sed -i "/^  # server-template-zookeeper:\$/,/^$/d" docker-compose-remote.yaml
       sed -i "/^    zookeeper:\$/,/^$/d" ./scripts/helm.yaml
     fi
 
@@ -113,8 +115,11 @@ function prune () {
       sed -i '/postgres-db/d' taito-config.sh
       sed -i '/db_/d' taito-config.sh
       sed -i '/Database/d' docker-compose.yaml
+      sed -i '/Database/d' docker-compose-remote.yaml
       sed -i '/DATABASE_/d' docker-compose.yaml
+      sed -i '/DATABASE_/d' docker-compose-remote.yaml
       sed -i '/db-/d' docker-compose.yaml
+      sed -i '/db-/d' docker-compose-remote.yaml
       sed -i '/DATABASE_/d' ./scripts/helm.yaml
       sed -i "/^      db:\$/,/^        proxySecret:.*$/d" ./scripts/helm.yaml
       rm -f docker-compose-test.yaml
@@ -126,7 +131,9 @@ function prune () {
       sed -i '/gserviceaccount.key:file/d' taito-config.sh
       sed -i '/taito_storages/d' taito-config.sh
       sed -i '/S3_/d' docker-compose.yaml
+      sed -i '/S3_/d' docker-compose-remote.yaml
       sed -i '/storage-/d' docker-compose.yaml
+      sed -i '/storage-/d' docker-compose-remote.yaml
       sed -i '/    serviceAccount:/d' ./scripts/helm.yaml
       sed -i '/.*taito_env}-gserviceaccount.key/d' ./scripts/helm.yaml
       sed -i '/S3_/d' ./scripts/helm.yaml
@@ -179,11 +186,12 @@ ingress_port=$(shuf -i 8000-9999 -n 1)
 db_port=$(shuf -i 6000-7999 -n 1)
 www_port=$(shuf -i 5000-5999 -n 1)
 sed -i "s/7463/${www_port}/g" taito-config.sh docker-compose.yaml \
-  TAITOLESS.md &> /dev/null
+  docker-compose-remote.yaml TAITOLESS.md &> /dev/null
 sed -i "s/6000/${db_port}/g" taito-config.sh docker-compose.yaml \
-  TAITOLESS.md &> /dev/null
-sed -i "s/9999/${ingress_port}/g" docker-compose.yaml taito-config.sh \
-  ./admin/package.json ./client/package.json TAITOLESS.md &> /dev/null || :
+  docker-compose-remote.yaml TAITOLESS.md &> /dev/null
+sed -i "s/9999/${ingress_port}/g" taito-config.sh docker-compose.yaml \
+  docker-compose-remote.yaml ./admin/package.json ./client/package.json \
+  TAITOLESS.md &> /dev/null || :
 
 ./scripts/taito-template/common.sh
 echo init done
