@@ -92,7 +92,7 @@ services:
       API_BINDADDR: 0.0.0.0
       KAFKA_HOST: server-template-kafka
       KAFKA_PORT: 9092
-      DATABASE_HOST: ${taito_domain}
+      DATABASE_HOST: 172.17.0.1
       DATABASE_NAME: server_template_${taito_env}
       DATABASE_USER: server_template_${taito_env}_app
       DATABASE_POOL_MIN: '1'
