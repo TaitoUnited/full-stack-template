@@ -96,6 +96,7 @@ ssh ${opts} "${taito_ssh_user}@${taito_host}" "
     (. taito-config.sh && docker-compose -f docker-compose-remote.yaml pull || :)
     echo
     echo [Stop docker-compose using the old configuration]
+    echo NOTE: Pulling of local-only images will print an error! This is OK.
     (. taito-config.sh && docker-compose stop || :)
     echo
     echo [Start docker-compose using the new configuration]
