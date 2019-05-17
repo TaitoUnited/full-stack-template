@@ -226,9 +226,9 @@ if [[ $ci != "jenkins" ]] && [[ $template_default_ci_provider_prod != "jenkins" 
 fi
 
 # shell
-if [[ $ci != "local" ]] && [[ $template_default_ci_provider_prod != "local" ]]; then
-  rm -f local-ci.sh
-fi
+# if [[ $ci != "local" ]] && [[ $template_default_ci_provider_prod != "local" ]]; then
+#   rm -f local-ci.sh
+# fi
 
 # travis
 if [[ $ci != "travis" ]] && [[ $template_default_ci_provider_prod != "travis" ]]; then
