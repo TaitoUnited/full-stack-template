@@ -4,8 +4,8 @@ set -a
 : "${taito_target_env:?}"
 
 # Configuration instructions:
-# - https://github.com/TaitoUnited/taito-cli/blob/master/docs/manual/05-configuration.md
-# - https://github.com/TaitoUnited/taito-cli/blob/master/docs/plugins.md
+# - https://taito.dev/docs/05-configuration
+# - https://taito.dev/plugins
 
 # Taito CLI
 taito_version=1
@@ -93,6 +93,7 @@ taito_target_type_database=database
 taito_target_type_function=function
 
 # Database definitions for database plugins
+# NOTE: database users are defined later in this file
 db_database_instance=${template_default_postgres:-}
 db_database_type=pg
 db_database_name=${taito_project//-/_}_${taito_env}
@@ -100,8 +101,6 @@ db_database_host="127.0.0.1"
 db_database_port=5001
 db_database_real_host="${template_default_postgres_host:-}"
 db_database_real_port=5432
-db_database_master_username="${template_default_postgres_master_username:-}"
-db_database_master_password_hint="${template_default_postgres_master_password_hint:-}"
 
 # Storage definitions for Terraform
 taito_storage_classes="${template_default_storage_class:-}"
@@ -145,12 +144,7 @@ kubernetes_db_proxy_enabled=true
 # Helm plugin
 # helm_deploy_options="--recreate-pods" # Force restart
 
-# Hour reporting and issue management plugins
-toggl_project_id=
-toggl_tasks="" # For example "task:12345 another-task:67890"
-jira_project_id=
-
-# ------ Overrides for different environments ------
+# ------ Environment specific settings ------
 
 case $taito_env in
   prod)
@@ -175,7 +169,7 @@ case $taito_env in
     kubernetes_cluster="${template_default_kubernetes_cluster_prefix_prod:-}${kubernetes_name}"
     db_database_real_host="${template_default_postgres_host_prod:-}"
 
-    # Storage settings
+    # Storage
     taito_storage_classes="${template_default_storage_class_prod:-}"
     taito_storage_locations="${template_default_storage_location_prod:-}"
     taito_storage_days=${template_default_storage_days_prod:-}
@@ -252,7 +246,7 @@ case $taito_env in
     ;;
 esac
 
-# ------ Derived values after overrides ------
+# ------ Derived values after environment specific settings ------
 
 # Provider and namespaces
 taito_resource_namespace_id=$taito_resource_namespace
@@ -284,6 +278,20 @@ link_urls="
 # TODO: Temporary hack for https://github.com/gatsbyjs/gatsby/issues/3721
 link_urls=${link_urls/:9999\/docs/:7463\/docs/}
 
+# ------ Database users ------
+
+# app user for application
+db_database_app_username="${db_database_name}_app"
+db_database_app_secret="$db_database_name-db-app.password"
+
+# mgr user for deploying database migrations
+db_database_mgr_username="$db_database_name"
+db_database_mgr_secret="$db_database_name-db-mgr.password"
+
+# master user for creating and destroying databases
+db_database_master_username="${template_default_postgres_master_username:-}"
+db_database_master_password_hint="${template_default_postgres_master_password_hint:-}"
+
 # ------ Secrets ------
 
 taito_remote_secrets="
@@ -291,7 +299,7 @@ taito_remote_secrets="
   $taito_project-$taito_env-scheduler.secret:random
 "
 taito_secrets="
-  $db_database_name-db-app.password:random
+  $db_database_app_secret:random
   $taito_project-$taito_env-storage-gateway.secret:random
   $taito_project-$taito_env-example.secret:manual
 "
@@ -300,8 +308,15 @@ taito_secrets="
 if [[ $ci_exec_deploy == "true" ]]; then
   taito_remote_secrets="
     $taito_remote_secrets
-    $db_database_name-db-mgr.password/devops:random
+    $db_database_mgr_secret/devops:random
   "
+fi
+
+# ------ Taito config override (optional) ------
+
+if [[ $TAITO_CONFIG_OVERRIDE ]] && [[ -f $TAITO_CONFIG_OVERRIDE ]]; then
+  # shellcheck disable=SC1090
+  . "$TAITO_CONFIG_OVERRIDE"
 fi
 
 # ------ Provider specific settings ------
