@@ -9,8 +9,7 @@
 
 set -e
 
-CLIENT_MAX_BODY_SIZE=1m
-
+. "${taito_project_path}/scripts/linux-provider/_config.sh"
 . "${taito_cli_path}/plugins/ssh/util/opts.sh"
 
 echo "[Copy changed secrets to ${taito_host}:/tmp]"
@@ -26,7 +25,7 @@ echo
 
 echo "[Execute on ${taito_host}]"
 ssh ${opts} "${taito_ssh_user}@${taito_host}" "
-  sudo bash -c '
+  ${LINUX_SUDO} bash -c '
     set -e
     ${taito_setv:?}
     echo [Extract /tmp/${taito_namespace}-secrets.tar]
@@ -36,7 +35,7 @@ ssh ${opts} "${taito_ssh_user}@${taito_host}" "
     echo
 
     if which createtaitosite &> /dev/null; then
-      createtaitosite ${taito_namespace} ${taito_domain} $CLIENT_MAX_BODY_SIZE
+      createtaitosite ${taito_namespace} ${taito_domain} $LINUX_CLIENT_MAX_BODY_SIZE
     else
       echo NOTE: createtaitosite command does not exist.
       echo Configure routing for domain ${taito_domain} yourself.

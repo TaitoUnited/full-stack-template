@@ -359,17 +359,21 @@ case $taito_provider in
     gcloud_service_account_enabled=true
     ;;
   linux)
+    # Enable ssh and run plugins
     taito_plugins="
       ssh:-local
       run:-local
       ${taito_plugins}
     "
     run_scripts_location="scripts/linux-provider"
-    # Use docker-compose instead of Kubernetes and Helm
+    # Set some configuration parameters for scripts/linux-provider scripts
+    LINUX_SUDO=sudo # NOTE: Put empty value if sudo is not required or allowed
+    LINUX_CLIENT_MAX_BODY_SIZE=1m
+    # Use Docker Compose instead of Kubernetes and Helm
     taito_plugins="${taito_plugins/docker-compose:local/docker-compose}"
     taito_plugins="${taito_plugins/kubectl:-local/}"
     taito_plugins="${taito_plugins/helm:-local/}"
-    # ssh plugin as database proxy
+    # Use SSH plugin as database proxy
     if [[ -f taito-user-config.sh ]]; then
       . ./taito-user-config.sh # TODO: hack
     fi

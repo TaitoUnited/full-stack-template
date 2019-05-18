@@ -7,11 +7,12 @@
 
 set -e
 
+. "${taito_project_path}/scripts/linux-provider/_config.sh"
 . "${taito_cli_path}/plugins/ssh/util/opts.sh"
 
 echo "[Execute on ${taito_host}]"
 ssh ${opts} "${taito_ssh_user}@${taito_host}" "
-  sudo bash -c '
+  ${LINUX_SUDO} bash -c '
     set -e
     ${taito_setv:?}
     if which deletetaitosite &> /dev/null; then

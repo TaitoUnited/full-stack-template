@@ -12,6 +12,9 @@
 
 set -e
 
+. "${taito_project_path}/scripts/linux-provider/_config.sh"
+. "${taito_cli_path}/plugins/ssh/util/opts.sh"
+
 image_tag=$1
 if [[ ! $image_tag ]]; then
   echo "[Getting commit sha of the latest commit on branch ${taito_branch}]"
@@ -30,8 +33,6 @@ echo "NOTE: Deployment is done using the taito-config.sh and"
 echo "docker-compose-remote.yaml currently located on your local directory."
 echo
 
-. "${taito_cli_path}/plugins/ssh/util/opts.sh"
-
 echo "[Copy docker-compose-remote.yaml to ${taito_host}:/tmp]"
 (
   set -e
@@ -45,15 +46,15 @@ echo
 
 echo "[Execute on host ${taito_host}]"
 ssh ${opts} "${taito_ssh_user}@${taito_host}" "
-  sudo bash -c '
+  ${LINUX_SUDO} bash -c '
     set -e
     ${taito_setv:?}
     cd ${taito_host_dir}
     echo
     echo [Check that Docker images exist]
-    if ! sudo docker images | grep ${taito_container_registry} | grep ${image_tag} &> /dev/null; then
+    if ! docker images | grep ${taito_container_registry} | grep ${image_tag} &> /dev/null; then
       echo Latest images on remote host:
-      sudo docker images | grep ${taito_container_registry}
+      docker images | grep ${taito_container_registry}
       echo
       echo ERROR: No image with tag ${image_tag}
       exit 1

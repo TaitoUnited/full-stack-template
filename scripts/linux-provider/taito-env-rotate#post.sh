@@ -8,9 +8,10 @@
 
 set -e
 
+. "${taito_project_path}/scripts/linux-provider/_config.sh"
 . "${taito_cli_path}/plugins/ssh/util/opts.sh"
 
-# TODO: duplicate code with taito-env-apply#post.sh
+# TODO: some duplicate code with taito-env-apply#post.sh
 
 echo "[Copy changed secrets to ${taito_host}:/tmp]"
 (
@@ -25,7 +26,7 @@ echo
 
 echo "[Execute on ${taito_host}]"
 ssh ${opts} "${taito_ssh_user}@${taito_host}" "
-  sudo bash -c '
+  ${LINUX_SUDO} bash -c '
     set -e
     ${taito_setv:?}
     echo [Extract /tmp/${taito_namespace}-secrets.tar]
@@ -36,6 +37,7 @@ ssh ${opts} "${taito_ssh_user}@${taito_host}" "
 
     echo [Restart docker-compose]
     cd ${taito_host_dir}
+    . taito-config.sh
     docker-compose stop
     docker-compose -d up
   '
