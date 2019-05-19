@@ -115,7 +115,7 @@ services:
 
 secrets:
   DATABASE_PASSWORD:
-    file: ./tmp/secrets/${taito_env}/${db_database_name}-db-app.password
+    file: ./tmp/secrets/${taito_env}/${db_database_app_secret}
 
 networks:
   test:

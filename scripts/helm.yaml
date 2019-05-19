@@ -150,7 +150,7 @@ full-stack:
       serviceAccount:
         secret: ${taito_project}-${taito_env}-gserviceaccount.key
       secrets:
-        DATABASE_PASSWORD: ${taito_project}-${taito_env}-db-app.password
+        DATABASE_PASSWORD: ${db_database_app_secret}
         S3_KEY_SECRET: ${taito_project}-${taito_env}-storage-gateway.secret
       env:
         DEBUG: false

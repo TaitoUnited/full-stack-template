@@ -93,8 +93,8 @@ services:
       KAFKA_HOST: server-template-kafka
       KAFKA_PORT: 9092
       DATABASE_HOST: 172.17.0.1
-      DATABASE_NAME: server_template_${taito_env}
-      DATABASE_USER: server_template_${taito_env}_app
+      DATABASE_NAME: ${db_database_name}
+      DATABASE_USER: ${db_database_app_username}
       DATABASE_POOL_MIN: '1'
       DATABASE_POOL_MAX: '10'
       S3_URL: http://server-template-storage:9000/
@@ -151,8 +151,8 @@ services:
   #   secrets:
   #     - DATABASE_PASSWORD
   #   environment:
-  #     POSTGRES_DB: server_template_local
-  #     POSTGRES_USER: server_template_local_app
+  #     POSTGRES_DB: ${db_database_name}
+  #     POSTGRES_USER: ${db_database_app_username}
   #     POSTGRES_PASSWORD_FILE: /run/secrets/DATABASE_PASSWORD
   #   volumes:
   #     - "./database:/docker-entrypoint-initdb.d:delegated"
@@ -170,7 +170,7 @@ services:
 
 secrets:
   DATABASE_PASSWORD:
-    file: ./secrets/${taito_env}/${db_database_name}-db-app.password
+    file: ./secrets/${taito_env}/${db_database_app_secret}
   S3_KEY_SECRET:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-storage-gateway.secret
   EXAMPLE_SECRET:
