@@ -221,7 +221,7 @@ full-stack:
           WEBHOOK_URL_PREFIX: ${taito_project}-${taito_env}-webhook.urlprefix
           WEBHOOK_VC_TOKEN: ${taito_project}-${taito_env}-webhook.gittoken
         env:
-          VC_REPOSITORY_URL: ${taito_vc_repository_url}.git
+          VC_REPOSITORY_URL: ${taito_vc_repository_url}
 
     scheduler:
       enabled: false
