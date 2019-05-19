@@ -106,8 +106,8 @@ ssh ${opts} "${taito_ssh_user}@${taito_host}" "
     docker-compose up -d
   '
 " || (
-  echo "Recent commits in ${taito_target_env} branch:"
-  git log -10 --pretty=oneline "${taito_target_env}"
+  echo "Recent commits in ${taito_branch} branch:"
+  git log -10 --pretty=oneline "${taito_branch}"
   exit 1
 )
 

@@ -15,6 +15,8 @@ IMAGE_TAG=$2  # e.g. commit SHA
 
 set -e
 export taito_mode=ci
+# Always build with local CI:
+echo "export ci_exec_build=true" >> ./taito-config.sh
 
 # Prepare build
 taito build-prepare:$BRANCH $IMAGE_TAG

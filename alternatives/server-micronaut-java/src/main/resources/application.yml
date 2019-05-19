@@ -25,3 +25,6 @@ kafka:
   producers:
     default:
       retries: 5
+---
+jackson:
+  serializationInclusion: ALWAYS
