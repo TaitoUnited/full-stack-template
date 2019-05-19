@@ -374,12 +374,8 @@ case $taito_provider in
     taito_plugins="${taito_plugins/kubectl:-local/}"
     taito_plugins="${taito_plugins/helm:-local/}"
     # Use SSH plugin as database proxy
-    if [[ -f taito-user-config.sh ]]; then
-      . ./taito-user-config.sh # TODO: hack
-    fi
-    . "${taito_util_path:-}/read-database-config.sh" "${taito_target:-}"  # TODO: hack
     export ssh_db_proxy="\
-      -L 0.0.0.0:${database_port:-}:${database_host:-}:${database_real_port:-} ${taito_ssh_user:-$taito_host_username}@${database_real_host:-}"
+      -L 0.0.0.0:\${database_port}:\${database_host}:\${database_real_port} \${taito_ssh_user}@\${database_real_host}"
     export ssh_forward_for_db="${ssh_db_proxy}"
     ;;
 esac
