@@ -11,6 +11,10 @@ services:
       - default
     ports:
       - "_PORT_:80"
+      # If you want to directly expose this ingress to browser, use the
+      # following settings and configure SSL in docker-nginx.conf.
+      # - "80:80"
+      # - "443:443"
     secrets:
       - BASIC_AUTH_HTPASSWD
     volumes:
@@ -92,7 +96,7 @@ services:
       API_BINDADDR: 0.0.0.0
       KAFKA_HOST: server-template-kafka
       KAFKA_PORT: 9092
-      DATABASE_HOST: 172.17.0.1
+      DATABASE_HOST: 172.17.0.1  # For docker db: server-template-database
       DATABASE_NAME: ${db_database_name}
       DATABASE_USER: ${db_database_app_username}
       DATABASE_POOL_MIN: '1'
@@ -121,7 +125,7 @@ services:
       - "6379"
 
   # "EXTERNAL RESOURCES"
-  # Uncomment if you want to run in Docker Compose instead
+  # Uncomment these if you want to run them in Docker Compose instead
 
   server-template-kafka:
     container_name: server-template-kafka
@@ -140,6 +144,16 @@ services:
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
 
+  # NOTE: If you use server-template-database instead of external database,
+  # do the following:
+  # - Uncomment the server-template-database in this file.
+  # - Modify the following settings in taito-config.sh:
+  #     db_database_mgr_username="$db_database_app_username"
+  #     db_database_mgr_secret="$db_database_app_secret"
+  # - In local-ci.sh, move 'db-deploy' step to be executed after the
+  #   'deployment-deploy' step, since database must be running during db deploy.
+  # - Answer 'no' to the database creation step during 'taito env apply:ENV'.
+
   # server-template-database:
   #   container_name: server-template-database
   #   image: postgres:9.6
@@ -147,7 +161,7 @@ services:
   #   networks:
   #     - default
   #   ports:
-  #     - "5432"
+  #     - "5432:5432"
   #   secrets:
   #     - DATABASE_PASSWORD
   #   environment:
@@ -156,7 +170,7 @@ services:
   #     POSTGRES_PASSWORD_FILE: /run/secrets/DATABASE_PASSWORD
   #   volumes:
   #     - "./database:/docker-entrypoint-initdb.d:delegated"
-  #     - "./database/mount:/var/lib/postgresql/data"
+  #     - "./database-db/mount:/var/lib/postgresql/data"
 
   # "INFRASTRUCTURE"
 

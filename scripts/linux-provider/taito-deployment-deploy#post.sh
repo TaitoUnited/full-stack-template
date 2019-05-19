@@ -38,7 +38,11 @@ echo "[Copy docker-compose-remote.yaml to ${taito_host}:/tmp]"
   set -e
   ${taito_setv:?}
   mkdir -p tmp
-  tar -cf "tmp/${taito_namespace}.tar" docker-compose-remote.yaml docker-nginx.conf taito-config.sh
+  files="docker-compose-remote.yaml docker-nginx.conf taito-config.sh"
+  if [[ -f database/db.sql ]]; then
+    files="$files database/db.sql"
+  fi
+  tar -cf "tmp/${taito_namespace}.tar" $files
   scp ${opts} "tmp/${taito_namespace}.tar" "${taito_ssh_user}@${taito_host}:/tmp"
   rm -f "tmp/${taito_namespace}.tar"
 )

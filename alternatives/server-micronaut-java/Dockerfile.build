@@ -1,11 +1,11 @@
 # Builder and tester container for production build
-FROM adoptopenjdk/openjdk11-openj9:jdk-11.0.1.13-alpine-slim as builder
+FROM adoptopenjdk/openjdk11-openj9:alpine-slim as builder
 ARG SERVICE_DIR=.
 WORKDIR /service
 COPY ${SERVICE_DIR} ./
 RUN ./gradlew build
 
-FROM adoptopenjdk/openjdk11-openj9:jdk-11.0.1.13-alpine-slim
+FROM adoptopenjdk/openjdk11-openj9:alpine-jre
 LABEL version=${BUILD_VERSION} \
       company=sandbox \
       project=sandbox-jukka6 \

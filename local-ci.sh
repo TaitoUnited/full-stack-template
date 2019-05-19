@@ -36,7 +36,8 @@ taito deployment-deploy:$BRANCH $IMAGE_TAG
 
 # Test and verify deployment
 taito deployment-wait:$BRANCH
-taito test:$BRANCH
+# TODO: enable local ci tests
+# taito test:$BRANCH
 taito deployment-verify:$BRANCH
 
 # Release artifacts

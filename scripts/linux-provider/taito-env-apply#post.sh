@@ -39,7 +39,7 @@ ssh ${opts} "${taito_ssh_user}@${taito_host}" "
     else
       echo NOTE: createtaitosite command does not exist.
       echo Configure routing for domain ${taito_domain} yourself.
-      echo Press enter to continue
+      echo Press enter to continue.
       read -r
     fi
   '
