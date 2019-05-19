@@ -1,6 +1,5 @@
 #!/bin/bash
 : "${taito_cli_path:?}"
-: "${taito_ssh_user:?}"
 : "${taito_host:?}"
 : "${taito_host_dir:?}"
 : "${taito_namespace:?}"
