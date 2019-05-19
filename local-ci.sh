@@ -19,15 +19,14 @@ export taito_mode=ci
 # Prepare build
 taito build-prepare:$BRANCH $IMAGE_TAG
 
-# Prepare artifacts for deployment in parallel
-pids=
-taito artifact-prepare:admin:$BRANCH $IMAGE_TAG & pids="$pids $!"
-taito artifact-prepare:client:$BRANCH $IMAGE_TAG & pids="$pids $!"
-taito artifact-prepare:graphql:$BRANCH $IMAGE_TAG & pids="$pids $!"
-taito artifact-prepare:server:$BRANCH $IMAGE_TAG & pids="$pids $!"
-taito artifact-prepare:worker:$BRANCH $IMAGE_TAG & pids="$pids $!"
-taito artifact-prepare:www:$BRANCH $IMAGE_TAG & pids="$pids $!"
-for pid in $pids; do wait $pid; done
+# Prepare artifacts for deployment
+# NOTE: Can be executed in parallel if no user input is required
+taito artifact-prepare:admin:$BRANCH $IMAGE_TAG
+taito artifact-prepare:client:$BRANCH $IMAGE_TAG
+taito artifact-prepare:graphql:$BRANCH $IMAGE_TAG
+taito artifact-prepare:server:$BRANCH $IMAGE_TAG
+taito artifact-prepare:worker:$BRANCH $IMAGE_TAG
+taito artifact-prepare:www:$BRANCH $IMAGE_TAG
 
 # Deploy changes to target environment
 taito db-deploy:$BRANCH
@@ -38,15 +37,14 @@ taito deployment-wait:$BRANCH
 taito test:$BRANCH
 taito deployment-verify:$BRANCH
 
-# Release artifacts in parallel
-pids=
-taito artifact-release:admin:$BRANCH $IMAGE_TAG & pids="$pids $!"
-taito artifact-release:client:$BRANCH $IMAGE_TAG & pids="$pids $!"
-taito artifact-release:graphql:$BRANCH $IMAGE_TAG & pids="$pids $!"
-taito artifact-release:server:$BRANCH $IMAGE_TAG & pids="$pids $!"
-taito artifact-release:worker:$BRANCH $IMAGE_TAG & pids="$pids $!"
-taito artifact-release:www:$BRANCH $IMAGE_TAG & pids="$pids $!"
-for pid in $pids; do wait $pid; done
+# Release artifacts
+# NOTE: Can be executed in parallel if no user input is required
+taito artifact-release:admin:$BRANCH $IMAGE_TAG
+taito artifact-release:client:$BRANCH $IMAGE_TAG
+taito artifact-release:graphql:$BRANCH $IMAGE_TAG
+taito artifact-release:server:$BRANCH $IMAGE_TAG
+taito artifact-release:worker:$BRANCH $IMAGE_TAG
+taito artifact-release:www:$BRANCH $IMAGE_TAG
 
 # Release build
 taito build-release:$BRANCH

@@ -320,6 +320,7 @@ if [[ $TAITO_CONFIG_OVERRIDE ]] && [[ -f $TAITO_CONFIG_OVERRIDE ]]; then
 fi
 
 # ------ Provider specific settings ------
+# NOTE: You can remove settings of all such providers that you don't need.
 
 case $taito_provider in
   aws)
