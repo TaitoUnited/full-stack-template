@@ -11,50 +11,12 @@ This file has been copied from [SERVER-TEMPLATE](https://github.com/TaitoUnited/
 * [Taito CLI](https://github.com/TaitoUnited/taito-cli#readme) (or see [TAITOLESS.md](TAITOLESS.md))
 * Optional: eslint/tslint and prettier plugins for your code editor
 
-## Version control settings
-
-Run `taito open conventions` in the project directory to see organization specific settings that you should configure for your git repository. At least you should set `dev` as the default branch to avoid people using master branch for development by accident.
-
-* [ ] All done
-
-## Stack
-
-**Minikube:** If you would rather use minikube for local development instead of docker-compose, remove `docker-compose:local` plugin, and the `:-local` restriction from `kubectl:-local` and `helm:-local` plugins. These are configured with the `taito_plugins` setting in `taito-config.sh`. Note that you can also permanently define your preference in your personal or organizational taito-config.sh to avoid manual change every time you create a new project, for example: `template_default_engine_local="minikube"`. (TODO: Not tested on minikube yet. Probably needs some additional work.).
-
-**Additional microservices:** You can use either monorepo or multirepo approach with this template. If you are going for multirepo, just create a separate project for each microservice. If you want some of them to share the same namespace, define common `taito_namespace` in taito-config.sh. If you are going for monorepo, or something in between multirepo and monorepo approaches, you can add a new microservice to a repository like this:
-
-  1. Create a new directory for your service. Look [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) and [alternatives](https://github.com/TaitoUnited/SERVER-TEMPLATE/tree/master/alternatives) for examples.
-  2. Add the service to `taito_targets` variable in `taito-config.sh`
-  3. Add the service to `docker-compose*.yaml` files and check that it works ok in local development environment.
-  4. Add the service to `scripts/helm.yaml`.
-  5. Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `check-deps`, `check-size`.
-  6. Add the service to your CI/CD script (`.yml/.yaml` or `Jenkinsfile` in project root or `.github/main.workflow`).
-
-**Kafka:** TODO: Kafka for event-driven microservices.
-
-**API gateway:** TODO: nginx-ingress by default.
-
-**Istio:** TODO: Istio service mesh.
-
-**Authentication:** Ingress provides basic authentication, but it is only meant for hiding non-production environments. Here are some good technologies for implementing authentication: [Auth0](https://auth0.com), [Passport](http://www.passportjs.org/), [ORY Oathkeeper](https://www.ory.sh/api-access-control-kubernetes-cloud-native).
-
-**Static site generator (www):** See [www/README.md](www/README.md) for configuration instructions. You can use static site generator e.g. for user guides or API documentation.
-
-* [ ] All done
-
-## Examples
-
-The project template comes with a bunch of implementation examples. Browse the examples through, leave the ones that seem useful and remove all the rest. You can use the `taito check deps` command to prune unused dependencies. NOTE: Many of the `devDependencies` and `~` references are actually in use even if reported unused by the tool. But all unused `dependencies` may usually be removed from package.json.
-
-The client GUI uses [Material-UI](https://material-ui-next.com/) component library by default. It's a good match with the [react-admin](https://github.com/marmelab/react-admin) GUI, but please consider also other alternatives based on customer requirements. For example [Semantic UI React](https://react.semantic-ui.com/) and [Elemental](http://elemental-ui.com/) are also good alternatives.
-
-* [ ] All done
-
 ## Basic settings
 
-1. Modify `taito-config.sh` if you need to change some settings. The default settings are ok for most projects.
-2. Run `taito project apply`
-3. Commit and push changes
+1. Run `taito open conventions` in the project directory to see organization specific settings that you should configure for your git repository. At least you should set `dev` as the default branch to avoid people using master branch for development by accident.
+2. Modify `taito-config.sh` if you need to change some settings. The default settings are ok for most projects.
+3. Run `taito project apply`
+4. Commit and push changes
 
 * [ ] All done
 
@@ -93,6 +55,14 @@ See it build and deploy:
 
 * [ ] All done
 
+## Examples
+
+The project template comes with a bunch of implementation examples. Browse the examples through, leave the ones that seem useful and remove all the rest. You can use the `taito check deps` command to prune unused dependencies. NOTE: Many of the `devDependencies` and `~` references are actually in use even if reported unused by the tool. But all unused `dependencies` may usually be removed from package.json.
+
+The client GUI uses [Material-UI](https://material-ui-next.com/) component library by default. It's a good match with the [react-admin](https://github.com/marmelab/react-admin) GUI, but please consider also other alternatives based on customer requirements. For example [Semantic UI React](https://react.semantic-ui.com/) and [Elemental](http://elemental-ui.com/) are also good alternatives.
+
+* [ ] All done
+
 ---
 
 ## Remote environments
@@ -104,6 +74,29 @@ Examples for environment names: `f-orders`, `dev`, `test`, `stag`, `canary`, `pr
 See [6. Remote environments](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/05-remote-environments.md) chapter of Taito CLI tutorial for more thorough instructions.
 
 Operations on production and staging environments usually require admin rights. Please contact DevOps personnel if necessary.
+
+## Stack
+
+**Minikube:** If you would rather use minikube for local development instead of docker-compose, remove `docker-compose:local` plugin, and the `:-local` restriction from `kubectl:-local` and `helm:-local` plugins. These are configured with the `taito_plugins` setting in `taito-config.sh`. Note that you can also permanently define your preference in your personal or organizational taito-config.sh to avoid manual change every time you create a new project, for example: `template_default_engine_local="minikube"`. (TODO: Not tested on minikube yet. Probably needs some additional work.).
+
+**Additional microservices:** You can use either monorepo or multirepo approach with this template. If you are going for multirepo, just create a separate project for each microservice. If you want some of them to share the same namespace, define common `taito_namespace` in taito-config.sh. If you are going for monorepo, or something in between multirepo and monorepo approaches, you can add a new microservice to a repository like this:
+
+  1. Create a new directory for your service. Look [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) and [alternatives](https://github.com/TaitoUnited/SERVER-TEMPLATE/tree/master/alternatives) for examples.
+  2. Add the service to `taito_targets` variable in `taito-config.sh`
+  3. Add the service to `docker-compose*.yaml` files and check that it works ok in local development environment.
+  4. Add the service to `scripts/helm.yaml`.
+  5. Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `check-deps`, `check-size`.
+  6. Add the service to your CI/CD script (`.yml/.yaml` or `Jenkinsfile` in project root or `.github/main.workflow`).
+
+**Kafka:** TODO: Kafka for event-driven microservices.
+
+**API gateway:** TODO: nginx-ingress by default.
+
+**Istio:** TODO: Istio service mesh.
+
+**Authentication:** Ingress provides basic authentication, but it is only meant for hiding non-production environments. Here are some good technologies for implementing authentication: [Auth0](https://auth0.com), [Passport](http://www.passportjs.org/), [ORY Oathkeeper](https://www.ory.sh/api-access-control-kubernetes-cloud-native).
+
+**Static site generator (www):** See [www/README.md](www/README.md) for configuration instructions. You can use static site generator e.g. for user guides or API documentation.
 
 ## Kubernetes
 
