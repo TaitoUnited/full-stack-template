@@ -427,6 +427,10 @@ case $taito_ci_provider in
     fi
     ;;
   local)
+    link_urls="
+      ${link_urls}
+      * builds=./local-ci.sh Local CI/CD
+    "
     ;;
 esac
 

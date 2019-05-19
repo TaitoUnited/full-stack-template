@@ -1,17 +1,11 @@
 #!/bin/sh
-# NOTE: You can use this shell script to execute a CI/CD build.
-# BRANCH and IMAGE_TAG are given as parameters.
+
+##################################################################
+# NOTE: Run CI/CD builds locally with command 'taito ci run:ENV'
+##################################################################
 
 BRANCH=$1     # e.g. dev, test, stag, canary, or prod
 IMAGE_TAG=$2  # e.g. commit SHA
-
-# Set environment variables
-# set -e
-# set -a
-# taito_mode=ci
-# taito_target_env=${BRANCH/master/prod}
-# . taito-config.sh
-# set +a
 
 set -e
 export taito_mode=ci
