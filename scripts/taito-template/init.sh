@@ -145,9 +145,15 @@ function prune () {
       echo "Use external Kafka cluster (Y/n)?"
       read -r confirm
       if [[ ${confirm} =~ ^[Yy]*$ ]]; then
-        sed -i "s/KAFKA_HOST:.*$/KAFKA_HOST: kafka.kafka.svc.cluster.local/g" ./scripts/helm.yaml
+        sed -i "s/KAFKA_HOST:.*$/KAFKA_HOST: kafka.kafka.svc.cluster.local/g" \
+          ./scripts/helm.yaml
         sed -i "/^    $name:\$/,/^$/d" ./scripts/helm.yaml
         sed -i "/^    zookeeper:\$/,/^$/d" ./scripts/helm.yaml
+
+        sed -i "/^  server-template-kafka:\$/,/^$/d" docker-compose-remote.yaml
+        sed -i "/^  # server-template-kafka:\$/,/^$/d" docker-compose-remote.yaml
+        sed -i "/^  server-template-zookeeper:\$/,/^$/d" docker-compose-remote.yaml
+        sed -i "/^  # server-template-zookeeper:\$/,/^$/d" docker-compose-remote.yaml
       fi
     fi
   fi

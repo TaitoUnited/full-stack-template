@@ -120,6 +120,9 @@ services:
     ports:
       - "6379"
 
+  # "EXTERNAL RESOURCES"
+  # Uncomment if you want to run in Docker Compose instead
+
   server-template-kafka:
     container_name: server-template-kafka
     image: 'bitnami/kafka:latest'
@@ -137,7 +140,26 @@ services:
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
 
-  # TODO
+  # server-template-database:
+  #   container_name: server-template-database
+  #   image: postgres:9.6
+  #   restart: unless-stopped
+  #   networks:
+  #     - default
+  #   ports:
+  #     - "5432"
+  #   secrets:
+  #     - DATABASE_PASSWORD
+  #   environment:
+  #     POSTGRES_DB: server_template_local
+  #     POSTGRES_USER: server_template_local_app
+  #     POSTGRES_PASSWORD_FILE: /run/secrets/DATABASE_PASSWORD
+  #   volumes:
+  #     - "./database:/docker-entrypoint-initdb.d:delegated"
+  #     - "./database/mount:/var/lib/postgresql/data"
+
+  # "INFRASTRUCTURE"
+
   # watchtower:
   #   restart: always
   #   image: index.docker.io/v2tec/watchtower
