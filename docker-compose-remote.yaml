@@ -1,5 +1,6 @@
 # This file is used for running Docker Compose on remote servers. It is not
 # needed if you use Kubernetes instead.
+# TODO: health checks
 
 version: '3.5'
 services:
