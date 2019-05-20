@@ -39,7 +39,7 @@ full-stack:
     livenessInitialDelay: 3
     # Security
     runAsUser:
-    fsGroup:
+    runAsGroup:
     # Resources
     cpuRequest: 2m
     cpuLimit: 100m
@@ -94,7 +94,7 @@ full-stack:
       livenessDisabled: true # TODO remove
       memoryRequest: 5Mi
       runAsUser: 2
-      fsGroup: 2
+      runAsGroup: 2
 
     graphql:
       path: /graphql
@@ -181,7 +181,7 @@ full-stack:
       livenessPath: /minio/health/ready
       memoryRequest: 20Mi
       runAsUser: 2
-      fsGroup: 2
+      runAsGroup: 2
       command:
         - minio
         - gateway
@@ -225,7 +225,7 @@ full-stack:
       image: buildpack-deps:curl
       memoryRequest: 1Mi
       runAsUser: 2
-      fsGroup: 2
+      runAsGroup: 2
       secrets:
         SCHEDULER_SECRET: ${taito_project}-${taito_env}-scheduler.secret
       cronJobs:
