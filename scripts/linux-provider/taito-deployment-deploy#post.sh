@@ -95,6 +95,11 @@ ssh ${opts} "${taito_ssh_user}@${taito_host}" "
     sed -i \"3 ataito_target_env=${taito_target_env}\" taito-config.sh
     sed -i /taito_util_path/d taito-config.sh
     echo
+    echo [Prune old unused ${taito_project} docker images]
+    echo TODO: do not prune images with the given tag ${image_tag}
+    docker image prune --force --all \
+      --filter \"label=company=${taito_project}\" --filter until=24h
+    echo
     echo [Pull container images using the new configuration]
     echo NOTE: Pulling of local-only images will print an error! This is OK.
     (. taito-config.sh && docker-compose -f docker-compose-remote.yaml pull || :)
