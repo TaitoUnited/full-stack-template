@@ -5,13 +5,9 @@ global:
   logLevel: info    # trace, debug, info, warn, error, fatal
   registry: ${taito_container_registry}
   imagePullPolicy: ''
+  debug: false
 
 full-stack:
-  # TODO: --enable-pod-security-policy:
-  # https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies
-  podSecurityPolicy:
-    enabled: false
-
   persistence:
     enabled: false
     existingClaim:
