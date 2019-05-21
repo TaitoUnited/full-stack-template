@@ -64,6 +64,7 @@ function prune () {
     sed -i "s/test:$name //g" package.json
     sed -i "s/\"check-deps:$name {@}\" //g" package.json
     sed -i "s/\"check-size:$name {@}\" //g" package.json
+    sed -i "s/ && npm run clean:$name//g" package.json
 
     # TODO: temporary solution. remove once using terraform v0.12
     if [[ -f scripts/terraform/common/gcloud-uptime/uptime.tf ]]; then
