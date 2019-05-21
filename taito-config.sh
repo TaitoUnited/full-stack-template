@@ -142,7 +142,7 @@ kubernetes_replicas=1
 kubernetes_db_proxy_enabled=true
 
 # Helm plugin
-# helm_deploy_options="--recreate-pods" # Force restart
+helm_deploy_options="--atomic --cleanup-on-fail --force"
 
 # ------ Environment specific settings ------
 
