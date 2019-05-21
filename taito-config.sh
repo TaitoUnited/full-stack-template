@@ -283,11 +283,11 @@ link_urls=${link_urls/:9999\/docs/:7463\/docs/}
 
 # app user for application
 db_database_app_username="${db_database_name}_app"
-db_database_app_secret="$db_database_name-db-app.password"
+db_database_app_secret="${db_database_name//_/-}-db-app.password"
 
 # mgr user for deploying database migrations
 db_database_mgr_username="$db_database_name"
-db_database_mgr_secret="$db_database_name-db-mgr.password"
+db_database_mgr_secret="${db_database_name//_/-}-db-mgr.password"
 
 # master user for creating and destroying databases
 db_database_master_username="${template_default_postgres_master_username:-}"
