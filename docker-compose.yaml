@@ -26,6 +26,7 @@ services:
       - "./shared:/service/shared:delegated"
       - "/service/node_modules"
     environment:
+      HOST_UNAME: ${taito_host_uname}
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
       COMMON_PUBLIC_PORT: 9999
@@ -49,6 +50,7 @@ services:
       - DATABASE_PASSWORD
       - EXAMPLE_SECRET
     environment:
+      HOST_UNAME: ${taito_host_uname}
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
       COMMON_PUBLIC_PORT: 9999

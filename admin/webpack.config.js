@@ -13,8 +13,12 @@ const COPYRIGHT = 'Copyright ' + y + ' Taito United Oy - All rights reserved.';
 const OUTPUT_DIR = '../../build';
 const ASSETS_DIR = 'assets';
 const ICON_DIR = ASSETS_DIR + '/icon.png';
-const DEV_PORT = 8080;
 const PUBLIC_PORT = process.env.COMMON_PUBLIC_PORT;
+const DEV_PORT = 8080;
+const DEV_POLL =
+  process.env.HOST_UNAME == 'Darwin'
+    ? 2000
+    : undefined;
 
 module.exports = function(env, argv) {
   const isProd = !!env.production;
@@ -190,7 +194,7 @@ module.exports = function(env, argv) {
           lazy: false,
           watchOptions: {
             aggregateTimeout: 300,
-            poll: 2000,
+            poll: DEV_POLL,
           },
           proxy: {
             '/api/*': {
