@@ -18,7 +18,7 @@ const OUTPUT_DIR = '../../build';
 const ASSETS_DIR = 'assets';
 const PWA_ICON_DIR = ASSETS_DIR + '/icon.png';
 const DEV_PORT = 8080;
-const PUBLIC_PORT = 9999;
+const PUBLIC_PORT = process.env.COMMON_PUBLIC_PORT;
 
 module.exports = function(env, argv) {
   const isProd = !!env.production;

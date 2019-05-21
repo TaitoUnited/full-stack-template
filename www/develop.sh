@@ -1,4 +1,5 @@
 #!/bin/bash
+: "${COMMON_PUBLIC_PORT:?}"
 
 set -x
 
@@ -15,12 +16,12 @@ elif [ -f ./site/Gemfile ]; then
   cd /service/site && \
   bundle update && \
   bundle exec jekyll serve --host 0.0.0.0 --port 8080 \
-    --baseurl http://localhost:9999 \
-    --livereload --livereload-port 9999
+    --baseurl "http://localhost:$COMMON_PUBLIC_PORT" \
+    --livereload --livereload-port "$COMMON_PUBLIC_PORT"
 else
   # Hugo development
   cd /service/site && \
   hugo server -D --bind=0.0.0.0 --port 8080 \
-    --baseURL http://localhost:9999 --appendPort=false \
-    --liveReloadPort 9999
+    --baseURL "http://localhost:$COMMON_PUBLIC_PORT" --appendPort=false \
+    --liveReloadPort "$COMMON_PUBLIC_PORT"
 fi

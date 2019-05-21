@@ -23,3 +23,4 @@ global:
   logLevel: info    # trace, debug, info, warn, error, fatal
   registry: ${taito_container_registry}
   imagePullPolicy: ''
+  debug: false

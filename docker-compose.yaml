@@ -28,6 +28,7 @@ services:
     environment:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
+      COMMON_PUBLIC_PORT: 9999
 
   server-template-client:
     container_name: server-template-client
@@ -50,6 +51,7 @@ services:
     environment:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
+      COMMON_PUBLIC_PORT: 9999
       # NOTE: Database connection is for tests only
       DATABASE_HOST: server-template-database
       DATABASE_NAME: ${db_database_name}
@@ -72,6 +74,7 @@ services:
     environment:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
+      COMMON_PUBLIC_PORT: 9999
       COMMON_DOMAIN: localhost
       COMMON_URL: http://localhost:9999
       COMMON_DEBUG: 'false'
@@ -105,6 +108,7 @@ services:
     environment:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
+      COMMON_PUBLIC_PORT: 9999
       COMMON_DEBUG: 'false'
       COMMON_LOG_FORMAT: text
       COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
@@ -142,6 +146,8 @@ services:
       - "/service/site/node_modules"
       # FOR GATSBY ONLY:
       # - "/service/site/node_modules"
+    environment:
+      COMMON_PUBLIC_PORT: 9999
 
   server-template-cache:
     container_name: server-template-cache

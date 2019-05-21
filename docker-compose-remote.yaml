@@ -61,7 +61,7 @@ services:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
       COMMON_DOMAIN: localhost
-      COMMON_URL: http://localhost:9999
+      COMMON_URL: http://localhost:_PORT_
       COMMON_DEBUG: 'false'
       COMMON_LOG_FORMAT: text
       COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
