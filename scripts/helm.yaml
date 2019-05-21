@@ -22,6 +22,8 @@ full-stack:
     oldRewritePolicy: false
     tls: true
     maxBodySize: 1m
+    limitRate:
+    limitRateAfter:
     basicAuth:
       enabled: ${taito_basic_auth_enabled}
       htpasswdSecret: ${taito_project}-${taito_env}-basic-auth
@@ -32,11 +34,18 @@ full-stack:
     # Basics
     image: # For 3rd party container image
     command:
-    path:
     port: 8080
     tier:
     livenessPath: /healthz
     livenessInitialDelay: 3
+    # Paths (example)
+    paths:
+      # - path:
+      #   maxBodySize:
+      #   limitRate:
+      #   limitRateAfter:
+      #   rewriteTarget:
+      #   rewriteTargetDisabled:
     # Security
     runAsUser:
     runAsGroup:
@@ -77,12 +86,14 @@ full-stack:
   services:
 
     admin:
-      path: /admin
+      paths:
+        - path: /admin
       tier: frontend
       memoryRequest: 2Mi
 
     client:
-      path: /
+      paths:
+        - path:
       tier: frontend
       memoryRequest: 2Mi
 
@@ -97,7 +108,8 @@ full-stack:
       runAsGroup: 2
 
     graphql:
-      path: /graphql
+      paths:
+        - path: /graphql
       tier: backend
       memoryRequest: 50Mi
       env:
@@ -135,7 +147,8 @@ full-stack:
         ALLOW_ANONYMOUS_LOGIN: 'yes'
 
     server:
-      path: /api
+      paths:
+        - path: /api
       tier: backend
       memoryRequest: 50Mi
       livenessInitialDelay: 120
@@ -201,13 +214,15 @@ full-stack:
       memoryRequest: 50Mi
 
     www:
-      path: /docs
+      paths:
+        - path: /docs
       tier: frontend
       memoryRequest: 2Mi
       sidecar:
         enabled: false
         name: webhook
-        path: /webhook
+        paths:
+          - path: /webhook
         port: 9000
         sharedVolume:
           mountPath: /service

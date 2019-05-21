@@ -115,7 +115,8 @@ taito_backup_days="${template_default_backup_days:-}"
 taito_basic_auth_enabled=true
 taito_default_password=secret1234
 
-# CI/CD default settings
+# ------ CI/CD default settings ------
+
 # NOTE: Most of these should be enabled for dev and feat branches only.
 # That is, container image is built and tested on dev environment first.
 # After that the same container image will be deployed to other environments:
@@ -142,7 +143,7 @@ kubernetes_replicas=1
 kubernetes_db_proxy_enabled=true
 
 # Helm plugin
-helm_deploy_options="--atomic --cleanup-on-fail --force"
+# helm_deploy_options="--atomic --cleanup-on-fail --force"
 
 # ------ Environment specific settings ------
 
