@@ -77,7 +77,7 @@ services:
     container_name: server-template-database-test-proxy
     image: ${taito_image:-taitounited/taito-cli:latest}
     restart: unless-stopped
-    entrypoint: /bin/sh -c "cd /project && taito db-proxy:${taito_env} 5432"
+    entrypoint: /bin/sh -c "cd /project && taito db proxy:${taito_env} 5432"
     user: taito
     networks:
       - test

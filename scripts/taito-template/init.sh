@@ -80,7 +80,7 @@ function prune () {
     # TODO PRUNE azure-pipelines.yml
     sed -i "/:$name:/d" local-ci.sh
     sed -i "/- step: # $name prepare/,/$name-tester.docker/d" bitbucket-pipelines.yml
-    sed -i "/- step: # $name release/,/taito artifact-release:$name/d" bitbucket-pipelines.yml
+    sed -i "/- step: # $name release/,/taito artifact release:$name/d" bitbucket-pipelines.yml
     sed -i "/REPO_NAME\\/$name:/d" cloudbuild.yaml
     sed -i "/^- id: artifact-prepare-$name\$/,/^$/d" cloudbuild.yaml
     # TODO PRUNE Jenkinsfile

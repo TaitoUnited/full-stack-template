@@ -63,7 +63,7 @@ done
 #######################
 
 if [[ ! ${taito_random_name} ]] || [[ ${taito_random_name} == *"-template" ]]; then
-  taito_random_name="$(taito -q util-random-words: 3)"
+  taito_random_name="$(taito -q util random words: 3)"
 fi
 echo "Setting random name: ${taito_random_name}"
 sed -i "s/^taito_random_name=.*$/taito_random_name=${taito_random_name}/" taito-config.sh

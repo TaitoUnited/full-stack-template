@@ -19,7 +19,7 @@ pipelines:
     - step:
         script:
           - export taito_mode=ci
-          - taito build-prepare:$BITBUCKET_BRANCH
+          - taito build prepare:$BITBUCKET_BRANCH
         artifacts:
           - taitoflag_version
           - taitoflag_images_exist
@@ -28,35 +28,35 @@ pipelines:
       - step: # admin prepare
           script:
             - export taito_mode=ci
-            - taito artifact-prepare:admin:$BITBUCKET_BRANCH $BITBUCKET_COMMIT true
+            - taito artifact prepare:admin:$BITBUCKET_BRANCH $BITBUCKET_COMMIT true
           artifacts:
             - admin.docker
             - admin-tester.docker
       - step: # client prepare
           script:
             - export taito_mode=ci
-            - taito artifact-prepare:client:$BITBUCKET_BRANCH $BITBUCKET_COMMIT true
+            - taito artifact prepare:client:$BITBUCKET_BRANCH $BITBUCKET_COMMIT true
           artifacts:
             - client.docker
             - client-tester.docker
       - step: # graphql prepare
           script:
             - export taito_mode=ci
-            - taito artifact-prepare:graphql:$BITBUCKET_BRANCH $BITBUCKET_COMMIT true
+            - taito artifact prepare:graphql:$BITBUCKET_BRANCH $BITBUCKET_COMMIT true
           artifacts:
             - graphql.docker
             - graphql-tester.docker
       - step: # server prepare
           script:
             - export taito_mode=ci
-            - taito artifact-prepare:server:$BITBUCKET_BRANCH $BITBUCKET_COMMIT true
+            - taito artifact prepare:server:$BITBUCKET_BRANCH $BITBUCKET_COMMIT true
           artifacts:
             - server.docker
             - server-tester.docker
       - step: # www prepare
           script:
             - export taito_mode=ci
-            - taito artifact-prepare:www:$BITBUCKET_BRANCH $BITBUCKET_COMMIT true
+            - taito artifact prepare:www:$BITBUCKET_BRANCH $BITBUCKET_COMMIT true
           artifacts:
             - www.docker
             - www-tester.docker
@@ -64,51 +64,51 @@ pipelines:
     - step:
         script:
           - export taito_mode=ci
-          - taito db-deploy:$BITBUCKET_BRANCH
+          - taito db deploy:$BITBUCKET_BRANCH
     - step:
         script:
           - export taito_mode=ci
-          - taito deployment-deploy:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
+          - taito deployment deploy:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
         # TODO: revert deployment on fail
         # after-script:
-        #   - [ $BITBUCKET_EXIT_CODE != 0 ] && taito deployment-revert:$BITBUCKET_BRANCH $BITBUCKET_COMMIT || :
-        #   - [ $BITBUCKET_EXIT_CODE != 0 ] && taito db-revert:$BITBUCKET_BRANCH $BITBUCKET_COMMIT || :
+        #   - [ $BITBUCKET_EXIT_CODE != 0 ] && taito deployment revert:$BITBUCKET_BRANCH $BITBUCKET_COMMIT || :
+        #   - [ $BITBUCKET_EXIT_CODE != 0 ] && taito db revert:$BITBUCKET_BRANCH $BITBUCKET_COMMIT || :
     # Test and verify deployment
     - step:
         script:
           - export taito_mode=ci
-          - "taito -v artifact-load: tester"
-          - taito deployment-wait:$BITBUCKET_BRANCH
+          - "taito -v artifact load: tester"
+          - taito deployment wait:$BITBUCKET_BRANCH
           - taito test:$BITBUCKET_BRANCH
-          - taito deployment-verify:$BITBUCKET_BRANCH
+          - taito deployment verify:$BITBUCKET_BRANCH
         # # TODO: revert deployment on fail
         # after-script:
-        #   - [ $BITBUCKET_EXIT_CODE != 0 ] && taito deployment-revert:$BITBUCKET_BRANCH $BITBUCKET_COMMIT || :
-        #   - [ $BITBUCKET_EXIT_CODE != 0 ] && taito db-revert:$BITBUCKET_BRANCH $BITBUCKET_COMMIT || :
+        #   - [ $BITBUCKET_EXIT_CODE != 0 ] && taito deployment revert:$BITBUCKET_BRANCH $BITBUCKET_COMMIT || :
+        #   - [ $BITBUCKET_EXIT_CODE != 0 ] && taito db revert:$BITBUCKET_BRANCH $BITBUCKET_COMMIT || :
     # Release artifacts (push previously built container images with a new tag)
     - parallel:
       - step: # admin release
           script:
             - export taito_mode=ci
-            - taito artifact-release:admin:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
+            - taito artifact release:admin:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
       - step: # client release
           script:
             - export taito_mode=ci
-            - taito artifact-release:client:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
+            - taito artifact release:client:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
       - step: # graphql release
           script:
             - export taito_mode=ci
-            - taito artifact-release:graphql:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
+            - taito artifact release:graphql:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
       - step: # server release
           script:
             - export taito_mode=ci
-            - taito artifact-release:server:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
+            - taito artifact release:server:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
       - step: # www release
           script:
             - export taito_mode=ci
-            - taito artifact-release:www:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
+            - taito artifact release:www:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
     # Release build
     - step:
         script:
           - export taito_mode=ci
-          - taito build-release:$BITBUCKET_BRANCH
+          - taito build release:$BITBUCKET_BRANCH
