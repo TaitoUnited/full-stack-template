@@ -6,6 +6,7 @@ Table of contents:
 
 * [Prerequisites](#prerequisites)
 * [Quick start](#quick-start)
+* [Development tips](#development-tips)
 * [Code structure](#code-structure)
 * [Version control](#version-control)
 * [Database migrations](#database-migrations)
@@ -168,6 +169,26 @@ Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND
 > If you run into authorization errors, authenticate with the `taito auth:ENV` command.
 
 > It's common that idle applications are run down to save resources on non-production environments. If your application seems to be down, you can start it by running `taito start:ENV`, or by pushing some changes to git.
+
+## Development tips
+
+### Performance tuning
+
+Docker volume mounts can be slow on non-Linux systems. The template uses *delegated* volume mounts to mitigate this issue on macOS, and *rsync* to mitigate the issue on Windows.
+
+To get maximum performace on non-Linux system, you may also choose to run some services locally, if you have all the necessary dependencies installed on your host system. For example, to run the client locally, you can add the following lines to your `taito-user-config.sh`, Taito CLI will modify docker-compose.yaml and docker-nginx.conf accordingly on `taito start`:
+
+   ```
+   docker_compose_local_services="server-template-client:8080"
+   ```
+
+Note that in addition to running `taito start`, you also need to start the local client manually with the necessary environment variables set, for example:
+   ```
+   cd client
+   export COMMON_PUBLIC_PORT=9999
+   export API_URL=/api
+   npm run start
+   ```
 
 ## Code structure
 

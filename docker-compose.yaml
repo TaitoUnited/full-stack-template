@@ -30,6 +30,9 @@ services:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
       COMMON_PUBLIC_PORT: 9999
+      NODE_ENV: development
+      API_ROOT: ''
+      API_URL: /api
 
   server-template-client:
     container_name: server-template-client
@@ -54,6 +57,9 @@ services:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
       COMMON_PUBLIC_PORT: 9999
+      NODE_ENV: development
+      API_ROOT: ''
+      API_URL: /api
       # NOTE: Database connection is for tests only
       DATABASE_HOST: server-template-database
       DATABASE_NAME: ${db_database_name}
