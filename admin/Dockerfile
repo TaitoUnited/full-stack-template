@@ -3,6 +3,7 @@
 #       avoid unnecessary cypress download
 FROM taitounited/cypress:3.2.0-node10
 ARG SERVICE_DIR=.
+RUN apt-get -y update && apt-get -y install rsync # rsync for windows devs
 WORKDIR /service
 COPY ${SERVICE_DIR}/package.json \
      ${SERVICE_DIR}/package-lock.* \
@@ -13,4 +14,4 @@ ENV API_ROOT ''
 ENV API_URL /api
 RUN npm install --loglevel warn
 EXPOSE 8080
-CMD npm install; npm run start
+CMD eval $DC_COMMAND; npm install; npm run start

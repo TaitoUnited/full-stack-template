@@ -1,3 +1,7 @@
+# NOTE: docker-compose taito plugin sets DC_PATH and DC_COMMAND to mitigate
+# slow volume mounts on Windows. They might also be used in some other purposes
+# in the future.
+
 version: '3.5'
 services:
   server-template-ingress:
@@ -22,10 +26,11 @@ services:
     ports:
       - "8080"
     volumes:
-      - "./admin:/service:delegated"
-      - "./shared:/service/shared:delegated"
-      - "/service/node_modules"
+      - "./admin:${DC_PATH}/service:delegated"
+      - "./shared:${DC_PATH}/service/shared:delegated"
+      - "${DC_PATH}/service/node_modules"
     environment:
+      DC_COMMAND: ${DC_COMMAND}
       HOST_UNAME: ${taito_host_uname}
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
@@ -45,14 +50,15 @@ services:
     ports:
       - "8080"
     volumes:
-      - "./client:/service:delegated"
-      - "./shared:/service/shared:delegated"
-      - "/service/node_modules"
+      - "./client:${DC_PATH}/service:delegated"
+      - "./shared:${DC_PATH}/service/shared:delegated"
+      - "${DC_PATH}/service/node_modules"
     secrets:
       # NOTE: Database connection is for tests only
       - DATABASE_PASSWORD
       - EXAMPLE_SECRET
     environment:
+      DC_COMMAND: ${DC_COMMAND}
       HOST_UNAME: ${taito_host_uname}
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
@@ -76,10 +82,11 @@ services:
     ports:
       - "8080"
     volumes:
-      - "./graphql:/service:delegated"
-      - "./shared:/service/shared:delegated"
-      - "/service/node_modules"
+      - "./graphql:${DC_PATH}/service:delegated"
+      - "./shared:${DC_PATH}/service/shared:delegated"
+      - "${DC_PATH}/service/node_modules"
     environment:
+      DC_COMMAND: ${DC_COMMAND}
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
       COMMON_PUBLIC_PORT: 9999
@@ -106,14 +113,15 @@ services:
     ports:
       - "8080"
     volumes:
-      - "./server:/service:delegated"
-      - "./shared:/service/shared:delegated"
-      - "/service/node_modules"
+      - "./server:${DC_PATH}/service:delegated"
+      - "./shared:${DC_PATH}/service/shared:delegated"
+      - "${DC_PATH}/service/node_modules"
     secrets:
       - DATABASE_PASSWORD
       - S3_KEY_SECRET
       - EXAMPLE_SECRET
     environment:
+      DC_COMMAND: ${DC_COMMAND}
       COMMON_COMPANY: companyname
       COMMON_PROJECT: server-template
       COMMON_PUBLIC_PORT: 9999
@@ -149,12 +157,13 @@ services:
       # TODO: Temporary hack for https://github.com/gatsbyjs/gatsby/issues/3721
       - "7463:8080"
     volumes:
-      - "./www:/service:delegated"
-      - "/service/node_modules"
-      - "/service/site/node_modules"
+      - "./www:${DC_PATH}/service:delegated"
+      - "${DC_PATH}/service/node_modules"
+      - "${DC_PATH}/service/site/node_modules"
       # FOR GATSBY ONLY:
       # - "/service/site/node_modules"
     environment:
+      DC_COMMAND: ${DC_COMMAND}
       COMMON_PUBLIC_PORT: 9999
 
   server-template-cache:
