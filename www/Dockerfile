@@ -6,8 +6,10 @@ ARG SERVICE_DIR=.
 RUN apt-get -y update && apt-get -y install rsync # rsync for windows devs
 ENV NODE_ENV development
 
-RUN mkdir /service && chown node:node /service
+# https://github.com/gatsbyjs/gatsby/issues/11406#issuecomment-485278936
+RUN echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf
 
+RUN mkdir /service && chown node:node /service
 WORKDIR /service
 COPY ${SERVICE_DIR}/install.sh \
      ${SERVICE_DIR}/package* \
