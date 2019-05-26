@@ -336,13 +336,13 @@ case $taito_provider in
       * logs:ENV=https://${taito_provider_region}.console.aws.amazon.com/cloudwatch/home?region=${taito_provider_region}#logs: Logs (:ENV)
     "
     ;;
-  gcloud)
+  gcp)
     taito_plugins="
-      gcloud:-local
-      gcloud-secrets:-local
+      gcp:-local
+      gcp-secrets:-local
       ${taito_plugins}
-      gcloud-storage:-local
-      gcloud-monitoring:-local
+      gcp-storage:-local
+      gcp-monitoring:-local
     "
 
     link_urls="
@@ -358,7 +358,7 @@ case $taito_provider in
     "
 
     kubernetes_db_proxy_enabled=false # use google cloud sql proxy instead
-    gcloud_service_account_enabled=true
+    gcp_service_account_enabled=true
     ;;
   linux)
     # Enable ssh and run plugins
@@ -383,10 +383,10 @@ case $taito_provider in
 esac
 
 case $taito_uptime_provider in
-  gcloud)
-    taito_plugins="${taito_plugins/gcloud:-local/}"
+  gcp)
+    taito_plugins="${taito_plugins/gcp:-local/}"
     taito_plugins="
-      gcloud:-local
+      gcp:-local
       ${taito_plugins}
     "
     link_urls="
@@ -408,10 +408,10 @@ case $taito_ci_provider in
       * artifacts=https://TODO-DOCS-AND-TEST-REPORTS Generated documentation and test reports
     "
     ;;
-  gcloud)
+  gcp)
     taito_plugins="
       ${taito_plugins}
-      gcloud-ci:-local
+      gcp-ci:-local
     "
     link_urls="
       ${link_urls}
@@ -468,11 +468,11 @@ case $taito_container_registry_provider in
       ${taito_plugins}
     "
     ;;
-  gcloud)
-    # Enable gcloud auth
-    taito_plugins="${taito_plugins/gcloud:-local/}"
+  gcp)
+    # Enable gcp auth
+    taito_plugins="${taito_plugins/gcp:-local/}"
     taito_plugins="
-      gcloud:-local
+      gcp:-local
       ${taito_plugins}
     "
     ;;
@@ -528,8 +528,8 @@ test_admin_CYPRESS_baseUrl=https://www.google.com
 test_client_CYPRESS_baseUrlHack=$test_client_CYPRESS_baseUrl
 test_client_CYPRESS_baseUrl=https://www.google.com
 
-# Special settings for running tests on gcloud-ci
-if [[ $taito_plugins == *"gcloud-ci"* ]] && [[ ${taito_mode:-} == "ci" ]]; then
+# Special settings for running tests on gcp-ci
+if [[ $taito_plugins == *"gcp-ci"* ]] && [[ ${taito_mode:-} == "ci" ]]; then
   test_all_DATABASE_HOST=127.0.0.1
   test_all_DATABASE_PORT=5001
 fi

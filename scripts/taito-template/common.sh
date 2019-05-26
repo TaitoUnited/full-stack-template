@@ -53,8 +53,8 @@ rm LICENSE
 ######################
 
 ci=${template_default_ci_provider:-}
-while [[ " aws azure bitbucket github gitlab gcloud jenkins local travis " != *" $ci "* ]]; do
-  echo "Select CI/CD: aws, azure, bitbucket, github, gitlab, gcloud, jenkins, local, or travis"
+while [[ " aws azure bitbucket github gitlab gcp jenkins local travis " != *" $ci "* ]]; do
+  echo "Select CI/CD: aws, azure, bitbucket, github, gitlab, gcp, jenkins, local, or travis"
   read -r ci
 done
 
@@ -216,8 +216,8 @@ if [[ $ci != "gitlab" ]] && [[ $template_default_ci_provider_prod != "gitlab" ]]
   rm -rf .gitlab-ci.yml
 fi
 
-# gcloud
-if [[ $ci != "gcloud" ]] && [[ $template_default_ci_provider_prod != "gcloud" ]]; then
+# gcp
+if [[ $ci != "gcp" ]] && [[ $template_default_ci_provider_prod != "gcp" ]]; then
   rm -f cloudbuild.yaml
 fi
 

@@ -40,4 +40,4 @@ variable "taito_backup_days" {
 }
 
 /* Google Cloud */
-variable "gcloud_service_account_enabled" {}
+variable "gcp_service_account_enabled" {}
