@@ -236,6 +236,20 @@ if [[ $ci != "travis" ]] && [[ $template_default_ci_provider_prod != "travis" ]]
   rm -f .travis.yml
 fi
 
+####################################
+# Remove obsolete provider scripts
+####################################
+
+if [[ $template_default_provider != "linux" ]] && \
+   [[ $template_default_provider_prod != "linux" ]]; then
+  rm -rf scripts/linux-provider
+fi
+
+if [[ $template_default_provider != "custom" ]] && \
+   [[ $template_default_provider_prod != "custom" ]]; then
+  rm -rf scripts/custom-provider
+fi
+
 ##############################
 # Initialize semantic-release
 ##############################

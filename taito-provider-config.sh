@@ -61,6 +61,18 @@ case $taito_provider in
       -L 0.0.0.0:\${database_port}:\${database_host}:\${database_real_port} \${taito_ssh_user}@\${database_real_host}"
     export ssh_forward_for_db="${ssh_db_proxy}"
     ;;
+  custom)
+    # Enable run plugin
+    taito_plugins="
+      run:-local
+      ${taito_plugins}
+    "
+    run_scripts_location="scripts/custom-provider"
+    # Do not use Docker, Kubernetes and Helm on remote environments
+    taito_plugins="${taito_plugins/docker /docker:local }"
+    taito_plugins="${taito_plugins/kubectl:-local/}"
+    taito_plugins="${taito_plugins/helm:-local/}"
+    ;;
 esac
 
 case $taito_uptime_provider in

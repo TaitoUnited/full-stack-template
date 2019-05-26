@@ -1,7 +1,5 @@
 # Configuration
 
-> TIP: To save some time, start application in a cleaned and initialized local environment by running: `cd server-template` and `taito kaboom`. Once the command starts to install libraries, leave it on the background, and continue with configuration. If you have problems, see [prerequisites](#prerequisites).
-
 This file has been copied from [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/). Keep modifications minimal and improve the [original](https://github.com/TaitoUnited/SERVER-TEMPLATE/blob/dev/CONFIGURATION.md) instead. Note that Taito CLI is optional (see [TAITOLESS.md](TAITOLESS.md)).
 
 ## Prerequisites
@@ -10,6 +8,10 @@ This file has been copied from [SERVER-TEMPLATE](https://github.com/TaitoUnited/
 * [Docker Compose](https://docs.docker.com/compose/install/)
 * [Taito CLI](https://github.com/TaitoUnited/taito-cli#readme) (or see [TAITOLESS.md](TAITOLESS.md))
 * Optional: eslint/tslint and prettier plugins for your code editor
+
+## Local development environment
+
+Start your local development environment by running `taito kaboom`. Once the command starts to install libraries, you can leave it on the background while you continue with configuration. Once the application has started, open the web gui with `taito open client`. More information on local development you can find from [DEVELOPMENT.md](DEVELOPMENT.md).
 
 ## Basic settings
 
@@ -97,6 +99,8 @@ Operations on production and staging environments usually require admin rights. 
 **Authentication:** Ingress provides basic authentication, but it is only meant for hiding non-production environments. Here are some good technologies for implementing authentication: [Auth0](https://auth0.com), [Passport](http://www.passportjs.org/), [ORY Oathkeeper](https://www.ory.sh/api-access-control-kubernetes-cloud-native).
 
 **Static site generator (www):** See [www/README.md](www/README.md) for configuration instructions. You can use static site generator e.g. for user guides or API documentation.
+
+**Custom provider:** If you would rather publish WAR/EAR packages for JVM instead of Docker containers, or you would like to do something similar, enable the custom provider with the `taito_provider` setting in `taito-config.sh` and implement [custom scripts](https://github.com/TaitoUnited/SERVER-TEMPLATE/blob/master/scripts/custom-provider) yourself.
 
 ## Kubernetes
 
