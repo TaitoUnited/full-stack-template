@@ -22,10 +22,6 @@ full-stack:
     class: nginx
     oldRewritePolicy: false
     tls: true
-    maxBodySize: 1m
-    basicAuth:
-      enabled: ${taito_basic_auth_enabled}
-      htpasswdSecret: ${taito_project}-${taito_env}-basic-auth
     domains:
       - name: ${taito_domain}
 
@@ -37,14 +33,24 @@ full-stack:
     tier:
     livenessPath: /healthz
     livenessInitialDelay: 3
-    # Paths (example)
+    # Paths
     paths:
       # - path:
-      #   maxBodySize:
+      #   basicAuthEnabled:
+      #   basicAuthHtpasswdSecret:
+      #   clientMaxBodySize:
       #   limitRate:
       #   limitRateAfter:
       #   rewriteTarget:
       #   rewriteTargetDisabled:
+    # Path defaults
+    basicAuthEnabled: ${taito_basic_auth_enabled}
+    basicAuthHtpasswdSecret: ${taito_project}-${taito_env}-basic-auth
+    clientMaxBodySize: 1m
+    limitRate:
+    limitRateAfter:
+    rewriteTarget:
+    rewriteTargetDisabled:
     # Security
     runAsUser:
     runAsGroup:
