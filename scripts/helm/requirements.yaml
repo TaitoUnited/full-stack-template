@@ -1,4 +1,4 @@
 dependencies:
 - name: full-stack
-  version: 0.4.1
+  version: 0.4.3
   repository: https://taitounited.github.io/taito-charts/

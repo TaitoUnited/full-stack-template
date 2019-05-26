@@ -23,8 +23,6 @@ full-stack:
     oldRewritePolicy: false
     tls: true
     maxBodySize: 1m
-    limitRate:
-    limitRateAfter:
     basicAuth:
       enabled: ${taito_basic_auth_enabled}
       htpasswdSecret: ${taito_project}-${taito_env}-basic-auth
