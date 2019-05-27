@@ -29,11 +29,10 @@ function prune () {
   local path=$3
   local path2=$4
 
-  read -t 1 -n 10000 discard || :
-  echo "$message"
-  read -r confirm
-  if ( [[ "$message" == *"(y/N)"* ]] && ! [[ "${confirm}" =~ ^[Yy]$ ]] ) || \
-     ( [[ "$message" == *"(Y/n)"* ]] && ! [[ "${confirm}" =~ ^[Yy]*$ ]] ); then
+  read -r -t 1 -n 1000 || :
+  read -p "$message" -n 1 -r confirm
+  if ( [[ "$message" == *"[y/N]"* ]] && ! [[ "${confirm}" =~ ^[Yy]$ ]] ) || \
+     ( [[ "$message" == *"[Y/n]"* ]] && ! [[ "${confirm}" =~ ^[Yy]*$ ]] ); then
     echo "Removing ${name}..."
     echo
     if [[ $path ]]; then
@@ -143,8 +142,8 @@ function prune () {
     rm -rf "$name"
   else
     if [[ $name == "kafka" ]]; then
-      echo "Use external Kafka cluster (Y/n)?"
-      read -r confirm
+      read -r -t 1 -n 1000 || :
+      read -p "Use external Kafka cluster? [Y/n] " -n 1 -r confirm
       if [[ ${confirm} =~ ^[Yy]*$ ]]; then
         sed -i "s/KAFKA_HOST:.*$/KAFKA_HOST: kafka.kafka.svc.cluster.local/g" \
           ./scripts/helm.yaml
@@ -160,9 +159,9 @@ function prune () {
   fi
 }
 
-prune "WEB user interface (Y/n)?" client \\/
-prune "Administration GUI (y/N)?" admin \\/admin
-prune "Static website (e.g. for API documentation or user guide) (y/N)?" www \\/docs
+prune "WEB user interface? [Y/n] " client \\/
+prune "Administration GUI? [y/N] " admin \\/admin
+prune "Static website (e.g. for API documentation or user guide)? [y/N] " www \\/docs
 
 echo
 echo "NOTE: WEB user interface is just a bunch of static files that are loaded"
@@ -170,13 +169,13 @@ echo "to a web browser. If you need some process running on server or need to"
 echo "keep some secrets hidden from browser, you need API/server."
 echo
 
-prune "API/services (Y/n)?" server \\/api
-prune "GraphQL gateway (y/N)?" graphql \\/graphql
-prune "Kafka for event-based streaming/queuing (y/N)?" kafka
-prune "In-memory cache (Redis) for performance optimizations (y/N)?" cache
-prune "Worker for background jobs (y/N)?" worker
-prune "Relational database (Y/n)?" database
-prune "Permanent object storage for files (y/N)?" storage \\/bucket \\/minio
+prune "API/services? [Y/n] " server \\/api
+prune "GraphQL gateway? [y/N] " graphql \\/graphql
+prune "Kafka for event-based streaming/queuing? [y/N] " kafka
+prune "In-memory cache (Redis) for performance optimizations? [y/N] " cache
+prune "Worker for background jobs? [y/N] " worker
+prune "Relational database? [Y/n] " database
+prune "Permanent object storage for files? [y/N] " storage \\/bucket \\/minio
 
 echo "Replacing project and company names in files. Please wait..."
 find . -type f -exec sed -i \
