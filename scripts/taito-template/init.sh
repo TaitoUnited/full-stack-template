@@ -193,9 +193,9 @@ ingress_port=$(shuf -i 8000-9999 -n 1)
 db_port=$(shuf -i 6000-7999 -n 1)
 www_port=$(shuf -i 5000-5999 -n 1)
 sed -i "s/7463/${www_port}/g" taito-config.sh docker-compose.yaml \
-  TAITOLESS.md www/README.md &> /dev/null
+  TAITOLESS.md www/README.md &> /dev/null || :
 sed -i "s/6000/${db_port}/g" taito-config.sh docker-compose.yaml \
-  TAITOLESS.md &> /dev/null
+  TAITOLESS.md &> /dev/null || :
 sed -i "s/9999/${ingress_port}/g" taito-config.sh docker-compose.yaml \
   TAITOLESS.md &> /dev/null || :
 
