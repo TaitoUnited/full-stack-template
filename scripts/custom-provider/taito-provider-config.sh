@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo "TODO: Implement. This is only an example taito-provider-config.sh"
+
 # Enable run plugin
 taito_plugins="
   run:-local
