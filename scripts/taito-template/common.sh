@@ -83,8 +83,10 @@ sed -i "s/\${template_default_environments:?}/${template_default_environments}/g
 sed -i "s/\${template_default_organization:?}/${template_default_organization}/g" taito-config.sh
 sed -i "s/\${template_default_organization_abbr:?}/${template_default_organization_abbr}/g" taito-config.sh
 sed -i "s/\${template_default_vc_organization:?}/${template_default_vc_organization}/g" taito-config.sh
+sed -i "s/\${template_default_vc_organization:?}/${template_default_vc_organization}/g" taito-provider-config.sh
 sed -i "s|\${template_default_vc_url:?}|${template_default_vc_url}|g" taito-config.sh
 sed -i "s/\${template_default_sentry_organization:-}/${template_default_sentry_organization}/g" taito-config.sh
+sed -i "s/\${template_default_sentry_organization:-}/${template_default_sentry_organization}/g" taito-provider-config.sh
 sed -i "s/\${template_default_domain:?}/${template_default_domain}/g" taito-config.sh
 sed -i "s/\${template_default_domain_prod:?}/${template_default_domain_prod}/g" taito-config.sh
 sed -i "s/\${template_default_zone:?}/${template_default_zone}/g" taito-config.sh
