@@ -2,6 +2,7 @@
 : "${taito_target:?}"
 
 set -e
+${taito_setv:-}
 
 echo "TODO: Implement. This is only an example implementation."
 

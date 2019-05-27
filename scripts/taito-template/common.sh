@@ -29,7 +29,7 @@
 : "${template_project_path:?}"
 : "${mode:?}"
 
-${taito_setv:?}
+${taito_setv:-}
 
 ######################
 # Remove these always

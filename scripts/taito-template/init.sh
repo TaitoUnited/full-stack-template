@@ -4,7 +4,7 @@
 : "${taito_vc_repository_alt:?}"
 : "${mode:?}"
 
-${taito_setv:?}
+${taito_setv:-}
 
 # Function not supported yet
 rm -rf function

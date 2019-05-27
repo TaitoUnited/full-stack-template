@@ -35,7 +35,7 @@ echo
 echo "[Copy docker-compose-remote.yaml to ${taito_host}:/tmp]"
 (
   set -e
-  ${taito_setv:?}
+  ${taito_setv:-}
   mkdir -p tmp
   files="docker-compose-remote.yaml docker-nginx.conf taito-config.sh"
   if [[ -f database/db.sql ]]; then
@@ -51,7 +51,7 @@ echo "[Execute on host ${taito_host}]"
 ssh ${opts} "${taito_ssh_user}@${taito_host}" "
   ${LINUX_SUDO} bash -c '
     set -e
-    ${taito_setv:?}
+    ${taito_setv:-}
     cd ${taito_host_dir}
     echo
     echo [Check that Docker images exist]

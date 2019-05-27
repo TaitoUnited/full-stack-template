@@ -13,7 +13,7 @@ echo "[Execute on ${taito_host}]"
 ssh ${opts} "${taito_ssh_user}@${taito_host}" "
   ${LINUX_SUDO} bash -c '
     set -e
-    ${taito_setv:?}
+    ${taito_setv:-}
     if which deletetaitosite &> /dev/null; then
       deletetaitosite ${taito_namespace}
     else
