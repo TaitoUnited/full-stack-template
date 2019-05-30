@@ -100,7 +100,7 @@ Operations on production and staging environments usually require admin rights. 
 
 **Static site generator (www):** See [www/README.md](www/README.md) for configuration instructions. You can use static site generator e.g. for user guides or API documentation.
 
-**Custom provider:** If you would rather publish WAR/EAR packages for JVM instead of Docker containers, or you would like to do something similar, enable the custom provider with the `taito_provider` setting in `taito-config.sh` and implement [custom scripts](https://github.com/TaitoUnited/SERVER-TEMPLATE/blob/master/scripts/custom-provider) yourself.
+**Custom provider:** If you cannot use Docker containers on your remote environments, you can customize the deployment with a custom provider. Instead of deploying the application as docker container images, you can, for example, deploy the application as WAR or EAR packages on a Java application server, or install everything directly on the remote host. You can enable the custom provider with the `taito_provider` setting in `taito-config.sh` and implement [custom deployment scripts](https://github.com/TaitoUnited/SERVER-TEMPLATE/blob/master/scripts/custom-provider) yourself.
 
 ## Kubernetes
 
