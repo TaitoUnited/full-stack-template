@@ -12,8 +12,8 @@ sed -i "s/ function / /" taito-config.sh
 
 # Remote the example site
 rm -rf www/site
-sed -i '/    - "\/service\/site\/node_modules"/d' docker-compose.yaml
-sed -i '/    - "\/service\/site\/node_modules"/d' docker-compose-remote.yaml
+sed -i '/\/site\/node_modules" # FOR GATSBY ONLY/d' docker-compose.yaml
+sed -i '/\/site\/node_modules" # FOR GATSBY ONLY/d' docker-compose-remote.yaml
 
 echo
 echo "######################"

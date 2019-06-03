@@ -8,7 +8,6 @@ Remove static site generators that you do not use from `www/install.sh`.
 
 Start containers, and start a shell inside the www Docker container:
 
-    taito env apply
     taito start
     taito shell:www
 
