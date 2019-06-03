@@ -1,1 +1,3 @@
-TODO: just serve static files with nginx
+# Static
+
+Serve static files with nginx.
