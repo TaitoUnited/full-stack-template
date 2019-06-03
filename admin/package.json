@@ -22,7 +22,7 @@
     "@types/react-redux": "7.0.8",
     "@types/redux-actions": "2.6.0",
     "@types/styled-components": "4.1.14",
-    "axios": "0.18.0",
+    "axios": "0.19.0",
     "core-js": "3.0.1",
     "history": "4.9.0",
     "qs": "6.7.0",

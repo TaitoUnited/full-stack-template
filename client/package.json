@@ -32,7 +32,7 @@
     "@types/redux-actions": "2.6.0",
     "@types/redux-logger": "3.0.7",
     "@types/styled-components": "4.1.14",
-    "axios": "0.18.0",
+    "axios": "0.19.0",
     "connected-react-router": "6.4.0",
     "core-js": "3.0.1",
     "history": "4.9.0",
