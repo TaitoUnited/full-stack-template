@@ -2,23 +2,27 @@
 
 set -x
 
-if [ ! -d ./site ]; then
-  echo No site yet.
-elif [ -f ./site/package.json ]; then
+if [ -f ./site/package.json ]; then
   # Gatsby build
   cd site && \
-  npm run build -- --prefix-paths && \
+  npm run build --prefix-paths && \
   cp -rf ./public/* /build
 elif [ -f ./site/Gemfile ]; then
   # Jekyll build
   cd site && \
   jekyll build && \
   cp -rf /_site/* /build
-else
+elif [ -f ./site/config.toml ]; then
   # Hugo build
   cd site && \
   hugo && \
   cp -rf ./public/* /build
+else
+  echo No site yet.
+fi
+
+if [ -d ./assets ]; then
+  cp -rf ./assets/* /build
 fi
 
 # TODO configure live reload for all of these

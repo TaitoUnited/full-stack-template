@@ -1,15 +1,17 @@
 {
-  "name": "website-template-www",
+  "name": "server-template-www",
   "scripts": {
     "install-site": "if [ -f ./site/package.json ]; then cd site && npm install; fi",
     "lint": "echo Linting disabled",
     "unit": "if [ -d ./site ]; then cd site && npm run test; fi",
     "test": "echo No tests for www",
     "build": "./build-site.sh",
+    "serve": "http-server ./assets",
     "cypress:run": "cypress run -s test/integration/**/${test_name}.spec.js",
     "cypress:open": "cypress open"
   },
   "devDependencies": {
-    "cypress": "3.2.0"
+    "cypress": "3.2.0",
+    "http-server": "0.11.1"
   }
 }

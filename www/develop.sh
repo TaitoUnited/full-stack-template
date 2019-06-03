@@ -21,6 +21,9 @@ elif [ -f ./site/config.toml ]; then
   hugo server -D --bind=0.0.0.0 --port 8080 \
     --baseURL "http://localhost:${COMMON_PUBLIC_PORT}" --appendPort=false \
     --liveReloadPort "${COMMON_PUBLIC_PORT}"
+elif [ -d ./assets ]; then
+  echo "Serving static assets from www/assets"
+  npm run serve
 else
   echo "develop.sh: No site yet at www/site. Just keep the container running."
   tail -f /dev/null
