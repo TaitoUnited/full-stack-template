@@ -21,8 +21,8 @@ else
   echo No site yet.
 fi
 
-if [ -d ./assets ]; then
-  cp -rf ./assets/* /build
+if [ -d ./public ]; then
+  cp -rf ./public/* /build
 fi
 
 # TODO configure live reload for all of these

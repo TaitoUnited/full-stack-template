@@ -6,7 +6,7 @@
     "unit": "if [ -d ./site ]; then cd site && npm run test; fi",
     "test": "echo No tests for www",
     "build": "./build-site.sh",
-    "serve": "http-server ./assets",
+    "serve": "http-server ./public",
     "cypress:run": "cypress run -s test/integration/**/${test_name}.spec.js",
     "cypress:open": "cypress open"
   },

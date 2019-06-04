@@ -2,7 +2,7 @@
 
 Configure static site generator of your choice with the following instructions. Currently instructions are provided only for Gatsby, Hugo, Jekyll and plain static files, but with some extra work the website-template may easily be used with any static site generator.
 
-Remove static site generators that you do not use from `www/install.sh`.
+Remove static site generators that you do not use from `www/install.sh` but do not delete the whole file:
 
     EDIT www/install.sh
 
@@ -11,7 +11,7 @@ Start containers, and start a shell inside the www Docker container:
     taito start
     taito shell:www
 
-*FOR PLAIN STATIC FILES ONLY:* Exit the shell and add static files to www/assets with your code editor.
+*FOR PLAIN STATIC FILES ONLY:* Exit the shell and add static files to www/public with your code editor.
 
 *FOR GATSBY ONLY:* Create a new Gatsby site based on one of the [starters](https://www.gatsbyjs.org/starters?v=2) (NOTE: Select 'npm' as package manager and ignore the 'git commit' error):
 
