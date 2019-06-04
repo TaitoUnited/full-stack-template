@@ -33,6 +33,7 @@ function prune () {
   read -p "$message" -n 1 -r confirm
   if ( [[ "$message" == *"[y/N]"* ]] && ! [[ "${confirm}" =~ ^[Yy]$ ]] ) || \
      ( [[ "$message" == *"[Y/n]"* ]] && ! [[ "${confirm}" =~ ^[Yy]*$ ]] ); then
+    echo
     echo "Removing ${name}..."
     echo
     if [[ $path ]]; then
