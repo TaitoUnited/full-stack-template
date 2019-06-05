@@ -226,7 +226,6 @@ case $taito_env in
   dev|feat)
     ci_exec_build=true        # allow build of a new container
     ci_exec_deploy=true       # deploy automatically
-    # NOTE: enable tests once you have implemented some integration or e2e tests
     ci_exec_test=true         # execute test suites
     ci_exec_test_init=false   # run 'init --clean' before each test suite
     ci_exec_revert=false      # revert deploy if previous steps failed
