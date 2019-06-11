@@ -5,7 +5,7 @@
     "unit": "sh -c 'test_name=$(printf '%s' \"$0\" | sed -e 's/^sh$//g') && mocha -r ts-node/register --recursive \"**/${test_name:-*}.unit.ts\"'",
     "test": "mocha -r ts-node/register --timeout 2000 --recursive \"**/${test_name:-*}.test.ts\"",
     "start": "npm run start:dev",
-    "start:dev": "NODE_ENV=development ts-node-dev --respawn --transpileOnly index.ts | bunyan -l debug",
+    "start:dev": "NODE_ENV=development ts-node-dev --respawn --transpileOnly $([ $HOST_UNAME = Darwin ] && echo --poll) index.ts | bunyan -l debug",
     "lint": "tslint -p . -c tslint.json",
     "build:test": "tsc --build tsconfig.test.json",
     "build:prod": "NODE_ENV=production tsc --build tsconfig.json",
