@@ -17,5 +17,5 @@ module "common-gcp-uptime" {
   taito_uptime_targets = "${var.taito_uptime_targets}"
   taito_uptime_paths = "${var.taito_uptime_paths}"
   taito_uptime_timeouts = "${var.taito_uptime_timeouts}"
-  taito_uptime_uptime_channels = "${var.taito_uptime_uptime_channels}"
+  taito_uptime_channels = "${var.taito_uptime_channels}"
 }

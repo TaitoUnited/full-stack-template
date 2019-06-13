@@ -26,7 +26,7 @@ resource "google_monitoring_alert_policy" "https" {
 
   project = "${var.taito_uptime_namespace_id}"
   display_name = "${var.taito_project}-${var.taito_env}"
-  notification_channels = "${var.taito_uptime_uptime_channels}"
+  notification_channels = "${var.taito_uptime_channels}"
 
   combiner = "OR"
   conditions = [

@@ -99,8 +99,8 @@ sed -i "s/\${template_default_provider_region:-}/${template_default_provider_reg
 sed -i "s/\${template_default_provider_region_prod:-}/${template_default_provider_region_prod}/g" taito-config.sh
 sed -i "s/\${template_default_provider_zone:-}/${template_default_provider_zone}/g" taito-config.sh
 sed -i "s/\${template_default_provider_zone_prod:-}/${template_default_provider_zone_prod}/g" taito-config.sh
-sed -i "s|\${template_default_monitoring_uptime_channels:-}|${template_default_monitoring_uptime_channels}|g" taito-config.sh
-sed -i "s|\${template_default_monitoring_uptime_channels_prod:-}|${template_default_monitoring_uptime_channels_prod}|g" taito-config.sh
+sed -i "s|\${template_default_uptime_channels:-}|${template_default_uptime_channels}|g" taito-config.sh
+sed -i "s|\${template_default_uptime_channels_prod:-}|${template_default_uptime_channels_prod}|g" taito-config.sh
 sed -i "s/\${template_default_source_git:?}/${template_default_source_git}/g" taito-config.sh
 sed -i "s/\${template_default_dest_git:?}/${template_default_dest_git}/g" taito-config.sh
 

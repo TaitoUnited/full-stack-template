@@ -81,7 +81,7 @@ taito_uptime_targets=" admin client graphql server www "
 taito_uptime_paths=" /admin/uptimez /uptimez /graphql/uptimez /api/uptimez /docs/uptimez "
 taito_uptime_timeouts=" 5s 5s 5s 5s 5s "
 # You can list all monitoring channels with `taito env info:ENV`
-taito_uptime_uptime_channels="${template_default_monitoring_uptime_channels:-}"
+taito_uptime_channels="${template_default_uptime_channels:-}"
 
 # Stack
 taito_targets=" admin client cache graphql database function kafka zookeeper server storage worker www "
@@ -180,7 +180,7 @@ case $taito_env in
     # Monitoring
     taito_uptime_provider=${template_default_uptime_provider_prod:-}
     taito_uptime_provider_org_id=${template_default_uptime_provider_org_id_prod:-}
-    taito_uptime_channels="${template_default_monitoring_uptime_channels_prod:-}"
+    taito_uptime_channels="${template_default_uptime_channels_prod:-}"
 
     # CI/CD and repositories
     taito_container_registry_provider=${template_default_container_registry_provider_prod:-}
@@ -212,7 +212,7 @@ case $taito_env in
     # Monitoring
     taito_uptime_provider=${template_default_uptime_provider_prod:-}
     taito_uptime_provider_org_id=${template_default_uptime_provider_org_id_prod:-}
-    taito_uptime_channels="${template_default_monitoring_uptime_channels_prod:-}"
+    taito_uptime_channels="${template_default_uptime_channels_prod:-}"
 
     # CI/CD and repositories
     taito_container_registry_provider=${template_default_container_registry_provider_prod:-}

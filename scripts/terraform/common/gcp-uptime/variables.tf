@@ -16,7 +16,7 @@ variable "taito_uptime_timeouts" {
   type = "list"
   default = []
 }
-variable "taito_uptime_uptime_channels" {
+variable "taito_uptime_channels" {
   type = "list"
   default = []
 }
