@@ -106,6 +106,7 @@ db_database_host="127.0.0.1"
 db_database_port=5001
 db_database_real_host="${template_default_postgres_host:-}"
 db_database_real_port=5432
+db_database_create=true
 
 # Storage definitions for Terraform
 taito_storage_classes="${template_default_storage_class:-}"
@@ -271,9 +272,14 @@ fi
 db_database_app_username="${db_database_name}_app"
 db_database_app_secret="${db_database_name//_/-}-db-app.password"
 
-# mgr user for deploying database migrations
+# mgr user for deploying database migrations (CI/CD)
 db_database_mgr_username="$db_database_name"
 db_database_mgr_secret="${db_database_name//_/-}-db-mgr.password"
+
+# default user for executing database operations
+# TODO: empty for prod/stag
+db_database_default_username="$db_database_name"
+db_database_default_secret="${db_database_name//_/-}-db-mgr.password"
 
 # master user for creating and destroying databases
 db_database_master_username="${template_default_postgres_master_username:-}"
