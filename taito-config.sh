@@ -75,7 +75,7 @@ taito_messaging_critical_channel=critical
 taito_messaging_monitoring_channel=monitoring
 
 # Uptime monitoring
-taito_uptime_provider=${template_default_uptime_provider:-}
+taito_uptime_provider= # only for prod by default
 taito_uptime_provider_org_id=${template_default_uptime_provider_org_id:-}
 taito_uptime_targets=" admin client graphql server www "
 taito_uptime_paths=" /admin/uptimez /uptimez /graphql/uptimez /api/uptimez /docs/uptimez "
@@ -210,7 +210,7 @@ case $taito_env in
     db_database_real_host="${template_default_postgres_host_prod:-}"
 
     # Monitoring
-    taito_uptime_provider=${template_default_uptime_provider_prod:-}
+    taito_uptime_provider= # only for prod by default
     taito_uptime_provider_org_id=${template_default_uptime_provider_org_id_prod:-}
     taito_uptime_channels="${template_default_uptime_channels_prod:-}"
 
