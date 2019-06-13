@@ -37,7 +37,7 @@ taito_suffix=
 # Assets
 taito_project_icon=$taito_project-dev.${template_default_domain:?}/favicon.ico
 
-# Environments
+# Environment mappings
 taito_env=${taito_target_env/canary/prod} # canary -> prod
 
 # Provider and namespaces
@@ -168,7 +168,6 @@ case $taito_env in
 
     # Domain and resources
     taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?} # TEMPLATE-REMOVE
-    taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
     taito_app_url=https://$taito_domain
     taito_host="${template_default_host_prod:-}"
     kubernetes_cluster="${template_default_kubernetes_cluster_prefix_prod:-}${kubernetes_name}"

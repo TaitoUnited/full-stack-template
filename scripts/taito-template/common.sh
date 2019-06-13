@@ -89,6 +89,7 @@ sed -i "s/\${template_default_sentry_organization:-}/${template_default_sentry_o
 sed -i "s/\${template_default_sentry_organization:-}/${template_default_sentry_organization}/g" taito-provider-config.sh
 sed -i "s/\${template_default_domain:?}/${template_default_domain}/g" taito-config.sh
 sed -i "s/\${template_default_domain_prod:?}/${template_default_domain_prod}/g" taito-config.sh
+sed -i "s/\${template_default_domain_prod:?}/${template_default_domain_prod}/g" taito-domain-config.sh
 sed -i "s/\${template_default_zone:?}/${template_default_zone}/g" taito-config.sh
 sed -i "s/\${template_default_zone_prod:?}/${template_default_zone_prod}/g" taito-config.sh
 sed -i "s/\${template_default_provider:?}/${template_default_provider}/g" taito-config.sh
