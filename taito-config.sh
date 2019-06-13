@@ -3,9 +3,15 @@
 set -a
 : "${taito_target_env:?}"
 
-# Configuration instructions:
-# - https://taito.dev/docs/05-configuration
-# - https://taito.dev/plugins
+##########################################################################
+# Root taito-config.sh file
+##########################################################################
+
+# ------------------------------------------------------------------------
+# NOTE: This file is updated during 'taito project upgrade'. There should
+# rarely be need to modify it manually. Modify taito-domain-config.sh,
+# taito-environments-config.sh or taito-test-config.sh instead.
+# ------------------------------------------------------------------------
 
 # Taito CLI
 taito_version=1
@@ -32,7 +38,6 @@ taito_suffix=
 taito_project_icon=$taito_project-dev.${template_default_domain:?}/favicon.ico
 
 # Environments
-taito_environments="${template_default_environments:?}"
 taito_env=${taito_target_env/canary/prod} # canary -> prod
 
 # Provider and namespaces
@@ -150,7 +155,6 @@ kubernetes_db_proxy_enabled=true
 case $taito_env in
   prod)
     # Settings
-    taito_basic_auth_enabled=true
     kubernetes_replicas=2
 
     # Provider and namespaces
@@ -162,7 +166,6 @@ case $taito_env in
     taito_resource_namespace=$taito_organization_abbr-$taito_company-prod
 
     # Domain and resources
-    taito_domain=
     taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?} # TEMPLATE-REMOVE
     taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
     taito_app_url=https://$taito_domain
@@ -187,6 +190,9 @@ case $taito_env in
     taito_container_registry=${template_default_container_registry_prod:-}/$taito_vc_repository
     taito_ci_provider=${template_default_ci_provider_prod:?}
     ci_exec_deploy=${template_default_ci_exec_deploy_prod:-true}
+
+    # shellcheck disable=SC1091
+    . taito-domain-config.sh
     ;;
   stag)
     # Settings
@@ -259,25 +265,6 @@ if [[ "$taito_env" == "local" ]]; then
   taito_storage_url=http://localhost:9999/minio
 fi
 
-# Link plugin
-link_urls="
-  * client[:ENV]=$taito_app_url Application GUI (:ENV)
-  * admin[:ENV]=$taito_admin_url Admin GUI (:ENV)
-  * server[:ENV]=$taito_app_url/api/uptimez Server API (:ENV)
-  * apidocs[:ENV]=$taito_app_url/api/docs API Docs (:ENV)
-  * www[:ENV]=$taito_app_url/docs Generated documentation (:ENV)
-  * graphql[:ENV]=$taito_app_url/graphql/uptimez GraphQL API (:ENV)
-  * git=https://$taito_vc_repository_url Git repository
-  * storage:ENV=$taito_storage_url Storage bucket (:ENV)
-  * styleguide=https://TODO UI/UX style guide and designs
-  * wireframes=https://TODO UI/UX wireframes
-  * feedback=https://TODO User feedback
-  * performance=https://TODO Performance metrics
-"
-
-# TODO: Temporary hack for https://github.com/gatsbyjs/gatsby/issues/3721
-link_urls=${link_urls/:9999\/docs/:7463\/docs/}
-
 # ------ Database users ------
 
 # app user for application
@@ -292,25 +279,13 @@ db_database_mgr_secret="${db_database_name//_/-}-db-mgr.password"
 db_database_master_username="${template_default_postgres_master_username:-}"
 db_database_master_password_hint="${template_default_postgres_master_password_hint:-}"
 
-# ------ Secrets ------
+# ------ Environments config ------
 
-taito_remote_secrets="
-  $taito_project-$taito_env-basic-auth.auth:htpasswd-plain
-  $taito_project-$taito_env-scheduler.secret:random
-"
-taito_secrets="
-  $db_database_app_secret:random
-  $taito_project-$taito_env-storage-gateway.secret:random
-  $taito_project-$taito_env-example.secret:manual
-"
+# shellcheck disable=SC1091
+. taito-environments-config.sh
 
-# Define database mgr password for automatic CI/CD deployments
-if [[ $ci_exec_deploy == "true" ]]; then
-  taito_remote_secrets="
-    $taito_remote_secrets
-    $db_database_mgr_secret/devops:random
-  "
-fi
+# TODO: Temporary hack for https://github.com/gatsbyjs/gatsby/issues/3721
+link_urls=${link_urls/:9999\/docs/:7463\/docs/}
 
 # ------ Taito config override (optional) ------
 

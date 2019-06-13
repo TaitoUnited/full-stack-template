@@ -79,7 +79,7 @@ sed -i "s/taito_suffix=.*/taito_suffix=${taito_suffix:-}/g" taito-config.sh
 sed -i "s/taito_project=.*/taito_project=${taito_vc_repository}/g" taito-config.sh
 
 echo "Replacing template variables with the user specific settings..."
-sed -i "s/\${template_default_environments:?}/${template_default_environments}/g" taito-config.sh
+sed -i "s/\${template_default_environments:?}/${template_default_environments}/g" taito-environments-config.sh
 sed -i "s/\${template_default_organization:?}/${template_default_organization}/g" taito-config.sh
 sed -i "s/\${template_default_organization_abbr:?}/${template_default_organization_abbr}/g" taito-config.sh
 sed -i "s/\${template_default_vc_organization:?}/${template_default_vc_organization}/g" taito-config.sh

@@ -1,8 +1,15 @@
 #!/bin/bash
 # shellcheck disable=SC2034
 
-# NOTE: These settings have been copied from SERVER-TEMPLATE.
-# Do not modify them. Improve the original settings instead.
+##########################################################################
+# Provider specific settings
+##########################################################################
+
+# ------------------------------------------------------------------------
+# NOTE: This file is updated during 'taito project upgrade'. There should
+# be no need to modify it manually. Modify taito-domain-config.sh,
+# taito-environments-config.sh or taito-test-config.sh instead.
+# ------------------------------------------------------------------------
 
 case $taito_provider in
   aws)
