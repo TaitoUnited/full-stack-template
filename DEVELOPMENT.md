@@ -1,6 +1,6 @@
 # Development
 
-This file has been copied from [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/). Keep modifications minimal and improve the [original](https://github.com/TaitoUnited/SERVER-TEMPLATE/blob/dev/DEVELOPMENT.md) instead. Project specific conventions are located in [README.md](README.md#conventions). See the [Taito CLI tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for more thorough development instructions. Note that Taito CLI is optional (see [TAITOLESS.md](TAITOLESS.md)).
+This file has been copied from [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/). Keep modifications minimal and improve the [original](https://github.com/TaitoUnited/SERVER-TEMPLATE/blob/dev/DEVELOPMENT.md) instead. Project specific conventions are located in [README.md](README.md#conventions). See the [Taito CLI tutorial](https://taitounited.github.io/taito-cli/tutorial) for more thorough development instructions. Note that Taito CLI is optional (see [TAITOLESS.md](TAITOLESS.md)).
 
 Table of contents:
 
@@ -18,12 +18,12 @@ Table of contents:
 
 * [Node.js](https://nodejs.org/)
 * [Docker Compose](https://docs.docker.com/compose/install/)
-* [Taito CLI](https://github.com/TaitoUnited/taito-cli#readme) (or see [TAITOLESS.md](TAITOLESS.md))
+* [Taito CLI](https://taitounited.github.io/taito-cli/) (or see [TAITOLESS.md](TAITOLESS.md))
 * Optional: Some editor plugins depending on technology (e.g. [ESLint](https://eslint.org/docs/user-guide/integrations#editors) and [Prettier](https://prettier.io/docs/en/editors.html) for JavaScript/TypeScript)
 
 ## Quick start
 
-> TIP: Start application in a cleaned and initialized local environment with a single command: `taito kaboom`. This is essentially the same thing as running `taito env apply --clean`, `taito start --clean`, and `taito init --clean`.
+> TIP: Start application in a cleaned and initialized local environment with a single command: `taito kaboom`. This is essentially the same thing as running `taito env apply --clean`, `taito start --clean`, and `taito init`.
 
 Create local environment by installing some libraries and generating secrets (add `--clean` to recreate clean environment):
 
@@ -176,6 +176,10 @@ Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND
 
 Make sure Docker has enough resources available. On macOS and Windows you can set CPU, memory, and disk limits on Docker preferences.
 
+Sometimes docker may start hogging up cpu on macOS and Windows. In such case, just restart docker.
+
+If the cooling fans of your computer spin fast and the computer seems slow, a high cpu load (or too slow computer) might not be the only cause. Check that your computer is not full of dust, the environment is not too hot, and your computer is not running on low-energy mode to save battery. Many computers start to limit available cpu on too hot conditions, or when battery charge is low.
+
 Docker volume mounts can be slow on non-Linux systems. The template uses *delegated* volume mounts to mitigate this issue on macOS, and *rsync* to mitigate the issue on Windows.
 
 To get maximum performace on non-Linux system, you may also choose to run some services locally, if you have all the necessary dependencies installed on your host system. For example, to run the client locally, you can add the following lines to your `taito-user-config.sh`, Taito CLI will modify docker-compose.yaml and docker-nginx.conf accordingly on `taito start`:
@@ -194,7 +198,7 @@ Note that in addition to running `taito start`, you also need to start the local
 
 ## Code structure
 
-Project specific conventions are defined in [README.md](README.md#conventions). See [software design](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/b-software-design.md) appendix of the [Taito CLI tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for some tips on how to design a modular directory structure.
+Project specific conventions are defined in [README.md](README.md#conventions). See [software design](https://taitounited.github.io/taito-cli/tutorial/b-software-design) appendix of the [Taito CLI tutorial](https://taitounited.github.io/taito-cli/tutorial) for some tips on how to design a modular directory structure.
 
 ## Version control
 
@@ -204,7 +208,7 @@ All commit messages must be structured according to the [Angular git commit conv
 
 > You can also use `wip` type for such feature branch commits that will be squashed during rebase.
 
-You can manage environment and feature branches using Taito CLI commands. Run `taito env -h`, `taito feat -h`, and `taito hotfix -h` for instructions. If you use git commands or git GUI tools instead, remember to follow the version control conventions defined by `taito conventions`. See [version control](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/03-version-control.md) chapter of the [Taito CLI tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for some additional information.
+You can manage environment and feature branches using Taito CLI commands. Run `taito env -h`, `taito feat -h`, and `taito hotfix -h` for instructions. If you use git commands or git GUI tools instead, remember to follow the version control conventions defined by `taito conventions`. See [version control](https://taitounited.github.io/taito-cli/tutorial/03-version-control) chapter of the [Taito CLI tutorial](https://taitounited.github.io/taito-cli/tutorial) for some additional information.
 
 ## Database migrations
 
@@ -241,7 +245,7 @@ Container images are built for dev and feature branches only. Once built and tes
 
 Simple projects require only two environments: **dev** and **prod**. You can list the environments with `taito env list`.
 
-You can use the taito commands to manage branches, builds, and deployments. Run `taito env -h`, `taito feat -h`, `taito hotfix -h`, and `taito deployment -h` for instructions. Run `taito open builds` to see the build logs. See [version control](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/03-version-control.md) chapter of the [Taito CLI tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md) for some additional information.
+You can use the taito commands to manage branches, builds, and deployments. Run `taito env -h`, `taito feat -h`, `taito hotfix -h`, and `taito deployment -h` for instructions. Run `taito open builds` to see the build logs. See [version control](https://taitounited.github.io/taito-cli/tutorial/03-version-control) chapter of the [Taito CLI tutorial](https://taitounited.github.io/taito-cli/tutorial) for some additional information.
 
 > Automatic deployment might be turned off for critical environments (`ci_exec_deploy` setting in `taito-config.sh`). In such case the deployment must be run manually with the `taito -a deployment deploy:prod VERSION` command using a personal admin account after the CI/CD process has ended successfully.
 

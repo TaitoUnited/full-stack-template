@@ -85,4 +85,4 @@ Instructions defined in [CONFIGURATION.md](CONFIGURATION.md) apply. You just nee
 
 ### Setting up CI/CD
 
-You can easily implement CI/CD steps without Taito CLI. See [continuous integration and delivery](https://github.com/TaitoUnited/taito-cli/blob/master/docs/manual/06-continuous-integration-and-delivery.md) chapter of Taito CLI manual for instructions.
+You can easily implement CI/CD steps without Taito CLI. See [continuous integration and delivery](https://taitounited.github.io/taito-cli/docs/06-continuous-integration-and-delivery) chapter of Taito CLI manual for instructions.

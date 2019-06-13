@@ -114,8 +114,8 @@ Only non-trivial processes need to be described here (e.g. scheduled batch proce
 
 ## Security
 
-> Add security details either here or in a separate document. See the [security](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/d-security.md) appendix of the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md).
+> Add security details either here or in a separate document. See the [security](https://taitounited.github.io/taito-cli/tutorial/d-security/) appendix of the [taito-cli tutorial](https://taitounited.github.io/taito-cli/tutorial).
 
 ## GDPR
 
-> Add GDPR details either here or in a separate document. See the [data protection and privacy](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/e-data-protection-and-privacy.md) appendix of the [taito-cli tutorial](https://github.com/TaitoUnited/taito-cli/blob/master/docs/tutorial/README.md).
+> Add GDPR details either here or in a separate document. See the [data protection and privacy](https://taitounited.github.io/taito-cli/tutorial/e-data-protection-and-privacy) appendix of the [taito-cli tutorial](https://taitounited.github.io/taito-cli/tutorial).
