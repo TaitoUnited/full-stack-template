@@ -42,7 +42,8 @@ rm -f scripts/terraform/.gitignore
 
 # 'TODO links' from taito-config.sh
 sed -i '/https:\/\/TODO/d' taito-config.sh
-sed -i "/# TEMPLATE-REMOVE/d" taito-config.sh
+sed -i "/# TEMPLATE-REMOVE/d" taito-config.sh taito-domain-config.sh \
+  taito-environments-config.sh taito-provider-config.sh taito-test-config.sh
 
 # Template MIT license
 # TODO leave a reference to the original?
