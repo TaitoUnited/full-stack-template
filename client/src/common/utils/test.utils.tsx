@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-testing-library';
+import { render } from '@testing-library/react';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { I18nProvider } from '@lingui/react';
 import { Catalogs } from '@lingui/core';
