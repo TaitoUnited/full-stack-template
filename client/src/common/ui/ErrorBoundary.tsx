@@ -75,7 +75,7 @@ export function withErrorBoundary<P extends Props>(
     render() {
       return (
         <ErrorBoundary>
-          <Comp {...this.props as P} />
+          <Comp {...(this.props as P)} />
         </ErrorBoundary>
       );
     }

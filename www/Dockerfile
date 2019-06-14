@@ -1,7 +1,7 @@
 # Builder, tester and runtime container for local development
 # NOTE: Use the same cypress version both in Dockerfile and package.json to
 #       avoid unnecessary cypress download
-FROM taitounited/cypress:3.2.0-node10
+FROM taitounited/cypress:3.3.1-node10
 ARG SERVICE_DIR=.
 RUN apt-get -y update && apt-get -y install rsync # rsync for windows devs
 ENV NODE_ENV development
