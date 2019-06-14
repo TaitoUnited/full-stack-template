@@ -22,8 +22,8 @@ const PostItem = ({ post }: Props) => (
 );
 
 const Wrapper = styled.div`
-  margin: ${props => props.theme.spacing.unit}px 0
-    ${props => props.theme.spacing.unit}px 0;
+  margin: ${props => props.theme.spacing(1)}px 0
+    ${props => props.theme.spacing(1)}px 0;
 `;
 
 export default PostItem;

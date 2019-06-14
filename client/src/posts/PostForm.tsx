@@ -57,7 +57,7 @@ const PostForm = ({ post, onChangePost, onCreatePost }: Props) => {
 const StyledForm = styled.form`
   && {
     max-width: 700px;
-    margin-bottom: ${props => props.theme.spacing.unit * 4}px;
+    margin-bottom: ${props => props.theme.spacing(4)}px;
   }
 `;
 
@@ -70,7 +70,7 @@ const Row = styled.div`
 
 const StyledTextField = styled(TextField)<any>`
   && {
-    margin-right: ${props => props.theme.spacing.unit * 2}px;
+    margin-right: ${props => props.theme.spacing(2)}px;
     flex: 1;
     @media (max-width: 420px) {
       width: 100%;
@@ -82,9 +82,9 @@ const StyledTextField = styled(TextField)<any>`
 
 const StyledButton = styled(Button)<any>`
   && {
-    margin: ${props => props.theme.spacing.unit}px;
+    margin: ${props => props.theme.spacing(1)}px;
     margin-left: 0;
-    margin-top: ${props => props.theme.spacing.unit * 3}px;
+    margin-top: ${props => props.theme.spacing(3)}px;
   }
 `;
 
