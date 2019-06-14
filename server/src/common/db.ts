@@ -1,4 +1,4 @@
-import pgpInit from "pg-promise";
+import pgpInit, { IDatabase } from "pg-promise";
 import config from "./config";
 
 const pgp = pgpInit({
@@ -14,6 +14,6 @@ const cn = {
   poolSize: config.DATABASE_POOL_MAX
 };
 
-const db = pgp(cn);
+const db: IDatabase<{}> = pgp(cn);
 
 export default db;
