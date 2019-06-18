@@ -39,6 +39,7 @@ full-stack:
       #   basicAuthEnabled:
       #   basicAuthHtpasswdSecret:
       #   clientMaxBodySize:
+      #   readTimeout:
       #   limitRate:
       #   limitRateAfter:
       #   rewriteTarget:
@@ -47,6 +48,7 @@ full-stack:
     basicAuthEnabled: ${taito_basic_auth_enabled}
     basicAuthHtpasswdSecret: ${taito_project}-${taito_env}-basic-auth
     clientMaxBodySize: 1m
+    readTimeout: 60
     limitRate:
     limitRateAfter:
     rewriteTarget:
