@@ -254,6 +254,13 @@ if [[ $template_default_provider != "custom" ]] && \
   rm -rf scripts/custom-provider
 fi
 
+if [[ $template_default_provider != "linux" ]] && \
+   [[ $template_default_provider_prod != "linux" ]] && \
+   [[ $template_default_provider != "custom" ]] && \
+   [[ $template_default_provider_prod != "custom" ]]; then
+  rm -rf docker-compose-remote.yaml
+fi
+
 ##############################
 # Initialize semantic-release
 ##############################
