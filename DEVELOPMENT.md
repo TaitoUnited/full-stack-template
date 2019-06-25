@@ -23,7 +23,7 @@ Table of contents:
 
 ## Quick start
 
-> TIP: Start application in a cleaned and initialized local environment with a single command: `taito kaboom`. This is essentially the same thing as running `taito env apply --clean`, `taito start --clean`, and `taito init`.
+> TIP: Start application in a cleaned and initialized local environment with a single command: `taito kaboom`. This is essentially the same thing as running `taito env apply --clean`, `taito start --clean`, and `taito init`. If the application fails to start, run `taito trouble` to see troubleshooting.
 
 Create local environment by installing some libraries and generating secrets (add `--clean` to recreate clean environment):
 
@@ -164,7 +164,7 @@ The commands mentioned above work also for server environments (`f-NAME`, `dev`,
     taito db diff:dev test                  # Show diff between dev and test schemas
     taito db copy between:test:dev          # Copy test database to dev
 
-Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to show command help (e.g `taito db -h`, `taito db import -h`). For troubleshooting run `taito --trouble`. See [README.md](README.md) for project specific conventions and documentation.
+Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to show command help (e.g `taito db -h`, `taito db import -h`). For troubleshooting run `taito trouble`. See [README.md](README.md) for project specific conventions and documentation.
 
 > If you run into authorization errors, authenticate with the `taito auth:ENV` command.
 

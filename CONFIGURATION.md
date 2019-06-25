@@ -11,7 +11,7 @@ This file has been copied from [SERVER-TEMPLATE](https://github.com/TaitoUnited/
 
 ## Local development environment
 
-Start your local development environment by running `taito kaboom`. Once the command starts to install libraries, you can leave it on the background while you continue with configuration. Once the application has started, open the web gui with `taito open client`. More information on local development you can find from [DEVELOPMENT.md](DEVELOPMENT.md).
+Start your local development environment by running `taito kaboom`. Once the command starts to install libraries, you can leave it on the background while you continue with configuration. Once the application has started, open the web gui with `taito open client`. If the application fails to start, run `taito trouble` to see troubleshooting. More information on local development you can find from [DEVELOPMENT.md](DEVELOPMENT.md).
 
 ## Basic settings
 
