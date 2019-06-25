@@ -8,7 +8,7 @@ Template for applications and APIs running on Kubernetes. The example implementa
 
 You can create a new project from this template by running `taito project create: server-template`. Later you can upgrade your project to the latest version of the template by running `taito project upgrade`. To ensure flawless upgrade, do not modify files that have a **do-not-modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files of the template instead, and then upgrade.
 
-You can also migrate an existing non-taito-cli project by running `taito project migrate: server-template` in your project root folder.
+You can also migrate an existing project that does not currently use Taito CLI by running `taito project migrate: server-template` in your project root folder.
 
 [//]: # (TEMPLATE NOTE END)
 # Project title
@@ -114,8 +114,8 @@ Only non-trivial processes need to be described here (e.g. scheduled batch proce
 
 ## Security
 
-> Add security details either here or in a separate document. See the [security](https://taitounited.github.io/taito-cli/tutorial/d-security/) appendix of the [taito-cli tutorial](https://taitounited.github.io/taito-cli/tutorial).
+> Add security details either here or in a separate document. See the [security](https://taitounited.github.io/taito-cli/tutorial/d-security/) appendix of the [Taito CLI tutorial](https://taitounited.github.io/taito-cli/tutorial).
 
 ## GDPR
 
-> Add GDPR details either here or in a separate document. See the [data protection and privacy](https://taitounited.github.io/taito-cli/tutorial/e-data-protection-and-privacy) appendix of the [taito-cli tutorial](https://taitounited.github.io/taito-cli/tutorial).
+> Add GDPR details either here or in a separate document. See the [data protection and privacy](https://taitounited.github.io/taito-cli/tutorial/e-data-protection-and-privacy) appendix of the [Taito CLI tutorial](https://taitounited.github.io/taito-cli/tutorial).
