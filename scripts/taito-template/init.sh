@@ -29,13 +29,12 @@ function prune () {
   local path=$3
   local path2=$4
 
+  echo
   read -r -t 1 -n 1000 || :
   read -p "$message" -n 1 -r confirm
   if ( [[ "$message" == *"[y/N]"* ]] && ! [[ "${confirm}" =~ ^[Yy]$ ]] ) || \
      ( [[ "$message" == *"[Y/n]"* ]] && ! [[ "${confirm}" =~ ^[Yy]*$ ]] ); then
-    echo
-    echo "Removing ${name}..."
-    echo
+    echo "  Removing ${name}..."
     if [[ $path ]]; then
       sed -i "/^        location $path {\$/,/^        }$/d" docker-nginx.conf
     fi
@@ -143,6 +142,7 @@ function prune () {
     rm -rf "$name"
   else
     if [[ $name == "kafka" ]]; then
+      echo
       read -r -t 1 -n 1000 || :
       read -p "Use external Kafka cluster? [Y/n] " -n 1 -r confirm
       if [[ ${confirm} =~ ^[Yy]*$ ]]; then
