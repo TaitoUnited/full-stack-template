@@ -1,4 +1,4 @@
--- Verify server-template:updated_at_trigger on pg
+-- Verify full-stack-template:updated_at_trigger on pg
 
 BEGIN;
 

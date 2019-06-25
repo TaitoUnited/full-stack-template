@@ -27,8 +27,8 @@ taito_plugins="
 # Project labeling
 taito_organization=${template_default_organization:?}
 taito_organization_abbr=${template_default_organization_abbr:?}
-taito_project=server-template
-taito_random_name=server-template
+taito_project=full-stack-template
+taito_random_name=full-stack-template
 taito_company=companyname
 taito_family=
 taito_application=template
@@ -139,7 +139,7 @@ ci_test_base_url="http://NOT-CONFIGURED-FOR-$taito_env"
 # ------ Plugin and provider specific settings ------
 
 # Template plugin
-template_name=SERVER-TEMPLATE
+template_name=FULL-STACK-TEMPLATE
 template_source_git=git@github.com:TaitoUnited
 
 # Kubernetes plugin
@@ -238,7 +238,7 @@ case $taito_env in
     ;;
   local)
     ci_exec_test_init=false   # run 'init --clean' before each test suite
-    ci_test_base_url=http://server-template-ingress:80
+    ci_test_base_url=http://full-stack-template-ingress:80
     taito_app_url=http://localhost:9999
     db_database_external_port=6000
     db_database_host=$taito_project-database

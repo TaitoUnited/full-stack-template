@@ -3,7 +3,7 @@ ARG SERVICE_DIR=.
 ARG BUILD_VERSION
 LABEL version=${BUILD_VERSION} \
       company=companyname \
-      project=server-template \
+      project=full-stack-template \
       role=webhook
 RUN apt-get -y update && \
     apt-get -y install git webhook

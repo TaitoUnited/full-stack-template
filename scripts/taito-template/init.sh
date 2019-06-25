@@ -43,13 +43,13 @@ function prune () {
       sed -i "/^        location $path2 {\$/,/^        }$/d" docker-nginx.conf
     fi
 
-    sed -i "/^  server-template-$name:\$/,/^$/d" docker-compose.yaml
-    sed -i "/^  server-template-$name:\$/,/^$/d" docker-compose-remote.yaml
-    sed -i "/^  # server-template-$name:\$/,/^$/d" docker-compose.yaml
-    sed -i "/^  # server-template-$name:\$/,/^$/d" docker-compose-remote.yaml
+    sed -i "/^  full-stack-template-$name:\$/,/^$/d" docker-compose.yaml
+    sed -i "/^  full-stack-template-$name:\$/,/^$/d" docker-compose-remote.yaml
+    sed -i "/^  # full-stack-template-$name:\$/,/^$/d" docker-compose.yaml
+    sed -i "/^  # full-stack-template-$name:\$/,/^$/d" docker-compose-remote.yaml
     if [[ -f docker-compose-test.yaml ]]; then
-      sed -i "/^  server-template-$name-test:\$/,/^$/d" docker-compose-test.yaml
-      sed -i "/^  # server-template-$name-test:\$/,/^$/d" docker-compose-test.yaml
+      sed -i "/^  full-stack-template-$name-test:\$/,/^$/d" docker-compose-test.yaml
+      sed -i "/^  # full-stack-template-$name-test:\$/,/^$/d" docker-compose-test.yaml
     fi
     sed -i "/^    $name:\$/,/^$/d" ./scripts/helm.yaml
 
@@ -95,10 +95,10 @@ function prune () {
 
       # Remove also Zookeeper
       sed -i "s/ zookeeper / /" taito-config.sh
-      sed -i "/^  server-template-zookeeper:\$/,/^$/d" docker-compose.yaml
-      sed -i "/^  server-template-zookeeper:\$/,/^$/d" docker-compose-remote.yaml
-      sed -i "/^  # server-template-zookeeper:\$/,/^$/d" docker-compose.yaml
-      sed -i "/^  # server-template-zookeeper:\$/,/^$/d" docker-compose-remote.yaml
+      sed -i "/^  full-stack-template-zookeeper:\$/,/^$/d" docker-compose.yaml
+      sed -i "/^  full-stack-template-zookeeper:\$/,/^$/d" docker-compose-remote.yaml
+      sed -i "/^  # full-stack-template-zookeeper:\$/,/^$/d" docker-compose.yaml
+      sed -i "/^  # full-stack-template-zookeeper:\$/,/^$/d" docker-compose-remote.yaml
       sed -i "/^    zookeeper:\$/,/^$/d" ./scripts/helm.yaml
     fi
 
@@ -146,10 +146,10 @@ function prune () {
         sed -i "/^    $name:\$/,/^$/d" ./scripts/helm.yaml
         sed -i "/^    zookeeper:\$/,/^$/d" ./scripts/helm.yaml
 
-        sed -i "/^  server-template-kafka:\$/,/^$/d" docker-compose-remote.yaml
-        sed -i "/^  # server-template-kafka:\$/,/^$/d" docker-compose-remote.yaml
-        sed -i "/^  server-template-zookeeper:\$/,/^$/d" docker-compose-remote.yaml
-        sed -i "/^  # server-template-zookeeper:\$/,/^$/d" docker-compose-remote.yaml
+        sed -i "/^  full-stack-template-kafka:\$/,/^$/d" docker-compose-remote.yaml
+        sed -i "/^  # full-stack-template-kafka:\$/,/^$/d" docker-compose-remote.yaml
+        sed -i "/^  full-stack-template-zookeeper:\$/,/^$/d" docker-compose-remote.yaml
+        sed -i "/^  # full-stack-template-zookeeper:\$/,/^$/d" docker-compose-remote.yaml
       fi
     fi
   fi
@@ -178,11 +178,11 @@ echo "Replacing project and company names in files. Please wait..."
 find . -type f -exec sed -i \
   -e "s/server_template/${taito_vc_repository_alt}/g" 2> /dev/null {} \;
 find . -type f -exec sed -i \
-  -e "s/server-template/${taito_vc_repository}/g" 2> /dev/null {} \;
+  -e "s/full-stack-template/${taito_vc_repository}/g" 2> /dev/null {} \;
 find . -type f -exec sed -i \
   -e "s/companyname/${taito_company}/g" 2> /dev/null {} \;
 find . -type f -exec sed -i \
-  -e "s/SERVER-TEMPLATE/server-template/g" 2> /dev/null {} \;
+  -e "s/FULL-STACK-TEMPLATE/full-stack-template/g" 2> /dev/null {} \;
 
 echo "Generating unique random ports (avoid conflicts with other projects)..."
 ingress_port=$(shuf -i 8000-9999 -n 1)

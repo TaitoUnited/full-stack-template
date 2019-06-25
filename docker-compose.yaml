@@ -4,8 +4,8 @@
 
 version: '3.5'
 services:
-  server-template-ingress:
-    container_name: server-template-ingress
+  full-stack-template-ingress:
+    container_name: full-stack-template-ingress
     image: nginx:1.15-alpine
     restart: unless-stopped
     networks:
@@ -15,8 +15,8 @@ services:
     volumes:
       - "./docker-nginx.conf:/etc/nginx/nginx.conf:delegated"
 
-  server-template-admin:
-    container_name: server-template-admin
+  full-stack-template-admin:
+    container_name: full-stack-template-admin
     build:
       context: ./admin
       dockerfile: ${dockerfile}
@@ -33,14 +33,14 @@ services:
       DC_COMMAND: ${DC_COMMAND}
       HOST_UNAME: ${taito_host_uname}
       COMMON_COMPANY: companyname
-      COMMON_PROJECT: server-template
+      COMMON_PROJECT: full-stack-template
       COMMON_PUBLIC_PORT: 9999
       NODE_ENV: development
       API_ROOT: ''
       API_URL: /api
 
-  server-template-client:
-    container_name: server-template-client
+  full-stack-template-client:
+    container_name: full-stack-template-client
     build:
       context: ./client
       dockerfile: ${dockerfile}
@@ -61,18 +61,18 @@ services:
       DC_COMMAND: ${DC_COMMAND}
       HOST_UNAME: ${taito_host_uname}
       COMMON_COMPANY: companyname
-      COMMON_PROJECT: server-template
+      COMMON_PROJECT: full-stack-template
       COMMON_PUBLIC_PORT: 9999
       NODE_ENV: development
       API_ROOT: ''
       API_URL: /api
       # NOTE: Database connection is for tests only
-      DATABASE_HOST: server-template-database
+      DATABASE_HOST: full-stack-template-database
       DATABASE_NAME: ${db_database_name}
       DATABASE_USER: ${db_database_app_username}
 
-  server-template-graphql:
-    container_name: server-template-graphql
+  full-stack-template-graphql:
+    container_name: full-stack-template-graphql
     build:
       context: ./graphql
       dockerfile: ${dockerfile}
@@ -88,7 +88,7 @@ services:
     environment:
       DC_COMMAND: ${DC_COMMAND}
       COMMON_COMPANY: companyname
-      COMMON_PROJECT: server-template
+      COMMON_PROJECT: full-stack-template
       COMMON_PUBLIC_PORT: 9999
       COMMON_DOMAIN: localhost
       COMMON_URL: http://localhost:9999
@@ -99,11 +99,11 @@ services:
       DEBUG: 'false'
       GRAPHQL_PORT: 8080
       GRAPHQL_BINDADDR: 0.0.0.0
-      API_HOST: server-template-server
+      API_HOST: full-stack-template-server
       API_PORT: 8080
 
-  server-template-server:
-    container_name: server-template-server
+  full-stack-template-server:
+    container_name: full-stack-template-server
     build:
       context: ./server
       dockerfile: ${dockerfile}
@@ -124,7 +124,7 @@ services:
       DC_COMMAND: ${DC_COMMAND}
       HOST_UNAME: ${taito_host_uname}
       COMMON_COMPANY: companyname
-      COMMON_PROJECT: server-template
+      COMMON_PROJECT: full-stack-template
       COMMON_PUBLIC_PORT: 9999
       COMMON_DEBUG: 'false'
       COMMON_LOG_FORMAT: text
@@ -134,20 +134,20 @@ services:
       SENTRY_DSN: #sentryDSN
       API_PORT: 8080
       API_BINDADDR: 0.0.0.0
-      KAFKA_HOST: server-template-kafka
+      KAFKA_HOST: full-stack-template-kafka
       KAFKA_PORT: 9092
-      DATABASE_HOST: server-template-database
+      DATABASE_HOST: full-stack-template-database
       DATABASE_NAME: ${db_database_name}
       DATABASE_USER: ${db_database_app_username}
       DATABASE_POOL_MIN: '1'
       DATABASE_POOL_MAX: '10'
-      S3_URL: http://server-template-storage:9000/
+      S3_URL: http://full-stack-template-storage:9000/
       S3_REGION: milkyway
       S3_BUCKET: bucket
       S3_KEY_ID: minio
 
-  server-template-www:
-    container_name: server-template-www
+  full-stack-template-www:
+    container_name: full-stack-template-www
     build:
       context: ./www
       dockerfile: ${dockerfile}
@@ -167,8 +167,8 @@ services:
       DC_COMMAND: ${DC_COMMAND}
       COMMON_PUBLIC_PORT: 9999
 
-  server-template-cache:
-    container_name: server-template-cache
+  full-stack-template-cache:
+    container_name: full-stack-template-cache
     image: redis:5.0-alpine
     restart: unless-stopped
     networks:
@@ -176,17 +176,17 @@ services:
     ports:
       - "6379"
 
-  server-template-kafka:
-    container_name: server-template-kafka
+  full-stack-template-kafka:
+    container_name: full-stack-template-kafka
     image: 'bitnami/kafka:latest'
     ports:
       - '9092'
     environment:
-      - KAFKA_ZOOKEEPER_CONNECT=server-template-zookeeper:2181
+      - KAFKA_ZOOKEEPER_CONNECT=full-stack-template-zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
 
-  server-template-zookeeper:
-    container_name: server-template-zookeeper
+  full-stack-template-zookeeper:
+    container_name: full-stack-template-zookeeper
     image: 'bitnami/zookeeper:latest'
     ports:
       - '2181'
@@ -195,8 +195,8 @@ services:
 
   # "EXTERNAL RESOURCES"
 
-  server-template-database:
-    container_name: server-template-database
+  full-stack-template-database:
+    container_name: full-stack-template-database
     image: postgres:9.6
     restart: unless-stopped
     networks:
@@ -212,8 +212,8 @@ services:
     volumes:
       - "./database:/docker-entrypoint-initdb.d:delegated"
 
-  server-template-storage:
-    container_name: server-template-storage
+  full-stack-template-storage:
+    container_name: full-stack-template-storage
     build:
       context: ./storage
       dockerfile: ${dockerfile}

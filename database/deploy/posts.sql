@@ -1,4 +1,4 @@
--- Deploy server-template:posts to pg
+-- Deploy full-stack-template:posts to pg
 
 BEGIN;
 

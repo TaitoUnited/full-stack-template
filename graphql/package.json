@@ -1,5 +1,5 @@
 {
-  "name": "server-template-server",
+  "name": "full-stack-template-server",
   "main": "index.js",
   "scripts": {
     "pretty-quick": "pretty-quick",

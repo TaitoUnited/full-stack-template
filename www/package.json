@@ -1,5 +1,5 @@
 {
-  "name": "server-template-www",
+  "name": "full-stack-template-www",
   "scripts": {
     "install-site": "if [ -f ./site/package.json ]; then cd site && npm install; fi",
     "lint": "echo Linting disabled",

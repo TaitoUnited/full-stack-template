@@ -4,9 +4,9 @@
 
 version: '3.5'
 services:
-  server-template-admin-test:
-    container_name: server-template-admin-test
-    image: server-template-admin-test:latest
+  full-stack-template-admin-test:
+    container_name: full-stack-template-admin-test
+    image: full-stack-template-admin-test:latest
     restart: unless-stopped
     volumes:
       - "./admin:/service:delegated"
@@ -15,15 +15,15 @@ services:
     networks:
       - test
     depends_on:
-      - server-template-database-test-proxy
+      - full-stack-template-database-test-proxy
     secrets:
       - DATABASE_PASSWORD
     environment:
       taito_running_tests: "true"
 
-  server-template-client-test:
-    container_name: server-template-client-test
-    image: server-template-client-test:latest
+  full-stack-template-client-test:
+    container_name: full-stack-template-client-test
+    image: full-stack-template-client-test:latest
     restart: unless-stopped
     volumes:
       - "./client:/service:delegated"
@@ -32,15 +32,15 @@ services:
     networks:
       - test
     depends_on:
-      - server-template-database-test-proxy
+      - full-stack-template-database-test-proxy
     secrets:
       - DATABASE_PASSWORD
     environment:
       taito_running_tests: "true"
 
-  server-template-graphql-test:
-    container_name: server-template-graphql-test
-    image: server-template-graphql-test:latest
+  full-stack-template-graphql-test:
+    container_name: full-stack-template-graphql-test
+    image: full-stack-template-graphql-test:latest
     restart: unless-stopped
     volumes:
       - "./graphql:/service:delegated"
@@ -49,15 +49,15 @@ services:
     networks:
       - test
     depends_on:
-      - server-template-database-test-proxy
+      - full-stack-template-database-test-proxy
     secrets:
       - DATABASE_PASSWORD
     environment:
       taito_running_tests: "true"
 
-  server-template-server-test:
-    container_name: server-template-server-test
-    image: server-template-server-test:latest
+  full-stack-template-server-test:
+    container_name: full-stack-template-server-test
+    image: full-stack-template-server-test:latest
     restart: unless-stopped
     volumes:
       - "./server:/service:delegated"
@@ -66,15 +66,15 @@ services:
     networks:
       - test
     depends_on:
-      - server-template-database-test-proxy
+      - full-stack-template-database-test-proxy
     secrets:
       - DATABASE_PASSWORD
     environment:
       taito_running_tests: "true"
 
   # Taito CLI container serves as a database proxy
-  server-template-database-test-proxy:
-    container_name: server-template-database-test-proxy
+  full-stack-template-database-test-proxy:
+    container_name: full-stack-template-database-test-proxy
     image: ${taito_image:-taitounited/taito-cli:latest}
     restart: unless-stopped
     entrypoint: /bin/sh -c "cd /project && taito db proxy:${taito_env} 5432"

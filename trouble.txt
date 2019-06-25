@@ -1,1 +1,1 @@
-server-template TROUBLESHOOTING
+full-stack-template TROUBLESHOOTING

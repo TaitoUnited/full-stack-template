@@ -1,5 +1,5 @@
 {
-  "name": "server-template",
+  "name": "full-stack-template",
   "scripts": {
     "install-ci": "echo '# No additional dependencies need to be installed in ci mode'",
     "install-dev": "echo '# Installing all libraries on host for code editor support. TODO how to minimize as --only=dev affects devDepencies also?' && npm run install-all",
@@ -149,7 +149,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TaitoUnited/server-template.git"
+    "url": "git+https://github.com/TaitoUnited/full-stack-template.git"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.0.0",

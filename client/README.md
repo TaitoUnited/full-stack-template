@@ -1,4 +1,4 @@
-# server-template | client
+# full-stack-template | client
 
 ## Internationalization
 

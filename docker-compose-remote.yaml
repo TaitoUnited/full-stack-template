@@ -4,8 +4,8 @@
 
 version: '3.5'
 services:
-  server-template-ingress:
-    container_name: server-template-ingress
+  full-stack-template-ingress:
+    container_name: full-stack-template-ingress
     image: nginx:1.15-alpine
     restart: unless-stopped
     networks:
@@ -21,9 +21,9 @@ services:
     volumes:
       - "./docker-nginx.conf:/etc/nginx/nginx.conf:delegated"
 
-  server-template-admin:
-    container_name: server-template-admin
-    image: local/server-template/admin:_IMAGE_TAG_
+  full-stack-template-admin:
+    container_name: full-stack-template-admin
+    image: local/full-stack-template/admin:_IMAGE_TAG_
     restart: unless-stopped
     networks:
       - default
@@ -31,11 +31,11 @@ services:
       - "8080"
     environment:
       COMMON_COMPANY: companyname
-      COMMON_PROJECT: server-template
+      COMMON_PROJECT: full-stack-template
 
-  server-template-client:
-    container_name: server-template-client
-    image: local/server-template/client:_IMAGE_TAG_
+  full-stack-template-client:
+    container_name: full-stack-template-client
+    image: local/full-stack-template/client:_IMAGE_TAG_
     restart: unless-stopped
     networks:
       - default
@@ -47,11 +47,11 @@ services:
       - EXAMPLE_SECRET
     environment:
       COMMON_COMPANY: companyname
-      COMMON_PROJECT: server-template
+      COMMON_PROJECT: full-stack-template
 
-  server-template-graphql:
-    container_name: server-template-graphql
-    image: local/server-template/graphql:_IMAGE_TAG_
+  full-stack-template-graphql:
+    container_name: full-stack-template-graphql
+    image: local/full-stack-template/graphql:_IMAGE_TAG_
     restart: unless-stopped
     networks:
       - default
@@ -59,7 +59,7 @@ services:
       - "8080"
     environment:
       COMMON_COMPANY: companyname
-      COMMON_PROJECT: server-template
+      COMMON_PROJECT: full-stack-template
       COMMON_DOMAIN: localhost
       COMMON_URL: http://localhost:_PORT_
       COMMON_DEBUG: 'false'
@@ -69,12 +69,12 @@ services:
       DEBUG: 'false'
       GRAPHQL_PORT: 8080
       GRAPHQL_BINDADDR: 0.0.0.0
-      API_HOST: server-template-server
+      API_HOST: full-stack-template-server
       API_PORT: 8080
 
-  server-template-server:
-    container_name: server-template-server
-    image: local/server-template/server:_IMAGE_TAG_
+  full-stack-template-server:
+    container_name: full-stack-template-server
+    image: local/full-stack-template/server:_IMAGE_TAG_
     restart: unless-stopped
     networks:
       - default
@@ -86,7 +86,7 @@ services:
       - EXAMPLE_SECRET
     environment:
       COMMON_COMPANY: companyname
-      COMMON_PROJECT: server-template
+      COMMON_PROJECT: full-stack-template
       COMMON_DEBUG: 'false'
       COMMON_LOG_FORMAT: text
       COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
@@ -95,29 +95,29 @@ services:
       SENTRY_DSN: #sentryDSN
       API_PORT: 8080
       API_BINDADDR: 0.0.0.0
-      KAFKA_HOST: server-template-kafka
+      KAFKA_HOST: full-stack-template-kafka
       KAFKA_PORT: 9092
-      DATABASE_HOST: 172.17.0.1  # For docker db: server-template-database
+      DATABASE_HOST: 172.17.0.1  # For docker db: full-stack-template-database
       DATABASE_NAME: ${db_database_name}
       DATABASE_USER: ${db_database_app_username}
       DATABASE_POOL_MIN: '1'
       DATABASE_POOL_MAX: '10'
-      S3_URL: http://server-template-storage:9000/
+      S3_URL: http://full-stack-template-storage:9000/
       S3_REGION: milkyway
       S3_BUCKET: bucket
       S3_KEY_ID: minio
 
-  server-template-www:
-    container_name: server-template-www
-    image: local/server-template/www:_IMAGE_TAG_
+  full-stack-template-www:
+    container_name: full-stack-template-www
+    image: local/full-stack-template/www:_IMAGE_TAG_
     restart: unless-stopped
     networks:
       - default
     ports:
       - "8080"
 
-  server-template-cache:
-    container_name: server-template-cache
+  full-stack-template-cache:
+    container_name: full-stack-template-cache
     image: redis:5.0-alpine
     restart: unless-stopped
     networks:
@@ -128,26 +128,26 @@ services:
   # "EXTERNAL RESOURCES"
   # Uncomment these if you want to run them in Docker Compose instead
 
-  server-template-kafka:
-    container_name: server-template-kafka
+  full-stack-template-kafka:
+    container_name: full-stack-template-kafka
     image: 'bitnami/kafka:latest'
     ports:
       - '9092'
     environment:
-      - KAFKA_ZOOKEEPER_CONNECT=server-template-zookeeper:2181
+      - KAFKA_ZOOKEEPER_CONNECT=full-stack-template-zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
 
-  server-template-zookeeper:
-    container_name: server-template-zookeeper
+  full-stack-template-zookeeper:
+    container_name: full-stack-template-zookeeper
     image: 'bitnami/zookeeper:latest'
     ports:
       - '2181'
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
 
-  # NOTE: If you use server-template-database instead of external database,
+  # NOTE: If you use full-stack-template-database instead of external database,
   # do the following:
-  # - Uncomment the server-template-database in this file.
+  # - Uncomment the full-stack-template-database in this file.
   # - Modify the following settings in taito-config.sh:
   #     db_database_mgr_username="$db_database_app_username"
   #     db_database_mgr_secret="$db_database_app_secret"
@@ -155,8 +155,8 @@ services:
   #   'deployment-deploy' step, since database must be running during db deploy.
   # - Answer 'no' to the database creation step during 'taito env apply:ENV'.
 
-  # server-template-database:
-  #   container_name: server-template-database
+  # full-stack-template-database:
+  #   container_name: full-stack-template-database
   #   image: postgres:9.6
   #   restart: unless-stopped
   #   networks:

@@ -13,7 +13,7 @@ timeout: 3000s
 # logsBucket: 'gs://my-builds' # TODO _TEMPLATE_DEFAULT for this also
 
 substitutions:
-  _REPO_NAME: server-template
+  _REPO_NAME: full-stack-template
   _IMAGE_REGISTRY: eu.gcr.io/$PROJECT_ID
   # NOTE: These are removed by 'taito project create'
   _TEMPLATE_DEFAULT_TAITO_IMAGE:

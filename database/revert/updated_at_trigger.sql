@@ -1,4 +1,4 @@
--- Revert server-template:updated_at_trigger from pg
+-- Revert full-stack-template:updated_at_trigger from pg
 
 BEGIN;
 

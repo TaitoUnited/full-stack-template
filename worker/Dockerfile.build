@@ -21,7 +21,7 @@ FROM node:10-alpine
 ARG BUILD_VERSION
 LABEL version=${BUILD_VERSION} \
       company=companyname \
-      project=server-template \
+      project=full-stack-template \
       role=client
 ENV BUILD_VERSION ${BUILD_VERSION}
 ENV NODE_ENV production

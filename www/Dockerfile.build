@@ -31,7 +31,7 @@ FROM nginx:1.15-alpine
 ARG BUILD_VERSION
 LABEL version=${BUILD_VERSION} \
       company=companyname \
-      project=server-template \
+      project=full-stack-template \
       role=www
 WORKDIR /service
 RUN chown -R nginx:nginx /var/cache/nginx && \

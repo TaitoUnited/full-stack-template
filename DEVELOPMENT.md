@@ -1,6 +1,6 @@
 # Development
 
-This file has been copied from [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/). Keep modifications minimal and improve the [original](https://github.com/TaitoUnited/SERVER-TEMPLATE/blob/dev/DEVELOPMENT.md) instead. Project specific conventions are located in [README.md](README.md#conventions). See the [Taito CLI tutorial](https://taitounited.github.io/taito-cli/tutorial) for more thorough development instructions. Note that Taito CLI is optional (see [TAITOLESS.md](TAITOLESS.md)).
+This file has been copied from [FULL-STACK-TEMPLATE](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/). Keep modifications minimal and improve the [original](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/blob/dev/DEVELOPMENT.md) instead. Project specific conventions are located in [README.md](README.md#conventions). See the [Taito CLI tutorial](https://taitounited.github.io/taito-cli/tutorial) for more thorough development instructions. Note that Taito CLI is optional (see [TAITOLESS.md](TAITOLESS.md)).
 
 Table of contents:
 
@@ -185,7 +185,7 @@ Docker volume mounts can be slow on non-Linux systems. The template uses *delega
 To get maximum performace on non-Linux system, you may also choose to run some services locally, if you have all the necessary dependencies installed on your host system. For example, to run the client locally, you can add the following lines to your `taito-user-config.sh`, Taito CLI will modify docker-compose.yaml and docker-nginx.conf accordingly on `taito start`:
 
    ```
-   docker_compose_local_services="server-template-client:8080"
+   docker_compose_local_services="full-stack-template-client:8080"
    ```
 
 Note that in addition to running `taito start`, you also need to start the local client manually with the necessary environment variables set, for example:

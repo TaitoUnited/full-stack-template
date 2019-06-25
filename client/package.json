@@ -1,5 +1,5 @@
 {
-  "name": "server-template-client",
+  "name": "full-stack-template-client",
   "main": "src/index.js",
   "scripts": {
     "install:clean": "rm -rf node_modules && npm install",

@@ -1,5 +1,5 @@
 {
-  "name": "server-template-server",
+  "name": "full-stack-template-server",
   "private": true,
   "scripts": {
     "unit": "sh -c 'test_name=$(printf '%s' \"$0\" | sed -e 's/^sh$//g') && mocha -r ts-node/register --recursive \"**/${test_name:-*}.unit.ts\"'",

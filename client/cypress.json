@@ -1,5 +1,5 @@
 {
-  "baseUrl": "https://server-template-dev.mydomain.com",
+  "baseUrl": "https://full-stack-template-dev.mydomain.com",
   "fixturesFolder": "test/fixtures",
   "integrationFolder": "test/integration",
   "pluginsFile": "test/plugins/index.js",

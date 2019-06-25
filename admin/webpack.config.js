@@ -53,7 +53,7 @@ module.exports = function(env, argv) {
       !analyzeBundle && new ForkTsCheckerWebpackPlugin(),
 
       new HtmlWebpackPlugin({
-        title: 'server-template',
+        title: 'full-stack-template',
         version: process.env.BUILD_VERSION,
         imageTag: process.env.BUILD_IMAGE_TAG,
         template: 'index.html.template',
@@ -70,7 +70,7 @@ module.exports = function(env, argv) {
         cache: true, // Make builds faster
         prefix: 'assets/', // Where to put pwa icons, manifests, etc.
         favicons: {
-          appName: 'server-template-admin',
+          appName: 'full-stack-template-admin',
           appShortName: 'Taito Admin',
           appDescription: 'Taito admin template app',
           developerName: 'Taito United',

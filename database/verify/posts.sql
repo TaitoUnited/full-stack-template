@@ -1,4 +1,4 @@
--- Verify server-template:posts on pg
+-- Verify full-stack-template:posts on pg
 
 BEGIN;
 

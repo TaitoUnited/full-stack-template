@@ -1,5 +1,5 @@
 #!/bin/bash -e
-# Common logic for server-template, website-template, and wordpress-template
+# Common logic for full-stack-template, website-template, and wordpress-template
 
 : "${taito_organization:?}"
 : "${taito_company:?}"

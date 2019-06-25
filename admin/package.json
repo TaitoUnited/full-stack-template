@@ -1,5 +1,5 @@
 {
-  "name": "server-template-admin",
+  "name": "full-stack-template-admin",
   "main": "index.js",
   "scripts": {
     "install:clean": "rm -rf node_modules && npm install",

@@ -1,4 +1,4 @@
--- Deploy server-template:updated_at_trigger to pg
+-- Deploy full-stack-template:updated_at_trigger to pg
 
 BEGIN;
 

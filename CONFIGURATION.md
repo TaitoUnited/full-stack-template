@@ -1,6 +1,6 @@
 # Configuration
 
-This file has been copied from [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/). Keep modifications minimal and improve the [original](https://github.com/TaitoUnited/SERVER-TEMPLATE/blob/dev/CONFIGURATION.md) instead. Note that Taito CLI is optional (see [TAITOLESS.md](TAITOLESS.md)).
+This file has been copied from [FULL-STACK-TEMPLATE](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/). Keep modifications minimal and improve the [original](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/blob/dev/CONFIGURATION.md) instead. Note that Taito CLI is optional (see [TAITOLESS.md](TAITOLESS.md)).
 
 ## Prerequisites
 
@@ -83,7 +83,7 @@ Operations on production and staging environments usually require admin rights. 
 
 **Additional microservices:** You can use either monorepo or multirepo approach with this template. If you are going for multirepo, just create a separate project for each microservice. If you want some of them to share the same namespace, define common `taito_namespace` in taito-config.sh. If you are going for monorepo, or something in between multirepo and monorepo approaches, you can add a new microservice to a repository like this:
 
-  1. Create a new directory for your service. Look [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) and [alternatives](https://github.com/TaitoUnited/SERVER-TEMPLATE/tree/master/alternatives) for examples.
+  1. Create a new directory for your service. Look [FULL-STACK-TEMPLATE](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/) and [alternatives](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/tree/master/alternatives) for examples.
   2. Add the service to `taito_targets` variable in `taito-config.sh`
   3. Add the service to `docker-compose*.yaml` files and check that it works ok in local development environment.
   4. Add the service to `scripts/helm.yaml`.
@@ -100,7 +100,7 @@ Operations on production and staging environments usually require admin rights. 
 
 **Static site generator (www):** See [www/README.md](www/README.md) for configuration instructions. You can use static site generator e.g. for user guides or API documentation.
 
-**Custom provider:** If you cannot use Docker containers on your remote environments, you can customize the deployment with a custom provider. Instead of deploying the application as docker container images, you can, for example, deploy the application as WAR or EAR packages on a Java application server, or install everything directly on the remote host. You can enable the custom provider by setting `taito_provider=custom` in `taito-config.sh` and by implementing [custom deployment scripts](https://github.com/TaitoUnited/SERVER-TEMPLATE/blob/master/scripts/custom-provider) yourself.
+**Custom provider:** If you cannot use Docker containers on your remote environments, you can customize the deployment with a custom provider. Instead of deploying the application as docker container images, you can, for example, deploy the application as WAR or EAR packages on a Java application server, or install everything directly on the remote host. You can enable the custom provider by setting `taito_provider=custom` in `taito-config.sh` and by implementing [custom deployment scripts](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/blob/master/scripts/custom-provider) yourself.
 
 ## Kubernetes
 
@@ -108,7 +108,7 @@ The `scripts/heml.yaml` file contains default Kubernetes settings for all enviro
 
 You can deploy configuration changes without rebuilding with the `taito deployment deploy:ENV` command.
 
-> Do not modify the helm template located in `./scripts/helm` directory. Improve the original helm template located in [SERVER-TEMPLATE](https://github.com/TaitoUnited/SERVER-TEMPLATE/) repository instead.
+> Do not modify the helm template located in `./scripts/helm` directory. Improve the original helm template located in [FULL-STACK-TEMPLATE](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/) repository instead.
 
 ## Secrets
 

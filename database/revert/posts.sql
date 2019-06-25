@@ -1,4 +1,4 @@
--- Revert server-template:posts from pg
+-- Revert full-stack-template:posts from pg
 
 BEGIN;
 
