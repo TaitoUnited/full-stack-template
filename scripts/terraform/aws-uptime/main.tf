@@ -2,12 +2,8 @@ provider "google" {
   project = var.taito_uptime_namespace_id
 }
 
-/*
-  NOTE: create stackdriver workspace manually:
-  https://github.com/terraform-providers/terraform-provider-google/issues/2605
- */
 module "common-gcp-uptime" {
-  source = "github.com/TaitoUnited/taito-terraform-modules//projects/gcp-uptime"
+  source = "github.com/TaitoUnited/taito-terraform-modules//projects/aws-uptime"
 
   taito_project             = var.taito_project
   taito_env                 = var.taito_env

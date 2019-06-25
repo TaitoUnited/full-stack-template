@@ -5,7 +5,7 @@ provider "google" {
 }
 
 module "common-gcp" {
-  source = "../common/gcp"
+  source = "github.com/TaitoUnited/taito-terraform-modules//projects/gcp"
 
   taito_project               = var.taito_project
   taito_env                   = var.taito_env
@@ -30,4 +30,3 @@ module "common-gcp" {
 
   gcp_service_account_enabled = var.gcp_service_account_enabled
 }
-

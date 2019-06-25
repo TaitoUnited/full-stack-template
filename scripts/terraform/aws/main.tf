@@ -5,7 +5,7 @@ provider "aws" {
 }
 
 module "common-aws" {
-  source = "../common/aws"
+  source = "github.com/TaitoUnited/taito-terraform-modules//projects/aws"
 
   taito_env                         = var.taito_env
   taito_domain                      = var.taito_domain
@@ -22,4 +22,3 @@ module "common-aws" {
   taito_storage_classes   = var.taito_storage_classes
   taito_storage_days      = var.taito_storage_days
 }
-
