@@ -4,9 +4,9 @@
 
 # server-template
 
-Template for applications and APIs running on Kubernetes. The example implementation is based on React, Node.js, Postgres and S3, but you can choose your own custom stack by selecting stack components from [alternatives](https://github.com/TaitoUnited/server-template/tree/master/alternatives). Support for [Knative](https://pivotal.io/knative), [Istio](https://istio.io/) and [Telepresence](https://www.telepresence.io/) will likely be added later, once they have matured enough.
+Template for cloud-native applications and APIs running on Kubernetes, Docker Compose, serverless (FaaS), or virtual machine. The template can be used both with public cloud and on-premise private cloud. The example implementation is based on React, Node.js, Postgres, and S3 compatible object storage, but you can choose the stack during project creation from multiple alternatives.
 
-You can create a new project from this template by running `taito project create: server-template`. Later you can upgrade your project to the latest version of the template by running `taito project upgrade`. To ensure flawless upgrade, do not modify files that have a **do-not-modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files of the template instead, and then upgrade.
+You can create a new project from this template by running `taito project create: server-template`. Later you can upgrade your project to the latest version of the template by running `taito project upgrade`. To ensure flawless upgrade, do not modify files that have a **do-not-modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files of the template instead, and then upgrade. See [Taito CLI](https://taitounited.github.io/taito-cli/) for more information.
 
 You can also migrate an existing project that does not currently use Taito CLI by running `taito project migrate: server-template` in your project root folder.
 
