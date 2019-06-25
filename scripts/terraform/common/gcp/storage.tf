@@ -4,19 +4,19 @@ resource "google_storage_bucket" "bucket" {
   location = "${element(var.taito_storage_locations, count.index)}"
   storage_class = "${element(var.taito_storage_classes, count.index)}"
 
-  labels {
+  labels = {
     project = "${var.taito_project}"
     env = "${var.taito_env}"
     purpose = "storage"
   }
 
   /* TODO: enable localhost only for dev and feat environments */
-  cors = {
+  cors {
     origin = [ "http://localhost", "https://${var.taito_domain}" ]
     method = [ "GET" ]
   }
 
-  versioning = {
+  versioning {
     enabled = "true"
   }
   lifecycle_rule {
@@ -42,5 +42,5 @@ resource "google_storage_bucket_iam_member" "bucket_service_account_member" {
   count = "${var.gcp_service_account_enabled == "true" ? length(var.taito_storages) : 0}"
   bucket = "${element(var.taito_storages, count.index)}"
   role          = "roles/storage.objectAdmin"
-  member        = "serviceAccount:${google_service_account.service_account.email}"
+  member        = "serviceAccount:${google_service_account.service_account[0].email}"
 }

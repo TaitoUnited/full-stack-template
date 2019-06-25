@@ -7,7 +7,7 @@ resource "google_storage_bucket" "backup_bucket" {
   location = "${element(var.taito_backup_locations, count.index)}"
   storage_class = "${element(var.taito_backup_days, count.index) >= 90 ? "COLDLINE" : "NEARLINE"}"
 
-  labels {
+  labels = {
     project = "${var.taito_project}"
     env = "${var.taito_env}"
     purpose = "backup"
@@ -15,7 +15,7 @@ resource "google_storage_bucket" "backup_bucket" {
 
   /* TODO: replace versioning with a retention policy and
      automatic delete after retention policy expiration */
-  versioning = {
+  versioning {
     enabled = "true"
   }
   lifecycle_rule {
