@@ -1,19 +1,19 @@
 resource "google_storage_bucket" "bucket" {
-  count = "${length(var.taito_storages)}"
-  name = "${element(var.taito_storages, count.index)}"
-  location = "${element(var.taito_storage_locations, count.index)}"
-  storage_class = "${element(var.taito_storage_classes, count.index)}"
+  count         = length(var.taito_storages)
+  name          = element(var.taito_storages, count.index)
+  location      = element(var.taito_storage_locations, count.index)
+  storage_class = element(var.taito_storage_classes, count.index)
 
   labels = {
-    project = "${var.taito_project}"
-    env = "${var.taito_env}"
+    project = var.taito_project
+    env     = var.taito_env
     purpose = "storage"
   }
 
   /* TODO: enable localhost only for dev and feat environments */
   cors {
-    origin = [ "http://localhost", "https://${var.taito_domain}" ]
-    method = [ "GET" ]
+    origin = ["http://localhost", "https://${var.taito_domain}"]
+    method = ["GET"]
   }
 
   versioning {
@@ -25,7 +25,7 @@ resource "google_storage_bucket" "bucket" {
     }
     condition {
       with_state = "ARCHIVED"
-      age = "${element(var.taito_storage_days, count.index)}"
+      age        = element(var.taito_storage_days, count.index)
     }
   }
 
@@ -36,11 +36,12 @@ resource "google_storage_bucket" "bucket" {
 
 resource "google_storage_bucket_iam_member" "bucket_service_account_member" {
   depends_on = [
-    "google_service_account.service_account",
-    "google_storage_bucket.bucket"
+    google_service_account.service_account,
+    google_storage_bucket.bucket,
   ]
-  count = "${var.gcp_service_account_enabled == "true" ? length(var.taito_storages) : 0}"
-  bucket = "${element(var.taito_storages, count.index)}"
-  role          = "roles/storage.objectAdmin"
-  member        = "serviceAccount:${google_service_account.service_account[0].email}"
+  count  = var.gcp_service_account_enabled == "true" ? length(var.taito_storages) : 0
+  bucket = element(var.taito_storages, count.index)
+  role   = "roles/storage.objectAdmin"
+  member = "serviceAccount:${google_service_account.service_account[0].email}"
 }
+

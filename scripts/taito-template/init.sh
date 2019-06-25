@@ -66,12 +66,6 @@ function prune () {
     sed -i "s/\"check-size:$name {@}\" //g" package.json
     sed -i "s/ && npm run clean:$name//g" package.json
 
-    # TODO: temporary solution. remove once using terraform v0.12
-    if [[ -f scripts/terraform/common/gcp-uptime/uptime.tf ]]; then
-      sed -i "/^    {\\/\\*$name\\*\\/\$/,/^    }.*$/d" \
-        scripts/terraform/common/gcp-uptime/uptime.tf
-    fi
-
     # Prune target from CI/CD scripts
     sed -i "/^action \"artifact:$name\"/,/^}$/d" .github/main.workflow
     # TODO PRUNE .gitlab-ci.yml

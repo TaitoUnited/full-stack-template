@@ -1,14 +1,15 @@
 resource "aws_s3_bucket" "bucket" {
-  count = "${length(var.taito_storages)}"
-  bucket = "${element(var.taito_storages, count.index)}"
-  region = "${element(var.taito_storage_locations, count.index)}"
+  count  = length(var.taito_storages)
+  bucket = element(var.taito_storages, count.index)
+  region = element(var.taito_storage_locations, count.index)
+
   /* TODO
   storage_class = "${element(var.taito_storage_classes, count.index)}"
   */
 
-  tags {
-    project = "${var.taito_project}"
-    env = "${var.taito_env}"
+  tags = {
+    project = var.taito_project
+    env     = var.taito_env
     purpose = "storage"
   }
 
@@ -27,7 +28,7 @@ resource "aws_s3_bucket" "bucket" {
   lifecycle_rule {
     enabled = true
     noncurrent_version_expiration {
-      days = "${element(var.taito_storage_days, count.index)}"
+      days = element(var.taito_storage_days, count.index)
     }
   }
 
