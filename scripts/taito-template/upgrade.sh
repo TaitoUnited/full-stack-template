@@ -5,35 +5,44 @@
 ${taito_setv:-}
 ./scripts/taito-template/init.sh
 
+# Remove obsolete root files not to be copied
+rm -f \
+  docker-*
+  # TODO: also ->
+  # README.md \
+  # taito-domain-config.sh \
+  # taito-environments-config.sh \
+  # taito-test-config.sh \
+  # trouble.txt
+
 # Copy files from template to project
-yes | cp CONFIGURATION.md "${template_project_path}"
-yes | cp DEVELOPMENT.md "${template_project_path}"
-yes | cp TAITOLESS.md "${template_project_path}"
-yes | cp cloudbuild.yaml "${template_project_path}"
+yes | cp * "${template_project_path}"
+find . -name "Dockerfile*" -exec cp --parents \{\} "${template_project_path}" \;
+
+# Mark all configurations as 'done'
 sed -i "s/\[ \] All done/[x] All done/g" CONFIGURATION.md
 
-# Copy helm requirements
+# Copy helm template
 mkdir -p "${template_project_path}/scripts/helm"
-yes | cp -r "scripts/helm/requirements.yaml" \
-  "${template_project_path}/scripts/helm/requirements.yaml" 2> /dev/null
+yes | cp scripts/helm/* \
+  "${template_project_path}/scripts/helm" 2> /dev/null
+
+# TODO: remove
+rm -rf "${template_project_path}/scripts/terraform/gcloud"
 
 # Copy terraform scripts
-rm -rf "${template_project_path}/scripts/terraform/common"
-cp -r scripts/terraform/common "${template_project_path}/scripts/terraform/common"
+cp -rf scripts/terraform "${template_project_path}/scripts/terraform"
 
 echo
 echo
 echo "--- Manual steps ---"
 echo
 echo "Recommended steps:"
-echo "- Update source image(s) in all Dockerfiles. Note that there might be"
-echo "  multiple FROM clauses in each file."
-echo "- Update libraries and other project dependencies."
+echo "- Review all changes before committing them to git"
 echo
 echo "If something stops working, try the following:"
-echo "- Run 'taito upgrade' to upgrade your taito-cli"
+echo "- Run 'taito upgrade' to upgrade your Taito CLI"
 echo "- Compare scripts/helm*.yaml with the template"
-echo "- Compare taito-config.sh with the template"
+echo "- Compare taito-*config.sh with the template"
 echo "- Compare package.json with the template"
-echo "- Compare cloudbuild.yaml with the previous version"
 echo
