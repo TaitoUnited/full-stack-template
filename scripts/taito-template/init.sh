@@ -34,6 +34,7 @@ function prune () {
   read -p "$message" -n 1 -r confirm
   if ( [[ "$message" == *"[y/N]"* ]] && ! [[ "${confirm}" =~ ^[Yy]$ ]] ) || \
      ( [[ "$message" == *"[Y/n]"* ]] && ! [[ "${confirm}" =~ ^[Yy]*$ ]] ); then
+    echo
     echo "  Removing ${name}..."
     if [[ $path ]]; then
       sed -i "/^        location $path {\$/,/^        }$/d" docker-nginx.conf
@@ -178,6 +179,7 @@ prune "Worker for background jobs? [y/N] " worker
 prune "Relational database? [Y/n] " database
 prune "Permanent object storage for files? [y/N] " storage \\/bucket \\/minio
 
+echo
 echo "Replacing project and company names in files. Please wait..."
 find . -type f -exec sed -i \
   -e "s/server_template/${taito_vc_repository_alt}/g" 2> /dev/null {} \;
