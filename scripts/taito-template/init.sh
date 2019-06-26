@@ -187,9 +187,9 @@ find . -type f -exec sed -i \
   -e "s/FULL-STACK-TEMPLATE/full-stack-template/g" 2> /dev/null {} \;
 
 echo "Generating unique random ports (avoid conflicts with other projects)..."
-ingress_port=$(shuf -i 8000-9999 -n 1)
-db_port=$(shuf -i 6000-7999 -n 1)
-www_port=$(shuf -i 5000-5999 -n 1)
+if [[ ! $ingress_port ]]; then ingress_port=$(shuf -i 8000-9999 -n 1); fi
+if [[ ! $db_port ]]; then db_port=$(shuf -i 6000-7999 -n 1); fi
+if [[ ! $www_port ]]; then www_port=$(shuf -i 5000-5999 -n 1); fi
 sed -i "s/7463/${www_port}/g" taito-config.sh docker-compose.yaml \
   TAITOLESS.md www/README.md &> /dev/null || :
 sed -i "s/6000/${db_port}/g" taito-config.sh docker-compose.yaml \

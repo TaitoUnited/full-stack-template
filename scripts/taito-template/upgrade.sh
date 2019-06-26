@@ -2,6 +2,14 @@
 
 : "${template_project_path:?}"
 
+# Read original random ports from docker-compose.yaml
+export ingress_port
+ingress_port=$(grep ":80\"" docker-compose.yaml | head -1 | sed 's/.*"\(.*\):.*/\1/')
+export db_port
+db_port=$(grep ":5432\"\|:3306\"" docker-compose.yaml | head -1 | sed 's/.*"\(.*\):.*/\1/')
+export www_port
+ingress_port=$(grep ":8080\"" docker-compose.yaml | head -1 | sed 's/.*"\(.*\):.*/\1/')
+
 ${taito_setv:-}
 ./scripts/taito-template/init.sh
 
