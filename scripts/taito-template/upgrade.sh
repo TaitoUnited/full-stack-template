@@ -5,7 +5,9 @@
 ${taito_setv:-}
 ./scripts/taito-template/init.sh
 
-# Remove obsolete root files not to be copied
+shopt -s dotglob
+
+echo "Remove obsolete root files not to be copied"
 rm -f \
   docker-*
   # TODO: also ->
@@ -15,23 +17,27 @@ rm -f \
   # taito-test-config.sh \
   # trouble.txt
 
-# Copy files from template to project
-yes | cp * "${template_project_path}"
-find . -name "Dockerfile*" -exec cp --parents \{\} "${template_project_path}" \;
-
-# Mark all configurations as 'done'
+echo "Mark all configurations as 'done'"
 sed -i "s/\[ \] All done/[x] All done/g" CONFIGURATION.md
 
-# Copy helm template
+echo "Copy all root files from template"
+yes | cp * "${template_project_path}" 2> /dev/null
+
+echo "Copy dockerfiles from template"
+find . -name "Dockerfile*" -exec cp --parents \{\} "${template_project_path}" \;
+
+echo "Copy helm scripts from template"
 mkdir -p "${template_project_path}/scripts/helm"
-yes | cp scripts/helm/* \
-  "${template_project_path}/scripts/helm" 2> /dev/null
+yes | cp -f scripts/helm/* "${template_project_path}/scripts/helm"
 
 # TODO: remove
 rm -rf "${template_project_path}/scripts/terraform/gcloud"
 
-# Copy terraform scripts
+echo "Copy terraform scripts from template"
 cp -rf scripts/terraform "${template_project_path}/scripts/terraform"
+
+echo "Generate README.md links"
+(cd "${template_project_path}" && (taito project docs || :))
 
 echo
 echo

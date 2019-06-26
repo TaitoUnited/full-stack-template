@@ -5,37 +5,33 @@
 ${taito_setv:-}
 ./scripts/taito-template/init.sh
 
-# Move old files away from project root
-(
-  set -e
-  cd "${template_project_path}"
-  rm -rf old_root 2> /dev/null
-  mkdir -p old_root
-  shopt -s dotglob
-  for file in *; do
-     if [[ $file != ".git" ]] && \
-        [[ $file != "old_root" ]] && \
-        [[ $file != "template-tmp" ]]
-     then
-       mv -- "$file" "old_root"
-     fi
-  done
-)
+shopt -s dotglob
 
-# Copy all files from template root
-rm -rf .git
-yes | cp -r * "${template_project_path}" 2> /dev/null || :
-yes | cp -r .* "${template_project_path}" 2> /dev/null || :
+echo "Remove old root files and scripts"
+rm -f "${template_project_path}/*"
+rm -rf "${template_project_path}/scripts"
 
+echo "Copy root files from template"
+yes | cp * "${template_project_path}" 2> /dev/null
+
+echo "Copy dockerfiles from template"
+find . -name "Dockerfile*" -exec cp --parents \{\} "${template_project_path}" \;
+
+echo "Copy scripts from template"
+yes | cp -rf scripts "${template_project_path}"
 
 echo
 echo
 echo "--- Manual steps ---"
 echo
 echo "Mandatory:"
-echo "- Move files from 'old_root' to the new folder structure and make the project"
-echo "  work locally on Docker Compose."
-echo "- Configure project (see CONFIGURATION.md)."
+echo "1) Review all changes."
+echo "2) Make the project work locally by adding a 'start' script to each"
+echo "   **/package.json file, and by defining environment variables and secrets"
+echo "   in docker-compose.yaml. The project should start locally with 'taito kaboom'."
+echo "3) Modify all **/package.json files so that they provide scripts required"
+echo "   by the CI/CD build (build:prod, lint, unit, test)"
+echo "4) Configure the project as usual (see CONFIGURATION.md)."
 echo
 echo "Recommended additional steps:"
 echo "- Update libraries and other project dependencies."
