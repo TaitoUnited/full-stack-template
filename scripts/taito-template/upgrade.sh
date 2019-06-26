@@ -21,7 +21,7 @@ echo "Mark all configurations as 'done'"
 sed -i "s/\[ \] All done/[x] All done/g" CONFIGURATION.md
 
 echo "Copy all root files from template"
-yes | cp * "${template_project_path}" 2> /dev/null
+(yes | cp * "${template_project_path}" 2> /dev/null || :)
 
 echo "Copy dockerfiles from template"
 find . -name "Dockerfile*" -exec cp --parents \{\} "${template_project_path}" \;

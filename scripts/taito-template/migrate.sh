@@ -12,7 +12,7 @@ rm -f "${template_project_path}/*"
 rm -rf "${template_project_path}/scripts"
 
 echo "Copy root files from template"
-yes | cp * "${template_project_path}" 2> /dev/null
+(yes | cp * "${template_project_path}" 2> /dev/null || :)
 
 echo "Copy dockerfiles from template"
 find . -name "Dockerfile*" -exec cp --parents \{\} "${template_project_path}" \;
