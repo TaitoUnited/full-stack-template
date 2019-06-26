@@ -34,7 +34,7 @@ yes | cp -f scripts/helm/* "${template_project_path}/scripts/helm"
 rm -rf "${template_project_path}/scripts/terraform/gcloud"
 
 echo "Copy terraform scripts from template"
-cp -rf scripts/terraform "${template_project_path}/scripts/terraform"
+cp -rf scripts/terraform "${template_project_path}/scripts"
 
 echo "Generate README.md links"
 (cd "${template_project_path}" && (taito project docs || :))
