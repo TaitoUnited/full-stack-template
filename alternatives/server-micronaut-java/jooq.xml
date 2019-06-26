@@ -3,8 +3,8 @@
   <!-- Configure the database connection here -->
   <jdbc>
     <driver>org.postgresql.Driver</driver>
-    <url>jdbc:postgresql://full-stack-template-database:5432/server_template_local</url>
-    <user>server_template_local_app</user>
+    <url>jdbc:postgresql://full-stack-template-database:5432/full_stack_template_local</url>
+    <user>full_stack_template_local_app</user>
     <password>secret1234</password>
   </jdbc>
 

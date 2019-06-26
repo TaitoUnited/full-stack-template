@@ -176,7 +176,7 @@ prune "Permanent object storage for files? [y/N] " storage \\/bucket \\/minio
 echo
 echo "Replacing project and company names in files. Please wait..."
 find . -type f -exec sed -i \
-  -e "s/server_template/${taito_vc_repository_alt}/g" 2> /dev/null {} \;
+  -e "s/full_stack_template/${taito_vc_repository_alt}/g" 2> /dev/null {} \;
 find . -type f -exec sed -i \
   -e "s/full-stack-template/${taito_vc_repository}/g" 2> /dev/null {} \;
 find . -type f -exec sed -i \
