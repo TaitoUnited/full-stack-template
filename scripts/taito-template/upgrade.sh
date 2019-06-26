@@ -7,6 +7,9 @@ ${taito_setv:-}
 
 shopt -s dotglob
 
+echo "Remove obsolete alternatives"
+rm -rf "alternatives"
+
 echo "Remove obsolete root files not to be copied"
 rm -f \
   docker-*

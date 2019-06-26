@@ -7,6 +7,9 @@ ${taito_setv:-}
 
 shopt -s dotglob
 
+echo "Remove obsolete alternatives"
+rm -rf "alternatives"
+
 echo "Remove old root files and scripts"
 rm -f "${template_project_path}/*"
 rm -rf "${template_project_path}/scripts"
