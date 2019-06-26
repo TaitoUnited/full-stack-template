@@ -4,7 +4,7 @@ provider "google" {
   zone    = var.taito_provider_zone
 }
 
-module "common-gcp" {
+module "gcp" {
   source = "github.com/TaitoUnited/taito-terraform-modules//projects/gcp"
 
   taito_project               = var.taito_project

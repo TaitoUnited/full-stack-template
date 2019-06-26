@@ -2,7 +2,7 @@ provider "google" {
   project = var.taito_uptime_namespace_id
 }
 
-module "common-gcp-uptime" {
+module "aws-uptime" {
   source = "github.com/TaitoUnited/taito-terraform-modules//projects/aws-uptime"
 
   taito_project             = var.taito_project

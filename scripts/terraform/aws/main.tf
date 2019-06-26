@@ -4,7 +4,7 @@ provider "aws" {
   shared_credentials_file = "/home/taito/.aws/credentials"
 }
 
-module "common-aws" {
+module "aws" {
   source = "github.com/TaitoUnited/taito-terraform-modules//projects/aws"
 
   taito_env                         = var.taito_env
