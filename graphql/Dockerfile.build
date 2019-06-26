@@ -39,5 +39,4 @@ RUN npm prune --production && \
 
 USER node
 EXPOSE 8080
-# TODO dump-init or tiny as init system? Kubernetes uses --init?
 CMD ["node", "./index.production.js"]

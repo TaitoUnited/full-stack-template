@@ -37,4 +37,3 @@ COPY ./nginx.conf /etc/nginx
 COPY --from=builder /build .
 USER nginx
 EXPOSE 8080
-# TODO dump-init or tiny as init system? Kubernetes uses --init?

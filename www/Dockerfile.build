@@ -45,4 +45,3 @@ COPY --from=builder /build .
 # Start nginx
 USER nginx
 EXPOSE 8080
-# TODO dump-init or tiny as init system? Kubernetes uses --init?
