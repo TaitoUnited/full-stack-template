@@ -8,7 +8,6 @@ ARG BUILD_VERSION
 WORKDIR /service
 COPY ${SERVICE_DIR}/package.json \
      ${SERVICE_DIR}/package-lock.* \
-     ${SERVICE_DIR}/.flowconfi* \
      /service/
 ENV TARGET_ENV ${TARGET_ENV}
 ENV BUILD_VERSION ${BUILD_VERSION}

@@ -7,8 +7,6 @@
           "node": "current"
         }
       }
-      // NOTE: flow flow
-      // "@babel/preset-flow",
     ]
   ],
   "plugins": [

@@ -16,7 +16,6 @@ coverage
 
 # Dependency directory
 node_modules
-flow-typed/npm
 
 # Optional npm cache directory
 .npm

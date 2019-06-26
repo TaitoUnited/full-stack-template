@@ -6,7 +6,6 @@ RUN apk add --update-cache build-base python git fontconfig
 WORKDIR /service
 COPY ${SERVICE_DIR}/package.json \
      ${SERVICE_DIR}/package-lock.* \
-     ${SERVICE_DIR}/.flowconfi* \
      /service/
 ENV TARGET_ENV ${TARGET_ENV}
 ENV NODE_ENV development

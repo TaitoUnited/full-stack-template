@@ -7,7 +7,6 @@ RUN apt-get -y update && apt-get -y install rsync # rsync for windows devs
 WORKDIR /service
 COPY ${SERVICE_DIR}/package.json \
      ${SERVICE_DIR}/package-lock.* \
-     ${SERVICE_DIR}/.flowconfi* \
      /service/
 ENV NODE_ENV development
 ENV API_ROOT ''

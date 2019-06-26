@@ -1,4 +1,3 @@
 ./static/
 webpack.*.js
 index.root.js
-flow-typed

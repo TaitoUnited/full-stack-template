@@ -1,5 +1,4 @@
 node_modules
-flow-typed/npm
 test/reports
 test/screenshots
 test/videos

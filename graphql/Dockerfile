@@ -7,7 +7,6 @@ WORKDIR /service
 ENV NODE_ENV development
 COPY ${SERVICE_DIR}/package.json \
      ${SERVICE_DIR}/package-lock.* \
-     ${SERVICE_DIR}/.flowconfi* \
      /service/
 RUN npm install --loglevel warn
 EXPOSE 8080
