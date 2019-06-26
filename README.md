@@ -4,7 +4,7 @@
 
 # full-stack-template
 
-Template for cloud-native applications and APIs running on Kubernetes, Docker Compose, serverless (FaaS), or virtual machine. The template can be used both with public cloud and on-premise private cloud. The example implementation is based on React, Node.js, Postgres, and S3 compatible object storage, but you can choose the stack during project creation from multiple alternatives.
+Template for cloud-native applications and APIs running on Kubernetes, Docker Compose, serverless (FaaS), or virtual machine. The template can be used with both public cloud and on-premise private cloud. The example implementation is based on React, Node.js, PostgreSQL, and S3 compatible storage, but you can choose the stack during project creation from multiple alternatives.
 
 You can create a new project from this template by running `taito project create: full-stack-template`. Later you can upgrade your project to the latest version of the template by running `taito project upgrade`. To ensure flawless upgrade, do not modify files that have a **do-not-modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files of the template instead, and then upgrade. See [Taito CLI](https://taitounited.github.io/taito-cli/) for more information.
 
