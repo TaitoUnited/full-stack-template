@@ -25,11 +25,12 @@ link_urls="
   * graphql[:ENV]=$taito_app_url/graphql/uptimez GraphQL API (:ENV)
   * git=https://$taito_vc_repository_url Git repository
   * storage:ENV=$taito_storage_url Storage bucket (:ENV)
-  * styleguide=https://TODO UI/UX style guide and designs
-  * wireframes=https://TODO UI/UX wireframes
-  * feedback=https://TODO User feedback
-  * performance=https://TODO Performance metrics
 "
+# Example links:
+# * styleguide=https://styleguide UI/UX style guide and designs
+# * wireframes=https://wireframes UI/UX wireframes
+# * feedback=https://feedback User feedback
+# * performance=https://performance Performance metrics
 
 # ------ Secrets ------
 # Configuration instructions:
