@@ -108,7 +108,7 @@ full-stack:
     cache:
       image: redis:5.0-alpine
       replicas: 1
-      port: 6397
+      port: 6379
       tier: backend
       livenessDisabled: true # TODO remove
       memoryRequest: 5Mi
