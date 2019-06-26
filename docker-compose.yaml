@@ -167,8 +167,8 @@ services:
       DC_COMMAND: ${DC_COMMAND}
       COMMON_PUBLIC_PORT: 9999
 
-  full-stack-template-cache:
-    container_name: full-stack-template-cache
+  full-stack-template-redis:
+    container_name: full-stack-template-redis
     image: redis:5.0-alpine
     restart: unless-stopped
     networks:

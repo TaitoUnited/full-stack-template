@@ -168,7 +168,7 @@ echo
 prune "API/services? [Y/n] " server \\/api
 prune "GraphQL gateway? [y/N] " graphql \\/graphql
 prune "Kafka for event-based streaming/queuing? [y/N] " kafka
-prune "In-memory cache (Redis) for performance optimizations? [y/N] " cache
+prune "Redis (e.g. as in-memory cache)? [y/N] " redis
 prune "Worker for background jobs? [y/N] " worker
 prune "Relational database? [Y/n] " database
 prune "Permanent object storage for files? [y/N] " storage \\/bucket \\/minio

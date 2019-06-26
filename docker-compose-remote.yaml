@@ -116,8 +116,8 @@ services:
     ports:
       - "8080"
 
-  full-stack-template-cache:
-    container_name: full-stack-template-cache
+  full-stack-template-redis:
+    container_name: full-stack-template-redis
     image: redis:5.0-alpine
     restart: unless-stopped
     networks:

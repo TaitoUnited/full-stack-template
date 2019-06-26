@@ -89,7 +89,7 @@ taito_uptime_timeouts=" 5s 5s 5s 5s 5s "
 taito_uptime_channels="${template_default_uptime_channels:-}"
 
 # Stack
-taito_targets=" admin client cache graphql database function kafka zookeeper server storage worker www "
+taito_targets=" admin client graphql database function kafka redis server storage worker www zookeeper "
 taito_storages="$taito_random_name-$taito_env"
 taito_networks="default"
 

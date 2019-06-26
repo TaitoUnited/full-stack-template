@@ -105,16 +105,6 @@ full-stack:
       tier: frontend
       memoryRequest: 2Mi
 
-    cache:
-      image: redis:5.0-alpine
-      replicas: 1
-      port: 6379
-      tier: backend
-      livenessDisabled: true # TODO remove
-      memoryRequest: 5Mi
-      runAsUser: 2
-      runAsGroup: 2
-
     graphql:
       paths:
         - path: /graphql
@@ -153,6 +143,17 @@ full-stack:
       memoryLimit: 512Mi
       env:
         ALLOW_ANONYMOUS_LOGIN: 'yes'
+
+    redis:
+      image: redis:5.0-alpine
+      replicas: 1
+      port: 6379
+      tier: backend
+      livenessDisabled: true # TODO remove
+      memoryRequest: 5Mi
+      # TODO: put back
+      # runAsUser: 2
+      # runAsGroup: 2
 
     server:
       paths:
