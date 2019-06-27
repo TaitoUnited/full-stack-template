@@ -12,6 +12,10 @@ taito_environments="${template_default_environments:?}"
 # NOTE: Use taito-domain-config.sh to disable basic auth from PROD env only.
 # taito_basic_auth_enabled=false
 
+# NOTE: Uncomment the line below to create GCP service account even without
+# storage
+# gcp_service_account_enabled=true
+
 # ------ Links ------
 # Add custom links here. You can regenerate README.md links with
 # 'taito project docs'.

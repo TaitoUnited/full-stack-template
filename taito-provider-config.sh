@@ -39,14 +39,25 @@ case $taito_provider in
       * logs:ENV=https://console.cloud.google.com/logs/viewer?project=$taito_zone&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F$kubernetes_name%2Fnamespace_id%2F$taito_namespace Logs (:ENV)
     "
 
+    kubernetes_db_proxy_enabled=false # use google cloud sql proxy instead
+    if [[ -z "${gcp_service_account_enabled}" ]]; then
+      gcp_service_account_enabled=false
+    fi
+    if [[ ${taito_storages:-} ]]; then
+      gcp_service_account_enabled=true
+    fi
+
+    if [[ $gcp_service_account_enabled == "true" ]]; then
+      taito_remote_secrets="
+        $taito_remote_secrets
+        $taito_project-$taito_env-gserviceaccount.key:file
+      "
+    fi
+
     taito_remote_secrets="
       $taito_remote_secrets
       cloudsql-gserviceaccount.key:copy/devops
-      $taito_project-$taito_env-gserviceaccount.key:file
     "
-
-    kubernetes_db_proxy_enabled=false # use google cloud sql proxy instead
-    gcp_service_account_enabled=true
     ;;
   linux)
     # shellcheck disable=SC1091
