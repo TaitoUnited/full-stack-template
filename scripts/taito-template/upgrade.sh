@@ -37,14 +37,12 @@ echo "Copy all root files from template"
 echo "Copy dockerfiles from template"
 find . -name "Dockerfile*" -exec cp --parents \{\} "${template_project_path}" \;
 
+# TODO: remove
+rm -rf "${template_project_path}/scripts/helm/*"
+
 echo "Copy helm scripts from template"
 mkdir -p "${template_project_path}/scripts/helm"
 yes | cp -f scripts/helm/* "${template_project_path}/scripts/helm"
-
-# TODO: remove
-rm -rf "${template_project_path}/scripts/helm/charts"
-# TODO: remove
-rm -rf "${template_project_path}/scripts/helm/requirements.lock"
 
 # TODO: remove
 rm -rf "${template_project_path}/scripts/terraform/gcloud"
