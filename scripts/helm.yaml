@@ -111,7 +111,6 @@ full-stack:
       tier: backend
       memoryRequest: 50Mi
       env:
-        DEBUG: false
         GRAPHQL_PORT: '8080'
         GRAPHQL_BINDADDR: '0.0.0.0'
         API_HOST: ${taito_project}-${taito_env}-server
@@ -171,7 +170,6 @@ full-stack:
         DATABASE_PASSWORD: ${db_database_app_secret}
         S3_KEY_SECRET: ${taito_project}-${taito_env}-storage-gateway.secret
       env:
-        DEBUG: false
         SENTRY_DSN: #sentryDSN
         API_PORT: '8080'
         API_BINDADDR: '0.0.0.0'
