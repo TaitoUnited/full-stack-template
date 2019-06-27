@@ -178,7 +178,7 @@ full-stack:
         DATABASE_HOST: '${db_database_real_host}'
         DATABASE_PORT: '${db_database_real_port}'
         DATABASE_NAME: ${db_database_name}
-        DATABASE_USER: ${db_database_name}_app
+        DATABASE_USER: ${db_database_app_username}
         DATABASE_POOL_MIN: '5'
         DATABASE_POOL_MAX: '10'
         S3_URL: http://${taito_project}-${taito_env}-storage:9000/

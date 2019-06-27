@@ -111,6 +111,7 @@ function prune () {
     if [[ $name == "database" ]]; then
       sed -i '/postgres-db/d' taito-config.sh
       sed -i '/db_/d' taito-config.sh
+      sed -i '/db_/d' taito-environments-config.sh
       sed -i '/Database/d' docker-compose.yaml
       sed -i '/Database/d' docker-compose-remote.yaml
       sed -i '/DATABASE_/d' docker-compose.yaml
@@ -126,6 +127,7 @@ function prune () {
       sed -i "s/service_account_enabled=true/service_account_enabled=false/" taito-config.sh
       sed -i '/storage-gateway/d' taito-config.sh
       sed -i '/taito_storages/d' taito-config.sh
+      sed -i '/storage/d' taito-environments-config.sh
       sed -i '/S3_/d' docker-compose.yaml
       sed -i '/S3_/d' docker-compose-remote.yaml
       sed -i '/storage-/d' docker-compose.yaml
