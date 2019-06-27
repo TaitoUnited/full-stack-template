@@ -47,6 +47,8 @@ yes | cp -f scripts/helm/* "${template_project_path}/scripts/helm"
 # TODO: remove
 rm -rf "${template_project_path}/scripts/terraform/gcloud"
 # TODO: remove
+rm -rf "${template_project_path}/scripts/terraform/.terraform"
+# TODO: remove
 sed -i "s/oldRewritePolicy: false/oldRewritePolicy: true/g" scripts/helm.yaml
 # TODO: remove
 (yes | cp -f scripts/*.yaml "${template_project_path}/scripts")
