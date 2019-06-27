@@ -163,9 +163,9 @@ full-stack:
       db:
         instance: ${taito_zone}:${taito_provider_region}:${db_database_instance}
         port: 5432
-        proxySecret: cloudsql-gserviceaccount.key
+        proxySecret: ${taito_provider_db_proxy_secret}
       serviceAccount:
-        secret: ${taito_project}-${taito_env}-gserviceaccount.key
+        secret: ${taito_provider_service_account_secret}
       secrets:
         DATABASE_PASSWORD: ${db_database_app_secret}
         S3_KEY_SECRET: ${taito_project}-${taito_env}-storage-gateway.secret
@@ -208,7 +208,7 @@ full-stack:
         - gcs
         - ${taito_resource_namespace}
       serviceAccount:
-        secret: ${taito_project}-${taito_env}-gserviceaccount.key
+        secret: ${taito_provider_service_account_secret}
       secretEnv:
         # Minio requires secret as environment variable in gateway mode
         MINIO_SECRET_KEY: ${taito_project}-${taito_env}-storage-gateway.secret

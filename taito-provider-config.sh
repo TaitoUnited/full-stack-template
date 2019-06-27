@@ -11,6 +11,9 @@
 # taito-environments-config.sh or taito-test-config.sh instead.
 # ------------------------------------------------------------------------
 
+taito_provider_db_proxy_secret=
+taito_provider_service_account_secret=
+
 case $taito_provider in
   aws)
     taito_plugins="
@@ -48,15 +51,17 @@ case $taito_provider in
     fi
 
     if [[ $gcp_service_account_enabled == "true" ]]; then
+      taito_provider_service_account_secret=$taito_project-$taito_env-gserviceaccount.key
       taito_remote_secrets="
         $taito_remote_secrets
-        $taito_project-$taito_env-gserviceaccount.key:file
+        $taito_provider_service_account_secret:file
       "
     fi
 
+    taito_provider_db_proxy_secret=cloudsql-gserviceaccount.key
     taito_remote_secrets="
       $taito_remote_secrets
-      cloudsql-gserviceaccount.key:copy/devops
+      $taito_provider_db_proxy_secret:copy/devops
     "
     ;;
   linux)
