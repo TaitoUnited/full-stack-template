@@ -42,6 +42,11 @@ mkdir -p "${template_project_path}/scripts/helm"
 yes | cp -f scripts/helm/* "${template_project_path}/scripts/helm"
 
 # TODO: remove
+rm -rf "${template_project_path}/scripts/helm/charts"
+# TODO: remove
+rm -rf "${template_project_path}/scripts/helm/requirements.lock"
+
+# TODO: remove
 rm -rf "${template_project_path}/scripts/terraform/gcloud"
 # TODO: remove
 sed -i "s/oldRewritePolicy: false/oldRewritePolicy: true/g" scripts/helm.yaml
