@@ -248,7 +248,7 @@ full-stack:
       memoryRequest: 1Mi
       runAsUser: 2
       runAsGroup: 2
-      secrets:
+      secretEnv:
         SCHEDULER_SECRET: ${taito_project}-${taito_env}-scheduler.secret
       cronJobs:
         - name: examplejob2
