@@ -28,6 +28,5 @@ docs
 test/reports
 test/screenshots
 test/videos
-shared
 
 .vscode

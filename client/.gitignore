@@ -3,7 +3,6 @@ test/reports
 test/screenshots
 test/videos
 test/db.json
-shared
 credentials
 *.log
 .DS_Store
