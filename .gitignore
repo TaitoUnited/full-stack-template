@@ -19,3 +19,5 @@ template-tmp
 # Eclipse
 .metadata
 RemoteSystemsTempFiles
+
+**/.terraform/*
