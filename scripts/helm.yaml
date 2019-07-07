@@ -107,19 +107,20 @@ full-stack:
       paths:
         - path: /admin
       tier: frontend
+      cpuRequest: 2m
       memoryRequest: 2Mi
 
     client:
       paths:
         - path:
       tier: frontend
+      cpuRequest: 2m
       memoryRequest: 2Mi
 
     graphql:
       paths:
         - path: /graphql
       tier: backend
-      memoryRequest: 50Mi
       env:
         GRAPHQL_PORT: '8080'
         GRAPHQL_BINDADDR: '0.0.0.0'
@@ -159,7 +160,7 @@ full-stack:
       port: 6379
       tier: backend
       livenessDisabled: true # TODO remove
-      memoryRequest: 5Mi
+      memoryRequest: 10Mi
       # TODO: put back
       # runAsUser: 2
       # runAsGroup: 2
@@ -168,7 +169,6 @@ full-stack:
       paths:
         - path: /api
       tier: backend
-      memoryRequest: 50Mi
       livenessInitialDelay: 120
       db:
         instance: ${taito_zone}:${taito_provider_region}:${db_database_instance}
@@ -228,12 +228,12 @@ full-stack:
 
     worker:
       enabled: false
-      memoryRequest: 50Mi
 
     www:
       paths:
         - path: /docs
       tier: frontend
+      cpuRequest: 2m
       memoryRequest: 2Mi
       sidecar:
         enabled: false
@@ -255,6 +255,7 @@ full-stack:
       enabled: false
       type: job
       image: buildpack-deps:curl
+      cpuRequest: 1m
       memoryRequest: 1Mi
       runAsUser: 2
       runAsGroup: 2

@@ -2,8 +2,8 @@
 
 full-stack:
   serviceDefaults:
-    cpuRequest: 2m
+    cpuRequest: 10m
     cpuLimit: 200m
-    memoryRequest: 50Mi
-    memoryLimit: 256Mi
+    memoryRequest: 70Mi
+    memoryLimit: 512Mi
     # TODO enable autoscaling
