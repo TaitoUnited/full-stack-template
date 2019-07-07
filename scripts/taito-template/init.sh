@@ -9,6 +9,7 @@ ${taito_setv:-}
 # Function not supported yet
 rm -rf function
 sed -i "s/ function / /" taito-config.sh
+sed -i "s/ function / /" taito-env-all-config.sh
 
 # Remote the example site
 rm -rf www/site
@@ -102,6 +103,7 @@ function prune () {
 
       # Remove also Zookeeper
       sed -i "s/ zookeeper / /" taito-config.sh
+      sed -i "s/ zookeeper / /" taito-env-all-config.sh
       sed -i "/^  full-stack-template-zookeeper:\$/,/^$/d" docker-compose.yaml
       sed -i "/^  full-stack-template-zookeeper:\$/,/^$/d" docker-compose-remote.yaml
       sed -i "/^  # full-stack-template-zookeeper:\$/,/^$/d" docker-compose.yaml
