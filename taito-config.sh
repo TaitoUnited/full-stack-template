@@ -229,9 +229,14 @@ case $taito_env in
     # dev and feature branches
     if [[ $taito_env == "dev" ]] || [[ $taito_env == "f-"* ]]; then
       ci_exec_build=true        # allow build of a new container
-      ci_exec_deploy=true       # deploy automatically
       # shellcheck disable=SC1091
       if [[ -f taito-env-dev-config.sh ]]; then . taito-env-dev-config.sh; fi
+    fi
+    # hotfix branches
+    if [[ $taito_env == "h-"* ]]; then
+      ci_exec_build=true        # allow build of a new container
+      # shellcheck disable=SC1091
+      if [[ -f taito-env-hotfix-config.sh ]]; then . taito-env-hotfix-config.sh; fi
     fi
     ;;
 esac
