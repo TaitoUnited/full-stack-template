@@ -58,8 +58,8 @@ function prune () {
     sed -i "s/ \\/$name\\/uptimez / /" taito-config.sh
     sed -i "s/ \\/$name\\/uptimez / /" taito-env-all-config.sh
 
-    sed -i "/\\* $name/d" taito-environments-config.sh
-    sed -i "/test_$name/d" taito-test-config.sh
+    sed -i "/\\* $name/d" taito-env-all-config.sh
+    sed -i "/test_$name/d" taito-testing-config.sh
 
     sed -i "/:$name\":/d" package.json
     sed -i "s/install-all:$name //g" package.json
@@ -113,7 +113,7 @@ function prune () {
     if [[ $name == "database" ]]; then
       sed -i '/postgres-db/d' taito-config.sh
       sed -i '/db_/d' taito-config.sh
-      sed -i '/db_/d' taito-environments-config.sh
+      sed -i '/db_/d' taito-env-all-config.sh
       sed -i '/Database/d' docker-compose.yaml
       sed -i '/Database/d' docker-compose-remote.yaml
       sed -i '/DATABASE_/d' docker-compose.yaml
@@ -129,7 +129,7 @@ function prune () {
       sed -i "s/service_account_enabled=true/service_account_enabled=false/" taito-config.sh
       sed -i '/storage-gateway/d' taito-config.sh
       sed -i '/taito_storages/d' taito-config.sh
-      sed -i '/storage/d' taito-environments-config.sh
+      sed -i '/storage/d' taito-env-all-config.sh
       sed -i '/S3_/d' docker-compose.yaml
       sed -i '/S3_/d' docker-compose-remote.yaml
       sed -i '/storage-/d' docker-compose.yaml

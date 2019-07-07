@@ -23,9 +23,9 @@ rm -f \
   docker-*
   # TODO: also ->
   # README.md \
-  # taito-domain-config.sh \
-  # taito-environments-config.sh \
-  # taito-test-config.sh \
+  # taito-env-all-config.sh \
+  # taito-env-prod-config.sh \
+  # taito-testing-config.sh \
   # trouble.txt
 
 echo "Mark all configurations as 'done'"

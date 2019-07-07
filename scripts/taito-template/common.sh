@@ -42,8 +42,8 @@ rm -f scripts/terraform/.gitignore
 
 # 'TODO links' from taito-config.sh
 sed -i '/https:\/\/TODO/d' taito-config.sh
-sed -i "/# TEMPLATE-REMOVE/d" taito-config.sh taito-domain-config.sh \
-  taito-environments-config.sh taito-provider-config.sh taito-test-config.sh
+sed -i "/# TEMPLATE-REMOVE/d" taito-config.sh taito-env-prod-config.sh \
+  taito-env-all-config.sh taito-provider-config.sh taito-testing-config.sh
 
 # Template MIT license
 # TODO leave a reference to the original?
@@ -80,7 +80,7 @@ sed -i "s/taito_suffix=.*/taito_suffix=${taito_suffix:-}/g" taito-config.sh
 sed -i "s/taito_project=.*/taito_project=${taito_vc_repository}/g" taito-config.sh
 
 echo "Replacing template variables with the user specific settings..."
-sed -i "s/\${template_default_environments:?}/${template_default_environments}/g" taito-environments-config.sh
+sed -i "s/\${template_default_environments:?}/${template_default_environments}/g" taito-env-all-config.sh
 sed -i "s/\${template_default_organization:?}/${template_default_organization}/g" taito-config.sh
 sed -i "s/\${template_default_organization_abbr:?}/${template_default_organization_abbr}/g" taito-config.sh
 sed -i "s/\${template_default_vc_organization:?}/${template_default_vc_organization}/g" taito-config.sh
@@ -90,7 +90,7 @@ sed -i "s/\${template_default_sentry_organization:-}/${template_default_sentry_o
 sed -i "s/\${template_default_sentry_organization:-}/${template_default_sentry_organization}/g" taito-provider-config.sh
 sed -i "s/\${template_default_domain:?}/${template_default_domain}/g" taito-config.sh
 sed -i "s/\${template_default_domain_prod:?}/${template_default_domain_prod}/g" taito-config.sh
-sed -i "s/\${template_default_domain_prod:?}/${template_default_domain_prod}/g" taito-domain-config.sh
+sed -i "s/\${template_default_domain_prod:?}/${template_default_domain_prod}/g" taito-env-prod-config.sh
 sed -i "s/\${template_default_zone:?}/${template_default_zone}/g" taito-config.sh
 sed -i "s/\${template_default_zone_prod:?}/${template_default_zone_prod}/g" taito-config.sh
 sed -i "s/\${template_default_provider:?}/${template_default_provider}/g" taito-config.sh
