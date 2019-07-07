@@ -122,7 +122,6 @@ ci_exec_test_wait=60       # how many seconds to wait for deployment/restart
 ci_exec_test_init=false    # run 'init --clean' before each test suite
 ci_exec_revert=false       # revert deployment automatically on fail
 ci_static_assets_location= # location to publish all static files (CDN)
-ci_test_base_url="http://NOT-CONFIGURED-FOR-$taito_env"
 
 # ------ Plugin and provider specific settings ------
 
@@ -215,28 +214,25 @@ case $taito_env in
     if [[ -f taito-env-stag-config.sh ]]; then . taito-env-stag-config.sh; fi
     ;;
   test)
-    ci_test_base_url=https://TODO:TODO@$taito_domain
-
     # shellcheck disable=SC1091
     if [[ -f taito-env-test-config.sh ]]; then . taito-env-test-config.sh; fi
     ;;
-  dev|feat)
-    ci_exec_build=true        # allow build of a new container
-    ci_exec_deploy=true       # deploy automatically
-
-    # shellcheck disable=SC1091
-    if [[ -f taito-env-dev-config.sh ]]; then . taito-env-dev-config.sh; fi
-    ;;
   local)
-    ci_exec_test_init=false   # run 'init --clean' before each test suite
-    ci_test_base_url=http://full-stack-template-ingress:80
     taito_app_url=http://localhost:9999
     db_database_external_port=6000
     db_database_host=$taito_project-database
     db_database_port=5432
-
     # shellcheck disable=SC1091
     if [[ -f taito-env-local-config.sh ]]; then . taito-env-local-config.sh; fi
+    ;;
+  *)
+    # dev and feature branches
+    if [[ $taito_env == "dev" ]] || [[ $taito_env == "f-"* ]]; then
+      ci_exec_build=true        # allow build of a new container
+      ci_exec_deploy=true       # deploy automatically
+      # shellcheck disable=SC1091
+      if [[ -f taito-env-dev-config.sh ]]; then . taito-env-dev-config.sh; fi
+    fi
     ;;
 esac
 
