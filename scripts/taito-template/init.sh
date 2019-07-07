@@ -85,11 +85,14 @@ function prune () {
 
     if [[ $name == "client" ]]; then
       sed -i "s/ \\/uptimez / /" taito-config.sh
+      sed -i "s/ \\/uptimez / /" taito-env-all-config.sh
     fi
 
     if [[ $name == "server" ]]; then
       sed -i "s/ \\/api\\/uptimez / /" taito-config.sh
+      sed -i "s/ \\/api\\/uptimez / /" taito-env-all-config.sh
       sed -i "s/ \\/api\\/docs / /" taito-config.sh
+      sed -i "s/ \\/api\\/docs / /" taito-env-all-config.sh
     fi
 
     if [[ $name == "kafka" ]]; then
@@ -108,6 +111,7 @@ function prune () {
 
     if [[ $name == "www" ]]; then
       sed -i "s/ \\/docs\\/uptimez / /" taito-config.sh
+      sed -i "s/ \\/docs\\/uptimez / /" taito-env-all-config.sh
     fi
 
     if [[ $name == "database" ]]; then
