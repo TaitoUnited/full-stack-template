@@ -6,6 +6,13 @@
 # NOTE: Variables are passed to the tests without the test_TARGET_ prefix.
 ##########################################################################
 
+# Enable automatic tests for dev and feature environments
+if [[ $taito_env == "dev" ]] || [[ $taito_env == "feat-" ]]; then
+  ci_exec_test=true         # execute test suites
+  ci_exec_test_init=false   # run 'init --clean' before each test suite
+  ci_test_base_url=https://username:secretpassword@$taito_domain
+fi
+
 # Database connection
 test_all_DATABASE_HOST=$taito_project-database-test-proxy
 test_all_DATABASE_PORT=5432

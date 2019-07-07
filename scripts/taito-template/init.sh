@@ -54,7 +54,9 @@ function prune () {
     sed -i "/^    $name:\$/,/^$/d" ./scripts/helm.yaml
 
     sed -i "s/ $name / /" taito-config.sh
+    sed -i "s/ $name / /" taito-env-all-config.sh
     sed -i "s/ \\/$name\\/uptimez / /" taito-config.sh
+    sed -i "s/ \\/$name\\/uptimez / /" taito-env-all-config.sh
 
     sed -i "/\\* $name/d" taito-environments-config.sh
     sed -i "/test_$name/d" taito-test-config.sh

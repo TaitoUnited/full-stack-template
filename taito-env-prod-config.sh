@@ -2,7 +2,7 @@
 # shellcheck disable=SC2034
 
 ##########################################################################
-# Domain settings for production environment
+# Production environment settings
 ##########################################################################
 
 # Production domain name (e.g. mydomain.com)
@@ -17,3 +17,9 @@ taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_
 
 # Disable production environment basic auth by setting this to false
 taito_basic_auth_enabled=true
+
+# Overrides for canary environment
+if [[ $taito_target_env == "canary" ]]; then
+  taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
+  taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
+fi

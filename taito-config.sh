@@ -9,8 +9,8 @@ set -a
 
 # ------------------------------------------------------------------------
 # NOTE: This file is updated during 'taito project upgrade'. There should
-# rarely be need to modify it manually. Modify taito-domain-config.sh,
-# taito-environments-config.sh or taito-test-config.sh instead.
+# rarely be need to modify it manually. Modify taito-env-*-config.sh,
+# or taito-testing-config.sh instead.
 # ------------------------------------------------------------------------
 
 # Taito CLI
@@ -82,20 +82,8 @@ taito_messaging_monitoring_channel=monitoring
 # Uptime monitoring
 taito_uptime_provider= # only for prod by default
 taito_uptime_provider_org_id=${template_default_uptime_provider_org_id:-}
-taito_uptime_targets=" admin client graphql server www "
-taito_uptime_paths=" /admin/uptimez /uptimez /graphql/uptimez /api/uptimez /docs/uptimez "
-taito_uptime_timeouts=" 5s 5s 5s 5s 5s "
 # You can list all monitoring channels with `taito env info:ENV`
 taito_uptime_channels="${template_default_uptime_channels:-}"
-
-# Stack
-taito_targets=" admin client graphql database function kafka redis server storage worker www zookeeper "
-taito_storages="$taito_random_name-$taito_env"
-taito_networks="default"
-
-# Stack types ('container' by default)
-taito_target_type_database=database
-taito_target_type_function=function
 
 # Database definitions for database plugins
 # NOTE: database users are defined later in this file
@@ -167,7 +155,6 @@ case $taito_env in
     taito_resource_namespace=$taito_organization_abbr-$taito_company-prod
 
     # Domain and resources
-    taito_app_url=https://$taito_domain
     taito_host="${template_default_host_prod:-}"
     kubernetes_cluster="${template_default_kubernetes_cluster_prefix_prod:-}${kubernetes_name}"
     db_database_real_host="${template_default_postgres_host_prod:-}"
@@ -191,7 +178,7 @@ case $taito_env in
     ci_exec_deploy=${template_default_ci_exec_deploy_prod:-true}
 
     # shellcheck disable=SC1091
-    . taito-domain-config.sh
+    if [[ -f taito-env-prod-config.sh ]]; then . taito-env-prod-config.sh; fi
     ;;
   stag)
     # Settings
@@ -209,7 +196,6 @@ case $taito_env in
     # Domain and resources
     taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
     taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
-    taito_app_url=https://$taito_domain
     taito_host="${template_default_host_prod:-}"
     kubernetes_cluster="${template_default_kubernetes_cluster_prefix_prod:-}${kubernetes_name}"
     db_database_real_host="${template_default_postgres_host_prod:-}"
@@ -224,17 +210,22 @@ case $taito_env in
     taito_container_registry=${template_default_container_registry_prod:-}/$taito_vc_repository
     taito_ci_provider=${template_default_ci_provider_prod:?}
     ci_exec_deploy=${template_default_ci_exec_deploy_prod:-true}
+
+    # shellcheck disable=SC1091
+    if [[ -f taito-env-stag-config.sh ]]; then . taito-env-stag-config.sh; fi
     ;;
   test)
     ci_test_base_url=https://TODO:TODO@$taito_domain
+
+    # shellcheck disable=SC1091
+    if [[ -f taito-env-test-config.sh ]]; then . taito-env-test-config.sh; fi
     ;;
   dev|feat)
     ci_exec_build=true        # allow build of a new container
     ci_exec_deploy=true       # deploy automatically
-    ci_exec_test=true         # execute test suites
-    ci_exec_test_init=false   # run 'init --clean' before each test suite
-    ci_exec_revert=false      # revert deploy if previous steps failed
-    ci_test_base_url=https://username:secretpassword@$taito_domain
+
+    # shellcheck disable=SC1091
+    if [[ -f taito-env-dev-config.sh ]]; then . taito-env-dev-config.sh; fi
     ;;
   local)
     ci_exec_test_init=false   # run 'init --clean' before each test suite
@@ -244,10 +235,8 @@ case $taito_env in
     db_database_host=$taito_project-database
     db_database_port=5432
 
-    # TODO why password is not required for pg? mysql plugin requires it.
-    # perhaps pg plugin uses 'secret' as password by default?
-    # db_database_username=root
-    # db_database_password=secret
+    # shellcheck disable=SC1091
+    if [[ -f taito-env-local-config.sh ]]; then . taito-env-local-config.sh; fi
     ;;
 esac
 
@@ -258,6 +247,9 @@ taito_resource_namespace_id=$taito_resource_namespace
 taito_uptime_namespace_id=$taito_zone
 
 # URLs
+if [[ $taito_env != "local" ]]; then
+  taito_app_url=https://$taito_domain
+fi
 taito_admin_url=$taito_app_url/admin/
 taito_storage_url="https://console.cloud.google.com/storage/browser/$taito_random_name-$taito_env?project=$taito_resource_namespace_id"
 if [[ "$taito_env" == "local" ]]; then
@@ -283,10 +275,10 @@ db_database_default_secret="${db_database_name//_/-}-db-mgr.password"
 db_database_master_username="${template_default_postgres_master_username:-}"
 db_database_master_password_hint="${template_default_postgres_master_password_hint:-}"
 
-# ------ Environments config ------
+# ------ All environments config ------
 
 # shellcheck disable=SC1091
-. taito-environments-config.sh
+. taito-env-all-config.sh
 
 # TODO: Temporary hack for https://github.com/gatsbyjs/gatsby/issues/3721
 link_urls=${link_urls/:9999\/docs/:7463\/docs/}
@@ -306,6 +298,6 @@ fi
 # ------ Test suite settings ------
 
 # shellcheck disable=SC1091
-. taito-test-config.sh
+. taito-testing-config.sh
 
 set +a

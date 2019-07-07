@@ -2,18 +2,35 @@
 # shellcheck disable=SC2034
 
 ##########################################################################
-# Environment settings
+# Settings for all environments
 ##########################################################################
 
-# Define environments here in correct order (e.g. dev test stag canary prod)
+# Environments: In the correct order (e.g. dev test stag canary prod)
 taito_environments="${template_default_environments:?}"
 
-# NOTE: Uncomment the line below to disable basic auth from ALL environments.
-# NOTE: Use taito-domain-config.sh to disable basic auth from PROD env only.
+# Basic auth: Uncomment the line below to disable basic auth from ALL
+# environments. Use taito-env-prod-config.sh to disable basic auth from prod
+# environment only.
 # taito_basic_auth_enabled=false
 
-# NOTE: Uncomment the line below to always create GCP service account
+# Service account: Uncomment the line below to always create GCP service account
 # gcp_service_account_enabled=true
+
+# ------ Stack ------
+
+# Stack
+taito_targets=" admin client graphql database function kafka redis server storage worker www zookeeper "
+taito_storages="$taito_random_name-$taito_env"
+taito_networks="default"
+
+# Stack target types ('container' by default)
+taito_target_type_database=database
+taito_target_type_function=function
+
+# Stack monitoring
+taito_uptime_targets=" admin client graphql server www "
+taito_uptime_paths=" /admin/uptimez /uptimez /graphql/uptimez /api/uptimez /docs/uptimez "
+taito_uptime_timeouts=" 5s 5s 5s 5s 5s "
 
 # ------ Links ------
 # Add custom links here. You can regenerate README.md links with
