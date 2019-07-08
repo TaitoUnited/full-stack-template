@@ -67,8 +67,8 @@ function prune () {
     sed -i "s/lint:$name //g" package.json
     sed -i "s/unit:$name //g" package.json
     sed -i "s/test:$name //g" package.json
-    sed -i "s/\"check-deps:$name {@}\" //g" package.json
-    sed -i "s/\"check-size:$name {@}\" //g" package.json
+    sed -i "s/\\\\\"check-deps:$name {@}\\\\\" //g" package.json
+    sed -i "s/\\\\\"check-size:$name {@}\\\\\" //g" package.json
     sed -i "s/ && npm run clean:$name//g" package.json
 
     # Prune target from CI/CD scripts
