@@ -39,7 +39,6 @@ case $taito_provider in
     link_urls="
       ${link_urls}
       * services[:ENV]=https://console.cloud.google.com/apis/dashboard?project=$taito_resource_namespace_id Google services (:ENV)
-      * logs:ENV=https://console.cloud.google.com/logs/viewer?project=$taito_zone&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F$kubernetes_name%2Fnamespace_id%2F$taito_namespace Logs (:ENV)
     "
 
     # Set google specific storage url
@@ -80,6 +79,24 @@ case $taito_provider in
     ;;
 esac
 
+taito_logging_provider=${taito_logging_provider:-$taito_provider}
+case $taito_logging_provider in
+  efk)
+    # TODO: EFK running on Kubernetes
+    ;;
+  gcp)
+    taito_logging_format=stackdriver
+    link_urls="
+      ${link_urls}
+      * logs:ENV=https://console.cloud.google.com/logs/viewer?project=$taito_zone&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F$kubernetes_name%2Fnamespace_id%2F$taito_namespace Logs (:ENV)
+    "
+    ;;
+  *)
+    taito_logging_format=text
+    ;;
+esac
+
+taito_uptime_provider=${taito_uptime_provider:-$taito_provider}
 case $taito_uptime_provider in
   gcp)
     taito_plugins="${taito_plugins/gcp:-local/}"

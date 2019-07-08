@@ -2,7 +2,8 @@ global:
   domain: ${taito_domain}
   url: https://${taito_domain}
   publicPort: 443
-  logFormat: stackdriver
+  logProvider: ${taito_logging_provider}
+  logFormat: ${taito_logging_format}
   logLevel: info    # trace, debug, info, warn, error, fatal
   registry: ${taito_container_registry}
   imagePullPolicy: ''
