@@ -27,7 +27,7 @@ taito_networks="default"
 taito_target_type_database=database
 taito_target_type_function=function
 
-# Stack monitoring
+# Stack uptime monitoring
 taito_uptime_targets=" admin client graphql server www "
 taito_uptime_paths=" /admin/uptimez /uptimez /graphql/uptimez /api/uptimez /docs/uptimez "
 taito_uptime_timeouts=" 5s 5s 5s 5s 5s "

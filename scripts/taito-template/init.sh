@@ -87,6 +87,8 @@ function prune () {
     if [[ $name == "client" ]]; then
       sed -i "s/ \\/uptimez / /" taito-config.sh
       sed -i "s/ \\/uptimez / /" taito-env-all-config.sh
+      sed -i "/CYPRESS/d" taito-testing-config.sh
+      sed -i "/cypress/d" taito-testing-config.sh
     fi
 
     if [[ $name == "server" ]]; then
@@ -121,6 +123,7 @@ function prune () {
       sed -i '/postgres-db/d' taito-config.sh
       sed -i '/db_/d' taito-config.sh
       sed -i '/db_/d' taito-env-all-config.sh
+      sed -i "/DATABASE/d" taito-testing-config.sh
       sed -i '/Database/d' docker-compose.yaml
       sed -i '/Database/d' docker-compose-remote.yaml
       sed -i '/DATABASE_/d' docker-compose.yaml
