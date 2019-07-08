@@ -94,6 +94,7 @@ function prune () {
       sed -i "s/ \\/api\\/uptimez / /" taito-env-all-config.sh
       sed -i "s/ \\/api\\/docs / /" taito-config.sh
       sed -i "s/ \\/api\\/docs / /" taito-env-all-config.sh
+      sed -i '/* apidocs/d' taito-env-all-config.sh
     fi
 
     if [[ $name == "kafka" ]]; then
