@@ -219,6 +219,7 @@ case $taito_env in
     ;;
   local)
     taito_app_url=http://localhost:9999
+    taito_storage_url=http://localhost:9999/minio
     db_database_external_port=6000
     db_database_host=$taito_project-database
     db_database_port=5432
@@ -250,11 +251,6 @@ taito_uptime_namespace_id=$taito_zone
 # URLs
 if [[ $taito_env != "local" ]]; then
   taito_app_url=https://$taito_domain
-fi
-taito_admin_url=$taito_app_url/admin/
-taito_storage_url="https://console.cloud.google.com/storage/browser/$taito_random_name-$taito_env?project=$taito_resource_namespace_id"
-if [[ "$taito_env" == "local" ]]; then
-  taito_storage_url=http://localhost:9999/minio
 fi
 
 # ------ Database users ------
@@ -295,6 +291,13 @@ fi
 
 # shellcheck disable=SC1091
 . taito-provider-config.sh
+
+# ------ Derived values ------
+
+link_urls="
+  ${link_urls}
+  * storage:ENV=$taito_storage_url Storage bucket (:ENV)
+"
 
 # ------ Test suite settings ------
 

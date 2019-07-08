@@ -42,6 +42,12 @@ case $taito_provider in
       * logs:ENV=https://console.cloud.google.com/logs/viewer?project=$taito_zone&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F$kubernetes_name%2Fnamespace_id%2F$taito_namespace Logs (:ENV)
     "
 
+    # Set google specific storage url
+    if [[ $taito_env != "local" ]] && [[ $taito_storages ]]; then
+      storages=( $taito_storages )
+      taito_storage_url="https://console.cloud.google.com/storage/browser/${storages[0]}?project=$taito_resource_namespace_id"
+    fi
+
     kubernetes_db_proxy_enabled=false # use google cloud sql proxy instead
     if [[ -z "${gcp_service_account_enabled}" ]]; then
       gcp_service_account_enabled=false
@@ -172,6 +178,7 @@ case $taito_container_registry_provider in
     ;;
 esac
 
+# Sentry
 if [[ $taito_plugins == *"sentry"* ]]; then
   sentry_organization=${template_default_sentry_organization:-}
   link_urls="
