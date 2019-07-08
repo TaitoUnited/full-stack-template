@@ -21,3 +21,5 @@ template-tmp
 RemoteSystemsTempFiles
 
 **/.terraform/*
+
+.env
