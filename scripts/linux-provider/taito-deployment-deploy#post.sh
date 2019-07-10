@@ -37,7 +37,7 @@ echo "[Copy docker-compose-remote.yaml to ${taito_host}:/tmp]"
   set -e
   ${taito_setv:-}
   mkdir -p tmp
-  files="docker-compose-remote.yaml docker-nginx.conf taito-config.sh"
+  files="docker-compose-remote.yaml docker-nginx.conf taito-*.sh"
   if [[ -f database/db.sql ]]; then
     files="$files database/db.sql"
   fi
