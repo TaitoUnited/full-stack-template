@@ -228,7 +228,7 @@ services:
     environment:
       MINIO_ACCESS_KEY: minio
       # MINIO requires key as environment variable?
-      MINIO_SECRET_KEY: secret1234
+      MINIO_SECRET_KEY: ${taito_default_password}
 
 secrets:
   DATABASE_PASSWORD:
