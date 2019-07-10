@@ -32,7 +32,7 @@ Table of contents:
 
 ## Links
 
-Non-production basic auth credentials: CREDENTIALS
+Non-production basic auth credentials: `USERNAME` / `PASSWORD`
 
 [//]: # (GENERATED LINKS START)
 

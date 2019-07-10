@@ -1,6 +1,6 @@
 # Configuration
 
-This file has been copied from [FULL-STACK-TEMPLATE](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/). Keep modifications minimal and improve the [original](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/blob/dev/CONFIGURATION.md) instead. Note that Taito CLI is optional (see [TAITOLESS.md](TAITOLESS.md)).
+This file has been copied from [FULL-STACK-TEMPLATE](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/). Keep modifications minimal and improve the [original](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/blob/dev/CONFIGURATION.md) instead.
 
 ## Prerequisites
 
@@ -40,11 +40,11 @@ Write down the basic auth credentials to `taito-testing-config.sh`:
 
     EDIT taito-testing-config.sh  # Edit this: ci_test_base_url=https://username:secretpassword@...
 
-Push some changes to dev branch with a [Conventional Commits](http://conventionalcommits.org/) commit message `chore: configuration`:
+Push some changes to dev branch with a [Conventional Commits](http://conventionalcommits.org/) commit message (e.g. `chore: configuration`):
 
-    taito stage                   # Or just 'git add .'
-    taito commit                  # Or just 'git commit'
-    taito push                    # Or just 'git push'
+    taito stage                   # Or just: git add .
+    taito commit                  # Or just: git commit -m 'chore: configuration'
+    taito push                    # Or just: git push
 
 See it build and deploy:
 
