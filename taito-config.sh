@@ -118,7 +118,6 @@ taito_default_password=secret1234
 ci_exec_build=false        # build container image if it does not exist already
 ci_exec_deploy=${template_default_ci_exec_deploy:-true}        # deploy automatically
 ci_exec_test=false         # execute test suites after deploy
-ci_exec_test_wait=60       # how many seconds to wait for deployment/restart
 ci_exec_test_init=false    # run 'init --clean' before each test suite
 ci_exec_revert=false       # revert deployment automatically on fail
 ci_static_assets_location= # location to publish all static files (CDN)
@@ -134,9 +133,6 @@ kubernetes_name=${template_default_kubernetes:-}
 kubernetes_cluster="${template_default_kubernetes_cluster_prefix:-}${kubernetes_name}"
 kubernetes_replicas=1
 kubernetes_db_proxy_enabled=true
-
-# Helm plugin
-# helm_deploy_options="--atomic --cleanup-on-fail --force"
 
 # ------ Environment specific settings ------
 
