@@ -15,7 +15,7 @@ full-stack:
     existingClaim:
     storageClass:
     # NOTE: Google does not support ReadWriteMany
-    # --> all containers will be placed on the same Kubernetes node
+    # ReadWriteOnce -> all containers will be placed on the same Kubernetes node
     accessMode: ReadWriteOnce
     size: 8Gi
 
@@ -76,7 +76,7 @@ full-stack:
     # Scaling
     replicas: ${kubernetes_replicas}
     autoscale: false
-    minReplicas: 2
+    minReplicas: ${kubernetes_replicas}
     maxReplicas: 5
     # TODO metrics:
     # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
@@ -242,6 +242,10 @@ full-stack:
         paths:
           - path: /webhook
         port: 9000
+        cpuRequest: 5m
+        cpuLimit: 500m
+        memoryRequest: 128Mi
+        memoryLimit: 768Mi
         sharedVolume:
           mountPath: /service
           sidecarMountPath: /build
