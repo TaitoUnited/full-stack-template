@@ -31,14 +31,14 @@ Install additional libraries on host for autocompletion/linting on editor (optio
 Set up environment variables required by `docker-compose.yaml`:
 
     # On unix-like shell
-    . taitoless.sh
+    . taito-config.sh
 
     # On Windows shell
     taitoless.bat
 
 Setup secrets required by `docker-compose.yaml`:
 
-> See the secret file paths at the end of `docker-compose.yaml` and set the secret file contents accordingly.
+> See the secret file paths at the end of `docker-compose.yaml` and set the secret file contents accordingly. Use `secret1234` as value for all 'randomly generated' secrets like database password. Other secrets values you can retrieve from dev environment with `kubectl get secrets -o yaml --namespace full-stack-template-dev`. You need to decode the base64 encoded values with the `base64` command-line tool).
 
 Start containers defined in `docker-compose.yaml`:
 
@@ -88,10 +88,8 @@ Instructions defined in [CONFIGURATION.md](CONFIGURATION.md) apply. You just nee
 
 * Run taito-config.sh to set the environment variables for the environment in question (dev, test, stag, canary, or prod):
     ```
-    set -a
-    taito_target_env=dev
+    export taito_target_env=dev
     . taito-config.sh
-    set +a
     ```
 * Run terraform scripts that are located at `scripts/terraform/`. Use `scripts/terraform/common/backend.tf` as backend, if you want to store terraform state on git. Note that the terraform scripts assume that a cloud provider project defined by `taito_resource_namespace` and `taito_resource_namespace_id` already exists and Terraform is allowed to create resources for that project.
 * (TODO: create database with terraform instead): Create a relational database (or databases) for an environment e.g. by using cloud provider web UI. See `db_*` settings in `taito-config.sh` for database definitions. Create two user accounts for the database: `FULL_STACK_TEMPLATE_ENV` for deploying the database migrations (broad user rights) and `FULL_STACK_TEMPLATE_ENV_app` for the application (concise user rights). Configure also database extensions if required by the application (see `database/db.sql`).
