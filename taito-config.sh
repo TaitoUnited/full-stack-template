@@ -192,7 +192,6 @@ case $taito_env in
     ;;
   stag)
     # Settings
-    taito_basic_auth_enabled=true
     kubernetes_replicas=2
 
     # Provider and namespaces
