@@ -30,6 +30,7 @@ test_all_DATABASE_USER=${db_database_name}_app
 if [[ "$taito_target_env" == "local" ]]; then
   # On local env we connect to database running on an another container
   test_all_DATABASE_HOST=$taito_project-database
+  :
 fi
 
 # URLs
@@ -41,11 +42,13 @@ if [[ "$taito_target_env" == "local" ]]; then
   CYPRESS_baseUrl=$taito_app_url
   if [[ $taito_target == "admin" ]]; then
     CYPRESS_baseUrl=$taito_app_url/admin
+    :
   fi
 else
   CYPRESS_baseUrl=$ci_test_base_url
   if [[ $taito_target == "admin" ]]; then
     CYPRESS_baseUrl=$ci_test_base_url/admin
+    :
   fi
 fi
 
@@ -62,4 +65,5 @@ test_client_CYPRESS_baseUrl=https://www.google.com
 if [[ $taito_plugins == *"gcp-ci"* ]] && [[ ${taito_mode:-} == "ci" ]]; then
   test_all_DATABASE_HOST=127.0.0.1
   test_all_DATABASE_PORT=5001
+  :
 fi
