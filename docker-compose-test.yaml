@@ -1,6 +1,7 @@
 # This file is used for running integration tests against a remote
 # environment. It is needed only if your test implementations require
-# a remote database access through a database proxy.
+# a remote database access through a proxy, or secrets defined in the remote
+# environment.
 
 version: '3.5'
 services:
@@ -12,10 +13,7 @@ services:
       - "./admin:/service:delegated"
       - "./shared:/service/shared:delegated"
       - "/service/node_modules"
-    networks:
-      - test
-    depends_on:
-      - full-stack-template-database-test-proxy
+    network_mode: "bridge"
     secrets:
       - DATABASE_PASSWORD
     environment:
@@ -29,10 +27,7 @@ services:
       - "./client:/service:delegated"
       - "./shared:/service/shared:delegated"
       - "/service/node_modules"
-    networks:
-      - test
-    depends_on:
-      - full-stack-template-database-test-proxy
+    network_mode: "bridge"
     secrets:
       - DATABASE_PASSWORD
     environment:
@@ -46,10 +41,7 @@ services:
       - "./graphql:/service:delegated"
       - "./shared:/service/shared:delegated"
       - "/service/node_modules"
-    networks:
-      - test
-    depends_on:
-      - full-stack-template-database-test-proxy
+    network_mode: "bridge"
     secrets:
       - DATABASE_PASSWORD
     environment:
@@ -63,10 +55,10 @@ services:
       - "./server:/service:delegated"
       - "./shared:/service/shared:delegated"
       - "/service/node_modules"
-    networks:
-      - test
-    depends_on:
+    links:
       - full-stack-template-database-test-proxy
+      # - full-stack-template-services-test-proxy
+    network_mode: "bridge"
     secrets:
       - DATABASE_PASSWORD
     environment:
@@ -75,18 +67,25 @@ services:
   # Taito CLI container serves as a database proxy
   full-stack-template-database-test-proxy:
     container_name: full-stack-template-database-test-proxy
-    image: ${taito_image:-taitounited/taito-cli:latest}
+    image: ${taito_image}
     restart: unless-stopped
-    entrypoint: /bin/sh -c "cd /project && taito db proxy:${taito_env} 5432"
     user: taito
-    networks:
-      - test
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        cd /project
+        taito db proxy:${taito_env} 5432
     ports:
       - "5432"
+    network_mode: "bridge"
     volumes:
       - ".:/project:delegated"
     environment:
       taito_docker: 'true'
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      GOOGLE_APPLICATION_CREDENTIALS: ${taito_proxy_credentials_file}
       template_default_taito_image: ${template_default_taito_image}
       template_default_environments: ${template_default_environments}
       template_default_organization: ${template_default_organization}
@@ -113,9 +112,33 @@ services:
       template_default_postgres: ${template_default_postgres}
       template_default_mysql: ${template_default_mysql}
 
+  # Taito CLI container serves as a tcp proxy for redis, etc.
+  # full-stack-template-services-test-proxy:
+  #   container_name: full-stack-template-services-test-proxy
+  #   image: ${taito_image}
+  #   restart: unless-stopped
+  #   user: taito
+  #   entrypoint:
+  #     - /bin/sh
+  #     - -c
+  #     - |
+  #       cd /project
+  #       taito forward:redis:${taito_env} 6379
+  #       # TIP: you can define multiple forwards like this:
+  #       # taito forward:kafka:${taito_env} 9092 &
+  #       # taito forward:redis:${taito_env} 6379 &
+  #       # tail -f /dev/null
+  #   ports:
+  #     - "6379"
+  #   network_mode: "bridge"
+  #   volumes:
+  #     - ".:/project:delegated"
+  #   environment:
+  #     taito_docker: "true"
+  #     AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+  #     AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+  #     GOOGLE_APPLICATION_CREDENTIALS: ${taito_proxy_credentials_file}
+
 secrets:
   DATABASE_PASSWORD:
     file: ./tmp/secrets/${taito_env}/${db_database_app_secret}
-
-networks:
-  test:

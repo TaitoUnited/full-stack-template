@@ -60,10 +60,3 @@ test_admin_CYPRESS_baseUrlHack=$test_admin_CYPRESS_baseUrl
 test_admin_CYPRESS_baseUrl=https://www.google.com
 test_client_CYPRESS_baseUrlHack=$test_client_CYPRESS_baseUrl
 test_client_CYPRESS_baseUrl=https://www.google.com
-
-# Special settings for running tests on gcp-ci
-if [[ $taito_plugins == *"gcp-ci"* ]] && [[ ${taito_mode:-} == "ci" ]]; then
-  test_all_DATABASE_HOST=127.0.0.1
-  test_all_DATABASE_PORT=5001
-  :
-fi

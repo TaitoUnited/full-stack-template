@@ -531,6 +531,7 @@ steps:
   args: ['test:$BRANCH_NAME']
   env:
     - taito_mode=ci
+    - taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     # NOTE: These are removed by 'taito project create'
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}

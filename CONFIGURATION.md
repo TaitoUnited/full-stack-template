@@ -53,6 +53,8 @@ See it build and deploy:
     taito open client:dev
     taito open server:dev
 
+> If CI/CD tests fail on certificate error during the first CI/CD run, just retry the CI/CD run. Certificate manager probably had not retrieved the certificate yet.
+
 > If you have some trouble creating an environment, you can destroy it by running `taito env destroy:dev` and then try again with `taito env apply:dev`.
 
 * [ ] All done

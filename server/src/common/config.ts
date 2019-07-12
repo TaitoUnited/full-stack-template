@@ -9,24 +9,7 @@ export const readFileSync = (path: string) => {
 };
 
 export const readSecretSync = (secret: string) => {
-  let value = readFileSync(`/run/secrets/${secret}`);
-
-  // TODO: remove (temporary hack for docker/util-test.sh taito-cli plugin)
-  if (
-    !value &&
-    secret === "DATABASE_PASSWORD" &&
-    process.env.taito_running_tests === "true"
-  ) {
-    const ciSecret = `${process.cwd()}/../tmp/secrets/${
-      process.env.taito_env
-    }/${process.env.db_database_app_secret}`;
-    // tslint:disable-next-line
-    console.log(`Reading db secret for ci: ${ciSecret}`);
-    // tslint:disable-next-line
-    console.log(`Current directory: ${process.cwd()}`);
-    value = readFileSync(ciSecret);
-  }
-
+  const value = readFileSync(`/run/secrets/${secret}`);
   // tslint:disable-next-line
   if (!value) console.warn(`WARNING: Failed to read secret ${secret}`);
   return value;
