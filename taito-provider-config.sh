@@ -96,7 +96,6 @@ case $taito_logging_provider in
     ;;
 esac
 
-taito_uptime_provider=${taito_uptime_provider:-$taito_provider}
 case $taito_uptime_provider in
   gcp)
     taito_plugins="${taito_plugins/gcp:-local/}"
