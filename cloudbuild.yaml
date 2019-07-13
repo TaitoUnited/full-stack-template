@@ -54,11 +54,11 @@ substitutions:
 
 steps:
 
-# NOTE: This first step is an optimization. We execute cancel with
-# the google provided kubectl container instead of Taito CLI, because it
+# NOTE: This first step is an optimization. We execute CI/CD build cancel with
+# the google provided gcloud container instead of Taito CLI, because it
 # doesn't need to be pulled before execution -> cancel executes immediately.
 - id: manual-cancel
-  name: 'gcr.io/cloud-builders/kubectl'
+  name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: 'bash'
   env:
     - branch_name=$BRANCH_NAME
@@ -105,32 +105,14 @@ steps:
     export template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
     export template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
     export template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
-
-    export taito_target_env
-    taito_target_env="$${branch_name}"
-    if [[ "$${taito_target_env}" == "master" ]]; then
-      taito_target_env="prod"
-    fi
-    export taito_env="$${taito_target_env}"
+    export taito_target_env="$${branch_name//master/prod}"
     source ./taito-config.sh
-
-    # TODO: should be implemented in taito-cli plugin
-    echo "- Get cluster credentials"
-    if ! gcloud container clusters get-credentials "$${kubernetes_name}" \
-      --zone "$${taito_provider_zone}"; then
-      echo "ERROR: Get cluster credentials failed"
-      exit 1
-    fi
-
     echo "- Cancel all previous ongoing builds targetting the same branch"
     gcloud builds list --ongoing | \
       grep "$${full_repo_name}@$${branch_name}" | \
       grep -v "$${build_id}" | \
       cut -d ' ' -f 1 | \
-      xargs -L1 gcloud builds cancel 2> /dev/null
-
-    echo "- We ignore all fails during cancel (hence the last echo)"
-
+      xargs -L1 gcloud builds cancel 2> /dev/null || :
 
 # ----------------------- Taito CLI ----------------------------------
 
