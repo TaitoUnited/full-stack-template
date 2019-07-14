@@ -23,7 +23,7 @@ case $taito_env in
 esac
 
 # Database connection
-test_all_DATABASE_HOST=$taito_project-database-test-proxy
+test_all_DATABASE_HOST=$taito_project-database-proxy
 test_all_DATABASE_PORT=5432
 test_all_DATABASE_NAME=$db_database_name
 test_all_DATABASE_USER=${db_database_name}_app

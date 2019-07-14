@@ -56,8 +56,8 @@ services:
       - "./shared:/service/shared:delegated"
       - "/service/node_modules"
     links:
-      - full-stack-template-database-test-proxy
-      # - full-stack-template-services-test-proxy
+      - full-stack-template-database-proxy
+      # - full-stack-template-services-proxy
     network_mode: "bridge"
     secrets:
       - DATABASE_PASSWORD
@@ -65,8 +65,8 @@ services:
       taito_running_tests: "true"
 
   # Taito CLI container serves as a database proxy
-  full-stack-template-database-test-proxy:
-    container_name: full-stack-template-database-test-proxy
+  full-stack-template-database-proxy:
+    container_name: full-stack-template-database-proxy
     image: ${taito_image}
     restart: unless-stopped
     user: taito
@@ -113,8 +113,8 @@ services:
       template_default_mysql: ${template_default_mysql}
 
   # Taito CLI container serves as a tcp proxy for redis, etc.
-  # full-stack-template-services-test-proxy:
-  #   container_name: full-stack-template-services-test-proxy
+  # full-stack-template-services-proxy:
+  #   container_name: full-stack-template-services-proxy
   #   image: ${taito_image}
   #   restart: unless-stopped
   #   user: taito
