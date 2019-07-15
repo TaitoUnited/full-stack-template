@@ -273,8 +273,10 @@ db_database_app_username="${db_database_name}_app"
 db_database_app_secret="${db_database_name//_/-}-db-app.password"
 
 # mgr user for deploying database migrations (CI/CD)
-db_database_mgr_username="$db_database_name"
-db_database_mgr_secret="${db_database_name//_/-}-db-mgr.password"
+if [[ ${taito_env} != "local" ]]; then
+  db_database_mgr_username="$db_database_name"
+  db_database_mgr_secret="${db_database_name//_/-}-db-mgr.password"
+fi
 
 # default user for executing database operations
 # TODO: empty for prod/stag
