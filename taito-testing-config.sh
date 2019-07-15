@@ -28,7 +28,7 @@ test_all_DATABASE_PORT=5432
 test_all_DATABASE_NAME=$db_database_name
 test_all_DATABASE_USER=${db_database_name}_app
 if [[ "$taito_target_env" == "local" ]]; then
-  # On local env we connect to database running on an another container
+  # On local env we connect directly to the local database
   test_all_DATABASE_HOST=$taito_project-database
   :
 fi

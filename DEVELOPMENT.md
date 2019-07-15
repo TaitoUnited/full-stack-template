@@ -182,13 +182,13 @@ If the cooling fans of your computer spin fast and the computer seems slow, a hi
 
 Docker volume mounts can be slow on non-Linux systems. The template uses *delegated* volume mounts to mitigate this issue on macOS, and *rsync* to mitigate the issue on Windows.
 
-To get maximum performace on non-Linux system, you may also choose to run some services locally, if you have all the necessary dependencies installed on your host system. For example, to run the client locally, you can add the following lines to your `taito-user-config.sh`, Taito CLI will modify docker-compose.yaml and docker-nginx.conf accordingly on `taito start`:
+To get maximum performace on non-Linux system, you may also choose to run some of the services locally, if you have all the necessary dependencies installed on your host system. For example, to run the client locally, you can add the following lines to your `taito-user-config.sh`. Taito CLI will modify docker-compose.yaml and docker-nginx.conf accordingly on `taito start`.
 
    ```
    docker_compose_local_services="full-stack-template-client:8080"
    ```
 
-Note that in addition to running `taito start`, you also need to start the local client manually with the necessary environment variables set, for example:
+Note that you also need to start the local client manually with the necessary environment variables set, for example:
    ```
    cd client
    export COMMON_PUBLIC_PORT=9999
