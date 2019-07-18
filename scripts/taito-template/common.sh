@@ -27,7 +27,6 @@
 : "${template_default_ci_exec_deploy_prod:?}"
 
 : "${template_project_path:?}"
-: "${mode:?}"
 
 ${taito_setv:-}
 
