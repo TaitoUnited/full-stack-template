@@ -44,12 +44,14 @@ if [[ "$taito_target_env" == "local" ]]; then
     CYPRESS_baseUrl=$taito_app_url/admin
     :
   fi
+  :
 else
   CYPRESS_baseUrl=$ci_test_base_url
   if [[ $taito_target == "admin" ]]; then
     CYPRESS_baseUrl=$ci_test_base_url/admin
     :
   fi
+  :
 fi
 
 # cypress hack to avoid basic auth on Electron browser startup:

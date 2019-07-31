@@ -127,8 +127,8 @@ function prune () {
       sed -i '/Database/d' docker-compose-remote.yaml
       sed -i '/DATABASE_/d' docker-compose.yaml
       sed -i '/DATABASE_/d' docker-compose-remote.yaml
-      sed -i '/db-/d' docker-compose.yaml
-      sed -i '/db-/d' docker-compose-remote.yaml
+      sed -i '/db_/d' docker-compose.yaml
+      sed -i '/db_/d' docker-compose-remote.yaml
       sed -i '/DATABASE_/d' ./scripts/helm.yaml
       sed -i "/^      db:\$/,/^        proxySecret:.*$/d" ./scripts/helm.yaml
       rm -f docker-compose-test.yaml
