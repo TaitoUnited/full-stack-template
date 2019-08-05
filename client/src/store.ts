@@ -22,8 +22,15 @@ export default function configureStore(history: History) {
     middlewares.push(logger);
   }
 
-  const composeEnhancers =
-    (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const devToolsCompose = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+
+  const composeEnhancers = devToolsCompose
+    ? devToolsCompose({
+        trace: true,
+        traceLimit: 10, // This is default limit imposed by Chrome.
+        // Increase if you need to see more of stacktrace.
+      })
+    : compose;
 
   const enhancer = composeEnhancers(applyMiddleware(...middlewares));
 
