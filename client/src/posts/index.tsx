@@ -2,11 +2,11 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { Trans } from '@lingui/macro';
 
-import * as api from '~services/api';
-import { Page } from '~ui';
 import PostForm from './PostForm';
 import PostList from './PostList';
 import { PostDraft, Post } from './post.types';
+import * as api from '~services/api';
+import { Page } from '~ui';
 
 interface State {
   post: PostDraft;

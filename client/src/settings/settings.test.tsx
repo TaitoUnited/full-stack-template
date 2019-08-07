@@ -2,8 +2,8 @@ import React from 'react';
 
 import '~common/utils/test.setup';
 
-import { renderWithProviders } from '~common/utils/test.utils';
 import LangButton from './LangButton';
+import { renderWithProviders } from '~common/utils/test.utils';
 
 // NOTE: this is a stupid test! Don't make tests like this.
 test('Renders with correct text content', () => {

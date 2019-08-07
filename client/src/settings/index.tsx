@@ -3,10 +3,10 @@ import Typography from '@material-ui/core/Typography';
 import { Trans } from '@lingui/macro';
 import { connect } from 'react-redux';
 
-import { Page } from '~ui';
-import { Lang } from '~common/services/i18n';
 import { settings } from './settings.model';
 import LangButton from './LangButton';
+import { Page } from '~ui';
+import { Lang } from '~common/services/i18n';
 
 interface Props {
   language: Lang;

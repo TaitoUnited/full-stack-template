@@ -5,10 +5,10 @@ import { ConnectedRouter } from 'connected-react-router';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import { ThemeProvider } from 'styled-components';
 
+import configureStore from './store';
 import theme from '~theme';
 import { connectApiToStore } from '~common/services/api';
 import { I18nProvider } from '~ui';
-import configureStore from './store';
 
 const history = createBrowserHistory();
 const store = configureStore(history);
