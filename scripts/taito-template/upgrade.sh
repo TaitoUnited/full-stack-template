@@ -20,13 +20,12 @@ rm -rf "alternatives"
 
 echo "Remove obsolete root files not to be copied"
 rm -f \
-  docker-*
-  # TODO: also ->
-  # README.md \
-  # taito-env-all-config.sh \
-  # taito-env-prod-config.sh \
-  # taito-testing-config.sh \
-  # trouble.txt
+  docker-* \
+  README.md \
+  taito-env-all-config.sh \
+  taito-env-prod-config.sh \
+  taito-testing-config.sh \
+  trouble.txt
 
 echo "Mark all configurations as 'done'"
 sed -i "s/\[ \] All done/[x] All done/g" CONFIGURATION.md
@@ -37,21 +36,9 @@ echo "Copy all root files from template"
 echo "Copy dockerfiles from template"
 find . -name "Dockerfile*" -exec cp --parents \{\} "${template_project_path}" \;
 
-# TODO: remove
-rm -rf ${template_project_path}/scripts/helm/*
-
 echo "Copy helm scripts from template"
 mkdir -p "${template_project_path}/scripts/helm"
 yes | cp -f scripts/helm/* "${template_project_path}/scripts/helm"
-
-# TODO: remove
-rm -rf "${template_project_path}/scripts/terraform/gcloud"
-# TODO: remove
-rm -rf "${template_project_path}/scripts/terraform/.terraform"
-# TODO: remove
-sed -i "s/oldRewritePolicy: false/oldRewritePolicy: true/g" scripts/helm.yaml
-# TODO: remove
-(yes | cp -f scripts/*.yaml "${template_project_path}/scripts")
 
 echo "Copy terraform scripts from template"
 cp -rf scripts/terraform "${template_project_path}/scripts"
