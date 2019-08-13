@@ -1,5 +1,5 @@
-import pgpInit, { IDatabase } from "pg-promise";
-import config from "./config";
+import pgpInit, { IDatabase } from 'pg-promise';
+import config from './config';
 
 const pgp = pgpInit({
   // Initialization options
@@ -11,7 +11,7 @@ const cn = {
   database: config.DATABASE_NAME,
   user: config.DATABASE_USER,
   password: config.DATABASE_PASSWORD,
-  poolSize: config.DATABASE_POOL_MAX
+  poolSize: config.DATABASE_POOL_MAX,
 };
 
 const db: IDatabase<{}> = pgp(cn);

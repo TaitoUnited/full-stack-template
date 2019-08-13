@@ -1,25 +1,25 @@
-import bunyan, { LogLevel } from "bunyan";
-import { Transform, TransformCallback, TransformOptions } from "stream";
+import bunyan, { LogLevel } from 'bunyan';
+import { Transform, TransformCallback, TransformOptions } from 'stream';
 
-import config from "./config";
+import config from './config';
 
 const stackdriverSeverityByBunyanLevel = {
-  [bunyan.TRACE]: "DEBUG",
-  [bunyan.DEBUG]: "DEBUG",
-  [bunyan.INFO]: "INFO",
-  [bunyan.WARN]: "WARNING",
-  [bunyan.ERROR]: "ERROR",
-  [bunyan.FATAL]: "CRITICAL"
+  [bunyan.TRACE]: 'DEBUG',
+  [bunyan.DEBUG]: 'DEBUG',
+  [bunyan.INFO]: 'INFO',
+  [bunyan.WARN]: 'WARNING',
+  [bunyan.ERROR]: 'ERROR',
+  [bunyan.FATAL]: 'CRITICAL',
 };
 
-const allowedHeaders = ["user-agent", "referer", "x-real-ip"];
+const allowedHeaders = ['user-agent', 'referer', 'x-real-ip'];
 
 // Adds Stackdriver severity level to log entries
 class StackdriverStream extends Transform {
   constructor(options: TransformOptions, output: NodeJS.WritableStream) {
     super({
       ...options,
-      objectMode: true
+      objectMode: true,
     });
     this.pipe(output);
   }
@@ -60,7 +60,7 @@ class StackdriverStream extends Transform {
       suffix: config.COMMON_SUFFIX,
       domain: config.COMMON_DOMAIN,
       imageTag: config.COMMON_IMAGE_TAG,
-      env: config.COMMON_ENV
+      env: config.COMMON_ENV,
     };
     const messageParts = [];
     if (chunk.requestId) {
@@ -92,7 +92,7 @@ class StackdriverStream extends Transform {
       messageParts.push(`error=${chunk.err.message}`);
     }
     messageParts.push(chunk.msg);
-    chunk.message = messageParts.join(", ");
+    chunk.message = messageParts.join(', ');
     callback(undefined, `${JSON.stringify(chunk)}\n`);
   }
 }
@@ -102,22 +102,22 @@ const logFormatStreams = {
   text: [
     {
       level: (config.COMMON_LOG_LEVEL as LogLevel) || bunyan.INFO,
-      stream: process.stdout
-    }
+      stream: process.stdout,
+    },
   ],
 
   stackdriver: [
     {
-      type: "raw",
+      type: 'raw',
       stream: new StackdriverStream({}, process.stderr),
-      level: bunyan.WARN
+      level: bunyan.WARN,
     },
     {
-      type: "raw",
+      type: 'raw',
       stream: new StackdriverStream({}, process.stdout),
-      level: bunyan.INFO
-    }
-  ]
+      level: bunyan.INFO,
+    },
+  ],
 };
 
 const log = bunyan.createLogger({
@@ -126,8 +126,8 @@ const log = bunyan.createLogger({
   src: true,
   streams:
     logFormatStreams[
-      (config.COMMON_LOG_FORMAT as "text" | "stackdriver") || "stackdriver"
-    ]
+      (config.COMMON_LOG_FORMAT as 'text' | 'stackdriver') || 'stackdriver'
+    ],
 });
 
 export default log;

@@ -1,7 +1,7 @@
-import { ParameterizedContext } from "koa";
-import BaseRouter from "../common/BaseRouter";
-import { PostService } from "./PostService";
-import { BasePostSchema, PostSchema } from "./types";
+import { ParameterizedContext } from 'koa';
+import BaseRouter from '../common/BaseRouter';
+import { PostService } from './PostService';
+import { BasePostSchema, PostSchema } from './types';
 
 export class PostRouter extends BaseRouter {
   private postService: PostService;
@@ -10,70 +10,70 @@ export class PostRouter extends BaseRouter {
     const { router = null, postService = null } = injections;
     super(router);
     this.postService = postService || new PostService(injections);
-    this.group = "Posts";
-    this.prefix = "/posts";
+    this.group = 'Posts';
+    this.prefix = '/posts';
     this.setupRoutes();
   }
 
   private setupRoutes() {
     this.route({
-      method: "get",
-      path: "/",
+      method: 'get',
+      path: '/',
       documentation: {
-        description: "List all posts"
+        description: 'List all posts',
       },
       validate: {
         output: {
-          "200": {
+          '200': {
             body: this.Joi.object({
               data: this.Joi.array()
                 .items(PostSchema)
-                .required()
-            })
-          }
-        }
+                .required(),
+            }),
+          },
+        },
       },
       handler: async (ctx: ParameterizedContext) => {
         const data = await this.postService.getAllPosts({
-          db: ctx.tx
+          db: ctx.tx,
         });
 
         ctx.response.body = {
-          data
+          data,
         };
-      }
+      },
     });
 
     this.route({
-      method: "post",
-      path: "/",
+      method: 'post',
+      path: '/',
       documentation: {
-        description: "Create a post"
+        description: 'Create a post',
       },
       validate: {
-        type: "json",
+        type: 'json',
         body: this.Joi.object({
-          data: BasePostSchema.required()
+          data: BasePostSchema.required(),
         }),
         output: {
-          "201": {
+          '201': {
             body: this.Joi.object({
-              data: PostSchema.required()
-            })
-          }
-        }
+              data: PostSchema.required(),
+            }),
+          },
+        },
       },
       handler: async (ctx: ParameterizedContext) => {
         const data = await this.postService.createPost({
           db: ctx.tx,
-          ...ctx.request.body.data // Valid(ated) input
+          ...ctx.request.body.data, // Valid(ated) input
         });
 
         ctx.response.status = 201;
         ctx.response.body = {
-          data
+          data,
         };
-      }
+      },
     });
   }
 }

@@ -1,10 +1,10 @@
-import { Joi } from "koa-joi-router";
-import Mustache from "mustache";
-import showdown from "showdown";
+import { Joi } from 'koa-joi-router';
+import Mustache from 'mustache';
+import showdown from 'showdown';
 
 const markdownRenderer = new showdown.Converter({
   smartIndentationFix: true,
-  simpleLineBreaks: true
+  simpleLineBreaks: true,
 });
 
 const TEMPLATE_BASE = `
@@ -285,20 +285,20 @@ const TEMPLATE_NAV = `
   {{/routes}}
 </div>`;
 
-interface IApiGroup {
+interface ApiGroup {
   name: string;
   prefix: string;
   routes: any[];
 }
 
-interface IApiDocOptions {
+interface ApiDocOptions {
   title: string;
-  groups: IApiGroup[];
+  groups: ApiGroup[];
 }
 
 function schemaToObject(schema: any): any {
   switch (schema.type) {
-    case "object": {
+    case 'object': {
       if (schema.children) {
         return Object.keys(schema.children).reduce((obj: any, key) => {
           const subSchema = schema.children[key];
@@ -321,16 +321,16 @@ function schemaToObject(schema: any): any {
       }
       return {};
     }
-    case "array": {
+    case 'array': {
       return schema.items.map(schemaToObject);
     }
     default: {
       const presence =
         schema.flags && schema.flags.presence
           ? `${schema.flags.presence} `
-          : "";
+          : '';
       if (schema.flags && schema.flags.allowOnly) {
-        let allowed = schema.valids.map((v: string) => `"${v}"`).join("|");
+        let allowed = schema.valids.map((v: string) => `"${v}"`).join('|');
         if (allowed.length >= 60) {
           allowed = `${allowed.slice(0, 60)}...`;
         }
@@ -341,9 +341,7 @@ function schemaToObject(schema: any): any {
   }
 }
 
-export default function createApiDocumentation(
-  options: IApiDocOptions
-): string {
+export default function createApiDocumentation(options: ApiDocOptions): string {
   const data = options.groups.map(group => {
     const routes = group.routes.map(route => {
       const input = route.validate || {};
@@ -355,23 +353,23 @@ export default function createApiDocumentation(
           extendedDescription: markdownRenderer.makeHtml(
             route.documentation.extendedDescription
           ),
-          caller: route.documentation.caller
+          caller: route.documentation.caller,
         },
-        method: route.method.join(" / ").toUpperCase(),
-        inputs: ["params", "query", "header", "body"]
+        method: route.method.join(' / ').toUpperCase(),
+        inputs: ['params', 'query', 'header', 'body']
           .filter(key => input[key])
           .map(key => ({
             key,
-            type: key === "body" ? input.type : null,
+            type: key === 'body' ? input.type : null,
             value: JSON.stringify(
               schemaToObject(Joi.describe(input[key])),
               null,
               2
-            )
+            ),
           })),
         statusOutputs: Object.keys(output).map(status => ({
           status,
-          outputs: ["header", "body"]
+          outputs: ['header', 'body']
             .filter(key => output[status][key])
             .map(key => ({
               key,
@@ -379,17 +377,17 @@ export default function createApiDocumentation(
                 schemaToObject(Joi.describe(output[status][key])),
                 null,
                 2
-              )
-            }))
-        }))
+              ),
+            })),
+        })),
       };
     });
 
     return { ...group, routes };
   });
 
-  const content = data.map(d => Mustache.render(TEMPLATE_GROUP, d)).join("\n");
-  const nav = data.map(d => Mustache.render(TEMPLATE_NAV, d)).join("\n");
+  const content = data.map(d => Mustache.render(TEMPLATE_GROUP, d)).join('\n');
+  const nav = data.map(d => Mustache.render(TEMPLATE_NAV, d)).join('\n');
 
   return Mustache.render(TEMPLATE_BASE, { ...options, content, nav });
 }

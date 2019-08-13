@@ -6,8 +6,7 @@
     "test": "mocha -r ts-node/register --timeout 2000 --recursive \"**/${test_name:-*}.test.ts\"",
     "start": "npm run start:dev",
     "start:dev": "NODE_ENV=development ts-node-dev --respawn $([ $HOST_UNAME = Darwin ] && [ ! $DC_COMMAND ] && echo --poll) index.ts | bunyan -l debug",
-    "lint": "tslint -p . -c tslint.json",
-    "lint": "tsc -p . --noEmit && tslint -p . -c tslint.json",
+    "lint": "tsc -p . --noEmit && eslint ./src/**/*.ts --ignore-path .eslintignore --quiet",
     "build:test": "tsc --build tsconfig.test.json",
     "build:prod": "NODE_ENV=production tsc --build tsconfig.json",
     "start:prod": "NODE_ENV=production npm run build:prod && node build/index.js"
@@ -57,12 +56,18 @@
     "chai": "4.2.0",
     "cheerio": "1.0.0-rc.3",
     "mocha": "6.2.0",
+    "@typescript-eslint/eslint-plugin": "1.13.0",
+    "@typescript-eslint/parser": "1.13.0",
+    "eslint": "6.1.0",
+    "eslint-config-prettier": "6.0.0",
+    "eslint-config-standard": "13.0.1",
+    "eslint-plugin-import": "2.18.2",
+    "eslint-plugin-node": "9.1.0",
+    "eslint-plugin-prettier": "3.1.0",
+    "eslint-plugin-promise": "4.2.1",
+    "eslint-plugin-standard": "4.0.0",
     "prettier": "1.18.2",
     "ts-node-dev": "1.0.0-pre.40",
-    "tslint": "5.18.0",
-    "tslint-config-prettier": "1.18.0",
-    "tslint-no-unused-expression-chai": "0.1.4",
-    "tslint-plugin-prettier": "2.0.1",
     "typescript": "3.5.3"
   }
 }

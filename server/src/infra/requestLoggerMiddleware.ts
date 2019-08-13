@@ -1,5 +1,5 @@
-import { ParameterizedContext } from "koa";
-import uuidv4 from "uuid/v4";
+import { ParameterizedContext } from 'koa';
+import uuidv4 from 'uuid/v4';
 
 // Every time an instance of this is logged by bunyan it outputs
 // the time since the beginning of the request (instance creation)
@@ -11,7 +11,7 @@ class RequestTimer {
   };
 }
 
-const noLogPaths = ["/healthz", "/uptimez"];
+const noLogPaths = ['/healthz', '/uptimez'];
 
 export default async function requestLoggerMiddleware(
   ctx: ParameterizedContext,
@@ -19,7 +19,7 @@ export default async function requestLoggerMiddleware(
 ) {
   const { headers } = ctx.request;
 
-  let requestId = headers["request-id"] || headers["x-request-id"];
+  let requestId = headers['request-id'] || headers['x-request-id'];
   if (!requestId) {
     // No request ID found in headers, so generate our own.
     requestId = uuidv4();
@@ -36,7 +36,7 @@ export default async function requestLoggerMiddleware(
   if (logRequest) {
     requestLog.info(
       { req: ctx.req, res: ctx.res, latency: requestMs },
-      "Request handled"
+      'Request handled'
     );
   }
 }

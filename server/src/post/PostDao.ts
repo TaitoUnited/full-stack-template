@@ -1,20 +1,20 @@
-import { asCamelCase } from "../common/formatters";
-import { Db } from "../common/types";
-import { IDbPost } from "./types";
+import { asCamelCase } from '../common/formatters';
+import { Db } from '../common/types';
+import { DbPost } from './types';
 
 export class PostDao {
   private tableColumns = [
-    "id",
-    "created_at",
-    "updated_at",
-    "subject",
-    "content",
-    "author"
+    'id',
+    'created_at',
+    'updated_at',
+    'subject',
+    'content',
+    'author',
   ]
     .map(column => `posts.${column}`)
-    .join(", ");
+    .join(', ');
 
-  public async getAllPosts({ db }: { db: Db }): Promise<IDbPost[]> {
+  public async getAllPosts({ db }: { db: Db }): Promise<DbPost[]> {
     const data = await db.any(
       `
         SELECT ${this.tableColumns}
@@ -30,7 +30,7 @@ export class PostDao {
     db,
     subject,
     content,
-    author
+    author,
   }: {
     db: Db;
     subject: string;
@@ -53,7 +53,7 @@ export class PostDao {
       {
         subject,
         content,
-        author
+        author,
       }
     );
 
