@@ -104,6 +104,7 @@ services:
       S3_REGION: milkyway
       S3_BUCKET: bucket
       S3_KEY_ID: minio
+      S3_FORCE_PATH_STYLE: 'true'
 
   full-stack-template-www:
     container_name: full-stack-template-www
