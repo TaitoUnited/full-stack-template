@@ -196,6 +196,7 @@ full-stack:
         S3_REGION: ${taito_provider_region}
         S3_BUCKET: ${taito_random_name}-${taito_env}
         S3_KEY_ID: 070UEOQR6LX4YPZLFU0V
+        S3_FORCE_PATH_STYLE: 'true'
       # cron jobs that re-use the same Docker image and settings as server
       # cronJobs:
       #   - name: examplejob1
