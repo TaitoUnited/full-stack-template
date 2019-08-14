@@ -61,7 +61,7 @@ const config = {
   S3_REGION: process.env.S3_REGION,
   S3_BUCKET: process.env.S3_BUCKET,
   S3_KEY_ID: process.env.S3_KEY_ID,
-  S3_KEY_SECRET: readSecretSync("S3_KEY_SECRET"),
+  S3_KEY_SECRET: readSecretSync('S3_KEY_SECRET'),
   S3_FORCE_PATH_STYLE: Boolean(process.env.S3_FORCE_PATH_STYLE),
 
   // Logging
