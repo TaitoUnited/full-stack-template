@@ -1,36 +1,34 @@
-import { expect } from "chai";
-import "mocha";
-import requestBase from "request-promise";
+import requestBase from 'request-promise';
 
 const request = requestBase.defaults({
   baseUrl: `${process.env.TEST_API_URL}`,
   json: true,
   simple: false,
-  resolveWithFullResponse: true
+  resolveWithFullResponse: true,
 });
 
-describe("posts", () => {
-  before(async () => {
+describe('posts', () => {
+  beforeAll(async () => {
     // Nothing to do. Just an example.
-    expect(true).to.equal(true);
+    expect(true).toBe(true);
   });
 
-  after(async () => {
+  afterAll(async () => {
     // Nothing to do. Just an example.
-    expect(true).to.equal(true);
+    expect(true).toBe(true);
   });
 
   beforeEach(async () => {
     // Nothing to do. Just an example.
-    expect(true).to.equal(true);
+    expect(true).toBe(true);
   });
 
-  it("GET /posts returns some posts", async () => {
-    const response = await request.get("/posts");
-    expect(response.statusCode).to.equal(200);
+  it('GET /posts returns some posts', async () => {
+    const response = await request.get('/posts');
+    expect(response.statusCode).toBe(200);
     // TODO: We should add some posts first to make sure that there
     // are some posts to retrieve. Now we can only check that it returns
     // an array.
-    expect(response.body.data).to.be.an("array");
+    expect(Array.isArray(response.body.data)).toBe(true);
   });
 });
