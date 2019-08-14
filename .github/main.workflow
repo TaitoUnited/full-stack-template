@@ -2,6 +2,9 @@
 # Here we run the same CI/CD steps that are defined also in
 # bitbucket-pipelines.yml, cloudbuild.yaml, and local-ci.sh.
 
+# NOTE: HCL format is deprecated. Use YAML instead:
+# https://help.github.com/en/articles/migrating-github-actions-from-hcl-syntax-to-yaml-syntax
+
 workflow "Build, deploy, test, publish" {
   on = "push"
   resolves = ["build-release"]
