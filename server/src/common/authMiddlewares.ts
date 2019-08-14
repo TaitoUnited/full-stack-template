@@ -1,6 +1,6 @@
-import Boom from "boom";
-import { ParameterizedContext } from "koa";
-import koaBasicAuth from "koa-basic-auth";
+import Boom from 'boom';
+import { ParameterizedContext } from 'koa';
+import koaBasicAuth from 'koa-basic-auth';
 
 export function createCheckBasicAuthMiddleware(
   username: string,

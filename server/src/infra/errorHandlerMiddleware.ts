@@ -1,6 +1,6 @@
-import * as Sentry from "@sentry/node";
-import Boom from "boom";
-import { ParameterizedContext } from "koa";
+import * as Sentry from '@sentry/node';
+import Boom from 'boom';
+import { ParameterizedContext } from 'koa';
 
 export default async function errorHandlerMiddleware(
   ctx: ParameterizedContext,
@@ -19,8 +19,8 @@ export default async function errorHandlerMiddleware(
       ctx.response.status = err.status;
       ctx.response.body = {
         error: {
-          message: err.message
-        }
+          message: err.message,
+        },
       };
       return;
     }
@@ -29,7 +29,7 @@ export default async function errorHandlerMiddleware(
       // Boom errors are controlled errors
       ctx.response.status = err.output.statusCode;
       ctx.response.body = {
-        error: err.output.payload
+        error: err.output.payload,
       };
       ctx.response.set(err.output.headers);
       return;
@@ -46,7 +46,7 @@ export default async function errorHandlerMiddleware(
     // they are sent to Sentry if enabled
     ctx.response.status = 500;
     ctx.response.body = { error: { message: err.message } };
-    ctx.log.error({ err }, "Unexpected error while handling request");
+    ctx.log.error({ err }, 'Unexpected error while handling request');
     Sentry.captureException(err);
   }
 }

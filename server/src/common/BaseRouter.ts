@@ -1,11 +1,14 @@
-import router, { ExtendedSpec, FullHandler, Joi } from "koa-joi-router";
-import stackTrace from "stack-trace";
+import router, { ExtendedSpec, FullHandler, Joi } from 'koa-joi-router';
+import stackTrace from 'stack-trace';
 
 // Wrapper for koa-joi-router with prefix and group additions
 export default class BaseRouter {
   private router = router();
-  private prefixLocal = "";
-  private groupLocal = "";
+
+  private prefixLocal = '';
+
+  private groupLocal = '';
+
   private JoiLocal = Joi;
 
   constructor(r = null) {

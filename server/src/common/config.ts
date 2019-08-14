@@ -1,8 +1,8 @@
-import fs from "fs";
+import fs from 'fs';
 
 export const readFileSync = (path: string) => {
   try {
-    return fs.readFileSync(path, "utf8");
+    return fs.readFileSync(path, 'utf8');
   } catch (err) {
     return undefined;
   }
@@ -29,7 +29,7 @@ const config = {
 
   // Basic
   ROOT_PATH: __dirname,
-  APP_NAME: "full-stack-template-server",
+  APP_NAME: 'full-stack-template-server',
   DEBUG: Boolean(process.env.COMMON_DEBUG),
   APP_VERSION: !process.env.BUILD_IMAGE_TAG
     ? `${process.env.BUILD_VERSION}+local`
@@ -51,7 +51,7 @@ const config = {
     : 5432,
   DATABASE_NAME: process.env.DATABASE_NAME,
   DATABASE_USER: process.env.DATABASE_USER,
-  DATABASE_PASSWORD: readSecretSync("DATABASE_PASSWORD"),
+  DATABASE_PASSWORD: readSecretSync('DATABASE_PASSWORD'),
   DATABASE_POOL_MAX: process.env.DATABASE_POOL_MAX
     ? parseInt(process.env.DATABASE_POOL_MAX, 10)
     : 10,
@@ -66,7 +66,7 @@ const config = {
 
   // Logging
   COMMON_LOG_LEVEL: process.env.COMMON_LOG_LEVEL,
-  COMMON_LOG_FORMAT: process.env.COMMON_LOG_FORMAT
+  COMMON_LOG_FORMAT: process.env.COMMON_LOG_FORMAT,
 };
 
 export default config;

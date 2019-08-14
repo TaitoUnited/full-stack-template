@@ -1,5 +1,5 @@
-import _ from "lodash";
-import { NonPromise } from "./types";
+import _ from 'lodash';
+import { NonPromise } from './types';
 
 const camel = (obj: any): any => {
   return obj ? _.mapKeys(obj, (value, key) => _.camelCase(key)) : obj;

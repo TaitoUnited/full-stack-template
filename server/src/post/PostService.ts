@@ -1,5 +1,5 @@
-import { Db } from "../common/types";
-import { PostDao } from "./PostDao";
+import { Db } from '../common/types';
+import { PostDao } from './PostDao';
 
 export class PostService {
   private postDao: PostDao;
