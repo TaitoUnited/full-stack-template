@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { expect } from 'chai';
-import 'mocha';
 import { asCamelCase } from './formatters';
 
 describe('formatters', () => {
@@ -11,7 +9,7 @@ describe('formatters', () => {
           first_name: 'John',
           last_name: 'Doe',
         })
-      ).to.deep.equal({
+      ).toEqual({
         firstName: 'John',
         lastName: 'Doe',
       });
@@ -27,7 +25,7 @@ describe('formatters', () => {
             first_name: 'Susan',
           },
         ])
-      ).to.deep.equal([
+      ).toEqual([
         {
           firstName: 'Matt',
         },
