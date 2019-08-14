@@ -3,6 +3,7 @@ import patchKoaQs from "koa-qs";
 import config from "./common/config";
 import db from "./common/db";
 import log from "./common/log";
+import storage from "./common/storage";
 import dbTransactionMiddleware from "./infra/dbTransactionMiddleware";
 import errorHandlerMiddleware from "./infra/errorHandlerMiddleware";
 import initSentry from "./infra/initSentry";
@@ -18,6 +19,7 @@ patchKoaQs(server);
 // Request context prototype
 server.context.log = log;
 server.context.db = db;
+server.context.storage = storage;
 
 // Middlewares
 server.use(requestLoggerMiddleware); // Assume no errors in logging

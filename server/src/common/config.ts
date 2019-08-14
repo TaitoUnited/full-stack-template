@@ -56,6 +56,14 @@ const config = {
     ? parseInt(process.env.DATABASE_POOL_MAX, 10)
     : 10,
 
+  // Storage
+  S3_URL: process.env.S3_URL,
+  S3_REGION: process.env.S3_REGION,
+  S3_BUCKET: process.env.S3_BUCKET,
+  S3_KEY_ID: process.env.S3_KEY_ID,
+  S3_KEY_SECRET: readSecretSync("S3_KEY_SECRET"),
+  S3_FORCE_PATH_STYLE: Boolean(process.env.S3_FORCE_PATH_STYLE),
+
   // Logging
   COMMON_LOG_LEVEL: process.env.COMMON_LOG_LEVEL,
   COMMON_LOG_FORMAT: process.env.COMMON_LOG_FORMAT,

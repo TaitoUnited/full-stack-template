@@ -135,6 +135,7 @@ function prune () {
     fi
 
     if [[ $name == "storage" ]]; then
+      # Remove storage from configs
       sed -i "s/service_account_enabled=true/service_account_enabled=false/" taito-config.sh
       sed -i '/storage-gateway/d' taito-config.sh
       sed -i '/taito_storages/d' taito-config.sh
@@ -145,6 +146,12 @@ function prune () {
       sed -i '/storage-/d' docker-compose.yaml
       sed -i '/storage-/d' docker-compose-remote.yaml
       sed -i '/S3_/d' ./scripts/helm.yaml
+
+      # Remove storage from server implementation
+      sed -i '/aws-sdk/d' ./server/package.json
+      sed -i '/storage/d' ./server/src/server.ts
+      sed -i '/storage/d' ./server/src/infra/InfraRouter.ts
+      rm -f ./server/src/common/storage.ts
     fi
 
     rm -rf "$name"
