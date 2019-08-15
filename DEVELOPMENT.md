@@ -72,7 +72,7 @@ Run tests:
 
     taito test                              # run all integration and end-to-end tests
     taito test:server - posts               # run the 'posts' test of server default test suite
-    taito test:server mocha cars            # run the 'cars' test of server mocha test suite
+    taito test:server jest cars             # run the 'cars' test of server jest test suite
     taito test:client                       # run all integration and end-to-end tests of client
     taito test:client - posts               # run the 'posts' test of client default test suite
     taito test:client cypress 'car*'        # run all 'car*' tests of client cypress test suite

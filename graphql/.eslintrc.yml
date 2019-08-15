@@ -5,7 +5,7 @@ extends:
 env:
   node: true
   es6: true
-  mocha: true
+  jest: true
 
 parser: "babel-eslint"
 
