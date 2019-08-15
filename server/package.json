@@ -2,8 +2,8 @@
   "name": "full-stack-template-server",
   "private": true,
   "scripts": {
-    "unit": "jest src/",
-    "test": "jest test/",
+    "unit": "jest src/ --passWithNoTests -t",
+    "test": "jest test/ --passWithNoTests -t",
     "start": "npm run start:dev",
     "start:dev": "NODE_ENV=development ts-node-dev --respawn $([ $HOST_UNAME = Darwin ] && [ ! $DC_COMMAND ] && echo --poll) index.ts | bunyan -l debug",
     "lint": "tsc -p . --noEmit && eslint ./src/**/*.ts --ignore-path .eslintignore --quiet",
