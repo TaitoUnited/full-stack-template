@@ -2,7 +2,8 @@
 # shellcheck disable=SC2034
 
 ##########################################################################
-# Integration and end-to-end test parameters
+# Testing settings
+#
 # NOTE: Variables are passed to the tests without the test_TARGET_ prefix.
 ##########################################################################
 

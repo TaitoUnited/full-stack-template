@@ -2,6 +2,13 @@
 
 : "${template_project_path:?}"
 
+# Rename taito-env-all-config.sh
+# NOTE: Can be removed once all projects have been upgraded
+if [[ -f "${template_project_path}/taito-env-all-config.sh" ]]; then
+  mv "${template_project_path}/taito-env-all-config.sh" \
+    "${template_project_path}/taito-project-config.sh"
+fi
+
 # Read original random ports from docker-compose.yaml
 export ingress_port
 ingress_port=$(grep ":80\"" "${template_project_path}/docker-compose.yaml" | head -1 | sed 's/.*"\(.*\):.*/\1/')
@@ -22,7 +29,7 @@ echo "Remove obsolete root files not to be copied"
 rm -f \
   docker-* \
   README.md \
-  taito-env-all-config.sh \
+  taito-project-config.sh \
   taito-env-prod-config.sh \
   taito-testing-config.sh \
   trouble.txt

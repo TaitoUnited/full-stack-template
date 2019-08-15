@@ -2,7 +2,7 @@
 # shellcheck disable=SC2034
 
 ##########################################################################
-# Settings for all environments
+# Project specific settings
 ##########################################################################
 
 # Environments: In the correct order (e.g. dev test stag canary prod)

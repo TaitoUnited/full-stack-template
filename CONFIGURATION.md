@@ -16,7 +16,7 @@ Start your local development environment by running `taito kaboom`. Once the com
 ## Basic settings
 
 1. Run `taito open conventions` in the project directory to see organization specific settings that you should configure for your git repository. At least you should set `dev` as the default branch to avoid people using master branch for development by accident.
-2. Modify `taito-env-all-config.sh` if you need to change some settings. The default settings are ok for most projects.
+2. Modify `taito-project-config.sh` if you need to change some settings. The default settings are ok for most projects.
 3. Run `taito project apply`
 4. Commit and push changes
 
@@ -73,7 +73,7 @@ The client GUI uses [Material-UI](https://material-ui-next.com/) component libra
 
 You can create the other environments just like you did the dev environment. However, you don't need to write down the basic auth credentials anymore, since you can reuse the same credentials as in dev environment.
 
-Project environments are configured in `taito-env-all-config.sh` with the `taito_environments` setting. Examples for environment names: `f-orders`, `dev`, `test`, `stag`, `canary`, `prod`.
+Project environments are configured in `taito-project-config.sh` with the `taito_environments` setting. Examples for environment names: `f-orders`, `dev`, `test`, `stag`, `canary`, `prod`.
 
 See [remote environments](https://taitounited.github.io/taito-cli/tutorial/05-remote-environments) chapter of Taito CLI tutorial for more thorough instructions.
 
@@ -86,7 +86,7 @@ Operations on production and staging environments usually require admin rights. 
 **Additional microservices:** You can use either monorepo or multirepo approach with this template. If you are going for multirepo, just create a separate project for each microservice. If you want some of them to share the same namespace, define common `taito_namespace` in taito-config.sh. If you are going for monorepo, or something in between multirepo and monorepo approaches, you can add a new microservice to a repository like this:
 
   1. Create a new directory for your service. Look [FULL-STACK-TEMPLATE](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/) and [alternatives](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/tree/master/alternatives) for examples.
-  2. Add the service to `taito_targets` variable in `taito-env-all-config.sh`
+  2. Add the service to `taito_targets` variable in `taito-project-config.sh`
   3. Add the service to `docker-compose*.yaml` files and check that it works ok in local development environment.
   4. Add the service to `scripts/helm.yaml`.
   5. Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `check-deps`, `check-size`.
@@ -116,7 +116,7 @@ You can deploy configuration changes without rebuilding with the `taito deployme
 
 You can add a new secret like this:
 
-1. Add a secret definition to the `taito_secrets` or the `taito_remote_secrets` setting in `taito-env-all-config.sh`.
+1. Add a secret definition to the `taito_secrets` or the `taito_remote_secrets` setting in `taito-project-config.sh`.
 2. Map the secret definition to a secret in `docker-compose.yaml` for Docker Compose and in `scripts/helm.yaml` for Kubernetes.
 3. Run `taito env rotate:ENV SECRET` to generate a secret value for an environment. Run the command for each environment separately. Note that the rotate command restarts all pods in the same namespace.
 

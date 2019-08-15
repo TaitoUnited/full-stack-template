@@ -8,7 +8,7 @@ ${taito_setv:-}
 # Function not supported yet
 rm -rf function
 sed -i "s/ function / /" taito-config.sh
-sed -i "s/ function / /" taito-env-all-config.sh
+sed -i "s/ function / /" taito-project-config.sh
 
 # Remote the example site
 rm -rf www/site
@@ -54,11 +54,11 @@ function prune () {
     sed -i "/^    $name:\$/,/^$/d" ./scripts/helm.yaml
 
     sed -i "s/ $name / /" taito-config.sh
-    sed -i "s/ $name / /" taito-env-all-config.sh
+    sed -i "s/ $name / /" taito-project-config.sh
     sed -i "s/ \\/$name\\/uptimez / /" taito-config.sh
-    sed -i "s/ \\/$name\\/uptimez / /" taito-env-all-config.sh
+    sed -i "s/ \\/$name\\/uptimez / /" taito-project-config.sh
 
-    sed -i "/\\* $name/d" taito-env-all-config.sh
+    sed -i "/\\* $name/d" taito-project-config.sh
     sed -i "/test_$name/d" taito-testing-config.sh
 
     sed -i "/:$name\":/d" package.json
@@ -85,17 +85,17 @@ function prune () {
 
     if [[ $name == "client" ]]; then
       sed -i "s/ \\/uptimez / /" taito-config.sh
-      sed -i "s/ \\/uptimez / /" taito-env-all-config.sh
+      sed -i "s/ \\/uptimez / /" taito-project-config.sh
       sed -i "/CYPRESS/d" taito-testing-config.sh
       sed -i "/cypress/d" taito-testing-config.sh
     fi
 
     if [[ $name == "server" ]]; then
       sed -i "s/ \\/api\\/uptimez / /" taito-config.sh
-      sed -i "s/ \\/api\\/uptimez / /" taito-env-all-config.sh
+      sed -i "s/ \\/api\\/uptimez / /" taito-project-config.sh
       sed -i "s/ \\/api\\/docs / /" taito-config.sh
-      sed -i "s/ \\/api\\/docs / /" taito-env-all-config.sh
-      sed -i '/* apidocs/d' taito-env-all-config.sh
+      sed -i "s/ \\/api\\/docs / /" taito-project-config.sh
+      sed -i '/* apidocs/d' taito-project-config.sh
     fi
 
     if [[ $name == "kafka" ]]; then
@@ -105,7 +105,7 @@ function prune () {
 
       # Remove also Zookeeper
       sed -i "s/ zookeeper / /" taito-config.sh
-      sed -i "s/ zookeeper / /" taito-env-all-config.sh
+      sed -i "s/ zookeeper / /" taito-project-config.sh
       sed -i "/^  full-stack-template-zookeeper:\$/,/^$/d" docker-compose.yaml
       sed -i "/^  full-stack-template-zookeeper:\$/,/^$/d" docker-compose-remote.yaml
       sed -i "/^  # full-stack-template-zookeeper:\$/,/^$/d" docker-compose.yaml
@@ -115,13 +115,13 @@ function prune () {
 
     if [[ $name == "www" ]]; then
       sed -i "s/ \\/docs\\/uptimez / /" taito-config.sh
-      sed -i "s/ \\/docs\\/uptimez / /" taito-env-all-config.sh
+      sed -i "s/ \\/docs\\/uptimez / /" taito-project-config.sh
     fi
 
     if [[ $name == "database" ]]; then
       sed -i '/postgres-db/d' taito-config.sh
       sed -i '/db_/d' taito-config.sh
-      sed -i '/db_/d' taito-env-all-config.sh
+      sed -i '/db_/d' taito-project-config.sh
       sed -i "/DATABASE/d" taito-testing-config.sh
       sed -i '/Database/d' docker-compose.yaml
       sed -i '/Database/d' docker-compose-remote.yaml
@@ -140,7 +140,7 @@ function prune () {
       sed -i '/storage-gateway/d' taito-config.sh
       sed -i '/taito_storages/d' taito-config.sh
       sed -i '/* storage/d' taito-config.sh
-      sed -i '/storage/d' taito-env-all-config.sh
+      sed -i '/storage/d' taito-project-config.sh
       sed -i '/S3_/d' docker-compose.yaml
       sed -i '/S3_/d' docker-compose-remote.yaml
       sed -i '/storage-/d' docker-compose.yaml
