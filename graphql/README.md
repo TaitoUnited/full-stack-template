@@ -1,3 +1,4 @@
 # GraphQL gateway
 
-GraphQL gateway for microservices.
+TODO: GraphQL gateway for microservices (Apollo GraphQL)
+TODO: Use TypeScript

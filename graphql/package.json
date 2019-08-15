@@ -4,8 +4,8 @@
   "scripts": {
     "pretty-quick": "pretty-quick",
     "lint": "eslint . --ignore-path .eslintignore --quiet",
-    "unit": "mocha --require @babel/register --recursive 'src/**/*.unit.js'",
-    "test": "mocha --require @babel/register --recursive \"src/**/${test_name:-*}.test.js\" \"test/**/${test_name:-*}.test.js\"",
+    "unit": "echo TODO: jest src/ --passWithNoTests -t",
+    "test": "echo TODO: jest test/ --passWithNoTests -t",
     "start": "npm run start:dev",
     "start:dev": "NODE_ENV=development nodemon -L ./index.js --ignore 'test/*.js'",
     "start:dev:trace": "NODE_ENV=development nodemon -L ./index.js --ignore 'test/*.js'",
@@ -36,7 +36,7 @@
     "eslint-config-prettier": "6.0.0",
     "eslint-plugin-import": "2.18.2",
     "eslint-plugin-prettier": "3.1.0",
-    "mocha": "6.2.0",
+    "jest": "24.8.0",
     "nodemon": "1.19.1",
     "prettier": "1.18.2",
     "pretty-quick": "1.11.1"
