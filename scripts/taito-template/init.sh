@@ -132,6 +132,16 @@ function prune () {
       sed -i '/DATABASE_/d' ./scripts/helm.yaml
       sed -i "/^      db:\$/,/^        proxySecret:.*$/d" ./scripts/helm.yaml
       rm -f docker-compose-test.yaml
+
+      # Remove database from server implementation
+      # TODO: works only for the default Node.js server implementation
+      sed -i '/pg-promise/d' ./server/package.json &> /dev/null || :
+      sed -i '/types\\pg/d' ./server/package.json &> /dev/null || :
+      sed -i '/db/d' ./server/src/server.ts &> /dev/null || :
+      sed -i '/Db/d' ./server/src/common/types.ts &> /dev/null || :
+      sed -i '/Database/d' ./server/src/common/types.ts &> /dev/null || :
+      sed -i '/state.db/d' ./server/src/infra/InfraRouter.ts &> /dev/null || :
+      rm -f ./server/src/common/db.ts &> /dev/null || :
     fi
 
     if [[ $name == "storage" ]]; then
@@ -148,11 +158,12 @@ function prune () {
       sed -i '/S3_/d' ./scripts/helm.yaml
 
       # Remove storage from server implementation
-      sed -i '/aws-sdk/d' ./server/package.json
-      sed -i '/storage/d' ./server/src/server.ts
-      sed -i '/storage/d' ./server/src/common/types.ts
-      sed -i '/storage/d' ./server/src/infra/InfraRouter.ts
-      rm -f ./server/src/common/storage.ts
+      # TODO: works only for the default Node.js server implementation
+      sed -i '/aws-sdk/d' ./server/package.json &> /dev/null || :
+      sed -i '/storage/d' ./server/src/server.ts &> /dev/null || :
+      sed -i '/storage/d' ./server/src/common/types.ts &> /dev/null || :
+      sed -i '/storage/d' ./server/src/infra/InfraRouter.ts &> /dev/null || :
+      rm -f ./server/src/common/storage.ts &> /dev/null || :
     fi
 
     rm -rf "$name"

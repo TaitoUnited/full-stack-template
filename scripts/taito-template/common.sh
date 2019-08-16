@@ -48,6 +48,24 @@ sed -i "/# TEMPLATE-REMOVE/d" taito-config.sh taito-env-prod-config.sh \
 # TODO leave a reference to the original?
 rm LICENSE
 
+##########################
+# Prune provider settings
+##########################
+
+if [[ -f docker-compose-test.yaml ]] && \
+   [[ $template_default_provider != "aws" ]] && \
+   [[ $template_default_provider_prod != "aws" ]]
+then
+  sed -i '/AWS_/d' docker-compose-test.yaml
+fi
+
+if [[ -f docker-compose-test.yaml ]] && \
+   [[ $template_default_provider != "gcp" ]] && \
+   [[ $template_default_provider_prod != "gcp" ]]
+then
+  sed -i '/GOOGLE_/d' docker-compose-test.yaml
+fi
+
 ######################
 # Choose CI/CD
 ######################
