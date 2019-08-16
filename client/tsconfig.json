@@ -6,7 +6,6 @@
     "noEmit": true,
     "jsx": "react",
     "lib": ["esnext", "dom"],
-    "rootDir": "src",
     "sourceMap": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -18,10 +17,11 @@
     "baseUrl": "./",
     "paths": {
       "~common/*": ["src/common/*"],
-      "~utils/*": ["src/common/utils/*"],
       "~services/*": ["src/common/services/*"],
+      "~shared/*": ["shared/*"],
       "~theme": ["src/common/theme"],
       "~ui": ["src/common/ui/index.ts"],
+      "~utils/*": ["src/common/utils/*"],
     },
     "types": [
       "node",
@@ -35,6 +35,6 @@
       "query-string"
     ]
   },
-  "include": ["src"],
+  "include": ["shared", "src"],
   "exclude": ["node_modules", "build", "jest", "test", "__mocks__", "src/sw.js"]
 }

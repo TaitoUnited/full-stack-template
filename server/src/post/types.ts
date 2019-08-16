@@ -1,11 +1,5 @@
 import { Joi } from 'koa-joi-router';
-import { DbItem, ItemSchema } from '../common/types';
-
-export interface DbPost extends DbItem {
-  subject: string;
-  content: string;
-  author: string;
-}
+import { ItemSchema } from '../common/types';
 
 export const BasePostSchema = Joi.object({
   subject: Joi.string().required(),

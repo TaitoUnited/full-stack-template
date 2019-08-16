@@ -6,7 +6,7 @@ import axios, {
 } from 'axios';
 
 import config from '../config';
-import { Post, PostDraft } from '../../posts/post.types';
+import { Post, PostBasics } from '~shared/types/post';
 
 interface Store {
   dispatch: (action: any) => any;
@@ -78,7 +78,7 @@ api.http.interceptors.response.use(
 
 // Exported API methods
 
-export const createPost = async (post: PostDraft): Promise<Post> => {
+export const createPost = async (post: PostBasics): Promise<Post> => {
   const res = await api.http.post('/posts', { data: post });
   return res.data;
 };

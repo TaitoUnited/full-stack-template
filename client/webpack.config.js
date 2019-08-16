@@ -48,10 +48,11 @@ module.exports = function(env, argv) {
       // Add aliases here and remember to update tsconfig.json "paths" too
       alias: {
         '~common': path.resolve(__dirname, 'src/common'),
+        '~services': path.resolve(__dirname, 'src/common/services'),
+        '~shared': path.resolve(__dirname, 'shared'),
         '~theme': path.resolve(__dirname, 'src/common/theme'),
         '~ui': path.resolve(__dirname, 'src/common/ui/index'),
         '~utils': path.resolve(__dirname, 'src/common/utils'),
-        '~services': path.resolve(__dirname, 'src/common/services'),
       },
     },
 

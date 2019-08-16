@@ -6,7 +6,6 @@
     "noEmit": true,
     "jsx": "react",
     "lib": ["esnext", "dom"],
-    "rootDir": "src",
     "sourceMap": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -29,6 +28,6 @@
       "styled-components"
     ]
   },
-  "include": ["src"],
+  "include": ["shared", "src"],
   "exclude": ["node_modules", "build", "jest", "test", "__mocks__"]
 }

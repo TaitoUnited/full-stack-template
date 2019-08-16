@@ -7,12 +7,6 @@ export type Db = IDatabase<{}> | ITask<{}>;
 
 export type NonPromise<T> = T extends Promise<any> ? never : T;
 
-export interface DbItem {
-  id: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
 export const ItemSchema = Joi.object().keys({
   id: Joi.string()
     .guid()

@@ -1,6 +1,6 @@
 import { asCamelCase } from '../common/formatters';
 import { Db } from '../common/types';
-import { DbPost } from './types';
+import { Post } from '../../shared/types/post';
 
 export class PostDao {
   private tableColumns = [
@@ -14,7 +14,7 @@ export class PostDao {
     .map(column => `posts.${column}`)
     .join(', ');
 
-  public async getAllPosts({ db }: { db: Db }): Promise<DbPost[]> {
+  public async getAllPosts({ db }: { db: Db }): Promise<Post[]> {
     const data = await db.any(
       `
         SELECT ${this.tableColumns}
