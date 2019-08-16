@@ -1,5 +1,5 @@
 import requestBase from 'request-promise';
-import db from '../src/common/db';
+import testDb from './common/testDb';
 
 const request = requestBase.defaults({
   baseUrl: `${process.env.TEST_API_URL}`,
@@ -34,7 +34,7 @@ describe('infra', function infra() {
 
   describe('db access for integration tests', () => {
     it('Check db access', async () => {
-      await db.any('SELECT 1');
+      await testDb.any('SELECT 1');
     });
   });
 });
