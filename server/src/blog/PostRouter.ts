@@ -1,7 +1,16 @@
 import { ParameterizedContext } from 'koa';
+import { Joi } from 'koa-joi-router';
 import BaseRouter from '../common/BaseRouter';
+import { ItemSchema } from '../common/types';
 import { PostService } from './PostService';
-import { BasePostSchema, PostSchema } from './types';
+
+const BasePostSchema = Joi.object({
+  subject: Joi.string().required(),
+  content: Joi.string().required(),
+  author: Joi.string().required(),
+});
+
+const PostSchema = ItemSchema.concat(BasePostSchema);
 
 export class PostRouter extends BaseRouter {
   private postService: PostService;
