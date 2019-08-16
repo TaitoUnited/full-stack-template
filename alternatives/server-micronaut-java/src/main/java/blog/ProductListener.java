@@ -1,4 +1,4 @@
-package content;
+package blog;
 
 import javax.inject.Inject;
 

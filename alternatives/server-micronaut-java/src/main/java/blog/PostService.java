@@ -1,4 +1,4 @@
-package content;
+package blog;
 
 import io.micronaut.spring.tx.annotation.Transactional;
 

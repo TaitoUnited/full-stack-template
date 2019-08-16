@@ -6,10 +6,10 @@ import { createBrowserHistory } from 'history';
 import createRestClient from './common/api/restClient.api';
 import authProvider from './common/api/authProvider.api';
 import common, { commonSagas } from './common/common.ducks';
-import { PostIcon, PostList, PostCreate, PostShow, PostEdit } from './posts';
+import { PostIcon, PostList, PostCreate, PostShow, PostEdit } from './blog';
 import commonFi from './common/messages/fi.messages';
-import postsEn from './posts/en.messages';
-import postsFi from './posts/fi.messages';
+import postsEn from './blog/en.messages';
+import postsFi from './blog/fi.messages';
 
 const messages = {
   en: {

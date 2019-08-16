@@ -1,4 +1,4 @@
-package content;
+package blog;
 
 import static jooq.Tables.POSTS;
 

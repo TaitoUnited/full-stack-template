@@ -1,4 +1,4 @@
-package content;
+package blog;
 
 public class PostsTest {
   // TODO: implement

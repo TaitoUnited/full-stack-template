@@ -1,4 +1,4 @@
-package content;
+package blog;
 
 // TODO: remove
 public class PostEnvelope2 {

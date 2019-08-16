@@ -4,7 +4,7 @@ import router from "koa-joi-router";
 import config from "./common/config";
 import createApiDocumentation from "./infra/createApiDocumentation";
 import InfraRouter from "./infra/InfraRouter";
-import { PostRouter } from "./post/PostRouter";
+import { PostRouter } from "./blog/PostRouter";
 
 const postRouter = new PostRouter();
 const infraRouter = new InfraRouter();

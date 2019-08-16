@@ -21,7 +21,7 @@ msgstr "Vaihda kieli"
 msgid "Orders"
 msgstr "Tilaukset"
 
-#: src/posts/index.tsx:60
+#: src/blog/index.tsx:60
 msgid "Posts"
 msgstr "Julkaisut"
 

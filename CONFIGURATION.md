@@ -59,9 +59,9 @@ See it build and deploy:
 
 * [ ] All done
 
-## Examples
+## Blog example
 
-The project template comes with a bunch of implementation examples. Browse the examples through, leave the ones that seem useful and remove all the rest. You can use the `taito check deps` command to prune unused dependencies. NOTE: Many of the `devDependencies` and `~` references are actually in use even if reported unused by the tool. But all unused `dependencies` may usually be removed from package.json.
+The project template comes with a blog implementation that includes examples for web user interface, REST, GraphQL, database, files, background jobs, real-time notifications, pdf printing, etc. Once you don't need the examples anymore, just remove everything related to `blog` and use the `taito check deps` command to prune unused dependencies from `package.json` files. NOTE: Many of the `devDependencies` and `~` references are actually in use even if reported unused by the tool. But all unused `dependencies` may usually be removed from package.json.
 
 The client GUI uses [Material-UI](https://material-ui-next.com/) component library by default. It's a good match with the [react-admin](https://github.com/marmelab/react-admin) GUI, but please consider also other alternatives based on customer requirements. For example [Semantic UI React](https://react.semantic-ui.com/) and [Elemental](http://elemental-ui.com/) are also good alternatives.
 

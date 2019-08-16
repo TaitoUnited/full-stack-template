@@ -1,4 +1,4 @@
-package content;
+package blog;
 
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
