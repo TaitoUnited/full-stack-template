@@ -73,7 +73,7 @@ export class PostRouter extends BaseRouter {
       handler: async (ctx: ParameterizedContext) => {
         const data = await this.postService.createPost(
           ctx.state,
-          ctx.request.body.data,
+          ctx.request.body.data
         );
 
         ctx.response.status = 201;

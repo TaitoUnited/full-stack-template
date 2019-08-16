@@ -60,9 +60,9 @@ class InfraRouter extends BaseRouter {
       handler: async (ctx: ParameterizedContext) => {
         // Check that database is up
         await ctx.state.db.any('SELECT 1');
-        await ctx.state.storage.headBucket(
-          { Bucket: config.S3_BUCKET }
-        ).promise();
+        await ctx.state.storage
+          .headBucket({ Bucket: config.S3_BUCKET })
+          .promise();
         ctx.response.body = {
           status: 'OK',
         };
