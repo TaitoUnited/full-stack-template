@@ -4,7 +4,7 @@ import { Trans } from '@lingui/macro';
 
 import PostForm from './PostForm';
 import PostList from './PostList';
-import { PostBasics, Post } from '~shared/types/post';
+import { PostBasics, Post } from '~shared/types/blog';
 import * as api from '~services/api';
 import { Page } from '~ui';
 

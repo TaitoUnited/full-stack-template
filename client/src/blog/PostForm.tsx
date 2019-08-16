@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import styled from 'styled-components';
 
-import { PostBasics } from '~shared/types/post';
+import { PostBasics } from '~shared/types/blog';
 
 interface Props {
   post: PostBasics;

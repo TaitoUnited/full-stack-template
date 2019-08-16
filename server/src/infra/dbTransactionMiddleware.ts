@@ -18,8 +18,7 @@ export default async function dbTransactionMiddleware(
     : readOnlyMode;
 
   await ctx.db.tx({ mode }, async (tx: any) => {
-    // Writing to ctx directly is easier to give typings for than using ctx.state
-    ctx.tx = tx;
+    ctx.state.tx = tx;
     await next();
   });
 }

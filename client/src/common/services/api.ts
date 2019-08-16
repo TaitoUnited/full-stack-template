@@ -6,7 +6,7 @@ import axios, {
 } from 'axios';
 
 import config from '../config';
-import { Post, PostBasics } from '~shared/types/post';
+import { Post, PostBasics } from '~shared/types/blog';
 
 interface Store {
   dispatch: (action: any) => any;

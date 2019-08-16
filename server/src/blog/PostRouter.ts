@@ -19,7 +19,7 @@ export class PostRouter extends BaseRouter {
     const { router = null, postService = null } = injections;
     super(router);
     this.postService = postService || new PostService(injections);
-    this.group = 'Posts';
+    this.group = 'Posts'; // TODO: should this be 'blog'?
     this.prefix = '/posts';
     this.setupRoutes();
   }
@@ -43,9 +43,7 @@ export class PostRouter extends BaseRouter {
         },
       },
       handler: async (ctx: ParameterizedContext) => {
-        const data = await this.postService.getAllPosts({
-          db: ctx.tx,
-        });
+        const data = await this.postService.getAllPosts(ctx.state);
 
         ctx.response.body = {
           data,
@@ -73,10 +71,10 @@ export class PostRouter extends BaseRouter {
         },
       },
       handler: async (ctx: ParameterizedContext) => {
-        const data = await this.postService.createPost({
-          db: ctx.tx,
-          ...ctx.request.body.data, // Valid(ated) input
-        });
+        const data = await this.postService.createPost(
+          ctx.state,
+          ctx.request.body.data,
+        );
 
         ctx.response.status = 201;
         ctx.response.body = {

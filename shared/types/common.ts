@@ -3,3 +3,11 @@ export interface DbItem {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface User {
+  username: String;
+  firstName: String;
+  lastName: String;
+  email?: String;
+  language?: String;
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Post } from '~shared/types/post';
+import { Post } from '~shared/types/blog';
 
 interface Props {
   post: Post;

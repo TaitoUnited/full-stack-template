@@ -150,6 +150,7 @@ function prune () {
       # Remove storage from server implementation
       sed -i '/aws-sdk/d' ./server/package.json
       sed -i '/storage/d' ./server/src/server.ts
+      sed -i '/storage/d' ./server/src/common/types.ts
       sed -i '/storage/d' ./server/src/infra/InfraRouter.ts
       rm -f ./server/src/common/storage.ts
     fi

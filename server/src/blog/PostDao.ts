@@ -1,6 +1,6 @@
 import { asCamelCase } from '../common/formatters';
 import { Db } from '../common/types';
-import { Post } from '../../shared/types/post';
+import { Post } from '../../shared/types/blog';
 
 export class PostDao {
   private tableColumns = [
@@ -14,7 +14,7 @@ export class PostDao {
     .map(column => `posts.${column}`)
     .join(', ');
 
-  public async getAllPosts({ db }: { db: Db }): Promise<Post[]> {
+  public async getAllPosts(db: Db): Promise<Post[]> {
     const data = await db.any(
       `
         SELECT ${this.tableColumns}
@@ -26,17 +26,7 @@ export class PostDao {
     return asCamelCase(data);
   }
 
-  public async createPost({
-    db,
-    subject,
-    content,
-    author,
-  }: {
-    db: Db;
-    subject: string;
-    content: string;
-    author: string;
-  }) {
+  public async createPost(db: Db, post: Post) {
     const data = await db.one(
       `
         INSERT INTO posts (
@@ -50,11 +40,7 @@ export class PostDao {
         )
         RETURNING ${this.tableColumns}
       `,
-      {
-        subject,
-        content,
-        author,
-      }
+      post
     );
 
     return asCamelCase(data);

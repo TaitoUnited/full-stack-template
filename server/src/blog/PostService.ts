@@ -1,4 +1,5 @@
-import { Db } from '../common/types';
+import { State } from '../common/types';
+import { Post } from '../../shared/types/blog';
 import { PostDao } from './PostDao';
 
 export class PostService {
@@ -10,16 +11,11 @@ export class PostService {
     this.postDao = postDao || new PostDao();
   }
 
-  public async getAllPosts(params: { db: Db }) {
-    return this.postDao.getAllPosts(params);
+  public async getAllPosts(state: State) {
+    return this.postDao.getAllPosts(state.tx);
   }
 
-  public async createPost(params: {
-    db: Db;
-    subject: string;
-    content: string;
-    author: string;
-  }) {
-    return this.postDao.createPost(params);
+  public async createPost(state: State, post: Post) {
+    return this.postDao.createPost(state.tx, post);
   }
 }

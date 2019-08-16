@@ -21,6 +21,15 @@ server.context.log = log;
 server.context.db = db;
 server.context.storage = storage;
 
+// Request state prototype
+server.use(async (ctx, next) => {
+  ctx.state = ctx.state || {};
+  ctx.state.log = log;
+  ctx.state.db = db;
+  ctx.state.storage = storage;
+  await next();
+});
+
 // Middlewares
 server.use(requestLoggerMiddleware); // Assume no errors in logging
 server.use(errorHandlerMiddleware);
