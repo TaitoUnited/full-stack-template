@@ -1,5 +1,6 @@
 #!/bin/bash -e
-# Common logic for full-stack-template, website-template, and wordpress-template
+# Common logic for full-stack-template, website-template, wordpress-template,
+# and minimal-template.
 
 : "${taito_organization:?}"
 : "${taito_company:?}"
@@ -261,17 +262,20 @@ fi
 # Remove obsolete provider scripts
 ####################################
 
-if [[ $template_default_provider != "linux" ]] && \
+if [[ -d scripts/linux-provider ]] && \
+   [[ $template_default_provider != "linux" ]] && \
    [[ $template_default_provider_prod != "linux" ]]; then
   rm -rf scripts/linux-provider
 fi
 
-if [[ $template_default_provider != "custom" ]] && \
+if [[ -d scripts/custom-provider ]] && \
+   [[ $template_default_provider != "custom" ]] && \
    [[ $template_default_provider_prod != "custom" ]]; then
   rm -rf scripts/custom-provider
 fi
 
-if [[ $template_default_provider != "linux" ]] && \
+if [[ -f docker-compose-remote.yaml ]] && \
+   [[ $template_default_provider != "linux" ]] && \
    [[ $template_default_provider_prod != "linux" ]] && \
    [[ $template_default_provider != "custom" ]] && \
    [[ $template_default_provider_prod != "custom" ]]; then
