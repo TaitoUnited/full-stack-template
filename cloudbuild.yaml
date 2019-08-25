@@ -1,10 +1,3 @@
-images: [
-  '$_IMAGE_REGISTRY/$_REPO_NAME/admin:$COMMIT_SHA',
-  '$_IMAGE_REGISTRY/$_REPO_NAME/client:$COMMIT_SHA',
-  '$_IMAGE_REGISTRY/$_REPO_NAME/graphql:$COMMIT_SHA',
-  '$_IMAGE_REGISTRY/$_REPO_NAME/server:$COMMIT_SHA',
-  '$_IMAGE_REGISTRY/$_REPO_NAME/www:$COMMIT_SHA'
-]
 timeout: 3000s
 
 # If you want to grant outsiders access to your build logs, you may save
@@ -65,7 +58,6 @@ steps:
     - commit_sha=$COMMIT_SHA
     - build_id=$BUILD_ID
     - full_repo_name=$_REPO_NAME
-    - image_path=$_IMAGE_REGISTRY/$_REPO_NAME/server:$COMMIT_SHA
   args:
   - '-c'
   - |
