@@ -81,6 +81,7 @@ function prune () {
     sed -i "/- step: # $name release/,/taito artifact release:$name/d" bitbucket-pipelines.yml
     sed -i "/REPO_NAME\\/$name:/d" cloudbuild.yaml
     sed -i "/^- id: artifact-prepare-$name\$/,/^$/d" cloudbuild.yaml
+    sed -i "/^- id: artifact-release-$name\$/,/^$/d" cloudbuild.yaml
     # TODO PRUNE Jenkinsfile
 
     if [[ $name == "client" ]]; then
