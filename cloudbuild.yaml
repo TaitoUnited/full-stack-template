@@ -584,6 +584,223 @@ steps:
     - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
     - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
+# Release artifacts in parallel
+
+- id: artifact-release-admin
+  waitFor: ['deployment-verify']
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
+  args: ['artifact-release:admin:$BRANCH_NAME', '$COMMIT_SHA']
+  env:
+    - taito_mode=ci
+    # NOTE: These are removed by 'taito project create'
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
+    - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
+    - template_default_vc_organization=${_TEMPLATE_DEFAULT_VC_ORGANIZATION}
+    - template_default_vc_url=${_TEMPLATE_DEFAULT_VC_URL}
+    - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
+    - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
+    - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
+    - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
+    - template_default_provider_prod=${_TEMPLATE_DEFAULT_PROVIDER_PROD}
+    - template_default_provider_org_id=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID}
+    - template_default_provider_org_id_prod=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID_PROD}
+    - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
+    - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_uptime_channels_prod=${_TEMPLATE_DEFAULT_UPTIME_CHANNELS_PROD}
+    - template_default_ci_provider=${_TEMPLATE_DEFAULT_CI_PROVIDER}
+    - template_default_ci_provider_prod=${_TEMPLATE_DEFAULT_CI_PROVIDER_PROD}
+    - template_default_vc_provider=${_TEMPLATE_DEFAULT_VC_PROVIDER}
+    - template_default_container_registry_provider=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER}
+    - template_default_container_registry_provider_prod=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER_PROD}
+    - template_default_container_registry=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY}
+    - template_default_container_registry_prod=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROD}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
+    - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
+    - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
+
+- id: artifact-release-client
+  waitFor: ['deployment-verify']
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
+  args: ['artifact-release:client:$BRANCH_NAME', '$COMMIT_SHA']
+  env:
+    - taito_mode=ci
+    # NOTE: These are removed by 'taito project create'
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
+    - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
+    - template_default_vc_organization=${_TEMPLATE_DEFAULT_VC_ORGANIZATION}
+    - template_default_vc_url=${_TEMPLATE_DEFAULT_VC_URL}
+    - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
+    - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
+    - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
+    - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
+    - template_default_provider_prod=${_TEMPLATE_DEFAULT_PROVIDER_PROD}
+    - template_default_provider_org_id=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID}
+    - template_default_provider_org_id_prod=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID_PROD}
+    - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
+    - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_uptime_channels_prod=${_TEMPLATE_DEFAULT_UPTIME_CHANNELS_PROD}
+    - template_default_ci_provider=${_TEMPLATE_DEFAULT_CI_PROVIDER}
+    - template_default_ci_provider_prod=${_TEMPLATE_DEFAULT_CI_PROVIDER_PROD}
+    - template_default_vc_provider=${_TEMPLATE_DEFAULT_VC_PROVIDER}
+    - template_default_container_registry_provider=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER}
+    - template_default_container_registry_provider_prod=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER_PROD}
+    - template_default_container_registry=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY}
+    - template_default_container_registry_prod=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROD}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
+    - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
+    - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
+
+- id: artifact-release-graphql
+  waitFor: ['deployment-verify']
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
+  args: ['artifact-release:graphql:$BRANCH_NAME', '$COMMIT_SHA']
+  env:
+    - taito_mode=ci
+    # NOTE: These are removed by 'taito project create'
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
+    - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
+    - template_default_vc_organization=${_TEMPLATE_DEFAULT_VC_ORGANIZATION}
+    - template_default_vc_url=${_TEMPLATE_DEFAULT_VC_URL}
+    - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
+    - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
+    - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
+    - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
+    - template_default_provider_prod=${_TEMPLATE_DEFAULT_PROVIDER_PROD}
+    - template_default_provider_org_id=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID}
+    - template_default_provider_org_id_prod=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID_PROD}
+    - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
+    - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_uptime_channels_prod=${_TEMPLATE_DEFAULT_UPTIME_CHANNELS_PROD}
+    - template_default_ci_provider=${_TEMPLATE_DEFAULT_CI_PROVIDER}
+    - template_default_ci_provider_prod=${_TEMPLATE_DEFAULT_CI_PROVIDER_PROD}
+    - template_default_vc_provider=${_TEMPLATE_DEFAULT_VC_PROVIDER}
+    - template_default_container_registry_provider=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER}
+    - template_default_container_registry_provider_prod=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER_PROD}
+    - template_default_container_registry=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY}
+    - template_default_container_registry_prod=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROD}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
+    - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
+    - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
+
+- id: artifact-release-server
+  waitFor: ['deployment-verify']
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
+  args: ['artifact-release:server:$BRANCH_NAME', '$COMMIT_SHA']
+  env:
+    - taito_mode=ci
+    # NOTE: These are removed by 'taito project create'
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
+    - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
+    - template_default_vc_organization=${_TEMPLATE_DEFAULT_VC_ORGANIZATION}
+    - template_default_vc_url=${_TEMPLATE_DEFAULT_VC_URL}
+    - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
+    - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
+    - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
+    - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
+    - template_default_provider_prod=${_TEMPLATE_DEFAULT_PROVIDER_PROD}
+    - template_default_provider_org_id=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID}
+    - template_default_provider_org_id_prod=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID_PROD}
+    - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
+    - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_uptime_channels_prod=${_TEMPLATE_DEFAULT_UPTIME_CHANNELS_PROD}
+    - template_default_ci_provider=${_TEMPLATE_DEFAULT_CI_PROVIDER}
+    - template_default_ci_provider_prod=${_TEMPLATE_DEFAULT_CI_PROVIDER_PROD}
+    - template_default_vc_provider=${_TEMPLATE_DEFAULT_VC_PROVIDER}
+    - template_default_container_registry_provider=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER}
+    - template_default_container_registry_provider_prod=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER_PROD}
+    - template_default_container_registry=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY}
+    - template_default_container_registry_prod=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROD}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
+    - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
+    - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
+
+- id: artifact-release-www
+  waitFor: ['deployment-verify']
+  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
+  args: ['artifact-release:www:$BRANCH_NAME', '$COMMIT_SHA']
+  env:
+    - taito_mode=ci
+    # NOTE: These are removed by 'taito project create'
+    - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+    - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
+    - template_default_organization=${_TEMPLATE_DEFAULT_ORGANIZATION}
+    - template_default_organization_abbr=${_TEMPLATE_DEFAULT_ORGANIZATION_ABBR}
+    - template_default_vc_organization=${_TEMPLATE_DEFAULT_VC_ORGANIZATION}
+    - template_default_vc_url=${_TEMPLATE_DEFAULT_VC_URL}
+    - template_default_sentry_organization=${_TEMPLATE_DEFAULT_SENTRY_ORGANIZATION}
+    - template_default_domain=${_TEMPLATE_DEFAULT_DOMAIN}
+    - template_default_domain_prod=${_TEMPLATE_DEFAULT_DOMAIN_PROD}
+    - template_default_zone=${_TEMPLATE_DEFAULT_ZONE}
+    - template_default_zone_prod=${_TEMPLATE_DEFAULT_ZONE_PROD}
+    - template_default_provider=${_TEMPLATE_DEFAULT_PROVIDER}
+    - template_default_provider_prod=${_TEMPLATE_DEFAULT_PROVIDER_PROD}
+    - template_default_provider_org_id=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID}
+    - template_default_provider_org_id_prod=${_TEMPLATE_DEFAULT_PROVIDER_ORG_ID_PROD}
+    - template_default_provider_region=${_TEMPLATE_DEFAULT_PROVIDER_REGION}
+    - template_default_provider_region_prod=${_TEMPLATE_DEFAULT_PROVIDER_REGION_PROD}
+    - template_default_provider_zone=${_TEMPLATE_DEFAULT_PROVIDER_ZONE}
+    - template_default_provider_zone_prod=${_TEMPLATE_DEFAULT_PROVIDER_ZONE_PROD}
+    - template_default_uptime_channels_prod=${_TEMPLATE_DEFAULT_UPTIME_CHANNELS_PROD}
+    - template_default_ci_provider=${_TEMPLATE_DEFAULT_CI_PROVIDER}
+    - template_default_ci_provider_prod=${_TEMPLATE_DEFAULT_CI_PROVIDER_PROD}
+    - template_default_vc_provider=${_TEMPLATE_DEFAULT_VC_PROVIDER}
+    - template_default_container_registry_provider=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER}
+    - template_default_container_registry_provider_prod=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROVIDER_PROD}
+    - template_default_container_registry=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY}
+    - template_default_container_registry_prod=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROD}
+    - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
+    - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
+    - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
+    - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
+    - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
+    - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
+    - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
+
 # Release build
 
 - id: build-release
