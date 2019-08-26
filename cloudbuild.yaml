@@ -55,7 +55,6 @@ steps:
   entrypoint: 'bash'
   env:
     - branch_name=$BRANCH_NAME
-    - commit_sha=$COMMIT_SHA
     - build_id=$BUILD_ID
     - full_repo_name=$_REPO_NAME
   args:
