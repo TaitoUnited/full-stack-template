@@ -57,7 +57,7 @@ export const media = {
   `,
 };
 
-export const ripple = (rippleColor: string = 'rgba(0, 0, 0, 0.4)') => {
+export const ripple = (rippleColor = 'rgba(0, 0, 0, 0.4)') => {
   return css`
     position: relative;
     overflow: hidden;
