@@ -70,12 +70,12 @@ const createRestClient = (
       case UPDATE:
         url = `${apiUrl}/${resource}/${params.id}`;
         options.method = 'PATCH';
-        options.body = JSON.stringify(params.data);
+        options.body = JSON.stringify({ data: params.data });
         break;
       case CREATE:
         url = `${apiUrl}/${resource}`;
         options.method = 'POST';
-        options.body = JSON.stringify(params.data);
+        options.body = JSON.stringify({ data: params.data });
         break;
       case DELETE:
         url = `${apiUrl}/${resource}/${params.id}`;

@@ -25,49 +25,20 @@ const PostShow = ({ ...props }) => (
     <TabbedShowLayout>
       <Tab label="post.form.summary">
         <TextField source="id" />
-        <TextField source="title" />
-        <TextField source="teaser" />
+        <TextField source="subject" />
+        <TextField source="author" />
       </Tab>
       <Tab label="post.form.body">
         <RichTextField
-          source="body"
+          source="content"
           stripTags={false}
           label=""
           addLabel={false}
         />
       </Tab>
       <Tab label="post.form.miscellaneous">
-        <ReferenceArrayField reference="tags" source="tags">
-          <SingleFieldList>
-            <ChipField source="name" />
-          </SingleFieldList>
-        </ReferenceArrayField>
-        <DateField source="published_at" />
-        <SelectField
-          source="category"
-          choices={[
-            { name: 'Tech', id: 'tech' },
-            { name: 'Lifestyle', id: 'lifestyle' },
-          ]}
-        />
-        <NumberField source="average_note" />
-        <BooleanField source="commentable" />
-        <TextField source="views" />
       </Tab>
       <Tab label="post.form.comments">
-        <ReferenceManyField
-          label="resources.posts.fields.comments"
-          reference="comments"
-          target="post_id"
-          sort={{ field: 'created_at', order: 'DESC' }}
-        >
-          <Datagrid selectable={false}>
-            <DateField source="created_at" />
-            <TextField source="author.name" />
-            <TextField source="body" />
-            <EditButton />
-          </Datagrid>
-        </ReferenceManyField>
       </Tab>
     </TabbedShowLayout>
   </Show>

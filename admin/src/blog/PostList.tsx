@@ -63,28 +63,19 @@ const PostList = ({ ...props }) => (
     <Responsive
       small={
         <SimpleList
-          primaryText={(record: any) => record.title}
-          secondaryText={(record: any) => `${record.views} views`}
+          primaryText={(record: any) => record.subject}
+          secondaryText={(record: any) => record.author}
           tertiaryText={(record: any) =>
-            new Date(record.published_at).toLocaleDateString()
+            new Date(record.createdAt).toLocaleDateString()
           }
         />
       }
       medium={
         <Datagrid>
           <TextField source="id" />
-          <TextField source="title" style={titleFieldStyle} />
-          <DateField source="published_at" style={{ fontStyle: 'italic' }} />
-          <BooleanField
-            source="commentable"
-            label="resources.posts.fields.commentable_short"
-          />
-          <NumberField source="views" />
-          <ReferenceArrayField label="Tags" reference="tags" source="tags">
-            <SingleFieldList>
-              <ChipField source="name" />
-            </SingleFieldList>
-          </ReferenceArrayField>
+          <TextField source="author" />
+          <TextField source="subject" style={titleFieldStyle} />
+          <DateField source="createdAt" style={{ fontStyle: 'italic' }} />
           <EditButton />
           <ShowButton />
         </Datagrid>

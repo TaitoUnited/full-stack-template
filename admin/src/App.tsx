@@ -37,7 +37,8 @@ const App = () => (
   <Admin
     title="Admin GUI"
     dataProvider={restClient}
-    authProvider={authProvider}
+    // The template has basic auth
+    // authProvider={authProvider}
     locale="fi"
     i18nProvider={i18nProvider}
     history={history}

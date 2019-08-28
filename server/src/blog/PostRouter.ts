@@ -38,12 +38,39 @@ export class PostRouter extends BaseRouter {
               data: this.Joi.array()
                 .items(PostSchema)
                 .required(),
+              totalCount: this.Joi.number().required()
             }),
           },
         },
       },
       handler: async (ctx: ParameterizedContext) => {
         const data = await this.postService.getAllPosts(ctx.state);
+
+        ctx.response.body = {
+          data,
+          totalCount: data.length
+        };
+      },
+    });
+
+    this.route({
+      method: 'get',
+      path: '/:id',
+      documentation: {
+        description: 'List all posts',
+      },
+      validate: {
+        output: {
+          '200': {
+            body: this.Joi.object({
+              data: PostSchema
+                .required(),
+            }),
+          },
+        },
+      },
+      handler: async (ctx: ParameterizedContext) => {
+        const data = await this.postService.getPost(ctx.state, ctx.params.id);
 
         ctx.response.body = {
           data,

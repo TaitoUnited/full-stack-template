@@ -15,6 +15,10 @@ export class PostService {
     return this.postDao.getAllPosts(state.tx);
   }
 
+  public async getPost(state: State, id: string) {
+    return this.postDao.getPost(state.tx, id);
+  }
+
   public async createPost(state: State, post: Post) {
     return this.postDao.createPost(state.tx, post);
   }

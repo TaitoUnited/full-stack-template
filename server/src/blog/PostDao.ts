@@ -26,6 +26,19 @@ export class PostDao {
     return asCamelCase(data);
   }
 
+  public async getPost(db: Db, id: string): Promise<Post> {
+    const data = await db.one(
+      `
+        SELECT ${this.tableColumns}
+        FROM posts
+        WHERE id = $[id]
+      `,
+      { id }
+    );
+
+    return asCamelCase(data);
+  }
+
   public async createPost(db: Db, post: Post) {
     const data = await db.one(
       `
