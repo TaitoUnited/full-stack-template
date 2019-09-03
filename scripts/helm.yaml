@@ -21,7 +21,7 @@ full-stack:
 
   ingress:
     class: nginx
-    oldRewritePolicy: false
+    oldRewritePolicy: true
     tls: true
     domains:
       - name: ${taito_domain}
