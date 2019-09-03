@@ -1,6 +1,6 @@
 # Builder, tester and runtime container for local development
 # NOTE: npm libraries are installed inside container to speed up build
-FROM node:10-alpine
+FROM node:lts-alpine
 ARG SERVICE_DIR=.
 RUN apk add --update-cache rsync # rsync for windows devs
 WORKDIR /service

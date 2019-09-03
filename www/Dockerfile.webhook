@@ -1,4 +1,4 @@
-FROM node:10 as builder
+FROM node:lts-stretch-slim as builder
 ARG SERVICE_DIR=.
 ARG BUILD_VERSION
 LABEL version=${BUILD_VERSION} \

@@ -1,5 +1,5 @@
 # Builder and tester container for production build
-FROM node:10-alpine as builder
+FROM node:lts-alpine as builder
 ARG SERVICE_DIR=.
 ARG TARGET_ENV=prod
 RUN apk add --update-cache build-base python git fontconfig
@@ -16,7 +16,7 @@ RUN npm run unit
 RUN npm run build:prod
 
 # Production runtime container
-FROM node:10-alpine
+FROM node:lts-alpine
 ARG BUILD_VERSION
 LABEL version=${BUILD_VERSION} \
       company=companyname \
