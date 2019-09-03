@@ -1,5 +1,5 @@
 # Local development runtime
-FROM nginx:1.15-alpine
+FROM nginx:1.17-alpine
 ARG SERVICE_DIR=.
 WORKDIR /service
 RUN chown -R nginx:nginx /var/cache/nginx && \
