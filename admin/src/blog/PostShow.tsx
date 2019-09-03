@@ -36,10 +36,8 @@ const PostShow = ({ ...props }) => (
           addLabel={false}
         />
       </Tab>
-      <Tab label="post.form.miscellaneous">
-      </Tab>
-      <Tab label="post.form.comments">
-      </Tab>
+      <Tab label="post.form.miscellaneous" />
+      <Tab label="post.form.comments" />
     </TabbedShowLayout>
   </Show>
 );

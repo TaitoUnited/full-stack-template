@@ -38,7 +38,7 @@ export class PostRouter extends BaseRouter {
               data: this.Joi.array()
                 .items(PostSchema)
                 .required(),
-              totalCount: this.Joi.number().required()
+              totalCount: this.Joi.number().required(),
             }),
           },
         },
@@ -48,7 +48,7 @@ export class PostRouter extends BaseRouter {
 
         ctx.response.body = {
           data,
-          totalCount: data.length
+          totalCount: data.length,
         };
       },
     });
@@ -63,8 +63,7 @@ export class PostRouter extends BaseRouter {
         output: {
           '200': {
             body: this.Joi.object({
-              data: PostSchema
-                .required(),
+              data: PostSchema.required(),
             }),
           },
         },
