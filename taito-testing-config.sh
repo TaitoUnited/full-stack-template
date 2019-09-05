@@ -17,7 +17,7 @@ case $taito_env in
   *)
     # dev and feature environments
     if [[ $taito_env == "dev" ]] || [[ $taito_env == "f-"* ]]; then
-      ci_exec_test=true         # enable this to execute test suites
+      ci_exec_test=false        # enable this to execute test suites
       ci_exec_test_init=false   # run 'init --clean' before each test suite
       ci_test_base_url=https://username:secretpassword@$taito_domain
     fi
