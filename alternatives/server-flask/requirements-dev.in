@@ -1,0 +1,5 @@
+-r requirements.in
+
+flake8
+mypy
+pytest
