@@ -1,0 +1,6 @@
+-r requirements.in
+
+google-cloud-logging
+sentry-sdk[flask]
+uwsgi
+uwsgidecorators
