@@ -6,18 +6,8 @@ export test_name="${2}"
 case $suite_name in
   pytest)
     case $test_name in
-      unit)
-        pytest blog
-        ;;
-      integration)
-        pytest test
-        ;;
-      "")
-        pytest
-        break
-        ;;
       *)
-        pytest -k "${test_name}"
+        pytest test -k "${test_name}"
       ;;
     esac
     ;;

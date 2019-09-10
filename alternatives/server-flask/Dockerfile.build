@@ -16,9 +16,9 @@ COPY ${SERVICE_DIR} /service
 COPY ${SERVICE_DIR}/requirements-dev.txt /service/
 RUN pip3 install --upgrade pip && pip3 install -r requirements-dev.txt
 
-RUN flake8 blog
+RUN flake8
 RUN mypy --ignore-missing-imports blog
-#RUN pytest unit
+RUN pytest blog # Run unit tests
 
 RUN python3 setup.py bdist_wheel --version=${BUILD_VERSION}
 
