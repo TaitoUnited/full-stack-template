@@ -1,7 +1,7 @@
 import dataclasses
 import typing
-from blog.common.formatters import to_camel, to_snake
-from blog.types.post import DBPost, Post
+from src.common.formatters import to_camel, to_snake
+from src.types.post import DBPost, Post
 
 
 PostDict = typing.Dict[str, typing.Any]

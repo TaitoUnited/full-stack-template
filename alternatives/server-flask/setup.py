@@ -19,9 +19,9 @@ setup(
     install_requires=[
         'boto3',
         'flask',
-        'google-cloud-logging',
         'psycopg2-binary',
         'pydantic',
+        'python-json-logger',
         'sentry-sdk[flask]',
         'uwsgi',
         'uwsgidecorators',

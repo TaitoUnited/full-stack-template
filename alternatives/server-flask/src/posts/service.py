@@ -1,5 +1,5 @@
 import typing
-from blog.types.post import DBPost, Post
+from src.types.post import DBPost, Post
 from . import db
 
 

@@ -3,12 +3,12 @@ from flask import Flask
 
 from . import config
 from . import db
+from . import log
 from . import posts
 from . import routes
 from . import sentry
 from . import storage
 from . import types # noqa
-
 
 
 def create_app(
@@ -24,18 +24,14 @@ def create_app(
         # load the test config if passed in
         app.config.from_object(test_config)
 
+    log.setup(app)
     sentry.connect(app)
-
-    if app.config['COMMON_LOG_FORMAT'] == 'stackdriver':
-        import google.cloud.logging
-        client = google.cloud.logging.Client(app.config['APP_NAME'])
-        # Attaches a Google Stackdriver logging handler to the root logger
-        client.setup_logging(app.config['COMMON_LOG_LEVEL'])
 
     @app.errorhandler(Exception)
     def handle_bad_request(e: Exception) -> typing.Any:
         """Catch-all exception handler.
         """
+        app.logger.exception(f'Unhandled exception: {e}')
         return {'error': {'message': str(e)}}, 500
 
     app.register_blueprint(routes.bp)

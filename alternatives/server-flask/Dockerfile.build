@@ -17,8 +17,8 @@ COPY ${SERVICE_DIR}/requirements-dev.txt /service/
 RUN pip3 install --upgrade pip && pip3 install -r requirements-dev.txt
 
 RUN flake8
-RUN mypy --ignore-missing-imports blog
-RUN pytest blog # Run unit tests
+RUN mypy --ignore-missing-imports src
+RUN pytest src # Run unit tests
 
 RUN python3 setup.py bdist_wheel --version=${BUILD_VERSION}
 
@@ -44,12 +44,12 @@ RUN pip3 install --upgrade pip && \
     pip3 install full_stack_template_server-${BUILD_VERSION}-py3-none-any.whl
 RUN apk del g++ libffi-dev
 
-COPY ${SERVICE_DIR}/blog.uwsgi.ini .
-COPY ${SERVICE_DIR}/blog.nginx.conf /etc/nginx/conf.d/default.conf
+COPY ${SERVICE_DIR}/uwsgi.ini .
+COPY ${SERVICE_DIR}/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Make due for the nginx pid file and unix socket
 RUN mkdir -p /var/run/nginx
 RUN chown nginx:nginx /var/run/nginx
 
 EXPOSE 8080
-CMD eval $DC_COMMAND; nginx -s stop; nginx; nginx -s reload; uwsgi --ini blog.uwsgi.ini
+CMD eval $DC_COMMAND; nginx -s stop; nginx; nginx -s reload; uwsgi --ini uwsgi.ini
