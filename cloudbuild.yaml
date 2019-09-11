@@ -286,7 +286,7 @@ steps:
 - id: artifact-prepare-server
   waitFor: ['build-prepare']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-prepare:server:$BRANCH_NAME', '$COMMIT_SHA']
+  args: ['artifact-prepare:server:$BRANCH_NAME', '$COMMIT_SHA', 'false', './alternatives/server-flask', './alternatives/server-flask']
   env:
     - taito_mode=ci
     # NOTE: These are removed by 'taito project create'
