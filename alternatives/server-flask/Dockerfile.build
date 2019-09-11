@@ -18,6 +18,10 @@ RUN pip3 install --upgrade pip && pip3 install -r requirements-dev.txt
 
 RUN flake8
 RUN mypy --ignore-missing-imports src
+# TODO: remove this hack (unit tests require secrets to exist)
+RUN mkdir -p /run/secrets && \
+    echo "temp-unit-test-hack" > /run/secrets/DATABASE_PASSWORD && \
+    echo "temp-unit-test-hack" > /run/secrets/S3_KEY_SECRET
 RUN pytest src # Run unit tests
 
 RUN python3 setup.py bdist_wheel --version=${BUILD_VERSION}
