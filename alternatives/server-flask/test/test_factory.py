@@ -1,5 +1,5 @@
-from blog import create_app
-from blog.config import TestConfig
+from src import create_app
+from src.config import TestConfig
 
 
 def test_config():

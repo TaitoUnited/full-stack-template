@@ -2,7 +2,7 @@
 FROM python:3.7-alpine
 ARG SERVICE_DIR=.
 ENV FLASK_ENV development
-ENV FLASK_APP blog
+ENV FLASK_APP src
 
 RUN apk add --update-cache \
   g++ \

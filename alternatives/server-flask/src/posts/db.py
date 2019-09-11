@@ -1,8 +1,8 @@
 import dataclasses
 import psycopg2.sql
 import typing
-from blog import db
-from blog.types.post import DBPost, Post
+from src import db
+from src.types.post import DBPost, Post
 
 
 DB_POST_FIELDS: psycopg2.sql.SQL = psycopg2.sql.SQL(',').join(

@@ -1,4 +1,4 @@
-from blog.config import TestConfig
+from src.config import TestConfig
 
 
 def test_get_config(client):

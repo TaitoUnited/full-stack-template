@@ -6,8 +6,10 @@
 #
 atomicwrites==1.3.0       # via pytest
 attrs==19.1.0             # via packaging, pytest
+blinker==1.4              # via sentry-sdk
 boto3==1.9.220
 botocore==1.12.220        # via boto3, s3transfer
+certifi==2019.6.16        # via sentry-sdk
 click==7.0                # via flask
 docutils==0.15.2          # via botocore
 entrypoints==0.3          # via flake8
@@ -23,7 +25,6 @@ more-itertools==7.2.0     # via pytest, zipp
 mypy-extensions==0.4.1    # via mypy
 mypy==0.720
 packaging==19.1           # via pytest
-pathlib2==2.3.4           # via pytest
 pluggy==0.12.0            # via pytest
 psycopg2-binary==2.8.3
 py==1.8.0                 # via pytest
@@ -33,11 +34,13 @@ pyflakes==2.1.1           # via flake8
 pyparsing==2.4.2          # via packaging
 pytest==5.1.1
 python-dateutil==2.8.0    # via botocore
+python-json-logger==0.1.11
 s3transfer==0.2.1         # via boto3
-six==1.12.0               # via packaging, pathlib2, python-dateutil
+sentry-sdk[flask]==0.11.2
+six==1.12.0               # via packaging, python-dateutil
 typed-ast==1.4.0          # via mypy
 typing-extensions==3.7.4  # via mypy
-urllib3==1.25.3           # via botocore
+urllib3==1.25.3           # via botocore, sentry-sdk
 wcwidth==0.1.7            # via pytest
 werkzeug==0.15.5          # via flask
 zipp==0.6.0               # via importlib-metadata

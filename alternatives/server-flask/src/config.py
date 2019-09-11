@@ -15,15 +15,15 @@ _config = defaultdict(
 
 class Config:
     # Environment
-    COMMON_PROJECT = _config['COMMON_PROJECT'],
-    COMMON_COMPANY = _config['COMMON_COMPANY'],
-    COMMON_FAMILY = _config['COMMON_FAMILY'],
-    COMMON_APPLICATION = _config['COMMON_APPLICATION'],
-    COMMON_SUFFIX = _config['COMMON_SUFFIX'],
-    COMMON_DOMAIN = _config['COMMON_DOMAIN'],
-    COMMON_IMAGE_TAG = _config['COMMON_IMAGE_TAG'],
-    COMMON_ENV = _config['COMMON_ENV'],  # dev / test / stag / prod
-    PYTHON_ENV = _config['PYTHON_ENV'],  # development / production
+    COMMON_PROJECT = _config['COMMON_PROJECT']
+    COMMON_COMPANY = _config['COMMON_COMPANY']
+    COMMON_FAMILY = _config['COMMON_FAMILY']
+    COMMON_APPLICATION = _config['COMMON_APPLICATION']
+    COMMON_SUFFIX = _config['COMMON_SUFFIX']
+    COMMON_DOMAIN = _config['COMMON_DOMAIN']
+    COMMON_IMAGE_TAG = _config['COMMON_IMAGE_TAG']
+    COMMON_ENV = _config['COMMON_ENV']  # dev / test / stag / prod
+    PYTHON_ENV = _config['PYTHON_ENV']  # development / production
 
     # Basic
     ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
