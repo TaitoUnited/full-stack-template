@@ -1,12 +1,16 @@
 import logging
+import sys
 import typing
 from flask import Flask, g, has_request_context, Response, request
 from flask.logging import default_handler
 from pythonjsonlogger import jsonlogger
 from time import time
 
+from src import db
+
 
 allowed_headers: typing.Set[str] = {'user-agent', 'referer', 'x-real-ip'}
+no_log_paths: typing.Set[str] = {'/healthz', '/uptimez'}
 
 
 def setup(app: Flask) -> None:
@@ -23,6 +27,9 @@ def setup(app: Flask) -> None:
 
     @app.after_request
     def log_request(response: Response) -> Response:
+        if request.path in no_log_paths:
+            return response
+
         latency = (time() - g.request_start) * 1000
 
         message_parts = []
@@ -32,6 +39,7 @@ def setup(app: Flask) -> None:
         message = (', ').join(message_parts)
 
         app.logger.info(message)
+
         return response
 
     # Set werkzeug loglevel to ERROR to silence it.
@@ -63,8 +71,36 @@ def setup(app: Flask) -> None:
                 'env': app.config['COMMON_ENV'],
             }
 
+            log_record['db'] = {
+                'available': False,
+                'closed': None,
+                'conn_available': None,
+                'conn_used': None,
+                'maxconn': None,
+                'minconn': None,
+            }
+            if db.pool is not None:
+                log_record['db'] = {
+                    'available': True,
+                    'closed': db.pool.closed,
+                    'conn_available': len(db.pool._pool),
+                    'conn_used': len(db.pool._used),
+                    'maxconn': db.pool.maxconn,
+                    'minconn': db.pool.minconn,
+                }
+
             if 'exc_info' in log_record:
+                try:
+                    # Try to extract error id for logging.
+                    # Take the exception instance from sys.exc_info,
+                    # because the exc_info in log_record contains only
+                    # the traceback.
+                    err = sys.exc_info()[1]  # (type, instance, traceback)
+                    err_id = err.log_id if hasattr(err, 'log_id') else None
+                except Exception:
+                    err_id = None
                 log_record['err'] = {
+                    'id': err_id,
                     'message': log_record['exc_info'],
                 }
                 del log_record['exc_info']
