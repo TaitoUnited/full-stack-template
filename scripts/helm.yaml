@@ -201,6 +201,7 @@ full-stack:
       # cronJobs:
       #   - name: examplejob1
       #     schedule: "30 2 * * *"
+      #     concurrencyPolicy: Forbid # Forbid or Allow
       #     args:
       #       - /bin/sh
       #       - -c
@@ -270,6 +271,7 @@ full-stack:
       cronJobs:
         - name: examplejob2
           schedule: "0 2 * * *"
+          concurrencyPolicy: Forbid # Forbid or Allow
           args:
             - /bin/sh
             - -c
