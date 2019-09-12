@@ -70,15 +70,12 @@ def setup(app: Flask) -> None:
             }
 
             if 'exc_info' in log_record:
-                try:
-                    # Try to extract error id for logging.
-                    # Take the exception instance from sys.exc_info,
-                    # because the exc_info in log_record contains only
-                    # the traceback.
-                    err = sys.exc_info()[1]  # (type, instance, traceback)
-                    err_id = err.log_id if hasattr(err, 'log_id') else None
-                except Exception:
-                    err_id = None
+                # Try to extract error id for logging.
+                # Take the exception instance from sys.exc_info,
+                # because the exc_info in log_record contains only
+                # the traceback.
+                err = sys.exc_info()[1]  # (type, instance, traceback)
+                err_id = getattr(err, 'log_id', None)
                 log_record['err'] = {
                     'id': err_id,
                     'message': log_record['exc_info'],
