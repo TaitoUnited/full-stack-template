@@ -6,8 +6,6 @@ from flask.logging import default_handler
 from pythonjsonlogger import jsonlogger
 from time import time
 
-from src import db
-
 
 allowed_headers: typing.Set[str] = {'user-agent', 'referer', 'x-real-ip'}
 no_log_paths: typing.Set[str] = {'/healthz', '/uptimez'}
@@ -70,24 +68,6 @@ def setup(app: Flask) -> None:
                 'imageTag': app.config['COMMON_IMAGE_TAG'],
                 'env': app.config['COMMON_ENV'],
             }
-
-            log_record['db'] = {
-                'available': False,
-                'closed': None,
-                'conn_available': None,
-                'conn_used': None,
-                'maxconn': None,
-                'minconn': None,
-            }
-            if db.pool is not None:
-                log_record['db'] = {
-                    'available': True,
-                    'closed': db.pool.closed,
-                    'conn_available': len(db.pool._pool),
-                    'conn_used': len(db.pool._used),
-                    'maxconn': db.pool.maxconn,
-                    'minconn': db.pool.minconn,
-                }
 
             if 'exc_info' in log_record:
                 try:
