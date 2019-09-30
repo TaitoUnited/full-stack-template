@@ -68,7 +68,3 @@ class Config:
 
     # Testing
     TESTING = False
-
-
-class TestConfig(Config):
-    TESTING = True

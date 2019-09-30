@@ -9,12 +9,14 @@ attrs==19.1.0             # via packaging, pytest
 blinker==1.4              # via sentry-sdk
 boto3==1.9.220
 botocore==1.12.220        # via boto3, s3transfer
-certifi==2019.6.16        # via sentry-sdk
+certifi==2019.6.16        # via requests, sentry-sdk
+chardet==3.0.4            # via requests
 click==7.0                # via flask
 docutils==0.15.2          # via botocore
 entrypoints==0.3          # via flake8
 flake8==3.7.8
 flask==1.1.1
+idna==2.8                 # via requests
 importlib-metadata==0.19  # via pluggy, pytest
 itsdangerous==1.1.0       # via flask
 jinja2==2.10.1            # via flask
@@ -35,12 +37,13 @@ pyparsing==2.4.2          # via packaging
 pytest==5.1.1
 python-dateutil==2.8.0    # via botocore
 python-json-logger==0.1.11
+requests==2.22.0
 s3transfer==0.2.1         # via boto3
 sentry-sdk[flask]==0.11.2
 six==1.12.0               # via packaging, python-dateutil
 typed-ast==1.4.0          # via mypy
 typing-extensions==3.7.4  # via mypy
-urllib3==1.25.3           # via botocore, sentry-sdk
+urllib3==1.25.3           # via botocore, requests, sentry-sdk
 wcwidth==0.1.7            # via pytest
 werkzeug==0.15.5          # via flask
 zipp==0.6.0               # via importlib-metadata

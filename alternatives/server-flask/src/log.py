@@ -14,8 +14,10 @@ no_log_paths: typing.Set[str] = {'/healthz', '/uptimez'}
 def setup(app: Flask) -> None:
     try:
         app.logger.setLevel(app.config['COMMON_LOG_LEVEL'])
-    except ValueError:
-        # Invalid loglevel. Leave as default.
+    except (TypeError, ValueError):
+        # TypeError: Invalid loglevel (e.g. None)
+        # ValueError: Unknown loglevel
+        # Leave as default.
         pass
 
     # Setup request/response logging
