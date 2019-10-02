@@ -60,6 +60,9 @@ steps:
   args:
   - '-c'
   - |
+    rm -rf server
+    mv alternatives/server-flask server
+
     # NOTE: These are removed by 'taito project create'
     export template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     export template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
@@ -286,7 +289,7 @@ steps:
 - id: artifact-prepare-server
   waitFor: ['build-prepare']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-prepare:server:$BRANCH_NAME', '$COMMIT_SHA', 'false', './alternatives/server-flask', './alternatives/server-flask']
+  args: ['artifact-prepare:server:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
     # NOTE: These are removed by 'taito project create'
