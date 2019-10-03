@@ -8,6 +8,7 @@ const testConfig = {
   DATABASE_USER: config.DATABASE_USER,
   DATABASE_PASSWORD: config.DATABASE_PASSWORD,
   DATABASE_POOL_MAX: config.DATABASE_POOL_MAX,
+  DATABASE_SSL_ENABLED: config.DATABASE_SSL_ENABLED,
 };
 
 export default testConfig;

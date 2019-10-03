@@ -12,6 +12,7 @@ const cn = {
   user: config.DATABASE_USER,
   password: config.DATABASE_PASSWORD,
   poolSize: config.DATABASE_POOL_MAX,
+  ssl: config.DATABASE_SSL_ENABLED,
 };
 
 const db: IDatabase<{}> = pgp(cn);

@@ -55,6 +55,7 @@ const config = {
   DATABASE_POOL_MAX: process.env.DATABASE_POOL_MAX
     ? parseInt(process.env.DATABASE_POOL_MAX, 10)
     : 10,
+  DATABASE_SSL_ENABLED: process.env.DATABASE_SSL_ENABLED !== 'false',
 
   // Storage
   S3_URL: process.env.S3_URL,
