@@ -34,7 +34,9 @@ echo "   **/package.json file, and by defining environment variables and secrets
 echo "   in docker-compose.yaml. The project should start locally with 'taito kaboom'."
 echo "3) Modify all **/package.json files so that they provide scripts required"
 echo "   by the CI/CD build (build:prod, lint, unit, test)"
-echo "4) Configure the project as usual (see CONFIGURATION.md)."
+echo "4) Implement /healthz and /uptimez endpoints in your server implementation"
+echo "5) Configure the project as usual (see CONFIGURATION.md)"
+echo "6) Configure secrets (see the secrets chapter of CONFIGURATION.md)"
 echo
 echo "Recommended additional steps:"
 echo "- Update libraries and other project dependencies."

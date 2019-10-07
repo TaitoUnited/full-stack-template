@@ -94,9 +94,11 @@ Operations on production and staging environments usually require admin rights. 
 
 **Kafka:** TODO: Kafka for event-driven microservices.
 
-**API gateway:** TODO: nginx-ingress by default.
+**API gateway:** TODO: Ambassador etc. as alternatives to nginx-ingress.
 
 **Istio:** TODO: Istio service mesh.
+
+**Knative:** TODO: Knative.
 
 **Authentication:** Ingress provides basic authentication, but it is only meant for hiding non-production environments. Here are some good technologies for implementing authentication: [Auth0](https://auth0.com), [Passport](http://www.passportjs.org/), [ORY Oathkeeper](https://www.ory.sh/api-access-control-kubernetes-cloud-native).
 
@@ -119,6 +121,17 @@ You can add a new secret like this:
 1. Add a secret definition to the `taito_secrets` or the `taito_remote_secrets` setting in `taito-project-config.sh`.
 2. Map the secret definition to a secret in `docker-compose.yaml` for Docker Compose and in `scripts/helm.yaml` for Kubernetes.
 3. Run `taito env rotate:ENV SECRET` to generate a secret value for an environment. Run the command for each environment separately. Note that the rotate command restarts all pods in the same namespace.
+
+You can use the following types in your secret definition:
+
+- `random`: Randomly generated string.
+- `manual`: Manually entered string.
+- `file`: File. The file path is entered manually.
+- `htpasswd`: htpasswd file that contains 1-N user credentials. User credentials are entered manually.
+- `htpasswd-plain`: htpasswd file that contains 1-N user credentials. Passwords are stored in plain text. User credentials are entered manually.
+- `csrkey`: Secret key generated for certificate signing request (CSR).
+
+> See the [Environment variables and secrets](https://taitounited.github.io/taito-cli/tutorial/06-env-variables-and-secrets) chapter of Taito CLI tutorial for more instructions.
 
 ## Automated tests
 
