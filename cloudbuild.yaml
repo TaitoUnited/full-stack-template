@@ -42,6 +42,10 @@ substitutions:
   _TEMPLATE_DEFAULT_POSTGRES:
   _TEMPLATE_DEFAULT_POSTGRES_HOST:
   _TEMPLATE_DEFAULT_POSTGRES_HOST_PROD:
+  _TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED:
+  _TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED_PROD:
+  _TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED:
+  _TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED_PROD:
   _TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME:
   _TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT:
 
@@ -94,6 +98,10 @@ steps:
     export template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
     export template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
     export template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    export template_default_postgres_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED}
+    export template_default_postgres_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED_PROD}
+    export template_default_postgres_proxy_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED}
+    export template_default_postgres_proxy_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED_PROD}
     export template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
     export template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
     export taito_target_env="$${branch_name//master/prod}"
@@ -149,6 +157,10 @@ steps:
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
     - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
     - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED}
+    - template_default_postgres_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED_PROD}
+    - template_default_postgres_proxy_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED}
+    - template_default_postgres_proxy_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED_PROD}
     - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
     - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
@@ -194,6 +206,10 @@ steps:
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
     - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
     - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED}
+    - template_default_postgres_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED_PROD}
+    - template_default_postgres_proxy_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED}
+    - template_default_postgres_proxy_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED_PROD}
     - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
     - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
@@ -237,6 +253,10 @@ steps:
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
     - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
     - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED}
+    - template_default_postgres_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED_PROD}
+    - template_default_postgres_proxy_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED}
+    - template_default_postgres_proxy_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED_PROD}
     - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
     - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
@@ -280,6 +300,10 @@ steps:
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
     - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
     - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED}
+    - template_default_postgres_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED_PROD}
+    - template_default_postgres_proxy_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED}
+    - template_default_postgres_proxy_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED_PROD}
     - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
     - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
@@ -323,6 +347,10 @@ steps:
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
     - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
     - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED}
+    - template_default_postgres_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED_PROD}
+    - template_default_postgres_proxy_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED}
+    - template_default_postgres_proxy_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED_PROD}
     - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
     - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
@@ -366,6 +394,10 @@ steps:
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
     - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
     - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED}
+    - template_default_postgres_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED_PROD}
+    - template_default_postgres_proxy_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED}
+    - template_default_postgres_proxy_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED_PROD}
     - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
     - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
@@ -410,6 +442,10 @@ steps:
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
     - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
     - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED}
+    - template_default_postgres_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED_PROD}
+    - template_default_postgres_proxy_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED}
+    - template_default_postgres_proxy_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED_PROD}
     - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
     - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
@@ -452,6 +488,10 @@ steps:
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
     - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
     - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED}
+    - template_default_postgres_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED_PROD}
+    - template_default_postgres_proxy_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED}
+    - template_default_postgres_proxy_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED_PROD}
     - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
     - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
@@ -496,6 +536,10 @@ steps:
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
     - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
     - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED}
+    - template_default_postgres_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED_PROD}
+    - template_default_postgres_proxy_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED}
+    - template_default_postgres_proxy_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED_PROD}
     - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
     - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
@@ -539,6 +583,10 @@ steps:
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
     - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
     - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED}
+    - template_default_postgres_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED_PROD}
+    - template_default_postgres_proxy_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED}
+    - template_default_postgres_proxy_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED_PROD}
     - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
     - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
@@ -581,6 +629,10 @@ steps:
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
     - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
     - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED}
+    - template_default_postgres_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED_PROD}
+    - template_default_postgres_proxy_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED}
+    - template_default_postgres_proxy_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED_PROD}
     - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
     - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
@@ -626,6 +678,10 @@ steps:
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
     - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
     - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED}
+    - template_default_postgres_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED_PROD}
+    - template_default_postgres_proxy_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED}
+    - template_default_postgres_proxy_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED_PROD}
     - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
     - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
@@ -669,6 +725,10 @@ steps:
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
     - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
     - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED}
+    - template_default_postgres_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED_PROD}
+    - template_default_postgres_proxy_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED}
+    - template_default_postgres_proxy_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED_PROD}
     - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
     - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
@@ -712,6 +772,10 @@ steps:
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
     - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
     - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED}
+    - template_default_postgres_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED_PROD}
+    - template_default_postgres_proxy_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED}
+    - template_default_postgres_proxy_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED_PROD}
     - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
     - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
@@ -755,6 +819,10 @@ steps:
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
     - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
     - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED}
+    - template_default_postgres_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED_PROD}
+    - template_default_postgres_proxy_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED}
+    - template_default_postgres_proxy_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED_PROD}
     - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
     - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
@@ -798,6 +866,10 @@ steps:
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
     - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
     - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED}
+    - template_default_postgres_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED_PROD}
+    - template_default_postgres_proxy_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED}
+    - template_default_postgres_proxy_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED_PROD}
     - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
     - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}
 
@@ -842,5 +914,9 @@ steps:
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
     - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
     - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
+    - template_default_postgres_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED}
+    - template_default_postgres_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED_PROD}
+    - template_default_postgres_proxy_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED}
+    - template_default_postgres_proxy_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED_PROD}
     - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}
     - template_default_postgres_master_password_hint=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_PASSWORD_HINT}

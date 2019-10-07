@@ -140,7 +140,7 @@ services:
       DATABASE_USER: ${db_database_app_username}
       DATABASE_POOL_MIN: '1'
       DATABASE_POOL_MAX: '10'
-      DATABASE_SSL_ENABLED: 'false'
+      DATABASE_SSL_ENABLED: ${db_database_ssl_enabled}
       S3_URL: http://full-stack-template-storage:9000/
       S3_REGION: milkyway
       S3_BUCKET: bucket

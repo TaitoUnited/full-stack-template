@@ -188,6 +188,7 @@ full-stack:
         KAFKA_PORT: 9092
         DATABASE_HOST: '${db_database_real_host}'
         DATABASE_PORT: '${db_database_real_port}'
+        DATABASE_SSL_ENABLED: ${db_database_ssl_enabled}
         DATABASE_NAME: ${db_database_name}
         DATABASE_USER: ${db_database_app_username}
         DATABASE_POOL_MIN: '5'
