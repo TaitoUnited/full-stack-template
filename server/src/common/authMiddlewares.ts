@@ -1,5 +1,5 @@
 import Boom from 'boom';
-import { ParameterizedContext } from 'koa';
+import { Context } from 'koa';
 import koaBasicAuth from 'koa-basic-auth';
 
 export function createCheckBasicAuthMiddleware(
@@ -10,10 +10,10 @@ export function createCheckBasicAuthMiddleware(
 }
 
 export async function requireAdminMiddleware(
-  ctx: ParameterizedContext,
+  ctx: Context,
   next: () => Promise<any>
 ) {
-  const { isAdmin, userId } = ctx.session as any;
+  const { isAdmin, userId } = ctx.session;
 
   if (!isAdmin && userId) {
     throw Boom.forbidden();
@@ -31,10 +31,7 @@ export function createCheckBasicAuthOrRequireAdminMiddleware(
   password: string
 ) {
   const basicAuth = createCheckBasicAuthMiddleware(username, password);
-  return async function middleware(
-    ctx: ParameterizedContext,
-    next: () => Promise<any>
-  ) {
+  return async function middleware(ctx: Context, next: () => Promise<any>) {
     try {
       await basicAuth(ctx, next);
     } catch (err) {

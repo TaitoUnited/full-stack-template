@@ -1,7 +1,7 @@
-import { ParameterizedContext } from 'koa';
+import { Context } from 'koa';
 import { Joi } from 'koa-joi-router';
 import BaseRouter from '../common/BaseRouter';
-import { ItemSchema } from '../common/types';
+import { ItemSchema } from '../common/schemas';
 import { PostService } from './PostService';
 
 const BasePostSchema = Joi.object({
@@ -43,7 +43,7 @@ export class PostRouter extends BaseRouter {
           },
         },
       },
-      handler: async (ctx: ParameterizedContext) => {
+      handler: async (ctx: Context) => {
         const data = await this.postService.getAllPosts(ctx.state);
 
         ctx.response.body = {
@@ -68,7 +68,7 @@ export class PostRouter extends BaseRouter {
           },
         },
       },
-      handler: async (ctx: ParameterizedContext) => {
+      handler: async (ctx: Context) => {
         const data = await this.postService.getPost(ctx.state, ctx.params.id);
 
         ctx.response.body = {
@@ -96,7 +96,7 @@ export class PostRouter extends BaseRouter {
           },
         },
       },
-      handler: async (ctx: ParameterizedContext) => {
+      handler: async (ctx: Context) => {
         const data = await this.postService.createPost(
           ctx.state,
           ctx.request.body.data

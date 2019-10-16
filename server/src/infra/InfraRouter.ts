@@ -1,4 +1,4 @@
-import { ParameterizedContext } from 'koa';
+import { Context } from 'koa';
 import BaseRouter from '../common/BaseRouter';
 
 import config from '../common/config';
@@ -29,7 +29,7 @@ class InfraRouter extends BaseRouter {
           },
         },
       },
-      handler: async (ctx: ParameterizedContext) => {
+      handler: async (ctx: Context) => {
         // NOTE: This is a public endpoint. Do not return any secrets here!
         ctx.response.body = {
           data: {
@@ -57,12 +57,13 @@ class InfraRouter extends BaseRouter {
           },
         },
       },
-      handler: async (ctx: ParameterizedContext) => {
-        // Check that database is up
+      handler: async (ctx: Context) => {
+        // Check that database and storage respond
         await ctx.state.db.any('SELECT 1');
         await ctx.state.storage
-          .headBucket({ Bucket: config.S3_BUCKET }) // storage
-          .promise(); // storage
+          .headBucket({ Bucket: config.S3_BUCKET })
+          .promise();
+
         ctx.response.body = {
           status: 'OK',
         };
@@ -87,7 +88,7 @@ class InfraRouter extends BaseRouter {
           },
         },
       },
-      handler: async (ctx: ParameterizedContext) => {
+      handler: async (ctx: Context) => {
         ctx.response.body = {
           status: 'OK',
         };

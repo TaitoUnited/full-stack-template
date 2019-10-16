@@ -1,4 +1,4 @@
-import { ParameterizedContext } from 'koa';
+import { Context } from 'koa';
 import uuidv4 from 'uuid/v4';
 
 // Every time an instance of this is logged by bunyan it outputs
@@ -14,7 +14,7 @@ class RequestTimer {
 const noLogPaths = ['/healthz', '/uptimez'];
 
 export default async function requestLoggerMiddleware(
-  ctx: ParameterizedContext,
+  ctx: Context,
   next: () => Promise<void>
 ) {
   const { headers } = ctx.request;
@@ -26,8 +26,8 @@ export default async function requestLoggerMiddleware(
   }
 
   const requestMs = new RequestTimer();
-  const requestLog = ctx.log.child({ requestId, requestMs }, true);
-  ctx.log = requestLog;
+  const requestLog = ctx.state.log.child({ requestId, requestMs }, true);
+  ctx.state.log = requestLog;
 
   const logRequest = !noLogPaths.includes(ctx.request.path);
 

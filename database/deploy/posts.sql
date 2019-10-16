@@ -3,7 +3,7 @@
 BEGIN;
 
 CREATE TABLE posts (
-  id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   created_at timestamp with time zone NOT NULL DEFAULT current_timestamp,
   updated_at timestamp with time zone NOT NULL DEFAULT current_timestamp,
   subject text NOT NULL,

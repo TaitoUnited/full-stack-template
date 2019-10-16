@@ -124,10 +124,7 @@ const log = bunyan.createLogger({
   name: config.APP_NAME,
   serializers: bunyan.stdSerializers,
   src: true,
-  streams:
-    logFormatStreams[
-      (config.COMMON_LOG_FORMAT as 'text' | 'stackdriver') || 'stackdriver'
-    ],
+  streams: logFormatStreams[config.COMMON_LOG_FORMAT || 'stackdriver'],
 });
 
 export default log;
