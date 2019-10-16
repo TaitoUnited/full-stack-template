@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import { I18nProvider } from '@lingui/react';
 import { Catalogs } from '@lingui/core';
 import { ThemeProvider } from 'styled-components';
