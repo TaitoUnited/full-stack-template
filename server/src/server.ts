@@ -1,25 +1,20 @@
-import Koa from "koa";
-import patchKoaQs from "koa-qs";
-import config from "./common/config";
-import db from "./common/db";
-import log from "./common/log";
-import storage from "./common/storage";
-import dbTransactionMiddleware from "./infra/dbTransactionMiddleware";
-import errorHandlerMiddleware from "./infra/errorHandlerMiddleware";
-import initSentry from "./infra/initSentry";
-import requestLoggerMiddleware from "./infra/requestLoggerMiddleware";
-import routerMiddlewares from "./routerMiddlewares";
+import Koa from 'koa';
+import patchKoaQs from 'koa-qs';
+import config from './common/config';
+import db from './common/db';
+import log from './common/log';
+import storage from './common/storage';
+import dbTransactionMiddleware from './infra/dbTransactionMiddleware';
+import errorHandlerMiddleware from './infra/errorHandlerMiddleware';
+import initSentry from './infra/initSentry';
+import requestLoggerMiddleware from './infra/requestLoggerMiddleware';
+import routerMiddlewares from './routerMiddlewares';
 
 initSentry();
 
 const server = new Koa();
 // Add support for query parameter nesting
 patchKoaQs(server);
-
-// Request context prototype
-server.context.log = log;
-server.context.db = db;
-server.context.storage = storage;
 
 // Request state prototype
 server.use(async (ctx, next) => {
@@ -43,8 +38,8 @@ server.listen(config.API_PORT, config.API_BINDADDR, () => {
     {
       name: config.APP_NAME,
       address: config.API_BINDADDR,
-      port: config.API_PORT
+      port: config.API_PORT,
     },
-    "Server started"
+    'Server started'
   );
 });

@@ -1,7 +1,7 @@
 // Additions by project
-import Koa from 'koa';
 import { IDatabase, ITask } from 'pg-promise';
 import Bunyan from 'bunyan';
+import { User } from '../../shared/types/common';
 
 declare module 'koa' {
   interface Request {
@@ -9,9 +9,13 @@ declare module 'koa' {
     params: { [key: string]: string };
   }
 
-  interface BaseContext {
-    db: IDatabase<{}>;
-    tx: ITask<{}>;
-    log: Bunyan;
+  interface Context {
+    state: {
+      db: IDatabase<{}>;
+      tx: ITask<{}>;
+      log: Bunyan;
+      storage: AWS.S3;
+      user?: User;
+    };
   }
 }

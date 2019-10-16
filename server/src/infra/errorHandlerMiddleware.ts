@@ -1,9 +1,9 @@
 import * as Sentry from '@sentry/node';
 import Boom from 'boom';
-import { ParameterizedContext } from 'koa';
+import { Context } from 'koa';
 
 export default async function errorHandlerMiddleware(
-  ctx: ParameterizedContext,
+  ctx: Context,
   next: () => Promise<void>
 ) {
   try {
@@ -46,7 +46,7 @@ export default async function errorHandlerMiddleware(
     // they are sent to Sentry if enabled
     ctx.response.status = 500;
     ctx.response.body = { error: { message: err.message } };
-    ctx.log.error({ err }, 'Unexpected error while handling request');
+    ctx.state.log.error({ err }, 'Unexpected error while handling request');
     Sentry.captureException(err);
   }
 }

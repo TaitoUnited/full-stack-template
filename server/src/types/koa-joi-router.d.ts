@@ -18,11 +18,8 @@ declare module 'koa-joi-router' {
   namespace createRouter {
     const Joi: typeof RealJoi;
 
-    type PartialHandler = (ctx: Koa.ParameterizedContext) => any;
-    type FullHandler = (
-      ctx: Koa.ParameterizedContext,
-      next: () => Promise<any>
-    ) => any;
+    type PartialHandler = (ctx: Koa.Context) => any;
+    type FullHandler = (ctx: Koa.Context, next: () => Promise<any>) => any;
     // eslint-disable-next-line @typescript-eslint/no-empty-interface
     interface NestedHandler
       extends ReadonlyArray<PartialHandler | FullHandler | NestedHandler> {}
