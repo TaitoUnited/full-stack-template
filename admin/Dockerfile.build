@@ -35,5 +35,7 @@ RUN sed -i '/application\/json/a\    application/wasm wasm;' \
     /etc/nginx/mime.types
 COPY ./nginx.conf /etc/nginx
 COPY --from=builder /build .
+# Move source maps to /meta by default
+RUN mkdir /meta && mv *.map /meta
 USER nginx
 EXPOSE 8080
