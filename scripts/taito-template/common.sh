@@ -206,7 +206,7 @@ sed -i '/taito project create/d' cloudbuild.yaml
 sed -i '/template_default_taito_image/d' cloudbuild.yaml
 sed -i "s|_IMAGE_REGISTRY: eu.gcr.io/\$PROJECT_ID|_IMAGE_REGISTRY: ${template_default_container_registry}|" cloudbuild.yaml
 
-ci_scripts="aws-pipelines.yml azure-pipelines.yml bitbucket-pipelines.yml \
+ci_scripts="buildspec.yml azure-pipelines.yml bitbucket-pipelines.yml \
   .github/main.workflow .gitlab-ci.yml cloudbuild.yaml Jenkinsfile local-ci.sh \
   .travis.yml"
 
@@ -223,7 +223,7 @@ echo "Removing obsolete CI/CD scripts"
 
 # aws
 if [[ $ci != "aws" ]] && [[ $template_default_ci_provider_prod != "aws" ]]; then
-  rm -f aws-pipelines.yml
+  rm -f buildspec.yml
 fi
 
 # azure
