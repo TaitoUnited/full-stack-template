@@ -8,6 +8,7 @@ timeout: 3000s
 substitutions:
   _REPO_NAME: full-stack-template
   _IMAGE_REGISTRY: eu.gcr.io/$PROJECT_ID
+  _TAITO_CI_PHASES:
   # NOTE: These are removed by 'taito project create'
   _TEMPLATE_DEFAULT_TAITO_IMAGE:
   _TEMPLATE_DEFAULT_ENVIRONMENTS:
@@ -123,6 +124,7 @@ steps:
   args: ['build-prepare:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
+    - taito_ci_phases=${_TAITO_CI_PHASES}
     # NOTE: These are removed by 'taito project create'
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
@@ -172,6 +174,7 @@ steps:
   args: ['artifact-prepare:admin:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
+    - taito_ci_phases=${_TAITO_CI_PHASES}
     # NOTE: These are removed by 'taito project create'
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
@@ -219,6 +222,7 @@ steps:
   args: ['artifact-prepare:client:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
+    - taito_ci_phases=${_TAITO_CI_PHASES}
     # NOTE: These are removed by 'taito project create'
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
@@ -266,6 +270,7 @@ steps:
   args: ['artifact-prepare:graphql:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
+    - taito_ci_phases=${_TAITO_CI_PHASES}
     # NOTE: These are removed by 'taito project create'
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
@@ -313,6 +318,7 @@ steps:
   args: ['artifact-prepare:server:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
+    - taito_ci_phases=${_TAITO_CI_PHASES}
     # NOTE: These are removed by 'taito project create'
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
@@ -360,6 +366,7 @@ steps:
   args: ['artifact-prepare:www:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
+    - taito_ci_phases=${_TAITO_CI_PHASES}
     # NOTE: These are removed by 'taito project create'
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
@@ -408,6 +415,7 @@ steps:
   args: ['db-deploy:$BRANCH_NAME']
   env:
     - taito_mode=ci
+    - taito_ci_phases=${_TAITO_CI_PHASES}
     # NOTE: These are removed by 'taito project create'
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
@@ -454,6 +462,7 @@ steps:
   args: ['deployment-deploy:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
+    - taito_ci_phases=${_TAITO_CI_PHASES}
     # NOTE: These are removed by 'taito project create'
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
@@ -502,6 +511,7 @@ steps:
   args: ['deployment-wait:$BRANCH_NAME']
   env:
     - taito_mode=ci
+    - taito_ci_phases=${_TAITO_CI_PHASES}
     # NOTE: These are removed by 'taito project create'
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
@@ -548,6 +558,7 @@ steps:
   args: ['test:$BRANCH_NAME']
   env:
     - taito_mode=ci
+    - taito_ci_phases=${_TAITO_CI_PHASES}
     - taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     # NOTE: These are removed by 'taito project create'
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -595,6 +606,7 @@ steps:
   args: ['deployment-verify:$BRANCH_NAME']
   env:
     - taito_mode=ci
+    - taito_ci_phases=${_TAITO_CI_PHASES}
     # NOTE: These are removed by 'taito project create'
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
@@ -644,6 +656,7 @@ steps:
   args: ['artifact-release:admin:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
+    - taito_ci_phases=${_TAITO_CI_PHASES}
     # NOTE: These are removed by 'taito project create'
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
@@ -691,6 +704,7 @@ steps:
   args: ['artifact-release:client:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
+    - taito_ci_phases=${_TAITO_CI_PHASES}
     # NOTE: These are removed by 'taito project create'
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
@@ -738,6 +752,7 @@ steps:
   args: ['artifact-release:graphql:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
+    - taito_ci_phases=${_TAITO_CI_PHASES}
     # NOTE: These are removed by 'taito project create'
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
@@ -785,6 +800,7 @@ steps:
   args: ['artifact-release:server:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
+    - taito_ci_phases=${_TAITO_CI_PHASES}
     # NOTE: These are removed by 'taito project create'
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
@@ -832,6 +848,7 @@ steps:
   args: ['artifact-release:www:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
+    - taito_ci_phases=${_TAITO_CI_PHASES}
     # NOTE: These are removed by 'taito project create'
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
@@ -880,6 +897,7 @@ steps:
   args: ['build-release:$BRANCH_NAME']
   env:
     - taito_mode=ci
+    - taito_ci_phases=${_TAITO_CI_PHASES}
     # NOTE: These are removed by 'taito project create'
     - template_default_taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
     - template_default_environments=${_TEMPLATE_DEFAULT_ENVIRONMENTS}
