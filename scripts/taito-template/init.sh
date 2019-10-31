@@ -171,12 +171,12 @@ function prune () {
   else
     if [[ $name == "storage" ]] && [[ ${taito_provider} == "aws" ]]; then
       # Define access key and secret key for AWS (not using minio as proxy)
-      sed -i '/storage.accessKey/d' taito-config.sh
+      sed -i '/storage.accessKeyId/d' taito-config.sh
       sed -i '/storage.secretKey/d' taito-config.sh
       sed -i '/taito_remote_secrets=/a $taito_project-$taito_env-storage.secretKey:manual' taito-config.sh
-      sed -i '/taito_remote_secrets=/a $taito_project-$taito_env-storage.accessKey:manual' taito-config.sh
+      sed -i '/taito_remote_secrets=/a $taito_project-$taito_env-storage.accessKeyId:manual' taito-config.sh
       sed -i '/taito_local_secrets=/a $taito_project-$taito_env-storage.secretKey:random' taito-config.sh
-      sed -i '/taito_local_secrets=/a $taito_project-$taito_env-storage.accessKey:random' taito-config.sh
+      sed -i '/taito_local_secrets=/a $taito_project-$taito_env-storage.accessKeyId:random' taito-config.sh
 
       # Remove minio proxy
       sed -i "/^    storage:\$/,/^$/d" helm.yaml

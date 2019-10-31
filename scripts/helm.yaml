@@ -181,7 +181,7 @@ full-stack:
         DATABASE_PASSWORD: ${db_database_app_secret}
         S3_KEY_SECRET: ${taito_project}-${taito_env}-storage.secretKey
       secretEnv:
-        S3_KEY_ID: ${taito_project}-${taito_env}-storage.accessKey
+        S3_KEY_ID: ${taito_project}-${taito_env}-storage.accessKeyId
       env:
         SENTRY_DSN: #sentryDSN
         API_PORT: '8080'
@@ -226,7 +226,7 @@ full-stack:
         secret: ${taito_provider_service_account_secret}
       secretEnv:
         # Minio requires secret as environment variable in gateway mode
-        MINIO_ACCESS_KEY: ${taito_project}-${taito_env}-storage.accessKey
+        MINIO_ACCESS_KEY: ${taito_project}-${taito_env}-storage.accessKeyId
         MINIO_SECRET_KEY: ${taito_project}-${taito_env}-storage.secretKey
       env:
         MINIO_CONFIG_DIR: /tmp
