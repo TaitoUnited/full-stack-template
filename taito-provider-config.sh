@@ -110,6 +110,17 @@ case $taito_uptime_provider in
 esac
 
 case $taito_ci_provider in
+  aws)
+    taito_plugins="
+      ${taito_plugins}
+      aws-ci:-local
+    "
+    link_urls="
+      ${link_urls}
+      * builds=https://console.aws.amazon.com/codesuite/codebuild/projects/${taito_project}/history?region=${taito_provider_region} Build logs
+      * artifacts=https://TODO-DOCS-AND-TEST-REPORTS Generated documentation and test reports
+    "
+    ;;
   bitbucket)
     taito_plugins="
       ${taito_plugins}
