@@ -180,8 +180,8 @@ function prune () {
       sed -i '/taito_local_secrets=/a $taito_project-$taito_env-storage.accessKeyId:random' taito-config.sh
 
       # Remove minio proxy
-      sed -i "/^    storage:\$/,/^$/d" helm.yaml
-      sed -i '/S3_URL/d' helm.yaml
+      sed -i "/^    storage:\$/,/^$/d" ./scripts/helm.yaml
+      sed -i '/S3_URL/d' ./scripts/helm.yaml
     fi
     if [[ $name == "kafka" ]]; then
       echo
