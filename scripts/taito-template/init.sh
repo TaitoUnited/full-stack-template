@@ -148,7 +148,7 @@ function prune () {
     if [[ $name == "storage" ]]; then
       # Remove storage from configs
       sed -i "s/service_account_enabled=true/service_account_enabled=false/" taito-config.sh
-      sed -i '/storage-gateway/d' taito-config.sh
+      sed -i '/storage/d' taito-config.sh
       sed -i '/taito_storages/d' taito-config.sh
       sed -i '/* storage/d' taito-config.sh
       sed -i '/storage/d' taito-project-config.sh
@@ -169,6 +169,19 @@ function prune () {
 
     rm -rf "$name"
   else
+    if [[ $name == "storage" ]] && [[ ${taito_provider} == "aws" ]]; then
+      # Define access key and secret key for AWS (not using minio as proxy)
+      sed -i '/storage.accessKey/d' taito-config.sh
+      sed -i '/storage.secretKey/d' taito-config.sh
+      sed -i '/taito_remote_secrets=/a $taito_project-$taito_env-storage.secretKey:manual' taito-config.sh
+      sed -i '/taito_remote_secrets=/a $taito_project-$taito_env-storage.accessKey:manual' taito-config.sh
+      sed -i '/taito_local_secrets=/a $taito_project-$taito_env-storage.secretKey:random' taito-config.sh
+      sed -i '/taito_local_secrets=/a $taito_project-$taito_env-storage.accessKey:random' taito-config.sh
+
+      # Remove minio proxy
+      sed -i "/^    storage:\$/,/^$/d" helm.yaml
+      sed -i '/S3_URL/d' helm.yaml
+    fi
     if [[ $name == "kafka" ]]; then
       echo
       read -r -t 1 -n 1000 || :

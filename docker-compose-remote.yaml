@@ -186,7 +186,7 @@ secrets:
   DATABASE_PASSWORD:
     file: ./secrets/${taito_env}/${db_database_app_secret}
   S3_KEY_SECRET:
-    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-storage-gateway.secret
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-storage.secretKey
   EXAMPLE_SECRET:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-example.secret
   BASIC_AUTH_HTPASSWD:

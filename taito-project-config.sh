@@ -60,10 +60,13 @@ taito_remote_secrets="
   $taito_project-$taito_env-basic-auth.auth:htpasswd-plain
   $taito_project-$taito_env-scheduler.secret:random
 "
+taito_local_secrets="
+"
 taito_secrets="
   $db_database_app_secret:random
-  $taito_project-$taito_env-storage-gateway.secret:random
   $taito_project-$taito_env-example.secret:manual
+  $taito_project-$taito_env-storage.accessKey:random
+  $taito_project-$taito_env-storage.secretKey:random
 "
 
 # Define database mgr password for automatic CI/CD deployments

@@ -58,7 +58,7 @@ const config = {
   DATABASE_SSL_ENABLED: process.env.DATABASE_SSL_ENABLED !== 'false',
 
   // Storage
-  S3_URL: process.env.S3_URL,
+  S3_URL: process.env.S3_URL || undefined,
   S3_REGION: process.env.S3_REGION,
   S3_BUCKET: process.env.S3_BUCKET as string,
   S3_KEY_ID: process.env.S3_KEY_ID,
