@@ -22,10 +22,9 @@ phases:
       - taito artifact prepare:www:$ENV $IMAGE_TAG
       # Deploy changes to target environment
       - taito db deploy:$ENV
-      - taito -v deployment deploy:$ENV $IMAGE_TAG
+      - taito deployment deploy:$ENV $IMAGE_TAG
       # Test and verify deployment
       - taito deployment wait:$ENV
-      - export taito_image=$template_default_taito_image
       - taito test:$ENV
       - taito deployment verify:$ENV
       # Release artifacts (TODO: can be executed parallel)
