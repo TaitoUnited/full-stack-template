@@ -130,6 +130,7 @@ ci_static_assets_location= # location to publish all static files (CDN)
 # ------ Plugin and provider specific settings ------
 
 # Template plugin
+template_version=1.0.0
 template_name=FULL-STACK-TEMPLATE
 template_source_git=git@github.com:TaitoUnited
 
