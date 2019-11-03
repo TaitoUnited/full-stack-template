@@ -10,6 +10,7 @@
 # taito-env-prod-config.sh, and taito-testing-config.sh instead.
 ##########################################################################
 
+storage_name=$(env | grep 'st_.*_name' | head -n1 | sed 's/.*=//')
 taito_provider_db_proxy_secret=
 taito_provider_service_account_secret=
 
@@ -40,18 +41,18 @@ case $taito_provider in
       * services[:ENV]=https://console.cloud.google.com/apis/dashboard?project=$taito_resource_namespace_id Google services (:ENV)
     "
 
-    # Set google specific storage url
-    if [[ $taito_env != "local" ]] && [[ $taito_storages ]]; then
-      storages=( $taito_storages )
-      taito_storage_url="https://console.cloud.google.com/storage/browser/${storages[0]}?project=$taito_resource_namespace_id"
-    fi
-
     kubernetes_db_proxy_enabled=false # use google cloud sql proxy instead
     if [[ -z "${gcp_service_account_enabled}" ]]; then
       gcp_service_account_enabled=false
     fi
-    if [[ ${taito_storages:-} ]]; then
+
+    # Storage
+    if [[ ${storage_name} ]]; then
       gcp_service_account_enabled=true
+      # Set google specific storage url
+      if [[ $taito_env != "local" ]]; then
+        taito_storage_url="https://console.cloud.google.com/storage/browser/${storage_name}?project=$taito_resource_namespace_id"
+      fi
     fi
 
     if [[ $gcp_service_account_enabled == "true" ]]; then

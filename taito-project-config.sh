@@ -21,12 +21,12 @@ taito_environments="${template_default_environments:?}"
 
 # Stack
 taito_targets=" admin client graphql database function kafka redis server storage worker www zookeeper "
-taito_storages="$taito_random_name-$taito_env"
 taito_networks="default"
 
 # Stack target types ('container' by default)
-taito_target_type_database=database
 taito_target_type_function=function
+taito_target_type_database=database
+taito_target_type_storage=storage
 
 # Stack uptime monitoring
 taito_uptime_targets=" admin client graphql server www "

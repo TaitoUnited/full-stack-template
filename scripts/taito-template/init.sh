@@ -150,7 +150,6 @@ function prune () {
       # Remove storage from configs
       sed -i "s/service_account_enabled=true/service_account_enabled=false/" taito-config.sh
       sed -i '/storage/d' taito-config.sh
-      sed -i '/taito_storages/d' taito-config.sh
       sed -i '/* storage/d' taito-config.sh
       sed -i '/storage/d' taito-project-config.sh
       sed -i '/S3_/d' docker-compose.yaml

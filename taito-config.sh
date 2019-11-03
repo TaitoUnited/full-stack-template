@@ -101,13 +101,12 @@ db_database_proxy_ssl_enabled="${template_default_postgres_proxy_ssl_enabled:-tr
 db_database_create=true
 
 # Storage definitions for Terraform
-taito_storage_classes="${template_default_storage_class:-}"
-taito_storage_locations="${template_default_storage_location:-}"
-taito_storage_days=${template_default_storage_days:-}
-
-# Storage backup definitions for Terraform
-taito_backup_locations="${template_default_backup_location:-}"
-taito_backup_days="${template_default_backup_days:-}"
+st_storage_name="$taito_random_name-$taito_env"
+st_storage_class="${template_default_storage_class:-}"
+st_storage_location="${template_default_storage_location:-}"
+st_storage_days=${template_default_storage_days:-}
+st_storage_backup_location="${template_default_backup_location:-}"
+st_storage_backup_days="${template_default_backup_days:-}"
 
 # Misc settings
 taito_basic_auth_enabled=true
