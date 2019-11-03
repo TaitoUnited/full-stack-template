@@ -291,6 +291,10 @@ if [[ -f docker-compose-remote.yaml ]] && \
   rm -rf docker-compose-remote.yaml
 fi
 
+if [[ -f ./scripts/helm.yaml ]]; then
+  sed -i "/# TODO:/d" ./scripts/helm.yaml
+fi
+
 ##############################
 # Initialize semantic-release
 ##############################
