@@ -25,85 +25,86 @@ global:
   imagePullPolicy: ''
   debug: false
 
-persistence:
-  enabled: false
-  existingClaim:
-  storageClass:
-  # NOTE: Google does not support ReadWriteMany
-  # ReadWriteOnce -> all containers will be placed on the same Kubernetes node
-  accessMode: ReadWriteOnce
-  size: 8Gi
+full-stack:
+  persistence:
+    enabled: false
+    existingClaim:
+    storageClass:
+    # NOTE: Google does not support ReadWriteMany
+    # ReadWriteOnce -> all containers will be placed on the same Kubernetes node
+    accessMode: ReadWriteOnce
+    size: 8Gi
 
-serviceDefaults:
-  # Basics
-  image: # For 3rd party container image
-  command:
-  port: 8080
-  tier:
-  livenessPath: /healthz
-  livenessInitialDelay: 3
-  # Paths
-  paths:
-    # - path:
-    #   basicAuthEnabled:
-    #   basicAuthHtpasswdSecret:
-    #   clientMaxBodySize:
-    #   bufferSize:
-    #   requestBuffering:
-    #   connectTimeout:
-    #   sendTimeout:
-    #   readTimeout:
-    #   nextUpstreamTimeout:
-    #   limitRate:
-    #   limitRateAfter:
-    #   rewriteTarget:
-    #   rewriteTargetDisabled:
-  # Path defaults
-  basicAuthEnabled: false
-  basicAuthHtpasswdSecret:
-  # clientMaxBodySize: 1m
-  # bufferSize: 4k
-  # requestBuffering: on
-  # connectTimeout: 5
-  # sendTimeout: 60
-  # readTimeout: 60
-  # nextUpstreamTimeout: 0
-  limitRate:
-  limitRateAfter:
-  rewriteTarget:
-  rewriteTargetDisabled:
-  # Security
-  runAsUser:
-  runAsGroup:
-  # Resources
-  cpuRequest: 2m
-  cpuLimit: 100m
-  memoryRequest: 50Mi
-  memoryLimit: 256Mi
-  # Scaling
-  replicas: 2
-  autoscale: false
-  minReplicas: 2
-  maxReplicas: 5
-  # TODO metrics:
-  # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
-  # TODO vertical autoscaling:
-  # https://cloud.google.com/kubernetes-engine/docs/how-to/vertical-pod-autoscaling
-  # Sidecar
-  sidecar:
-  # Mounts
-  temporaryVolumeMounts:
-    # - mountPath: /mnt/data
-    #   volumePath: data
-    #   readOnly: false
-  persistentVolumeMounts:
-    # - mountPath: /mnt/data
-    #   volumePath: data
-    #   readOnly: false
-  # Env
-  secrets:
-    # Secrets as mounted files
-  secretEnv:
-    # Secrets as environment variables (not recommended)
-  env:
-    # Environment variables
+  serviceDefaults:
+    # Basics
+    image: # For 3rd party container image
+    command:
+    port: 8080
+    tier:
+    livenessPath: /healthz
+    livenessInitialDelay: 3
+    # Paths
+    paths:
+      # - path:
+      #   basicAuthEnabled:
+      #   basicAuthHtpasswdSecret:
+      #   clientMaxBodySize:
+      #   bufferSize:
+      #   requestBuffering:
+      #   connectTimeout:
+      #   sendTimeout:
+      #   readTimeout:
+      #   nextUpstreamTimeout:
+      #   limitRate:
+      #   limitRateAfter:
+      #   rewriteTarget:
+      #   rewriteTargetDisabled:
+    # Path defaults
+    basicAuthEnabled: false
+    basicAuthHtpasswdSecret:
+    # clientMaxBodySize: 1m
+    # bufferSize: 4k
+    # requestBuffering: on
+    # connectTimeout: 5
+    # sendTimeout: 60
+    # readTimeout: 60
+    # nextUpstreamTimeout: 0
+    limitRate:
+    limitRateAfter:
+    rewriteTarget:
+    rewriteTargetDisabled:
+    # Security
+    runAsUser:
+    runAsGroup:
+    # Resources
+    cpuRequest: 2m
+    cpuLimit: 100m
+    memoryRequest: 50Mi
+    memoryLimit: 256Mi
+    # Scaling
+    replicas: 2
+    autoscale: false
+    minReplicas: 2
+    maxReplicas: 5
+    # TODO metrics:
+    # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
+    # TODO vertical autoscaling:
+    # https://cloud.google.com/kubernetes-engine/docs/how-to/vertical-pod-autoscaling
+    # Sidecar
+    sidecar:
+    # Mounts
+    temporaryVolumeMounts:
+      # - mountPath: /mnt/data
+      #   volumePath: data
+      #   readOnly: false
+    persistentVolumeMounts:
+      # - mountPath: /mnt/data
+      #   volumePath: data
+      #   readOnly: false
+    # Env
+    secrets:
+      # Secrets as mounted files
+    secretEnv:
+      # Secrets as environment variables (not recommended)
+    env:
+      # Environment variables
