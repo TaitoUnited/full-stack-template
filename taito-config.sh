@@ -64,6 +64,7 @@ taito_vc_repository_url=${template_default_vc_url:?}/$taito_vc_repository
 
 # CI/CD
 taito_ci_provider=${template_default_ci_provider:?}
+taito_ci_image=${template_default_taito_image:-}
 
 # Container registry
 taito_container_registry_provider=${template_default_container_registry_provider:-}

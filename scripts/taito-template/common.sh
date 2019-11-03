@@ -214,6 +214,7 @@ sed -i "s/\$template_default_taito_image_username/${template_default_taito_image
 sed -i "s/\$template_default_taito_image_password/${template_default_taito_image_password:-}/g" ${ci_scripts}
 sed -i "s/\$template_default_taito_image_email/${template_default_taito_image_email:-}/g" ${ci_scripts}
 sed -i "s|\$template_default_taito_image|${template_default_taito_image}|g" ${ci_scripts}
+sed -i "s|\${template_default_taito_image:-}|${template_default_taito_image}|g" taito-config.sh
 
 ################################
 # Remove obsolete CI/CD scripts
