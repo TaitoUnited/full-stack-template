@@ -1,0 +1,93 @@
+services:
+
+  # ----------------------------------------------------------
+  # Path attributes
+  # ----------------------------------------------------------
+
+  # UPLOAD: /api/upload for uploading large files
+  server:
+    paths:
+      - path: /api
+      - path: /api/upload
+        clientMaxBodySize: 100m
+
+  # LONG PROCESSING: /api/process with a large read timeout
+  server:
+    paths:
+      - path: /api
+      - path: /api/process
+        readTimeout: 120
+
+  # ----------------------------------------------------------
+  # Resources
+  # ----------------------------------------------------------
+
+  # SET CPU/MEM RESOURCES:
+  server:
+    cpuRequest: 100m      # request for 0.1 CPU
+    cpuLimit: 500m        # limit to 0.5 CPU
+    memoryRequest: 128Mi  # request for 128 MB
+    memoryLimit: 512Mi    # limit to 512 MB
+
+  # ----------------------------------------------------------
+  # Health checks
+  # ----------------------------------------------------------
+
+  # CUSTOM HEALTH CHECK PATH AND INITIAL DELAY
+  server:
+    livenessPath: /healthcheck
+    livenessInitialDelay: 120   # seconds
+
+  # DISABLE HEALTH CHECKS (not recommended!)
+  server:
+    livenessDisabled: true
+
+  # ----------------------------------------------------------
+  # Cron jobs
+  # ----------------------------------------------------------
+
+  # SIMPLE CRON JOB EXAMPLE:
+  # Scheduler polls server endpoint based on a cron schedule
+  scheduler:
+    type: job
+    image: buildpack-deps:curl
+    cpuRequest: 1m
+    memoryRequest: 1Mi
+    runAsUser: 2
+    runAsGroup: 2
+    secretEnv:
+      SCHEDULER_SECRET: ${taito_project}-${taito_env}-scheduler.secret
+    cronJobs:
+      - name: schedulerjob
+        schedule: "0 2 * * *"
+        concurrencyPolicy: Forbid # Forbid or Allow
+        args:
+          - /bin/sh
+          - -c
+          - curl -sS -H "X-Secret:$(cat $SCHEDULER_SECRET)" http://${taito_project}-${taito_env}-server:8080/posts?offset=0&limit=1
+
+  # RE-USE SETTINGS OF AN ANOTHER SERVICE:
+  # Re-use server Docker image and settings for running cron jobs also.
+  server:
+    ...
+    ...
+    cronJobs:
+      - name: examplejob
+        schedule: "30 2 * * *"
+        concurrencyPolicy: Forbid # Forbid or Allow
+        args:
+          - /bin/sh
+          - -c
+          - date; echo Hello from server
+
+  # ----------------------------------------------------------
+  # Volumes and persistence
+  # ----------------------------------------------------------
+
+  # TODO
+
+  # ----------------------------------------------------------
+  # Sidecars
+  # ----------------------------------------------------------
+
+  # TODO

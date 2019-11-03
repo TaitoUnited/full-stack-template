@@ -10,15 +10,6 @@ global:
   debug: false
 
 full-stack:
-  persistence:
-    enabled: false
-    existingClaim:
-    storageClass:
-    # NOTE: Google does not support ReadWriteMany
-    # ReadWriteOnce -> all containers will be placed on the same Kubernetes node
-    accessMode: ReadWriteOnce
-    size: 8Gi
-
   ingress:
     class: nginx
     oldRewritePolicy: false
@@ -27,77 +18,18 @@ full-stack:
       - name: ${taito_domain}
         altName: ${taito_altdomain}
 
+  # NOTE: See helm/values.yaml for a list of all service attributes
+  # and helm/examples.yaml for some examples.
   serviceDefaults:
-    # Basics
-    image: # For 3rd party container image
-    command:
-    port: 8080
-    tier:
-    livenessPath: /healthz
-    livenessInitialDelay: 3
-    # Paths
-    paths:
-      # - path:
-      #   basicAuthEnabled:
-      #   basicAuthHtpasswdSecret:
-      #   clientMaxBodySize:
-      #   bufferSize:
-      #   requestBuffering:
-      #   connectTimeout:
-      #   sendTimeout:
-      #   readTimeout:
-      #   nextUpstreamTimeout:
-      #   limitRate:
-      #   limitRateAfter:
-      #   rewriteTarget:
-      #   rewriteTargetDisabled:
     # Path defaults
     basicAuthEnabled: ${taito_basic_auth_enabled}
     basicAuthHtpasswdSecret: ${taito_project}-${taito_env}-basic-auth
-    # clientMaxBodySize: 1m
-    # bufferSize: 4k
-    # requestBuffering: on
-    # connectTimeout: 5
-    # sendTimeout: 60
-    # readTimeout: 60
-    # nextUpstreamTimeout: 0
-    limitRate:
-    limitRateAfter:
-    rewriteTarget:
-    rewriteTargetDisabled:
-    # Security
-    runAsUser:
-    runAsGroup:
-    # Resources
-    cpuRequest: 2m
-    cpuLimit: 100m
-    memoryRequest: 50Mi
-    memoryLimit: 256Mi
     # Scaling
     replicas: ${kubernetes_replicas}
     autoscale: false
     minReplicas: ${kubernetes_replicas}
     maxReplicas: 5
-    # TODO metrics:
-    # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
-    # TODO vertical autoscaling:
-    # https://cloud.google.com/kubernetes-engine/docs/how-to/vertical-pod-autoscaling
-    # Sidecar
-    sidecar:
-    # Mounts
-    temporaryVolumeMounts:
-      # - mountPath: /mnt/data
-      #   volumePath: data
-      #   readOnly: false
-    persistentVolumeMounts:
-      # - mountPath: /mnt/data
-      #   volumePath: data
-      #   readOnly: false
     # Env
-    secrets:
-      # Secrets as mounted files
-    secretEnv:
-      # Secrets as environment variables (not recommended)
     env:
       # Environment variables
       COMMON_ENV: ${taito_env}
@@ -199,7 +131,7 @@ full-stack:
         S3_REGION: ${taito_provider_region}
         S3_BUCKET: ${taito_random_name}-${taito_env}
         S3_FORCE_PATH_STYLE: 'true'
-      # cron jobs that re-use the same Docker image and settings as server
+      # EXAMPLE: cron jobs that re-use the same Docker image and settings as server
       # cronJobs:
       #   - name: examplejob1
       #     schedule: "30 2 * * *"
@@ -259,24 +191,5 @@ full-stack:
           WEBHOOK_VC_TOKEN: ${taito_project}-${taito_env}-webhook.gittoken
         env:
           VC_REPOSITORY_URL: ${taito_vc_repository_url}
-
-    scheduler:
-      enabled: false
-      type: job
-      image: buildpack-deps:curl
-      cpuRequest: 1m
-      memoryRequest: 1Mi
-      runAsUser: 2
-      runAsGroup: 2
-      secretEnv:
-        SCHEDULER_SECRET: ${taito_project}-${taito_env}-scheduler.secret
-      cronJobs:
-        - name: examplejob2
-          schedule: "0 2 * * *"
-          concurrencyPolicy: Forbid # Forbid or Allow
-          args:
-            - /bin/sh
-            - -c
-            - curl -sS -H "X-Secret:$(cat $SCHEDULER_SECRET)" http://${taito_project}-${taito_env}-server:8080/posts?offset=0&limit=1
 
     # TODO: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/#ttl-mechanism-for-finished-jobs
