@@ -82,6 +82,7 @@ taito_logging_provider=${taito_logging_provider:-$taito_provider}
 case $taito_logging_provider in
   efk)
     # TODO: EFK running on Kubernetes
+    taito_logging_format=text
     ;;
   gcp)
     taito_logging_format=stackdriver
@@ -203,6 +204,22 @@ case $taito_container_registry_provider in
   local)
     ;;
 esac
+
+# Deployment platforms
+
+if [[ ${taito_deployment_platforms} == *"kubernetes"* ]]; then
+  taito_plugins="
+    kubectl helm
+    ${taito_plugins}
+  "
+fi
+
+if [[ ${taito_deployment_platforms} == *"docker-compose"* ]]; then
+  taito_plugins="
+    docker-compose
+    ${taito_plugins}
+  "
+fi
 
 # Sentry
 if [[ $taito_plugins == *"sentry"* ]]; then

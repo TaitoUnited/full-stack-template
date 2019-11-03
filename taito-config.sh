@@ -16,7 +16,7 @@ taito_version=1
 taito_plugins="
   terraform:-local
   default-secrets generate-secrets
-  docker docker-compose:local kubectl:-local helm:-local
+  docker
   postgres-db sqitch-db
   npm git-global links-global
   sentry semantic-release:prod
@@ -46,6 +46,9 @@ taito_provider_zone=${template_default_provider_zone:-}
 taito_zone=${template_default_zone:?}
 taito_namespace=$taito_project-$taito_env
 taito_resource_namespace=$taito_organization_abbr-$taito_company-dev
+
+# Platforms
+taito_deployment_platforms=kubernetes
 
 # URLs
 taito_domain=$taito_project-$taito_target_env.${template_default_domain:?}
@@ -238,6 +241,7 @@ case $taito_env in
     if [[ -f taito-env-test-config.sh ]]; then . taito-env-test-config.sh; fi
     ;;
   local)
+    taito_deployment_platforms=docker-compose
     taito_app_url=http://localhost:9999
     taito_storage_url=http://localhost:9999/minio
     db_database_external_port=6000
