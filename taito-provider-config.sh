@@ -21,11 +21,6 @@ case $taito_provider in
       ${taito_plugins}
       aws-storage:-local
     "
-
-    link_urls="
-      ${link_urls}
-      * logs:ENV=https://${taito_provider_region}.console.aws.amazon.com/cloudwatch/home?region=${taito_provider_region}#logs: Logs (:ENV)
-    "
     ;;
   gcp)
     taito_plugins="
@@ -81,6 +76,13 @@ esac
 
 taito_logging_provider=${taito_logging_provider:-$taito_provider}
 case $taito_logging_provider in
+  aws)
+    taito_logging_format=text
+    link_urls="
+      ${link_urls}
+      * logs:ENV=https://${taito_provider_region}.console.aws.amazon.com/cloudwatch/home?region=${taito_provider_region}#logs: Logs (:ENV)
+    "
+    ;;
   efk)
     # TODO: EFK running on Kubernetes
     taito_logging_format=text
