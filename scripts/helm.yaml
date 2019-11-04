@@ -142,7 +142,7 @@ full-stack:
       #       - date; echo Hello from server
 
     storage:
-      image: minio/minio:RELEASE.2019-03-27T22-35-21Z
+      image: minio/minio:RELEASE.2019-10-12T01-39-57Z
       port: 9000
       tier: backend
       livenessPath: /minio/health/ready
