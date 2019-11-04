@@ -27,6 +27,8 @@ services:
       - "./client:/service:delegated"
       - "./shared:/service/shared:delegated"
       - "/service/node_modules"
+    links:
+      - full-stack-template-database-proxy
     network_mode: "bridge"
     secrets:
       - DATABASE_PASSWORD

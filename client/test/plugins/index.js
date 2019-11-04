@@ -38,40 +38,36 @@ module.exports = (on, config) => {
   const dbConfig = {
     host: process.env.DATABASE_HOST || dbOverrides.DATABASE_HOST || '127.0.0.1',
     port: parseInt(
-      process.env.DATABASE_PORT
-        || dbOverrides.DATABASE_PORT
-        || process.env.db_database_external_port
-        || process.env.db_database_port,
+      process.env.DATABASE_PORT ||
+        dbOverrides.DATABASE_PORT ||
+        process.env.db_database_external_port ||
+        process.env.db_database_port,
       10
     ),
     database:
-      process.env.DATABASE_NAME
-      || dbOverrides.DATABASE_NAME
-      || process.env.db_database_name,
+      process.env.DATABASE_NAME ||
+      dbOverrides.DATABASE_NAME ||
+      process.env.db_database_name,
     user:
-      process.env.DATABASE_USER
-      || dbOverrides.DATABASE_USER
-      || (process.env.db_database_name && `${process.env.db_database_name}_app`), // eslint-disable-line
+      process.env.DATABASE_USER ||
+      dbOverrides.DATABASE_USER ||
+      (process.env.db_database_name && `${process.env.db_database_name}_app`), // eslint-disable-line
     password:
-      process.env.DATABASE_PASSWORD
-      || dbOverrides.DATABASE_PASSWORD
-      || readSecretSync('/run/secrets/DATABASE_PASSWORD')
-      || process.env.taito_default_password
-      || 'secret',
-    poolSize: 2
+      process.env.DATABASE_PASSWORD ||
+      dbOverrides.DATABASE_PASSWORD ||
+      readSecretSync('/run/secrets/DATABASE_PASSWORD') ||
+      process.env.taito_default_password ||
+      'secret',
+    poolSize: 2,
   };
-  console.log(`PASSSORDASDFASFASDFSDFSAD ${dbConfig.password}`);
-  console.log('--------------------------------------------------------------');
   console.log(`URL: ${config.baseUrl}`);
   console.log(
-    `DATABASE: ${dbConfig.user}:PASSWORD@${dbConfig.host}:${dbConfig.port}/${
-      dbConfig.database
-    }`
+    `DATABASE: ${dbConfig.user}:PASSWORD@${dbConfig.host}:${dbConfig.port}/${dbConfig.database}`
   );
   if (process.env.taito_target_env !== 'local') {
     console.log(
-      '\nNOTE: If your tests need database connection, you might need to\n'
-        + `start a db proxy: 'taito db proxy:${process.env.taito_target_env}'`
+      '\nNOTE: If your tests need database connection, you might need to\n' +
+        `start a db proxy: 'taito db proxy:${process.env.taito_target_env}'`
     );
   }
   console.log('--------------------------------------------------------------');
@@ -81,6 +77,6 @@ module.exports = (on, config) => {
   on('task', {
     sql: sql => {
       return db.any(sql);
-    }
+    },
   });
 };

@@ -7,10 +7,9 @@ const url = Cypress.env('baseUrlHack');
 describe('Posts', () => {
   beforeEach(() => {
     // API call example
-    cy.request(`${url}/api/posts?offset=0&limit=1`)
-      .then(response => {
-        cy.log(JSON.stringify(response.body.data[0]));
-      });
+    cy.request(`${url}/api/posts?offset=0&limit=1`).then(response => {
+      cy.log(JSON.stringify(response.body.data[0]));
+    });
 
     // Database call example
     // NOTE: Prefer API calls.
