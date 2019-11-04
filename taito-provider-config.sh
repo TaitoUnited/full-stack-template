@@ -21,6 +21,12 @@ case $taito_provider in
       ${taito_plugins}
       aws-storage:-local
     "
+
+    # Set AWS specific storage url
+    if [[ $taito_env != "local" ]] && [[ $taito_storages ]]; then
+      storages=( $taito_storages )
+      taito_storage_url="https://s3.console.aws.amazon.com/s3/buckets/${taito_random_name}-${taito_env}/?region=${taito_provider_region}&tab=overview"
+    fi
     ;;
   gcp)
     taito_plugins="
