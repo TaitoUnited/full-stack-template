@@ -78,10 +78,17 @@ taito_logging_provider=${taito_logging_provider:-$taito_provider}
 case $taito_logging_provider in
   aws)
     taito_logging_format=text
-    link_urls="
-      ${link_urls}
-      * logs:ENV=https://${taito_provider_region}.console.aws.amazon.com/cloudwatch/home?region=${taito_provider_region}#logs: Logs (:ENV)
-    "
+    if [[ ${kubernetes_name} ]]; then
+      link_urls="
+        ${link_urls}
+        * logs:ENV=https://${taito_provider_region}.console.aws.amazon.com/cloudwatch/home?region=${taito_provider_region}#logStream:group=${kubernetes_name};prefix=kubernetes.var.log.containers.${taito_namespace};streamFilter=typeLogStreamPrefix Logs (:ENV)
+      "
+    else
+      link_urls="
+        ${link_urls}
+        * logs:ENV=https://${taito_provider_region}.console.aws.amazon.com/cloudwatch/home?region=${taito_provider_region}#logs: Logs (:ENV)
+      "
+    fi
     ;;
   efk)
     # TODO: EFK running on Kubernetes
