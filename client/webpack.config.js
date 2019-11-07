@@ -240,6 +240,9 @@ module.exports = function(env, argv) {
           host: '0.0.0.0',
           port: DEV_PORT,
           public: 'localhost:' + PUBLIC_PORT, // Fix HMR inside Docker container
+          contentBase: [
+            path.join(__dirname, 'assets')
+          ],
           hot: true,
           historyApiFallback: true,
           stats: 'minimal',

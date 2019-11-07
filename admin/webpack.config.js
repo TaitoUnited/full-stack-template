@@ -188,6 +188,9 @@ module.exports = function(env, argv) {
           publicPath: '/',
           // Fix HMR inside Docker container
           public: `localhost:${PUBLIC_PORT}/admin/sockjs-node`,
+          contentBase: [
+            path.join(__dirname, 'assets')
+          ],
           hot: true,
           historyApiFallback: true,
           stats: 'minimal',
