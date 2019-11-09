@@ -20,6 +20,7 @@ case $taito_provider in
       aws:-local
       ${taito_plugins}
       aws-storage:-local
+      aws-monitoring:-local
     "
 
     # Set AWS specific storage url
