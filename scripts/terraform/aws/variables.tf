@@ -30,6 +30,10 @@ variable "taito_targets" {
   type = list(string)
 }
 
+variable "taito_container_targets" {
+  type = list(string)
+}
+
 /* Storage */
 
 variable "taito_storages" {
@@ -51,4 +55,3 @@ variable "taito_storage_days" {
   type    = list(string)
   default = []
 }
-
