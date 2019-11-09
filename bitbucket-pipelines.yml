@@ -25,6 +25,8 @@ pipelines:
         script:
           - export taito_mode=ci
           # - export taito_ci_phases=build
+          # TODO: Cancel other ongoing builds for $ENV
+          # - taito deployment cancel:$ENV $CURRENT_BUILD_ID
           - taito build prepare:$BITBUCKET_BRANCH
         artifacts:
           - taitoflag_version
