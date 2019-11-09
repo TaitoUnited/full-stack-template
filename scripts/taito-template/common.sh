@@ -295,18 +295,6 @@ if [[ -f ./scripts/helm.yaml ]]; then
   sed -i "/# TODO:/d" ./scripts/helm.yaml
 fi
 
-##############################
-# Initialize semantic-release
-##############################
-
-if [[ "${template_default_vc_provider}" != "github" ]]; then
-  echo "Disabling semantic-release for git provider '${template_default_vc_provider}'"
-  echo "TODO: implement semantic-release support for '${template_default_vc_provider}'"
-  sed -i "s/release-pre:prod\": \"semantic-release/_release-pre:prod\": \"echo DISABLED semantic-release/g" package.json
-  sed -i "s/release-post:prod\": \"semantic-release/_release-post:prod\": \"echo DISABLED semantic-release/g" package.json
-  sed -i '/github-buildbot/d' taito-config.sh
-fi
-
 ######################
 # Clean up
 ######################

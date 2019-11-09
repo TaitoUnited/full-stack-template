@@ -170,14 +170,6 @@ case $taito_ci_provider in
       * builds[:ENV]=https://console.cloud.google.com/cloud-build/builds?project=$taito_zone&query=source.repo_source.repo_name%3D%22github_${template_default_vc_organization:?}_$taito_vc_repository%22 Build logs
       * artifacts=https://TODO-DOCS-AND-TEST-REPORTS Generated documentation and test reports
     "
-    # Google Cloud build does not support storing build secrets on user account
-    # or organization level. Therefore we use Kubernetes devops namespace.
-    if [[ $taito_plugins == *"semantic-release:$taito_env"* ]]; then
-      taito_remote_secrets="
-        $taito_remote_secrets
-        github-buildbot.token:read/devops
-      "
-    fi
     ;;
   local)
     link_urls="
@@ -201,6 +193,14 @@ case $taito_vc_provider in
       * docs=https://$taito_vc_repository_url/wiki Project documentation
       * project=https://$taito_vc_repository_url/projects Project management
     "
+
+    # GitHub buildbot token for tagging releases
+    if [[ $taito_plugins == *"semantic-release:$taito_env"* ]]; then
+      taito_remote_secrets="
+        $taito_remote_secrets
+        github-buildbot.token:read/devops
+      "
+    fi
     ;;
 esac
 
