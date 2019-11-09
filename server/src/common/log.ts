@@ -98,14 +98,9 @@ class StackdriverStream extends Transform {
 }
 
 // Supported log formats: text, stackdriver
+// TODO: If config.COMMON_LOG_FORMAT is 'text', use the StackdriverStream,
+// but enable also this: https://github.com/benbria/bunyan-debug-stream
 const logFormatStreams = {
-  text: [
-    {
-      level: (config.COMMON_LOG_LEVEL as LogLevel) || bunyan.INFO,
-      stream: process.stdout,
-    },
-  ],
-
   stackdriver: [
     {
       type: 'raw',
@@ -124,7 +119,7 @@ const log = bunyan.createLogger({
   name: config.APP_NAME,
   serializers: bunyan.stdSerializers,
   src: true,
-  streams: logFormatStreams[config.COMMON_LOG_FORMAT || 'stackdriver'],
+  streams: logFormatStreams.stackdriver,
 });
 
 export default log;
