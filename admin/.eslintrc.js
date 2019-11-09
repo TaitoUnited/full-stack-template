@@ -57,6 +57,7 @@ module.exports = {
     ],
 
     'no-var': 'error', // No `var` plz - we are not savages anymore
+    'react/prop-types': 'off',
   },
 
   settings: {
