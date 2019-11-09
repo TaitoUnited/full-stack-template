@@ -113,6 +113,17 @@ case $taito_logging_provider in
 esac
 
 case $taito_uptime_provider in
+  aws)
+    taito_plugins="${taito_plugins/aws:-local/}"
+    taito_plugins="
+      aws:-local
+      ${taito_plugins}
+    "
+    link_urls="
+      ${link_urls}
+      * uptime[:ENV]=https://console.aws.amazon.com/cloudwatch/home?region=${taito_provider_region}#alarmsV2:?search=${taito_project}-${taito_target_env}&alarmFilter=ALL  Uptime monitoring (:ENV)
+    "
+    ;;
   gcp)
     taito_plugins="${taito_plugins/gcp:-local/}"
     taito_plugins="
@@ -121,7 +132,7 @@ case $taito_uptime_provider in
     "
     link_urls="
       ${link_urls}
-      * uptime=https://app.google.stackdriver.com/uptime?project=$taito_zone&f.search=$taito_project Uptime monitoring (Stackdriver)
+      * uptime[:ENV]=https://app.google.stackdriver.com/uptime?project=$taito_zone&f.search=$taito_project Uptime monitoring (:ENV)
     "
     ;;
 esac
