@@ -95,6 +95,7 @@ steps:
   - '-c'
   - |
     sed -i 's/oldRewritePolicy: false/oldRewritePolicy: true/' scripts/helm.yaml
+    sed -i 's/version:.*/version: 0.9.0/' scripts/helm/requirements.yaml
     taito build prepare:$BRANCH_NAME $COMMIT_SHA
     taito artifact prepare:admin:$BRANCH_NAME $COMMIT_SHA
     taito artifact prepare:client:$BRANCH_NAME $COMMIT_SHA
