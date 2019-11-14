@@ -82,19 +82,33 @@ You may run Cypress against any remote environment without Taito CLI or docker. 
 
 ## Configuration
 
-Instructions defined in [CONFIGURATION.md](CONFIGURATION.md) apply. You just need to run commands with `npm` or `docker-compose` directly instead of Taito CLI. If you want to setup the application environments or run CI/CD steps without Taito CLI, see the following instructions.
+Instructions defined in [CONFIGURATION.md](CONFIGURATION.md) apply. You just need to run commands with `npm` or `docker-compose` directly instead of Taito CLI.
 
-### Creating an environment
+If you want to setup the application environments or run CI/CD steps without Taito CLI, see the following instructions.
 
-* Run taito-config.sh to set the environment variables for the environment in question (dev, test, stag, canary, or prod):
+### Creating a remote environment
+
+1) Run taito-config.sh to set the environment variables for the environment in question (usually ENV is **dev**, **test**, **uat**, **stag**, **canary**, or **prod**):
     ```
-    export taito_target_env=dev
+    export taito_target_env=ENV
     . taito-config.sh
     ```
-* Run terraform scripts that are located at `scripts/terraform/`. Use `scripts/terraform/common/backend.tf` as backend, if you want to store terraform state on git. Note that the terraform scripts assume that a cloud provider project defined by `taito_resource_namespace` and `taito_resource_namespace_id` already exists and Terraform is allowed to create resources for that project.
-* (TODO: create database with terraform instead): Create a relational database (or databases) for an environment e.g. by using cloud provider web UI. See `db_*` settings in `taito-config.sh` for database definitions. Create two user accounts for the database: `FULL_STACK_TEMPLATE_ENV` for deploying the database migrations (broad user rights) and `FULL_STACK_TEMPLATE_ENV_app` for the application (concise user rights). Configure also database extensions if required by the application (see `database/db.sql`).
-* Set Kubernetes secret values with `kubectl`. The secrets are defined by `taito_secrets` in `taito-config.sh`, and they are referenced in `scripts/helm*.yaml` files.
 
-### Setting up CI/CD
+2) Database is created with Taito CLI by default. Set `postgres_create_database` to `false` in **taito-project-config.sh** to create the database with Terraform instead (TODO: implement). Or alternatively create the database manually, if you want to avoid saving database credentials into Terraform state:
 
-You can easily implement CI/CD steps without Taito CLI. See [continuous integration and delivery](https://taitounited.github.io/taito-cli/docs/06-continuous-integration-and-delivery) chapter of Taito CLI manual for instructions.
+    > MANUALLY: See the `db_*` environment variables for database definitions. Create two user accounts for the database: `FULL_STACK_TEMPLATE_ENV` for deploying the database migrations (broad user rights) and `FULL_STACK_TEMPLATE_ENV_app` for the application (concise user rights). Configure also database extensions if required by the application (see `database/db.sql`).
+
+3) Run terraform scripts located at `scripts/terraform/${taito_provider}` (TODO: remote backend).
+
+    > NOTE: Google Cloud scripts (gcp) assume that a google cloud project defined by `taito_resource_namespace` and `taito_resource_namespace_id` environment variables already exist.
+
+4) Set secret values manually. Secrets are defined by `${taito_secrets}` and `${taito_remote_secrets}` environment variables, and the naming conventions is **name.property[/namespace]:method**. Use `${taito_namespace}` as namespace unless specified otherwise. Platform specific instructions:
+
+    * **Kubernetes:** Create secrets in the correct namespace. Use **name** as secret name and **property** as data field attribute name. The secret value should be stored as base64 encoded string.
+    * **AWS SSM Property Store:** Use `/${taito_zone}/namespace/name.property` as name, and `SecureString` as type. If the secret method is something else than `manual` or `random`, the value should be stored as base64 encoded string
+
+5) Create CI/CD trigger based on the CI/CD script located on the project root directory. Use either `taitounited/taito-cli:ci-${taito_provider}` or your custom image as docker image for the CI/CD. (TODO: implement with Terraform)
+
+### Taitoless CI/CD
+
+If you for some reason cannot use Taito CLI in your CI/CD pipeline, you can easily implement the CI/CD steps yourself. See [continuous integration and delivery](https://taitounited.github.io/taito-cli/docs/06-continuous-integration-and-delivery) chapter of Taito CLI manual for instructions.
