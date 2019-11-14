@@ -32,6 +32,7 @@ variable "taito_targets" {
 
 variable "taito_container_targets" {
   type = list(string)
+  default = []
 }
 
 /* Storage */

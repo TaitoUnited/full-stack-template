@@ -25,17 +25,21 @@ variable "taito_domain" {
 /* Monitoring */
 variable "taito_uptime_targets" {
   type = list(string)
+  default = []
 }
 
 variable "taito_uptime_paths" {
   type = list(string)
+  default = []
 }
 
 /* TODO: use timeout */
 variable "taito_uptime_timeouts" {
   type = list(string)
+  default = []
 }
 
 variable "taito_uptime_channels" {
   type = list(string)
+  default = []
 }

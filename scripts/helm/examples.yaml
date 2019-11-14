@@ -64,7 +64,7 @@ services:
         args:
           - /bin/sh
           - -c
-          - curl -sS -H "X-Secret:$(cat $SCHEDULER_SECRET)" http://${taito_project}-${taito_env}-server:8080/posts?offset=0&limit=1
+          - curl -sS -H "X-Secret:$(cat $SCHEDULER_SECRET)" http://${taito_project}-${taito_target_env}-server:8080/posts?offset=0&limit=1
 
   # RE-USE SETTINGS OF AN ANOTHER SERVICE:
   # Re-use server Docker image and settings for running cron jobs also.

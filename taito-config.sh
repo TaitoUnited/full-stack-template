@@ -48,13 +48,16 @@ taito_namespace=$taito_project-$taito_env
 taito_resource_namespace=$taito_organization_abbr-$taito_company-dev
 
 # Platforms
-taito_deployment_platforms=kubernetes
+taito_deployment_platforms="terraform kubernetes"
 
 # URLs
 taito_domain=$taito_project-$taito_target_env.${template_default_domain:?}
 taito_default_domain=$taito_project-$taito_target_env.${template_default_domain:?}
 taito_app_url=https://$taito_domain
-taito_static_url=
+taito_static_assets_bucket=$taito_zone-assets
+taito_static_assets_path=/$taito_project
+taito_functions_bucket=$taito_zone-projects
+taito_functions_path=/$taito_project
 
 # Hosts
 taito_host="${template_default_host:-}"
@@ -124,7 +127,6 @@ ci_exec_test=false         # execute test suites after deploy
 ci_exec_test_init=false    # run 'init --clean' before each test suite
 ci_exec_release=false      # release build
 ci_exec_revert=false       # revert deployment automatically on fail
-ci_static_assets_location= # location to publish all static files (CDN)
 
 # ------ Plugin and provider specific settings ------
 
