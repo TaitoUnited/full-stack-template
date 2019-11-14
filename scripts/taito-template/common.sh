@@ -200,10 +200,8 @@ fi
 echo "Initializing CI/CD: $ci"
 
 # Remove extra template stuff from cloudbuild.yaml
+rm -rf cloudbuild-template.yaml
 sed -i "s|\${_TEMPLATE_DEFAULT_TAITO_IMAGE}|${template_default_taito_image}|g" cloudbuild.yaml
-sed -i '/_TEMPLATE_DEFAULT_/d' cloudbuild.yaml
-sed -i '/taito project create/d' cloudbuild.yaml
-sed -i '/template_default_taito_image/d' cloudbuild.yaml
 sed -i "s|_IMAGE_REGISTRY: eu.gcr.io/\$PROJECT_ID|_IMAGE_REGISTRY: ${template_default_container_registry}|" cloudbuild.yaml
 
 ci_scripts="buildspec.yml azure-pipelines.yml bitbucket-pipelines.yml \
