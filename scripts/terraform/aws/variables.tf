@@ -27,32 +27,32 @@ variable "taito_container_registry_provider" {
 }
 
 variable "taito_targets" {
-  type = list(string)
+  type = string  # whitespace delimited strings
 }
 
 variable "taito_container_targets" {
-  type = list(string)
-  default = []
+  type = string  # whitespace delimited strings
+  default = ""
 }
 
 /* Storage */
 
 variable "taito_storages" {
-  type    = list(string)
-  default = []
+  type = string  # whitespace delimited strings
+  default = ""
 }
 
 variable "taito_storage_locations" {
-  type    = list(string)
-  default = []
+  type = string  # whitespace delimited strings
+  default = ""
 }
 
 variable "taito_storage_classes" {
-  type    = list(string)
-  default = []
+  type = string  # whitespace delimited strings
+  default = ""
 }
 
 variable "taito_storage_days" {
-  type    = list(string)
-  default = []
+  type = string  # whitespace delimited strings
+  default = ""
 }

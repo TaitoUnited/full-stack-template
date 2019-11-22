@@ -335,4 +335,9 @@ link_urls="
 # shellcheck disable=SC1091
 . taito-testing-config.sh
 
+# ------ Custom terraform mappings ------
+
+# shellcheck disable=SC1091
+if [[ -f taito-terraform-config.sh ]]; then . taito-terraform-config.sh; fi
+
 set +a

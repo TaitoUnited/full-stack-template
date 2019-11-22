@@ -36,37 +36,36 @@ variable "taito_organization_abbr" {
 
 /* Storage */
 variable "taito_storages" {
-  type    = list(string)
-  default = []
+  type = string  # whitespace delimited strings
+  default = ""
 }
 
 variable "taito_storage_locations" {
-  type    = list(string)
-  default = []
+  type = string  # whitespace delimited strings
+  default = ""
 }
 
 variable "taito_storage_classes" {
-  type    = list(string)
-  default = []
+  type = string  # whitespace delimited strings
+  default = ""
 }
 
 variable "taito_storage_days" {
-  type    = list(string)
-  default = []
+  type = string  # whitespace delimited strings
+  default = ""
 }
 
 /* Backup */
 variable "taito_backup_locations" {
-  type    = list(string)
-  default = []
+  type = string  # whitespace delimited strings
+  default = ""
 }
 
 variable "taito_backup_days" {
-  type    = list(string)
-  default = []
+  type = string  # whitespace delimited strings
+  default = ""
 }
 
 /* Google Cloud */
 variable "gcp_service_account_enabled" {
 }
-

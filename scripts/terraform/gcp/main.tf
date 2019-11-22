@@ -4,6 +4,22 @@ provider "google" {
   zone    = var.taito_provider_zone
 }
 
+/* Convert whitespace delimited strings into list(string) */
+locals {
+  taito_storages = (var.taito_storages == "" ? [] :
+    split(" ", replace(var.taito_storages, "/\\s+/", " ")))
+  taito_storage_locations = (var.taito_storage_locations == "" ? [] :
+    split(" ", replace(var.taito_storage_locations, "/\\s+/", " ")))
+  taito_storage_classes = (var.taito_storage_classes == "" ? [] :
+    split(" ", replace(var.taito_storage_classes, "/\\s+/", " ")))
+  taito_storage_days = (var.taito_storage_days == "" ? [] :
+    split(" ", replace(var.taito_storage_days, "/\\s+/", " ")))
+  taito_backup_locations = (var.taito_backup_locations == "" ? [] :
+    split(" ", replace(var.taito_backup_locations, "/\\s+/", " ")))
+  taito_backup_days = (var.taito_backup_days == "" ? [] :
+    split(" ", replace(var.taito_backup_days, "/\\s+/", " ")))
+}
+
 module "gcp" {
   source = "github.com/TaitoUnited/taito-terraform-modules//projects/gcp"
 
@@ -20,13 +36,13 @@ module "gcp" {
   taito_organization          = var.taito_organization
   taito_organization_abbr     = var.taito_organization_abbr
 
-  taito_storages          = var.taito_storages
-  taito_storage_locations = var.taito_storage_locations
-  taito_storage_classes   = var.taito_storage_classes
-  taito_storage_days      = var.taito_storage_days
+  taito_storages              = local.taito_storages
+  taito_storage_locations     = local.taito_storage_locations
+  taito_storage_classes       = local.taito_storage_classes
+  taito_storage_days          = local.taito_storage_days
 
-  taito_backup_locations = var.taito_backup_locations
-  taito_backup_days      = var.taito_backup_days
+  taito_backup_locations      = local.taito_backup_locations
+  taito_backup_days           = local.taito_backup_days
 
   gcp_service_account_enabled = var.gcp_service_account_enabled
 }

@@ -25,7 +25,7 @@ Install mandatory libraries on host:
 
 Install additional libraries on host for autocompletion/linting on editor (optional):
 
-    # TODO: Support for Windows without bash
+    # TODO: Support for Windows without bash installed
     npm run install-dev
 
 Set up environment variables required by `docker-compose.yaml`:
@@ -88,13 +88,15 @@ If you want to setup the application environments or run CI/CD steps without Tai
 
 ### Creating a remote environment
 
+> NOTE: Add `taito-terraform-config.sh` to project root directory, if the file does not exist yet. In this file you map taito configurations into terraform TF_VAR_* variables. Terraform variable definitions can be found from `scripts/terraform/**/variables.tf`.
+
 1) Run taito-config.sh to set the environment variables for the environment in question (usually ENV is **dev**, **test**, **uat**, **stag**, **canary**, or **prod**):
     ```
     export taito_target_env=ENV
     . taito-config.sh
     ```
 
-2) Database is created with Taito CLI by default. Set `postgres_create_database` to `false` in **taito-project-config.sh** to create the database with Terraform instead (TODO: implement). Or alternatively create the database manually, if you want to avoid saving database credentials into Terraform state:
+2) Database is created with Taito CLI by default. Set `postgres_create_database` to `false` in **taito-project-config.sh** to create the database with Terraform instead (TODO: implement terraform). Or alternatively create the database manually, if you want to avoid saving database credentials into Terraform state:
 
     > MANUALLY: See the `db_*` environment variables for database definitions. Create two user accounts for the database: `FULL_STACK_TEMPLATE_ENV` for deploying the database migrations (broad user rights) and `FULL_STACK_TEMPLATE_ENV_app` for the application (concise user rights). Configure also database extensions if required by the application (see `database/db.sql`).
 
@@ -107,7 +109,7 @@ If you want to setup the application environments or run CI/CD steps without Tai
     * **Kubernetes:** Create secrets in the correct namespace. Use **name** as secret name and **property** as data field attribute name. The secret value should be stored as base64 encoded string.
     * **AWS SSM Property Store:** Use `/${taito_zone}/namespace/name.property` as name, and `SecureString` as type. If the secret method is something else than `manual` or `random`, the value should be stored as base64 encoded string
 
-5) Create CI/CD trigger based on the CI/CD script located on the project root directory. Use either `taitounited/taito-cli:ci-${taito_provider}` or your custom image as docker image for the CI/CD. (TODO: implement with Terraform)
+5) Create CI/CD trigger based on the CI/CD script located on the project root directory. Use either `taitounited/taito-cli:ci-${taito_provider}` or your own custom image as docker image for the CI/CD. (TODO: implement CI/CD trigger creation with Terraform)
 
 ### Taitoless CI/CD
 
