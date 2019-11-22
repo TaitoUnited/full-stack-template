@@ -154,8 +154,8 @@ function prune () {
       sed -i '/storage/d' taito-project-config.sh
       sed -i '/S3_/d' docker-compose.yaml
       sed -i '/S3_/d' docker-compose-remote.yaml
-      sed -i '/storage-/d' docker-compose.yaml
-      sed -i '/storage-/d' docker-compose-remote.yaml
+      sed -i '/storage/d' docker-compose.yaml
+      sed -i '/storage/d' docker-compose-remote.yaml
       sed -i '/S3_/d' ./scripts/helm.yaml
 
       # Remove storage from server implementation
