@@ -7,13 +7,13 @@ provider "aws" {
 /* Convert whitespace delimited strings into list(string) */
 locals {
   taito_uptime_targets = (var.taito_uptime_targets == "" ? [] :
-    split(" ", replace(var.taito_uptime_targets, "/\\s+/", " ")))
+    split(" ", trimspace(replace(var.taito_uptime_targets, "/\\s+/", " "))))
   taito_uptime_paths = (var.taito_uptime_paths == "" ? [] :
-    split(" ", replace(var.taito_uptime_paths, "/\\s+/", " ")))
+    split(" ", trimspace(replace(var.taito_uptime_paths, "/\\s+/", " "))))
   taito_uptime_timeouts = (var.taito_uptime_timeouts == "" ? [] :
-    split(" ", replace(var.taito_uptime_timeouts, "/\\s+/", " ")))
+    split(" ", trimspace(replace(var.taito_uptime_timeouts, "/\\s+/", " "))))
   taito_uptime_channels = (var.taito_uptime_channels == "" ? [] :
-    split(" ", replace(var.taito_uptime_channels, "/\\s+/", " ")))
+    split(" ", trimspace(replace(var.taito_uptime_channels, "/\\s+/", " "))))
 }
 
 module "aws-uptime" {

@@ -7,17 +7,17 @@ provider "google" {
 /* Convert whitespace delimited strings into list(string) */
 locals {
   taito_storages = (var.taito_storages == "" ? [] :
-    split(" ", replace(var.taito_storages, "/\\s+/", " ")))
+    split(" ", trimspace(replace(var.taito_storages, "/\\s+/", " "))))
   taito_storage_locations = (var.taito_storage_locations == "" ? [] :
-    split(" ", replace(var.taito_storage_locations, "/\\s+/", " ")))
+    split(" ", trimspace(replace(var.taito_storage_locations, "/\\s+/", " "))))
   taito_storage_classes = (var.taito_storage_classes == "" ? [] :
-    split(" ", replace(var.taito_storage_classes, "/\\s+/", " ")))
+    split(" ", trimspace(replace(var.taito_storage_classes, "/\\s+/", " "))))
   taito_storage_days = (var.taito_storage_days == "" ? [] :
-    split(" ", replace(var.taito_storage_days, "/\\s+/", " ")))
+    split(" ", trimspace(replace(var.taito_storage_days, "/\\s+/", " "))))
   taito_backup_locations = (var.taito_backup_locations == "" ? [] :
-    split(" ", replace(var.taito_backup_locations, "/\\s+/", " ")))
+    split(" ", trimspace(replace(var.taito_backup_locations, "/\\s+/", " "))))
   taito_backup_days = (var.taito_backup_days == "" ? [] :
-    split(" ", replace(var.taito_backup_days, "/\\s+/", " ")))
+    split(" ", trimspace(replace(var.taito_backup_days, "/\\s+/", " "))))
 }
 
 module "gcp" {

@@ -7,17 +7,17 @@ provider "aws" {
 /* Convert whitespace delimited strings into list(string) */
 locals {
   taito_storages = (var.taito_storages == "" ? [] :
-    split(" ", replace(var.taito_storages, "/\\s+/", " ")))
+    split(" ", trimspace(replace(var.taito_storages, "/\\s+/", " "))))
   taito_storage_locations = (var.taito_storage_locations == "" ? [] :
-    split(" ", replace(var.taito_storage_locations, "/\\s+/", " ")))
+    split(" ", trimspace(replace(var.taito_storage_locations, "/\\s+/", " "))))
   taito_storage_classes = (var.taito_storage_classes == "" ? [] :
-    split(" ", replace(var.taito_storage_classes, "/\\s+/", " ")))
+    split(" ", trimspace(replace(var.taito_storage_classes, "/\\s+/", " "))))
   taito_storage_days = (var.taito_storage_days == "" ? [] :
-    split(" ", replace(var.taito_storage_days, "/\\s+/", " ")))
+    split(" ", trimspace(replace(var.taito_storage_days, "/\\s+/", " "))))
   taito_targets = (var.taito_targets == "" ? [] :
-    split(" ", replace(var.taito_targets, "/\\s+/", " ")))
+    split(" ", trimspace(replace(var.taito_targets, "/\\s+/", " "))))
   taito_container_targets = (var.taito_container_targets == "" ? [] :
-    split(" ", replace(var.taito_container_targets, "/\\s+/", " ")))
+    split(" ", trimspace(replace(var.taito_container_targets, "/\\s+/", " "))))
 }
 
 module "aws" {
