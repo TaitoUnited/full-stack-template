@@ -25,7 +25,7 @@ Install mandatory libraries on host:
 
 Install additional libraries on host for autocompletion/linting on editor (optional):
 
-    # TODO: Support for Windows without bash installed
+    # TODO: Support for Windows without unix-like shell installed
     npm run install-dev
 
 Set up environment variables required by `docker-compose.yaml`:
@@ -88,28 +88,67 @@ If you want to setup the application environments or run CI/CD steps without Tai
 
 ### Creating a remote environment
 
-> NOTE: Add `taito-terraform-config.sh` to project root directory, if the file does not exist yet. In this file you map taito configurations into terraform TF_VAR_* variables. Terraform variable definitions can be found from `scripts/terraform/**/variables.tf`.
+> TIP: The template uses Taito CLI for managing databases and secrets instead Terraform. If you don't want to set them up manually, you can add database and secrets to your Terraform scripts (TODO: example). But be aware that Terraform stores all data in state as plain-text: https://www.terraform.io/docs/state/sensitive-data.html
 
-1) Run taito-config.sh to set the environment variables for the environment in question (usually ENV is **dev**, **test**, **uat**, **stag**, **canary**, or **prod**):
+1) **Create database(s):** Create database with name *FULL_STACK_TEMPLATE_ENV* and grant access to two user accounts: *FULL_STACK_TEMPLATE_ENV* for deploying the database migrations (broad rights), and *FULL_STACK_TEMPLATE_ENV_app* for the application (concise rights). Configure also database extensions if required by the application (see `database/db.sql`). You can see additional database information with:
+
     ```
+    # Export environment variables (ENV = dev, test, uat, stag, carary, or prod)
     export taito_target_env=ENV
     . taito-config.sh
+
+    # Show database variables
+    env | grep ^db_
     ```
 
-2) Database is created with Taito CLI by default. Set `postgres_create_database` to `false` in **taito-project-config.sh** to create the database with Terraform instead (TODO: implement terraform). Or alternatively create the database manually, if you want to avoid saving database credentials into Terraform state:
-
-    > MANUALLY: See the `db_*` environment variables for database definitions. Create two user accounts for the database: `FULL_STACK_TEMPLATE_ENV` for deploying the database migrations (broad user rights) and `FULL_STACK_TEMPLATE_ENV_app` for the application (concise user rights). Configure also database extensions if required by the application (see `database/db.sql`).
-
-3) Run terraform scripts located at `scripts/terraform/${taito_provider}` (TODO: remote backend).
-
-    > NOTE: Google Cloud scripts (gcp) assume that a google cloud project defined by `taito_resource_namespace` and `taito_resource_namespace_id` environment variables already exist.
-
-4) Set secret values manually. Secrets are defined by `${taito_secrets}` and `${taito_remote_secrets}` environment variables, and the naming conventions is **name.property[/namespace]:method**. Use `${taito_namespace}` as namespace unless specified otherwise. Platform specific instructions:
+2) **Set secret values:** Secrets are defined by `${taito_secrets}` and `${taito_remote_secrets}` environment variables, and the naming conventions is **name.property[/namespace]:method**. Use `${taito_namespace}` as namespace unless specified otherwise. Platform specific instructions:
 
     * **Kubernetes:** Create secrets in the correct namespace. Use **name** as secret name and **property** as data field attribute name. The secret value should be stored as base64 encoded string.
     * **AWS SSM Property Store:** Use `/${taito_zone}/namespace/name.property` as name, and `SecureString` as type. If the secret method is something else than `manual` or `random`, the value should be stored as base64 encoded string
 
-5) Create CI/CD trigger based on the CI/CD script located on the project root directory. Use either `taitounited/taito-cli:ci-${taito_provider}` or your own custom image as docker image for the CI/CD. (TODO: implement CI/CD trigger creation with Terraform)
+    ```
+    # Export environment variables (ENV = dev, test, uat, stag, carary, or prod)
+    export taito_target_env=ENV
+    . taito-config.sh
+
+    # Show secret variables
+    echo $taito_secrets | tr ' ' '\n'
+    echo $taito_remote_secrets | tr ' ' '\n'
+    ```
+
+3) **Create and run CI/CD trigger:** CI/CD script is located on the project root directory. Use either `taitounited/taito-cli:ci-${taito_provider}` or your own custom image as docker image for the CI/CD.
+
+4) **Optional:** If your project requires additional cloud resources set by terraform, run the terraform scripts:
+
+    > NOTE: Add `taito-terraform-config.sh` to project root directory, if the file does not exist yet (TODO: example).
+
+    > NOTE: Google Cloud scripts (gcp) assume that a google cloud project defined by `taito_resource_namespace` and `taito_resource_namespace_id` environment variables already exist, since the same GCP project is usually shared among multiple taito projects.
+
+    ```
+    # Export environment variables (ENV = dev, test, uat, stag, carary, or prod)
+    export taito_target_env=ENV
+    . taito-config.sh
+
+    # Create basic resources (e.g. storage buckets)
+    # TODO: use remote backend by default
+    cd scripts/terraform/${taito_provider}
+    terraform init -backend-config="../common/backend.tf"
+    terraform apply -state="./${env}/terraform.tfstate"
+
+    # Serverless AWS only: Create deployment (e.g. api gateway and functions)
+    # TODO: use remote backend by default
+    # First create a merged yaml file that includes all the values (no env vars)
+    nano scripts/terraform/terraform-${taito_target_env}-merged.yaml
+    cd scripts/terraform/${taito_provider}-deploy
+    terraform init -backend-config="../common/backend.tf"
+    terraform apply -state="./${env}/terraform.tfstate"
+
+    # Set uptime monitoring
+    # TODO: use remote backend by default
+    cd ../${taito_update_provider}-uptime
+    terraform init -backend-config="../common/backend.tf"
+    terraform apply -state="./${env}/terraform.tfstate"
+    ```
 
 ### Taitoless CI/CD
 
