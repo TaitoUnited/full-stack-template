@@ -115,6 +115,8 @@ sed -i "s/\${template_default_provider:?}/${template_default_provider}/g" taito-
 sed -i "s/\${template_default_provider_prod:?}/${template_default_provider_prod}/g" taito-config.sh
 sed -i "s/\${template_default_provider_org_id:-}/${template_default_provider_org_id}/g" taito-config.sh
 sed -i "s/\${template_default_provider_org_id_prod:-}/${template_default_provider_org_id_prod}/g" taito-config.sh
+sed -i "s/\${template_default_provider_billing_account_id:-}/${template_default_provider_billing_account_id}/g" taito-config.sh
+sed -i "s/\${template_default_provider_billing_account_id_prod:-}/${template_default_provider_billing_account_id_prod}/g" taito-config.sh
 sed -i "s/\${template_default_provider_region:-}/${template_default_provider_region}/g" taito-config.sh
 sed -i "s/\${template_default_provider_region_prod:-}/${template_default_provider_region_prod}/g" taito-config.sh
 sed -i "s/\${template_default_provider_zone:-}/${template_default_provider_zone}/g" taito-config.sh
@@ -147,8 +149,6 @@ sed -i "s/\${template_default_ci_exec_deploy_prod:-true}/${template_default_ci_e
 
 # Kubernetes
 sed -i "s/\${template_default_kubernetes:-}/${template_default_kubernetes}/g" taito-config.sh
-sed -i "s|\${template_default_kubernetes_cluster_prefix:-}|${template_default_kubernetes_cluster_prefix}|g" taito-config.sh
-sed -i "s|\${template_default_kubernetes_cluster_prefix_prod:-}|${template_default_kubernetes_cluster_prefix_prod}|g" taito-config.sh
 
 # Postgres
 sed -i "s/\${template_default_postgres:-}/${template_default_postgres:-}/g" taito-config.sh

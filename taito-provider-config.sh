@@ -15,6 +15,23 @@ taito_provider_db_proxy_secret=
 taito_provider_service_account_secret=
 
 case $taito_provider in
+  azure)
+    taito_plugins="
+      azure:-local
+      ${taito_plugins}
+      azure-storage:-local
+      azure-monitoring:-local
+    "
+
+    # Kubernetes details
+    kubernetes_cluster="${kubernetes_name}"
+    kubernetes_user="clusterUser_${taito_zone}_${kubernetes_cluster}"
+
+    # Set Azure specific storage url
+    if [[ $taito_env != "local" ]] && [[ $storage_name ]]; then
+      taito_storage_url="https://portal.azure.com/#blade/Microsoft_Azure_Storage/ContainerMenuBlade/overview/storageAccountId/%2Fsubscriptions%2F${taito_provider_billing_account_id}%2FresourceGroups%2F${taito_zone}%2Fproviders%2FMicrosoft.Storage%2FstorageAccounts%2F${taito_zone//-/}/path/${storage_name}"
+    fi
+    ;;
   aws)
     taito_plugins="
       aws:-local
@@ -23,10 +40,24 @@ case $taito_provider in
       aws-monitoring:-local
     "
 
+    # Kubernetes details
+    kubernetes_cluster="arn:aws:eks:${taito_provider_region}:${taito_provider_org_id}:cluster/${kubernetes_name}"
+    kubernetes_user="${kubernetes_cluster}"
+
     # Set AWS specific storage url
     if [[ $taito_env != "local" ]] && [[ $storage_name ]]; then
       taito_storage_url="https://s3.console.aws.amazon.com/s3/buckets/${storage_name}/?region=${taito_provider_region}&tab=overview"
     fi
+    ;;
+  "do")
+    taito_plugins="
+      do:-local
+      ${taito_plugins}
+    "
+
+    # Kubernetes details
+    kubernetes_cluster="TODO_${kubernetes_name}"
+    kubernetes_user="${kubernetes_cluster}"
     ;;
   gcp)
     taito_plugins="
@@ -37,10 +68,9 @@ case $taito_provider in
       gcp-monitoring:-local
     "
 
-    link_urls="
-      ${link_urls}
-      * services[:ENV]=https://console.cloud.google.com/apis/dashboard?project=$taito_resource_namespace_id Google services (:ENV)
-    "
+    # Kubernetes details
+    kubernetes_cluster="gke_${taito_zone}_${taito_provider_zone}_${kubernetes_name}"
+    kubernetes_user="${kubernetes_cluster}"
 
     kubernetes_db_proxy_enabled=false # use google cloud sql proxy instead
     if [[ -z "${gcp_service_account_enabled}" ]]; then
@@ -69,6 +99,11 @@ case $taito_provider in
       $taito_remote_secrets
       $taito_provider_db_proxy_secret:copy/devops
     "
+
+    link_urls="
+      ${link_urls}
+      * services[:ENV]=https://console.cloud.google.com/apis/dashboard?project=$taito_resource_namespace_id Google services (:ENV)
+    "
     ;;
   linux)
     # shellcheck disable=SC1091
@@ -82,6 +117,13 @@ esac
 
 taito_logging_provider=${taito_logging_provider:-$taito_provider}
 case $taito_logging_provider in
+  azure)
+    taito_logging_format=text
+    link_urls="
+      ${link_urls}
+      * logs:ENV=https://TODO Logs (:ENV)
+    "
+    ;;
   aws)
     taito_logging_format=text
     if [[ ${kubernetes_name} ]]; then
@@ -113,6 +155,17 @@ case $taito_logging_provider in
 esac
 
 case $taito_uptime_provider in
+  azure)
+    taito_plugins="${taito_plugins/azure:-local/}"
+    taito_plugins="
+      azure:-local
+      ${taito_plugins}
+    "
+    link_urls="
+      ${link_urls}
+      * uptime[:ENV]=https://TODO Uptime monitoring (:ENV)
+    "
+    ;;
   aws)
     taito_plugins="${taito_plugins/aws:-local/}"
     taito_plugins="
@@ -138,6 +191,16 @@ case $taito_uptime_provider in
 esac
 
 case $taito_ci_provider in
+  azure)
+    taito_plugins="
+      ${taito_plugins}
+      azure-ci:-local
+    "
+    link_urls="
+      ${link_urls}
+      * builds=https://TODO Build logs
+    "
+    ;;
   aws)
     taito_plugins="
       ${taito_plugins}
@@ -146,7 +209,6 @@ case $taito_ci_provider in
     link_urls="
       ${link_urls}
       * builds=https://console.aws.amazon.com/codesuite/codebuild/projects/${taito_project}/history?region=${taito_provider_region} Build logs
-      * artifacts=https://TODO-DOCS-AND-TEST-REPORTS Generated documentation and test reports
     "
     ;;
   bitbucket)
@@ -157,7 +219,6 @@ case $taito_ci_provider in
     link_urls="
       ${link_urls}
       * builds=https://$taito_vc_repository_url/addon/pipelines/home Build logs
-      * artifacts=https://TODO-DOCS-AND-TEST-REPORTS Generated documentation and test reports
     "
     ;;
   gcp)
@@ -168,7 +229,6 @@ case $taito_ci_provider in
     link_urls="
       ${link_urls}
       * builds[:ENV]=https://console.cloud.google.com/cloud-build/builds?project=$taito_zone&query=source.repo_source.repo_name%3D%22github_${template_default_vc_organization:?}_$taito_vc_repository%22 Build logs
-      * artifacts=https://TODO-DOCS-AND-TEST-REPORTS Generated documentation and test reports
     "
     ;;
   local)
@@ -205,11 +265,27 @@ case $taito_vc_provider in
 esac
 
 case $taito_container_registry_provider in
+  azure)
+    # Enable Azure auth
+    taito_plugins="${taito_plugins/azure:-local/}"
+    taito_plugins="
+      azure:-local
+      ${taito_plugins}
+    "
+    ;;
   aws)
     # Enable AWS auth
     taito_plugins="${taito_plugins/aws:-local/}"
     taito_plugins="
       aws:-local
+      ${taito_plugins}
+    "
+    ;;
+  "do")
+    # Enable DO auth
+    taito_plugins="${taito_plugins/do:-local/}"
+    taito_plugins="
+      do:-local
       ${taito_plugins}
     "
     ;;

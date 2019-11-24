@@ -41,6 +41,7 @@ taito_env=${taito_target_env/canary/prod} # canary -> prod
 # Provider and namespaces
 taito_provider=${template_default_provider:?}
 taito_provider_org_id=${template_default_provider_org_id:-}
+taito_provider_billing_account_id=${template_default_provider_billing_account_id:-}
 taito_provider_region=${template_default_provider_region:-}
 taito_provider_zone=${template_default_provider_zone:-}
 taito_zone=${template_default_zone:?}
@@ -137,7 +138,6 @@ template_source_git=git@github.com:TaitoUnited
 
 # Kubernetes plugin
 kubernetes_name=${template_default_kubernetes:-}
-kubernetes_cluster="${template_default_kubernetes_cluster_prefix:-}${kubernetes_name}"
 kubernetes_replicas=1
 kubernetes_db_proxy_enabled=true
 
@@ -170,13 +170,13 @@ case $taito_env in
     taito_zone=${template_default_zone_prod:?}
     taito_provider=${template_default_provider_prod:?}
     taito_provider_org_id=${template_default_provider_org_id_prod:-}
+    taito_provider_billing_account_id=${template_default_provider_billing_account_id_prod:-}
     taito_provider_region=${template_default_provider_region_prod:-}
     taito_provider_zone=${template_default_provider_zone_prod:-}
     taito_resource_namespace=$taito_organization_abbr-$taito_company-prod
 
     # Domain and resources
     taito_host="${template_default_host_prod:-}"
-    kubernetes_cluster="${template_default_kubernetes_cluster_prefix_prod:-}${kubernetes_name}"
     db_database_real_host="${template_default_postgres_host_prod:-}"
     db_database_ssl_enabled="${template_default_postgres_ssl_enabled_prod:-true}"
     db_database_proxy_ssl_enabled="${template_default_postgres_proxy_ssl_enabled_prod:-true}"
@@ -211,6 +211,7 @@ case $taito_env in
     taito_zone=${template_default_zone_prod:?}
     taito_provider=${template_default_provider_prod:?}
     taito_provider_org_id=${template_default_provider_org_id_prod:-}
+    taito_provider_billing_account_id=${template_default_provider_billing_account_id_prod:-}
     taito_provider_region=${template_default_provider_region_prod:-}
     taito_provider_zone=${template_default_provider_zone_prod:-}
     taito_resource_namespace=$taito_organization_abbr-$taito_company-prod
@@ -219,7 +220,6 @@ case $taito_env in
     taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
     taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
     taito_host="${template_default_host_prod:-}"
-    kubernetes_cluster="${template_default_kubernetes_cluster_prefix_prod:-}${kubernetes_name}"
     db_database_real_host="${template_default_postgres_host_prod:-}"
     db_database_ssl_enabled="${template_default_postgres_ssl_enabled_prod:-true}"
     db_database_proxy_ssl_enabled="${template_default_postgres_proxy_ssl_enabled_prod:-true}"

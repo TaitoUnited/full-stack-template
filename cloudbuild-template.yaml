@@ -32,8 +32,6 @@ substitutions:
   _TEMPLATE_DEFAULT_CONTAINER_REGISTRY:
   _TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROD:
   _TEMPLATE_DEFAULT_KUBERNETES:
-  _TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX:
-  _TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD:
   _TEMPLATE_DEFAULT_POSTGRES:
   _TEMPLATE_DEFAULT_POSTGRES_HOST:
   _TEMPLATE_DEFAULT_POSTGRES_HOST_PROD:
@@ -79,8 +77,6 @@ steps:
     - template_default_container_registry=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY}
     - template_default_container_registry_prod=${_TEMPLATE_DEFAULT_CONTAINER_REGISTRY_PROD}
     - template_default_kubernetes=${_TEMPLATE_DEFAULT_KUBERNETES}
-    - template_default_kubernetes_cluster_prefix=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX}
-    - template_default_kubernetes_cluster_prefix_prod=${_TEMPLATE_DEFAULT_KUBERNETES_CLUSTER_PREFIX_PROD}
     - template_default_postgres=${_TEMPLATE_DEFAULT_POSTGRES}
     - template_default_postgres_host=${_TEMPLATE_DEFAULT_POSTGRES_HOST}
     - template_default_postgres_host_prod=${_TEMPLATE_DEFAULT_POSTGRES_HOST_PROD}
