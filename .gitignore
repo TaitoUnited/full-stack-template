@@ -1,16 +1,17 @@
-secrets
-taito-secrets.sh
-mnt
+# taito
 taito-run-env.sh
 taito-user-config.sh
+taitoflag_*
+secrets
+mnt
+template-tmp
+tmp
+
 node_modules
 site-packages
-tmp
-taitoflag_*
 .DS_Store
 .vscode
 build
-template-tmp
 *.log
 *.log.*
 *.tmp

@@ -88,12 +88,12 @@ If you want to setup the application environments or run CI/CD steps without Tai
 
 ### Creating a remote environment
 
-> TIP: The template uses Taito CLI for managing databases and secrets instead Terraform. If you don't want to set them up manually, you can add database and secrets to your Terraform scripts (TODO: example). But be aware that Terraform stores all data in state as plain-text: https://www.terraform.io/docs/state/sensitive-data.html
+> TIP: The template uses Taito CLI for managing databases and secrets instead of Terraform. If you don't want to set them up manually, you can add database and secrets to your Terraform scripts (TODO: example). But be aware that Terraform stores all data in state as plain-text: https://www.terraform.io/docs/state/sensitive-data.html
 
-1) **Create database(s):** Create database with name *FULL_STACK_TEMPLATE_ENV* and grant access to two user accounts: *FULL_STACK_TEMPLATE_ENV* for deploying the database migrations (broad rights), and *FULL_STACK_TEMPLATE_ENV_app* for the application (concise rights). Configure also database extensions if required by the application (see `database/db.sql`). You can see additional database information with:
+1) **Create database(s):** Create database with name *full-stack-template_ENV* and grant access to two user accounts: *full-stack-template_ENV* for deploying the database migrations (broad rights), and *full-stack-template_ENV_app* for the application (concise rights). Configure also database extensions if required by the application (see `database/db.sql`). You can see additional database information with:
 
     ```
-    # Export environment variables (ENV = dev, test, uat, stag, carary, or prod)
+    # Export environment variables (ENV = dev, test, uat, stag, or prod)
     export taito_target_env=ENV
     . taito-config.sh
 
@@ -107,7 +107,7 @@ If you want to setup the application environments or run CI/CD steps without Tai
     * **AWS SSM Property Store:** Use `/${taito_zone}/namespace/name.property` as name, and `SecureString` as type. If the secret method is something else than `manual` or `random`, the value should be stored as base64 encoded string
 
     ```
-    # Export environment variables (ENV = dev, test, uat, stag, carary, or prod)
+    # Export environment variables (ENV = dev, test, uat, stag, or prod)
     export taito_target_env=ENV
     . taito-config.sh
 
@@ -118,14 +118,14 @@ If you want to setup the application environments or run CI/CD steps without Tai
 
 3) **Create and run CI/CD trigger:** CI/CD script is located on the project root directory. Use either `taitounited/taito-cli:ci-${taito_provider}` or your own custom image as docker image for the CI/CD.
 
-4) **Optional:** If your project requires additional cloud resources set by terraform, run the terraform scripts:
+4) **Optional:** If your project requires additional cloud resources set by terraform (e.g. storage buckets), run the terraform scripts:
 
     > NOTE: Add `taito-terraform-config.sh` to project root directory, if the file does not exist yet (TODO: example).
 
     > NOTE: Google Cloud scripts (gcp) assume that a google cloud project defined by `taito_resource_namespace` and `taito_resource_namespace_id` environment variables already exist, since the same GCP project is usually shared among multiple taito projects.
 
     ```
-    # Export environment variables (ENV = dev, test, uat, stag, carary, or prod)
+    # Export environment variables (ENV = dev, test, uat, stag, or prod)
     export taito_target_env=ENV
     . taito-config.sh
 
