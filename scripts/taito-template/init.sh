@@ -72,18 +72,19 @@ function prune () {
 
     # Prune target from CI/CD scripts
     sed -i "/^action \"artifact:$name\"/,/^}$/d" .github/main.workflow
-    # TODO PRUNE .gitlab-ci.yml
-    # TODO PRUNE .travis.yml
-    # TODO PRUNE azure-pipelines.yml
-    sed -i "/:$name:/d" local-ci.sh
+    sed -i "/taito artifact prepare:$name/d" azure-pipelines.yml
+    sed -i "/taito artifact release:$name/d" azure-pipelines.yml
     sed -i "/- step: # $name prepare/,/$name-tester.docker/d" bitbucket-pipelines.yml
     sed -i "/- step: # $name release/,/taito artifact release:$name/d" bitbucket-pipelines.yml
     sed -i "/taito artifact prepare:$name/d" buildspec.yml
     sed -i "/taito artifact release:$name/d" buildspec.yml
-    sed -i "/REPO_NAME\\/$name:/d" cloudbuild.yaml
     sed -i "/^- id: artifact-prepare-$name\$/,/^$/d" cloudbuild.yaml
     sed -i "/^- id: artifact-release-$name\$/,/^$/d" cloudbuild.yaml
+    sed -i "/REPO_NAME\\/$name:/d" cloudbuild.yaml
+    # TODO PRUNE .gitlab-ci.yml
     # TODO PRUNE Jenkinsfile
+    sed -i "/:$name:/d" local-ci.sh
+    # TODO PRUNE .travis.yml
 
     if [[ $name == "client" ]]; then
       sed -i "s/ \\/uptimez / /" taito-config.sh

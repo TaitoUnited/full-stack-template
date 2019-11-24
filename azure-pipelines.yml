@@ -1,1 +1,62 @@
-# TODO execute the same steps that are defined in local-ci.sh
+# Instructions: https://aka.ms/yaml
+
+trigger:
+- dev
+- test
+- uat
+- stag
+- canary
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+resources:
+  containers:
+  - container: taito
+    image: ${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+    env:
+      taito_mode: ci
+      taito_image: ${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+      AZURE_CLIENT_ID: $(_AZURE_CLIENT_ID)
+      AZURE_CLIENT_SECRET: $(_AZURE_CLIENT_SECRET)
+
+jobs:
+- job: build
+  container: taito
+  steps:
+  - displayName: user-init
+    bash: |
+      # Azure creates a new user that we need to initialize
+      /taito-cli-deps/tools/user-init.sh
+
+  - displayName: prepare
+    bash: |
+      taito build prepare:$(Build.SourceBranchName) $(Build.SourceVersion)
+      taito artifact prepare:admin:$(Build.SourceBranchName) $(Build.SourceVersion)
+      taito artifact prepare:client:$(Build.SourceBranchName) $(Build.SourceVersion)
+      taito artifact prepare:graphql:$(Build.SourceBranchName) $(Build.SourceVersion)
+      taito artifact prepare:server:$(Build.SourceBranchName) $(Build.SourceVersion)
+      taito artifact prepare:worker:$(Build.SourceBranchName) $(Build.SourceVersion)
+      taito artifact prepare:www:$(Build.SourceBranchName) $(Build.SourceVersion)
+
+  - displayName: deploy
+    bash: |
+      taito db deploy:$(Build.SourceBranchName)
+      taito deployment deploy:$(Build.SourceBranchName) $(Build.SourceVersion)
+
+  - displayName: verify
+    bash: |
+      taito deployment wait:$(Build.SourceBranchName)
+      taito test:$(Build.SourceBranchName)
+      taito deployment verify:$(Build.SourceBranchName)
+
+  - displayName: release
+    bash: |
+      taito artifact release:admin:$(Build.SourceBranchName) $(Build.SourceVersion)
+      taito artifact release:client:$(Build.SourceBranchName) $(Build.SourceVersion)
+      taito artifact release:graphql:$(Build.SourceBranchName) $(Build.SourceVersion)
+      taito artifact release:server:$(Build.SourceBranchName) $(Build.SourceVersion)
+      taito artifact release:worker:$(Build.SourceBranchName) $(Build.SourceVersion)
+      taito artifact release:www:$(Build.SourceBranchName) $(Build.SourceVersion)
+      taito build release:$(Build.SourceBranchName)

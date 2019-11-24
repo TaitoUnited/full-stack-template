@@ -6,7 +6,7 @@
 # Project specific settings
 ##########################################################################
 
-# Environments: In the correct order (e.g. dev test stag canary prod)
+# Environments: In the correct order (e.g. dev test uat stag canary prod)
 taito_environments="${template_default_environments:?}"
 
 # Basic auth: Uncomment the line below to disable basic auth from ALL

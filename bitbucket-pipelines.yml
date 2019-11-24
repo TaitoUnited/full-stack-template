@@ -4,6 +4,7 @@
 # - Enable the custom section
 
 image:
+  # TODO: replace these on 'project create'?
   name: $template_default_taito_image
   username: $template_default_taito_image_username
   password: $template_default_taito_image_password
@@ -19,7 +20,7 @@ definitions:
 pipelines:
   branches:
     # TODO: support for feature/* (cancel build if not included in taito_environments)
-    '{dev,test,stag,canary,master}':
+    '{dev,test,uat,stag,canary,master}':
     # Prepare build
     - step:
         script:
