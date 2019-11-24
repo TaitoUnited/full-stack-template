@@ -53,10 +53,6 @@ services:
       - "./client:${DC_PATH}/service:delegated"
       - "./shared:${DC_PATH}/service/shared:delegated"
       - "${DC_PATH}/service/node_modules"
-    secrets:
-      # NOTE: Database connection is for tests only
-      - DATABASE_PASSWORD
-      - EXAMPLE_SECRET
     environment:
       DC_COMMAND: ${DC_COMMAND}
       HOST_UNAME: ${taito_host_uname}
@@ -70,6 +66,9 @@ services:
       DATABASE_HOST: full-stack-template-database
       DATABASE_NAME: ${db_database_name}
       DATABASE_USER: ${db_database_app_username}
+      # NOTE: Hardcoded secret env vars until windows issue has been resolved:
+      # https://github.com/docker/compose/issues/6585
+      DATABASE_PASSWORD: secret1234
 
   full-stack-template-graphql:
     container_name: full-stack-template-graphql
@@ -116,10 +115,6 @@ services:
       - "./server:${DC_PATH}/service:delegated"
       - "./shared:${DC_PATH}/service/shared:delegated"
       - "${DC_PATH}/service/node_modules"
-    secrets:
-      - DATABASE_PASSWORD
-      - S3_KEY_SECRET
-      - EXAMPLE_SECRET
     environment:
       DC_COMMAND: ${DC_COMMAND}
       HOST_UNAME: ${taito_host_uname}
@@ -146,6 +141,11 @@ services:
       S3_BUCKET: bucket
       S3_KEY_ID: minio
       S3_FORCE_PATH_STYLE: 'true'
+      # NOTE: Hardcoded secret env vars until windows issue has been resolved:
+      # https://github.com/docker/compose/issues/6585
+      DATABASE_PASSWORD: secret1234
+      S3_KEY_SECRET: secret1234
+      EXAMPLE_SECRET: secret1234
 
   full-stack-template-www:
     container_name: full-stack-template-www
@@ -205,12 +205,13 @@ services:
       - default
     ports:
       - "6000:5432"
-    secrets:
-      - DATABASE_PASSWORD
     environment:
       POSTGRES_DB: ${db_database_name}
       POSTGRES_USER: ${db_database_app_username}
-      POSTGRES_PASSWORD_FILE: /run/secrets/DATABASE_PASSWORD
+      # NOTE: Hardcoded secret env vars until windows issue has been resolved:
+      # https://github.com/docker/compose/issues/6585
+      # POSTGRES_PASSWORD_FILE: /run/secrets/DATABASE_PASSWORD
+      POSTGRES_PASSWORD: secret1234
     volumes:
       - "./database:/docker-entrypoint-initdb.d:delegated"
 
@@ -229,13 +230,15 @@ services:
       MINIO_ACCESS_KEY: minio
       MINIO_SECRET_KEY: ${taito_default_password}
 
-secrets:
-  DATABASE_PASSWORD:
-    file: ./secrets/${taito_env}/${db_database_app_secret}
-  S3_KEY_SECRET:
-    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-storage.secretKey
-  EXAMPLE_SECRET:
-    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-example.secret
+# NOTE: Hardcoded secret env vars until windows issue has been resolved:
+# https://github.com/docker/compose/issues/6585
+# secrets:
+#   DATABASE_PASSWORD:
+#     file: ./secrets/${taito_env}/${db_database_app_secret}
+#   S3_KEY_SECRET:
+#     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-storage.secretKey
+#   EXAMPLE_SECRET:
+#     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-example.secret
 
 networks:
   default:
