@@ -9,10 +9,16 @@ export const readFileSync = (path: string) => {
 };
 
 export const readSecretSync = (secret: string) => {
-  const value = readFileSync(`/run/secrets/${secret}`);
-  // tslint:disable-next-line
-  if (!value) console.warn(`WARNING: Failed to read secret ${secret}`);
-  return value;
+  if (process.env[secret]) {
+    return process.env[secret];
+  } else if (process.env[`${secret}_PARAM`]) {
+    // TODO: read secret from external secret store
+  } else {
+    const value = readFileSync(`/run/secrets/${secret}`);
+    // tslint:disable-next-line
+    if (!value) console.warn(`WARNING: Failed to read secret ${secret}`);
+    return value;
+  }
 };
 
 const config = {
