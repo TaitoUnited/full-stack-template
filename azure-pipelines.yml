@@ -18,6 +18,7 @@ resources:
     env:
       taito_mode: ci
       taito_image: ${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+      taito_ci_phases: $(_TAITO_CI_PHASES)
       AZURE_CLIENT_ID: $(_AZURE_CLIENT_ID)
       AZURE_CLIENT_SECRET: $(_AZURE_CLIENT_SECRET)
 
@@ -25,13 +26,17 @@ jobs:
 - job: build
   container: taito
   steps:
-  - displayName: user-init
-    bash: |
+
+  # init
+  - bash: |
       # Azure creates a new user that we need to initialize
       /taito-cli-deps/tools/user-init.sh
+      # TODO: Cancel other ongoing builds for ENV
+      # - taito deployment cancel:$(Build.SourceBranchName) TODO_CURRENT_BUILD_ID
+    displayName: init
 
-  - displayName: prepare
-    bash: |
+  # prepare
+  - bash: |
       taito build prepare:$(Build.SourceBranchName) $(Build.SourceVersion)
       taito artifact prepare:admin:$(Build.SourceBranchName) $(Build.SourceVersion)
       taito artifact prepare:client:$(Build.SourceBranchName) $(Build.SourceVersion)
@@ -39,20 +44,23 @@ jobs:
       taito artifact prepare:server:$(Build.SourceBranchName) $(Build.SourceVersion)
       taito artifact prepare:worker:$(Build.SourceBranchName) $(Build.SourceVersion)
       taito artifact prepare:www:$(Build.SourceBranchName) $(Build.SourceVersion)
+    displayName: prepare
 
-  - displayName: deploy
-    bash: |
+  # deploy
+  - bash: |
       taito db deploy:$(Build.SourceBranchName)
       taito deployment deploy:$(Build.SourceBranchName) $(Build.SourceVersion)
+    displayName: deploy
 
-  - displayName: verify
-    bash: |
+  # verify
+  - bash: |
       taito deployment wait:$(Build.SourceBranchName)
       taito test:$(Build.SourceBranchName)
       taito deployment verify:$(Build.SourceBranchName)
+    displayName: verify
 
-  - displayName: release
-    bash: |
+  # release
+  - bash: |
       taito artifact release:admin:$(Build.SourceBranchName) $(Build.SourceVersion)
       taito artifact release:client:$(Build.SourceBranchName) $(Build.SourceVersion)
       taito artifact release:graphql:$(Build.SourceBranchName) $(Build.SourceVersion)
@@ -60,3 +68,4 @@ jobs:
       taito artifact release:worker:$(Build.SourceBranchName) $(Build.SourceVersion)
       taito artifact release:www:$(Build.SourceBranchName) $(Build.SourceVersion)
       taito build release:$(Build.SourceBranchName)
+    displayName: release

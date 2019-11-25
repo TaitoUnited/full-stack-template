@@ -1,4 +1,4 @@
-# Without Taito CLI
+# Taitoless: without Taito CLI
 
 This file has been copied from [FULL-STACK-TEMPLATE](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/). Keep modifications minimal and improve the [original](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/blob/dev/TAITOLESS.md) instead. Project specific conventions are located in [README.md](README.md#conventions).
 
@@ -122,7 +122,9 @@ If you want to setup the application environments or run CI/CD steps without Tai
 
     > NOTE: Add `taito-terraform-config.sh` to project root directory, if the file does not exist yet (TODO: example).
 
-    > NOTE: Google Cloud scripts (gcp) assume that a google cloud project defined by `taito_resource_namespace` and `taito_resource_namespace_id` environment variables already exist, since the same GCP project is usually shared among multiple taito projects.
+    > NOTE: Azure scripts assume that a resource group defined by `taito_resource_namespace_id` environment variable already exists, since it is usually shared among multiple taito projects.
+
+    > NOTE: Google Cloud (gcp) scripts assume that a google cloud project defined by `taito_resource_namespace` and `taito_resource_namespace_id` environment variables already exists, since it is usually shared among multiple taito projects.
 
     ```
     # Export environment variables (ENV = dev, test, uat, stag, or prod)

@@ -29,7 +29,7 @@ case $taito_provider in
 
     # Set Azure specific storage url
     if [[ $taito_env != "local" ]] && [[ $storage_name ]]; then
-      taito_storage_url="https://portal.azure.com/#blade/Microsoft_Azure_Storage/ContainerMenuBlade/overview/storageAccountId/%2Fsubscriptions%2F${taito_provider_billing_account_id}%2FresourceGroups%2F${taito_zone}%2Fproviders%2FMicrosoft.Storage%2FstorageAccounts%2F${taito_zone//-/}/path/${storage_name}"
+      taito_storage_url="https://portal.azure.com/#blade/Microsoft_Azure_Storage/ContainerMenuBlade/overview/storageAccountId/%2Fsubscriptions%2F${taito_provider_billing_account_id}%2FresourceGroups%2F${taito_resource_namespace}%2Fproviders%2FMicrosoft.Storage%2FstorageAccounts%2F${taito_project//-/}${taito_env//-/}/path/${storage_name}"
     fi
     ;;
   aws)
@@ -121,7 +121,7 @@ case $taito_logging_provider in
     taito_logging_format=text
     link_urls="
       ${link_urls}
-      * logs:ENV=https://TODO Logs (:ENV)
+      * logs:ENV=https://portal.azure.com/#@jukkakeskiluopagmail.onmicrosoft.com/resource/subscriptions/${taito_provider_billing_account_id}/resourceGroups/${taito_zone}/analytics Logs (:ENV)
     "
     ;;
   aws)
@@ -163,7 +163,7 @@ case $taito_uptime_provider in
     "
     link_urls="
       ${link_urls}
-      * uptime[:ENV]=https://TODO Uptime monitoring (:ENV)
+      * uptime[:ENV]=https://portal.azure.com/#@jukkakeskiluopagmail.onmicrosoft.com/resource/subscriptions/${taito_provider_billing_account_id}/resourceGroups/${taito_zone}/alerts Uptime monitoring (:ENV)
     "
     ;;
   aws)
@@ -198,7 +198,7 @@ case $taito_ci_provider in
     "
     link_urls="
       ${link_urls}
-      * builds=https://TODO Build logs
+      * builds=https://dev.azure.com/${taito_ci_organization:-$taito_organization}/${taito_project}/_build Build logs
     "
     ;;
   aws)
