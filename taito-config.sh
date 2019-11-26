@@ -66,11 +66,13 @@ taito_host_dir="/projects/$taito_namespace"
 
 # Version control
 taito_vc_provider=${template_default_vc_provider:?}
+taito_vc_organization=${template_default_vc_organization:?}
 taito_vc_repository=$taito_project
 taito_vc_repository_url=${template_default_vc_url:?}/$taito_vc_repository
 
 # CI/CD
 taito_ci_provider=${template_default_ci_provider:?}
+taito_ci_organization=${template_default_ci_organization:-}
 taito_ci_image=${template_default_taito_image:-}
 
 # Container registry
@@ -96,6 +98,7 @@ taito_uptime_channels="${template_default_uptime_channels:-}"
 db_database_instance=${template_default_postgres:-}
 db_database_type=pg
 db_database_name=${taito_project//-/_}_${taito_env}
+db_database_username_suffix=${template_default_postgres_username_suffix:-}
 db_database_host="127.0.0.1"
 db_database_port=5001
 db_database_real_host="${template_default_postgres_host:-}"
@@ -178,6 +181,7 @@ case $taito_env in
     # Domain and resources
     taito_host="${template_default_host_prod:-}"
     db_database_real_host="${template_default_postgres_host_prod:-}"
+    db_database_username_suffix=${template_default_postgres_username_suffix_prod:-}
     db_database_ssl_enabled="${template_default_postgres_ssl_enabled_prod:-true}"
     db_database_proxy_ssl_enabled="${template_default_postgres_proxy_ssl_enabled_prod:-true}"
 
@@ -197,6 +201,7 @@ case $taito_env in
     taito_container_registry_provider=${template_default_container_registry_provider_prod:-}
     taito_container_registry=${template_default_container_registry_prod:-}/$taito_vc_repository
     taito_ci_provider=${template_default_ci_provider_prod:?}
+    taito_ci_organization=${template_default_ci_organization_prod:-}
     ci_exec_deploy=${template_default_ci_exec_deploy_prod:-true}
     ci_exec_release=true
 
@@ -221,6 +226,7 @@ case $taito_env in
     taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
     taito_host="${template_default_host_prod:-}"
     db_database_real_host="${template_default_postgres_host_prod:-}"
+    db_database_username_suffix=${template_default_postgres_username_suffix_prod:-}
     db_database_ssl_enabled="${template_default_postgres_ssl_enabled_prod:-true}"
     db_database_proxy_ssl_enabled="${template_default_postgres_proxy_ssl_enabled_prod:-true}"
 
@@ -233,6 +239,7 @@ case $taito_env in
     taito_container_registry_provider=${template_default_container_registry_provider_prod:-}
     taito_container_registry=${template_default_container_registry_prod:-}/$taito_vc_repository
     taito_ci_provider=${template_default_ci_provider_prod:?}
+    taito_ci_organization=${template_default_ci_organization_prod:-}
     ci_exec_deploy=${template_default_ci_exec_deploy_prod:-true}
 
     # shellcheck disable=SC1091
@@ -284,23 +291,23 @@ fi
 # ------ Database users ------
 
 # app user for application
-db_database_app_username="${db_database_name}_app"
+db_database_app_username="${db_database_name}_app${db_database_username_suffix}"
 db_database_app_secret="${db_database_name//_/-}-db-app.password"
 
 # mgr user for deploying database migrations (CI/CD)
 if [[ ${taito_env} != "local" ]]; then
-  db_database_mgr_username="$db_database_name"
+  db_database_mgr_username="${db_database_name}${db_database_username_suffix}"
   db_database_mgr_secret="${db_database_name//_/-}-db-mgr.password"
   :
 fi
 
 # default user for executing database operations
 # TODO: empty for prod/stag
-db_database_default_username="$db_database_name"
+db_database_default_username="${db_database_name}${db_database_username_suffix}"
 db_database_default_secret="${db_database_name//_/-}-db-mgr.password"
 
 # master user for creating and destroying databases
-db_database_master_username="${template_default_postgres_master_username:-}"
+db_database_master_username="${template_default_postgres_master_username:-}${db_database_username_suffix}"
 db_database_master_password_hint="${template_default_postgres_master_password_hint:-}"
 
 # ------ All environments config ------

@@ -102,10 +102,9 @@ sed -i "s/\${template_default_environments:?}/${template_default_environments}/g
 sed -i "s/\${template_default_organization:?}/${template_default_organization}/g" taito-config.sh
 sed -i "s/\${template_default_organization_abbr:?}/${template_default_organization_abbr}/g" taito-config.sh
 sed -i "s/\${template_default_vc_organization:?}/${template_default_vc_organization}/g" taito-config.sh
-sed -i "s/\${template_default_vc_organization:?}/${template_default_vc_organization}/g" taito-provider-config.sh
 sed -i "s|\${template_default_vc_url:?}|${template_default_vc_url}|g" taito-config.sh
-sed -i "s/\${template_default_sentry_organization:-}/${template_default_sentry_organization}/g" taito-config.sh
-sed -i "s/\${template_default_sentry_organization:-}/${template_default_sentry_organization}/g" taito-provider-config.sh
+sed -i "s/\${template_default_sentry_organization:-}/${template_default_sentry_organization:-$taito_organization}/g" taito-config.sh
+sed -i "s/\${template_default_sentry_organization:-}/${template_default_sentry_organization:-$taito_organization}/g" taito-provider-config.sh
 sed -i "s/\${template_default_domain:?}/${template_default_domain}/g" taito-config.sh
 sed -i "s/\${template_default_domain_prod:?}/${template_default_domain_prod}/g" taito-config.sh
 sed -i "s/\${template_default_domain_prod:?}/${template_default_domain_prod}/g" taito-env-prod-config.sh
@@ -139,6 +138,8 @@ sed -i "s/\${template_default_uptime_provider_org_id_prod:-}/${template_default_
 # CI/CD
 sed -i "s/\${template_default_ci_provider:?}/${template_default_ci_provider}/g" taito-config.sh
 sed -i "s/\${template_default_ci_provider_prod:?}/${template_default_ci_provider_prod}/g" taito-config.sh
+sed -i "s/\${template_default_ci_organization:-}/${template_default_ci_organization:-$taito_organization}/g" taito-config.sh
+sed -i "s/\${template_default_ci_organization_prod:-}/${template_default_ci_organization_prod:-$taito_organization}/g" taito-config.sh
 sed -i "s/\${template_default_vc_provider:?}/${template_default_vc_provider}/g" taito-config.sh
 sed -i "s/\${template_default_container_registry_provider:-}/${template_default_container_registry_provider}/g" taito-config.sh
 sed -i "s/\${template_default_container_registry_provider_prod:-}/${template_default_container_registry_provider_prod}/g" taito-config.sh
@@ -154,6 +155,8 @@ sed -i "s/\${template_default_kubernetes:-}/${template_default_kubernetes}/g" ta
 sed -i "s/\${template_default_postgres:-}/${template_default_postgres:-}/g" taito-config.sh
 sed -i "s/\${template_default_postgres_host:-}/${template_default_postgres_host:-}/g" taito-config.sh
 sed -i "s/\${template_default_postgres_host_prod:-}/${template_default_postgres_host_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_postgres_username_suffix:-}/${template_default_postgres_username_suffix:-}/g" taito-config.sh
+sed -i "s/\${template_default_postgres_username_suffix_prod:-}/${template_default_postgres_username_suffix_prod:-}/g" taito-config.sh
 sed -i "s/\${template_default_postgres_ssl_enabled:-true}/${template_default_postgres_ssl_enabled:-true}/g" taito-config.sh
 sed -i "s/\${template_default_postgres_ssl_enabled_prod:-true}/${template_default_postgres_ssl_enabled_prod:-true}/g" taito-config.sh
 sed -i "s/\${template_default_postgres_proxy_ssl_enabled:-true}/${template_default_postgres_proxy_ssl_enabled:-true}/g" taito-config.sh
@@ -165,6 +168,8 @@ sed -i "s/\${template_default_postgres_master_password_hint:-}/${template_defaul
 sed -i "s/\${template_default_mysql:-}/${template_default_mysql:-}/g" taito-config.sh
 sed -i "s/\${template_default_mysql_host:-}/${template_default_mysql_host:-}/g" taito-config.sh
 sed -i "s/\${template_default_mysql_host_prod:-}/${template_default_mysql_host_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_mysql_username_suffix:-}/${template_default_mysql_username_suffix:-}/g" taito-config.sh
+sed -i "s/\${template_default_mysql_username_suffix_prod:-}/${template_default_mysql_username_suffix_prod:-}/g" taito-config.sh
 sed -i "s/\${template_default_mysql_ssl_enabled:-true}/${template_default_mysql_ssl_enabled:-true}/g" taito-config.sh
 sed -i "s/\${template_default_mysql_ssl_enabled_prod:-true}/${template_default_mysql_ssl_enabled_prod:-true}/g" taito-config.sh
 sed -i "s/\${template_default_mysql_proxy_ssl_enabled:-true}/${template_default_mysql_proxy_ssl_enabled:-true}/g" taito-config.sh
