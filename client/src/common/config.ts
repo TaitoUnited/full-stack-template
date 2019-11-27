@@ -1,6 +1,23 @@
-type APP_ENV = 'local' | 'feat' | 'dev' | 'test' | 'stag' | 'canary' | 'prod';
+type APP_ENV =
+  | 'local'
+  | 'feat'
+  | 'dev'
+  | 'test'
+  | 'uat'
+  | 'stag'
+  | 'canary'
+  | 'prod';
 
-const envs = ['localhost', 'feat', 'dev', 'test', 'stag', 'canary', 'prod'];
+const envs = [
+  'localhost',
+  'feat',
+  'dev',
+  'test',
+  'uat',
+  'stag',
+  'canary',
+  'prod',
+];
 const subdomainSplit = window.location.hostname.split('.')[0].split('-');
 const envSuffix = subdomainSplit[subdomainSplit.length - 1];
 const currentEnv = envs.includes(envSuffix) ? envSuffix : 'prod';

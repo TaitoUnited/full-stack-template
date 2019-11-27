@@ -134,7 +134,7 @@ Cleaning:
     taito clean:npm                         # Delete node_modules directories
     taito clean                             # Clean everything
 
-The commands mentioned above work also for server environments (`f-NAME`, `dev`, `test`, `stag`, `canary`, `prod`). Some examples for dev environment:
+The commands mentioned above work also for server environments (`f-NAME`, `dev`, `test`, `uat`, `stag`, `canary`, `prod`). Some examples for dev environment:
 
     taito auth:dev                          # Authenticate to dev
     taito env apply:dev                     # Create the dev environment
@@ -239,6 +239,7 @@ Container images are built for dev and feature branches only. Once built and tes
 * **f-NAME**: Push to the `feature/NAME` branch.
 * **dev**: Push to the `dev` branch.
 * **test**: Merge changes to the `test` branch using fast-forward.
+* **uat**: Merge changes to the `uat` branch using fast-forward.
 * **stag**: Merge changes to the `stag` branch using fast-forward.
 * **canary**: Merge changes to the `canary` branch using fast-forward. NOTE: Canary environment uses production resources (database, storage, 3rd party services) so be careful with database migrations.
 * **prod**: Merge changes to the `master` branch using fast-forward. Version number and release notes are generated automatically by the CI/CD tool.

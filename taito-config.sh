@@ -124,7 +124,7 @@ taito_default_password=secret1234
 # NOTE: Most of these should be enabled for dev and feat branches only.
 # That is, container image is built and tested on dev environment first.
 # After that the same container image will be deployed to other environments:
-# dev -> test -> stag -> canary -> prod
+# dev -> test -> uat -> stag -> canary -> prod
 ci_exec_build=false        # build container image if it does not exist already
 ci_exec_deploy=${template_default_ci_exec_deploy:-true}        # deploy automatically
 ci_exec_test=false         # execute test suites after deploy

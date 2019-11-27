@@ -75,7 +75,7 @@ The client GUI uses [Material-UI](https://material-ui-next.com/) component libra
 
 You can create the other environments just like you did the dev environment. However, you don't need to write down the basic auth credentials anymore, since you can reuse the same credentials as in dev environment.
 
-Project environments are configured in `taito-project-config.sh` with the `taito_environments` setting. Examples for environment names: `f-orders`, `dev`, `test`, `stag`, `canary`, `prod`.
+Project environments are configured in `taito-project-config.sh` with the `taito_environments` setting. Examples for environment names: `f-orders`, `dev`, `test`, `uat`, `stag`, `canary`, `prod`.
 
 See [remote environments](https://taitounited.github.io/taito-cli/tutorial/05-remote-environments) chapter of Taito CLI tutorial for more thorough instructions.
 
