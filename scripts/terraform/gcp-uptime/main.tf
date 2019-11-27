@@ -21,13 +21,13 @@ locals {
 module "gcp-uptime" {
   source = "github.com/TaitoUnited/taito-terraform-modules//projects/gcp-uptime"
 
-  taito_project             = var.taito_project
-  taito_env                 = var.taito_env
-  taito_domain              = var.taito_domain
-  taito_uptime_namespace_id = var.taito_uptime_namespace_id
+  project             = var.taito_project
+  env                 = var.taito_env
+  domain              = var.taito_domain
+  uptime_namespace_id = var.taito_uptime_namespace_id
 
-  taito_uptime_targets      = local.taito_uptime_targets
-  taito_uptime_paths        = local.taito_uptime_paths
-  taito_uptime_timeouts     = local.taito_uptime_timeouts
-  taito_uptime_channels     = local.taito_uptime_channels
+  uptime_targets      = local.taito_uptime_targets
+  uptime_paths        = local.taito_uptime_paths
+  uptime_timeouts     = local.taito_uptime_timeouts
+  uptime_channels     = local.taito_uptime_channels
 }

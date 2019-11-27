@@ -23,20 +23,20 @@ locals {
 module "aws" {
   source = "github.com/TaitoUnited/taito-terraform-modules//projects/aws"
 
-  taito_env                         = var.taito_env
-  taito_domain                      = var.taito_domain
-  taito_project                     = var.taito_project
-  taito_provider_region             = var.taito_provider_region
-  taito_organization                = var.taito_organization
-  taito_vc_repository               = var.taito_vc_repository
-  taito_provider_user_profile       = var.taito_provider_user_profile
+  env                         = var.taito_env
+  domain                      = var.taito_domain
+  project                     = var.taito_project
+  organization                = var.taito_organization
+  vc_repository               = var.taito_vc_repository
+  cloud_provider_region       = var.taito_provider_region
+  cloud_provider_user_profile = var.taito_provider_user_profile
 
-  taito_targets                     = local.taito_targets
-  taito_container_targets           = local.taito_container_targets
-  taito_container_registry_provider = var.taito_container_registry_provider
+  targets                     = local.taito_targets
+  container_targets           = local.taito_container_targets
+  container_registry_provider = var.taito_container_registry_provider
 
-  taito_storages                    = local.taito_storages
-  taito_storage_locations           = local.taito_storage_locations
-  taito_storage_classes             = local.taito_storage_classes
-  taito_storage_days                = local.taito_storage_days
+  storages                    = local.taito_storages
+  storage_locations           = local.taito_storage_locations
+  storage_classes             = local.taito_storage_classes
+  storage_days                = local.taito_storage_days
 }

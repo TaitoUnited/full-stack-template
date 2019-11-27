@@ -23,26 +23,27 @@ locals {
 module "gcp" {
   source = "github.com/TaitoUnited/taito-terraform-modules//projects/gcp"
 
-  taito_project               = var.taito_project
-  taito_env                   = var.taito_env
-  taito_domain                = var.taito_domain
-  taito_zone                  = var.taito_zone
-  taito_namespace             = var.taito_namespace
-  taito_resource_namespace    = var.taito_resource_namespace
-  taito_resource_namespace_id = var.taito_resource_namespace_id
-  taito_provider              = var.taito_provider
-  taito_provider_region       = var.taito_provider_region
-  taito_provider_zone         = var.taito_provider_zone
-  taito_organization          = var.taito_organization
-  taito_organization_abbr     = var.taito_organization_abbr
+  project               = var.taito_project
+  env                   = var.taito_env
+  domain                = var.taito_domain
+  zone                  = var.taito_zone
+  namespace             = var.taito_namespace
+  resource_namespace    = var.taito_resource_namespace
+  resource_namespace_id = var.taito_resource_namespace_id
+  organization          = var.taito_organization
+  organization_abbr     = var.taito_organization_abbr
 
-  taito_storages              = local.taito_storages
-  taito_storage_locations     = local.taito_storage_locations
-  taito_storage_classes       = local.taito_storage_classes
-  taito_storage_days          = local.taito_storage_days
+  cloud_provider        = var.taito_provider
+  cloud_provider_region = var.taito_provider_region
+  cloud_provider_zone   = var.taito_provider_zone
 
-  taito_backup_locations      = local.taito_backup_locations
-  taito_backup_days           = local.taito_backup_days
+  storages              = local.taito_storages
+  storage_locations     = local.taito_storage_locations
+  storage_classes       = local.taito_storage_classes
+  storage_days          = local.taito_storage_days
+
+  backup_locations      = local.taito_backup_locations
+  backup_days           = local.taito_backup_days
 
   gcp_service_account_enabled = var.gcp_service_account_enabled
 }
