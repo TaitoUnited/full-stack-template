@@ -165,6 +165,7 @@ function prune () {
       sed -i '/storage/d' ./server/src/server.ts &> /dev/null || :
       sed -i '/storage/d' ./server/src/common/types.ts &> /dev/null || :
       sed -i '/storage/d' ./server/src/infra/InfraRouter.ts &> /dev/null || :
+      sed -i '/storage/d' ./server/src/types/koa.d.ts &> /dev/null || :
       rm -f ./server/src/common/storage.ts &> /dev/null || :
     fi
 
