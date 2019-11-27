@@ -258,6 +258,7 @@ case $taito_env in
     db_database_port=5432
     db_database_ssl_enabled=false
     db_database_proxy_ssl_enabled=false
+    db_database_username_suffix=
     # shellcheck disable=SC1091
     if [[ -f taito-env-local-config.sh ]]; then . taito-env-local-config.sh; fi
     ;;
