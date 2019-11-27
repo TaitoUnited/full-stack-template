@@ -65,3 +65,14 @@ test_admin_CYPRESS_baseUrlHack=$test_admin_CYPRESS_baseUrl
 test_admin_CYPRESS_baseUrl=https://www.google.com
 test_client_CYPRESS_baseUrlHack=$test_client_CYPRESS_baseUrl
 test_client_CYPRESS_baseUrl=https://www.google.com
+
+# CI/CD tests disabled on Azure
+if [[ ${taito_provider} == "azure" ]] &&
+   [[ ${ci_exec_test} == "true" ]] &&
+   [[ ${taito_target_env} != "local" ]]
+then
+  echo
+  echo "CI/CD tests disabled for Azure."
+  echo "TODO: Implement passing azure secrets to docker-compose-test.yaml db proxy."
+  echo
+fi
