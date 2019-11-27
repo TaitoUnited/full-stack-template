@@ -18,9 +18,9 @@ resources:
     env:
       taito_mode: ci
       taito_image: ${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-      taito_ci_phases: $(_TAITO_CI_PHASES)
-      AZURE_CLIENT_ID: $(_AZURE_CLIENT_ID)
-      AZURE_CLIENT_SECRET: $(_AZURE_CLIENT_SECRET)
+      taito_ci_phases: $(TAITO_CI_PHASES)
+      AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+      AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
 
 jobs:
 - job: build

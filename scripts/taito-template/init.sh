@@ -170,7 +170,10 @@ function prune () {
 
     rm -rf "$name"
   else
-    if [[ $name == "storage" ]] && [[ ${taito_provider} == "aws" ]]; then
+    if [[ $name == "storage" ]] && (
+         [[ ${taito_provider:?} == "azure" ]] ||
+         [[ ${taito_provider} == "aws" ]]
+       ); then
       # Define access key and secret key for AWS (not using minio as proxy)
       sed -i '/storage.accessKeyId/d' taito-project-config.sh
       sed -i '/storage.secretKey/d' taito-project-config.sh
@@ -179,9 +182,15 @@ function prune () {
       sed -i '/^taito_local_secrets=/a\  $taito_project-$taito_env-storage.secretKey:random' taito-project-config.sh
       sed -i '/^taito_local_secrets=/a\  $taito_project-$taito_env-storage.accessKeyId:random' taito-project-config.sh
 
-      # Remove minio proxy
-      sed -i "/^    storage:\$/,/^$/d" ./scripts/helm.yaml
-      sed -i '/S3_URL/d' ./scripts/helm.yaml
+      if [[ ${taito_provider} == "azure" ]]; then
+        # Use minio as azure gateway instead of gcs gateway
+        sed -i 's/- gcs/- azure/' scripts/helm.yaml
+        sed -i '/- ${taito_resource_namespace}/d' scripts/helm.yaml
+      elif [[ ${taito_provider} == "aws" ]]; then
+        # Remove minio proxy
+        sed -i "/^    storage:\$/,/^$/d" ./scripts/helm.yaml
+        sed -i '/S3_URL/d' ./scripts/helm.yaml
+      fi
     fi
     if [[ $name == "kafka" ]]; then
       echo
