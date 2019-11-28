@@ -54,10 +54,24 @@ rm LICENSE
 ##########################
 
 if [[ -f docker-compose-test.yaml ]] && \
+   [[ $template_default_provider != "azure" ]] && \
+   [[ $template_default_provider_prod != "azure" ]]
+then
+  sed -i '/AZURE_/d' docker-compose-test.yaml
+fi
+
+if [[ -f docker-compose-test.yaml ]] && \
    [[ $template_default_provider != "aws" ]] && \
    [[ $template_default_provider_prod != "aws" ]]
 then
   sed -i '/AWS_/d' docker-compose-test.yaml
+fi
+
+if [[ -f docker-compose-test.yaml ]] && \
+   [[ $template_default_provider != "do" ]] && \
+   [[ $template_default_provider_prod != "do" ]]
+then
+  sed -i '/DO_/d' docker-compose-test.yaml
 fi
 
 if [[ -f docker-compose-test.yaml ]] && \
