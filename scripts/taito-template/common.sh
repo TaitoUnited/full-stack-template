@@ -2,32 +2,23 @@
 # Common logic for full-stack-template, website-template, wordpress-template,
 # and minimal-template.
 
-: "${taito_organization:?}"
 : "${taito_company:?}"
 : "${taito_vc_repository:?}"
 : "${taito_vc_repository_alt:?}"
-
-: "${template_default_taito_image:?}"
-: "${template_default_environments:?}"
-: "${template_default_organization:?}"
-: "${template_default_organization_abbr:?}"
-: "${template_default_vc_organization:?}"
-: "${template_default_vc_url:?}"
-: "${template_default_domain:?}"
-: "${template_default_domain_prod:?}"
-: "${template_default_zone:?}"
-: "${template_default_zone_prod:?}"
-: "${template_default_vc_provider:?}"
-: "${template_default_ci_provider:?}"
-: "${template_default_ci_provider_prod:?}"
-: "${template_default_provider:?}"
-: "${template_default_provider_prod:?}"
-: "${template_default_source_git:?}"
-: "${template_default_dest_git:?}"
-: "${template_default_ci_exec_deploy:?}"
-: "${template_default_ci_exec_deploy_prod:?}"
-
 : "${template_project_path:?}"
+
+# Defaults
+template_default_organization=${template_default_organization:-myorganization}
+template_default_organization_abbr=${template_default_organization_abbr:-myorg}
+template_default_sentry_organization=${template_default_sentry_organization}
+template_default_ci_organization=${template_default_ci_organization:-$template_default_organization}
+template_default_vc_organization=${template_default_vc_organization:-$template_default_organization}
+template_default_vc_url=${template_default_vc_url:-github.com/$template_default_vc_organization}
+template_default_domain=${template_default_domain:-mydomain.com}
+template_default_domain_prod=${template_default_domain_prod:-$template_default_domain}
+template_default_zone=${template_default_zone:-my-zone}
+template_default_zone_prod=${template_default_zone_prod:-$template_default_zone}
+template_default_environments=${template_default_environments:-dev prod}
 
 ${taito_setv:-}
 
@@ -102,110 +93,110 @@ echo "Setting random name: ${taito_random_name}"
 sed -i "s/^taito_random_name=.*$/taito_random_name=${taito_random_name}/" taito-config.sh
 
 echo "Replacing git repository url"
-sed -i "s|TaitoUnited/.*-template.git|${taito_organization}/${taito_vc_repository}.git|g" package.json
+sed -i "s|TaitoUnited/.*-template.git|${template_default_vc_organization}/${taito_vc_repository}.git|g" package.json
 
 echo "Replacing template variables with the given settings..."
 sed -i "s/taito_company=.*/taito_company=${taito_company}/g" taito-config.sh
-sed -i "s/taito_family=.*/taito_family=${taito_family:-}/g" taito-config.sh
-sed -i "s/taito_application=.*/taito_application=${taito_application:-}/g" taito-config.sh
-sed -i "s/taito_suffix=.*/taito_suffix=${taito_suffix:-}/g" taito-config.sh
+sed -i "s/taito_family=.*/taito_family=${taito_family}/g" taito-config.sh
+sed -i "s/taito_application=.*/taito_application=${taito_application}/g" taito-config.sh
+sed -i "s/taito_suffix=.*/taito_suffix=${taito_suffix}/g" taito-config.sh
 sed -i "s/taito_project=.*/taito_project=${taito_vc_repository}/g" taito-config.sh
 
 echo "Replacing template variables with the user specific settings..."
-sed -i "s/\${template_default_environments:?}/${template_default_environments}/g" taito-project-config.sh
-sed -i "s/\${template_default_organization:?}/${template_default_organization}/g" taito-config.sh
-sed -i "s/\${template_default_organization_abbr:?}/${template_default_organization_abbr}/g" taito-config.sh
-sed -i "s/\${template_default_vc_organization:?}/${template_default_vc_organization}/g" taito-config.sh
-sed -i "s|\${template_default_vc_url:?}|${template_default_vc_url}|g" taito-config.sh
-sed -i "s/\${template_default_sentry_organization:-}/${template_default_sentry_organization:-$taito_organization}/g" taito-config.sh
-sed -i "s/\${template_default_sentry_organization:-}/${template_default_sentry_organization:-$taito_organization}/g" taito-provider-config.sh
-sed -i "s/\${template_default_domain:?}/${template_default_domain}/g" taito-config.sh
-sed -i "s/\${template_default_domain_prod:?}/${template_default_domain_prod}/g" taito-config.sh
-sed -i "s/\${template_default_domain_prod:?}/${template_default_domain_prod}/g" taito-env-prod-config.sh
-sed -i "s/\${template_default_zone:?}/${template_default_zone}/g" taito-config.sh
-sed -i "s/\${template_default_zone_prod:?}/${template_default_zone_prod}/g" taito-config.sh
-sed -i "s/\${template_default_provider:?}/${template_default_provider}/g" taito-config.sh
-sed -i "s/\${template_default_provider_prod:?}/${template_default_provider_prod}/g" taito-config.sh
-sed -i "s/\${template_default_provider_org_id:-}/${template_default_provider_org_id}/g" taito-config.sh
-sed -i "s/\${template_default_provider_org_id_prod:-}/${template_default_provider_org_id_prod}/g" taito-config.sh
-sed -i "s/\${template_default_provider_billing_account_id:-}/${template_default_provider_billing_account_id}/g" taito-config.sh
-sed -i "s/\${template_default_provider_billing_account_id_prod:-}/${template_default_provider_billing_account_id_prod}/g" taito-config.sh
-sed -i "s/\${template_default_provider_region:-}/${template_default_provider_region}/g" taito-config.sh
-sed -i "s/\${template_default_provider_region_prod:-}/${template_default_provider_region_prod}/g" taito-config.sh
-sed -i "s/\${template_default_provider_zone:-}/${template_default_provider_zone}/g" taito-config.sh
-sed -i "s/\${template_default_provider_zone_prod:-}/${template_default_provider_zone_prod}/g" taito-config.sh
-sed -i "s|\${template_default_uptime_channels:-}|${template_default_uptime_channels}|g" taito-config.sh
-sed -i "s|\${template_default_uptime_channels_prod:-}|${template_default_uptime_channels_prod}|g" taito-config.sh
-sed -i "s/\${template_default_source_git:?}/${template_default_source_git}/g" taito-config.sh
-sed -i "s/\${template_default_dest_git:?}/${template_default_dest_git}/g" taito-config.sh
+sed -i "s/\${template_default_environments}/${template_default_environments}/g" taito-project-config.sh
+sed -i "s/\${template_default_organization}/${template_default_organization}/g" taito-config.sh
+sed -i "s/\${template_default_organization_abbr}/${template_default_organization_abbr:-}/g" taito-config.sh
+sed -i "s/\${template_default_vc_organization}/${template_default_vc_organization:-}/g" taito-config.sh
+sed -i "s|\${template_default_vc_url:?}|${template_default_vc_url:-}|g" taito-config.sh
+sed -i "s/\${template_default_sentry_organization}/${template_default_sentry_organization:-}/g" taito-config.sh
+sed -i "s/\${template_default_sentry_organization}/${template_default_sentry_organization:-}/g" taito-provider-config.sh
+sed -i "s/\${template_default_domain}/${template_default_domain:-}/g" taito-config.sh
+sed -i "s/\${template_default_domain_prod}/${template_default_domain_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_domain_prod}/${template_default_domain_prod:-}/g" taito-env-prod-config.sh
+sed -i "s/\${template_default_zone}/${template_default_zone:-}/g" taito-config.sh
+sed -i "s/\${template_default_zone_prod}/${template_default_zone_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_provider}/${template_default_provider}/g" taito-config.sh
+sed -i "s/\${template_default_provider_prod}/${template_default_provider_prod}/g" taito-config.sh
+sed -i "s/\${template_default_provider_org_id}/${template_default_provider_org_id:-}/g" taito-config.sh
+sed -i "s/\${template_default_provider_org_id_prod}/${template_default_provider_org_id_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_provider_billing_account_id}/${template_default_provider_billing_account_id:-}/g" taito-config.sh
+sed -i "s/\${template_default_provider_billing_account_id_prod}/${template_default_provider_billing_account_id_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_provider_region}/${template_default_provider_region:-}/g" taito-config.sh
+sed -i "s/\${template_default_provider_region_prod}/${template_default_provider_region_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_provider_zone}/${template_default_provider_zone:-}/g" taito-config.sh
+sed -i "s/\${template_default_provider_zone_prod}/${template_default_provider_zone_prod:-}/g" taito-config.sh
+sed -i "s|\${template_default_uptime_channels:-}|${template_default_uptime_channels:-}|g" taito-config.sh
+sed -i "s|\${template_default_uptime_channels_prod:-}|${template_default_uptime_channels_prod:-}|g" taito-config.sh
+sed -i "s/\${template_default_source_git}/${template_default_source_git:-}/g" taito-config.sh
+sed -i "s/\${template_default_dest_git}/${template_default_dest_git:-}/g" taito-config.sh
 
 # Hosts
-sed -i "s/\${template_default_host:-}/${template_default_host:-}/g" taito-config.sh
-sed -i "s/\${template_default_host_prod:-}/${template_default_host_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_host}/${template_default_host:-}/g" taito-config.sh
+sed -i "s/\${template_default_host_prod}/${template_default_host_prod:-}/g" taito-config.sh
 
 # Misc providers
-sed -i "s/\${template_default_uptime_provider:-}/${template_default_uptime_provider:-}/g" taito-config.sh
-sed -i "s/\${template_default_uptime_provider_prod:-}/${template_default_uptime_provider_prod:-}/g" taito-config.sh
-sed -i "s/\${template_default_uptime_provider_org_id:-}/${template_default_uptime_provider_org_id:-}/g" taito-config.sh
-sed -i "s/\${template_default_uptime_provider_org_id_prod:-}/${template_default_uptime_provider_org_id_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_uptime_provider}/${template_default_uptime_provider:-}/g" taito-config.sh
+sed -i "s/\${template_default_uptime_provider_prod}/${template_default_uptime_provider_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_uptime_provider_org_id}/${template_default_uptime_provider_org_id:-}/g" taito-config.sh
+sed -i "s/\${template_default_uptime_provider_org_id_prod}/${template_default_uptime_provider_org_id_prod:-}/g" taito-config.sh
 
 # CI/CD
-sed -i "s/\${template_default_ci_provider:?}/${template_default_ci_provider}/g" taito-config.sh
-sed -i "s/\${template_default_ci_provider_prod:?}/${template_default_ci_provider_prod}/g" taito-config.sh
-sed -i "s/\${template_default_ci_organization:-}/${template_default_ci_organization:-$taito_organization}/g" taito-config.sh
-sed -i "s/\${template_default_ci_organization_prod:-}/${template_default_ci_organization_prod:-$taito_organization}/g" taito-config.sh
-sed -i "s/\${template_default_vc_provider:?}/${template_default_vc_provider}/g" taito-config.sh
-sed -i "s/\${template_default_container_registry_provider:-}/${template_default_container_registry_provider}/g" taito-config.sh
-sed -i "s/\${template_default_container_registry_provider_prod:-}/${template_default_container_registry_provider_prod}/g" taito-config.sh
-sed -i "s|\${template_default_container_registry:-}|${template_default_container_registry}|g" taito-config.sh
-sed -i "s|\${template_default_container_registry_prod:-}|${template_default_container_registry_prod}|g" taito-config.sh
-sed -i "s/\${template_default_ci_exec_deploy:-true}/${template_default_ci_exec_deploy}/g" taito-config.sh
-sed -i "s/\${template_default_ci_exec_deploy_prod:-true}/${template_default_ci_exec_deploy_prod}/g" taito-config.sh
+sed -i "s/\${template_default_ci_provider}/${template_default_ci_provider:-}/g" taito-config.sh
+sed -i "s/\${template_default_ci_provider_prod}/${template_default_ci_provider_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_ci_organization}/${template_default_ci_organization:-}/g" taito-config.sh
+sed -i "s/\${template_default_ci_organization_prod}/${template_default_ci_organization_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_vc_provider}/${template_default_vc_provider:-}/g" taito-config.sh
+sed -i "s/\${template_default_container_registry_provider}/${template_default_container_registry_provider:-}/g" taito-config.sh
+sed -i "s/\${template_default_container_registry_provider_prod}/${template_default_container_registry_provider_prod:-}/g" taito-config.sh
+sed -i "s|\${template_default_container_registry:-}|${template_default_container_registry:-}|g" taito-config.sh
+sed -i "s|\${template_default_container_registry_prod:-}|${template_default_container_registry_prod:-}|g" taito-config.sh
+sed -i "s/\${template_default_ci_exec_deploy:-true}/${template_default_ci_exec_deploy:-}/g" taito-config.sh
+sed -i "s/\${template_default_ci_exec_deploy_prod:-true}/${template_default_ci_exec_deploy_prod:-}/g" taito-config.sh
 
 # Kubernetes
-sed -i "s/\${template_default_kubernetes:-}/${template_default_kubernetes}/g" taito-config.sh
+sed -i "s/\${template_default_kubernetes}/${template_default_kubernetes:-}/g" taito-config.sh
 
 # Postgres
-sed -i "s/\${template_default_postgres:-}/${template_default_postgres:-}/g" taito-config.sh
-sed -i "s/\${template_default_postgres_host:-}/${template_default_postgres_host:-}/g" taito-config.sh
-sed -i "s/\${template_default_postgres_host_prod:-}/${template_default_postgres_host_prod:-}/g" taito-config.sh
-sed -i "s/\${template_default_postgres_username_suffix:-}/${template_default_postgres_username_suffix:-}/g" taito-config.sh
-sed -i "s/\${template_default_postgres_username_suffix_prod:-}/${template_default_postgres_username_suffix_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_postgres}/${template_default_postgres:-}/g" taito-config.sh
+sed -i "s/\${template_default_postgres_host}/${template_default_postgres_host:-}/g" taito-config.sh
+sed -i "s/\${template_default_postgres_host_prod}/${template_default_postgres_host_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_postgres_username_suffix}/${template_default_postgres_username_suffix:-}/g" taito-config.sh
+sed -i "s/\${template_default_postgres_username_suffix_prod}/${template_default_postgres_username_suffix_prod:-}/g" taito-config.sh
 sed -i "s/\${template_default_postgres_ssl_enabled:-true}/${template_default_postgres_ssl_enabled:-true}/g" taito-config.sh
 sed -i "s/\${template_default_postgres_ssl_enabled_prod:-true}/${template_default_postgres_ssl_enabled_prod:-true}/g" taito-config.sh
 sed -i "s/\${template_default_postgres_proxy_ssl_enabled:-true}/${template_default_postgres_proxy_ssl_enabled:-true}/g" taito-config.sh
 sed -i "s/\${template_default_postgres_proxy_ssl_enabled_prod:-true}/${template_default_postgres_proxy_ssl_enabled_prod:-true}/g" taito-config.sh
-sed -i "s/\${template_default_postgres_master_username:-}/${template_default_postgres_master_username:-}/g" taito-config.sh
-sed -i "s/\${template_default_postgres_master_password_hint:-}/${template_default_postgres_master_password_hint:-}/g" taito-config.sh
+sed -i "s/\${template_default_postgres_master_username}/${template_default_postgres_master_username:-}/g" taito-config.sh
+sed -i "s/\${template_default_postgres_master_password_hint}/${template_default_postgres_master_password_hint:-}/g" taito-config.sh
 
 # MySQL
-sed -i "s/\${template_default_mysql:-}/${template_default_mysql:-}/g" taito-config.sh
-sed -i "s/\${template_default_mysql_host:-}/${template_default_mysql_host:-}/g" taito-config.sh
-sed -i "s/\${template_default_mysql_host_prod:-}/${template_default_mysql_host_prod:-}/g" taito-config.sh
-sed -i "s/\${template_default_mysql_username_suffix:-}/${template_default_mysql_username_suffix:-}/g" taito-config.sh
-sed -i "s/\${template_default_mysql_username_suffix_prod:-}/${template_default_mysql_username_suffix_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_mysql}/${template_default_mysql:-}/g" taito-config.sh
+sed -i "s/\${template_default_mysql_host}/${template_default_mysql_host:-}/g" taito-config.sh
+sed -i "s/\${template_default_mysql_host_prod}/${template_default_mysql_host_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_mysql_username_suffix}/${template_default_mysql_username_suffix:-}/g" taito-config.sh
+sed -i "s/\${template_default_mysql_username_suffix_prod}/${template_default_mysql_username_suffix_prod:-}/g" taito-config.sh
 sed -i "s/\${template_default_mysql_ssl_enabled:-true}/${template_default_mysql_ssl_enabled:-true}/g" taito-config.sh
 sed -i "s/\${template_default_mysql_ssl_enabled_prod:-true}/${template_default_mysql_ssl_enabled_prod:-true}/g" taito-config.sh
 sed -i "s/\${template_default_mysql_proxy_ssl_enabled:-true}/${template_default_mysql_proxy_ssl_enabled:-true}/g" taito-config.sh
 sed -i "s/\${template_default_mysql_proxy_ssl_enabled_prod:-true}/${template_default_mysql_proxy_ssl_enabled_prod:-true}/g" taito-config.sh
-sed -i "s/\${template_default_mysql_master_username:-}/${template_default_mysql_master_username:-}/g" taito-config.sh
-sed -i "s/\${template_default_mysql_master_password_hint:-}/${template_default_mysql_master_password_hint:-}/g" taito-config.sh
+sed -i "s/\${template_default_mysql_master_username}/${template_default_mysql_master_username:-}/g" taito-config.sh
+sed -i "s/\${template_default_mysql_master_password_hint}/${template_default_mysql_master_password_hint:-}/g" taito-config.sh
 
 # Storage
-sed -i "s/\${template_default_storage_class:-}/${template_default_storage_class:-}/g" taito-config.sh
-sed -i "s/\${template_default_storage_class_prod:-}/${template_default_storage_class_prod:-}/g" taito-config.sh
-sed -i "s/\${template_default_storage_location:-}/${template_default_storage_location:-}/g" taito-config.sh
-sed -i "s/\${template_default_storage_location_prod:-}/${template_default_storage_location_prod:-}/g" taito-config.sh
-sed -i "s/\${template_default_storage_days:-}/${template_default_storage_days:-}/g" taito-config.sh
-sed -i "s/\${template_default_storage_days_prod:-}/${template_default_storage_days_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_storage_class}/${template_default_storage_class:-}/g" taito-config.sh
+sed -i "s/\${template_default_storage_class_prod}/${template_default_storage_class_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_storage_location}/${template_default_storage_location:-}/g" taito-config.sh
+sed -i "s/\${template_default_storage_location_prod}/${template_default_storage_location_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_storage_days}/${template_default_storage_days:-}/g" taito-config.sh
+sed -i "s/\${template_default_storage_days_prod}/${template_default_storage_days_prod:-}/g" taito-config.sh
 
 # Backups
-sed -i "s/\${template_default_backup_class:-}/${template_default_backup_class:-}/g" taito-config.sh
-sed -i "s/\${template_default_backup_class_prod:-}/${template_default_backup_class_prod:-}/g" taito-config.sh
-sed -i "s/\${template_default_backup_location:-}/${template_default_backup_location:-}/g" taito-config.sh
-sed -i "s/\${template_default_backup_location_prod:-}/${template_default_backup_location_prod:-}/g" taito-config.sh
-sed -i "s/\${template_default_backup_days:-}/${template_default_backup_days:-}/g" taito-config.sh
-sed -i "s/\${template_default_backup_days_prod:-}/${template_default_backup_days_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_backup_class}/${template_default_backup_class:-}/g" taito-config.sh
+sed -i "s/\${template_default_backup_class_prod}/${template_default_backup_class_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_backup_location}/${template_default_backup_location:-}/g" taito-config.sh
+sed -i "s/\${template_default_backup_location_prod}/${template_default_backup_location_prod:-}/g" taito-config.sh
+sed -i "s/\${template_default_backup_days}/${template_default_backup_days:-}/g" taito-config.sh
+sed -i "s/\${template_default_backup_days_prod}/${template_default_backup_days_prod:-}/g" taito-config.sh
 
 if [[ -f docker-compose-test.yaml ]]; then
   echo "Removing template settings from docker-compose-test.yaml..."
@@ -220,7 +211,7 @@ echo "Initializing CI/CD: $ci"
 
 # Remove extra template stuff from CI/CD scripts
 rm -rf cloudbuild-template.yaml
-sed -i "s|\${_TEMPLATE_DEFAULT_TAITO_IMAGE}|${template_default_taito_image}|g" cloudbuild.yaml
+sed -i "s|\${_TEMPLATE_DEFAULT_TAITO_IMAGE}|${template_default_taito_image:-}|g" cloudbuild.yaml
 sed -i "s|_IMAGE_REGISTRY: eu.gcr.io/\$PROJECT_ID|_IMAGE_REGISTRY: ${template_default_container_registry}|" cloudbuild.yaml
 sed -i "s|\${_TEMPLATE_DEFAULT_TAITO_IMAGE}|${template_default_taito_image}|g" azure-pipelines.yml
 

@@ -228,7 +228,7 @@ case $taito_ci_provider in
     "
     link_urls="
       ${link_urls}
-      * builds[:ENV]=https://console.cloud.google.com/cloud-build/builds?project=$taito_zone&query=source.repo_source.repo_name%3D%22github_${taito_vc_organization:?}_$taito_vc_repository%22 Build logs
+      * builds[:ENV]=https://console.cloud.google.com/cloud-build/builds?project=$taito_zone&query=source.repo_source.repo_name%3D%22github_${taito_vc_organization}_$taito_vc_repository%22 Build logs
     "
     ;;
   local)
@@ -326,9 +326,9 @@ fi
 
 # Sentry
 if [[ $taito_plugins == *"sentry"* ]]; then
-  sentry_organization=${template_default_sentry_organization:-}
+  sentry_organization=${template_default_sentry_organization}
   link_urls="
     ${link_urls}
-    * errors:ENV=https://sentry.io/${template_default_sentry_organization:-}/$taito_project/?query=is%3Aunresolved+environment%3A$taito_target_env Sentry errors (:ENV)
+    * errors:ENV=https://sentry.io/${template_default_sentry_organization}/$taito_project/?query=is%3Aunresolved+environment%3A$taito_target_env Sentry errors (:ENV)
   "
 fi

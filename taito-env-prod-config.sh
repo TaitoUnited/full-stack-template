@@ -11,16 +11,16 @@ taito_basic_auth_enabled=true
 
 # Domain name (e.g. www.mydomain.com)
 taito_domain=
-taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?} # TEMPLATE-REMOVE
+taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod} # TEMPLATE-REMOVE
 
 # Alternate domain name (e.g. mydomain.com) that redirects to main domain
 taito_altdomain=
 
 # Default domain name (copy this value to taito_domain if custom domain is not required)
-taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
+taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_prod}
 
 # Canary environment domain name
 if [[ $taito_target_env == "canary" ]]; then
-  taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
-  taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_prod:?}
+  taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod}
+  taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_prod}
 fi
