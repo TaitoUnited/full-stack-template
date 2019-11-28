@@ -310,7 +310,9 @@ esac
 
 # Deployment platforms
 
-if [[ ${taito_deployment_platforms} == *"kubernetes"* ]]; then
+if [[ ${taito_deployment_platforms} == *"kubernetes"* ]] &&
+   [[ ${kubernetes_name:-} ]]
+then
   taito_plugins="
     kubectl helm
     ${taito_plugins}
