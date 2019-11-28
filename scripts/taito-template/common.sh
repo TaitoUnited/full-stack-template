@@ -14,6 +14,7 @@ template_default_sentry_organization=${template_default_sentry_organization}
 template_default_ci_organization=${template_default_ci_organization:-$template_default_organization}
 template_default_vc_organization=${template_default_vc_organization:-$template_default_organization}
 template_default_vc_url=${template_default_vc_url:-github.com/$template_default_vc_organization}
+template_default_vc_provider=${template_default_vc_provider:-github}
 template_default_domain=${template_default_domain:-mydomain.com}
 template_default_domain_prod=${template_default_domain_prod:-$template_default_domain}
 template_default_zone=${template_default_zone:-my-zone}
