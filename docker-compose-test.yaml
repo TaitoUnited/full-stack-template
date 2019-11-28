@@ -140,8 +140,11 @@ services:
   #     - ".:/project:delegated"
   #   environment:
   #     taito_docker: "true"
+  #     AZURE_CLIENT_ID: ${AZURE_CLIENT_ID}
+  #     AZURE_CLIENT_SECRET: ${AZURE_CLIENT_SECRET}
   #     AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
   #     AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+  #     DO_API_KEY: ${DO_API_KEY}
   #     GOOGLE_APPLICATION_CREDENTIALS: ${taito_proxy_credentials_file}
 
 secrets:

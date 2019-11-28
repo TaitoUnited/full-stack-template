@@ -248,6 +248,7 @@ fi
 # azure
 if [[ $ci != "azure" ]] && [[ $template_default_ci_provider_prod != "azure" ]]; then
   rm -f azure-pipelines.yml
+  sed -i "/^# Tests disabled on Azure DevOps\$/,/^$/d" taito-testing-config.sh
 fi
 
 # bitbucket
