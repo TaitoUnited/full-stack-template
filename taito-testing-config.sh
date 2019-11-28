@@ -67,7 +67,7 @@ test_client_CYPRESS_baseUrlHack=$test_client_CYPRESS_baseUrl
 test_client_CYPRESS_baseUrl=https://www.google.com
 
 # Tests disabled on Azure DevOps
-# For some reason Docker Compose volume mounts do not work on Azure DevOps
+# TODO: For some reason Docker Compose volume mounts and networks do not work
 if [[ ${taito_ci_provider} == "azure" ]] &&
    [[ ${ci_exec_test} == "true" ]] &&
    [[ ${taito_target_env} != "local" ]]
