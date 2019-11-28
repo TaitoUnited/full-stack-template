@@ -17,7 +17,7 @@
     "db-deploy": "npm run generate-db-classes",
     "generate-db-classes": "if [ ${taito_env} = 'local' ] && [ -f ./server/generate ]; then taito ${taito_options} exec:server ./generate; fi",
     "info:local": "yes | taito ${taito_options} secrets:${taito_env}",
-    "info": "yes | taito ${taito_options} secrets:${taito_env} | grep :\\{PLAIN\\} | sed -e 's|{PLAIN}| |'",
+    "info": "yes | taito ${taito_options} secrets:${taito_env} | grep ': '",
     "info_todo_comment": "TODO autoconfirm on taito secrets:prod",
     "lint": "echo Running lint locally && npm-run-all --parallel lint:admin lint:client lint:graphql lint:server lint:worker lint:www ",
     "lint:admin": "cd admin && npm run lint",
