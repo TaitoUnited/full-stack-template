@@ -29,7 +29,7 @@ test_all_DATABASE_HOST=$taito_project-database-proxy
 test_all_DATABASE_PORT=5432
 test_all_DATABASE_SSL_ENABLED=${db_database_proxy_ssl_enabled}
 test_all_DATABASE_NAME=$db_database_name
-test_all_DATABASE_USER=${db_database_name}_app
+test_all_DATABASE_USER=$db_database_app_username
 if [[ "$taito_target_env" == "local" ]]; then
   # On local env we connect directly to the local database
   test_all_DATABASE_HOST=$taito_project-database
