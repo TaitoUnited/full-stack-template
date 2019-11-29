@@ -17,6 +17,8 @@ const COPYRIGHT = 'Copyright ' + y + ' Taito United Oy - All rights reserved.';
 const OUTPUT_DIR = '../../build';
 const ASSETS_DIR = 'assets';
 const PWA_ICON_DIR = ASSETS_DIR + '/icon.png';
+// TODO: DOCKER_HOST contains the host ip? Use it instead of the hard coded ip
+const PUBLIC_HOST = process.env.DOCKER_HOST ? '192.168.99.100' : 'localhost';
 const PUBLIC_PORT = process.env.COMMON_PUBLIC_PORT;
 const DEV_PORT = 8080;
 const DEV_POLL =
@@ -240,7 +242,7 @@ module.exports = function(env, argv) {
       : {
           host: '0.0.0.0',
           port: DEV_PORT,
-          public: 'localhost:' + PUBLIC_PORT, // Fix HMR inside Docker container
+          public: `${PUBLIC_HOST}:${PUBLIC_PORT}`, // Fix HMR inside Docker container
           contentBase: [
             path.join(__dirname, 'assets')
           ],

@@ -31,6 +31,7 @@ services:
       - "${DC_PATH}/service/node_modules"
     environment:
       DC_COMMAND: ${DC_COMMAND}
+      DOCKER_HOST: ${DOCKER_HOST}
       HOST_OS: ${taito_host_os}
       HOST_UNAME: ${taito_host_uname}
       COMMON_COMPANY: companyname
@@ -56,6 +57,7 @@ services:
       - "${DC_PATH}/service/node_modules"
     environment:
       DC_COMMAND: ${DC_COMMAND}
+      DOCKER_HOST: ${DOCKER_HOST}
       HOST_OS: ${taito_host_os}
       HOST_UNAME: ${taito_host_uname}
       COMMON_COMPANY: companyname
