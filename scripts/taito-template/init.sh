@@ -37,21 +37,21 @@ function prune () {
     echo
     echo "  Removing ${name}..."
     if [[ $path ]]; then
-      sed -i "/^        location $path {\$/,/^        }$/d" docker-nginx.conf
+      sed -i "/^        location $path {\r*\$/,/^        }\r*$/d" docker-nginx.conf
     fi
     if [[ $path2 ]]; then
-      sed -i "/^        location $path2 {\$/,/^        }$/d" docker-nginx.conf
+      sed -i "/^        location $path2 {\r*\$/,/^        }\r*$/d" docker-nginx.conf
     fi
 
-    sed -i "/^  full-stack-template-$name:\$/,/^$/d" docker-compose.yaml
-    sed -i "/^  full-stack-template-$name:\$/,/^$/d" docker-compose-remote.yaml
-    sed -i "/^  # full-stack-template-$name:\$/,/^$/d" docker-compose.yaml
-    sed -i "/^  # full-stack-template-$name:\$/,/^$/d" docker-compose-remote.yaml
+    sed -i "/^  full-stack-template-$name:\r*\$/,/^\r*$/d" docker-compose.yaml
+    sed -i "/^  full-stack-template-$name:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
+    sed -i "/^  # full-stack-template-$name:\r*\$/,/^\r*$/d" docker-compose.yaml
+    sed -i "/^  # full-stack-template-$name:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
     if [[ -f docker-compose-test.yaml ]]; then
-      sed -i "/^  full-stack-template-$name-test:\$/,/^$/d" docker-compose-test.yaml
-      sed -i "/^  # full-stack-template-$name-test:\$/,/^$/d" docker-compose-test.yaml
+      sed -i "/^  full-stack-template-$name-test:\r*\$/,/^\r*$/d" docker-compose-test.yaml
+      sed -i "/^  # full-stack-template-$name-test:\r*\$/,/^\r*$/d" docker-compose-test.yaml
     fi
-    sed -i "/^    $name:\$/,/^$/d" ./scripts/helm.yaml
+    sed -i "/^    $name:\r*\$/,/^\r*$/d" ./scripts/helm.yaml
 
     sed -i "s/ $name / /" taito-config.sh
     sed -i "s/ $name / /" taito-project-config.sh
@@ -78,8 +78,8 @@ function prune () {
     sed -i "/- step: # $name release/,/taito artifact release:$name/d" bitbucket-pipelines.yml
     sed -i "/taito artifact prepare:$name/d" buildspec.yml
     sed -i "/taito artifact release:$name/d" buildspec.yml
-    sed -i "/^- id: artifact-prepare-$name\$/,/^$/d" cloudbuild.yaml
-    sed -i "/^- id: artifact-release-$name\$/,/^$/d" cloudbuild.yaml
+    sed -i "/^- id: artifact-prepare-$name\r*\$/,/^\r*$/d" cloudbuild.yaml
+    sed -i "/^- id: artifact-release-$name\r*\$/,/^\r*$/d" cloudbuild.yaml
     sed -i "/REPO_NAME\\/$name:/d" cloudbuild.yaml
     # TODO PRUNE .gitlab-ci.yml
     # TODO PRUNE Jenkinsfile
@@ -109,11 +109,11 @@ function prune () {
       # Remove also Zookeeper
       sed -i "s/ zookeeper / /" taito-config.sh
       sed -i "s/ zookeeper / /" taito-project-config.sh
-      sed -i "/^  full-stack-template-zookeeper:\$/,/^$/d" docker-compose.yaml
-      sed -i "/^  full-stack-template-zookeeper:\$/,/^$/d" docker-compose-remote.yaml
-      sed -i "/^  # full-stack-template-zookeeper:\$/,/^$/d" docker-compose.yaml
-      sed -i "/^  # full-stack-template-zookeeper:\$/,/^$/d" docker-compose-remote.yaml
-      sed -i "/^    zookeeper:\$/,/^$/d" ./scripts/helm.yaml
+      sed -i "/^  full-stack-template-zookeeper:\r*\$/,/^\r*$/d" docker-compose.yaml
+      sed -i "/^  full-stack-template-zookeeper:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
+      sed -i "/^  # full-stack-template-zookeeper:\r*\$/,/^\r*$/d" docker-compose.yaml
+      sed -i "/^  # full-stack-template-zookeeper:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
+      sed -i "/^    zookeeper:\r*\$/,/^\r*$/d" ./scripts/helm.yaml
     fi
 
     if [[ $name == "www" ]]; then
@@ -133,7 +133,7 @@ function prune () {
       sed -i '/db_/d' docker-compose.yaml
       sed -i '/db_/d' docker-compose-remote.yaml
       sed -i '/DATABASE_/d' ./scripts/helm.yaml
-      sed -i "/^      db:\$/,/^        proxySecret:.*$/d" ./scripts/helm.yaml
+      sed -i "/^      db:\r*\$/,/^\r*        proxySecret:.*$/d" ./scripts/helm.yaml
       rm -f docker-compose-test.yaml
 
       # Remove database from server implementation
@@ -191,7 +191,7 @@ function prune () {
         sed -i '/- ${taito_resource_namespace}/d' scripts/helm.yaml
       elif [[ ${taito_provider} == "aws" ]]; then
         # Remove minio proxy
-        sed -i "/^    storage:\$/,/^$/d" ./scripts/helm.yaml
+        sed -i "/^    storage:\r*\$/,/^\r*$/d" ./scripts/helm.yaml
         sed -i '/S3_URL/d' ./scripts/helm.yaml
       fi
     fi
@@ -202,13 +202,13 @@ function prune () {
       if [[ ${confirm} =~ ^[Yy]*$ ]]; then
         sed -i "s/KAFKA_HOST:.*$/KAFKA_HOST: kafka.kafka.svc.cluster.local/g" \
           ./scripts/helm.yaml
-        sed -i "/^    $name:\$/,/^$/d" ./scripts/helm.yaml
-        sed -i "/^    zookeeper:\$/,/^$/d" ./scripts/helm.yaml
+        sed -i "/^    $name:\r*\$/,/^\r*$/d" ./scripts/helm.yaml
+        sed -i "/^    zookeeper:\r*\$/,/^\r*$/d" ./scripts/helm.yaml
 
-        sed -i "/^  full-stack-template-kafka:\$/,/^$/d" docker-compose-remote.yaml
-        sed -i "/^  # full-stack-template-kafka:\$/,/^$/d" docker-compose-remote.yaml
-        sed -i "/^  full-stack-template-zookeeper:\$/,/^$/d" docker-compose-remote.yaml
-        sed -i "/^  # full-stack-template-zookeeper:\$/,/^$/d" docker-compose-remote.yaml
+        sed -i "/^  full-stack-template-kafka:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
+        sed -i "/^  # full-stack-template-kafka:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
+        sed -i "/^  full-stack-template-zookeeper:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
+        sed -i "/^  # full-stack-template-zookeeper:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
       fi
     fi
   fi
