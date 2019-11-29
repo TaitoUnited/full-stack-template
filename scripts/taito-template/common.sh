@@ -128,8 +128,8 @@ sed -i "s/\${template_default_provider_zone}/${template_default_provider_zone:-}
 sed -i "s/\${template_default_provider_zone_prod}/${template_default_provider_zone_prod:-}/g" taito-config.sh
 sed -i "s|\${template_default_uptime_channels}|${template_default_uptime_channels:-}|g" taito-config.sh
 sed -i "s|\${template_default_uptime_channels_prod}|${template_default_uptime_channels_prod:-}|g" taito-config.sh
-sed -i "s/\${template_default_source_git}/${template_default_source_git:-}/g" taito-config.sh
-sed -i "s/\${template_default_dest_git}/${template_default_dest_git:-}/g" taito-config.sh
+sed -i "s|\${template_default_source_git}|${template_default_source_git:-}|g" taito-config.sh
+sed -i "s|\${template_default_dest_git}|${template_default_dest_git:-}|g" taito-config.sh
 
 # Hosts
 sed -i "s/\${template_default_host}/${template_default_host:-}/g" taito-config.sh
