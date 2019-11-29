@@ -2,6 +2,7 @@
 SET taito_env="local"
 SET taito_project="full-stack-template"
 SET taito_host_uname="WINDOWS_NT"
+SET taito_host_os="windows"
 
 # Docker
 SET dockerfile="Dockerfile"
