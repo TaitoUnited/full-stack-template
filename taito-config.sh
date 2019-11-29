@@ -154,7 +154,7 @@ fi
 dockerfile=${dockerfile:-Dockerfile}
 
 # Mitigate slow docker volume mounts on Windows with rsync
-if [[ "${taito_host_uname}" == *"_NT"* ]] && [[ ! ${DOCKER_HOST} ]]; then
+if [[ "${taito_host_os:-}" == "windows" ]] && [[ ! ${DOCKER_HOST} ]]; then
   DC_PATH='/rsync'
   DC_COMMAND='sh -c \"cp -rf /rsync/service/. /service; (while true; do rsync -rtq /rsync/service/. /service; sleep 2; done) &\" '
 else
