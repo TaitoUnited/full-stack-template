@@ -31,6 +31,7 @@ services:
       - "${DC_PATH}/service/node_modules"
     environment:
       DC_COMMAND: ${DC_COMMAND}
+      HOST_OS: ${taito_host_os}
       HOST_UNAME: ${taito_host_uname}
       COMMON_COMPANY: companyname
       COMMON_PROJECT: full-stack-template
@@ -55,6 +56,7 @@ services:
       - "${DC_PATH}/service/node_modules"
     environment:
       DC_COMMAND: ${DC_COMMAND}
+      HOST_OS: ${taito_host_os}
       HOST_UNAME: ${taito_host_uname}
       COMMON_COMPANY: companyname
       COMMON_PROJECT: full-stack-template
@@ -86,6 +88,7 @@ services:
       - "${DC_PATH}/service/node_modules"
     environment:
       DC_COMMAND: ${DC_COMMAND}
+      HOST_OS: ${taito_host_os}
       HOST_UNAME: ${taito_host_uname}
       COMMON_COMPANY: companyname
       COMMON_PROJECT: full-stack-template
@@ -117,6 +120,7 @@ services:
       - "${DC_PATH}/service/node_modules"
     environment:
       DC_COMMAND: ${DC_COMMAND}
+      HOST_OS: ${taito_host_os}
       HOST_UNAME: ${taito_host_uname}
       COMMON_COMPANY: companyname
       COMMON_PROJECT: full-stack-template
@@ -166,6 +170,7 @@ services:
       # - "/service/site/node_modules"
     environment:
       DC_COMMAND: ${DC_COMMAND}
+      HOST_OS: ${taito_host_os}
       HOST_UNAME: ${taito_host_uname}
       COMMON_PUBLIC_PORT: 9999
 

@@ -16,7 +16,7 @@ const ICON_DIR = ASSETS_DIR + '/icon.png';
 const PUBLIC_PORT = process.env.COMMON_PUBLIC_PORT;
 const DEV_PORT = 8080;
 const DEV_POLL =
-  process.env.HOST_UNAME == 'Darwin'
+  process.env.HOST_OS == 'macos' || process.env.HOST_OS == 'windows'
     ? 2000
     : undefined;
 
