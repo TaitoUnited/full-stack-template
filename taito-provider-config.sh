@@ -252,6 +252,7 @@ case $taito_vc_provider in
       ${link_urls}
       * docs=https://$taito_vc_repository_url/wiki Project documentation
       * project=https://$taito_vc_repository_url/projects Project management
+      * releases=https://$taito_vc_repository_url/releases Releases
     "
 
     # GitHub buildbot token for tagging releases
