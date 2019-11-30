@@ -121,7 +121,7 @@ case $taito_logging_provider in
     taito_logging_format=text
     link_urls="
       ${link_urls}
-      * logs:ENV=https://portal.azure.com/#@jukkakeskiluopagmail.onmicrosoft.com/resource/subscriptions/${taito_provider_billing_account_id}/resourceGroups/${taito_zone}/analytics Logs (:ENV)
+      * logs:ENV=https://portal.azure.com/#@${taito_provider_org_id}/resource/subscriptions/${taito_provider_billing_account_id}/resourceGroups/${taito_zone}/analytics Logs (:ENV)
     "
     ;;
   aws)
@@ -163,7 +163,8 @@ case $taito_uptime_provider in
     "
     link_urls="
       ${link_urls}
-      * uptime[:ENV]=https://portal.azure.com/#@jukkakeskiluopagmail.onmicrosoft.com/resource/subscriptions/${taito_provider_billing_account_id}/resourceGroups/${taito_zone}/alerts Uptime monitoring (:ENV)
+      * alerts[:ENV]=https://portal.azure.com/#@${taito_provider_org_id}/resource/subscriptions/${taito_provider_billing_account_id}/resourceGroups/${taito_zone}/alerts Alerts (:ENV)
+      * uptime[:ENV]=https://portal.azure.com/#blade/AppInsightsExtension/AvailabilityCuratedFrameBlade/id/%2Fsubscriptions%2F${taito_provider_billing_account_id}%2FresourceGroups%2F${taito_zone}%2Fproviders%2FMicrosoft.Insights%2Fwebtests%2F${taito_project}-${taito_env}-client Uptime monitoring (:ENV)
     "
     ;;
   aws)
