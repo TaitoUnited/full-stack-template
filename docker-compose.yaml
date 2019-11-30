@@ -206,7 +206,7 @@ services:
 
   full-stack-template-database:
     container_name: full-stack-template-database
-    image: postgres:9.6
+    image: postgres:11
     restart: unless-stopped
     networks:
       - default
