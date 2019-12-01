@@ -9,6 +9,7 @@ substitutions:
   _REPO_NAME: full-stack-template
   _IMAGE_REGISTRY: eu.gcr.io/$PROJECT_ID
   _TAITO_CI_PHASES:
+  _VC_TOKEN:
 
 steps:
 
@@ -45,6 +46,7 @@ steps:
   env:
     - taito_mode=ci
     - taito_ci_phases=${_TAITO_CI_PHASES}
+    - VC_TOKEN=${_VC_TOKEN}
 
 # Build artifacts in parallel
 
@@ -178,3 +180,4 @@ steps:
   env:
     - taito_mode=ci
     - taito_ci_phases=${_TAITO_CI_PHASES}
+    - VC_TOKEN=${_VC_TOKEN}

@@ -38,13 +38,19 @@ jobs:
   # prepare
   - bash: |
       taito build prepare:$(Build.SourceBranchName) $(Build.SourceVersion)
+    displayName: prepare
+    env:
+      VC_TOKEN: $(VC_TOKEN)
+
+  # prepare artifacts
+  - bash: |
       taito artifact prepare:admin:$(Build.SourceBranchName) $(Build.SourceVersion)
       taito artifact prepare:client:$(Build.SourceBranchName) $(Build.SourceVersion)
       taito artifact prepare:graphql:$(Build.SourceBranchName) $(Build.SourceVersion)
       taito artifact prepare:server:$(Build.SourceBranchName) $(Build.SourceVersion)
       taito artifact prepare:worker:$(Build.SourceBranchName) $(Build.SourceVersion)
       taito artifact prepare:www:$(Build.SourceBranchName) $(Build.SourceVersion)
-    displayName: prepare
+    displayName: prepare artifacts
 
   # deploy
   - bash: |
@@ -59,7 +65,7 @@ jobs:
       taito deployment verify:$(Build.SourceBranchName)
     displayName: verify
 
-  # release
+  # release artifacts
   - bash: |
       taito artifact release:admin:$(Build.SourceBranchName) $(Build.SourceVersion)
       taito artifact release:client:$(Build.SourceBranchName) $(Build.SourceVersion)
@@ -67,5 +73,11 @@ jobs:
       taito artifact release:server:$(Build.SourceBranchName) $(Build.SourceVersion)
       taito artifact release:worker:$(Build.SourceBranchName) $(Build.SourceVersion)
       taito artifact release:www:$(Build.SourceBranchName) $(Build.SourceVersion)
+    displayName: release artifacts
+
+  # release
+  - bash: |
       taito build release:$(Build.SourceBranchName)
     displayName: release
+    env:
+      VC_TOKEN: $(VC_TOKEN)

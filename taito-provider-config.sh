@@ -256,11 +256,11 @@ case $taito_vc_provider in
       * releases=https://$taito_vc_repository_url/releases Releases
     "
 
-    # GitHub buildbot token for tagging releases
+    # Buildbot token for tagging releases
     if [[ $taito_plugins == *"semantic-release:$taito_env"* ]]; then
       taito_remote_secrets="
         $taito_remote_secrets
-        github-buildbot.token:read/devops
+        version-control-buildbot.token:read/devops
       "
     fi
     ;;
