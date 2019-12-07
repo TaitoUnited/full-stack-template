@@ -18,6 +18,33 @@ services:
       - path: /api/process
         readTimeout: 120
 
+  # TODO: More examples
+
+  # ----------------------------------------------------------
+  # Ingress networking rules
+  # ----------------------------------------------------------
+
+  # Server can be accessed by ingress (paths been set), and by some application
+  server:
+    paths:
+      - path: /api
+    ingress:
+      - app: some-application
+
+  # ----------------------------------------------------------
+  # Egress networking rules
+  # ----------------------------------------------------------
+
+  # Server allowed to access storage
+  server:
+    egress:
+      - fullname: ${taito_project}-${taito_env}-storage
+
+  # Storage allowed to access any public ip
+  storage:
+    egress:
+      - ip: public  # any, private, public, or CIDR (e.g. 216.58.207.227/32)
+
   # ----------------------------------------------------------
   # Resources
   # ----------------------------------------------------------
@@ -35,7 +62,7 @@ services:
 
   # CUSTOM HEALTH CHECK PATH AND INITIAL DELAY
   server:
-    livenessPath: /healthcheck
+    livenessPath: /healthcheck  # /healthz by default
     livenessInitialDelay: 120   # seconds
 
   # DISABLE HEALTH CHECKS (not recommended!)

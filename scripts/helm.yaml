@@ -12,6 +12,8 @@ global:
 full-stack:
   ingress:
     class: nginx
+    labels:
+      app: nginx-ingress
     oldRewritePolicy: false
     tls: true
     domains:
@@ -24,9 +26,13 @@ full-stack:
     # Path defaults
     basicAuthEnabled: ${taito_basic_auth_enabled}
     basicAuthHtpasswdSecret: ${taito_project}-${taito_env}-basic-auth
-    # Scaling
+    # Vertical scaling
+    verticalScaleUpdateMode: Off
+    # Horizontal scaling
     replicas: ${kubernetes_replicas}
     autoscale: false
+    autoscaleCpuPercentage: 70
+    autoscaleMemoryPercentage: 70
     minReplicas: ${kubernetes_replicas}
     maxReplicas: 5
     # Env
@@ -39,21 +45,18 @@ full-stack:
     admin:
       paths:
         - path: /admin
-      tier: frontend
       cpuRequest: 2m
       memoryRequest: 2Mi
 
     client:
       paths:
         - path:
-      tier: frontend
       cpuRequest: 2m
       memoryRequest: 2Mi
 
     graphql:
       paths:
         - path: /graphql
-      tier: backend
       env:
         GRAPHQL_PORT: '8080'
         GRAPHQL_BINDADDR: '0.0.0.0'
@@ -66,7 +69,6 @@ full-stack:
       image: bitnami/kafka:latest
       replicas: 1
       port: 9092
-      tier: backend
       livenessDisabled: true # TODO remove
       memoryRequest: 100Mi
       memoryLimit: 512Mi
@@ -80,7 +82,6 @@ full-stack:
       image: bitnami/zookeeper:latest
       replicas: 1
       port: 2181
-      tier: backend
       livenessDisabled: true # TODO remove
       memoryRequest: 100Mi
       memoryLimit: 512Mi
@@ -91,7 +92,6 @@ full-stack:
       image: redis:5.0-alpine
       replicas: 1
       port: 6379
-      tier: backend
       livenessDisabled: true # TODO remove
       memoryRequest: 10Mi
       # TODO: put back
@@ -101,7 +101,10 @@ full-stack:
     server:
       paths:
         - path: /api
-      tier: backend
+      egress:
+        - fullname: ${taito_project}-${taito_env}-kafka
+        - fullname: ${taito_project}-${taito_env}-redis
+        - fullname: ${taito_project}-${taito_env}-storage
       livenessInitialDelay: 120
       db:
         instance: ${taito_zone}:${taito_provider_region}:${db_database_instance}
@@ -142,9 +145,10 @@ full-stack:
       #       - date; echo Hello from server
 
     storage:
+      egress:
+        - ip: public
       image: minio/minio:RELEASE.2019-10-12T01-39-57Z
       port: 9000
-      tier: backend
       livenessPath: /minio/health/ready
       memoryRequest: 20Mi
       runAsUser: 2
@@ -169,7 +173,6 @@ full-stack:
     www:
       paths:
         - path: /docs
-      tier: frontend
       cpuRequest: 2m
       memoryRequest: 2Mi
       sidecar:

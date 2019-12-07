@@ -69,6 +69,7 @@ class I18nProvider extends React.Component<Props, State> {
   }
 }
 
+// TODO: common/ui components should not use state directly! -> move to src?
 export default connect((state: any) => ({
   language: state.settings.language,
 }))(I18nProvider);

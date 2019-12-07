@@ -81,15 +81,15 @@ full-stack:
     cpuLimit: 100m
     memoryRequest: 50Mi
     memoryLimit: 256Mi
-    # Scaling
+    # Vertical scaling
+    verticalScaleUpdateMode: Off
+    # Horizontal scaling
     replicas: 2
     autoscale: false
+    autoscaleCpuPercentage: 70
+    autoscaleMemoryPercentage: 70
     minReplicas: 2
     maxReplicas: 5
-    # TODO metrics:
-    # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
-    # TODO vertical autoscaling:
-    # https://cloud.google.com/kubernetes-engine/docs/how-to/vertical-pod-autoscaling
     # Sidecar
     sidecar:
     # Mounts
