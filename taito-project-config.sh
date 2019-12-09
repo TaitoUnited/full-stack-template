@@ -59,6 +59,9 @@ link_urls="
 taito_remote_secrets="
   $taito_project-$taito_env-basic-auth.auth:htpasswd-plain
   $taito_project-$taito_env-scheduler.secret:random
+  $db_database_instance-ssl.ca:read/devops
+  $db_database_instance-ssl.cert:read/devops
+  $db_database_instance-ssl.key:read/devops
 "
 taito_local_secrets="
 "
