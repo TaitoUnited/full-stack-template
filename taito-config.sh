@@ -104,6 +104,7 @@ db_database_port=5001
 db_database_real_host="${template_default_postgres_host}"
 db_database_real_port=5432
 db_database_ssl_enabled="${template_default_postgres_ssl_enabled:-true}"
+db_database_ssl_client_cert_enabled="${template_default_postgres_ssl_client_cert_enabled:-false}"
 db_database_proxy_ssl_enabled="${template_default_postgres_proxy_ssl_enabled:-true}"
 db_database_create=true
 
@@ -183,6 +184,7 @@ case $taito_env in
     db_database_real_host="${template_default_postgres_host_prod}"
     db_database_username_suffix=${template_default_postgres_username_suffix_prod}
     db_database_ssl_enabled="${template_default_postgres_ssl_enabled_prod:-true}"
+    db_database_ssl_client_cert_enabled="${template_default_postgres_ssl_client_cert_enabled_prod:-false}"
     db_database_proxy_ssl_enabled="${template_default_postgres_proxy_ssl_enabled_prod:-true}"
 
     # Storage
@@ -228,6 +230,7 @@ case $taito_env in
     db_database_real_host="${template_default_postgres_host_prod}"
     db_database_username_suffix=${template_default_postgres_username_suffix_prod}
     db_database_ssl_enabled="${template_default_postgres_ssl_enabled_prod:-true}"
+    db_database_ssl_client_cert_enabled="${template_default_postgres_ssl_client_cert_enabled_prod:-false}"
     db_database_proxy_ssl_enabled="${template_default_postgres_proxy_ssl_enabled_prod:-true}"
 
     # Monitoring
@@ -257,6 +260,7 @@ case $taito_env in
     db_database_host=$taito_project-database
     db_database_port=5432
     db_database_ssl_enabled=false
+    db_database_ssl_client_cert_enabled=false
     db_database_proxy_ssl_enabled=false
     db_database_username_suffix=
     # shellcheck disable=SC1091

@@ -24,7 +24,13 @@ services:
   # Ingress networking rules
   # ----------------------------------------------------------
 
-  # Server can be accessed by ingress (paths been set), and by some application
+  # External access through ingress running in nginx-ingress namespace
+  ingress:
+    class: nginx
+    namespace: nginx-ingress
+
+  # Server can be accessed by nginx-ingress (paths been set), and also by some
+  # application
   server:
     paths:
       - path: /api

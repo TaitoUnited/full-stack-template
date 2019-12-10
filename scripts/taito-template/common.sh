@@ -165,6 +165,8 @@ sed -i "s/\${template_default_postgres_username_suffix}/${template_default_postg
 sed -i "s/\${template_default_postgres_username_suffix_prod}/${template_default_postgres_username_suffix_prod:-}/g" taito-config.sh
 sed -i "s/\${template_default_postgres_ssl_enabled:-true}/${template_default_postgres_ssl_enabled:-true}/g" taito-config.sh
 sed -i "s/\${template_default_postgres_ssl_enabled_prod:-true}/${template_default_postgres_ssl_enabled_prod:-true}/g" taito-config.sh
+sed -i "s/\${template_default_postgres_ssl_client_cert_enabled:-false}/${template_default_postgres_ssl_client_cert_enabled:-false}/g" taito-config.sh
+sed -i "s/\${template_default_postgres_ssl_client_cert_enabled_prod:-false}/${template_default_postgres_ssl_client_cert_enabled_prod:-false}/g" taito-config.sh
 sed -i "s/\${template_default_postgres_proxy_ssl_enabled:-true}/${template_default_postgres_proxy_ssl_enabled:-true}/g" taito-config.sh
 sed -i "s/\${template_default_postgres_proxy_ssl_enabled_prod:-true}/${template_default_postgres_proxy_ssl_enabled_prod:-true}/g" taito-config.sh
 sed -i "s/\${template_default_postgres_master_username}/${template_default_postgres_master_username:-}/g" taito-config.sh

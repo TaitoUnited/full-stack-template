@@ -21,6 +21,8 @@ export const readSecretSync = (secret: string) => {
   }
 };
 
+const useClientCert = process.env.DATABASE_SSL_CLIENT_CERT_ENABLED === 'true';
+
 const config = {
   // Environment
   COMMON_PROJECT: process.env.COMMON_PROJECT,
@@ -62,6 +64,10 @@ const config = {
     ? parseInt(process.env.DATABASE_POOL_MAX, 10)
     : 10,
   DATABASE_SSL_ENABLED: process.env.DATABASE_SSL_ENABLED !== 'false',
+  DATABASE_SSL_CLIENT_CERT_ENABLED: useClientCert,
+  DATABASE_SSL_CA: useClientCert ? readSecretSync('DATABASE_SSL_CA') : null,
+  DATABASE_SSL_CERT: useClientCert ? readSecretSync('DATABASE_SSL_CERT') : null,
+  DATABASE_SSL_KEY: useClientCert ? readSecretSync('DATABASE_SSL_KEY') : null,
 
   // Storage
   S3_URL: process.env.S3_URL || undefined,

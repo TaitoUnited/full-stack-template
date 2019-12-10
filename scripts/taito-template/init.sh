@@ -52,6 +52,7 @@ function prune () {
       sed -i "/^  # full-stack-template-$name-test:\r*\$/,/^\r*$/d" docker-compose-test.yaml
     fi
     sed -i "/^    $name:\r*\$/,/^\r*$/d" ./scripts/helm.yaml
+    sed -i "/-$name$/d" ./scripts/helm.yaml
 
     sed -i "s/ $name / /" taito-config.sh
     sed -i "s/ $name / /" taito-project-config.sh
@@ -125,7 +126,10 @@ function prune () {
       sed -i '/postgres-db/d' taito-config.sh
       sed -i '/db_/d' taito-config.sh
       sed -i '/db_/d' taito-project-config.sh
-      sed -i '/-ssl.*:read\/devops/d' taito-project-config.sh
+      sed -i '/-ssl.*:copy\/devops/d' taito-project-config.sh
+      sed -i '/-ssl./d' ./scripts/helm.yaml
+      sed -i '/-ssl/d' docker-compose-test.yaml
+      sed -i '/SSL/d' docker-compose-test.yaml
       sed -i "/DATABASE/d" taito-testing-config.sh
       sed -i '/Database/d' docker-compose.yaml
       sed -i '/Database/d' docker-compose-remote.yaml
@@ -175,7 +179,10 @@ function prune () {
     rm -rf "$name"
   else
     if [[ $name == "database" ]] && [[ ${taito_provider:?} != "gcp" ]]; then
-      sed -i '/-ssl.*:read\/devops/d' taito-project-config.sh
+      sed -i '/-ssl.*:copy\/devops/d' taito-project-config.sh
+      sed -i '/-ssl./d' ./scripts/helm.yaml
+      sed -i '/-ssl/d' docker-compose-test.yaml
+      sed -i '/SSL/d' docker-compose-test.yaml
     fi
     if [[ $name == "storage" ]] && (
          [[ ${taito_provider:?} == "azure" ]] ||

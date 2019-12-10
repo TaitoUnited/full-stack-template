@@ -58,6 +58,15 @@ module.exports = (on, config) => {
       readSecretSync('/run/secrets/DATABASE_PASSWORD') ||
       process.env.taito_default_password ||
       'secret',
+    ssl:
+      process.env.DATABASE_SSL_ENABLED !== 'false' &&
+      process.env.DATABASE_SSL_CLIENT_CERT_ENABLED === 'true'
+        ? {
+            ca: readSecretSync('/run/secrets/DATABASE_SSL_CA'),
+            cert: readSecretSync('/run/secrets/DATABASE_SSL_CERT'),
+            key: readSecretSync('/run/secrets/DATABASE_SSL_KEY'),
+          }
+        : process.env.DATABASE_SSL_ENABLED !== 'false',
     poolSize: 2,
   };
   console.log(`URL: ${config.baseUrl}`);

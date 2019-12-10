@@ -11,7 +11,6 @@
 ##########################################################################
 
 storage_name=$(env | grep 'st_.*_name' | head -n1 | sed 's/.*=//')
-taito_provider_db_proxy_secret=
 taito_provider_service_account_secret=
 
 case $taito_provider in
@@ -69,10 +68,10 @@ case $taito_provider in
     "
 
     # Kubernetes details
-    kubernetes_cluster="gke_${taito_zone}_${taito_provider_zone}_${kubernetes_name}"
+    kubernetes_cluster="gke_${taito_zone}_${taito_provider_region}_${kubernetes_name}"
     kubernetes_user="${kubernetes_cluster}"
 
-    kubernetes_db_proxy_enabled=false # use google cloud sql proxy instead
+    gcp_db_proxy_enabled=false # TODO: temporary
     if [[ -z "${gcp_service_account_enabled}" ]]; then
       gcp_service_account_enabled=false
     fi
@@ -93,12 +92,6 @@ case $taito_provider in
         $taito_provider_service_account_secret:file
       "
     fi
-
-    taito_provider_db_proxy_secret=cloudsql-gserviceaccount.key
-    taito_remote_secrets="
-      $taito_remote_secrets
-      $taito_provider_db_proxy_secret:copy/devops
-    "
 
     link_urls="
       ${link_urls}

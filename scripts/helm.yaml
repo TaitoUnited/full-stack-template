@@ -12,8 +12,7 @@ global:
 full-stack:
   ingress:
     class: nginx
-    labels:
-      app: nginx-ingress
+    namespace: nginx-ingress
     oldRewritePolicy: false
     tls: true
     domains:
@@ -102,17 +101,17 @@ full-stack:
       paths:
         - path: /api
       egress:
+        - ip: '${db_database_real_host}/32'
         - fullname: ${taito_project}-${taito_env}-kafka
         - fullname: ${taito_project}-${taito_env}-redis
         - fullname: ${taito_project}-${taito_env}-storage
       livenessInitialDelay: 120
-      db:
-        instance: ${taito_zone}:${taito_provider_region}:${db_database_instance}
-        port: 5432
-        proxySecret: ${taito_provider_db_proxy_secret}
       serviceAccount:
         secret: ${taito_provider_service_account_secret}
       secrets:
+        DATABASE_SSL_CA: $db_database_instance-ssl.ca
+        DATABASE_SSL_CERT: $db_database_instance-ssl.cert
+        DATABASE_SSL_KEY: $db_database_instance-ssl.key
         DATABASE_PASSWORD: ${db_database_app_secret}
         S3_KEY_SECRET: ${taito_project}-${taito_env}-storage.secretKey
       secretEnv:
@@ -126,6 +125,7 @@ full-stack:
         DATABASE_HOST: '${db_database_real_host}'
         DATABASE_PORT: '${db_database_real_port}'
         DATABASE_SSL_ENABLED: ${db_database_ssl_enabled}
+        DATABASE_SSL_CLIENT_CERT_ENABLED: ${db_database_ssl_client_cert_enabled}
         DATABASE_NAME: ${db_database_name}
         DATABASE_USER: ${db_database_app_username}
         DATABASE_POOL_MIN: '5'

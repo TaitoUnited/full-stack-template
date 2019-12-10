@@ -142,6 +142,7 @@ services:
       DATABASE_POOL_MIN: '1'
       DATABASE_POOL_MAX: '10'
       DATABASE_SSL_ENABLED: ${db_database_ssl_enabled}
+      DATABASE_SSL_CLIENT_CERT_ENABLED: ${db_database_ssl_client_cert_enabled}
       S3_URL: http://full-stack-template-storage:9000/
       S3_REGION: milkyway
       S3_BUCKET: bucket

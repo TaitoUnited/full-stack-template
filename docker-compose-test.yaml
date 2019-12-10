@@ -16,6 +16,9 @@ services:
     network_mode: "bridge"
     secrets:
       - DATABASE_PASSWORD
+      - DATABASE_SSL_CA
+      - DATABASE_SSL_CERT
+      - DATABASE_SSL_KEY
     environment:
       taito_running_tests: "true"
 
@@ -32,6 +35,9 @@ services:
     network_mode: "bridge"
     secrets:
       - DATABASE_PASSWORD
+      - DATABASE_SSL_CA
+      - DATABASE_SSL_CERT
+      - DATABASE_SSL_KEY
     environment:
       taito_running_tests: "true"
 
@@ -46,6 +52,9 @@ services:
     network_mode: "bridge"
     secrets:
       - DATABASE_PASSWORD
+      - DATABASE_SSL_CA
+      - DATABASE_SSL_CERT
+      - DATABASE_SSL_KEY
     environment:
       taito_running_tests: "true"
 
@@ -63,6 +72,9 @@ services:
     network_mode: "bridge"
     secrets:
       - DATABASE_PASSWORD
+      - DATABASE_SSL_CA
+      - DATABASE_SSL_CERT
+      - DATABASE_SSL_KEY
     environment:
       taito_running_tests: "true"
 
@@ -150,3 +162,9 @@ services:
 secrets:
   DATABASE_PASSWORD:
     file: ./tmp/secrets/${taito_env}/${db_database_app_secret}
+  DATABASE_SSL_CA:
+    file: ./tmp/secrets/${taito_env}/${db_database_instance}-ssl.ca
+  DATABASE_SSL_CERT:
+    file: ./tmp/secrets/${taito_env}/${db_database_instance}-ssl.cert
+  DATABASE_SSL_KEY:
+    file: ./tmp/secrets/${taito_env}/${db_database_instance}-ssl.key
