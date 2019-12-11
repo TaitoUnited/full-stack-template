@@ -65,9 +65,15 @@ const config = {
     : 10,
   DATABASE_SSL_ENABLED: process.env.DATABASE_SSL_ENABLED !== 'false',
   DATABASE_SSL_CLIENT_CERT_ENABLED: useClientCert,
-  DATABASE_SSL_CA: useClientCert ? readSecretSync('DATABASE_SSL_CA') : null,
-  DATABASE_SSL_CERT: useClientCert ? readSecretSync('DATABASE_SSL_CERT') : null,
-  DATABASE_SSL_KEY: useClientCert ? readSecretSync('DATABASE_SSL_KEY') : null,
+  DATABASE_SSL_CA: useClientCert
+    ? readSecretSync('DATABASE_SSL_CA')
+    : undefined,
+  DATABASE_SSL_CERT: useClientCert
+    ? readSecretSync('DATABASE_SSL_CERT')
+    : undefined,
+  DATABASE_SSL_KEY: useClientCert
+    ? readSecretSync('DATABASE_SSL_KEY')
+    : undefined,
 
   // Storage
   S3_URL: process.env.S3_URL || undefined,
