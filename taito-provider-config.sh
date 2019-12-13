@@ -139,7 +139,7 @@ case $taito_logging_provider in
     taito_logging_format=stackdriver
     link_urls="
       ${link_urls}
-      * logs:ENV=https://console.cloud.google.com/logs/viewer?project=$taito_zone&minLogLevel=0&expandAll=false&resource=container%2Fcluster_name%2F$kubernetes_name%2Fnamespace_id%2F$taito_namespace Logs (:ENV)
+      * logs:ENV=https://console.cloud.google.com/logs/viewer?project=$taito_zone&minLogLevel=0&expandAll=false&resource=k8s_container%2Fcluster_name%2F$kubernetes_name%2Fnamespace_name%2F$taito_namespace Logs (:ENV)
     "
     ;;
   *)
