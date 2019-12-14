@@ -74,7 +74,6 @@ const config = {
   DATABASE_SSL_KEY: useClientCert
     ? readSecretSync('DATABASE_SSL_KEY')
     : undefined,
-
   // Storage
   S3_URL: process.env.S3_URL || undefined,
   S3_REGION: process.env.S3_REGION,
