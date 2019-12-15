@@ -73,6 +73,11 @@ then
   sed -i '/GOOGLE_/d' docker-compose-test.yaml
 fi
 
+# Currently network policy supported only for gcp (database host is static IP)
+if [[ $template_default_provider != "gcp" ]]; then
+  sed -i "s/networkPolicyEnabled: true/networkPolicyEnabled: false/" scripts/helm.yaml
+fi
+
 ######################
 # Choose CI/CD
 ######################
