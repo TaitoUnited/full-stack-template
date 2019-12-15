@@ -1,3 +1,16 @@
+# Provider
+
+variable "taito_provider_region" {
+}
+
+variable "taito_provider_zone" {
+}
+
+variable "gcp_service_account_enabled" {
+}
+
+# Project
+
 variable "taito_project" {
 }
 
@@ -7,34 +20,16 @@ variable "taito_env" {
 variable "taito_domain" {
 }
 
-variable "taito_zone" {
-}
+# Namespaces
 
 variable "taito_namespace" {
-}
-
-variable "taito_resource_namespace" {
 }
 
 variable "taito_resource_namespace_id" {
 }
 
-variable "taito_provider" {
-}
+# Storage
 
-variable "taito_provider_region" {
-}
-
-variable "taito_provider_zone" {
-}
-
-variable "taito_organization" {
-}
-
-variable "taito_organization_abbr" {
-}
-
-/* Storage */
 variable "taito_storages" {
   type = string  # whitespace delimited strings
   default = ""
@@ -55,7 +50,8 @@ variable "taito_storage_days" {
   default = ""
 }
 
-/* Backup */
+# Backup
+
 variable "taito_backup_locations" {
   type = string  # whitespace delimited strings
   default = ""
@@ -64,8 +60,4 @@ variable "taito_backup_locations" {
 variable "taito_backup_days" {
   type = string  # whitespace delimited strings
   default = ""
-}
-
-/* Google Cloud */
-variable "gcp_service_account_enabled" {
 }

@@ -14,8 +14,6 @@ locals {
     split(" ", trimspace(replace(var.taito_storage_classes, "/\\s+/", " "))))
   taito_storage_days = (var.taito_storage_days == "" ? [] :
     split(" ", trimspace(replace(var.taito_storage_days, "/\\s+/", " "))))
-  taito_targets = (var.taito_targets == "" ? [] :
-    split(" ", trimspace(replace(var.taito_targets, "/\\s+/", " "))))
   taito_container_targets = (var.taito_container_targets == "" ? [] :
     split(" ", trimspace(replace(var.taito_container_targets, "/\\s+/", " "))))
 }
@@ -23,18 +21,24 @@ locals {
 module "aws" {
   source = "github.com/TaitoUnited/taito-terraform-modules//projects/aws"
 
-  env                         = var.taito_env
-  domain                      = var.taito_domain
-  project                     = var.taito_project
-  organization                = var.taito_organization
-  vc_repository               = var.taito_vc_repository
-  cloud_provider_region       = var.taito_provider_region
-  cloud_provider_user_profile = var.taito_provider_user_profile
+  # Provider
+  region                      = var.taito_provider_region
+  user_profile                = coalesce(var.taito_provider_user_profile, var.taito_organization)
 
-  targets                     = local.taito_targets
-  container_targets           = local.taito_container_targets
+  # Project
+  project                     = var.taito_project
+  domain                      = var.taito_domain
+  env                         = var.taito_env
+  vc_repository               = var.taito_vc_repository
   container_registry_provider = var.taito_container_registry_provider
 
+  # Shared infrastructure
+  functions_bucket            = var.taito_functions_bucket
+
+  # Targets
+  container_targets           = local.taito_container_targets
+
+  # Storages
   storages                    = local.taito_storages
   storage_locations           = local.taito_storage_locations
   storage_classes             = local.taito_storage_classes

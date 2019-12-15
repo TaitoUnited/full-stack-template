@@ -24,7 +24,7 @@ module "gcp-uptime" {
   project             = var.taito_project
   env                 = var.taito_env
   domain              = var.taito_domain
-  uptime_namespace_id = var.taito_uptime_namespace_id
+  namespace           = var.taito_uptime_namespace_id
 
   uptime_targets      = local.taito_uptime_targets
   uptime_paths        = local.taito_uptime_paths

@@ -1,19 +1,6 @@
-variable "taito_env" {
-}
-
-variable "taito_domain" {
-}
-
-variable "taito_project" {
-}
-
-variable "taito_provider_region" {
-}
+# Provider
 
 variable "taito_organization" {
-}
-
-variable "taito_vc_repository" {
 }
 
 variable "taito_provider_user_profile" {
@@ -21,21 +8,43 @@ variable "taito_provider_user_profile" {
   default = ""
 }
 
+variable "taito_provider_region" {
+}
+
+# Project
+
+variable "taito_project" {
+}
+
+variable "taito_domain" {
+}
+
+variable "taito_env" {
+}
+
+variable "taito_vc_repository" {
+}
+
 variable "taito_container_registry_provider" {
   type    = string
   default = ""
 }
 
-variable "taito_targets" {
-  type = string  # whitespace delimited strings
+# Shared infrastructure
+
+variable "taito_functions_bucket" {
+  type = string
+  default = ""
 }
+
+# Targets
 
 variable "taito_container_targets" {
   type = string  # whitespace delimited strings
   default = ""
 }
 
-/* Storage */
+# Storage
 
 variable "taito_storages" {
   type = string  # whitespace delimited strings

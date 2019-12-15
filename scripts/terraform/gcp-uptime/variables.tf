@@ -1,3 +1,5 @@
+# Project
+
 variable "taito_project" {
 }
 
@@ -7,10 +9,13 @@ variable "taito_env" {
 variable "taito_domain" {
 }
 
+# Namespaces
+
 variable "taito_uptime_namespace_id" {
 }
 
-/* Monitoring */
+# Monitoring
+
 variable "taito_uptime_targets" {
   type = string  # whitespace delimited strings
   default = ""
