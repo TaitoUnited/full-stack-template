@@ -19,14 +19,16 @@ locals {
 module "aws-uptime" {
   source = "github.com/TaitoUnited/taito-terraform-modules//projects/aws-uptime"
 
-  organization          = var.taito_organization
+  # Provider
+  user_profile          = var.taito_organization
+  region                = var.taito_provider_region
+
+  # Project
   project               = var.taito_project
   env                   = var.taito_env
   domain                = var.taito_domain
 
-  cloud_provider_user_profile = var.taito_provider_user_profile
-  cloud_provider_region       = var.taito_provider_region
-
+  # Monitoring
   uptime_targets        = local.taito_uptime_targets
   uptime_paths          = local.taito_uptime_paths
   uptime_timeouts       = local.taito_uptime_timeouts
