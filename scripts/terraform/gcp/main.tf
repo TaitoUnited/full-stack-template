@@ -23,16 +23,13 @@ locals {
 module "gcp" {
   source = "github.com/TaitoUnited/taito-terraform-modules//projects/gcp"
 
-  # Provider
-  region                = var.taito_provider_region
-  zone                  = var.taito_provider_zone
-  project_id            = var.taito_resource_namespace_id
-  gcp_service_account_enabled = var.gcp_service_account_enabled
-
   # Project
   project               = var.taito_project
   env                   = var.taito_env
   domain                = var.taito_domain
+
+  # Service account
+  gcp_service_account_enabled = var.gcp_service_account_enabled
 
   # Storage
   storages              = local.taito_storages
@@ -41,6 +38,6 @@ module "gcp" {
   storage_days          = local.taito_storage_days
 
   # Backup
-  backup_locations      = local.taito_backup_locations
-  backup_days           = local.taito_backup_days
+  # backup_locations      = local.taito_backup_locations
+  # backup_days           = local.taito_backup_days
 }

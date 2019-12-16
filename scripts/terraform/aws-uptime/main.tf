@@ -20,7 +20,6 @@ module "aws-uptime" {
   source = "github.com/TaitoUnited/taito-terraform-modules//projects/aws-uptime"
 
   # Provider
-  user_profile          = var.taito_organization
   region                = var.taito_provider_region
 
   # Project

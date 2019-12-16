@@ -23,7 +23,6 @@ module "aws" {
 
   # Provider
   region                      = var.taito_provider_region
-  user_profile                = coalesce(var.taito_provider_user_profile, var.taito_organization)
 
   # Project
   project                     = var.taito_project
