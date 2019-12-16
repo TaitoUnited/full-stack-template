@@ -28,7 +28,10 @@ apiDocRouter.route({
 const routerMiddlewares = [
   postRouter.middleware(),
   infraRouter.middleware(),
-  apiDocRouter.middleware(),
 ];
+
+if (config.COMMON_ENV === 'local') {
+  routerMiddlewares.push(apiDocRouter.middleware());
+}
 
 export default routerMiddlewares;
