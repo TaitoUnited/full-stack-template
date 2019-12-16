@@ -21,7 +21,8 @@ locals {
 }
 
 module "gcp" {
-  source = "github.com/TaitoUnited/taito-terraform-modules//projects/gcp"
+  source  = "TaitoUnited/project-resources/google"
+  version = "1.0.0"
 
   # Project
   project               = var.taito_project

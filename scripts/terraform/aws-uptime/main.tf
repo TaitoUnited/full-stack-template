@@ -17,7 +17,8 @@ locals {
 }
 
 module "aws-uptime" {
-  source = "github.com/TaitoUnited/taito-terraform-modules//projects/aws-uptime"
+  source  = "TaitoUnited/uptime-monitoring/aws"
+  version = "1.0.0"
 
   # Provider
   region                = var.taito_provider_region

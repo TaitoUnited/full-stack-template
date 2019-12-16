@@ -19,7 +19,8 @@ locals {
   https://github.com/terraform-providers/terraform-provider-google/issues/2605
  */
 module "gcp-uptime" {
-  source = "github.com/TaitoUnited/taito-terraform-modules//projects/gcp-uptime"
+  source  = "TaitoUnited/uptime-monitoring/google"
+  version = "1.0.0"
 
   project_id          = var.taito_uptime_namespace_id
 

@@ -19,7 +19,8 @@ locals {
 }
 
 module "aws" {
-  source = "github.com/TaitoUnited/taito-terraform-modules//projects/aws"
+  source  = "TaitoUnited/project-resources/aws"
+  version = "1.0.0"
 
   # Provider
   region                      = var.taito_provider_region

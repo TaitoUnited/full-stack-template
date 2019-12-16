@@ -12,7 +12,8 @@ locals {
 }
 
 module "azure-uptime" {
-  source = "github.com/TaitoUnited/taito-terraform-modules//projects/azure-uptime"
+  source  = "TaitoUnited/uptime-monitoring/azurerm"
+  version = "1.0.0"
 
   resource_group        = var.taito_uptime_namespace_id
   project               = var.taito_project

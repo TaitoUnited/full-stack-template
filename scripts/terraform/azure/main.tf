@@ -8,7 +8,8 @@ locals {
 }
 
 module "azure" {
-  source = "github.com/TaitoUnited/taito-terraform-modules//projects/azure"
+  source  = "TaitoUnited/project-resources/azurerm"
+  version = "1.0.0"
 
   resource_group = var.taito_resource_namespace_id
   project        = var.taito_project
