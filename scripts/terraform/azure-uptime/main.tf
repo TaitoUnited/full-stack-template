@@ -14,7 +14,7 @@ locals {
 module "azure-uptime" {
   source = "github.com/TaitoUnited/taito-terraform-modules//projects/azure-uptime"
 
-  namespace             = var.taito_uptime_namespace_id
+  resource_group        = var.taito_uptime_namespace_id
   project               = var.taito_project
   env                   = var.taito_env
   domain                = var.taito_domain

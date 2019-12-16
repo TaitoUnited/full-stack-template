@@ -30,7 +30,7 @@ module "aws" {
   domain                      = var.taito_domain
   env                         = var.taito_env
   vc_repository               = var.taito_vc_repository
-  container_registry_provider = var.taito_container_registry_provider
+  create_container_registry   = var.taito_container_registry_provider == "aws"
 
   # Shared infrastructure
   functions_bucket            = var.taito_functions_bucket

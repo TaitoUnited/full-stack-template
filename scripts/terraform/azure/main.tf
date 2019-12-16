@@ -10,8 +10,8 @@ locals {
 module "azure" {
   source = "github.com/TaitoUnited/taito-terraform-modules//projects/azure"
 
-  namespace     = var.taito_resource_namespace_id
-  project       = var.taito_project
-  env           = var.taito_env
-  storages      = local.taito_storages
+  resource_group = var.taito_resource_namespace_id
+  project        = var.taito_project
+  env            = var.taito_env
+  storages       = local.taito_storages
 }

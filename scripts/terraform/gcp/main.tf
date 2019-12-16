@@ -26,16 +26,13 @@ module "gcp" {
   # Provider
   region                = var.taito_provider_region
   zone                  = var.taito_provider_zone
+  project_id            = var.taito_resource_namespace_id
   gcp_service_account_enabled = var.gcp_service_account_enabled
 
   # Project
   project               = var.taito_project
   env                   = var.taito_env
   domain                = var.taito_domain
-
-  # Namespaces
-  namespace             = var.taito_namespace
-  resource_namespace    = var.taito_resource_namespace_id
 
   # Storage
   storages              = local.taito_storages
