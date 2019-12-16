@@ -132,24 +132,24 @@ If you want to setup the application environments or run CI/CD steps without Tai
     . taito-config.sh
 
     # Create basic resources (e.g. storage buckets)
-    # TODO: use remote backend by default
     cd scripts/terraform/${taito_provider}
-    terraform init -backend-config="../common/backend.tf"
-    terraform apply -state="./${env}/terraform.tfstate"
+    envsubst < templates/backend.tf > ${env}/backend.tf
+    terraform init -backend-config=${env}/backend.tf
+    terraform apply -state=${env}/terraform.tfstate
 
     # Serverless AWS only: Create deployment (e.g. api gateway and functions)
-    # TODO: use remote backend by default
     # First create a merged yaml file that includes all the values (no env vars)
     nano scripts/terraform/terraform-${taito_target_env}-merged.yaml
     cd scripts/terraform/${taito_provider}-deploy
-    terraform init -backend-config="../common/backend.tf"
-    terraform apply -state="./${env}/terraform.tfstate"
+    envsubst < templates/backend.tf > backend.tf
+    terraform init -backend-config=${env}/backend.tf
+    terraform apply -state=${env}/terraform.tfstate
 
     # Set uptime monitoring
-    # TODO: use remote backend by default
-    cd ../${taito_update_provider}-uptime
-    terraform init -backend-config="../common/backend.tf"
-    terraform apply -state="./${env}/terraform.tfstate"
+    cd scripts/terraform/${taito_uptime_provider}
+    envsubst < templates/backend.tf > backend.tf
+    terraform init -backend-config=${env}/backend.tf
+    terraform apply -state=${env}/terraform.tfstate
     ```
 
 ### Taitoless CI/CD

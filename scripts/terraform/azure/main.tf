@@ -1,12 +1,4 @@
 provider "azurerm" {
-  /* TODO
-  backend "azurerm" {
-    resource_group_name  = "my-zone"
-    storage_account_name = "myzone"
-    container_name       = "my-zone-projects"
-    key                  = "my-project-ENV"
-  }
-  */
 }
 
 /* Convert whitespace delimited strings into list(string) */
