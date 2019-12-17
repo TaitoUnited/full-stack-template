@@ -133,22 +133,22 @@ If you want to setup the application environments or run CI/CD steps without Tai
 
     # Create basic resources (e.g. storage buckets)
     cd scripts/terraform/${taito_provider}
-    envsubst < templates/backend.tf > ${env}/backend.tf
-    terraform init -backend-config=${env}/backend.tf
+    envsubst < templates/backend.tfvars > ${env}/backend.tfvars
+    terraform init -reconfigure -backend-config=${env}/backend.tfvars
     terraform apply -state=${env}/terraform.tfstate
 
     # Serverless AWS only: Create deployment (e.g. api gateway and functions)
     # First create a merged yaml file that includes all the values (no env vars)
     nano scripts/terraform/terraform-${taito_target_env}-merged.yaml
     cd scripts/terraform/${taito_provider}-deploy
-    envsubst < templates/backend.tf > backend.tf
-    terraform init -backend-config=${env}/backend.tf
+    envsubst < templates/backend.tfvars > ${env}/backend.tfvars
+    terraform init -reconfigure -backend-config=${env}/backend.tfvars
     terraform apply -state=${env}/terraform.tfstate
 
     # Set uptime monitoring
     cd scripts/terraform/${taito_uptime_provider}
-    envsubst < templates/backend.tf > backend.tf
-    terraform init -backend-config=${env}/backend.tf
+    envsubst < templates/backend.tfvars > ${env}/backend.tfvars
+    terraform init -reconfigure -backend-config=${env}/backend.tfvars
     terraform apply -state=${env}/terraform.tfstate
     ```
 

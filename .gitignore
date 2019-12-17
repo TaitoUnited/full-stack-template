@@ -22,5 +22,9 @@ build
 .metadata
 RemoteSystemsTempFiles
 
+# Terraform
 **/.terraform/*
+*.tfstate
+*.tfstate.*
+
 .env

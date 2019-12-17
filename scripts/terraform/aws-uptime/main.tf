@@ -1,3 +1,9 @@
+terraform {
+  backend "s3" {
+  }
+  required_version = ">= 0.12"
+}
+
 provider "aws" {
   region                  = var.taito_provider_region
   profile                 = coalesce(var.taito_provider_user_profile, var.taito_organization)
@@ -22,6 +28,7 @@ module "aws-uptime" {
 
   # Provider
   region                = var.taito_provider_region
+  user_profile          = coalesce(var.taito_provider_user_profile, var.taito_organization)
 
   # Project
   project               = var.taito_project

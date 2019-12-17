@@ -1,3 +1,9 @@
+terraform {
+  backend "gcs" {
+  }
+  required_version = ">= 0.12"
+}
+
 provider "google" {
   project = var.taito_resource_namespace_id
   region  = var.taito_provider_region
