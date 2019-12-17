@@ -30,6 +30,11 @@ module "gcp" {
   source  = "TaitoUnited/project-resources/google"
   version = "1.0.3"
 
+  # Provider
+  project_id            = var.taito_resource_namespace_id
+  region                = var.taito_provider_region
+  zone                  = var.taito_provider_zone
+
   # Project
   project               = var.taito_project
   env                   = var.taito_env

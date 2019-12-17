@@ -1,3 +1,11 @@
+# Provider
+
+variable "taito_provider_region" {
+}
+
+variable "taito_provider_zone" {
+}
+
 # Project
 
 variable "taito_project" {

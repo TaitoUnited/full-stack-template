@@ -6,9 +6,6 @@ variable "taito_provider_region" {
 variable "taito_provider_zone" {
 }
 
-variable "gcp_service_account_enabled" {
-}
-
 # Project
 
 variable "taito_project" {
@@ -26,6 +23,11 @@ variable "taito_namespace" {
 }
 
 variable "taito_resource_namespace_id" {
+}
+
+# Service account
+
+variable "gcp_service_account_enabled" {
 }
 
 # Storage

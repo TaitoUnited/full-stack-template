@@ -6,6 +6,8 @@ terraform {
 
 provider "google" {
   project = var.taito_uptime_namespace_id
+  region  = var.taito_provider_region
+  zone    = var.taito_provider_zone
 }
 
 /* Convert whitespace delimited strings into list(string) */
@@ -28,12 +30,17 @@ module "gcp-uptime" {
   source  = "TaitoUnited/uptime-monitoring/google"
   version = "1.0.3"
 
+  # Provider
   project_id          = var.taito_uptime_namespace_id
+  region              = var.taito_provider_region
+  zone                = var.taito_provider_zone
 
+  # Project
   project             = var.taito_project
   env                 = var.taito_env
   domain              = var.taito_domain
 
+  # Monitoring
   uptime_targets      = local.taito_uptime_targets
   uptime_paths        = local.taito_uptime_paths
   uptime_timeouts     = local.taito_uptime_timeouts
