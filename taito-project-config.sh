@@ -31,7 +31,7 @@ taito_target_type_storage=storage
 # Stack uptime monitoring
 taito_uptime_targets=" admin client graphql server www "
 taito_uptime_paths=" /admin/uptimez /uptimez /graphql/uptimez /api/uptimez /docs/uptimez "
-taito_uptime_timeouts=" 5s 5s 5s 5s 5s "
+taito_uptime_timeouts=" 5 5 5 5 5 "
 
 # ------ Links ------
 # Add custom links here. You can regenerate README.md links with

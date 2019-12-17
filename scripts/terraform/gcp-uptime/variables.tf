@@ -36,7 +36,7 @@ variable "taito_uptime_paths" {
 
 /* TODO: use timeout */
 variable "taito_uptime_timeouts" {
-  type = string  # whitespace delimited strings
+  type = string  # whitespace delimited numbers
   default = ""
 }
 
