@@ -10,8 +10,7 @@
 # taito-env-prod-config.sh, and taito-testing-config.sh instead.
 ##########################################################################
 
-storage_name=$(env | grep 'st_.*_name' | head -n1 | sed 's/.*=//')
-taito_provider_service_account_secret=
+storage_name=$(env | grep '^st_.*_name' | head -n1 | sed 's/.*=//')
 
 case $taito_provider in
   azure)
@@ -72,25 +71,14 @@ case $taito_provider in
     kubernetes_user="${kubernetes_cluster}"
 
     gcp_db_proxy_enabled=false # TODO: temporary
-    if [[ -z "${gcp_service_account_enabled}" ]]; then
-      gcp_service_account_enabled=false
-    fi
 
     # Storage
     if [[ ${storage_name} ]]; then
-      gcp_service_account_enabled=true
+      provider_service_account_enabled=true
       # Set google specific storage url
       if [[ $taito_env != "local" ]]; then
         taito_storage_url="https://console.cloud.google.com/storage/browser/${storage_name}?project=$taito_resource_namespace_id"
       fi
-    fi
-
-    if [[ $gcp_service_account_enabled == "true" ]]; then
-      taito_provider_service_account_secret=$taito_project-$taito_env-gserviceaccount.key
-      taito_remote_secrets="
-        $taito_remote_secrets
-        $taito_provider_service_account_secret:file
-      "
     fi
 
     link_urls="
@@ -328,4 +316,15 @@ if [[ $taito_plugins == *"sentry"* ]]; then
     ${link_urls}
     * errors:ENV=https://sentry.io/${template_default_sentry_organization}/$taito_project/?query=is%3Aunresolved+environment%3A$taito_target_env Sentry errors (:ENV)
   "
+fi
+
+# Service account
+if [[ $provider_service_account_enabled == "true" ]]; then
+  taito_provider_service_account_secret=$taito_project-$taito_env-serviceaccount.key
+  taito_remote_secrets="
+    $taito_remote_secrets
+    $taito_provider_service_account_secret:file
+  "
+else
+  provider_service_account_enabled="false"
 fi

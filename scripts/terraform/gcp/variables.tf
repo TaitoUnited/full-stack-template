@@ -34,7 +34,7 @@ variable "taito_resource_namespace_id" {
 
 # Service account
 
-variable "gcp_service_account_enabled" {
+variable "provider_service_account_enabled" {
   type = bool
 }
 

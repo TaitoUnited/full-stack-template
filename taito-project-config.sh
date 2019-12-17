@@ -14,8 +14,9 @@ taito_environments="${template_default_environments}"
 # environment only.
 # taito_basic_auth_enabled=false
 
-# Service account: Uncomment the line below to always create GCP service account
-# gcp_service_account_enabled=true
+# Service account: Uncomment the line below to always create Cloud provider
+# service account
+# provider_service_account_enabled=true
 
 # ------ Stack ------
 
