@@ -1,25 +1,31 @@
 # Provider
 
 variable "taito_provider_region" {
+  type = string
 }
 
 variable "taito_provider_zone" {
+  type = string
 }
 
 # Project
 
 variable "taito_project" {
+  type = string
 }
 
 variable "taito_env" {
+  type = string
 }
 
 variable "taito_domain" {
+  type = string
 }
 
 # Namespaces
 
 variable "taito_uptime_namespace_id" {
+  type = string
 }
 
 # Monitoring

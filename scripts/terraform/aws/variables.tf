@@ -1,6 +1,7 @@
 # Provider
 
 variable "taito_organization" {
+  type = string
 }
 
 variable "taito_provider_user_profile" {
@@ -9,20 +10,25 @@ variable "taito_provider_user_profile" {
 }
 
 variable "taito_provider_region" {
+  type = string
 }
 
 # Project
 
 variable "taito_project" {
+  type = string
 }
 
 variable "taito_domain" {
+  type = string
 }
 
 variable "taito_env" {
+  type = string
 }
 
 variable "taito_vc_repository" {
+  type = string
 }
 
 variable "taito_container_registry_provider" {
