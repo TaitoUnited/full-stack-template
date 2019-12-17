@@ -15,7 +15,7 @@ locals {
 
 module "azure" {
   source  = "TaitoUnited/project-resources/azurerm"
-  version = "1.0.0"
+  version = "1.0.2"
 
   resource_group = var.taito_resource_namespace_id
   project        = var.taito_project

@@ -26,7 +26,7 @@ locals {
 
 module "aws" {
   source  = "TaitoUnited/project-resources/aws"
-  version = "1.0.0"
+  version = "1.0.2"
 
   # Provider
   region                      = var.taito_provider_region

@@ -19,7 +19,7 @@ locals {
 
 module "azure-uptime" {
   source  = "TaitoUnited/uptime-monitoring/azurerm"
-  version = "1.0.0"
+  version = "1.0.2"
 
   resource_group        = var.taito_uptime_namespace_id
   project               = var.taito_project

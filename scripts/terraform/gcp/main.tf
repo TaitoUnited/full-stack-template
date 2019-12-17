@@ -28,7 +28,7 @@ locals {
 
 module "gcp" {
   source  = "TaitoUnited/project-resources/google"
-  version = "1.0.0"
+  version = "1.0.2"
 
   # Project
   project               = var.taito_project
