@@ -7,6 +7,8 @@
 : "${taito_vc_repository_alt:?}"
 : "${template_project_path:?}"
 
+echo "Common template initialization"
+
 # Defaults
 template_default_organization=${template_default_organization:-myorganization}
 template_default_organization_abbr=${template_default_organization_abbr:-myorg}
@@ -27,6 +29,8 @@ ${taito_setv:-}
 # Remove these always
 ######################
 
+echo "Removing obsolete stuff"
+
 # Template note from README.md
 sed -i "/^.*(TEMPLATE NOTE START)$/,/^.*(TEMPLATE NOTE END)$/d" README.md
 
@@ -44,6 +48,8 @@ rm LICENSE
 ##########################
 # Prune provider settings
 ##########################
+
+echo "Pruning provider settings"
 
 if [[ -f docker-compose-test.yaml ]] && \
    [[ $template_default_provider != "azure" ]] && \
@@ -82,6 +88,8 @@ fi
 # Choose CI/CD
 ######################
 
+echo "Choosing CI/CD"
+
 ci=${template_default_ci_provider:-}
 while [[ " aws azure bitbucket github gitlab gcp jenkins local travis " != *" $ci "* ]]; do
   echo "Select CI/CD: aws, azure, bitbucket, github, gitlab, gcp, jenkins, local, or travis"
@@ -92,8 +100,10 @@ done
 # Replace some strings
 #######################
 
+echo "Replacing some strings"
+
 if [[ ! ${taito_random_name} ]] || [[ ${taito_random_name} == *"-template" ]]; then
-  taito_random_name="$(taito -q util random words: 3)"
+  taito_random_name="$(taito -q util random words: 3)" # TODO: remove util
 fi
 echo "Setting random name: ${taito_random_name}"
 sed -i "s/^taito_random_name=.*$/taito_random_name=${taito_random_name}/" taito-config.sh
@@ -289,6 +299,8 @@ fi
 # Remove obsolete provider scripts
 ####################################
 
+echo "Removing obsolete provider scripts"
+
 if [[ -d scripts/linux-provider ]] && \
    [[ $template_default_provider != "linux" ]] && \
    [[ $template_default_provider_prod != "linux" ]]; then
@@ -316,5 +328,7 @@ fi
 ######################
 # Clean up
 ######################
+
+echo "Clean up"
 
 read -t 1 -n 10000 discard || :
