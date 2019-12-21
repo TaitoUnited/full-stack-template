@@ -7,6 +7,10 @@
 : "${taito_vc_repository_alt:?}"
 : "${template_project_path:?}"
 
+if [[ ${taito_verbose:-} == "true" ]]; then
+  set -x
+fi
+
 echo "Common template initialization"
 
 # Defaults

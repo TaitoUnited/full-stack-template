@@ -3,7 +3,9 @@
 : "${taito_vc_repository:?}"
 : "${taito_vc_repository_alt:?}"
 
-${taito_setv:-}
+if [[ ${taito_verbose:-} == "true" ]]; then
+  set -x
+fi
 
 # Function not supported yet
 rm -rf function
