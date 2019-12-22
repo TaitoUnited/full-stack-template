@@ -153,7 +153,7 @@ The commands mentioned above work also for server environments (`f-NAME`, `dev`,
     taito init:dev --clean                  # Clean reinit for dev environment
     taito db connect:dev                    # Access database on command line
     taito db proxy:dev                      # Start a proxy for database access
-    taito secrets:dev                       # Show secrets (e.g. database user credentials)
+    taito secret show:dev                   # Show secrets (e.g. database user credentials)
     taito db rebase:dev                     # Rebase database by redeploying all migrations
     taito db import:dev ./database/file.sql # Import a file to database
     taito db dump:dev                       # Dump database to a file

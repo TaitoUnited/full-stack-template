@@ -122,7 +122,7 @@ You can add a new secret like this:
 
 1. Add a secret definition to the `taito_secrets` or the `taito_remote_secrets` setting in `taito-project-config.sh`.
 2. Map the secret definition to a secret in `docker-compose.yaml` for Docker Compose and in `scripts/helm.yaml` for Kubernetes.
-3. Run `taito env rotate:ENV SECRET` to generate a secret value for an environment. Run the command for each environment separately. Note that the rotate command restarts all pods in the same namespace.
+3. Run `taito secret rotate:ENV SECRET` to generate a secret value for an environment. Run the command for each environment separately. Note that the rotate command restarts all pods in the same namespace.
 
 You can use the following types in your secret definition:
 
