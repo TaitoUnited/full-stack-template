@@ -1,13 +1,9 @@
 // / <reference types="Cypress" />
 
-// Hack to avoid basic auth on Electron browser startup:
-// https://github.com/cypress-io/cypress/issues/1639
-const url = Cypress.env('baseUrlHack');
-
 describe('Posts', () => {
   beforeEach(() => {
     // API call example
-    cy.request(`${url}/api/posts?offset=0&limit=1`).then(response => {
+    cy.request('/api/posts?offset=0&limit=1').then(response => {
       cy.log(JSON.stringify(response.body.data[0]));
     });
 
@@ -18,7 +14,7 @@ describe('Posts', () => {
     });
 
     // Navigate to posts and clear the form
-    cy.visit(`${url}/`);
+    cy.visit('/');
     cy.get('[data-test=open-left-drawer]').click();
     cy.get('[data-test=navigate-to-posts]').click();
     cy.get('input').clear();
@@ -47,7 +43,7 @@ describe('Posts', () => {
       .and('contain', `content-${random}`);
 
     // Assert: API call example
-    cy.request(`${url}/api/posts?offset=0&limit=20`).then(response => {
+    cy.request('/api/posts?offset=0&limit=20').then(response => {
       const post = response.body.data[0];
       expect(post).to.have.property('subject', `subject-${random}`);
       expect(post).to.have.property('author', `author-${random}`);

@@ -9,20 +9,15 @@
 ##########################################################################
 
 # Environment specific settings
-case $taito_env in
-  local)
-    # local environment
-    ci_test_base_url=http://full-stack-template-ingress:80
-    ;;
-  *)
-    # dev and feature environments
-    if [[ $taito_env == "dev" ]] || [[ $taito_env == "f-"* ]]; then
-      ci_exec_test=true         # enable this to execute test suites
-      ci_exec_test_init=false   # run 'init --clean' before each test suite
-      ci_test_base_url=https://username:secretpassword@$taito_domain
-    fi
-    ;;
-esac
+if [[ $taito_env == "local" ]]; then
+  ci_test_base_url=http://full-stack-template-ingress:80
+elif [[ $taito_env == "dev" ]] || [[ $taito_env == "f-"* ]]; then
+  ci_exec_test=true         # enable this to execute test suites
+  ci_exec_test_init=false   # run 'init --clean' before each test suite
+  if [[ $taito_command == "util-test" ]]; then
+    ci_test_base_url=https://$(taito -q secret show:$taito_env basic-auth | head -1)@$taito_domain
+  fi
+fi
 
 # Database connection
 test_all_DATABASE_HOST=$taito_project-database-proxy
@@ -57,15 +52,6 @@ else
   fi
   :
 fi
-
-# cypress hack to avoid basic auth on Electron browser startup:
-# https://github.com/cypress-io/cypress/issues/1639
-CYPRESS_baseUrlHack=$CYPRESS_baseUrl
-CYPRESS_baseUrl=https://www.google.com
-test_admin_CYPRESS_baseUrlHack=$test_admin_CYPRESS_baseUrl
-test_admin_CYPRESS_baseUrl=https://www.google.com
-test_client_CYPRESS_baseUrlHack=$test_client_CYPRESS_baseUrl
-test_client_CYPRESS_baseUrl=https://www.google.com
 
 # Tests disabled on Azure DevOps
 # TODO: For some reason Docker Compose volume mounts and networks do not work
