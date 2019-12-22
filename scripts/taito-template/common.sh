@@ -7,10 +7,6 @@
 : "${taito_vc_repository_alt:?}"
 : "${template_project_path:?}"
 
-if [[ ${taito_verbose:-} == "true" ]]; then
-  set -x
-fi
-
 echo "Common template initialization"
 
 # Defaults
@@ -27,7 +23,9 @@ template_default_zone=${template_default_zone:-my-zone}
 template_default_zone_prod=${template_default_zone_prod:-$template_default_zone}
 template_default_environments=${template_default_environments:-dev prod}
 
-${taito_setv:-}
+if [[ ${taito_verbose:-} == "true" ]]; then
+  set -x
+fi
 
 ######################
 # Remove these always
@@ -199,6 +197,8 @@ sed -i "s/\${template_default_mysql_username_suffix}/${template_default_mysql_us
 sed -i "s/\${template_default_mysql_username_suffix_prod}/${template_default_mysql_username_suffix_prod:-}/g" taito-config.sh
 sed -i "s/\${template_default_mysql_ssl_enabled:-true}/${template_default_mysql_ssl_enabled:-true}/g" taito-config.sh
 sed -i "s/\${template_default_mysql_ssl_enabled_prod:-true}/${template_default_mysql_ssl_enabled_prod:-true}/g" taito-config.sh
+sed -i "s/\${template_default_mysql_ssl_client_cert_enabled:-false}/${template_default_mysql_ssl_client_cert_enabled:-false}/g" taito-config.sh
+sed -i "s/\${template_default_mysql_ssl_client_cert_enabled_prod:-false}/${template_default_mysql_ssl_client_cert_enabled_prod:-false}/g" taito-config.sh
 sed -i "s/\${template_default_mysql_proxy_ssl_enabled:-true}/${template_default_mysql_proxy_ssl_enabled:-true}/g" taito-config.sh
 sed -i "s/\${template_default_mysql_proxy_ssl_enabled_prod:-true}/${template_default_mysql_proxy_ssl_enabled_prod:-true}/g" taito-config.sh
 sed -i "s/\${template_default_mysql_master_username}/${template_default_mysql_master_username:-}/g" taito-config.sh
