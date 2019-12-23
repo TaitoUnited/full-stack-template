@@ -1,4 +1,4 @@
-> This page contains a short summary of the project itself. See [DEVELOPMENT.md](DEVELOPMENT.md) for development instructions.
+> This page contains a short summary of the project itself. See [DEVELOPMENT.md](scripts/taito/DEVELOPMENT.md) and [CONFIGURATION.md](scripts/taito/CONFIGURATION.md) for development and configuration instructions.
 
 [//]: # (TEMPLATE NOTE START)
 
@@ -40,7 +40,7 @@ LINKS WILL BE GENERATED HERE
 
 [//]: # (GENERATED LINKS END)
 
-> You can update this section by configuring links in `taito-config.sh` and running `taito project docs`.
+> You can update this section by configuring links in `scripts/taito/project.sh` and running `taito project docs`.
 
 ## Usage
 

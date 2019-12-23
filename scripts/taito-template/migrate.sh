@@ -8,12 +8,12 @@ ${taito_setv:-}
 shopt -s dotglob
 
 echo "Remove obsolete alternatives"
-rm -rf "alternatives"
+rm -rf "alternatives" || :
 
 echo "Remove old root files, scripts, and playbooks"
 rm -f ${template_project_path}/* || :
-rm -rf "${template_project_path}/scripts"
-rm -rf "${template_project_path}/playbooks"
+rm -rf "${template_project_path}/scripts" || :
+rm -rf "${template_project_path}/playbooks" || :
 
 echo "Copy root files from template"
 (yes | cp * "${template_project_path}" 2> /dev/null || :)
@@ -30,9 +30,8 @@ echo "--- Manual steps ---"
 echo
 echo "Mandatory:"
 echo "1) Review all changes."
-echo "2) Make the project work locally by adding a 'start' script to each"
-echo "   **/package.json file, and by defining environment variables and secrets"
-echo "   in docker-compose.yaml. The project should start locally with 'taito kaboom'."
+echo "2) Make the project work locally. The project should start locally with"
+echo "   'taito kaboom' (see scripts/taito/DEVELOPMENT.md)."
 echo "3) Modify all **/package.json files so that they provide scripts required"
 echo "   by the CI/CD build (build:prod, lint, unit, test)"
 echo "4) Implement /healthz and /uptimez endpoints in your server implementation"

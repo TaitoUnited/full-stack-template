@@ -2,13 +2,6 @@
 
 : "${template_project_path:?}"
 
-# Rename taito-env-all-config.sh
-# NOTE: Can be removed once all projects have been upgraded
-if [[ -f "${template_project_path}/taito-env-all-config.sh" ]]; then
-  mv "${template_project_path}/taito-env-all-config.sh" \
-    "${template_project_path}/taito-project-config.sh"
-fi
-
 # Read original random ports from docker-compose.yaml
 export ingress_port
 ingress_port=$(grep ":80\"" "${template_project_path}/docker-compose.yaml" | head -1 | sed 's/.*"\(.*\):.*/\1/')
@@ -23,19 +16,35 @@ ${taito_setv:-}
 shopt -s dotglob
 
 echo "Remove obsolete alternatives"
-rm -rf "alternatives"
+rm -rf "alternatives" || :
 
-echo "Remove obsolete root files not to be copied"
+echo "Remove obsolete files not to be copied"
 rm -f \
   docker-* \
   README.md \
-  taito-project-config.sh \
-  taito-env-prod-config.sh \
-  taito-testing-config.sh \
-  trouble.txt
+  TROUBLE.txt \
+  scripts/taito/*.sh
+
+echo "Move/remove files of project based on older template"
+if [[ -f "${template_project_path}/taito-provider-config.sh" ]]; then
+  (
+    cd "${template_project_path}"
+    mkdir -p scripts/taito/config || :
+    rm -rf CONFIGURATION.md || :
+    rm -rf DEVELOPMENT.md || :
+    mv taito-env-prod-config.sh scripts/taito/prod-env.sh || :
+    mv taito-project-config.sh scripts/taito/project.sh || :
+    mv taito-testing-config.sh scripts/taito/testing.sh || :
+    rm -rf taito*config.sh || :
+  )
+fi
 
 echo "Mark all configurations as 'done'"
-sed -i "s/\[ \] All done/[x] All done/g" CONFIGURATION.md
+sed -i "s/\[ \] All done/[x] All done/g" scripts/taito/CONFIGURATION.md
+
+echo "Copy taito scripts from template"
+mkdir -p "${template_project_path}/scripts/taito"
+yes | cp -rf scripts/taito/* "${template_project_path}/scripts/taito"
 
 echo "Copy all root files from template"
 (yes | cp * "${template_project_path}" 2> /dev/null || :)
@@ -63,6 +72,6 @@ echo
 echo "If something stops working, try the following:"
 echo "- Run 'taito upgrade' to upgrade your Taito CLI"
 echo "- Compare scripts/helm*.yaml with the template"
-echo "- Compare taito-*config.sh with the template"
+echo "- Compare scripts/taito/*.sh with the template"
 echo "- Compare package.json with the template"
 echo

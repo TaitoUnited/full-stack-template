@@ -9,8 +9,8 @@ fi
 
 # Function not supported yet
 rm -rf function
-sed -i "s/ function / /" taito-config.sh
-sed -i "s/ function / /" taito-project-config.sh
+sed -i "s/ function / /" scripts/taito/config/main.sh
+sed -i "s/ function / /" scripts/taito/project.sh
 
 # Remote the example site
 rm -rf www/site
@@ -56,13 +56,13 @@ function prune () {
     sed -i "/^    $name:\r*\$/,/^\r*$/d" ./scripts/helm.yaml
     sed -i "/-$name$/d" ./scripts/helm.yaml
 
-    sed -i "s/ $name / /" taito-config.sh
-    sed -i "s/ $name / /" taito-project-config.sh
-    sed -i "s/ \\/$name\\/uptimez / /" taito-config.sh
-    sed -i "s/ \\/$name\\/uptimez / /" taito-project-config.sh
+    sed -i "s/ $name / /" scripts/taito/config/main.sh
+    sed -i "s/ $name / /" scripts/taito/project.sh
+    sed -i "s/ \\/$name\\/uptimez / /" scripts/taito/config/main.sh
+    sed -i "s/ \\/$name\\/uptimez / /" scripts/taito/project.sh
 
-    sed -i "/\\* $name/d" taito-project-config.sh
-    sed -i "/test_$name/d" taito-testing-config.sh
+    sed -i "/\\* $name/d" scripts/taito/project.sh
+    sed -i "/test_$name/d" scripts/taito/testing.sh
 
     sed -i "/:$name\":/d" package.json
     sed -i "s/install-all:$name //g" package.json
@@ -90,18 +90,18 @@ function prune () {
     # TODO PRUNE .travis.yml
 
     if [[ $name == "client" ]]; then
-      sed -i "s/ \\/uptimez / /" taito-config.sh
-      sed -i "s/ \\/uptimez / /" taito-project-config.sh
-      sed -i "/CYPRESS/d" taito-testing-config.sh
-      sed -i "/cypress/d" taito-testing-config.sh
+      sed -i "s/ \\/uptimez / /" scripts/taito/config/main.sh
+      sed -i "s/ \\/uptimez / /" scripts/taito/project.sh
+      sed -i "/CYPRESS/d" scripts/taito/testing.sh
+      sed -i "/cypress/d" scripts/taito/testing.sh
     fi
 
     if [[ $name == "server" ]]; then
-      sed -i "s/ \\/api\\/uptimez / /" taito-config.sh
-      sed -i "s/ \\/api\\/uptimez / /" taito-project-config.sh
-      sed -i "s/ \\/api\\/docs / /" taito-config.sh
-      sed -i "s/ \\/api\\/docs / /" taito-project-config.sh
-      sed -i '/* apidocs/d' taito-project-config.sh
+      sed -i "s/ \\/api\\/uptimez / /" scripts/taito/config/main.sh
+      sed -i "s/ \\/api\\/uptimez / /" scripts/taito/project.sh
+      sed -i "s/ \\/api\\/docs / /" scripts/taito/config/main.sh
+      sed -i "s/ \\/api\\/docs / /" scripts/taito/project.sh
+      sed -i '/* apidocs/d' scripts/taito/project.sh
     fi
 
     if [[ $name == "kafka" ]]; then
@@ -110,8 +110,8 @@ function prune () {
       sed -i "/KAFKA/d" ./scripts/helm.yaml
 
       # Remove also Zookeeper
-      sed -i "s/ zookeeper / /" taito-config.sh
-      sed -i "s/ zookeeper / /" taito-project-config.sh
+      sed -i "s/ zookeeper / /" scripts/taito/config/main.sh
+      sed -i "s/ zookeeper / /" scripts/taito/project.sh
       sed -i "/^  full-stack-template-zookeeper:\r*\$/,/^\r*$/d" docker-compose.yaml
       sed -i "/^  full-stack-template-zookeeper:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
       sed -i "/^  # full-stack-template-zookeeper:\r*\$/,/^\r*$/d" docker-compose.yaml
@@ -120,19 +120,19 @@ function prune () {
     fi
 
     if [[ $name == "www" ]]; then
-      sed -i "s/ \\/docs\\/uptimez / /" taito-config.sh
-      sed -i "s/ \\/docs\\/uptimez / /" taito-project-config.sh
+      sed -i "s/ \\/docs\\/uptimez / /" scripts/taito/config/main.sh
+      sed -i "s/ \\/docs\\/uptimez / /" scripts/taito/project.sh
     fi
 
     if [[ $name == "database" ]]; then
-      sed -i '/postgres-db/d' taito-config.sh
-      sed -i '/db_/d' taito-config.sh
-      sed -i '/db_/d' taito-project-config.sh
-      sed -i '/-ssl.*:copy\/devops/d' taito-project-config.sh
+      sed -i '/postgres-db/d' scripts/taito/config/main.sh
+      sed -i '/db_/d' scripts/taito/config/main.sh
+      sed -i '/db_/d' scripts/taito/project.sh
+      sed -i '/-ssl.*:copy\/devops/d' scripts/taito/project.sh
       sed -i '/-ssl./d' ./scripts/helm.yaml
       sed -i '/-ssl/d' docker-compose-test.yaml
       sed -i '/SSL/d' docker-compose-test.yaml
-      sed -i "/DATABASE/d" taito-testing-config.sh
+      sed -i "/DATABASE/d" scripts/taito/testing.sh
       sed -i '/Database/d' docker-compose.yaml
       sed -i '/Database/d' docker-compose-remote.yaml
       sed -i '/DATABASE_/d' docker-compose.yaml
@@ -156,10 +156,10 @@ function prune () {
 
     if [[ $name == "storage" ]]; then
       # Remove storage from configs
-      sed -i "s/service_account_enabled=true/service_account_enabled=false/" taito-config.sh
-      sed -i '/storage/d' taito-config.sh
-      sed -i '/* storage/d' taito-config.sh
-      sed -i '/storage/d' taito-project-config.sh
+      sed -i "s/service_account_enabled=true/service_account_enabled=false/" scripts/taito/config/main.sh
+      sed -i '/storage/d' scripts/taito/config/main.sh
+      sed -i '/* storage/d' scripts/taito/config/main.sh
+      sed -i '/storage/d' scripts/taito/project.sh
       sed -i '/S3_/d' docker-compose.yaml
       sed -i '/S3_/d' docker-compose-remote.yaml
       sed -i '/storage/d' docker-compose.yaml
@@ -181,7 +181,7 @@ function prune () {
     rm -rf "$name"
   else
     if [[ $name == "database" ]] && [[ ${taito_provider:?} != "gcp" ]]; then
-      sed -i '/-ssl.*:copy\/devops/d' taito-project-config.sh
+      sed -i '/-ssl.*:copy\/devops/d' scripts/taito/project.sh
       sed -i '/-ssl./d' ./scripts/helm.yaml
       sed -i '/-ssl/d' docker-compose-test.yaml
       sed -i '/SSL/d' docker-compose-test.yaml
@@ -191,12 +191,12 @@ function prune () {
          [[ ${taito_provider} == "aws" ]]
        ); then
       # Define access key and secret key for AWS (not using minio as proxy)
-      sed -i '/storage.accessKeyId/d' taito-project-config.sh
-      sed -i '/storage.secretKey/d' taito-project-config.sh
-      sed -i '/^taito_remote_secrets=/a\  $taito_project-$taito_env-storage.secretKey:manual' taito-project-config.sh
-      sed -i '/^taito_remote_secrets=/a\  $taito_project-$taito_env-storage.accessKeyId:manual' taito-project-config.sh
-      sed -i '/^taito_local_secrets=/a\  $taito_project-$taito_env-storage.secretKey:random' taito-project-config.sh
-      sed -i '/^taito_local_secrets=/a\  $taito_project-$taito_env-storage.accessKeyId:random' taito-project-config.sh
+      sed -i '/storage.accessKeyId/d' scripts/taito/project.sh
+      sed -i '/storage.secretKey/d' scripts/taito/project.sh
+      sed -i '/^taito_remote_secrets=/a\  $taito_project-$taito_env-storage.secretKey:manual' scripts/taito/project.sh
+      sed -i '/^taito_remote_secrets=/a\  $taito_project-$taito_env-storage.accessKeyId:manual' scripts/taito/project.sh
+      sed -i '/^taito_local_secrets=/a\  $taito_project-$taito_env-storage.secretKey:random' scripts/taito/project.sh
+      sed -i '/^taito_local_secrets=/a\  $taito_project-$taito_env-storage.accessKeyId:random' scripts/taito/project.sh
 
       if [[ ${taito_provider} == "azure" ]]; then
         # Use minio as azure gateway instead of gcs gateway
@@ -260,12 +260,12 @@ echo "Generating unique random ports (avoid conflicts with other projects)..."
 if [[ ! $ingress_port ]]; then ingress_port=$(shuf -i 8000-9999 -n 1); fi
 if [[ ! $db_port ]]; then db_port=$(shuf -i 6000-7999 -n 1); fi
 if [[ ! $www_port ]]; then www_port=$(shuf -i 5000-5999 -n 1); fi
-sed -i "s/7463/${www_port}/g" taito-config.sh docker-compose.yaml \
-  TAITOLESS.md www/README.md &> /dev/null || :
-sed -i "s/6000/${db_port}/g" taito-config.sh docker-compose.yaml \
-  TAITOLESS.md &> /dev/null || :
-sed -i "s/9999/${ingress_port}/g" taito-config.sh docker-compose.yaml \
-  TAITOLESS.md &> /dev/null || :
+sed -i "s/7463/${www_port}/g" scripts/taito/config/main.sh docker-compose.yaml \
+  scripts/taito/TAITOLESS.md www/README.md &> /dev/null || :
+sed -i "s/6000/${db_port}/g" scripts/taito/config/main.sh docker-compose.yaml \
+  scripts/taito/TAITOLESS.md &> /dev/null || :
+sed -i "s/9999/${ingress_port}/g" scripts/taito/config/main.sh docker-compose.yaml \
+  scripts/taito/TAITOLESS.md &> /dev/null || :
 
 ./scripts/taito-template/common.sh
 echo init done

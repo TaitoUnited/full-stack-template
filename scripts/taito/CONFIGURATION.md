@@ -1,6 +1,6 @@
 # Configuration
 
-This file has been copied from [FULL-STACK-TEMPLATE](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/). Keep modifications minimal and improve the [original](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/blob/dev/CONFIGURATION.md) instead.
+This file has been copied from [FULL-STACK-TEMPLATE](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/). Keep modifications minimal and improve the [original](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/blob/dev/scripts/taito/CONFIGURATION.md) instead.
 
 ## Prerequisites
 
@@ -16,7 +16,7 @@ Start your local development environment by running `taito kaboom`. Once the com
 ## Basic settings
 
 1. Run `taito open conventions` in the project directory to see organization specific settings that you should configure for your git repository. At least you should set `dev` as the default branch to avoid people using master branch for development by accident.
-2. Modify `taito-project-config.sh` if you need to change some settings. The default settings are ok for most projects.
+2. Modify `scripts/taito/project.sh` if you need to change some settings. The default settings are ok for most projects.
 3. Run `taito project apply`
 4. Commit and push changes
 
@@ -32,7 +32,7 @@ Create the environment:
 
     taito env apply:dev
 
-OPTIONAL: If the git repository is private, you may choose to write down the basic auth credentials to [README.md#links](README.md#links):
+OPTIONAL: If the git repository is private, you may choose to write down the basic auth credentials to [README.md#links](../../README.md#links):
 
     EDIT README.md                # Edit the links section
 
@@ -71,7 +71,7 @@ The client GUI uses [Material-UI](https://material-ui-next.com/) component libra
 
 You can create the other environments just like you did the dev environment. However, you don't need to write down the basic auth credentials anymore, since you can reuse the same credentials as in dev environment.
 
-Project environments are configured in `taito-project-config.sh` with the `taito_environments` setting. Examples for environment names: `f-orders`, `dev`, `test`, `uat`, `stag`, `canary`, `prod`.
+Project environments are configured in `scripts/taito/project.sh` with the `taito_environments` setting. Examples for environment names: `f-orders`, `dev`, `test`, `uat`, `stag`, `canary`, `prod`.
 
 See [remote environments](https://taitounited.github.io/taito-cli/tutorial/05-remote-environments) chapter of Taito CLI tutorial for more thorough instructions.
 
@@ -79,12 +79,12 @@ Operations on production and staging environments usually require admin rights. 
 
 ## Stack
 
-**Minikube:** If you would rather use minikube for local development instead of docker-compose, remove `docker-compose:local` plugin, and the `:-local` restriction from `kubectl:-local` and `helm:-local` plugins. These are configured with the `taito_plugins` setting in `taito-config.sh`. Note that you can also permanently define your preference in your personal or organizational taito-config.sh to avoid manual change every time you create a new project, for example: `template_default_engine_local="minikube"`. (TODO: Not tested on minikube yet. Probably needs some additional work.).
+**Minikube:** TODO
 
-**Additional microservices:** You can use either monorepo or multirepo approach with this template. If you are going for multirepo, just create a separate project for each microservice. If you want some of them to share the same namespace, define common `taito_namespace` in taito-config.sh. If you are going for monorepo, or something in between multirepo and monorepo approaches, you can add a new microservice to a repository like this:
+**Additional microservices:** You can use either monorepo or multirepo approach with this template. If you are going for multirepo, just create a separate project for each microservice. If you want some of them to share the same namespace, define common `taito_namespace` in scripts/taito/project.sh. If you are going for monorepo, or something in between multirepo and monorepo approaches, you can add a new microservice to a repository like this:
 
   1. Create a new directory for your service. Look [FULL-STACK-TEMPLATE](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/) and [alternatives](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/tree/master/alternatives) for examples.
-  2. Add the service to `taito_targets` variable in `taito-project-config.sh`
+  2. Add the service to `taito_targets` variable in `scripts/taito/project.sh`
   3. Add the service to `docker-compose*.yaml` files and check that it works ok in local development environment.
   4. Add the service to `scripts/helm.yaml`.
   5. Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `check-deps`, `check-size`.
@@ -102,7 +102,7 @@ Operations on production and staging environments usually require admin rights. 
 
 **Static site generator (www):** See [www/README.md](www/README.md) for configuration instructions. You can use static site generator e.g. for user guides or API documentation.
 
-**Custom provider:** If you cannot use Docker containers on your remote environments, you can customize the deployment with a custom provider. Instead of deploying the application as docker container images, you can, for example, deploy the application as WAR or EAR packages on a Java application server, or install everything directly on the remote host. You can enable the custom provider by setting `taito_provider=custom` in `taito-config.sh` and by implementing [custom deployment scripts](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/blob/master/scripts/custom-provider) yourself.
+**Custom provider:** If you cannot use Docker containers on your remote environments, you can customize the deployment with a custom provider. Instead of deploying the application as docker container images, you can, for example, deploy the application as WAR or EAR packages on a Java application server, or install everything directly on the remote host. You can enable the custom provider by setting `taito_provider=custom` in `scripts/taito/config/main.sh` and by implementing [custom deployment scripts](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/blob/master/scripts/custom-provider) yourself.
 
 ## Kubernetes
 
@@ -116,7 +116,7 @@ You can deploy configuration changes without rebuilding with the `taito deployme
 
 You can add a new secret like this:
 
-1. Add a secret definition to the `taito_secrets` or the `taito_remote_secrets` setting in `taito-project-config.sh`.
+1. Add a secret definition to the `taito_secrets` or the `taito_remote_secrets` setting in `scripts/taito/project.sh`.
 2. Map the secret definition to a secret in `docker-compose.yaml` for Docker Compose and in `scripts/helm.yaml` for Kubernetes.
 3. Run `taito secret rotate:ENV SECRET` to generate a secret value for an environment. Run the command for each environment separately. Note that the rotate command restarts all pods in the same namespace.
 
@@ -139,8 +139,8 @@ All unit tests are run automatically during build (see the `Dockerfile.build` fi
 
 ### Integration and end-to-end tests
 
-All integration and end-to-end test suites are run automatically after application has been deployed to dev environment. You can use any test tools that have been installed as development dependency inside the `builder` container (see `Dockerfile.build`). You can specify your environment specific test settings in `taito-testing-config.sh` using `test_` as prefix. You can access database in your tests as database proxy is run automatically in background (see `docker-compose-test.yaml`). If the test tools generate reports, screenshots or videos, they should be placed at the `/service/test/reports`, `/service/test/screenshots` and `/service/test/videos` directories.
+All integration and end-to-end test suites are run automatically after application has been deployed to dev environment. You can use any test tools that have been installed as development dependency inside the `builder` container (see `Dockerfile.build`). You can specify your environment specific test settings in `scripts/taito/testing.sh` using `test_` as prefix. You can access database in your tests as database proxy is run automatically in background (see `docker-compose-test.yaml`). If the test tools generate reports, screenshots or videos, they should be placed at the `/service/test/reports`, `/service/test/screenshots` and `/service/test/videos` directories.
 
-Tests are grouped in test suites (see the `test-suites` files). All test suites can be kept independent by cleaning up data before each test suite execution by running `taito init --clean`. You can enable data cleaning in `taito-testing-config.sh` with the `ci_exec_test_init` setting, but you should use it for dev environment only.
+Tests are grouped in test suites (see the `test-suites` files). All test suites can be kept independent by cleaning up data before each test suite execution by running `taito init --clean`. You can enable data cleaning in `scripts/taito/testing.sh` with the `ci_exec_test_init` setting, but you should use it for dev environment only.
 
 You can run integration and end-to-end tests manually with the `taito test[:TARGET][:ENV] [SUITE] [TEST]` command, for example `taito test:server:dev`. When executing tests manually, the development container (`Dockerfile`) is used for executing the tests.

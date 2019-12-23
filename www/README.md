@@ -25,7 +25,7 @@ Start containers, and start a shell inside the www Docker container:
 
     EDIT docker-compose.yaml         # Enable `/service/site/node_modules` mount
     EDIT www/site/gatsby-config.js   # Add pathPrefix setting: `pathPrefix: '/docs'`
-    EDIT taito-config.sh             # Add link: `* www-local=http://localhost:7463/docs Local docs`
+    EDIT scripts/taito/project.sh    # Add link: `* www-local=http://localhost:7463/docs Local docs`
 
 > The additional link is required because `commons.js` and `socket.io` are assumed to be running on `/` path (See [Gatsby.js issue](https://github.com/gatsbyjs/gatsby/issues/3721)).
 

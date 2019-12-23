@@ -6,8 +6,8 @@
 # Provider specific settings
 #
 # NOTE: This file is updated during 'taito project upgrade'. There should
-# rarely be need to modify it manually. Modify taito-project-config.sh,
-# taito-env-prod-config.sh, and taito-testing-config.sh instead.
+# rarely be need to modify it manually. Modify project.sh, prod-env.sh,
+# and testing.sh instead.
 ##########################################################################
 
 storage_name=$(env | grep '^st_.*_name' | head -n1 | sed 's/.*=//')

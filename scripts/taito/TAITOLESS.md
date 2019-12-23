@@ -1,6 +1,6 @@
 # Taitoless: without Taito CLI
 
-This file has been copied from [FULL-STACK-TEMPLATE](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/). Keep modifications minimal and improve the [original](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/blob/dev/TAITOLESS.md) instead. Project specific conventions are located in [README.md](README.md#conventions).
+This file has been copied from [FULL-STACK-TEMPLATE](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/). Keep modifications minimal and improve the [original](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/blob/dev/scripts/taito/TAITOLESS.md) instead. Project specific conventions are located in [README.md](../../README.md#conventions).
 
 Table of contents:
 
@@ -120,7 +120,7 @@ If you want to setup the application environments or run CI/CD steps without Tai
 
 4) **Optional:** If your project requires additional cloud resources set by terraform (e.g. storage buckets), run the terraform scripts:
 
-    > NOTE: Add `taito-terraform-config.sh` to project root directory, if the file does not exist yet (TODO: example).
+    > NOTE: Add `terraform.sh` to project root directory, if the file does not exist yet (TODO: example).
 
     > NOTE: Azure scripts assume that a resource group defined by `taito_resource_namespace_id` environment variable already exists, since it is usually shared among multiple taito projects.
 

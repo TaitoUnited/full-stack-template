@@ -37,7 +37,7 @@ echo "[Copy docker-compose-remote.yaml to ${taito_host}:/tmp]"
   set -e
   ${taito_setv:-}
   mkdir -p tmp
-  files="docker-compose-remote.yaml docker-nginx.conf taito-*.sh"
+  files="docker-compose-remote.yaml docker-nginx.conf taito-config.sh scripts/taito/*.sh scripts/taito/config/*.sh"
   if [[ -f database/db.sql ]]; then
     files="$files database/db.sql"
   fi
@@ -91,9 +91,9 @@ ssh ${opts} "${taito_ssh_user}@${taito_host}" "
       fi
       echo
     fi
-    echo [Modify taito-config.sh]
-    sed -i \"3 ataito_target_env=${taito_target_env}\" taito-config.sh
-    sed -i /taito_util_path/d taito-config.sh
+    echo [Modify scripts/taito/config/main.sh]
+    sed -i \"3 ataito_target_env=${taito_target_env}\" scripts/taito/config/main.sh
+    sed -i /taito_util_path/d scripts/taito/config/main.sh
     echo
     echo [Prune old unused ${taito_project} docker images]
     echo TODO: do not prune images with the given tag ${image_tag}
