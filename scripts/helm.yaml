@@ -111,9 +111,9 @@ full-stack:
       serviceAccount:
         secret: ${taito_provider_service_account_secret}
       secrets:
-        DATABASE_SSL_CA: $db_database_instance-ssl.ca
-        DATABASE_SSL_CERT: $db_database_instance-ssl.cert
-        DATABASE_SSL_KEY: $db_database_instance-ssl.key
+        DATABASE_SSL_CA: ${db_database_ssl_ca_secret}
+        DATABASE_SSL_CERT: ${db_database_ssl_cert_secret}
+        DATABASE_SSL_KEY: ${db_database_ssl_key_secret}
         DATABASE_PASSWORD: ${db_database_app_secret}
         S3_KEY_SECRET: ${taito_project}-${taito_env}-storage.secretKey
       secretEnv:

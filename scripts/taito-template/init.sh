@@ -128,10 +128,6 @@ function prune () {
       sed -i '/postgres-db/d' scripts/taito/config/main.sh
       sed -i '/db_/d' scripts/taito/config/main.sh
       sed -i '/db_/d' scripts/taito/project.sh
-      sed -i '/-ssl.*:copy\/devops/d' scripts/taito/project.sh
-      sed -i '/-ssl./d' ./scripts/helm.yaml
-      sed -i '/-ssl/d' docker-compose-test.yaml
-      sed -i '/SSL/d' docker-compose-test.yaml
       sed -i "/DATABASE/d" scripts/taito/testing.sh
       sed -i '/Database/d' docker-compose.yaml
       sed -i '/Database/d' docker-compose-remote.yaml
@@ -180,12 +176,6 @@ function prune () {
 
     rm -rf "$name"
   else
-    if [[ $name == "database" ]] && [[ ${taito_provider:?} != "gcp" ]]; then
-      sed -i '/-ssl.*:copy\/devops/d' scripts/taito/project.sh
-      sed -i '/-ssl./d' ./scripts/helm.yaml
-      sed -i '/-ssl/d' docker-compose-test.yaml
-      sed -i '/SSL/d' docker-compose-test.yaml
-    fi
     if [[ $name == "storage" ]] && (
          [[ ${taito_provider:?} == "azure" ]] ||
          [[ ${taito_provider} == "aws" ]]

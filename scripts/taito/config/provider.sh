@@ -66,10 +66,11 @@ case $taito_provider in
       gcp-monitoring:-local
     "
 
-    # Kubernetes details
+    # Kubernetes
     kubernetes_cluster="gke_${taito_zone}_${taito_provider_region}_${kubernetes_name}"
     kubernetes_user="${kubernetes_cluster}"
 
+    # Database
     gcp_db_proxy_enabled=false # TODO: temporary
 
     # Storage
@@ -327,4 +328,17 @@ if [[ $provider_service_account_enabled == "true" ]]; then
   "
 else
   provider_service_account_enabled="false"
+fi
+
+# Database SSL client key
+if [[ $db_database_ssl_client_cert_enabled == "true" ]]; then
+  db_database_ssl_ca_secret=$db_database_instance-ssl.ca
+  db_database_ssl_cert_secret=$db_database_instance-ssl.cert
+  db_database_ssl_key_secret=$db_database_instance-ssl.key
+  taito_remote_secrets="
+    $taito_remote_secrets
+    $db_database_ssl_ca_secret:copy/devops
+    $db_database_ssl_cert_secret:copy/devops
+    $db_database_ssl_key_secret:copy/devops
+  "
 fi
