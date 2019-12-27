@@ -16,6 +16,9 @@ elif [[ $taito_env == "dev" ]] || [[ $taito_env == "f-"* ]]; then
   ci_exec_test_init=false   # run 'init --clean' before each test suite
   if [[ $taito_command == "util-test" ]]; then
     ci_test_base_url=https://$(taito -q secret show:$taito_env basic-auth | head -1)@$taito_domain
+  elif [[ $taito_command == "test" ]]; then
+    echo "testing.sh: Export secrets for testing"
+    taito secret export:$taito_env $db_database_app_secret
   fi
 fi
 
