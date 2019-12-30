@@ -341,13 +341,6 @@ fi
 # shellcheck disable=SC1091
 . scripts/taito/config/provider.sh
 
-# ------ Derived values ------
-
-link_urls="
-  ${link_urls}
-  * storage:ENV=$taito_storage_url Storage bucket (:ENV)
-"
-
 # ------ Test suite settings ------
 
 # shellcheck disable=SC1091

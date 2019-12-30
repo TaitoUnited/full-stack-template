@@ -342,3 +342,11 @@ if [[ $db_database_ssl_client_cert_enabled == "true" ]]; then
     $db_database_ssl_key_secret:copy/devops
   "
 fi
+
+# Storage link
+if [[ $taito_storage_url ]] && [[ $taito_storage_url != *"localhost"* ]]; then
+  link_urls="
+    ${link_urls}
+    * storage:ENV=$taito_storage_url Storage bucket (:ENV)
+  "
+fi
