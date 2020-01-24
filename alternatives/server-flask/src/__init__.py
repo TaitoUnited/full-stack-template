@@ -1,6 +1,10 @@
+import os
 import typing
 from flask import Flask
 
+if os.environ.get('FLASK_ENV') == 'development':
+    import ptvsd
+    ptvsd.enable_attach(address=('0.0.0.0', 9229), redirect_output=False)
 
 def create_app(
     test_config: typing.Optional[typing.Mapping[str, typing.Any]] = None,
