@@ -12,11 +12,16 @@
 if [[ $taito_env == "local" ]]; then
   ci_test_base_url=http://full-stack-template-ingress:80
 elif [[ $taito_env == "dev" ]] || [[ $taito_env == "f-"* ]]; then
-  ci_exec_test=true         # enable this to execute test suites
-  ci_exec_test_init=false   # run 'init --clean' before each test suite
+  ci_exec_test=true              # enable this to execute test suites
+  ci_exec_test_init=false        # run 'init --clean' before each test suite
+  ci_exec_test_init_after=false  # run 'init --clean' after all tests
   if [[ $taito_command == "util-test" ]]; then
+    # Constitute test url by combining basic auth secret and domain name
     ci_test_base_url=https://$(taito -q secret show:$taito_env basic-auth | head -1)@$taito_domain
   elif [[ $taito_command == "test" ]]; then
+    # Export test secrets to disk
+    # NOTE: Add all secrets required by test runs here. Remember to add them
+    # also to docker-compose-test.yaml secret definitions.
     echo "testing.sh: Export secrets for testing"
     taito secret export:$taito_env $db_database_app_secret
   fi
