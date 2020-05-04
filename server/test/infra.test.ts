@@ -1,11 +1,9 @@
-import requestBase from 'request-promise';
+import axios from 'axios';
 import testDb from './common/testDb';
 
-const request = requestBase.defaults({
-  baseUrl: `${process.env.TEST_API_URL}`,
-  json: true,
-  simple: false,
-  resolveWithFullResponse: true,
+const request = axios.create({
+  baseURL: `${process.env.TEST_API_URL}`,
+  responseType: 'json',
 });
 
 describe('infra', function infra() {
@@ -15,20 +13,20 @@ describe('infra', function infra() {
   describe('infra API', () => {
     it('GET /config returns APP_VERSION', async () => {
       const response = await request.get('/config');
-      expect(response.statusCode).toBe(200);
-      expect(typeof response.body.data.APP_VERSION).toBe('string');
+      expect(response.status).toBe(200);
+      expect(typeof response.data.data.APP_VERSION).toBe('string');
     });
 
     it('GET /uptimez returns OK', async () => {
       const response = await request.get('/uptimez');
-      expect(response.statusCode).toBe(200);
-      expect(response.body.status).toBe('OK');
+      expect(response.status).toBe(200);
+      expect(response.data.status).toBe('OK');
     });
 
     it('GET /healthz returns OK', async () => {
       const response = await request.get('/healthz');
-      expect(response.statusCode).toBe(200);
-      expect(response.body.status).toBe('OK');
+      expect(response.status).toBe(200);
+      expect(response.data.status).toBe('OK');
     });
   });
 
