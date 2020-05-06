@@ -85,10 +85,12 @@ Operations on production and staging environments usually require admin rights. 
 
   1. Create a new directory for your service. Look [FULL-STACK-TEMPLATE](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/) and [alternatives](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/tree/master/alternatives) for examples.
   2. Add the service to `taito_targets` variable in `scripts/taito/project.sh`
-  3. Add the service to `docker-compose*.yaml` files and check that it works ok in local development environment.
-  4. Add the service to `scripts/helm.yaml`.
-  5. Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `check-deps`, `check-size`.
-  6. Add the service to your CI/CD script (`.yml/.yaml` or `Jenkinsfile` in project root or `.github/main.workflow`).
+  3. OPTIONAL: Add the service to `docker-nginx.conf` if external access is required (e.g. with web browser).
+  4. Add the service to `docker-compose*.yaml` files.
+  5. Add the service to `scripts/helm.yaml`.
+  6. Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `check-deps`, `check-size`.
+  7. Add the service to your CI/CD script (`.yml/.yaml` or `Jenkinsfile` in project root or `.github/main.workflow`).
+  8. Run `taito kaboom` and check that the service works ok in local development environment.
 
 **Kafka:** TODO: Kafka for event-driven microservices.
 
