@@ -11,6 +11,7 @@ echo "Remove obsolete alternatives"
 rm -rf "alternatives" || :
 
 echo "Remove old root files, scripts, and playbooks"
+echo "NOTE: You can ignore the 'Is a directory' errors"
 rm -f ${template_project_path}/* || :
 rm -rf "${template_project_path}/scripts" || :
 rm -rf "${template_project_path}/playbooks" || :
@@ -20,6 +21,9 @@ echo "Copy root files from template"
 
 echo "Copy dockerfiles from template"
 find . -name "Dockerfile*" -exec cp --parents \{\} "${template_project_path}" \;
+
+echo "NGINX configurations from template"
+find . -name "nginx.conf" -exec cp --parents \{\} "${template_project_path}" \;
 
 echo "Copy scripts from template"
 yes | cp -rf scripts "${template_project_path}"
