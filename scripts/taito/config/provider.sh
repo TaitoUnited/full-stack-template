@@ -211,7 +211,7 @@ case $taito_ci_provider in
     "
     link_urls="
       ${link_urls}
-      * builds[:ENV]=https://console.cloud.google.com/cloud-build/builds?project=$taito_zone&query=source.repo_source.repo_name%3D%22github_${taito_vc_organization}_$taito_vc_repository%22 Build logs
+      * builds[:ENV]=https://console.cloud.google.com/cloud-build/builds?project=$taito_zone&query=source.repo_source.repo_name%3D%22${taito_vc_provider}_${taito_vc_organization}_$taito_vc_repository%22 Build logs
     "
     ;;
   local)
