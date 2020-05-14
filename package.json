@@ -58,7 +58,7 @@
     "check-size:admin": "cd admin && echo --- admin --- && npm run analyze -- ",
     "check-size:client": "cd client && echo --- client --- && npm run analyze -- ",
     "project-contacts": "cat PROJECT.md | sed -n -e '/^## Contacts.*$/,/^#.*$/{ /^## Contacts.*$/d; /^#.*$/d; p; }'",
-    "precommit:branch": "if git-branch-is -q test || git-branch-is -q stag || git-branch-is -q master; then echo 'ERROR: You cannot commit changes directly to this environment branch. Only fast-forward merge is allowed.' && echo && exit 1; fi",
+    "precommit:branch": "if git-branch-is -q test || git-branch-is -q uat || git-branch-is -q qa || git-branch-is -q stag || git-branch-is -q canary || git-branch-is -q cana || git-branch-is -q prod || git-branch-is -q master; then echo 'ERROR: You cannot commit changes directly to this environment branch. Only fast-forward merge is allowed.' && echo && exit 1; fi",
     "precommit:lint": "echo 'SKIP: Skipping linting on commit since we are already continuously linting during development.'",
     "release-pre:prod": "semantic-release --dry-run",
     "release-post:prod": "semantic-release --no-ci"
