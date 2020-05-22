@@ -116,7 +116,7 @@ services:
       - default
     ports:
       - "8080"
-      - "9229:9229"
+      - "4229:9229"
     volumes:
       - "./server:${DC_PATH}/service:delegated"
       - "./shared:${DC_PATH}/service/shared:delegated"

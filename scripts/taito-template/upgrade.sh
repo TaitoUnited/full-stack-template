@@ -2,13 +2,20 @@
 
 : "${template_project_path:?}"
 
+function get_randomized_port {
+  set +e
+  grep "$1" "${template_project_path}/docker-compose.yaml" | head -1 | sed 's/.*"\(.*\):.*/\1/'
+}
+
 # Read original random ports from docker-compose.yaml
 export ingress_port
-ingress_port=$(grep ":80\"" "${template_project_path}/docker-compose.yaml" | head -1 | sed 's/.*"\(.*\):.*/\1/')
+ingress_port=$(get_randomized_port ":80\"")
 export db_port
-db_port=$(grep ":5432\"\|:3306\"" "${template_project_path}/docker-compose.yaml" | head -1 | sed 's/.*"\(.*\):.*/\1/')
+db_port=$(get_randomized_port ":5432\"\|:3306\"")
 export www_port
-www_port=$(grep ":8080\"" "${template_project_path}/docker-compose.yaml" | head -1 | sed 's/.*"\(.*\):.*/\1/')
+www_port=$(get_randomized_port ":8080\"")
+export server_debug_port
+server_debug_port=$(get_randomized_port ":9229\"")
 
 ${taito_setv:-}
 ./scripts/taito-template/init.sh
