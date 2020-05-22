@@ -50,9 +50,7 @@ class InfraRouter extends BaseRouter {
         output: {
           '200': {
             body: {
-              status: this.Joi.string()
-                .only('OK')
-                .required(),
+              status: this.Joi.string().only('OK').required(),
             },
           },
         },
@@ -81,9 +79,7 @@ class InfraRouter extends BaseRouter {
         output: {
           '200': {
             body: {
-              status: this.Joi.string()
-                .only('OK')
-                .required(),
+              status: this.Joi.string().only('OK').required(),
             },
           },
         },

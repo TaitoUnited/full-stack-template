@@ -11,7 +11,7 @@ export class PostDao {
     'content',
     'author',
   ]
-    .map(column => `posts.${column}`)
+    .map((column) => `posts.${column}`)
     .join(', ');
 
   public async getAllPosts(db: Db): Promise<Post[]> {

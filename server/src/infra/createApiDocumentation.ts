@@ -342,8 +342,8 @@ function schemaToObject(schema: any): any {
 }
 
 export default function createApiDocumentation(options: ApiDocOptions): string {
-  const data = options.groups.map(group => {
-    const routes = group.routes.map(route => {
+  const data = options.groups.map((group) => {
+    const routes = group.routes.map((route) => {
       const input = route.validate || {};
       const output = input.output || {};
       return {
@@ -357,8 +357,8 @@ export default function createApiDocumentation(options: ApiDocOptions): string {
         },
         method: route.method.join(' / ').toUpperCase(),
         inputs: ['params', 'query', 'header', 'body']
-          .filter(key => input[key])
-          .map(key => ({
+          .filter((key) => input[key])
+          .map((key) => ({
             key,
             type: key === 'body' ? input.type : null,
             value: JSON.stringify(
@@ -367,11 +367,11 @@ export default function createApiDocumentation(options: ApiDocOptions): string {
               2
             ),
           })),
-        statusOutputs: Object.keys(output).map(status => ({
+        statusOutputs: Object.keys(output).map((status) => ({
           status,
           outputs: ['header', 'body']
-            .filter(key => output[status][key])
-            .map(key => ({
+            .filter((key) => output[status][key])
+            .map((key) => ({
               key,
               value: JSON.stringify(
                 schemaToObject(Joi.describe(output[status][key])),
@@ -386,8 +386,10 @@ export default function createApiDocumentation(options: ApiDocOptions): string {
     return { ...group, routes };
   });
 
-  const content = data.map(d => Mustache.render(TEMPLATE_GROUP, d)).join('\n');
-  const nav = data.map(d => Mustache.render(TEMPLATE_NAV, d)).join('\n');
+  const content = data
+    .map((d) => Mustache.render(TEMPLATE_GROUP, d))
+    .join('\n');
+  const nav = data.map((d) => Mustache.render(TEMPLATE_NAV, d)).join('\n');
 
   return Mustache.render(TEMPLATE_BASE, { ...options, content, nav });
 }

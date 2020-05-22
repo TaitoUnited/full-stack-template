@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { asCamelCase } from './formatters';
 
 describe('formatters', () => {

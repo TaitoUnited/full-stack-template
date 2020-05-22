@@ -12,6 +12,6 @@ export const asCamelCase = <T>(
   obj: NonPromise<T>
 ): NonPromise<MatchArray<T, any>> => {
   return obj && Array.isArray(obj)
-    ? obj.map(element => camel(element))
+    ? obj.map((element) => camel(element))
     : camel(obj);
 };

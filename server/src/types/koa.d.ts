@@ -11,8 +11,8 @@ declare module 'koa' {
 
   interface Context {
     state: {
-      db: IDatabase<{}>;
-      tx: ITask<{}>;
+      db: IDatabase<Record<string, unknown>>;
+      tx: ITask<Record<string, unknown>>;
       log: Bunyan;
       storage: AWS.S3;
       user?: User;

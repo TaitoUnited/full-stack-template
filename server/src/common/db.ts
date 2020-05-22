@@ -22,6 +22,6 @@ const cn = {
       : config.DATABASE_SSL_ENABLED,
 };
 
-const db: IDatabase<{}> = pgp(cn);
+const db: IDatabase<Record<string, unknown>> = pgp(cn);
 
 export default db;

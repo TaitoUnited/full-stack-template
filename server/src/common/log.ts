@@ -74,14 +74,11 @@ class StackdriverStream extends Transform {
 
       if (chunk.req.headers) {
         const filteredHeaders = Object.keys(chunk.req.headers)
-          .filter(key => allowedHeaders.includes(key))
-          .reduce(
-            (h, key) => {
-              h[key] = (chunk.req as any).headers[key];
-              return h;
-            },
-            {} as any
-          );
+          .filter((key) => allowedHeaders.includes(key))
+          .reduce((h, key) => {
+            h[key] = (chunk.req as any).headers[key];
+            return h;
+          }, {} as any);
         chunk.req.headers = filteredHeaders;
       }
     }
