@@ -2,6 +2,7 @@
   "name": "full-stack-template-server",
   "private": true,
   "scripts": {
+    "preinstall": "if [ -f package-lock.json ]; then npx npm-force-resolutions; fi",
     "unit": "jest src/ --passWithNoTests -t",
     "test": "jest test/ --passWithNoTests -t",
     "start": "npm run start:dev",
@@ -26,10 +27,13 @@
     "moment-timezone": "0.5.26",
     "mustache": "^3.0.2",
     "pg-promise": "^9.1.0",
-    "showdown": "1.9.0",
+    "showdown": "^1.9.1",
     "stack-trace": "0.0.10",
     "unescape": "1.0.1",
     "uuid": "^3.3.3"
+  },
+  "resolutions": {
+    "qs": "~6.3.2"
   },
   "devDependencies": {
     "@types/boom": "7.3.0",

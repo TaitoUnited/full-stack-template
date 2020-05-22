@@ -12,6 +12,6 @@
   },
   "devDependencies": {
     "cypress": "3.6.0",
-    "http-server": "0.11.1"
+    "http-server": "0.12.3"
   }
 }
