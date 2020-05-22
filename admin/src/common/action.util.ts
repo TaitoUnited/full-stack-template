@@ -23,7 +23,7 @@ export function createTypes(
   actionsArray: string[] = fetchActions
 ) {
   const res: { [x: string]: string } = {};
-  actionsArray.forEach(type => {
+  actionsArray.forEach((type) => {
     res[type] = `${base}_${type}`;
   });
   return res;

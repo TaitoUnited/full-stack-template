@@ -11,7 +11,7 @@
     "cypress:open": "cypress open"
   },
   "devDependencies": {
-    "cypress": "3.6.0",
+    "cypress": "^4.6.0",
     "http-server": "0.12.3"
   }
 }

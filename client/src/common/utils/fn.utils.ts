@@ -16,7 +16,7 @@ export const scrollToBottom = () => {
 export const range = (n: number) => [...Array(n).keys()];
 
 export const sleep = (ms: number) =>
-  new Promise(resolve => setTimeout(resolve, ms));
+  new Promise((resolve) => setTimeout(resolve, ms));
 
 export const clamp = (value: number, min: number, max: number) =>
   Math.max(min, Math.min(max, value));

@@ -28,15 +28,13 @@ const PostCreateToolbar = (props: any) => (
   </Toolbar>
 );
 
-/* eslint-disable @typescript-eslint/camelcase */
-
 const PostCreate = ({ ...props }) => (
   <Create {...props}>
     <SimpleForm
       toolbar={<PostCreateToolbar />}
       validate={(values: any) => {
         const errors: any = {};
-        ['subject', 'content'].forEach(field => {
+        ['subject', 'content'].forEach((field) => {
           if (!values[field]) {
             errors[field] = ['Required field'];
           }

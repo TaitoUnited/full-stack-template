@@ -34,7 +34,6 @@ declare module 'react-admin' {
   const Create: any;
   const SimpleForm: any;
   const Edit: any;
-  const DisabledInput: any;
   const BooleanInput: any;
   const DateInput: any;
   const ReferenceField: any;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Admin, Resource } from 'react-admin';
+import polyglotI18nProvider from 'ra-i18n-polyglot';
 import commonEn from 'ra-language-english';
 import { createBrowserHistory } from 'history';
 
@@ -31,7 +32,11 @@ const messages = {
 const API_URL = process.env.API_URL as string;
 const restClient = createRestClient(API_URL);
 const history = createBrowserHistory({ basename: 'admin' });
-const i18nProvider = (locale: 'fi' | 'en') => messages[locale];
+
+// TODO: use @lingui/react instead?
+const i18nProvider = polyglotI18nProvider(
+  (locale: 'fi' | 'en') => messages[locale]
+);
 
 const App = () => (
   <Admin

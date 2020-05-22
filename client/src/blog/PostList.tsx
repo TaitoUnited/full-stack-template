@@ -10,7 +10,7 @@ interface Props {
 const PostList = ({ posts }: Props) => {
   return (
     <div data-test="posts">
-      {posts.map(p => (
+      {posts.map((p) => (
         <PostItem key={p.id} post={p} />
       ))}
     </div>

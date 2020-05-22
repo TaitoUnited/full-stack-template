@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 const LangButton = styled('button')<{ active: boolean }>`
-  color: ${props => (props.active ? '#3f51b5' : '#222')};
-  border: 2px solid ${props => (props.active ? '#3f51b5' : '#ddd')};
+  color: ${(props) => (props.active ? '#3f51b5' : '#222')};
+  border: 2px solid ${(props) => (props.active ? '#3f51b5' : '#ddd')};
   border-radius: 12px;
   height: 54px;
   width: 54px;

@@ -28,7 +28,7 @@ class I18nProvider extends React.Component<Props, State> {
       `../../locales/${language}/messages.js`);
 
     this.setState(
-      state => ({
+      (state) => ({
         catalogs: {
           ...state.catalogs,
           [language]: catalogModule.default,

@@ -327,7 +327,7 @@ db_database_master_password_hint="${template_default_postgres_master_password_hi
 . scripts/taito/project.sh
 
 # TODO: Temporary hack for https://github.com/gatsbyjs/gatsby/issues/3721
-link_urls=${link_urls/:9999\/docs/:7463\/docs/}
+link_urls=${link_urls/:9999\/docs/:7463/}
 
 # ------ Taito config override (optional) ------
 

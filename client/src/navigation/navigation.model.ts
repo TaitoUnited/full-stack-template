@@ -9,7 +9,7 @@ const initialState = {
 // Actions
 const { common: actions } = createActions({
   COMMON: {
-    TOGGLE_MENU: visible => ({ visible }),
+    TOGGLE_MENU: (visible) => ({ visible }),
   },
 }) as any;
 

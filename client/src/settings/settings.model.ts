@@ -9,7 +9,7 @@ const initialState = {
 // Actions
 const { settings: actions } = createActions({
   SETTINGS: {
-    CHANGE_LANGUAGE: language => ({ language }),
+    CHANGE_LANGUAGE: (language) => ({ language }),
   },
 }) as any;
 

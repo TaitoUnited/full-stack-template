@@ -1,7 +1,7 @@
 # Builder and tester container for production build
 # NOTE: Use the same cypress version both in Dockerfile and package.json to
 #       avoid unnecessary cypress download
-FROM taitounited/cypress:3.6.0 as builder
+FROM taitounited/cypress:4.6.0 as builder
 ARG SERVICE_DIR=.
 ARG TARGET_ENV=prod
 ARG BUILD_VERSION

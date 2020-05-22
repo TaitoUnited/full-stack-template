@@ -21,8 +21,8 @@ class ErrorBoundary extends React.Component<Props, State> {
     this.setState({ error });
 
     if (config.ERROR_REPORTING_ENABLED) {
-      Sentry.withScope(scope => {
-        Object.keys(errorInfo).forEach(key => {
+      Sentry.withScope((scope) => {
+        Object.keys(errorInfo).forEach((key) => {
           scope.setExtra(key, errorInfo[key]);
         });
 

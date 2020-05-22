@@ -13,7 +13,8 @@ interface State {
   posts: Post[];
 }
 
-class Posts extends React.Component<{}, State> {
+// TODO: convert to function
+class Posts extends React.Component<unknown, State> {
   state = {
     post: {
       subject: '',

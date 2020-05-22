@@ -1,3 +1,5 @@
+/* eslint-disable */
+// TODO: implement graphql gateway, use typescript
 import InfraRoute from './infra/infra.route';
 
 const routes = router => {

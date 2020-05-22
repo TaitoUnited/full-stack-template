@@ -1,5 +1,4 @@
 module.exports = {
-  pathPrefix: '/docs',
   siteMetadata: {
     title: `Gate API Doc Generator`,
     description: `Generate api docs with GatsbyJS and Markdown.`,

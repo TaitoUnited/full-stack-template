@@ -13,7 +13,7 @@ const fs = require('fs');
 const pg = require('pg-promise');
 const pgp = pg({});
 
-const readSecretSync = filename => {
+const readSecretSync = (filename) => {
   let value = null;
   try {
     value = fs.readFileSync(filename, 'utf8');
@@ -84,7 +84,7 @@ module.exports = (on, config) => {
 
   // sql task
   on('task', {
-    sql: sql => {
+    sql: (sql) => {
       return db.any(sql);
     },
   });

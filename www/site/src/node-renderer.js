@@ -19,7 +19,10 @@ export const renderNodes = (nodes, lang) => {
       const id =
         (node.tagName === 'h1' || 'h2' || 'h2') &&
         node.children[0].value &&
-        node.children[0].value.toLowerCase()
+        node.children[0].value
+          .toLowerCase()
+          .split(' ')
+          .join('-')
       const element = tag.render({
         children: renderNodes(node.children),
         className: node.properties.className,

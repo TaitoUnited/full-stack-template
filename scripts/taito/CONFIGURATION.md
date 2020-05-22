@@ -102,7 +102,7 @@ Operations on production and staging environments usually require admin rights. 
 
 **Authentication:** Ingress provides basic authentication, but it is only meant for hiding non-production environments. Here are some good technologies for implementing authentication: [Auth0](https://auth0.com), [Passport](http://www.passportjs.org/), [ORY Oathkeeper](https://www.ory.sh/api-access-control-kubernetes-cloud-native).
 
-**Static site generator (www):** See [www/README.md](www/README.md) for configuration instructions. You can use static site generator e.g. for user guides or API documentation.
+**Static site generator (www):** See [/www/README.md](/www/README.md) for configuration instructions. You can use static site generator e.g. for user guides or API documentation.
 
 **Custom provider:** If you cannot use Docker containers on your remote environments, you can customize the deployment with a custom provider. Instead of deploying the application as docker container images, you can, for example, deploy the application as WAR or EAR packages on a Java application server, or install everything directly on the remote host. You can enable the custom provider by setting `taito_provider=custom` in `scripts/taito/config/main.sh` and by implementing [custom deployment scripts](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/blob/master/scripts/custom-provider) yourself.
 

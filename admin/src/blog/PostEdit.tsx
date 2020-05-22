@@ -7,7 +7,6 @@ import {
   Datagrid,
   DateField,
   DateInput,
-  DisabledInput,
   Edit,
   EditButton,
   FormTab,
@@ -29,15 +28,13 @@ import {
 
 import PostTitle from './PostTitle';
 
-/* eslint-disable @typescript-eslint/camelcase */
-
 const PostEdit = ({ ...props }) => (
   <Edit title={<PostTitle />} {...props}>
     <TabbedForm defaultValue={{ average_note: 0 }}>
       <FormTab label="post.form.summary">
-        <DisabledInput source="id" />
+        <TextInput disabled source="id" />
         <TextInput source="subject" validate={required()} />
-        <DisabledInput source="author" />
+        <TextInput disabled source="author" />
       </FormTab>
       <FormTab label="post.form.body">
         <RichTextInput
@@ -50,7 +47,5 @@ const PostEdit = ({ ...props }) => (
     </TabbedForm>
   </Edit>
 );
-
-/* eslint-enable @typescript-eslint/camelcase */
 
 export default PostEdit;

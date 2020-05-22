@@ -18,7 +18,7 @@ const authProvider = (type: string, params: any) => {
     });
 
     return fetch(request)
-      .then(response => {
+      .then((response) => {
         if (response.status < 200 || response.status >= 300) {
           throw new Error(response.statusText);
         }

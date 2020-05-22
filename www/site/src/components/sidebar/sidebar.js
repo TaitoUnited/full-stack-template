@@ -7,7 +7,12 @@ const renderTOC = content =>
     if (element.depth === 1) {
       return (
         <Item key={element.value}>
-          <Anchor href={`#${element.value.toLowerCase()}`}>
+          <Anchor
+            href={`#${element.value
+              .toLowerCase()
+              .split(' ')
+              .join('-')}`}
+          >
             {element.value}
           </Anchor>
         </Item>

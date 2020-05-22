@@ -56,7 +56,7 @@ const SideBar = ({ menuVisible, toggleMenu }: Props) => (
 
 const Content = styled.div`
   width: 240px;
-  padding: ${props => props.theme.spacing(3)}px 0;
+  padding: ${(props) => props.theme.spacing(3)}px 0;
 `;
 
 const NaviLink = styled(Link)`

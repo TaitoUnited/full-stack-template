@@ -51,9 +51,6 @@ const Logo = styled(Typography)<any>`
   }
 `;
 
-export default connect(
-  undefined,
-  {
-    toggleMenu: navigation.actions.toggleMenu,
-  }
-)(TopBar);
+export default connect(undefined, {
+  toggleMenu: navigation.actions.toggleMenu,
+})(TopBar);

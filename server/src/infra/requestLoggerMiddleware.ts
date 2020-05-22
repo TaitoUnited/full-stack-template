@@ -1,5 +1,5 @@
 import { Context } from 'koa';
-import uuidv4 from 'uuid/v4';
+import { v4 as uuidv4 } from 'uuid';
 
 // Every time an instance of this is logged by bunyan it outputs
 // the time since the beginning of the request (instance creation)
