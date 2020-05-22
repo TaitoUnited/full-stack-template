@@ -4,8 +4,10 @@ type APP_ENV =
   | 'dev'
   | 'test'
   | 'uat'
+  | 'qa'
   | 'stag'
   | 'canary'
+  | 'cana'
   | 'prod';
 
 const envs = [
@@ -14,8 +16,10 @@ const envs = [
   'dev',
   'test',
   'uat',
+  'qa',
   'stag',
   'canary',
+  'cana',
   'prod',
 ];
 const subdomainSplit = window.location.hostname.split('.')[0].split('-');
