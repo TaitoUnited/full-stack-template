@@ -11,7 +11,7 @@ services:
     networks:
       - default
     ports:
-      - "9999:80"
+      - "127.0.0.1:9999:80"
     volumes:
       - "./docker-nginx.conf:/etc/nginx/nginx.conf:delegated"
 
@@ -116,7 +116,7 @@ services:
       - default
     ports:
       - "8080"
-      - "4229:9229"
+      - "127.0.0.1:4229:9229"
     volumes:
       - "./server:${DC_PATH}/service:delegated"
       - "./shared:${DC_PATH}/service/shared:delegated"
@@ -165,7 +165,7 @@ services:
       - default
     ports:
       # TODO: Temporary hack for https://github.com/gatsbyjs/gatsby/issues/3721
-      - "7463:8080"
+      - "127.0.0.1:7463:8080"
     volumes:
       - "./www:${DC_PATH}/service:delegated"
       - "${DC_PATH}/service/node_modules"
@@ -213,7 +213,7 @@ services:
     networks:
       - default
     ports:
-      - "6000:5432"
+      - "127.0.0.1:6000:5432"
     environment:
       POSTGRES_DB: ${db_database_name}
       POSTGRES_USER: ${db_database_app_username}
