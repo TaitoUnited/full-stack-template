@@ -70,7 +70,7 @@ full-stack:
       image: bitnami/kafka:latest
       replicas: 1
       port: 9092
-      livenessDisabled: true # TODO remove
+      livenessDisabled: true # TODO: use livenessPath or livenessCommand
       memoryRequest: 100Mi
       memoryLimit: 512Mi
       env:
@@ -83,7 +83,7 @@ full-stack:
       image: bitnami/zookeeper:latest
       replicas: 1
       port: 2181
-      livenessDisabled: true # TODO remove
+      livenessDisabled: true # TODO: use livenessPath or livenessCommand
       memoryRequest: 100Mi
       memoryLimit: 512Mi
       env:
@@ -93,11 +93,13 @@ full-stack:
       image: redis:5.0-alpine
       replicas: 1
       port: 6379
-      livenessDisabled: true # TODO remove
       memoryRequest: 10Mi
       # TODO: put back
       # runAsUser: 2
       # runAsGroup: 2
+      livenessCommand:
+        - redis-cli
+        - ping
 
     server:
       paths:
@@ -190,7 +192,7 @@ full-stack:
         sharedVolume:
           mountPath: /service
           sidecarMountPath: /build
-        livenessDisabled: true
+        livenessDisabled: true # TODO: use livenessPath or livenessCommand
         secrets:
           WEBHOOK_URL_PREFIX: ${taito_project}-${taito_env}-webhook.urlprefix
           WEBHOOK_VC_TOKEN: ${taito_project}-${taito_env}-webhook.gittoken
