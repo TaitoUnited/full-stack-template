@@ -1,126 +1,158 @@
-services:
+# ----------------------------------------------------------
+# Path attributes
+# ----------------------------------------------------------
 
-  # ----------------------------------------------------------
-  # Path attributes
-  # ----------------------------------------------------------
+    # UPLOAD: /api/upload for uploading large files
+    server:
+      paths:
+        - path: /api
+        - path: /api/upload
+          clientMaxBodySize: 100m
 
-  # UPLOAD: /api/upload for uploading large files
-  server:
-    paths:
-      - path: /api
-      - path: /api/upload
-        clientMaxBodySize: 100m
+    # LONG PROCESSING: /api/process with a large read timeout
+    server:
+      paths:
+        - path: /api
+        - path: /api/process
+          readTimeout: 120
 
-  # LONG PROCESSING: /api/process with a large read timeout
-  server:
-    paths:
-      - path: /api
-      - path: /api/process
-        readTimeout: 120
+    # TODO: More examples
 
-  # TODO: More examples
+# ----------------------------------------------------------
+# Networking rules
+# ----------------------------------------------------------
 
-  # ----------------------------------------------------------
-  # Ingress networking rules
-  # ----------------------------------------------------------
+  services:
+    server:
+      # INGRESS: Server can be accessed by ingress controller (paths been set)
+      paths:
+        - path: /api
+      # INGRESS: Server can be accessed by some-application
+      ingress:
+        - app: some-application
 
-  # External access through ingress running in nginx-ingress namespace
-  ingress:
-    class: nginx
-    namespace: nginx-ingress
+    # EGRESS: Server allowed to access storage
+    server:
+      egress:
+        - fullname: ${taito_project}-${taito_env}-storage
 
-  # Server can be accessed by nginx-ingress (paths been set), and also by some
-  # application
-  server:
-    paths:
-      - path: /api
-    ingress:
-      - app: some-application
+    # EGRESS: Storage allowed to access any public ip
+    storage:
+      egress:
+        - ip: public  # any, private, public, or CIDR (e.g. 216.58.207.227/32)
 
-  # ----------------------------------------------------------
-  # Egress networking rules
-  # ----------------------------------------------------------
+# Disable networking rules (not recommended)
+full-stack:
+  networkPolicyEnabled: false
 
-  # Server allowed to access storage
-  server:
-    egress:
-      - fullname: ${taito_project}-${taito_env}-storage
+# ----------------------------------------------------------
+# CPU/MEM resources
+# ----------------------------------------------------------
 
-  # Storage allowed to access any public ip
-  storage:
-    egress:
-      - ip: public  # any, private, public, or CIDR (e.g. 216.58.207.227/32)
+    # SET CPU/MEM RESOURCES:
+    server:
+      cpuRequest: 100m      # request for 0.1 CPU
+      cpuLimit: 500m        # limit to 0.5 CPU
+      memoryRequest: 128Mi  # request for 128 MB
+      memoryLimit: 512Mi    # limit to 512 MB
 
-  # ----------------------------------------------------------
-  # Resources
-  # ----------------------------------------------------------
+# ----------------------------------------------------------
+# Health checks
+# ----------------------------------------------------------
 
-  # SET CPU/MEM RESOURCES:
-  server:
-    cpuRequest: 100m      # request for 0.1 CPU
-    cpuLimit: 500m        # limit to 0.5 CPU
-    memoryRequest: 128Mi  # request for 128 MB
-    memoryLimit: 512Mi    # limit to 512 MB
+    # CUSTOM HEALTH CHECK PATH AND INITIAL DELAY
+    # (livenessPath is /healthz by default)
+    server:
+      livenessPath: /healthcheck  # /healthz by default
+      livenessInitialDelay: 120   # seconds
 
-  # ----------------------------------------------------------
-  # Health checks
-  # ----------------------------------------------------------
+    # CUSTOM HEALTH CHECK COMMAND
+    # (runs 'my-cli check' inside the container)
+    server:
+      livenessCommand:
+        - my-cli
+        - check
 
-  # CUSTOM HEALTH CHECK PATH AND INITIAL DELAY
-  server:
-    livenessPath: /healthcheck  # /healthz by default
-    livenessInitialDelay: 120   # seconds
+    # DISABLE HEALTH CHECKS (not recommended!)
+    server:
+      livenessDisabled: true
 
-  # DISABLE HEALTH CHECKS (not recommended!)
-  server:
-    livenessDisabled: true
+# ----------------------------------------------------------
+# Cron jobs
+# ----------------------------------------------------------
 
-  # ----------------------------------------------------------
-  # Cron jobs
-  # ----------------------------------------------------------
+    # SIMPLE CRON JOB EXAMPLE:
+    # Scheduler polls server endpoint based on a cron schedule
+    scheduler:
+      type: job
+      image: buildpack-deps:curl
+      cpuRequest: 1m
+      memoryRequest: 1Mi
+      runAsUser: 2
+      runAsGroup: 2
+      secretEnv:
+        SCHEDULER_SECRET: ${taito_project}-${taito_env}-scheduler.secret
+      cronJobs:
+        - name: schedulerjob
+          schedule: "0 2 * * *"
+          concurrencyPolicy: Forbid # Forbid or Allow
+          args:
+            - /bin/sh
+            - -c
+            - curl -sS -H "X-Secret:$$SCHEDULER_SECRET" http://${taito_project}-${taito_target_env}-server:8080/posts?offset=0&limit=1
 
-  # SIMPLE CRON JOB EXAMPLE:
-  # Scheduler polls server endpoint based on a cron schedule
-  scheduler:
-    type: job
-    image: buildpack-deps:curl
-    cpuRequest: 1m
-    memoryRequest: 1Mi
-    runAsUser: 2
-    runAsGroup: 2
-    secretEnv:
-      SCHEDULER_SECRET: ${taito_project}-${taito_env}-scheduler.secret
-    cronJobs:
-      - name: schedulerjob
-        schedule: "0 2 * * *"
-        concurrencyPolicy: Forbid # Forbid or Allow
-        args:
-          - /bin/sh
-          - -c
-          - curl -sS -H "X-Secret:$$SCHEDULER_SECRET" http://${taito_project}-${taito_target_env}-server:8080/posts?offset=0&limit=1
+    # RE-USE SETTINGS OF AN ANOTHER SERVICE:
+    # Re-use server Docker image and settings for running cron jobs also.
+    # Add additional JOB_VARIABLE and JOB_SECRET for cron job.
+    server:
+      ...
+      ...
+      cronJobs:
+        - name: examplejob
+          schedule: "30 2 * * *"
+          concurrencyPolicy: Forbid # Forbid or Allow
+          args:
+            - /bin/sh
+            - -c
+            - date; echo Hello from server
+          secret:
+            JOB_SECRET: ${taito_project}-${taito_env}-job.secret
+          env:
+            JOB_VARIABLE: 1234
 
-  # RE-USE SETTINGS OF AN ANOTHER SERVICE:
-  # Re-use server Docker image and settings for running cron jobs also.
-  server:
-    ...
-    ...
-    cronJobs:
-      - name: examplejob
-        schedule: "30 2 * * *"
-        concurrencyPolicy: Forbid # Forbid or Allow
-        args:
-          - /bin/sh
-          - -c
-          - date; echo Hello from server
+# ----------------------------------------------------------
+# Volumes and persistence
+# ----------------------------------------------------------
 
-  # ----------------------------------------------------------
-  # Volumes and persistence
-  # ----------------------------------------------------------
+full-stack:
+  # ENABLE EXTERNAL DISK
+  persistence:
+    enabled: true
+    # TODO: existingClaim: ${taito_project}
+    # NOTE: Google does not support ReadWriteMany
+    # ReadWriteOnce -> all containers will be placed on the same Kubernetes node
+    accessMode: ReadWriteOnce
+    size: 4Gi
+    storageClass: fast
 
-  # TODO
+  # USE EXTERNAL DISK
+  services:
+    database:
+      ...
+      # Avoid duplicate mount errors by using Recreate instead of RollingUpdate
+      strategyType: Recreate
+      # Mount /data/db and /data/backup to the external disk
+      persistentVolumeMounts:
+        - mountPath: /data/db
+          volumePath: data-db-${taito_env}
+          readOnly: false
+        - mountPath: /data/backup
+          volumePath: data-backup-${taito_env}
+          readOnly: false
+      ...
 
-  # ----------------------------------------------------------
-  # Sidecars
-  # ----------------------------------------------------------
+# ----------------------------------------------------------
+# Sidecars
+# ----------------------------------------------------------
 
-  # TODO
+# TODO
