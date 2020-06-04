@@ -27,6 +27,7 @@ LABEL version=${BUILD_VERSION} \
       company=companyname \
       project=full-stack-template \
       role=client
+RUN mkdir -p /service
 WORKDIR /service
 RUN chown -R nginx:nginx /var/cache/nginx && \
     chown -R nginx:nginx /service && \
