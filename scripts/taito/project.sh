@@ -66,6 +66,7 @@ taito_local_secrets="
 taito_secrets="
   $db_database_app_secret:random
   $taito_project-$taito_env-example.secret:manual
+  $taito_project-$taito_env-redis.password:random
   $taito_project-$taito_env-storage.accessKeyId:random
   $taito_project-$taito_env-storage.secretKey:random
 "

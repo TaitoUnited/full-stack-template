@@ -89,17 +89,20 @@ full-stack:
       env:
         ALLOW_ANONYMOUS_LOGIN: 'yes'
 
+    # TODO: master and replica
     redis:
-      image: redis:5.0-alpine
+      image: bitnami/redis:6.0
       replicas: 1
       port: 6379
-      memoryRequest: 10Mi
-      # TODO: put back
-      # runAsUser: 2
-      # runAsGroup: 2
       livenessCommand:
         - redis-cli
         - ping
+      memoryRequest: 10Mi
+      secrets:
+        REDIS_PASSWORD: ${taito_project}-${taito_env}-redis.password
+      env:
+        REDIS_PASSWORD_FILE: '/run/secrets/REDIS_PASSWORD'
+        REDIS_AOF_ENABLED: 'no'
 
     server:
       paths:
@@ -117,6 +120,7 @@ full-stack:
         DATABASE_SSL_CERT: ${db_database_ssl_cert_secret}
         DATABASE_SSL_KEY: ${db_database_ssl_key_secret}
         DATABASE_PASSWORD: ${db_database_app_secret}
+        REDIS_PASSWORD: ${taito_project}-${taito_env}-redis.password
         S3_KEY_SECRET: ${taito_project}-${taito_env}-storage.secretKey
       secretEnv:
         S3_KEY_ID: ${taito_project}-${taito_env}-storage.accessKeyId
@@ -134,6 +138,8 @@ full-stack:
         DATABASE_USER: ${db_database_app_username}
         DATABASE_POOL_MIN: '5'
         DATABASE_POOL_MAX: '10'
+        REDIS_HOST: ${taito_project}-${taito_env}-redis
+        REDIS_PORT: 6379
         S3_URL: http://${taito_project}-${taito_env}-storage:9000/
         S3_REGION: ${taito_provider_region}
         S3_BUCKET: ${taito_random_name}-${taito_env}

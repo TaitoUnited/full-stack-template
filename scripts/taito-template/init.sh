@@ -150,6 +150,22 @@ function prune () {
       rm -f ./server/src/common/db.ts &> /dev/null || :
     fi
 
+    if [[ $name == "redis" ]]; then
+      sed -i '/-redis/d' scripts/taito/project.sh
+      sed -i '/-redis/d' docker-compose.yaml
+      sed -i '/-redis/d' docker-compose-remote.yaml
+      sed -i '/-redis/d' ./scripts/helm.yaml
+      sed -i '/REDIS_/d' docker-compose.yaml
+      sed -i '/REDIS_/d' docker-compose-remote.yaml
+      sed -i '/REDIS_/d' ./scripts/helm.yaml
+
+      # Remove redis from server implementation
+      # TODO: works only for the default Node.js server implementation
+      sed -i '/Redis/d' ./server/src/common/config.ts &> /dev/null || :
+      sed -i '/REDIS_/d' ./server/src/common/config.ts &> /dev/null || :
+      sed -i '/6379/d' ./server/src/common/config.ts &> /dev/null || :
+    fi
+
     if [[ $name == "storage" ]]; then
       # Remove storage from configs
       sed -i "s/service_account_enabled=true/service_account_enabled=false/" scripts/taito/config/main.sh

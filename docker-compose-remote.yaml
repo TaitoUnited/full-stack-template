@@ -81,6 +81,7 @@ services:
       - "8080"
     secrets:
       - DATABASE_PASSWORD
+      - REDIS_PASSWORD
       - S3_KEY_SECRET
       - EXAMPLE_SECRET
     environment:
@@ -100,6 +101,8 @@ services:
       DATABASE_USER: ${db_database_app_username}
       DATABASE_POOL_MIN: '1'
       DATABASE_POOL_MAX: '10'
+      REDIS_HOST: full-stack-template-redis
+      REDIS_PORT: 6379
       S3_URL: http://full-stack-template-storage:9000/
       S3_REGION: milkyway
       S3_BUCKET: bucket
@@ -117,12 +120,18 @@ services:
 
   full-stack-template-redis:
     container_name: full-stack-template-redis
-    image: redis:5.0-alpine
+    image: bitnami/redis:6.0
     restart: unless-stopped
     networks:
       - default
     ports:
       - "6379"
+    secrets:
+      - REDIS_PASSWORD
+    environment:
+      REDIS_PASSWORD_FILE: '/run/secrets/REDIS_PASSWORD'
+      REDIS_AOF_ENABLED: 'no'
+
 
   # "EXTERNAL RESOURCES"
   # Uncomment these if you want to run them in Docker Compose instead
@@ -185,6 +194,8 @@ services:
 secrets:
   DATABASE_PASSWORD:
     file: ./secrets/${taito_env}/${db_database_app_secret}
+  REDIS_PASSWORD:
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-redis.password
   S3_KEY_SECRET:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-storage.secretKey
   EXAMPLE_SECRET:

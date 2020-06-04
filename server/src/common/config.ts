@@ -74,6 +74,12 @@ const config = {
   DATABASE_SSL_KEY: useClientCert
     ? readSecretSync('DATABASE_SSL_KEY')
     : undefined,
+  // Redis
+  REDIS_HOST: process.env.REDIS_HOST,
+  REDIS_PORT: process.env.REDIS_PORT
+    ? parseInt(process.env.REDIS_PORT, 10)
+    : 6379,
+  REDIS_PASSWORD: readSecretSync('REDIS_PASSWORD'),
   // Storage
   S3_URL: process.env.S3_URL || undefined,
   S3_REGION: process.env.S3_REGION,
