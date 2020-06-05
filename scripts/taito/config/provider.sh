@@ -168,7 +168,7 @@ case $taito_uptime_provider in
     "
     link_urls="
       ${link_urls}
-      * uptime[:ENV]=https://app.google.stackdriver.com/uptime?project=$taito_zone&f.search=$taito_project Uptime monitoring (:ENV)
+      * uptime[:ENV]=https://console.cloud.google.com/monitoring/uptime?project=$taito_zone
     "
     ;;
 esac
