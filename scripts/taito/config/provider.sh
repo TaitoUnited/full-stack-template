@@ -71,7 +71,15 @@ case $taito_provider in
     kubernetes_user="${kubernetes_cluster}"
 
     # Database
-    gcp_db_proxy_enabled=false # TODO: temporary
+    gcp_db_proxy_enabled=false
+    if [[ ${kubernetes_db_proxy_enabled} != "true" ]]; then
+      gcp_db_proxy_enabled=true
+      taito_provider_db_proxy_secret=cloudsql-gserviceaccount.key
+      taito_remote_secrets="
+        $taito_remote_secrets
+        $taito_provider_db_proxy_secret:copy/devops
+      "
+    fi
 
     # Storage
     if [[ ${storage_name} ]]; then

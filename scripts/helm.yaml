@@ -115,6 +115,12 @@ full-stack:
       livenessInitialDelay: 120
       serviceAccount:
         secret: ${taito_provider_service_account_secret}
+      # Database proxy config
+      db:
+        useProxy: ${gcp_db_proxy_enabled}
+        instance: ${taito_zone}:${taito_provider_region}:${db_database_instance}
+        port: 5432
+        proxySecret: ${taito_provider_db_proxy_secret}
       secrets:
         DATABASE_SSL_CA: ${db_database_ssl_ca_secret}
         DATABASE_SSL_CERT: ${db_database_ssl_cert_secret}
