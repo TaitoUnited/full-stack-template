@@ -191,24 +191,5 @@ full-stack:
         - path: /docs
       cpuRequest: 2m
       memoryRequest: 2Mi
-      sidecar:
-        enabled: false
-        name: webhook
-        paths:
-          - path: /webhook
-        port: 9000
-        cpuRequest: 5m
-        cpuLimit: 500m
-        memoryRequest: 128Mi
-        memoryLimit: 768Mi
-        sharedVolume:
-          mountPath: /service
-          sidecarMountPath: /build
-        livenessDisabled: true # TODO: use livenessPath or livenessCommand
-        secrets:
-          WEBHOOK_URL_PREFIX: ${taito_project}-${taito_env}-webhook.urlprefix
-          WEBHOOK_VC_TOKEN: ${taito_project}-${taito_env}-webhook.gittoken
-        env:
-          VC_REPOSITORY_URL: ${taito_vc_repository_url}
 
     # TODO: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/#ttl-mechanism-for-finished-jobs

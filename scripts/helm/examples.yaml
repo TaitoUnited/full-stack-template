@@ -16,6 +16,21 @@
         - path: /api/process
           readTimeout: 120
 
+    # BASIC AUTH: /api/public with basic auth disabled
+    server:
+      paths:
+        - path: /api
+        - path: /api/public
+          basicAuthEnabled: false
+
+    # BASIC AUTH: /api/private with path specific basic auth secret
+    server:
+      paths:
+        - path: /api
+        - path: /api/private
+          basicAuthEnabled: true
+          basicAuthHtpasswdSecret: ${taito_project}-${taito_env}-private-auth
+
     # TODO: More examples
 
 # ----------------------------------------------------------
@@ -41,7 +56,7 @@
       egress:
         - ip: public  # any, private, public, or CIDR (e.g. 216.58.207.227/32)
 
-# Disable networking rules (not recommended)
+# Disable all networking rules (not recommended)
 full-stack:
   networkPolicyEnabled: false
 
@@ -124,18 +139,17 @@ full-stack:
 # Volumes and persistence
 # ----------------------------------------------------------
 
-full-stack:
-  # ENABLE EXTERNAL DISK
+  # ENABLE PERSISTENCE
   persistence:
     enabled: true
-    # TODO: existingClaim: ${taito_project}
-    # NOTE: Google does not support ReadWriteMany
-    # ReadWriteOnce -> all containers will be placed on the same Kubernetes node
-    accessMode: ReadWriteOnce
+    # a) Either use an existing disk:
+    existingClaim: existing-pvc
+    # b) Or create new:
+    accessMode: ReadWriteOnce # NOTE: GCP does not support ReadWriteMany
     size: 4Gi
     storageClass: fast
 
-  # USE EXTERNAL DISK
+  # USE THE DISK
   services:
     database:
       ...
@@ -149,6 +163,8 @@ full-stack:
         - mountPath: /data/backup
           volumePath: data-backup-${taito_env}
           readOnly: false
+          # TODO: add support for this
+          persistentVolumeClaim: another-existing-pvc # Use another disk than the default
       ...
 
 # ----------------------------------------------------------
