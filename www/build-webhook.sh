@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -x
+set -e
 
 if [ "${1}" = "install" ]; then
   mkdir -p /build
@@ -9,13 +9,13 @@ if [ "${1}" = "install" ]; then
     cp -rf /build-orig/* /build
   fi
   # Clone git and install libraries for real-time builds
-  git clone "https://${WEBHOOK_VC_TOKEN}@${VC_REPOSITORY_URL}" repository && \
-  cd /service/repository/www && \
-  git checkout "${COMMON_ENV}" && \
+  git clone "https://${WEBHOOK_VC_TOKEN}@${VC_REPOSITORY_URL}" repository
+  cd /service/repository/www
+  git checkout "${COMMON_ENV}"
   npm run install-site
-fi && \
+fi
 
 # Run build using up-to-date git repository
-cd /service/repository/www && \
-git pull && \
+cd /service/repository/www
+git pull
 npm run build
