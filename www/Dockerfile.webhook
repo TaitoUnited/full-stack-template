@@ -12,12 +12,13 @@ WORKDIR /service
 COPY ${SERVICE_DIR}/*.sh \
      ${SERVICE_DIR}/*.json \
      /service/
-RUN . ./install.sh
+RUN ./install.sh
 RUN mkdir -p /etc/webhook && ln -s /service/hooks.json /etc/webhook/hooks.json
 
 # Install, build and test site.
 COPY ${SERVICE_DIR} /service
 RUN mkdir -p /build && \
+    . ~/.bashrc && \
     npm run install-site && \
     npm run build && \
     npm run unit

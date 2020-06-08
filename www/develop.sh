@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 : "${COMMON_PUBLIC_PORT:?}"
 
 set -e

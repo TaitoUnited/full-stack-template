@@ -14,12 +14,13 @@ WORKDIR /service
 COPY ${SERVICE_DIR}/*.sh \
      ${SERVICE_DIR}/package* \
      /service/
-RUN . ./install.sh
-RUN npm ci --loglevel warn
+RUN ./install.sh
+RUN . ~/.bashrc && npm ci --loglevel warn
 
 # Install, build and test site
 COPY ${SERVICE_DIR} /service
 RUN mkdir -p /build && \
+    . ~/.bashrc && \
     npm run install-site && \
     npm run build && \
     npm run unit

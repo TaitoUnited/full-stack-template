@@ -10,8 +10,8 @@ WORKDIR /service
 COPY ${SERVICE_DIR}/install.sh \
      ${SERVICE_DIR}/package* \
      /service/
-RUN . ./install.sh
-RUN npm install --loglevel warn
+RUN ./install.sh
+RUN . ~/.bashrc && npm install --loglevel warn
 
 # Install site npm libraries on container to speed up builds
 COPY ${SERVICE_DIR}/hooks.json \
@@ -19,6 +19,7 @@ COPY ${SERVICE_DIR}/hooks.json \
      /service/site/
 RUN rm -f /service/site/hooks.json
 RUN mkdir -p /build && \
+    . ~/.bashrc && \
     npm run install-site
 
 # Start development
