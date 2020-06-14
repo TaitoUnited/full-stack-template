@@ -9,7 +9,6 @@ fi
 
 # Function not supported yet
 rm -rf function
-sed -i "s/ function / /" scripts/taito/config/main.sh
 sed -i "s/ function / /" scripts/taito/project.sh
 
 # Remote the example site
@@ -56,9 +55,7 @@ function prune () {
     sed -i "/^    $name:\r*\$/,/^\r*$/d" ./scripts/helm.yaml
     sed -i "/-$name$/d" ./scripts/helm.yaml
 
-    sed -i "s/ $name / /" scripts/taito/config/main.sh
     sed -i "s/ $name / /" scripts/taito/project.sh
-    sed -i "s/ \\/$name\\/uptimez / /" scripts/taito/config/main.sh
     sed -i "s/ \\/$name\\/uptimez / /" scripts/taito/project.sh
 
     sed -i "/\\* $name/d" scripts/taito/project.sh
@@ -90,16 +87,13 @@ function prune () {
     # TODO PRUNE .travis.yml
 
     if [[ $name == "client" ]]; then
-      sed -i "s/ \\/uptimez / /" scripts/taito/config/main.sh
       sed -i "s/ \\/uptimez / /" scripts/taito/project.sh
       sed -i "/CYPRESS/d" scripts/taito/testing.sh
       sed -i "/cypress/d" scripts/taito/testing.sh
     fi
 
     if [[ $name == "server" ]]; then
-      sed -i "s/ \\/api\\/uptimez / /" scripts/taito/config/main.sh
       sed -i "s/ \\/api\\/uptimez / /" scripts/taito/project.sh
-      sed -i "s/ \\/api\\/docs / /" scripts/taito/config/main.sh
       sed -i "s/ \\/api\\/docs / /" scripts/taito/project.sh
       sed -i '/* apidocs/d' scripts/taito/project.sh
     fi
@@ -110,7 +104,6 @@ function prune () {
       sed -i "/KAFKA/d" ./scripts/helm.yaml
 
       # Remove also Zookeeper
-      sed -i "s/ zookeeper / /" scripts/taito/config/main.sh
       sed -i "s/ zookeeper / /" scripts/taito/project.sh
       sed -i "/^  full-stack-template-zookeeper:\r*\$/,/^\r*$/d" docker-compose.yaml
       sed -i "/^  full-stack-template-zookeeper:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
@@ -120,13 +113,11 @@ function prune () {
     fi
 
     if [[ $name == "www" ]]; then
-      sed -i "s/ \\/docs\\/uptimez / /" scripts/taito/config/main.sh
       sed -i "s/ \\/docs\\/uptimez / /" scripts/taito/project.sh
     fi
 
     if [[ $name == "database" ]]; then
-      sed -i '/postgres-db/d' scripts/taito/config/main.sh
-      sed -i '/db_/d' scripts/taito/config/main.sh
+      sed -i '/postgres-db/d' scripts/taito/project.sh
       sed -i '/db_/d' scripts/taito/project.sh
       sed -i "/DATABASE/d" scripts/taito/testing.sh
       sed -i '/Database/d' docker-compose.yaml
@@ -168,9 +159,6 @@ function prune () {
 
     if [[ $name == "storage" ]]; then
       # Remove storage from configs
-      sed -i "s/service_account_enabled=true/service_account_enabled=false/" scripts/taito/config/main.sh
-      sed -i '/storage/d' scripts/taito/config/main.sh
-      sed -i '/* storage/d' scripts/taito/config/main.sh
       sed -i '/storage/d' scripts/taito/project.sh
       sed -i '/S3_/d' docker-compose.yaml
       sed -i '/S3_/d' docker-compose-remote.yaml
@@ -267,14 +255,22 @@ if [[ ! $ingress_port ]]; then ingress_port=$(shuf -i 8000-9999 -n 1); fi
 if [[ ! $db_port ]]; then db_port=$(shuf -i 6000-7999 -n 1); fi
 if [[ ! $www_port ]]; then www_port=$(shuf -i 5000-5999 -n 1); fi
 if [[ ! $server_debug_port ]]; then server_debug_port=$(shuf -i 4000-4999 -n 1); fi
-sed -i "s/4229/${server_debug_port}/g" scripts/taito/config/main.sh docker-compose.yaml \
-  &> /dev/null || :
-sed -i "s/7463/${www_port}/g" scripts/taito/config/main.sh docker-compose.yaml \
+sed -i "s/4229/${server_debug_port}/g" \
+  docker-compose.yaml \
+  scripts/taito/project.sh scripts/taito/env-local.sh \
   scripts/taito/TAITOLESS.md www/README.md &> /dev/null || :
-sed -i "s/6000/${db_port}/g" scripts/taito/config/main.sh docker-compose.yaml \
-  scripts/taito/TAITOLESS.md &> /dev/null || :
-sed -i "s/9999/${ingress_port}/g" scripts/taito/config/main.sh docker-compose.yaml \
-  scripts/taito/TAITOLESS.md &> /dev/null || :
+sed -i "s/7463/${www_port}/g" \
+  docker-compose.yaml \
+  scripts/taito/project.sh scripts/taito/env-local.sh \
+  scripts/taito/TAITOLESS.md www/README.md &> /dev/null || :
+sed -i "s/6000/${db_port}/g" \
+  docker-compose.yaml \
+  scripts/taito/project.sh scripts/taito/env-local.sh \
+  scripts/taito/TAITOLESS.md www/README.md &> /dev/null || :
+sed -i "s/9999/${ingress_port}/g" \
+  docker-compose.yaml \
+  scripts/taito/project.sh scripts/taito/env-local.sh \
+  scripts/taito/TAITOLESS.md www/README.md &> /dev/null || :
 
 ./scripts/taito-template/common.sh
 echo init done

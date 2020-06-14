@@ -38,12 +38,8 @@ sed -i "/^.*(TEMPLATE NOTE START)$/,/^.*(TEMPLATE NOTE END)$/d" README.md
 
 rm -f scripts/terraform/.gitignore
 
-# 'TODO links' from main.sh
-sed -i '/https:\/\/TODO/d' scripts/taito/config/main.sh
 sed -i "/# TEMPLATE-REMOVE/d" \
-  scripts/taito/config/main.sh \
-  scripts/taito/config/provider.sh \
-  scripts/taito/prod-env.sh \
+  scripts/taito/env-prod.sh \
   scripts/taito/project.sh \
   scripts/taito/testing.sh
 
@@ -112,17 +108,17 @@ if [[ ! ${taito_random_name} ]] || [[ ${taito_random_name} == *"-template" ]]; t
   taito_random_name="$(taito -q util random words: 3)" # TODO: remove util
 fi
 echo "Setting random name: ${taito_random_name}"
-sed -i "s/^taito_random_name=.*$/taito_random_name=${taito_random_name}/" scripts/taito/config/main.sh
+sed -i "s/^taito_random_name=.*$/taito_random_name=${taito_random_name}/" scripts/taito/labels.sh
 
 echo "Replacing git repository url"
 sed -i "s|TaitoUnited/.*-template.git|${template_default_vc_organization}/${taito_vc_repository}.git|g" package.json
 
 echo "Replacing template variables with the given settings..."
-sed -i "s/taito_company=.*/taito_company=${taito_company}/g" scripts/taito/config/main.sh
-sed -i "s/taito_family=.*/taito_family=${taito_family}/g" scripts/taito/config/main.sh
-sed -i "s/taito_application=.*/taito_application=${taito_application}/g" scripts/taito/config/main.sh
-sed -i "s/taito_suffix=.*/taito_suffix=${taito_suffix}/g" scripts/taito/config/main.sh
-sed -i "s/taito_project=.*/taito_project=${taito_vc_repository}/g" scripts/taito/config/main.sh
+sed -i "s/taito_company=.*/taito_company=${taito_company}/g" scripts/taito/labels.sh
+sed -i "s/taito_family=.*/taito_family=${taito_family}/g" scripts/taito/labels.sh
+sed -i "s/taito_application=.*/taito_application=${taito_application}/g" scripts/taito/labels.sh
+sed -i "s/taito_suffix=.*/taito_suffix=${taito_suffix}/g" scripts/taito/labels.sh
+sed -i "s/taito_project=.*/taito_project=${taito_vc_repository}/g" scripts/taito/labels.sh
 
 echo "Replacing template variables with the user specific settings..."
 sed -i "s/\${template_default_environments}/${template_default_environments}/g" scripts/taito/project.sh
@@ -131,10 +127,9 @@ sed -i "s/\${template_default_organization_abbr}/${template_default_organization
 sed -i "s/\${template_default_vc_organization}/${template_default_vc_organization:-}/g" scripts/taito/config/main.sh
 sed -i "s|\${template_default_vc_url}|${template_default_vc_url:-}|g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_sentry_organization}/${template_default_sentry_organization:-}/g" scripts/taito/config/main.sh
-sed -i "s/\${template_default_sentry_organization}/${template_default_sentry_organization:-}/g" scripts/taito/config/provider.sh
 sed -i "s/\${template_default_domain}/${template_default_domain:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_domain_prod}/${template_default_domain_prod:-}/g" scripts/taito/config/main.sh
-sed -i "s/\${template_default_domain_prod}/${template_default_domain_prod:-}/g" scripts/taito/prod-env.sh
+sed -i "s/\${template_default_domain_prod}/${template_default_domain_prod:-}/g" scripts/taito/env-prod.sh
 sed -i "s/\${template_default_zone}/${template_default_zone:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_zone_prod}/${template_default_zone_prod:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_provider}/${template_default_provider}/g" scripts/taito/config/main.sh

@@ -6,9 +6,9 @@ taito_target_env=${taito_target_env:-local}
 ##########################################################################
 # Root config file
 #
-# NOTE: This file is updated during 'taito project upgrade'. There should
-# rarely be need to modify it manually. Modify project.sh, prod-env.sh,
-# and testing.sh instead.
+# NOTE: This file is updated during 'taito project upgrade' and it should
+# not be modified manually. You can override these settings in project.sh
+# and env-*.sh.
 ##########################################################################
 
 # Taito CLI
@@ -17,20 +17,16 @@ taito_plugins="
   terraform:-local
   default-secrets generate-secrets
   docker
-  postgres-db sqitch-db
   npm git-global links-global
-  sentry semantic-release:prod
+  semantic-release:prod
 "
 
 # Project labeling
 taito_organization=${template_default_organization}
 taito_organization_abbr=${template_default_organization_abbr}
-taito_project=full-stack-template
-taito_random_name=full-stack-template
-taito_company=companyname
-taito_family=
-taito_application=template
-taito_suffix=
+sentry_organization=${template_default_sentry_organization}
+# shellcheck disable=SC1091
+. scripts/taito/labels.sh
 
 # Assets
 taito_project_icon=$taito_project-dev.${template_default_domain}/favicon.ico
@@ -97,18 +93,32 @@ taito_uptime_channels="${template_default_uptime_channels}"
 
 # Database definitions for database plugins
 # NOTE: database users are defined later in this file
-db_database_instance=${template_default_postgres}
-db_database_type=pg
-db_database_name=${taito_project//-/_}_${taito_env}
-db_database_username_suffix=${template_default_postgres_username_suffix}
-db_database_host="127.0.0.1"
-db_database_port=5001
-db_database_real_host="${template_default_postgres_host}"
-db_database_real_port=5432
-db_database_ssl_enabled="${template_default_postgres_ssl_enabled:-true}"
-db_database_ssl_client_cert_enabled="${template_default_postgres_ssl_client_cert_enabled:-false}"
-db_database_proxy_ssl_enabled="${template_default_postgres_proxy_ssl_enabled:-true}"
-db_database_create=true
+db_database_type=${taito_default_db_type:-pg}
+if [[ $db_database_type == "pg" ]]; then
+  db_database_instance=${template_default_postgres}
+  db_database_name=${taito_project//-/_}_${taito_env}
+  db_database_username_suffix=${template_default_postgres_username_suffix}
+  db_database_host="127.0.0.1"
+  db_database_port=5001
+  db_database_real_host="${template_default_postgres_host}"
+  db_database_real_port=5432
+  db_database_ssl_enabled="${template_default_postgres_ssl_enabled:-true}"
+  db_database_ssl_client_cert_enabled="${template_default_postgres_ssl_client_cert_enabled:-false}"
+  db_database_proxy_ssl_enabled="${template_default_postgres_proxy_ssl_enabled:-true}"
+  db_database_create=true
+elif [[ $db_database_type == "mysql" ]]; then
+  db_database_instance=${template_default_mysql}
+  db_database_name=${taito_project_short}${taito_env}
+  db_database_username_suffix=${template_default_mysql_username_suffix}
+  db_database_host="127.0.0.1"
+  db_database_port=5001
+  db_database_real_host="${template_default_mysql_host}"
+  db_database_real_port=3306
+  db_database_ssl_enabled="${template_default_mysql_ssl_enabled:-true}"
+  db_database_ssl_client_cert_enabled="${template_default_mysql_ssl_client_cert_enabled:-false}"
+  db_database_proxy_ssl_enabled="${template_default_mysql_proxy_ssl_enabled:-true}"
+  db_database_create=true
+fi
 
 # Storage definitions for Terraform
 st_storage_name="$taito_random_name-$taito_env"
@@ -183,11 +193,19 @@ case $taito_env in
 
     # Domain and resources
     taito_host="${template_default_host_prod}"
-    db_database_real_host="${template_default_postgres_host_prod}"
-    db_database_username_suffix=${template_default_postgres_username_suffix_prod}
-    db_database_ssl_enabled="${template_default_postgres_ssl_enabled_prod:-true}"
-    db_database_ssl_client_cert_enabled="${template_default_postgres_ssl_client_cert_enabled_prod:-false}"
-    db_database_proxy_ssl_enabled="${template_default_postgres_proxy_ssl_enabled_prod:-true}"
+    if [[ $db_database_type == "pg" ]]; then
+      db_database_real_host="${template_default_postgres_host_prod}"
+      db_database_username_suffix=${template_default_postgres_username_suffix_prod}
+      db_database_ssl_enabled="${template_default_postgres_ssl_enabled_prod:-true}"
+      db_database_ssl_client_cert_enabled="${template_default_postgres_ssl_client_cert_enabled_prod:-false}"
+      db_database_proxy_ssl_enabled="${template_default_postgres_proxy_ssl_enabled_prod:-true}"
+    elif [[ $db_database_type == "mysql" ]]; then
+      db_database_real_host="${template_default_mysql_host_prod}"
+      db_database_username_suffix=${template_default_mysql_username_suffix_prod}
+      db_database_ssl_enabled="${template_default_mysql_ssl_enabled_prod:-true}"
+      db_database_ssl_client_cert_enabled="${template_default_mysql_ssl_client_cert_enabled_prod:-false}"
+      db_database_proxy_ssl_enabled="${template_default_mysql_proxy_ssl_enabled_prod:-true}"
+    fi
 
     # Storage
     taito_storage_classes="${template_default_storage_class_prod}"
@@ -210,7 +228,7 @@ case $taito_env in
     ci_exec_release=true
 
     # shellcheck disable=SC1091
-    if [[ -f scripts/taito/prod-env.sh ]]; then . scripts/taito/prod-env.sh; fi
+    if [[ -f scripts/taito/env-prod.sh ]]; then . scripts/taito/env-prod.sh; fi
     ;;
   stag)
     # Settings
@@ -229,11 +247,19 @@ case $taito_env in
     taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod}
     taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_prod}
     taito_host="${template_default_host_prod}"
-    db_database_real_host="${template_default_postgres_host_prod}"
-    db_database_username_suffix=${template_default_postgres_username_suffix_prod}
-    db_database_ssl_enabled="${template_default_postgres_ssl_enabled_prod:-true}"
-    db_database_ssl_client_cert_enabled="${template_default_postgres_ssl_client_cert_enabled_prod:-false}"
-    db_database_proxy_ssl_enabled="${template_default_postgres_proxy_ssl_enabled_prod:-true}"
+    if [[ $db_database_type == "pg" ]]; then
+      db_database_real_host="${template_default_postgres_host_prod}"
+      db_database_username_suffix=${template_default_postgres_username_suffix_prod}
+      db_database_ssl_enabled="${template_default_postgres_ssl_enabled_prod:-true}"
+      db_database_ssl_client_cert_enabled="${template_default_postgres_ssl_client_cert_enabled_prod:-false}"
+      db_database_proxy_ssl_enabled="${template_default_postgres_proxy_ssl_enabled_prod:-true}"
+    elif [[ $db_database_type == "mysql" ]]; then
+      db_database_real_host="${template_default_mysql_host_prod}"
+      db_database_username_suffix=${template_default_mysql_username_suffix_prod}
+      db_database_ssl_enabled="${template_default_mysql_ssl_enabled_prod:-true}"
+      db_database_ssl_client_cert_enabled="${template_default_mysql_ssl_client_cert_enabled_prod:-false}"
+      db_database_proxy_ssl_enabled="${template_default_mysql_proxy_ssl_enabled_prod:-true}"
+    fi
 
     # Monitoring
     taito_uptime_provider= # only for prod by default
@@ -248,42 +274,44 @@ case $taito_env in
     ci_exec_deploy=${template_default_ci_exec_deploy_prod:-true}
 
     # shellcheck disable=SC1091
-    if [[ -f scripts/taito/stag-env.sh ]]; then . scripts/taito/stag-env.sh; fi
+    if [[ -f scripts/taito/env-stag.sh ]]; then . scripts/taito/env-stag.sh; fi
     ;;
   uat)
     # shellcheck disable=SC1091
-    if [[ -f scripts/taito/uat-env.sh ]]; then . scripts/taito/uat-env.sh; fi
+    if [[ -f scripts/taito/env-uat.sh ]]; then . scripts/taito/env-uat.sh; fi
     ;;
   test)
     # shellcheck disable=SC1091
-    if [[ -f scripts/taito/test-env.sh ]]; then . scripts/taito/test-env.sh; fi
+    if [[ -f scripts/taito/env-test.sh ]]; then . scripts/taito/env-test.sh; fi
     ;;
   local)
     taito_deployment_platforms=docker-compose
-    taito_app_url=http://localhost:9999
-    taito_storage_url=http://localhost:9999/minio
-    db_database_external_port=6000
     db_database_host=$taito_project-database
-    db_database_port=5432
     db_database_ssl_enabled=false
     db_database_ssl_client_cert_enabled=false
     db_database_proxy_ssl_enabled=false
     db_database_username_suffix=
+    if [[ $db_database_type == "pg" ]]; then
+      db_database_port=5432
+    elif [[ $db_database_type == "mysql" ]]; then
+      db_database_port=3306
+    fi
+
     # shellcheck disable=SC1091
-    if [[ -f scripts/taito/local-env.sh ]]; then . scripts/taito/local-env.sh; fi
+    if [[ -f scripts/taito/env-local.sh ]]; then . scripts/taito/env-local.sh; fi
     ;;
   *)
     # dev and feature branches
     if [[ $taito_env == "dev" ]] || [[ $taito_env == "f-"* ]]; then
       ci_exec_build=true        # allow build of a new container
       # shellcheck disable=SC1091
-      if [[ -f scripts/taito/dev-env.sh ]]; then . scripts/taito/dev-env.sh; fi
+      if [[ -f scripts/taito/env-dev.sh ]]; then . scripts/taito/env-dev.sh; fi
     fi
     # hotfix branches
     if [[ $taito_env == "h-"* ]]; then
       ci_exec_build=true        # allow build of a new container
       # shellcheck disable=SC1091
-      if [[ -f scripts/taito/hotfix-env.sh ]]; then . scripts/taito/hotfix-env.sh; fi
+      if [[ -f scripts/taito/env-hotfix.sh ]]; then . scripts/taito/env-hotfix.sh; fi
     fi
     ;;
 esac
@@ -301,8 +329,20 @@ fi
 
 # ------ Database users ------
 
+db_database_app_user_suffix="_app"
+
+# master user for creating and destroying databases
+if [[ $db_database_type == "pg" ]]; then
+  db_database_master_username="${template_default_postgres_master_username}${db_database_username_suffix}"
+  db_database_master_password_hint="${template_default_postgres_master_password_hint}"
+elif [[ $db_database_type == "mysql" ]]; then
+  db_database_app_user_suffix="a"
+  db_database_master_username="${template_default_mysql_master_username}${db_database_username_suffix}"
+  db_database_master_password_hint="${template_default_mysql_master_password_hint}"
+fi
+
 # app user for application
-db_database_app_username="${db_database_name}_app${db_database_username_suffix}"
+db_database_app_username="${db_database_name}${db_database_app_user_suffix}${db_database_username_suffix}"
 db_database_app_secret="${db_database_name//_/-}-db-app.password"
 
 # mgr user for deploying database migrations (CI/CD)
@@ -317,17 +357,10 @@ fi
 db_database_default_username="${db_database_name}${db_database_username_suffix}"
 db_database_default_secret="${db_database_name//_/-}-db-mgr.password"
 
-# master user for creating and destroying databases
-db_database_master_username="${template_default_postgres_master_username}${db_database_username_suffix}"
-db_database_master_password_hint="${template_default_postgres_master_password_hint}"
-
 # ------ All environments config ------
 
 # shellcheck disable=SC1091
 . scripts/taito/project.sh
-
-# TODO: Temporary hack for https://github.com/gatsbyjs/gatsby/issues/3721
-link_urls=${link_urls/:9999\/docs/:7463/}
 
 # ------ Taito config override (optional) ------
 

@@ -79,18 +79,22 @@ Operations on production and staging environments usually require admin rights. 
 
 ## Stack
 
-**Minikube:** TODO
+**Additional microservices:** You can use either monorepo or multirepo approach with this template. If you are going for multirepo, just create a separate project for each microservice based on this project template, and define common `taito_namespace` in scripts/taito/project.sh if you want them to share the same namespace. If you are going for monorepo, you can add a new microservice with the following steps. You can skip the IMPLEMENTATION steps if you are using a prebuilt Docker image (e.g. Redis).
 
-**Additional microservices:** You can use either monorepo or multirepo approach with this template. If you are going for multirepo, just create a separate project for each microservice. If you want some of them to share the same namespace, define common `taito_namespace` in scripts/taito/project.sh. If you are going for monorepo, or something in between multirepo and monorepo approaches, you can add a new microservice to a repository like this:
+  1. IMPLEMENTATION OR DATABASE: Create a new directory for your service implementation or database migration scripts. Look [FULL-STACK-TEMPLATE](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/) and [alternatives](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/tree/master/alternatives) for examples.
+  2. IMPLEMENTATION: Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `check-deps`, `check-size`.
+  3. IMPLEMENTATION: Add the service to your CI/CD script (`.yml/.yaml` or `Jenkinsfile` in project root or `.github/main.workflow`).
+  4. OPTIONAL: In case of a database, you may want to enable the corresponding Taito CLI plugins in `scripts/taito/project.sh`. For example `postgres-db` and `sqitch-db` for PostgreSQL with Sqitch.
+  5. Add the service to `taito_targets` variable in `scripts/taito/project.sh`
+  6. Add required secret definitions to `taito_*secrets` variables in `scripts/taito/project.sh`, and set secret values with `taito secret rotate: NAME`.
+  7. Add the service to `docker-compose*.yaml` files.
+  8. Add the service to `scripts/helm.yaml`.
+  9. OPTIONAL: Add the service to `docker-nginx.conf` if external access is required (e.g. with web browser).
+  10. Run `taito kaboom` and check that the service works ok in local development environment.
 
-  1. Create a new directory for your service. Look [FULL-STACK-TEMPLATE](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/) and [alternatives](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/tree/master/alternatives) for examples.
-  2. Add the service to `taito_targets` variable in `scripts/taito/project.sh`
-  3. OPTIONAL: Add the service to `docker-nginx.conf` if external access is required (e.g. with web browser).
-  4. Add the service to `docker-compose*.yaml` files.
-  5. Add the service to `scripts/helm.yaml`.
-  6. Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `check-deps`, `check-size`.
-  7. Add the service to your CI/CD script (`.yml/.yaml` or `Jenkinsfile` in project root or `.github/main.workflow`).
-  8. Run `taito kaboom` and check that the service works ok in local development environment.
+**Additional databases:** The template provides default configuration for one PostgreSQL database. You can add an additional database the same way you add a microservice (as described above), but you need to also add default settings for your additional database in `scripts/taito/project.sh` and environment specific overrides in `scripts/taito/env-*.sh` files. Use `db_database_*` settings of `scripts/taito/config/main.sh` as an example, and add the corresponding settings using `db_MYDATABASE_*` as naming.
+
+**Minikube:** TODO: Using Minikube locally instead of Docker Compose.
 
 **Kafka:** TODO: Kafka for event-driven microservices.
 
@@ -102,7 +106,7 @@ Operations on production and staging environments usually require admin rights. 
 
 **Authentication:** Ingress provides basic authentication, but it is only meant for hiding non-production environments. Here are some good technologies for implementing authentication: [Auth0](https://auth0.com), [Passport](http://www.passportjs.org/), [ORY Oathkeeper](https://www.ory.sh/api-access-control-kubernetes-cloud-native).
 
-**Static site generator (www):** See [/www/README.md](/www/README.md) for configuration instructions. You can use static site generator e.g. for user guides or API documentation.
+**Static site generator (www):** See [/www/README.md](/www/README.md) for configuration instructions. You can use static site generator e.g. for user guides, API documentation, or application website.
 
 **Custom provider:** If you cannot use Docker containers on your remote environments, you can customize the deployment with a custom provider. Instead of deploying the application as docker container images, you can, for example, deploy the application as WAR or EAR packages on a Java application server, or install everything directly on the remote host. You can enable the custom provider by setting `taito_provider=custom` in `scripts/taito/config/main.sh` and by implementing [custom deployment scripts](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/blob/master/scripts/custom-provider) yourself.
 

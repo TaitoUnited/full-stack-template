@@ -6,11 +6,18 @@
 # Project specific settings
 ##########################################################################
 
+# Taito CLI: Project specific plugins (for the selected database, etc.)
+taito_plugins="
+  ${taito_plugins}
+  postgres-db sqitch-db
+  sentry
+"
+
 # Environments: In the correct order (e.g. dev test uat stag canary prod)
 taito_environments="${template_default_environments}"
 
 # Basic auth: Uncomment the line below to disable basic auth from ALL
-# environments. Use prod-env.sh to disable basic auth from prod
+# environments. Use env-prod.sh to disable basic auth from prod
 # environment only.
 # taito_basic_auth_enabled=false
 
@@ -52,6 +59,9 @@ link_urls="
 # * wireframes=https://wireframes UI/UX wireframes
 # * feedback=https://feedback User feedback
 # * performance=https://performance Performance metrics
+
+# TODO: Temporary hack for https://github.com/gatsbyjs/gatsby/issues/3721
+link_urls=${link_urls/:9999\/docs/:7463/}
 
 # ------ Secrets ------
 # Configuration instructions:

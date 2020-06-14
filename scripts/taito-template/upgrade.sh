@@ -39,7 +39,7 @@ if [[ -f "${template_project_path}/taito-provider-config.sh" ]]; then
     mkdir -p scripts/taito/config || :
     rm -rf CONFIGURATION.md || :
     rm -rf DEVELOPMENT.md || :
-    mv taito-env-prod-config.sh scripts/taito/prod-env.sh || :
+    mv taito-env-prod-config.sh scripts/taito/env-prod.sh || :
     mv taito-project-config.sh scripts/taito/project.sh || :
     mv taito-testing-config.sh scripts/taito/testing.sh || :
     rm -rf taito*config.sh || :

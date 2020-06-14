@@ -5,9 +5,9 @@
 ##########################################################################
 # Provider specific settings
 #
-# NOTE: This file is updated during 'taito project upgrade'. There should
-# rarely be need to modify it manually. Modify project.sh, prod-env.sh,
-# and testing.sh instead.
+# NOTE: This file is updated during 'taito project upgrade' and it should
+# not be modified manually. You can override these settings in project.sh
+# and env-*.sh.
 ##########################################################################
 
 storage_name=$(env | grep '^st_.*_name' | head -n1 | sed 's/.*=//')
@@ -320,10 +320,9 @@ fi
 
 # Sentry
 if [[ $taito_plugins == *"sentry"* ]]; then
-  sentry_organization=${template_default_sentry_organization}
   link_urls="
     ${link_urls}
-    * errors:ENV=https://sentry.io/${template_default_sentry_organization}/$taito_project/?query=is%3Aunresolved+environment%3A$taito_target_env Sentry errors (:ENV)
+    * errors:ENV=https://sentry.io/${sentry_organization}/$taito_project/?query=is%3Aunresolved+environment%3A$taito_target_env Sentry errors (:ENV)
   "
 fi
 
