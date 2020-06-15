@@ -11,7 +11,9 @@ This file has been copied from [FULL-STACK-TEMPLATE](https://github.com/TaitoUni
 
 ## Local development environment
 
-Start your local development environment by running `taito kaboom`. Once the command starts to install libraries, you can leave it on the background while you continue with configuration. Once the application has started, open the web gui with `taito open client`. If the application fails to start, run `taito trouble` to see troubleshooting. More information on local development you can find from [DEVELOPMENT.md](DEVELOPMENT.md).
+Start your local development environment by running `taito kaboom`. Once the command starts to install libraries, you can leave it on the background while you continue with configuration. Once the application has started, open the web application UI with `taito open client` (or the static website with `taito open www`). If your project includes a static website, you need to configure it (see [/www/README.md](/www/README.md) for configuration instructions).
+
+> If the application fails to start, run `taito trouble` to see troubleshooting. More information on local development you can find from [DEVELOPMENT.md](DEVELOPMENT.md).
 
 ## Basic settings
 
@@ -85,14 +87,15 @@ Operations on production and staging environments usually require admin rights. 
   2. IMPLEMENTATION: Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `check-deps`, `check-size`.
   3. IMPLEMENTATION: Add the service to your CI/CD script (`.yml/.yaml` or `Jenkinsfile` in project root or `.github/main.workflow`).
   4. OPTIONAL: In case of a database, you may want to enable the corresponding Taito CLI plugins in `scripts/taito/project.sh`. For example `postgres-db` and `sqitch-db` for PostgreSQL with Sqitch.
-  5. Add the service to `taito_targets` variable in `scripts/taito/project.sh`
-  6. Add required secret definitions to `taito_*secrets` variables in `scripts/taito/project.sh`, and set secret values with `taito secret rotate: NAME`.
+  5. Add the service to `taito_targets` variable in `scripts/taito/project.sh`. If the service is function, database, or storage, you also need to set target type with the `taito_target_type_NAME` variable.
+  6. Add required secret definitions to `taito_*secrets` variables in `scripts/taito/project.sh`, and set local secret values with `taito secret rotate: NAME`.
   7. Add the service to `docker-compose*.yaml` files.
   8. Add the service to `scripts/helm.yaml`.
   9. OPTIONAL: Add the service to `docker-nginx.conf` if external access is required (e.g. with web browser).
   10. Run `taito kaboom` and check that the service works ok in local development environment.
+  11. Add secret values for each remote environment with `taito secret rotate:ENV NAME`.
 
-**Additional databases:** The template provides default configuration for one PostgreSQL database. You can add an additional database the same way you add a microservice (as described above), but you need to also add default settings for your additional database in `scripts/taito/project.sh` and environment specific overrides in `scripts/taito/env-*.sh` files. Use `db_database_*` settings of `scripts/taito/config/main.sh` as an example, and add the corresponding settings using `db_MYDATABASE_*` as naming.
+**Additional databases:** The template provides default configuration for a PostgreSQL database. You can add an additional databases the same way you add a microservice (described above), but you need to also add default settings for your additional database in `scripts/taito/project.sh` and environment specific overrides in `scripts/taito/env-*.sh` files. Use `db_database_*` settings of `scripts/taito/config/main.sh` as an example, and add the corresponding settings to `project.sh` and `env-*.sh` using `db_MYDATABASE_*` as environment variable naming. You may also want to add data import to your `taito-init` and `taito-init:clean` scripts in `package.json`.
 
 **Minikube:** TODO: Using Minikube locally instead of Docker Compose.
 

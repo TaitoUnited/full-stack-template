@@ -29,7 +29,7 @@ fi
 
 # Database connection
 test_all_DATABASE_HOST=$taito_project-database-proxy
-test_all_DATABASE_PORT=5432
+test_all_DATABASE_PORT=$db_database_real_port
 test_all_DATABASE_SSL_ENABLED=${db_database_proxy_ssl_enabled}
 test_all_DATABASE_SSL_CLIENT_CERT_ENABLED=${db_database_ssl_client_cert_enabled}
 test_all_DATABASE_NAME=$db_database_name

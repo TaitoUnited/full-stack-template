@@ -119,7 +119,7 @@ full-stack:
       db:
         useProxy: ${gcp_db_proxy_enabled}
         instance: ${taito_zone}:${taito_provider_region}:${db_database_instance}
-        port: 5432
+        port: ${db_database_real_port}
         proxySecret: ${taito_provider_db_proxy_secret}
       secrets:
         DATABASE_SSL_CA: ${db_database_ssl_ca_secret}

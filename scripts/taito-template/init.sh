@@ -11,11 +11,39 @@ fi
 rm -rf function
 sed -i "s/ function / /" scripts/taito/project.sh
 
-# Remote the example site
+# Remove the example site
 rm -rf www/site
 sed -i '/\/site\/node_modules" # FOR GATSBY ONLY/d' docker-compose.yaml
 sed -i '/\/site\/node_modules" # FOR GATSBY ONLY/d' docker-compose-remote.yaml
 
+# Determine project short name
+if [[ $taito_project_short != "fstemplate" ]]; then
+  taito_project_short="${taito_project_short}"
+else
+  taito_project_short="${taito_vc_repository}"
+fi
+taito_project_short="${taito_project_short//-/}"
+if [[ ! ${taito_project_short} ]] || \
+   [[ "${#taito_project_short}" -lt 5 ]] || \
+   [[ "${#taito_project_short}" -gt 10 ]] || \
+   [[ ! "${taito_project_short}" =~ ^[a-zA-Z0-9]*$ ]]; then
+  echo "Give a short version of the project name '${taito_vc_repository}'."
+  echo "It should be unique but also descriptive as it might be used"
+  echo "as a database name and as a database username for some databases."
+  echo "No special characters."
+  echo
+  export taito_project_short=""
+  while [[ ! ${taito_project_short} ]] || \
+    [[ "${#taito_project_short}" -lt 5 ]] || \
+    [[ "${#taito_project_short}" -gt 10 ]] || \
+    [[ ! "${taito_project_short}" =~ ^[a-zA-Z0-9]*$ ]]
+  do
+    echo "Short project name (5-10 characters)?"
+    read -r taito_project_short
+  done
+fi
+
+echo
 echo
 echo "######################"
 echo "#    Choose stack"
@@ -180,6 +208,74 @@ function prune () {
 
     rm -rf "$name"
   else
+    if [[ $name == "www" ]]; then
+      read -r -t 1 -n 1000 || :
+      echo
+      echo
+      echo "Choose website path depending on purpose:"
+      echo "1) User guides or documentation: /docs"
+      echo "2) Main website: /"
+      echo "3) Miscellanous usage: /www"
+      echo "*) Other: type the path yourself (e.g. /mypath)"
+      echo
+      www_path=
+      while [[ "${www_path}" != "/"* ]]; do
+        echo -n "Your choice: "
+        read -r www_choice
+        www_path="${www_choice}"
+        if [[ ${www_path} == "1" ]]; then
+          www_path="/docs"
+        elif [[ ${www_path} == "2" ]]; then
+          www_path="/"
+        elif [[ ${www_path} == "3" ]]; then
+          www_path="/www"
+        fi
+      done
+
+      sed -i "s/\\/api\\/docs/\\/api\\/docz/g" scripts/taito/project.sh
+      if [[ ${www_path} == "/" ]]; then
+        sed -i '/Remove \/docs from path/d' docker-nginx.conf
+        sed -i '/rewrite \^\/docs\//d' docker-nginx.conf
+        sed -i "s/path: \\/docs/path:/g" scripts/helm.yaml
+        sed -i "s/\\/docs//g" scripts/taito/project.sh
+        sed -i "s/\\/docs/\\//g" docker-nginx.conf
+      elif [[ ${www_path} != "/docs" ]]; then
+        www_path_escaped="${www_path//\//\\\/}"
+        sed -i "s/path: \\/docs/path: ${www_path_escaped}/g" scripts/helm.yaml
+        sed -i "s/\\/docs/${www_path_escaped}/g" scripts/taito/project.sh
+        sed -i "s/\\/docs/${www_path_escaped}/g" docker-nginx.conf
+      fi
+      sed -i "s/\\/api\\/docz/\\/api\\/docs/g" scripts/taito/project.sh
+    fi
+
+    if [[ $name == "database" ]]; then
+      echo
+      read -r -t 1 -n 1000 || :
+      echo "The example implementation supports PostgreSQL only, but you can"
+      echo "also choose MySQL."
+      read -p "Use MySQL instead of Postgres? [y/N] " -n 1 -r confirm
+      if [[ ${confirm} =~ ^[Yy]$ ]]; then
+        sed -i "s/taito_default_db_type=pg/taito_default_db_type=mysql/" \
+          scripts/taito/labels.sh
+        sed -i "s/postgres-db/mysql-db/" scripts/taito/project.sh
+        sed -i "s/pg/mysql/g" database/sqitch.conf
+        sed -i "s/_app/a/g" database/sqitch.conf
+        sed -i "s/full_stack_template_local/${taito_project_short}local/g" \
+          database/sqitch.conf
+        sed -i "/CREATE EXTENSION/d" database/db.sql
+        sed -i "s/5432/3306/g" database/sqitch.conf
+        sed -i "s/5432/3306/g" *.yaml
+        sed -i "s/postgres:11/mysql:5.7/g" docker-*.yaml
+        sed -i "s/POSTGRES_DB/MYSQL_DATABASE/g" docker-*.yaml
+        sed -i "s/POSTGRES_USER/MYSQL_USER/g" docker-*.yaml
+        sed -i "s/POSTGRES_PASSWORD_FILE/MYSQL_PASSWORD_FILE/g" docker-*.yaml
+      else
+        sed -i '/MYSQL_/d' docker-*.yaml
+        sed -i "/DATABASE_MGR_PASSWORD/d" docker-compose-remote.yaml
+        sed -i "/db_database_mgr_secret/d" docker-compose-remote.yaml
+      fi
+    fi
+
     if [[ $name == "storage" ]] && (
          [[ ${taito_provider:?} == "azure" ]] ||
          [[ ${taito_provider} == "aws" ]]
@@ -202,6 +298,7 @@ function prune () {
         sed -i '/S3_URL/d' ./scripts/helm.yaml
       fi
     fi
+
     if [[ $name == "kafka" ]]; then
       echo
       read -r -t 1 -n 1000 || :
@@ -221,17 +318,10 @@ function prune () {
   fi
 }
 
-prune "WEB user interface? [Y/n] " client \\/
+prune "Web application GUI? [Y/n] " client \\/
 prune "Administration GUI? [y/N] " admin \\/admin
-prune "Static website (e.g. for API documentation or user guide)? [y/N] " www \\/docs
-
-echo
-echo "NOTE: WEB user interface is just a bunch of static files that are loaded"
-echo "to a web browser. If you need some process running on server or need to"
-echo "keep some secrets hidden from browser, you need API/server."
-echo
-
-prune "API/services? [Y/n] " server \\/api
+prune "Static website? [y/N] " www \\/docs
+prune "RESTful API? [Y/n] " server \\/api
 prune "GraphQL gateway? [y/N] " graphql \\/graphql
 prune "Kafka for event-based streaming/queuing? [y/N] " kafka
 prune "Redis (e.g. as in-memory cache)? [y/N] " redis
@@ -241,6 +331,8 @@ prune "Permanent object storage for files? [y/N] " storage \\/bucket \\/minio
 
 echo
 echo "Replacing project and company names in files. Please wait..."
+find . -type f -exec sed -i \
+  -e "s/fstemplate/${taito_project_short}/g" 2> /dev/null {} \;
 find . -type f -exec sed -i \
   -e "s/full_stack_template/${taito_vc_repository_alt}/g" 2> /dev/null {} \;
 find . -type f -exec sed -i \

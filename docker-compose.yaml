@@ -226,6 +226,7 @@ services:
       POSTGRES_DB: ${db_database_name}
       POSTGRES_USER: ${db_database_app_username}
       POSTGRES_PASSWORD_FILE: /run/secrets/DATABASE_PASSWORD
+      MYSQL_ROOT_PASSWORD: ${taito_default_password}
     volumes:
       - "./database:/docker-entrypoint-initdb.d:delegated"
 

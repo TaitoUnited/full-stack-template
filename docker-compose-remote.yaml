@@ -173,10 +173,12 @@ services:
   #     - "5432:5432"
   #   secrets:
   #     - DATABASE_PASSWORD
+  #     - DATABASE_MGR_PASSWORD
   #   environment:
   #     POSTGRES_DB: ${db_database_name}
   #     POSTGRES_USER: ${db_database_app_username}
   #     POSTGRES_PASSWORD_FILE: /run/secrets/DATABASE_PASSWORD
+  #     MYSQL_ROOT_PASSWORD_FILE /run/secrets/DATABASE_MGR_PASSWORD
   #   volumes:
   #     - "./database:/docker-entrypoint-initdb.d:delegated"
   #     - "./database-db/mount:/var/lib/postgresql/data"
@@ -194,6 +196,8 @@ services:
 secrets:
   DATABASE_PASSWORD:
     file: ./secrets/${taito_env}/${db_database_app_secret}
+  DATABASE_MGR_PASSWORD:
+    file: ./secrets/${taito_env}/${db_database_mgr_secret}
   REDIS_PASSWORD:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-redis.password
   S3_KEY_SECRET:

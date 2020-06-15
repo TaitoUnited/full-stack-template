@@ -76,7 +76,7 @@
     "babel-plugin-syntax-class-properties": "6.13.0",
     "babel-plugin-transform-remove-console": "6.9.4",
     "css-loader": "^3.5.3",
-    "cypress": "^4.6.0",
+    "cypress": "4.6.0",
     "eslint": "^7.0.0",
     "eslint-config-prettier": "^6.1.0",
     "eslint-config-standard": "^14.0.1",

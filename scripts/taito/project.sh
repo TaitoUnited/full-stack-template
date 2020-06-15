@@ -46,11 +46,11 @@ taito_uptime_timeouts=" 5 5 5 5 5 "
 # 'taito project docs'.
 
 link_urls="
-  * client[:ENV]=$taito_app_url Application GUI (:ENV)
-  * admin[:ENV]=$taito_app_url/admin/ Admin GUI (:ENV)
+  * client[:ENV]=$taito_app_url Web application GUI (:ENV)
+  * admin[:ENV]=$taito_app_url/admin/ Administration GUI (:ENV)
   * server[:ENV]=$taito_app_url/api/uptimez Server API (:ENV)
-  * apidocs[:ENV]=$taito_app_url/api/docs API Docs (:ENV)
-  * www[:ENV]=$taito_app_url/docs Generated documentation (:ENV)
+  * apidocs[:ENV]=$taito_app_url/api/docs API docs (:ENV)
+  * www[:ENV]=$taito_app_url/docs Website (:ENV)
   * graphql[:ENV]=$taito_app_url/graphql/uptimez GraphQL API (:ENV)
   * git=https://$taito_vc_repository_url Git repository
 "

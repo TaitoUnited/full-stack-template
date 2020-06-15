@@ -6,9 +6,10 @@ Remove static site generators that you do not use from `www/install.sh` but do n
 
     EDIT www/install.sh
 
-Start containers (see `taito trouble` if containers fail to start):
+Build and start containers (see `taito trouble` if containers fail to start):
 
-    taito kaboom
+    taito stop
+    taito start --clean
 
 Once you see text `No site yet at www/site. Just keep the container running.`, execute the following steps depending on the static site generator of your choice.
 
