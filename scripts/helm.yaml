@@ -163,7 +163,7 @@ full-stack:
     storage:
       egress:
         - ip: public
-      image: minio/minio:RELEASE.2019-10-12T01-39-57Z
+      image: minio/minio:RELEASE.2020-05-29T14-08-49Z
       port: 9000
       livenessPath: /minio/health/ready
       memoryRequest: 20Mi

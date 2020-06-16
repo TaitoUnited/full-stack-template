@@ -11,7 +11,7 @@ This file has been copied from [FULL-STACK-TEMPLATE](https://github.com/TaitoUni
 
 ## Local development environment
 
-Start your local development environment by running `taito kaboom`. Once the command starts to install libraries, you can leave it on the background while you continue with configuration. Once the application has started, open the web application UI with `taito open client` (or the static website with `taito open www`). If your project includes a static website, you need to configure it (see [/www/README.md](/www/README.md) for configuration instructions).
+Start your local development environment by running `taito kaboom`. Once the command starts to install libraries, you can leave it on the background while you continue with configuration. Once the application has started, open the web application GUI with `taito open client`. NOTE: If your project includes a static website instead of web application GUI, you need to configure it first (see [/www/README.md](/www/README.md)), and then you can open it with `taito open www`.
 
 > If the application fails to start, run `taito trouble` to see troubleshooting. More information on local development you can find from [DEVELOPMENT.md](DEVELOPMENT.md).
 
