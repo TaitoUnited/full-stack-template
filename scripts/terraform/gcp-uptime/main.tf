@@ -28,7 +28,7 @@ locals {
  */
 module "gcp-uptime" {
   source  = "TaitoUnited/uptime-monitoring/google"
-  version = "1.0.4"
+  version = "1.0.5"
 
   # Provider
   project_id          = var.taito_uptime_namespace_id
