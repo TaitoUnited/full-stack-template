@@ -1,6 +1,7 @@
 # Builder and tester container for production build
 FROM adoptopenjdk/openjdk11-openj9:alpine-slim as builder
 ARG SERVICE_DIR=.
+RUN mkdir -p /service
 WORKDIR /service
 COPY ${SERVICE_DIR} ./
 RUN ./gradlew build
@@ -11,6 +12,7 @@ LABEL version=${BUILD_VERSION} \
       project=sandbox-jukka6 \
       role=server
 ENV BUILD_VERSION ${BUILD_VERSION}
+RUN mkdir -p /service
 WORKDIR /service
 COPY --from=builder /build/libs/*.jar server.jar
 RUN addgroup -S micronaut && \

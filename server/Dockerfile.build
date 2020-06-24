@@ -3,6 +3,7 @@ FROM node:lts-alpine as builder
 ARG SERVICE_DIR=.
 ARG TARGET_ENV=prod
 RUN apk add --update-cache build-base python git fontconfig
+RUN mkdir -p /service
 WORKDIR /service
 COPY ${SERVICE_DIR}/package.json \
      ${SERVICE_DIR}/package-lock.* \
@@ -24,6 +25,7 @@ LABEL version=${BUILD_VERSION} \
       role=server
 ENV BUILD_VERSION ${BUILD_VERSION}
 ENV NODE_ENV production
+RUN mkdir -p /service
 WORKDIR /service
 COPY --from=builder /build .
 COPY --from=builder /service/package.json .

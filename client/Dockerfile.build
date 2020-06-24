@@ -5,6 +5,7 @@ FROM taitounited/cypress:4.6.0 as builder
 ARG SERVICE_DIR=.
 ARG TARGET_ENV=prod
 ARG BUILD_VERSION
+RUN mkdir -p /service
 WORKDIR /service
 COPY ${SERVICE_DIR}/package.json \
      ${SERVICE_DIR}/package-lock.* \

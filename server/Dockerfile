@@ -3,6 +3,7 @@
 FROM node:lts-alpine
 ARG SERVICE_DIR=.
 RUN apk add --update-cache rsync # rsync for windows devs
+RUN mkdir -p /service
 WORKDIR /service
 ENV NODE_ENV development
 COPY ${SERVICE_DIR}/package.json \

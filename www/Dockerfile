@@ -6,6 +6,7 @@ ENV NODE_ENV development
 
 RUN mkdir /service && chown node:node /service
 
+RUN mkdir -p /service
 WORKDIR /service
 COPY ${SERVICE_DIR}/install.sh \
      ${SERVICE_DIR}/package* \

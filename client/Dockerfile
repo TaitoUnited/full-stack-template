@@ -4,6 +4,7 @@
 FROM taitounited/cypress:4.6.0
 ARG SERVICE_DIR=.
 RUN apt-get -y update && apt-get -y install rsync # rsync for windows devs
+RUN mkdir -p /service
 WORKDIR /service
 COPY ${SERVICE_DIR}/package.json \
      ${SERVICE_DIR}/package-lock.* \

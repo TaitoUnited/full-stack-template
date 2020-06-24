@@ -1,6 +1,7 @@
 # Local development runtime
 FROM nginx:1.17-alpine
 ARG SERVICE_DIR=.
+RUN mkdir -p /service
 WORKDIR /service
 RUN chown -R nginx:nginx /var/cache/nginx && \
     chown -R nginx:nginx /service && \

@@ -11,6 +11,7 @@ RUN apk add --update-cache \
   python3-dev \
   rsync # rsync for windows devs
 
+RUN mkdir -p /service
 WORKDIR /service
 
 COPY ${SERVICE_DIR}/requirements-dev.txt /service/

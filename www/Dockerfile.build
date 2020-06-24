@@ -10,6 +10,7 @@ ENV APP_SENTRY_PUBLIC_DSN #sentryPublicDSN
 
 RUN mkdir /service && chown node:node /service
 
+RUN mkdir -p /service
 WORKDIR /service
 COPY ${SERVICE_DIR}/*.sh \
      ${SERVICE_DIR}/package* \

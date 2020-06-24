@@ -8,6 +8,7 @@ LABEL version=${BUILD_VERSION} \
 RUN apt-get -y update && \
     apt-get -y install git webhook
 
+RUN mkdir -p /service
 WORKDIR /service
 COPY ${SERVICE_DIR}/*.sh \
      ${SERVICE_DIR}/*.json \
