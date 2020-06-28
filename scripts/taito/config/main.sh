@@ -211,8 +211,8 @@ case $taito_env in
     taito_storage_classes="${template_default_storage_class_prod}"
     taito_storage_locations="${template_default_storage_location_prod}"
     taito_storage_days=${template_default_storage_days_prod}
-    taito_backup_locations="${template_default_backup_location_prod}"
-    taito_backup_days="${template_default_backup_days_prod}"
+    taito_storage_backup_location="${template_default_backup_location_prod}"
+    taito_storage_backup_days="${template_default_backup_days_prod}"
 
     # Monitoring
     taito_uptime_provider=${template_default_uptime_provider_prod}

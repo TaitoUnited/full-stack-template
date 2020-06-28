@@ -60,6 +60,26 @@ variable "taito_storage_days" {
   default = ""
 }
 
+variable "taito_storage_cors" {
+  type = string  # whitespace delimited strings
+  default = ""
+}
+
+variable "taito_storage_admins" {
+  type = string  # whitespace delimited strings
+  default = ""
+}
+
+variable "taito_storage_object_admins" {
+  type = string  # whitespace delimited strings
+  default = ""
+}
+
+variable "taito_storage_object_viewers" {
+  type = string  # whitespace delimited strings
+  default = ""
+}
+
 # Backup
 
 variable "taito_backup_locations" {

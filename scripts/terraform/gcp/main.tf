@@ -20,6 +20,14 @@ locals {
     split(" ", trimspace(replace(var.taito_storage_classes, "/\\s+/", " "))))
   taito_storage_days = (var.taito_storage_days == "" ? [] :
     split(" ", trimspace(replace(var.taito_storage_days, "/\\s+/", " "))))
+  taito_storage_cors = (var.taito_storage_cors == "" ? [] :
+    split(" ", trimspace(replace(var.taito_storage_cors, "/\\s+/", " "))))
+  taito_storage_admins = (var.taito_storage_admins == "" ? [] :
+    split(" ", trimspace(replace(var.taito_storage_admins, "/\\s+/", " "))))
+  taito_storage_object_admins = (var.taito_storage_object_admins == "" ? [] :
+    split(" ", trimspace(replace(var.taito_storage_object_admins, "/\\s+/", " "))))
+  taito_storage_object_viewers = (var.taito_storage_object_viewers == "" ? [] :
+    split(" ", trimspace(replace(var.taito_storage_object_viewers, "/\\s+/", " "))))
   taito_backup_locations = (var.taito_backup_locations == "" ? [] :
     split(" ", trimspace(replace(var.taito_backup_locations, "/\\s+/", " "))))
   taito_backup_days = (var.taito_backup_days == "" ? [] :
@@ -28,7 +36,7 @@ locals {
 
 module "gcp" {
   source  = "TaitoUnited/project-resources/google"
-  version = "1.0.4"
+  version = "1.1.0"
 
   # Provider
   project_id              = var.taito_resource_namespace_id
@@ -48,6 +56,10 @@ module "gcp" {
   storage_locations       = local.taito_storage_locations
   storage_classes         = local.taito_storage_classes
   storage_days            = local.taito_storage_days
+  storage_cors            = local.taito_storage_cors
+  storage_admins          = local.taito_storage_admins
+  storage_object_admins   = local.taito_storage_object_admins
+  storage_object_viewers  = local.taito_storage_object_viewers
 
   # Backup
   # backup_locations      = local.taito_backup_locations
