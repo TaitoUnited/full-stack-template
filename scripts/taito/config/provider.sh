@@ -10,7 +10,7 @@
 # and env-*.sh.
 ##########################################################################
 
-storage_name=$(env | grep '^st_.*_name' | head -n1 | sed 's/.*=//')
+storage_name=$(env | grep '^st_storage_name' | head -n1 | sed 's/.*=//')
 
 case $taito_provider in
   azure)
