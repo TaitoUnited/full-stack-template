@@ -7,3 +7,8 @@ full-stack:
     memoryRequest: 70Mi
     memoryLimit: 512Mi
     # TODO enable autoscaling
+
+  services:
+    server:
+      env:
+        DATABASE_POOL_MIN: '1'
