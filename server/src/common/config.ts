@@ -84,6 +84,8 @@ const config = {
   BUCKET_URL: process.env.BUCKET_URL || undefined,
   BUCKET_REGION: process.env.BUCKET_REGION,
   BUCKET_BUCKET: process.env.BUCKET_BUCKET as string,
+  BUCKET_BROWSE_URL: process.env.BUCKET_BROWSE_URL as string,
+  BUCKET_DOWNLOAD_URL: process.env.BUCKET_DOWNLOAD_URL as string,
   BUCKET_KEY_ID: process.env.BUCKET_KEY_ID,
   BUCKET_KEY_SECRET: readSecretSync('BUCKET_KEY_SECRET'),
   BUCKET_FORCE_PATH_STYLE: Boolean(process.env.BUCKET_FORCE_PATH_STYLE),
