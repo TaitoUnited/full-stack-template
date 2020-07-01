@@ -8,7 +8,6 @@
 
 # Use localhost:9999 instead of the default domain
 taito_app_url=http://localhost:9999
-taito_storage_url=http://localhost:9999/minio
 
 # Connect to database port exposed in docker-compose.yaml
 db_database_external_port=6000

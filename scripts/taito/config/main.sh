@@ -120,13 +120,15 @@ elif [[ $db_database_type == "mysql" ]]; then
   db_database_create=true
 fi
 
+# Storage defaults
+taito_default_storage_class="${template_default_storage_class}"
+taito_default_storage_location="${template_default_storage_location}"
+taito_default_storage_days="${template_default_storage_days}"
+taito_default_storage_backup_location="${template_default_backup_location}"
+taito_default_storage_backup_days="${template_default_backup_days}"
+
 # Storage definitions for Terraform
-st_storage_name="$taito_random_name-$taito_env"
-st_storage_class="${template_default_storage_class}"
-st_storage_location="${template_default_storage_location}"
-st_storage_days=${template_default_storage_days}
-st_storage_backup_location="${template_default_backup_location}"
-st_storage_backup_days="${template_default_backup_days}"
+st_bucket_name="$taito_random_name-$taito_env"
 
 # Misc settings
 taito_basic_auth_enabled=true
@@ -207,12 +209,12 @@ case $taito_env in
       db_database_proxy_ssl_enabled="${template_default_mysql_proxy_ssl_enabled_prod:-true}"
     fi
 
-    # Storage
-    taito_storage_classes="${template_default_storage_class_prod}"
-    taito_storage_locations="${template_default_storage_location_prod}"
-    taito_storage_days=${template_default_storage_days_prod}
-    taito_storage_backup_location="${template_default_backup_location_prod}"
-    taito_storage_backup_days="${template_default_backup_days_prod}"
+    # Storage defaults
+    taito_default_storage_class="${template_default_storage_class_prod}"
+    taito_default_storage_location="${template_default_storage_location_prod}"
+    taito_default_storage_days="${template_default_storage_days_prod}"
+    taito_default_storage_backup_location="${template_default_backup_location_prod}"
+    taito_default_storage_backup_days="${template_default_backup_days_prod}"
 
     # Monitoring
     taito_uptime_provider=${template_default_uptime_provider_prod}
@@ -260,6 +262,13 @@ case $taito_env in
       db_database_ssl_client_cert_enabled="${template_default_mysql_ssl_client_cert_enabled_prod:-false}"
       db_database_proxy_ssl_enabled="${template_default_mysql_proxy_ssl_enabled_prod:-true}"
     fi
+
+    # Storage defaults
+    taito_default_storage_class="${template_default_storage_class_prod}"
+    taito_default_storage_location="${template_default_storage_location_prod}"
+    taito_default_storage_days="${template_default_storage_days_prod}"
+    taito_default_storage_backup_location="${template_default_backup_location_prod}"
+    taito_default_storage_backup_days="${template_default_backup_days_prod}"
 
     # Monitoring
     taito_uptime_provider= # only for prod by default

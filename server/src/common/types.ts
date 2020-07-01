@@ -1,6 +1,6 @@
 import { IDatabase, ITask } from 'pg-promise';
 import Bunyan from 'bunyan';
-import { User } from '../shared/types/common';
+import { User } from '../../shared/types/common';
 
 // DAOs can work with raw database calls & transactions
 export type Db =

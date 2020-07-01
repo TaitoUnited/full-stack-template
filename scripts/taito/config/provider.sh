@@ -10,8 +10,6 @@
 # and env-*.sh.
 ##########################################################################
 
-storage_name=$(env | grep '^st_storage_name' | head -n1 | sed 's/.*=//')
-
 case $taito_provider in
   azure)
     taito_plugins="
@@ -25,9 +23,17 @@ case $taito_provider in
     kubernetes_cluster="${kubernetes_name}"
     kubernetes_user="clusterUser_${taito_zone}_${kubernetes_cluster}"
 
-    # Set Azure specific storage url
-    if [[ $taito_env != "local" ]] && [[ $storage_name ]]; then
-      taito_storage_url="https://portal.azure.com/#blade/Microsoft_Azure_Storage/ContainerMenuBlade/overview/storageAccountId/%2Fsubscriptions%2F${taito_provider_billing_account_id}%2FresourceGroups%2F${taito_resource_namespace}%2Fproviders%2FMicrosoft.Storage%2FstorageAccounts%2F${taito_project//-/}${taito_env//-/}/path/${storage_name}"
+    # Set Azure specific storage urls
+    if [[ $taito_env != "local" ]]; then
+      for bucket in ${taito_buckets[@]}; do
+        storage_name=$(env | grep '^st_bucket_name' | head -n1 | sed 's/.*=//')
+        storage_url="https://portal.azure.com/#blade/Microsoft_Azure_Storage/ContainerMenuBlade/overview/storageAccountId/%2Fsubscriptions%2F${taito_provider_billing_account_id}%2FresourceGroups%2F${taito_resource_namespace}%2Fproviders%2FMicrosoft.Storage%2FstorageAccounts%2F${taito_project//-/}${taito_env//-/}/path/${storage_name}"
+
+        link_urls="
+          ${link_urls}
+          * $bucket:ENV=$storage_url $bucket (:ENV)
+        "
+      done
     fi
     ;;
   aws)
@@ -42,9 +48,17 @@ case $taito_provider in
     kubernetes_cluster="arn:aws:eks:${taito_provider_region}:${taito_provider_org_id}:cluster/${kubernetes_name}"
     kubernetes_user="${kubernetes_cluster}"
 
-    # Set AWS specific storage url
-    if [[ $taito_env != "local" ]] && [[ $storage_name ]]; then
-      taito_storage_url="https://s3.console.aws.amazon.com/s3/buckets/${storage_name}/?region=${taito_provider_region}&tab=overview"
+    # Set AWS specific storage urls
+    if [[ $taito_env != "local" ]]; then
+      for bucket in ${taito_buckets[@]}; do
+        storage_name=$(env | grep '^st_bucket_name' | head -n1 | sed 's/.*=//')
+        storage_url="https://s3.console.aws.amazon.com/s3/buckets/${storage_name}/?region=${taito_provider_region}&tab=overview"
+
+        link_urls="
+          ${link_urls}
+          * $bucket:ENV=$storage_url $bucket (:ENV)
+        "
+      done
     fi
     ;;
   "do")
@@ -82,12 +96,21 @@ case $taito_provider in
     fi
 
     # Storage
-    if [[ ${storage_name} ]]; then
+    if [[ ${taito_buckets} ]]; then
       provider_service_account_enabled=true
-      # Set google specific storage url
-      if [[ $taito_env != "local" ]]; then
-        taito_storage_url="https://console.cloud.google.com/storage/browser/${storage_name}?project=$taito_resource_namespace_id"
-      fi
+    fi
+
+    # Set google specific storage urls
+    if [[ $taito_env != "local" ]]; then
+      for bucket in ${taito_buckets[@]}; do
+        storage_name=$(env | grep '^st_bucket_name' | head -n1 | sed 's/.*=//')
+        storage_url="https://console.cloud.google.com/storage/browser/${storage_name}?project=$taito_resource_namespace_id"
+
+        link_urls="
+          ${link_urls}
+          * $bucket:ENV=$storage_url $bucket (:ENV)
+        "
+      done
     fi
 
     link_urls="
@@ -347,13 +370,5 @@ if [[ $db_database_ssl_client_cert_enabled == "true" ]]; then
     $db_database_ssl_ca_secret:copy/devops
     $db_database_ssl_cert_secret:copy/devops
     $db_database_ssl_key_secret:copy/devops
-  "
-fi
-
-# Storage link
-if [[ $taito_storage_url ]] && [[ $taito_storage_url != *"localhost"* ]]; then
-  link_urls="
-    ${link_urls}
-    * storage:ENV=$taito_storage_url Storage bucket (:ENV)
   "
 fi

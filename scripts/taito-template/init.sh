@@ -187,6 +187,7 @@ function prune () {
 
     if [[ $name == "storage" ]]; then
       # Remove storage from configs
+      sed -i "s/ bucket / /" scripts/taito/project.sh
       sed -i '/storage/d' scripts/taito/project.sh
       sed -i '/BUCKET_/d' docker-compose.yaml
       sed -i '/BUCKET_/d' docker-compose-remote.yaml

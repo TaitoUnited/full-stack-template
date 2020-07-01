@@ -103,14 +103,11 @@ Operations on production and staging environments usually require admin rights. 
 
       ```
       st_mybucket_name="$taito_random_name-mybucket-$taito_env"
-      st_mybucket_class=REGIONAL
-      st_mybucket_location=europe-west1
-      st_mybucket_days=60
       ```
 
-      > NOTE: st_mybucket_days specifies how long deleted files are kept in archive. However, if you want that files are deleted automatically after a period, you can define expiration with ´st_mybucket_days=60-expiration´.
+      > TODO: Add Taito CLI documentation reference for all st-variables.
 
-  2. Add the storage bucket to `taito_targets` in `scripts/taito/project.sh`. For example: `taito_targets="... mybucket ..."`
+  2. Add the storage bucket to `taito_buckets` in `scripts/taito/project.sh`. For example: `taito_buckets="bucket mybucket"`
   3. Add the storage bucket to `storage/` and `storage/.minio.sys/buckets/`.
   4. Add the storage bucket environment variables in `docker-compose.yaml` and `helm.yaml`.
   5. Add the storage bucket to implementation (e.g. configuration in `config.ts` and `storage.ts`, uptime check in `InfraRouter.ts`)
