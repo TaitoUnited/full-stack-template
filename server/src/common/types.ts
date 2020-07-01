@@ -6,3 +6,10 @@ export type Db =
   | ITask<Record<string, unknown>>;
 
 export type NonPromise<T> = T extends Promise<any> ? never : T;
+
+export interface State {
+  db: IDatabase<Record<string, unknown>>;
+  tx: ITask<Record<string, unknown>>;
+  log: Bunyan;
+  user?: User;
+}

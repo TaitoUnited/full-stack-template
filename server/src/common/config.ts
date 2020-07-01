@@ -81,12 +81,12 @@ const config = {
     : 6379,
   REDIS_PASSWORD: readSecretSync('REDIS_PASSWORD'),
   // Storage
-  S3_URL: process.env.S3_URL || undefined,
-  S3_REGION: process.env.S3_REGION,
-  S3_BUCKET: process.env.S3_BUCKET as string,
-  S3_KEY_ID: process.env.S3_KEY_ID,
-  S3_KEY_SECRET: readSecretSync('S3_KEY_SECRET'),
-  S3_FORCE_PATH_STYLE: Boolean(process.env.S3_FORCE_PATH_STYLE),
+  BUCKET_URL: process.env.BUCKET_URL || undefined,
+  BUCKET_REGION: process.env.BUCKET_REGION,
+  BUCKET_BUCKET: process.env.BUCKET_BUCKET as string,
+  BUCKET_KEY_ID: process.env.BUCKET_KEY_ID,
+  BUCKET_KEY_SECRET: readSecretSync('BUCKET_KEY_SECRET'),
+  BUCKET_FORCE_PATH_STYLE: Boolean(process.env.BUCKET_FORCE_PATH_STYLE),
 
   // Logging
   COMMON_LOG_LEVEL: process.env.COMMON_LOG_LEVEL,

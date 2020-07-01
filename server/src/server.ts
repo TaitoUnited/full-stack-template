@@ -3,7 +3,6 @@ import patchKoaQs from 'koa-qs';
 import config from './common/config';
 import db from './common/db';
 import log from './common/log';
-import storage from './common/storage';
 import dbTransactionMiddleware from './infra/dbTransactionMiddleware';
 import errorHandlerMiddleware from './infra/errorHandlerMiddleware';
 import initSentry from './infra/initSentry';
@@ -21,7 +20,6 @@ server.use(async (ctx, next) => {
   ctx.state = ctx.state || {};
   ctx.state.log = log;
   ctx.state.db = db;
-  ctx.state.storage = storage;
   await next();
 });
 
@@ -29,7 +27,7 @@ server.use(async (ctx, next) => {
 server.use(requestLoggerMiddleware); // Assume no errors in logging
 server.use(errorHandlerMiddleware);
 server.use(dbTransactionMiddleware);
-routerMiddlewares.forEach(middleware => {
+routerMiddlewares.forEach((middleware) => {
   server.use(middleware);
 });
 

@@ -188,11 +188,11 @@ function prune () {
     if [[ $name == "storage" ]]; then
       # Remove storage from configs
       sed -i '/storage/d' scripts/taito/project.sh
-      sed -i '/S3_/d' docker-compose.yaml
-      sed -i '/S3_/d' docker-compose-remote.yaml
+      sed -i '/BUCKET_/d' docker-compose.yaml
+      sed -i '/BUCKET_/d' docker-compose-remote.yaml
       sed -i '/storage/d' docker-compose.yaml
       sed -i '/storage/d' docker-compose-remote.yaml
-      sed -i '/S3_/d' ./scripts/helm.yaml
+      sed -i '/BUCKET_/d' ./scripts/helm.yaml
 
       # Remove storage from server implementation
       # TODO: works only for the default Node.js server implementation
@@ -200,7 +200,7 @@ function prune () {
       sed -i '/storage/d' ./server/src/server.ts &> /dev/null || :
       sed -i '/storage/d' ./server/src/common/types.ts &> /dev/null || :
       sed -i '/Storage/d' ./server/src/common/config.ts &> /dev/null || :
-      sed -i '/S3_/d' ./server/src/common/config.ts &> /dev/null || :
+      sed -i '/BUCKET_/d' ./server/src/common/config.ts &> /dev/null || :
       sed -i '/storage/d' ./server/src/infra/InfraRouter.ts &> /dev/null || :
       sed -i '/storage/d' ./server/src/types/koa.d.ts &> /dev/null || :
       rm -f ./server/src/common/storage.ts &> /dev/null || :
@@ -295,7 +295,7 @@ function prune () {
       elif [[ ${taito_provider} == "aws" ]]; then
         # Remove minio proxy
         sed -i "/^    storage:\r*\$/,/^\r*$/d" ./scripts/helm.yaml
-        sed -i '/S3_URL/d' ./scripts/helm.yaml
+        sed -i '/BUCKET_URL/d' ./scripts/helm.yaml
       fi
     fi
 

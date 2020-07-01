@@ -55,12 +55,12 @@ class Config:
     DATABASE_MAX_RETRIES = int(_config.get('DATABASE_MAX_RETRIES', 5))
 
     # Storage
-    S3_URL = _config['S3_URL']
-    S3_REGION = _config['S3_REGION']
-    S3_BUCKET = _config['S3_BUCKET']
-    S3_KEY_ID = _config['S3_KEY_ID']
-    S3_KEY_SECRET = read_secret('S3_KEY_SECRET')
-    S3_FORCE_PATH_STYLE = bool(_config['S3_FORCE_PATH_STYLE'])
+    BUCKET_URL = _config['BUCKET_URL']
+    BUCKET_REGION = _config['BUCKET_REGION']
+    BUCKET_BUCKET = _config['BUCKET_BUCKET']
+    BUCKET_KEY_ID = _config['BUCKET_KEY_ID']
+    BUCKET_KEY_SECRET = read_secret('BUCKET_KEY_SECRET')
+    BUCKET_FORCE_PATH_STYLE = bool(_config['BUCKET_FORCE_PATH_STYLE'])
 
     # Logging
     COMMON_LOG_LEVEL = _config['COMMON_LOG_LEVEL']

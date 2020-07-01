@@ -82,7 +82,7 @@ services:
     secrets:
       - DATABASE_PASSWORD
       - REDIS_PASSWORD
-      - S3_KEY_SECRET
+      - BUCKET_KEY_SECRET
       - EXAMPLE_SECRET
     environment:
       COMMON_COMPANY: companyname
@@ -103,11 +103,13 @@ services:
       DATABASE_POOL_MAX: '10'
       REDIS_HOST: full-stack-template-redis
       REDIS_PORT: 6379
-      S3_URL: http://full-stack-template-storage:9000/
-      S3_REGION: milkyway
-      S3_BUCKET: bucket
-      S3_KEY_ID: minio
-      S3_FORCE_PATH_STYLE: 'true'
+      BUCKET_URL: http://full-stack-template-storage:9000/
+      BUCKET_REGION: milkyway
+      BUCKET_BUCKET: bucket
+      BUCKET_BROWSE_URL: http://localhost:_PORT_/bucket   # TODO
+      BUCKET_DOWNLOAD_URL: http://localhost:_PORT_/bucket # TODO
+      BUCKET_KEY_ID: minio
+      BUCKET_FORCE_PATH_STYLE: 'true'
 
   full-stack-template-www:
     container_name: full-stack-template-www
@@ -200,7 +202,7 @@ secrets:
     file: ./secrets/${taito_env}/${db_database_mgr_secret}
   REDIS_PASSWORD:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-redis.password
-  S3_KEY_SECRET:
+  BUCKET_KEY_SECRET:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-storage.secretKey
   EXAMPLE_SECRET:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-example.secret

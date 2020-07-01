@@ -97,6 +97,27 @@ Operations on production and staging environments usually require admin rights. 
 
 **Additional databases:** The template provides default configuration for a PostgreSQL database. You can add an additional databases the same way you add a microservice (described above), but you need to also add default settings for your additional database in `scripts/taito/project.sh` and environment specific overrides in `scripts/taito/env-*.sh` files. Use `db_database_*` settings of `scripts/taito/config/main.sh` as an example, and add the corresponding settings to `project.sh` and `env-*.sh` using `db_MYDATABASE_*` as environment variable naming. You may also want to add data import to your `taito-init` and `taito-init:clean` scripts in `package.json`.
 
+**Additional storage buckets** You can add an additional storage bucket with the following steps:
+
+  1. Add the storage bucket configuration to `scripts/taito/project.sh`. For example:
+
+      ```
+      st_mybucket_name="$taito_random_name-mybucket-$taito_env"
+      st_mybucket_class=REGIONAL
+      st_mybucket_location=europe-west1
+      st_mybucket_days=60
+      ```
+
+      > NOTE: st_mybucket_days specifies how long deleted files are kept in archive. However, if you want that files are deleted automatically after a period, you can define expiration with ´st_mybucket_days=60-expiration´.
+
+  2. Add the storage bucket to `taito_targets` in `scripts/taito/project.sh`. For example: `taito_targets="... mybucket ..."`
+  3. Add the storage bucket to `storage/` and `storage/.minio.sys/buckets/`.
+  4. Add the storage bucket environment variables in `docker-compose.yaml` and `helm.yaml`.
+  5. Add the storage bucket to implementation (e.g. configuration in `config.ts` and `storage.ts`, uptime check in `InfraRouter.ts`)
+  6. Start you local development environment with `taito start`.
+  7. Check that the bucket works ok by running the uptime check with `taito open server`.
+  8. Create the storage bucket for remote environments with `taito env apply:ENV`. You most likely need to run only the terraform step.
+
 **Minikube:** TODO: Using Minikube locally instead of Docker Compose.
 
 **Kafka:** TODO: Kafka for event-driven microservices.

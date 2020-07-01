@@ -2,6 +2,7 @@ import { Context } from 'koa';
 import BaseRouter from '../common/BaseRouter';
 
 import config from '../common/config';
+import storagesById from '../common/storage';
 
 class InfraRouter extends BaseRouter {
   constructor() {
@@ -56,11 +57,13 @@ class InfraRouter extends BaseRouter {
         },
       },
       handler: async (ctx: Context) => {
-        // Check that database and storage respond
+        // Check database
         await ctx.state.db.any('SELECT 1');
-        await ctx.state.storage // storage
-          .headBucket({ Bucket: config.S3_BUCKET }) // storage
-          .promise(); // storage
+
+        // Check storage buckets
+        await storagesById.bucket.s3
+          .headBucket({ Bucket: storagesById.bucket.bucket })
+          .promise();
 
         ctx.response.body = {
           status: 'OK',

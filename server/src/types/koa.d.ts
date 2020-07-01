@@ -2,6 +2,7 @@
 import { IDatabase, ITask } from 'pg-promise';
 import Bunyan from 'bunyan';
 import { User } from '../../shared/types/common';
+import { State } from '../common/types';
 
 declare module 'koa' {
   interface Request {
@@ -10,12 +11,6 @@ declare module 'koa' {
   }
 
   interface Context {
-    state: {
-      db: IDatabase<Record<string, unknown>>;
-      tx: ITask<Record<string, unknown>>;
-      log: Bunyan;
-      storage: AWS.S3;
-      user?: User;
-    };
+    state: State;
   }
 }
