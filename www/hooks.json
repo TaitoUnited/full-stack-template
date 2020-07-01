@@ -1,7 +1,83 @@
 [
   {
     "id": "build",
-    "execute-command": "/service/build-webhook.sh",
-    "command-working-directory": "/service"
+    "command-working-directory": "/service",
+    "execute-command": "/service/webhook.sh",
+    "pass-arguments-to-command": [
+      {
+        "source": "string",
+        "name": "build"
+      }
+    ]
+  },
+  {
+    "id": "preview",
+    "command-working-directory": "/service",
+    "execute-command": "/service/webhook.sh",
+    "pass-arguments-to-command": [
+      {
+        "source": "string",
+        "name": "publish:preview"
+      }
+    ],
+    "trigger-rule": {
+      "or": [
+        {
+          "match": {
+            "type": "value",
+            "value": "draft",
+            "parameter": {
+              "source": "payload",
+              "name": "entry.status"
+            }
+          }
+        },
+        {
+          "match": {
+            "type": "value",
+            "value": "archived",
+            "parameter": {
+              "source": "payload",
+              "name": "entry.status"
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": "publish",
+    "command-working-directory": "/service",
+    "execute-command": "/service/webhook.sh",
+    "pass-arguments-to-command": [
+      {
+        "source": "string",
+        "name": "publish"
+      }
+    ],
+    "trigger-rule": {
+      "or": [
+        {
+          "match": {
+            "type": "value",
+            "value": "published",
+            "parameter": {
+              "source": "payload",
+              "name": "entry.status"
+            }
+          }
+        },
+        {
+          "match": {
+            "type": "value",
+            "value": "archived",
+            "parameter": {
+              "source": "payload",
+              "name": "entry.status"
+            }
+          }
+        }
+      ]
+    }
   }
 ]

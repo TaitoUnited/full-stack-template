@@ -1,4 +1,5 @@
 **/node_modules
+flow-typed/npm
 *.log
 *.md
 test/reports

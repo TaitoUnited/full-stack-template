@@ -8,37 +8,42 @@ ENV BUILD_VERSION ${BUILD_VERSION}
 ENV NODE_ENV development
 ENV APP_SENTRY_PUBLIC_DSN #sentryPublicDSN
 
-RUN mkdir /service && chown node:node /service
-
 RUN mkdir -p /service
 WORKDIR /service
+
 COPY ${SERVICE_DIR}/*.sh \
      ${SERVICE_DIR}/package* \
      /service/
 RUN ./install.sh
+RUN cp ~/.bashrc /home/node/.bashrc
+RUN mkdir -p /build && \
+    chown -R node:root /build && \
+    chown -R node:root /service
+
+USER node
 RUN . ~/.bashrc && npm ci --loglevel warn
 
 # Install, build and test site
-COPY ${SERVICE_DIR} /service
-RUN mkdir -p /build && \
-    . ~/.bashrc && \
+COPY --chown=node:root ${SERVICE_DIR} /service
+RUN . ~/.bashrc && \
     npm run install-site && \
     npm run build && \
     npm run unit
+
 
 # Production runtime
 FROM nginx:1.17-alpine
 ARG BUILD_VERSION
 LABEL version=${BUILD_VERSION} \
-      company=companyname \
+      company=taito \
       project=full-stack-template \
       role=www
 RUN mkdir -p /service
 WORKDIR /service
-RUN chown -R nginx:nginx /var/cache/nginx && \
-    chown -R nginx:nginx /service && \
+RUN chown -R nginx:root /var/cache/nginx && \
+    chown -R nginx:root /service && \
     mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
-RUN sed -i '/application\/json/a\    application/wasm wasm;' \
+RUN sed -i '/application\/json/a\    application/wasm wasm; text/yaml yaml yml;' \
     /etc/nginx/mime.types
 COPY ./nginx.conf /etc/nginx
 COPY --from=builder /build .

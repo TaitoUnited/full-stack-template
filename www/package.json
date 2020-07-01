@@ -1,14 +1,17 @@
 {
   "name": "full-stack-template-www",
   "scripts": {
-    "install-site": "if [ -f ./site/package.json ]; then cd site && npm install; fi",
+    "install-site": "if [ -f ./site/package-lock.json ]; then cd site && npm ci; elif [ -f ./site/package.json ]; then cd site && npm install; fi",
     "lint": "echo Linting disabled",
     "unit": "if [ -d ./site ]; then cd site && npm run test; fi",
     "test": "echo No tests for www",
-    "build": "./build-site.sh",
+    "build": "./build.sh build /build/public",
+    "build:preview": "./build.sh build:preview /build/preview",
+    "publish": "./build.sh publish /build/public",
+    "publish:preview": "./build.sh publish:preview /build/preview",
     "serve": "http-server ./public"
   },
   "devDependencies": {
-    "http-server": "0.12.3"
+    "http-server": "0.11.1"
   }
 }

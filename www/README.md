@@ -1,6 +1,6 @@
 ## Configuration
 
-Configure static site generator of your choice with the following instructions. Currently instructions are provided only for Gatsby, Hugo, Jekyll and plain static files, but with some extra work the website-template may easily be used with any static site generator.
+Configure static site generator of your choice with the following instructions. Currently instructions are provided only for Gatsby, Hugo, Jekyll and plain static files, but with some extra work the full-stack-template may easily be used with any static site generator.
 
 Remove static site generators that you do not use from `www/install.sh` but do not delete the whole file:
 
@@ -43,15 +43,13 @@ Once you see text `No site yet at www/site. Just keep the container running.`, e
     exit
     ```
 
-3. OPTIONAL: Change the development start command in `develop.sh`, if the starter uses some other command than `npm run develop -- --host 0.0.0.0 --port 8080`.
-
-4. Enable `/service/site/node_modules` mount in `docker-compose.yaml`:
+3. Enable `/service/site/node_modules` mount in `docker-compose.yaml`:
 
     ```
     EDIT docker-compose.yaml
     ```
 
-5. Restart containers and open the site on browser:
+4. Restart containers and open the site on browser:
 
     ```
     taito stop

@@ -1,41 +1,35 @@
-FROM node:lts-buster-slim as builder
-ARG SERVICE_DIR=.
-ARG BUILD_VERSION
+FROM full-stack-template-www-tester:latest as builder
 LABEL version=${BUILD_VERSION} \
-      company=companyname \
+      company=taito \
       project=full-stack-template \
       role=webhook
+
+USER root
+
+# Prepare webhook, curl, and git pull
 RUN apt-get -y update && \
-    apt-get -y install git webhook
+    apt-get -y install git curl webhook
+RUN mkdir -p /etc/webhook && \
+    ln -s /service/hooks.json /etc/webhook/hooks.json
 
-RUN mkdir -p /service
-WORKDIR /service
-COPY ${SERVICE_DIR}/*.sh \
-     ${SERVICE_DIR}/*.json \
-     /service/
-RUN ./install.sh
-RUN mkdir -p /etc/webhook && ln -s /service/hooks.json /etc/webhook/hooks.json
+# Prepare preview
+RUN cp -rp /service /preview && \
+    cp -rp /build/public /build/preview
 
-# Install, build and test site.
-COPY ${SERVICE_DIR} /service
-RUN mkdir -p /build && \
-    . ~/.bashrc && \
-    npm run install-site && \
-    npm run build && \
-    npm run unit
+# Build preview
+# TODO: do full build?
+USER node
+RUN ( cd /preview && npm run publish:preview )
 
-# Store built site
+# Move orig build (/build is replaced with a shared mount)
+USER root
 RUN mv /build /build-orig && \
-    mkdir -p /build
-
-# Prepare for node user
-RUN cp ~/.bashrc /home/node/.bashrc && \
-    chown -R node:node /service && \
-    chown -R node:node /build
+    mkdir -p /build && \
+    chown -R node:root /build
 
 # Start webhook
 USER node
 EXPOSE 9000
 CMD . ~/.bashrc && \
-    ./build-webhook.sh install && \
-    webhook -verbose -port 9000 -urlprefix $WEBHOOK_URL_PREFIX
+    ./webhook.sh deployment && \
+    webhook -verbose -port 9000 -urlprefix "$(cat /run/secrets/WEBHOOK_URL_PREFIX)"
