@@ -34,7 +34,7 @@ Set up environment variables required by `docker-compose.yaml`:
     . taito-config.sh
 
     # On Windows shell
-    taitoless.bat
+    taitoless.bat  # Copy from scripts/taito/examples to project root
 
 Setup secrets required by `docker-compose.yaml`:
 
@@ -120,7 +120,7 @@ If you want to setup the application environments or run CI/CD steps without Tai
 
 4) **Optional:** If your project requires additional cloud resources set by terraform (e.g. storage buckets), run the terraform scripts:
 
-    > NOTE: Add `terraform.sh` to project root directory, if the file does not exist yet (TODO: example).
+    > NOTE: Copy `scripts/taito/examples/terraform.sh` to project root directory, if the file does not exist yet, and set environment variables required by terraform scripts.
 
     > NOTE: Azure scripts assume that a resource group defined by `taito_resource_namespace_id` environment variable already exists, since it is usually shared among multiple taito projects.
 
