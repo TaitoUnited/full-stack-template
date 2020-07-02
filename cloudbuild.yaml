@@ -29,11 +29,16 @@ steps:
     export taito_target_env="$${branch_name//master/prod}"
     source ./taito-config.sh
     echo "- Cancel all previous ongoing builds targetting the same branch"
-    gcloud builds list --ongoing | \
-      grep "$${full_repo_name}@$${branch_name}" | \
+    gcloud builds list \
+      --format="table[no-heading](id)" \
+      --ongoing \
+      --filter=" \
+        source.repoSource.repoName~.*$${full_repo_name} AND ( \
+          source.repoSource.branchName:$${branch_name} OR \
+          substitutions.BRANCH_NAME:$${branch_name} \
+        )" | \
       grep -v "$${build_id}" | \
-      cut -d ' ' -f 1 | \
-      xargs -L1 gcloud builds cancel 2> /dev/null || :
+      xargs gcloud builds cancel 2> /dev/null || :
 
 # ----------------------- Taito CLI ----------------------------------
 
