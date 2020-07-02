@@ -141,6 +141,7 @@ function prune () {
     fi
 
     if [[ $name == "www" ]]; then
+      sed -i '/www-site/d' package.json
       sed -i "s/ \\/docs\\/uptimez / /" scripts/taito/project.sh
     fi
 

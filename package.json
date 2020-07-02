@@ -53,6 +53,7 @@
     "check-deps:server": "npm run _check-deps-script -- server ",
     "check-deps:worker": "npm run _check-deps-script -- worker ",
     "check-deps:www": "npm run _check-deps-script -- www ",
+    "check-deps-www-site": "npm run _check-deps-script -- www/site ",
     "_check-deps-script": "sh -c 'echo --- ${0} --- && cd ${0} && (npm-check ${@} || :) && echo && echo \"NOTE: Many of the devDependencies and ~ references are actually in use even if reported unused. But all unused dependencies can usually be removed from package.json.\" && echo' ",
     "check-size": "npm-run-all \"check-size:admin {@}\" \"check-size:client {@}\" -- ",
     "check-size:admin": "cd admin && echo --- admin --- && npm run analyze -- ",
@@ -152,11 +153,11 @@
     "url": "git+https://github.com/TaitoUnited/full-stack-template.git"
   },
   "devDependencies": {
-    "@commitlint/cli": "^8.2.0",
-    "@commitlint/config-conventional": "^8.2.0",
+    "@commitlint/cli": "^9.0.1",
+    "@commitlint/config-conventional": "^9.0.1",
     "git-branch-is": "^3.1.0",
     "husky": "^4.2.5",
     "npm-run-all": "~4.1.5",
-    "semantic-release": "^17.0.7"
+    "semantic-release": "^17.1.1"
   }
 }

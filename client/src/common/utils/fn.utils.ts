@@ -1,6 +1,6 @@
 // NOTE: This is just an example
 export const times = (timesArg: number) => {
-  return (func: Function) => {
+  return (func: (index: number) => any) => {
     return Array(timesArg)
       .fill('-')
       .map((_, index) => {

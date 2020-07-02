@@ -29,7 +29,7 @@ const QuickFilter = transl(
   }: {
     label: string;
     translate: (s: string) => string;
-  }) => <Chip style={{ marginBottom: 8 }}>{translate(label)}</Chip>
+  }) => <Chip style={{ marginBottom: 8 }} label={translate(label)} />
 );
 
 const PostFilter = ({ ...props }) => (
