@@ -70,6 +70,7 @@ services:
       API_URL: /api
       # NOTE: Database connection is for tests only
       DATABASE_HOST: full-stack-template-database
+      DATABASE_PORT: ${db_database_port}
       DATABASE_NAME: ${db_database_name}
       DATABASE_USER: ${db_database_app_username}
 
@@ -142,6 +143,7 @@ services:
       KAFKA_HOST: full-stack-template-kafka
       KAFKA_PORT: 9092
       DATABASE_HOST: full-stack-template-database
+      DATABASE_PORT: ${db_database_port}
       DATABASE_NAME: ${db_database_name}
       DATABASE_USER: ${db_database_app_username}
       DATABASE_POOL_MIN: '1'

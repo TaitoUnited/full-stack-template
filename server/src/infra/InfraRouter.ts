@@ -63,7 +63,7 @@ class InfraRouter extends BaseRouter {
         // Check storage buckets
         await storagesById.bucket.s3
           .headBucket({ Bucket: storagesById.bucket.bucket })
-          .promise();
+          .promise(); // storage
 
         ctx.response.body = {
           status: 'OK',
