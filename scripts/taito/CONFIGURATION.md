@@ -87,7 +87,7 @@ Operations on production and staging environments usually require admin rights. 
   2. IMPLEMENTATION: Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `check-deps`, `check-size`.
   3. IMPLEMENTATION: Add the service to your CI/CD script (`.yml/.yaml` or `Jenkinsfile` in project root or `.github/main.workflow`).
   4. OPTIONAL: In case of a database, you may want to enable the corresponding Taito CLI plugins in `scripts/taito/project.sh`. For example `postgres-db` and `sqitch-db` for PostgreSQL with Sqitch.
-  5. Add the service to `taito_targets` variable in `scripts/taito/project.sh`. If the service is function, database, or storage, you also need to set target type with the `taito_target_type_NAME` variable.
+  5. Add the service to `taito_containers`, `taito_functions`, or `taito_databases` variable in `scripts/taito/project.sh` depending on its type. If it is a database running in container, you may add it to both `taito_containers` and `taito_databases`.
   6. Add required secret definitions to `taito_*secrets` variables in `scripts/taito/project.sh`, and set local secret values with `taito secret rotate: NAME`.
   7. Add the service to `docker-compose*.yaml` files.
   8. Add the service to `scripts/helm.yaml`.
@@ -105,7 +105,7 @@ Operations on production and staging environments usually require admin rights. 
       st_mybucket_name="$taito_random_name-mybucket-$taito_env"
       ```
 
-      > TODO: Add Taito CLI documentation reference for all st-variables.
+      > TIP: There are also other optional attributes that you can define for your bucket. See `st_example_*` settings of `scripts/taito/config/main.sh` as an example.
 
   2. Add the storage bucket to `taito_buckets` in `scripts/taito/project.sh`. For example: `taito_buckets="bucket mybucket"`
   3. Add the storage bucket to `storage/` and `storage/.minio.sys/buckets/`.
