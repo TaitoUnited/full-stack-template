@@ -14,7 +14,8 @@ RUN ./install.sh
 RUN npm install --loglevel warn
 
 # Install site npm libraries on container to speed up builds
-COPY ${SERVICE_DIR}/site/package* \
+COPY ${SERVICE_DIR}/hooks.json \
+     ${SERVICE_DIR}/site/package* \
      /service/site/
 RUN npm run install-site
 

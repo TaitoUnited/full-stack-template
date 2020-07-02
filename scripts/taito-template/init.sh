@@ -214,7 +214,7 @@ function prune () {
       read -r -t 1 -n 1000 || :
       echo
       echo
-      echo "Choose website path depending on purpose:"
+      echo "Choose static website path depending on purpose:"
       echo "1) User guides or documentation: /docs"
       echo "2) Main website: /"
       echo "3) Miscellanous usage: /www"
