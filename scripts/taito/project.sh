@@ -83,6 +83,6 @@ taito_secrets="
 if [[ $ci_exec_deploy == "true" ]]; then
   taito_remote_secrets="
     $taito_remote_secrets
-    $db_database_mgr_secret/devops:random
+    $db_database_mgr_secret:random
   "
 fi
