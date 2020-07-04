@@ -47,6 +47,8 @@
         - app: some-application
 
     # EGRESS: Server allowed to access storage service, .google.com, and some IP
+    # NOTE: If DOMAIN_PROXY environment variable is set, use it as a http proxy
+    # to access the domain.
     server:
       egress:
         - fullname: ${taito_project}-${taito_env}-storage
