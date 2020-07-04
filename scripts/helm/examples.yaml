@@ -46,12 +46,14 @@
       ingress:
         - app: some-application
 
-    # EGRESS: Server allowed to access storage
+    # EGRESS: Server allowed to access storage service, .google.com, and some IP
     server:
       egress:
         - fullname: ${taito_project}-${taito_env}-storage
+        - domain: .google.com
+        - ip: 216.58.207.227/32
 
-    # EGRESS: Storage allowed to access any public ip
+    # EGRESS: Storage allowed to access any public ip (not recommended)
     storage:
       egress:
         - ip: public  # any, private, public, or CIDR (e.g. 216.58.207.227/32)
