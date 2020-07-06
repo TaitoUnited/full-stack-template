@@ -43,6 +43,7 @@ taito_provider_zone=${template_default_provider_zone}
 taito_zone=${template_default_zone}
 taito_namespace=$taito_project-$taito_env
 taito_resource_namespace=$taito_organization_abbr-$taito_company-dev
+taito_provider_secrets_location=${template_default_provider_secrets_location}
 
 # Platforms
 taito_deployment_platforms="terraform kubernetes"
@@ -201,6 +202,7 @@ case $taito_env in
     taito_provider_region=${template_default_provider_region_prod}
     taito_provider_zone=${template_default_provider_zone_prod}
     taito_resource_namespace=$taito_organization_abbr-$taito_company-prod
+    taito_provider_secrets_location=${template_default_provider_secrets_location_prod}
 
     # Domain and resources
     taito_cdn_domain=${template_default_cdn_domain_prod}
@@ -254,6 +256,7 @@ case $taito_env in
     taito_provider_region=${template_default_provider_region_prod}
     taito_provider_zone=${template_default_provider_zone_prod}
     taito_resource_namespace=$taito_organization_abbr-$taito_company-prod
+    taito_provider_secrets_location=${template_default_provider_secrets_location_prod}
 
     # Domain and resources
     taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod}

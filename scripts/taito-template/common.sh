@@ -144,6 +144,8 @@ sed -i "s/\${template_default_provider_region}/${template_default_provider_regio
 sed -i "s/\${template_default_provider_region_prod}/${template_default_provider_region_prod:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_provider_zone}/${template_default_provider_zone:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_provider_zone_prod}/${template_default_provider_zone_prod:-}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_provider_secrets_location}/${template_default_provider_secrets_location:-}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_provider_secrets_location_prod}/${template_default_provider_secrets_location_prod:-}/g" scripts/taito/config/main.sh
 sed -i "s|\${template_default_uptime_channels}|${template_default_uptime_channels:-}|g" scripts/taito/config/main.sh
 sed -i "s|\${template_default_uptime_channels_prod}|${template_default_uptime_channels_prod:-}|g" scripts/taito/config/main.sh
 sed -i "s|\${template_default_source_git}|${template_default_source_git:-}|g" scripts/taito/config/main.sh

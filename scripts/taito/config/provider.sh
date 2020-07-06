@@ -332,6 +332,8 @@ then
     kubectl helm
     ${taito_plugins}
   "
+  # Secrets are stored in Kubernetes, use provider secrets for backup only
+  taito_provider_secrets_mode=backup
 fi
 
 if [[ ${taito_deployment_platforms} == *"docker-compose"* ]]; then
