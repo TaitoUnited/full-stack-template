@@ -40,6 +40,7 @@ services:
       NODE_ENV: development
       API_ROOT: ''
       API_URL: /api
+      CDN_PROJECT_PATH:
 
   full-stack-template-client:
     container_name: full-stack-template-client
@@ -68,6 +69,7 @@ services:
       NODE_ENV: development
       API_ROOT: ''
       API_URL: /api
+      CDN_PROJECT_PATH:
       # NOTE: Database connection is for tests only
       DATABASE_HOST: full-stack-template-database
       DATABASE_PORT: ${db_database_port}

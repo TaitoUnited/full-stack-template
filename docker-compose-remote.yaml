@@ -32,6 +32,7 @@ services:
     environment:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: full-stack-template
+      REPLACE_CDN_PROJECT_PATH: ${taito_cdn_project_path}
 
   full-stack-template-client:
     container_name: full-stack-template-client
@@ -48,6 +49,7 @@ services:
     environment:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: full-stack-template
+      REPLACE_CDN_PROJECT_PATH: ${taito_cdn_project_path}
 
   full-stack-template-graphql:
     container_name: full-stack-template-graphql
@@ -119,6 +121,8 @@ services:
       - default
     ports:
       - "8080"
+    environment:
+      REPLACE_CDN_PROJECT_PATH: ${taito_cdn_project_path}
 
   full-stack-template-redis:
     container_name: full-stack-template-redis

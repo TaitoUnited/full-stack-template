@@ -130,6 +130,8 @@ sed -i "s/\${template_default_sentry_organization}/${template_default_sentry_org
 sed -i "s/\${template_default_domain}/${template_default_domain:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_domain_prod}/${template_default_domain_prod:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_domain_prod}/${template_default_domain_prod:-}/g" scripts/taito/env-prod.sh
+sed -i "s/\${template_default_cdn_domain}/${template_default_cdn_domain:-}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_cdn_domain_prod}/${template_default_cdn_domain_prod:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_zone}/${template_default_zone:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_zone_prod}/${template_default_zone_prod:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_provider}/${template_default_provider}/g" scripts/taito/config/main.sh

@@ -17,6 +17,9 @@ const COPYRIGHT = 'Copyright ' + y + ' Taito United Oy - All rights reserved.';
 const OUTPUT_DIR = '../../build';
 const ASSETS_DIR = 'assets';
 const PWA_ICON_DIR = ASSETS_DIR + '/icon.png';
+const CDN_PATH = process.env.CDN_PROJECT_PATH !== undefined
+  ? process.env.CDN_PROJECT_PATH
+  : 'CDN_PROJECT_PATH';
 // TODO: DOCKER_HOST contains the host ip? Use it instead of the hard coded ip
 const PUBLIC_HOST = process.env.DOCKER_HOST ? '192.168.99.100' : 'localhost';
 const PUBLIC_PORT = process.env.COMMON_PUBLIC_PORT;
@@ -42,7 +45,7 @@ module.exports = function(env, argv) {
       // Use [contenthash] for better caching support
       filename: isProd ? '[name].[contenthash].js' : '[name].bundle.js',
       path: path.resolve(__dirname, OUTPUT_DIR),
-      publicPath: '/',
+      publicPath: publicPath: `${CDN_PATH}/`,
     },
 
     resolve: {
