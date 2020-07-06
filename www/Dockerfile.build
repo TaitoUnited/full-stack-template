@@ -40,8 +40,7 @@ LABEL version=${BUILD_VERSION} \
       role=www
 RUN mkdir -p /service
 WORKDIR /service
-RUN chown -R nginx:root /var/cache/nginx && \
-    chown -R nginx:root /service && \
+RUN chown -R nginx:root /service && \
     mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 RUN sed -i '/application\/json/a\    application/wasm wasm; text/yaml yaml yml;' \
     /etc/nginx/mime.types
