@@ -44,9 +44,20 @@ RUN chown -R nginx:root /service && \
     mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 RUN sed -i '/application\/json/a\    application/wasm wasm; text/yaml yaml yml;' \
     /etc/nginx/mime.types
+
+# Copy
+COPY docker-entrypoint.sh /
 COPY ./nginx.conf /etc/nginx
 COPY --from=builder /build .
 
-# Start nginx
+# Move source maps to /meta by default
+RUN mkdir /meta && mv *.map /meta || :
+
+# Give nginx modify rights to HTML files (html files are modified at startup)
+RUN find . -name '*.html' -exec chown nginx:nginx {} \;
+
+# Startup
 USER nginx
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["nginx", "-g", "daemon off;"]
 EXPOSE 8080
