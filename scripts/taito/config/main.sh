@@ -352,7 +352,9 @@ taito_static_assets_bucket=$taito_zone-assets
 taito_static_assets_path=/$taito_project
 taito_cdn_path=/$taito_project
 if [[ $taito_cdn_domain ]]; then
-  taito_cdn_project_path=https://$taito_cdn_domain/$taito_project
+  taito_cdn_project_path=https://$taito_cdn_domain/$taito_cdn_path
+else
+  taito_cdn_project_path=-
 fi
 
 # ------ Database users ------

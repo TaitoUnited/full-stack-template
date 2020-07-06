@@ -29,7 +29,7 @@ taito_environments="${template_default_environments}"
 
 # Stack
 taito_containers=" admin client graphql database kafka redis server storage worker www zookeeper "
-taito_content_sources=" admin client www "
+taito_static_contents=" admin client www "
 taito_functions=""
 taito_databases=" database "
 taito_buckets=" bucket "
