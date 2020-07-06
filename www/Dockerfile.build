@@ -32,7 +32,7 @@ RUN . ~/.bashrc && \
 
 
 # Production runtime
-FROM nginx:1.17-alpine
+FROM nginx:stable-alpine
 ARG BUILD_VERSION
 LABEL version=${BUILD_VERSION} \
       company=taito \

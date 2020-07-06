@@ -1,5 +1,5 @@
 # Production runtime
-FROM nginx:1.17-alpine as builder
+FROM nginx:stable-alpine as builder
 ARG SERVICE_DIR=.
 ARG BUILD_VERSION
 LABEL version=${BUILD_VERSION} \

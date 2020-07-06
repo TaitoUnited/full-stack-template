@@ -1,2 +1,2 @@
 # Dummy dockerfile for 'taito start --prod'
-FROM minio/minio:RELEASE.2020-05-29T14-08-49Z
+FROM minio/minio

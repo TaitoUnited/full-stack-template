@@ -1,5 +1,5 @@
 # Local development runtime
-FROM nginx:1.17-alpine
+FROM nginx:stable-alpine
 ARG SERVICE_DIR=.
 RUN mkdir -p /service
 WORKDIR /service
