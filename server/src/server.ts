@@ -1,3 +1,4 @@
+import serverless from 'serverless-http';
 import Koa from 'koa';
 import patchKoaQs from 'koa-qs';
 import config from './common/config';
@@ -31,13 +32,19 @@ routerMiddlewares.forEach((middleware) => {
   server.use(middleware);
 });
 
-server.listen(config.API_PORT, config.API_BINDADDR, () => {
-  log.info(
-    {
-      name: config.APP_NAME,
-      address: config.API_BINDADDR,
-      port: config.API_PORT,
-    },
-    'Server started'
-  );
-});
+let handler = null;
+handler = serverless(server, { basePath: process.env.API_URL });
+if (!handler || config.COMMON_ENV === 'local') {
+  server.listen(config.API_PORT, config.API_BINDADDR, () => {
+    log.info(
+      {
+        name: config.APP_NAME,
+        address: config.API_BINDADDR,
+        port: config.API_PORT,
+      },
+      'Server started'
+    );
+  });
+}
+
+export { server, handler };

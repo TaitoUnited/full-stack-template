@@ -45,7 +45,7 @@ module.exports = function(env, argv) {
       // Use [contenthash] for better caching support
       filename: isProd ? '[name].[contenthash].js' : '[name].bundle.js',
       path: path.resolve(__dirname, OUTPUT_DIR),
-      publicPath: publicPath: `${CDN_PATH}/`,
+      publicPath: `${CDN_PATH}/`,
     },
 
     resolve: {

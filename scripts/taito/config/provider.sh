@@ -14,6 +14,7 @@ case $taito_provider in
   azure)
     taito_plugins="
       azure:-local
+      azure-secrets:-local
       ${taito_plugins}
       azure-storage:-local
       azure-monitoring:-local
@@ -39,6 +40,7 @@ case $taito_provider in
   aws)
     taito_plugins="
       aws:-local
+      aws-secrets:-local
       ${taito_plugins}
       aws-storage:-local
       aws-monitoring:-local
@@ -373,4 +375,28 @@ if [[ $db_database_ssl_client_cert_enabled == "true" ]]; then
     $db_database_ssl_cert_secret:copy/devops
     $db_database_ssl_key_secret:copy/devops
   "
+fi
+
+# Database SSH proxy
+if [[ ${gcp_db_proxy_enabled} != "true" ]] && (
+    [[ ${kubernetes_db_proxy_enabled} != "true" ]] ||
+    [[ ${taito_deployment_platforms} != *"kubernetes"* ]]
+  ); then
+  taito_plugins="
+    ssh:-local
+    ${taito_plugins}
+  "
+
+  # TODO: export_database_config does not work on taitoless
+  taito::export_database_config "${taito_target:-}" || :
+  taito_ssh_user="${ssh_db_proxy_username:?}"
+  ssh_db_proxy="\
+    -L 0.0.0.0:${database_port}:${database_real_host:-}:${database_real_port:-} ${ssh_db_proxy_username}@${ssh_db_proxy_host}"
+  ssh_forward_for_db="${ssh_db_proxy}"
+
+  ssh_db_proxy_enabled=true
+  if [[ ${taito_provider} == "aws" ]]; then
+    # CI/CD has direct VPC access on AWS
+    ci_disable_db_proxy="true"
+  fi
 fi

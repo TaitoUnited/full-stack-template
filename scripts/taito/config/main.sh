@@ -45,9 +45,6 @@ taito_namespace=$taito_project-$taito_env
 taito_resource_namespace=$taito_organization_abbr-$taito_company-dev
 taito_provider_secrets_location=${template_default_provider_secrets_location}
 
-# Platforms
-taito_deployment_platforms="terraform kubernetes"
-
 # URLs
 taito_domain=$taito_project-$taito_target_env.${template_default_domain}
 taito_default_domain=$taito_project-$taito_target_env.${template_default_domain}
@@ -56,6 +53,10 @@ taito_cdn_domain=${template_default_cdn_domain}
 # Hosts
 taito_host="${template_default_host}"
 taito_host_dir="/projects/$taito_namespace"
+
+# SSH bastion host
+ssh_db_proxy_host="${template_default_bastion_public_ip}"
+ssh_db_proxy_username="ubuntu"
 
 # Version control
 taito_vc_provider=${template_default_vc_provider}
@@ -207,6 +208,7 @@ case $taito_env in
     # Domain and resources
     taito_cdn_domain=${template_default_cdn_domain_prod}
     taito_host="${template_default_host_prod}"
+    ssh_db_proxy_host="${template_default_bastion_public_ip_prod}"
     if [[ $db_database_type == "pg" ]]; then
       db_database_real_host="${template_default_postgres_host_prod}"
       db_database_username_suffix=${template_default_postgres_username_suffix_prod}
@@ -263,6 +265,7 @@ case $taito_env in
     taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_prod}
     taito_cdn_domain=${template_default_cdn_domain_prod}
     taito_host="${template_default_host_prod}"
+    ssh_db_proxy_host="${template_default_bastion_public_ip_prod}"
     if [[ $db_database_type == "pg" ]]; then
       db_database_real_host="${template_default_postgres_host_prod}"
       db_database_username_suffix=${template_default_postgres_username_suffix_prod}
@@ -340,6 +343,12 @@ case $taito_env in
 esac
 
 # ------ Derived values after environment specific settings ------
+
+# Platforms
+taito_deployment_platforms="${taito_deployment_platforms:-terraform kubernetes}"
+if [[ ! ${kubernetes_name} ]]; then
+  taito_deployment_platforms="${taito_deployment_platforms/kubernetes/}"
+fi
 
 # Provider and namespaces
 taito_resource_namespace_id=$taito_resource_namespace

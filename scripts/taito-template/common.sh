@@ -154,6 +154,8 @@ sed -i "s|\${template_default_dest_git}|${template_default_dest_git:-}|g" script
 # Hosts
 sed -i "s/\${template_default_host}/${template_default_host:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_host_prod}/${template_default_host_prod:-}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_bastion_public_ip}/${template_default_bastion_public_ip:-}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_bastion_public_ip_prod}/${template_default_bastion_public_ip_prod:-}/g" scripts/taito/config/main.sh
 
 # Misc providers
 sed -i "s/\${template_default_uptime_provider}/${template_default_uptime_provider:-}/g" scripts/taito/config/main.sh

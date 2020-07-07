@@ -27,6 +27,7 @@
     "moment-timezone": "^0.5.31",
     "mustache": "^4.0.1",
     "pg-promise": "^10.5.7",
+    "serverless-http": "^2.5.0",
     "showdown": "^1.9.1",
     "stack-trace": "0.0.10",
     "unescape": "1.0.1",

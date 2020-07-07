@@ -331,6 +331,12 @@ prune "Worker for background jobs? [y/N] " worker
 prune "Relational database? [Y/n] " database
 prune "Permanent object storage for files? [y/N] " storage \\/bucket \\/minio
 
+# Remove serverless-http adapter if Kubernetes is enabled
+if [[ ! ${template_default_kubernetes} ]] && [[ ! ${kubernetes_name} ]]; then
+  sed -i '/serverless/d' ./server/package.json
+  sed -i '/serverless/d' ./server/src/server.ts
+fi
+
 echo
 echo "Replacing project and company names in files. Please wait..."
 find . -type f -exec sed -i \

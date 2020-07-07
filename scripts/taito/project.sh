@@ -28,9 +28,13 @@ taito_environments="${template_default_environments}"
 # ------ Stack ------
 
 # Stack
-taito_containers=" admin client graphql database kafka redis server storage worker www zookeeper "
+if [[ ${taito_deployment_platforms} == *"docker"* ]] ||
+   [[ ${taito_deployment_platforms} == *"kubernetes"* ]]; then
+  taito_containers=" admin client graphql database kafka redis server storage worker www zookeeper "
+else
+  taito_functions=" graphql server worker "
+fi
 taito_static_contents=" admin client www "
-taito_functions=""
 taito_databases=" database "
 taito_buckets=" bucket "
 taito_networks="default"
