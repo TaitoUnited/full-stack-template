@@ -55,8 +55,8 @@ taito_local_secrets="
 taito_remote_secrets="
   $taito_project-$taito_env-basic-auth.auth:htpasswd-plain
   $taito_project-$taito_env-scheduler.secret:random
-  $db_database_mgr_secret:random
   $db_database_viewer_secret:random
+  $db_database_mgr_secret/devops:random
 "
 
 taito_secrets="
