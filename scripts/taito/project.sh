@@ -26,8 +26,9 @@ taito_environments="${template_default_environments}"
 # provider_service_account_enabled=true
 
 # ------ Stack ------
+# Configuration instructions:
+# TODO
 
-# Stack
 if [[ ${taito_deployment_platforms} == *"docker"* ]] ||
    [[ ${taito_deployment_platforms} == *"kubernetes"* ]]; then
   taito_containers=" admin client graphql database kafka redis server storage worker www zookeeper "
@@ -39,14 +40,36 @@ taito_databases=" database "
 taito_buckets=" bucket "
 taito_networks="default"
 
-# Stack uptime monitoring
+# Uptime monitoring
 taito_uptime_targets=" admin client graphql server www "
 taito_uptime_paths=" /admin/uptimez /uptimez /graphql/uptimez /api/uptimez /docs/uptimez "
 taito_uptime_timeouts=" 5 5 5 5 5 "
 
+# ------ Secrets ------
+# Configuration instructions:
+# https://taitounited.github.io/taito-cli/tutorial/06-env-variables-and-secrets/
+
+taito_local_secrets="
+"
+
+taito_remote_secrets="
+  $taito_project-$taito_env-basic-auth.auth:htpasswd-plain
+  $taito_project-$taito_env-scheduler.secret:random
+  $db_database_mgr_secret:random
+  $db_database_viewer_secret:random
+"
+
+taito_secrets="
+  $db_database_app_secret:random
+  $taito_project-$taito_env-example.secret:manual
+  $taito_project-$taito_env-redis.password:random
+  $taito_project-$taito_env-storage.accessKeyId:random
+  $taito_project-$taito_env-storage.secretKey:random
+"
+
 # ------ Links ------
 # Add custom links here. You can regenerate README.md links with
-# 'taito project docs'.
+# 'taito project docs'. Configuration instructions: TODO
 
 link_urls="
   * client[:ENV]=$taito_app_url Web application GUI (:ENV)
@@ -57,37 +80,6 @@ link_urls="
   * graphql[:ENV]=$taito_app_url/graphql/uptimez GraphQL API (:ENV)
   * git=https://$taito_vc_repository_url Git repository
 "
-# Example links:
-# * styleguide=https://styleguide UI/UX style guide and designs
-# * wireframes=https://wireframes UI/UX wireframes
-# * feedback=https://feedback User feedback
-# * performance=https://performance Performance metrics
 
 # TODO: Temporary hack for https://github.com/gatsbyjs/gatsby/issues/3721
 link_urls=${link_urls/:9999\/docs/:7463/}
-
-# ------ Secrets ------
-# Configuration instructions:
-# https://taitounited.github.io/taito-cli/tutorial/06-env-variables-and-secrets/
-
-taito_remote_secrets="
-  $taito_project-$taito_env-basic-auth.auth:htpasswd-plain
-  $taito_project-$taito_env-scheduler.secret:random
-"
-taito_local_secrets="
-"
-taito_secrets="
-  $db_database_app_secret:random
-  $taito_project-$taito_env-example.secret:manual
-  $taito_project-$taito_env-redis.password:random
-  $taito_project-$taito_env-storage.accessKeyId:random
-  $taito_project-$taito_env-storage.secretKey:random
-"
-
-# Define database mgr password for automatic CI/CD deployments
-if [[ $ci_exec_deploy == "true" ]]; then
-  taito_remote_secrets="
-    $taito_remote_secrets
-    $db_database_mgr_secret:random
-  "
-fi
