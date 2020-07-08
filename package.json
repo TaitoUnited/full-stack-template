@@ -67,8 +67,8 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "if [ '$taito_mode' != 'ci' ]; then npm run precommit:branch && npm run precommit:lint; fi",
-      "pre-push": "if [ '$taito_mode' != 'ci' ]; then npm-run-all --parallel lint unit; fi"
+      "pre-commit": "if [ $taito_mode != 'ci' ]; then npm run precommit:branch && npm run precommit:lint; fi",
+      "pre-push": "if [ $taito_mode != 'ci' ]; then npm-run-all --parallel lint unit; fi"
     }
   },
   "commitlint": {
