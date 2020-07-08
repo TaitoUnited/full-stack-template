@@ -45,7 +45,17 @@ variable "taito_functions_bucket" {
 
 # Targets
 
-variable "taito_container_targets" {
+variable "taito_ci_cache_all_targets_with_docker" {
+  type = bool  # whitespace delimited strings
+  default = false
+}
+
+variable "taito_targets" {
+  type = string  # whitespace delimited strings
+  default = ""
+}
+
+variable "taito_containers" {
   type = string  # whitespace delimited strings
   default = ""
 }

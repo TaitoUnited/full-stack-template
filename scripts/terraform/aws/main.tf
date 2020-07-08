@@ -20,13 +20,15 @@ locals {
     split(" ", trimspace(replace(var.taito_storage_classes, "/\\s+/", " "))))
   taito_storage_days = (var.taito_storage_days == "" ? [] :
     split(" ", trimspace(replace(var.taito_storage_days, "/\\s+/", " "))))
-  taito_container_targets = (var.taito_container_targets == "" ? [] :
-    split(" ", trimspace(replace(var.taito_container_targets, "/\\s+/", " "))))
+  taito_targets = (var.taito_targets == "" ? [] :
+    split(" ", trimspace(replace(var.taito_targets, "/\\s+/", " "))))
+  taito_containers = (var.taito_containers == "" ? [] :
+    split(" ", trimspace(replace(var.taito_containers, "/\\s+/", " "))))
 }
 
 module "aws" {
   source  = "TaitoUnited/project-resources/aws"
-  version = "1.0.2"
+  version = "1.1.0"
 
   # Provider
   region                      = var.taito_provider_region
@@ -43,7 +45,11 @@ module "aws" {
   functions_bucket            = var.taito_functions_bucket
 
   # Targets
-  container_targets           = local.taito_container_targets
+  containers                  = (
+                                  var.taito_ci_cache_all_targets_with_docker
+                                  ? local.taito_targets
+                                  : local.taito_containers
+                                )
 
   # Storages
   storages                    = local.taito_storages

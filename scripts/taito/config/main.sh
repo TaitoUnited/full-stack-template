@@ -68,6 +68,7 @@ taito_vc_repository_url=${template_default_vc_url}/$taito_vc_repository
 taito_ci_provider=${template_default_ci_provider}
 taito_ci_organization=${template_default_ci_organization}
 taito_ci_image=${template_default_taito_image}
+taito_ci_cache_all_targets_with_docker=true
 
 # Container registry
 taito_container_registry_provider=${template_default_container_registry_provider}
