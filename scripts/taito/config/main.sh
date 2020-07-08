@@ -358,12 +358,12 @@ taito_uptime_namespace_id=$taito_zone
 # URLs
 taito_app_url=${taito_app_url:-https://$taito_domain}
 taito_state_bucket=$taito_zone-projects
-taito_state_path=/state/$taito_project-$taito_env
+taito_state_path=state/$taito_project-$taito_env
 taito_functions_bucket=$taito_zone-projects
-taito_functions_path=/$taito_project
+taito_functions_path=functions/$taito_project
 taito_static_assets_bucket=$taito_zone-assets
-taito_static_assets_path=/$taito_project
-taito_cdn_path=/$taito_project
+taito_static_assets_path=assets/$taito_project
+taito_cdn_path=$taito_project
 if [[ $taito_cdn_domain ]]; then
   taito_cdn_project_path=https://$taito_cdn_domain/$taito_cdn_path
 else
