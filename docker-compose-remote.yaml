@@ -32,8 +32,9 @@ services:
     environment:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: full-stack-template
-      REPLACE_BASE_HREF: /admin/
-      REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/_IMAGE_TAG_/admin/
+      REPLACE_BASE_PATH: /admin
+      REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/_IMAGE_TAG_/admin
+      REPLACE_ASSETS_DOMAIN: ${taito_cdn_domain}
 
   full-stack-template-client:
     container_name: full-stack-template-client
@@ -50,8 +51,9 @@ services:
     environment:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: full-stack-template
-      REPLACE_BASE_HREF: /
-      REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/_IMAGE_TAG_/client/
+      REPLACE_BASE_PATH:
+      REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/_IMAGE_TAG_/client
+      REPLACE_ASSETS_DOMAIN: ${taito_cdn_domain}
 
   full-stack-template-graphql:
     container_name: full-stack-template-graphql
@@ -124,8 +126,9 @@ services:
     ports:
       - "8080"
     environment:
-      REPLACE_BASE_HREF: /docs/
-      REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/_IMAGE_TAG_/www/
+      REPLACE_BASE_PATH: /docs
+      REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/_IMAGE_TAG_/www
+      REPLACE_ASSETS_DOMAIN: ${taito_cdn_domain}
 
   full-stack-template-redis:
     container_name: full-stack-template-redis

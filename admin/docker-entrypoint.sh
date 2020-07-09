@@ -1,5 +1,17 @@
 #!/bin/sh
 
+function replace() {
+  TEMPFILE=$(mktemp)
+  find . -name "${1}" -exec sh -c \
+    "sed -e \"s/${2}/${3}/g\" {} > $TEMPFILE && cat $TEMPFILE > {}" \;
+}
+
+function remove() {
+  TEMPFILE=$(mktemp)
+  find . -name "${1}" -exec sh -c \
+    "sed -e \"/${2}/d\" {} > $TEMPFILE && cat $TEMPFILE > {}" \;
+}
+
 # Replaces environment variables in **/*.html files. For example,
 # if REPLACE_ASSETS_PATH environment variable is defined, string 'ASSETS_PATH' is
 # replaced with REPLACE_ASSETS_PATH environment variable value in all html files.
@@ -11,17 +23,22 @@ do
     case $VAL in -*)
       VAL= # Replace with empty string
     esac
-    CONSTANT="${NAME/REPLACE_/}"
-    REPLACEMENT="${VAL//\//\\/}"
-    TEMPFILE=$(mktemp)
 
-    # Use BASE_HREF as default for ASSETS_PATH
-    if [[ $CONSTANT == "ASSETS_PATH" ]] && [[ $REPLACEMENT == "" ]]; then
-      REPLACEMENT="${REPLACE_BASE_HREF//\//\\/}"
+    # Use BASE_PATH as default value for ASSETS_PATH
+    if [[ $NAME == "REPLACE_ASSETS_PATH" ]] && [[ ! $VAL ]]; then
+      VAL="${REPLACE_BASE_PATH}"
     fi
 
-    find . -name '*.html' -exec sh -c \
-      "sed -e \"s/${CONSTANT}/${REPLACEMENT}/g\" {} > $TEMPFILE && cat $TEMPFILE > {}" \;
+    CONSTANT="${NAME/REPLACE_/}"
+    REPLACEMENT="${VAL//\//\\/}"
+    replace "*.html" "${CONSTANT}" "${REPLACEMENT}"
+
+    # Replace ASSETS_PATH also in runtime-*.js and manifest.json
+    if [[ $NAME == "REPLACE_ASSETS_PATH" ]] && [[ ! $VAL ]]; then
+      replace "runtime-*.js" "${CONSTANT}" "${REPLACEMENT}"
+      replace "manifest.json" "${CONSTANT}" "${REPLACEMENT}"
+      remove "manifest.json" "start_url"
+    fi
   esac
 done
 

@@ -33,7 +33,7 @@ routerMiddlewares.forEach((middleware) => {
 });
 
 let handler = null;
-handler = serverless(server, { basePath: process.env.API_URL });
+handler = serverless(server, { basePath: '/api' TODO });
 if (!handler || config.COMMON_ENV === 'local') {
   server.listen(config.API_PORT, config.API_BINDADDR, () => {
     log.info(

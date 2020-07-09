@@ -13,12 +13,15 @@ const COPYRIGHT = 'Copyright ' + y + ' Taito United Oy - All rights reserved.';
 const OUTPUT_DIR = '../../build';
 const ASSETS_DIR = 'assets';
 const ICON_DIR = ASSETS_DIR + '/icon.png';
+const BASE_PATH = process.env.BASE_PATH !== undefined
+  ? process.env.BASE_PATH
+  : 'BASE_PATH';
 const ASSETS_PATH = process.env.ASSETS_PATH !== undefined
   ? process.env.ASSETS_PATH
   : 'ASSETS_PATH';
-const BASE_HREF = process.env.BASE_HREF !== undefined
-  ? process.env.BASE_HREF
-  : 'BASE_HREF';
+const ASSETS_DOMAIN = process.env.ASSETS_DOMAIN !== undefined
+  ? process.env.ASSETS_DOMAIN
+  : 'ASSETS_DOMAIN';
 // TODO: DOCKER_HOST contains the host ip? Use it instead of the hard coded ip
 const PUBLIC_HOST = process.env.DOCKER_HOST ? '192.168.99.100' : 'localhost';
 const PUBLIC_PORT = process.env.COMMON_PUBLIC_PORT;
@@ -44,7 +47,7 @@ module.exports = function(env, argv) {
       // Use [contenthash] for better caching support
       filename: isProd ? '[name].[contenthash].js' : '[name].bundle.js',
       path: path.resolve(__dirname, OUTPUT_DIR),
-      publicPath: `${ASSETS_PATH}`,
+      publicPath: `${ASSETS_PATH}/`,
     },
 
     resolve: {
@@ -66,7 +69,8 @@ module.exports = function(env, argv) {
         version: process.env.BUILD_VERSION,
         imageTag: process.env.BUILD_IMAGE_TAG,
         template: 'index.html.template',
-        baseHref: BASE_HREF,
+        basePath: BASE_PATH,
+        assetsDomain: ASSETS_DOMAIN,
         inject: 'body',
       }),
 
