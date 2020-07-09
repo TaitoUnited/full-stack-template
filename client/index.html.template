@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1 , maximum-scale=1.0, user-scalable=0">
     <meta name="version" content="<%= htmlWebpackPlugin.options.version %>+<%= htmlWebpackPlugin.options.imageTag %>">
     <!-- TODO: avoid unsafe-inline by setting nonce for all styles -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' <%= htmlWebpackPlugin.options.assetsDomain %>; style-src 'self' <%= htmlWebpackPlugin.options.assetsDomain %> 'unsafe-inline'; font-src 'self' <%= htmlWebpackPlugin.options.assetsDomain %> fonts.googleapis.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' <%= htmlWebpackPlugin.options.assetsDomain %>; style-src 'self' <%= htmlWebpackPlugin.options.assetsDomain %> fonts.googleapis.com 'unsafe-inline'; font-src 'self' <%= htmlWebpackPlugin.options.assetsDomain %> fonts.googleapis.com fonts.gstatic.com;">
 
     <title><%= htmlWebpackPlugin.options.title %></title>
 
