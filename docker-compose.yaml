@@ -40,7 +40,8 @@ services:
       NODE_ENV: development
       API_ROOT: ''
       API_URL: /api
-      CDN_PROJECT_PATH: ''
+      BASE_HREF: /admin/
+      ASSETS_PATH: /admin/
 
   full-stack-template-client:
     container_name: full-stack-template-client
@@ -69,7 +70,8 @@ services:
       NODE_ENV: development
       API_ROOT: ''
       API_URL: /api
-      CDN_PROJECT_PATH: ''
+      BASE_HREF: /
+      ASSETS_PATH: /
       # NOTE: Database connection is for tests only
       DATABASE_HOST: full-stack-template-database
       DATABASE_PORT: ${db_database_port}
@@ -184,6 +186,8 @@ services:
       HOST_OS: ${taito_host_os}
       HOST_UNAME: ${taito_host_uname}
       COMMON_PUBLIC_PORT: 9999
+      BASE_HREF: /docs/
+      ASSETS_PATH: /docs/
 
   full-stack-template-redis:
     container_name: full-stack-template-redis

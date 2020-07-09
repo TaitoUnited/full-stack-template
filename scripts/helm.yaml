@@ -49,7 +49,8 @@ full-stack:
       cpuRequest: 2m
       memoryRequest: 2Mi
       env:
-        REPLACE_CDN_PROJECT_PATH: ${taito_cdn_project_path}/${taito_build_image_tag}
+        REPLACE_BASE_HREF: /admin/
+        REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/${taito_build_image_tag}/admin/
 
     client:
       paths:
@@ -57,7 +58,8 @@ full-stack:
       cpuRequest: 2m
       memoryRequest: 2Mi
       env:
-        REPLACE_CDN_PROJECT_PATH: ${taito_cdn_project_path}/${taito_build_image_tag}
+        REPLACE_BASE_HREF: /
+        REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/${taito_build_image_tag}/client/
 
     graphql:
       paths:
@@ -198,6 +200,7 @@ full-stack:
       cpuRequest: 2m
       memoryRequest: 2Mi
       env:
-        REPLACE_CDN_PROJECT_PATH: ${taito_cdn_project_path}/${taito_build_image_tag}
+        REPLACE_BASE_HREF: /docs/
+        REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/${taito_build_image_tag}/docs/
 
     # TODO: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/#ttl-mechanism-for-finished-jobs

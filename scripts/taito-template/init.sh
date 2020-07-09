@@ -240,12 +240,12 @@ function prune () {
         sed -i '/rewrite \^\/docs\//d' docker-nginx.conf
         sed -i "s/path: \\/docs/path:/g" scripts/helm.yaml
         sed -i "s/\\/docs//g" scripts/taito/project.sh
-        sed -i "s/\\/docs/\\//g" docker-nginx.conf
+        sed -i "s/\\/docs/\\//g" docker-nginx.conf docker-*.yaml
       elif [[ ${www_path} != "/docs" ]]; then
         www_path_escaped="${www_path//\//\\\/}"
         sed -i "s/path: \\/docs/path: ${www_path_escaped}/g" scripts/helm.yaml
         sed -i "s/\\/docs/${www_path_escaped}/g" scripts/taito/project.sh
-        sed -i "s/\\/docs/${www_path_escaped}/g" docker-nginx.conf
+        sed -i "s/\\/docs/${www_path_escaped}/g" docker-nginx.conf docker-*.yaml
       fi
       sed -i "s/\\/api\\/docz/\\/api\\/docs/g" scripts/taito/project.sh
     fi
