@@ -1,7 +1,7 @@
 import pgpInit, { IDatabase } from 'pg-promise';
 import config, { getSecrets } from './config';
 
-const db: IDatabase<Record<string, unknown>> | null = null;
+let db: IDatabase<Record<string, unknown>> | null = null;
 
 const getDb = async () => {
   if (db) {

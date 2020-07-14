@@ -33,7 +33,7 @@ services:
       # Paths
       BASE_PATH: /admin
       ASSETS_PATH: /admin
-      ASSETS_DOMAIN:
+      ASSETS_DOMAIN: ''
       API_ROOT: ''
       API_URL: /api
       # Common variables
@@ -64,9 +64,9 @@ services:
       - DATABASE_PASSWORD
     environment:
       # Paths
-      BASE_PATH:
-      ASSETS_PATH:
-      ASSETS_DOMAIN:
+      BASE_PATH: ''
+      ASSETS_PATH: ''
+      ASSETS_DOMAIN: ''
       API_ROOT: ''
       API_URL: /api
       # Common variables
@@ -201,7 +201,7 @@ services:
       # Paths
       BASE_PATH: /docs
       ASSETS_PATH: /docs
-      ASSETS_DOMAIN:
+      ASSETS_DOMAIN: ''
       # Common variables
       DC_COMMAND: ${DC_COMMAND}
       HOST_OS: ${taito_host_os}

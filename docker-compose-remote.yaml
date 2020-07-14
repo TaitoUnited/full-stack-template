@@ -33,7 +33,7 @@ services:
       # Paths
       REPLACE_BASE_PATH: /admin
       REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/_IMAGE_TAG_/admin
-      REPLACE_ASSETS_DOMAIN: ${taito_cdn_domain}
+      REPLACE_ASSETS_DOMAIN: '${taito_cdn_domain}'
       # Common variables
       COMMON_COMPANY: companyname
       COMMON_PROJECT: full-stack-template
@@ -52,9 +52,9 @@ services:
       - EXAMPLE_SECRET
     environment:
       # Paths
-      REPLACE_BASE_PATH:
+      REPLACE_BASE_PATH: ''
       REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/_IMAGE_TAG_/client
-      REPLACE_ASSETS_DOMAIN: ${taito_cdn_domain}
+      REPLACE_ASSETS_DOMAIN: '${taito_cdn_domain}'
       # Common variables
       COMMON_COMPANY: companyname
       COMMON_PROJECT: full-stack-template
@@ -141,7 +141,7 @@ services:
       # Paths
       REPLACE_BASE_PATH: /docs
       REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/_IMAGE_TAG_/www
-      REPLACE_ASSETS_DOMAIN: ${taito_cdn_domain}
+      REPLACE_ASSETS_DOMAIN: '${taito_cdn_domain}'
 
   full-stack-template-redis:
     container_name: full-stack-template-redis
