@@ -121,7 +121,7 @@ stack:
       machineType: cache.t2.small
       zones:
         - ${taito_provider_region}b
-      secret: ${taito_project}-${taito_env}-redis.secretKey
+      secret: ${taito_project}-${taito_env}-redis.password
 
     bucket:
       type: bucket
