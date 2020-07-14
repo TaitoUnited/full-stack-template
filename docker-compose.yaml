@@ -30,6 +30,13 @@ services:
       - "./shared:${DC_PATH}/service/shared:delegated"
       - "${DC_PATH}/service/node_modules"
     environment:
+      # Paths
+      BASE_PATH: /admin
+      ASSETS_PATH: /admin
+      ASSETS_DOMAIN:
+      API_ROOT: ''
+      API_URL: /api
+      # Common variables
       DC_COMMAND: ${DC_COMMAND}
       DOCKER_HOST: ${DOCKER_HOST}
       HOST_OS: ${taito_host_os}
@@ -38,11 +45,6 @@ services:
       COMMON_PROJECT: full-stack-template
       COMMON_PUBLIC_PORT: 9999
       NODE_ENV: development
-      API_ROOT: ''
-      API_URL: /api
-      BASE_PATH: /admin
-      ASSETS_PATH: /admin
-      ASSETS_DOMAIN:
 
   full-stack-template-client:
     container_name: full-stack-template-client
@@ -61,6 +63,13 @@ services:
     secrets:
       - DATABASE_PASSWORD
     environment:
+      # Paths
+      BASE_PATH:
+      ASSETS_PATH:
+      ASSETS_DOMAIN:
+      API_ROOT: ''
+      API_URL: /api
+      # Common variables
       DC_COMMAND: ${DC_COMMAND}
       DOCKER_HOST: ${DOCKER_HOST}
       HOST_OS: ${taito_host_os}
@@ -69,11 +78,7 @@ services:
       COMMON_PROJECT: full-stack-template
       COMMON_PUBLIC_PORT: 9999
       NODE_ENV: development
-      API_ROOT: ''
-      API_URL: /api
-      BASE_PATH:
-      ASSETS_PATH:
-      ASSETS_DOMAIN:
+      # Services
       # NOTE: Database connection is for tests only
       DATABASE_HOST: full-stack-template-database
       DATABASE_PORT: ${db_database_port}
@@ -95,6 +100,11 @@ services:
       - "./shared:${DC_PATH}/service/shared:delegated"
       - "${DC_PATH}/service/node_modules"
     environment:
+      # Paths and bind
+      BASE_PATH: /graphql
+      GRAPHQL_PORT: 8080
+      GRAPHQL_BINDADDR: 0.0.0.0
+      # Common variables
       DC_COMMAND: ${DC_COMMAND}
       HOST_OS: ${taito_host_os}
       HOST_UNAME: ${taito_host_uname}
@@ -107,8 +117,7 @@ services:
       COMMON_LOG_FORMAT: text
       COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
       COMMON_ENV: local
-      GRAPHQL_PORT: 8080
-      GRAPHQL_BINDADDR: 0.0.0.0
+      # Services
       API_HOST: full-stack-template-server
       API_PORT: 8080
 
@@ -133,6 +142,11 @@ services:
       - BUCKET_KEY_SECRET
       - EXAMPLE_SECRET
     environment:
+      # Paths and bind
+      BASE_PATH: /api
+      API_PORT: 8080
+      API_BINDADDR: 0.0.0.0
+      # Common variables
       DC_COMMAND: ${DC_COMMAND}
       HOST_OS: ${taito_host_os}
       HOST_UNAME: ${taito_host_uname}
@@ -143,9 +157,8 @@ services:
       COMMON_LOG_FORMAT: text
       COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
       COMMON_ENV: local
+      # Services
       SENTRY_DSN: #sentryDSN
-      API_PORT: 8080
-      API_BINDADDR: 0.0.0.0
       KAFKA_HOST: full-stack-template-kafka
       KAFKA_PORT: 9092
       DATABASE_HOST: full-stack-template-database
@@ -156,6 +169,7 @@ services:
       DATABASE_POOL_MAX: '10'
       DATABASE_SSL_ENABLED: ${db_database_ssl_enabled}
       DATABASE_SSL_CLIENT_CERT_ENABLED: ${db_database_ssl_client_cert_enabled}
+      DATABASE_SSL_SERVER_CERT_ENABLED: ${db_database_ssl_server_cert_enabled}
       REDIS_HOST: full-stack-template-redis
       REDIS_PORT: 6379
       BUCKET_URL: http://full-stack-template-storage:9000/
@@ -184,13 +198,15 @@ services:
       # FOR GATSBY ONLY:
       # - "/service/site/node_modules"
     environment:
+      # Paths
+      BASE_PATH: /docs
+      ASSETS_PATH: /docs
+      ASSETS_DOMAIN:
+      # Common variables
       DC_COMMAND: ${DC_COMMAND}
       HOST_OS: ${taito_host_os}
       HOST_UNAME: ${taito_host_uname}
       COMMON_PUBLIC_PORT: 9999
-      BASE_PATH: /docs
-      ASSETS_PATH: /docs
-      ASSETS_DOMAIN:
 
   full-stack-template-redis:
     container_name: full-stack-template-redis
@@ -227,7 +243,7 @@ services:
 
   full-stack-template-database:
     container_name: full-stack-template-database
-    image: postgres:11
+    image: postgres:12
     restart: unless-stopped
     networks:
       - default

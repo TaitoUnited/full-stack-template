@@ -8,7 +8,7 @@ services:
   full-stack-template-admin-test:
     container_name: full-stack-template-admin-test
     image: full-stack-template-admin-test:latest
-    restart: unless-stopped
+    restart: 'no'
     volumes:
       - "./admin:/service:delegated"
       - "./shared:/service/shared:delegated"
@@ -22,7 +22,7 @@ services:
   full-stack-template-client-test:
     container_name: full-stack-template-client-test
     image: full-stack-template-client-test:latest
-    restart: unless-stopped
+    restart: 'no'
     volumes:
       - "./client:/service:delegated"
       - "./shared:/service/shared:delegated"
@@ -38,7 +38,7 @@ services:
   full-stack-template-graphql-test:
     container_name: full-stack-template-graphql-test
     image: full-stack-template-graphql-test:latest
-    restart: unless-stopped
+    restart: 'no'
     volumes:
       - "./graphql:/service:delegated"
       - "./shared:/service/shared:delegated"
@@ -52,7 +52,7 @@ services:
   full-stack-template-server-test:
     container_name: full-stack-template-server-test
     image: full-stack-template-server-test:latest
-    restart: unless-stopped
+    restart: 'no'
     volumes:
       - "./server:/service:delegated"
       - "./shared:/service/shared:delegated"
@@ -70,7 +70,7 @@ services:
   full-stack-template-database-proxy:
     container_name: full-stack-template-database-proxy
     image: ${taito_image}
-    restart: unless-stopped
+    restart: 'no'
     user: taito
     entrypoint:
       - /bin/sh
@@ -121,7 +121,7 @@ services:
   # full-stack-template-services-proxy:
   #   container_name: full-stack-template-services-proxy
   #   image: ${taito_image}
-  #   restart: unless-stopped
+  #   restart: 'no'
   #   user: taito
   #   entrypoint:
   #     - /bin/sh
@@ -149,4 +149,4 @@ services:
 
 secrets:
   DATABASE_PASSWORD:
-    file: ./tmp/secrets/${taito_env}/${db_database_app_secret}
+    file: ./tmp/secrets/${taito_env}/${db_database_mgr_secret}

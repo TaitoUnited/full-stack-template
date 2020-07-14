@@ -8,6 +8,18 @@ variable "taito_provider_zone" {
   type = string
 }
 
+# Uptime provider
+
+variable "taito_uptime_provider" {
+  type = string
+  default = ""
+}
+
+variable "taito_uptime_channels" {
+  type = string  # whitespace delimited strings
+  default = ""
+}
+
 # Project
 
 variable "taito_project" {
@@ -30,12 +42,6 @@ variable "taito_namespace" {
 
 variable "taito_resource_namespace_id" {
   type = string
-}
-
-# Service account
-
-variable "provider_service_account_enabled" {
-  type = bool
 }
 
 # Storage

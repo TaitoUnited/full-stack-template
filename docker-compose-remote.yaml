@@ -30,11 +30,13 @@ services:
     ports:
       - "8080"
     environment:
-      COMMON_COMPANY: companyname
-      COMMON_PROJECT: full-stack-template
+      # Paths
       REPLACE_BASE_PATH: /admin
       REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/_IMAGE_TAG_/admin
       REPLACE_ASSETS_DOMAIN: ${taito_cdn_domain}
+      # Common variables
+      COMMON_COMPANY: companyname
+      COMMON_PROJECT: full-stack-template
 
   full-stack-template-client:
     container_name: full-stack-template-client
@@ -49,11 +51,13 @@ services:
       - DATABASE_PASSWORD
       - EXAMPLE_SECRET
     environment:
-      COMMON_COMPANY: companyname
-      COMMON_PROJECT: full-stack-template
+      # Paths
       REPLACE_BASE_PATH:
       REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/_IMAGE_TAG_/client
       REPLACE_ASSETS_DOMAIN: ${taito_cdn_domain}
+      # Common variables
+      COMMON_COMPANY: companyname
+      COMMON_PROJECT: full-stack-template
 
   full-stack-template-graphql:
     container_name: full-stack-template-graphql
@@ -64,6 +68,11 @@ services:
     ports:
       - "8080"
     environment:
+      # Paths and bind
+      BASE_PATH: /graphql
+      GRAPHQL_PORT: 8080
+      GRAPHQL_BINDADDR: 0.0.0.0
+      # Common variables
       COMMON_COMPANY: companyname
       COMMON_PROJECT: full-stack-template
       COMMON_DOMAIN: localhost
@@ -72,8 +81,7 @@ services:
       COMMON_LOG_FORMAT: text
       COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
       COMMON_ENV: local
-      GRAPHQL_PORT: 8080
-      GRAPHQL_BINDADDR: 0.0.0.0
+      # Services
       API_HOST: full-stack-template-server
       API_PORT: 8080
 
@@ -91,15 +99,19 @@ services:
       - BUCKET_KEY_SECRET
       - EXAMPLE_SECRET
     environment:
+      # Paths and bind
+      BASE_PATH: /api
+      API_PORT: 8080
+      API_BINDADDR: 0.0.0.0
+      # Common variables
       COMMON_COMPANY: companyname
       COMMON_PROJECT: full-stack-template
       COMMON_DEBUG: 'false'
       COMMON_LOG_FORMAT: text
       COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
       COMMON_ENV: local
+      # Services
       SENTRY_DSN: #sentryDSN
-      API_PORT: 8080
-      API_BINDADDR: 0.0.0.0
       KAFKA_HOST: full-stack-template-kafka
       KAFKA_PORT: 9092
       DATABASE_HOST: 172.17.0.1  # For docker db: full-stack-template-database
@@ -126,6 +138,7 @@ services:
     ports:
       - "8080"
     environment:
+      # Paths
       REPLACE_BASE_PATH: /docs
       REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/_IMAGE_TAG_/www
       REPLACE_ASSETS_DOMAIN: ${taito_cdn_domain}
@@ -177,7 +190,7 @@ services:
 
   # full-stack-template-database:
   #   container_name: full-stack-template-database
-  #   image: postgres:11
+  #   image: postgres:12
   #   restart: unless-stopped
   #   networks:
   #     - default

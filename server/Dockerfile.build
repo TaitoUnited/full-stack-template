@@ -10,6 +10,7 @@ COPY ${SERVICE_DIR}/package.json \
      /service/
 ENV TARGET_ENV ${TARGET_ENV}
 ENV NODE_ENV development
+ENV BASE_PATH /api
 RUN npm ci --loglevel warn
 COPY ${SERVICE_DIR} /service
 RUN npm run lint

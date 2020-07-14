@@ -10,58 +10,43 @@ provider "google" {
   zone    = var.taito_provider_zone
 }
 
-/* Convert whitespace delimited strings into list(string) */
 locals {
-  taito_storages = (var.taito_storages == "" ? [] :
-    split(" ", trimspace(replace(var.taito_storages, "/\\s+/", " "))))
-  taito_storage_locations = (var.taito_storage_locations == "" ? [] :
-    split(" ", trimspace(replace(var.taito_storage_locations, "/\\s+/", " "))))
-  taito_storage_classes = (var.taito_storage_classes == "" ? [] :
-    split(" ", trimspace(replace(var.taito_storage_classes, "/\\s+/", " "))))
-  taito_storage_days = (var.taito_storage_days == "" ? [] :
-    split(" ", trimspace(replace(var.taito_storage_days, "/\\s+/", " "))))
-  taito_storage_cors = (var.taito_storage_cors == "" ? [] :
-    split(" ", trimspace(replace(var.taito_storage_cors, "/\\s+/", " "))))
-  taito_storage_admins = (var.taito_storage_admins == "" ? [] :
-    split(" ", trimspace(replace(var.taito_storage_admins, "/\\s+/", " "))))
-  taito_storage_object_admins = (var.taito_storage_object_admins == "" ? [] :
-    split(" ", trimspace(replace(var.taito_storage_object_admins, "/\\s+/", " "))))
-  taito_storage_object_viewers = (var.taito_storage_object_viewers == "" ? [] :
-    split(" ", trimspace(replace(var.taito_storage_object_viewers, "/\\s+/", " "))))
-  taito_backup_locations = (var.taito_backup_locations == "" ? [] :
-    split(" ", trimspace(replace(var.taito_backup_locations, "/\\s+/", " "))))
-  taito_backup_days = (var.taito_backup_days == "" ? [] :
-    split(" ", trimspace(replace(var.taito_backup_days, "/\\s+/", " "))))
+  taito_uptime_channels = (var.taito_uptime_channels == "" ? [] :
+    split(" ", trimspace(replace(var.taito_uptime_channels, "/\\s+/", " "))))
+
+  variables = (
+    fileexists("${path.root}/../../terraform-${var.taito_env}-merged.yaml")
+      ? yamldecode(file("${path.root}/../../terraform-${var.taito_env}-merged.yaml"))
+      : jsondecode(file("${path.root}/../../terraform-merged.json.tmp"))
+  )["stack"]
 }
 
 module "gcp" {
   source  = "TaitoUnited/project-resources/google"
-  version = "1.1.0"
+  version = "2.0.0"
+
+  # Create flags
+  create_storage_buckets              = true
+  create_databases                    = true
+  create_in_memory_databases          = true
+  create_topics                       = true
+  create_service_accounts             = true
+  create_uptime_checks                = var.taito_uptime_provider == "gcp"
 
   # Provider
   project_id              = var.taito_resource_namespace_id
   region                  = var.taito_provider_region
   zone                    = var.taito_provider_zone
 
-  # Project
+  # Labels
   project                 = var.taito_project
+
+  # Environment info
   env                     = var.taito_env
-  domain                  = var.taito_domain
 
-  # Service account
-  service_account_enabled = var.provider_service_account_enabled
+  # Uptime
+  uptime_channels             = local.taito_uptime_channels
 
-  # Storage
-  storages                = local.taito_storages
-  storage_locations       = local.taito_storage_locations
-  storage_classes         = local.taito_storage_classes
-  storage_days            = local.taito_storage_days
-  storage_cors            = local.taito_storage_cors
-  storage_admins          = local.taito_storage_admins
-  storage_object_admins   = local.taito_storage_object_admins
-  storage_object_viewers  = local.taito_storage_object_viewers
-
-  # Backup
-  # backup_locations      = local.taito_backup_locations
-  # backup_days           = local.taito_backup_days
+  # Additional variables as a json file
+  variables                   = local.variables
 }

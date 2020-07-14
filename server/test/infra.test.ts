@@ -1,5 +1,5 @@
 import axios from 'axios';
-import testDb from './common/testDb';
+import getTestDb from './common/testDb';
 
 const request = axios.create({
   baseURL: `${process.env.TEST_API_URL}`,
@@ -35,6 +35,7 @@ describe('infra', function infra() {
       // Disable db check on template
       // TODO: remove if clause once it works also on template
       if ('full-stack-template'.substring(1) !== 'ull-stack-template') {
+        const testDb = await getTestDb();
         await testDb.any('SELECT 1');
       }
     });

@@ -2,7 +2,7 @@ import serverless from 'serverless-http';
 import Koa from 'koa';
 import patchKoaQs from 'koa-qs';
 import config from './common/config';
-import db from './common/db';
+import getDb from './common/db';
 import log from './common/log';
 import dbTransactionMiddleware from './infra/dbTransactionMiddleware';
 import errorHandlerMiddleware from './infra/errorHandlerMiddleware';
@@ -20,7 +20,7 @@ patchKoaQs(server);
 server.use(async (ctx, next) => {
   ctx.state = ctx.state || {};
   ctx.state.log = log;
-  ctx.state.db = db;
+  ctx.state.db = await getDb();
   await next();
 });
 
@@ -33,7 +33,7 @@ routerMiddlewares.forEach((middleware) => {
 });
 
 let handler = null;
-handler = serverless(server, { basePath: '/api' TODO });
+handler = serverless(server, { basePath: config.BASE_PATH });
 if (!handler || config.COMMON_ENV === 'local') {
   server.listen(config.API_PORT, config.API_BINDADDR, () => {
     log.info(
@@ -45,6 +45,8 @@ if (!handler || config.COMMON_ENV === 'local') {
       'Server started'
     );
   });
+} else {
+  log.info('Function started');
 }
 
 export { server, handler };

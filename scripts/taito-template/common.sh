@@ -189,6 +189,8 @@ sed -i "s/\${template_default_postgres_ssl_enabled:-true}/${template_default_pos
 sed -i "s/\${template_default_postgres_ssl_enabled_prod:-true}/${template_default_postgres_ssl_enabled_prod:-true}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_postgres_ssl_client_cert_enabled:-false}/${template_default_postgres_ssl_client_cert_enabled:-false}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_postgres_ssl_client_cert_enabled_prod:-false}/${template_default_postgres_ssl_client_cert_enabled_prod:-false}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_postgres_ssl_server_cert_enabled:-false}/${template_default_postgres_ssl_server_cert_enabled:-false}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_postgres_ssl_server_cert_enabled_prod:-false}/${template_default_postgres_ssl_server_cert_enabled_prod:-false}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_postgres_proxy_ssl_enabled:-true}/${template_default_postgres_proxy_ssl_enabled:-true}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_postgres_proxy_ssl_enabled_prod:-true}/${template_default_postgres_proxy_ssl_enabled_prod:-true}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_postgres_master_username}/${template_default_postgres_master_username:-}/g" scripts/taito/config/main.sh
@@ -204,6 +206,8 @@ sed -i "s/\${template_default_mysql_ssl_enabled:-true}/${template_default_mysql_
 sed -i "s/\${template_default_mysql_ssl_enabled_prod:-true}/${template_default_mysql_ssl_enabled_prod:-true}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_mysql_ssl_client_cert_enabled:-false}/${template_default_mysql_ssl_client_cert_enabled:-false}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_mysql_ssl_client_cert_enabled_prod:-false}/${template_default_mysql_ssl_client_cert_enabled_prod:-false}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_mysql_ssl_server_cert_enabled:-false}/${template_default_mysql_ssl_server_cert_enabled:-false}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_mysql_ssl_server_cert_enabled_prod:-false}/${template_default_mysql_ssl_server_cert_enabled_prod:-false}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_mysql_proxy_ssl_enabled:-true}/${template_default_mysql_proxy_ssl_enabled:-true}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_mysql_proxy_ssl_enabled_prod:-true}/${template_default_mysql_proxy_ssl_enabled_prod:-true}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_mysql_master_username}/${template_default_mysql_master_username:-}/g" scripts/taito/config/main.sh

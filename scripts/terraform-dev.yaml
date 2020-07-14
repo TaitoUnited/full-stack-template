@@ -1,0 +1,7 @@
+# Overrides for dev environment
+stack:
+  services:
+    bucket:
+      cors:
+        - domain: https://${taito_domain}
+        - domain: http://localhost:9999

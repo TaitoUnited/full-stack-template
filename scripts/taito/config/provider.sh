@@ -20,7 +20,7 @@ case $taito_provider in
       azure-monitoring:-local
     "
 
-    # Kubernetes details
+    # Kubernetes
     kubernetes_cluster="${kubernetes_name}"
     kubernetes_user="clusterUser_${taito_zone}_${kubernetes_cluster}"
 
@@ -46,7 +46,11 @@ case $taito_provider in
       aws-monitoring:-local
     "
 
-    # Kubernetes details
+    # Secrets
+    taito_secret_resource_path="arn:aws:ssm:${taito_provider_region}:${taito_provider_org_id}:parameter/${taito_zone}/${taito_namespace}"
+    taito_secret_name_path="/${taito_zone}/${taito_namespace}"
+
+    # Kubernetes
     kubernetes_cluster="arn:aws:eks:${taito_provider_region}:${taito_provider_org_id}:cluster/${kubernetes_name}"
     kubernetes_user="${kubernetes_cluster}"
 
@@ -69,7 +73,7 @@ case $taito_provider in
       ${taito_plugins}
     "
 
-    # Kubernetes details
+    # Kubernetes
     kubernetes_cluster="TODO_${kubernetes_name}"
     kubernetes_user="${kubernetes_cluster}"
     ;;
@@ -95,11 +99,6 @@ case $taito_provider in
         $taito_remote_secrets
         $taito_provider_db_proxy_secret:copy/devops
       "
-    fi
-
-    # Storage
-    if [[ ${taito_buckets} ]]; then
-      provider_service_account_enabled=true
     fi
 
     # Set google specific storage urls
@@ -353,17 +352,6 @@ if [[ $taito_plugins == *"sentry"* ]]; then
   "
 fi
 
-# Service account
-if [[ $provider_service_account_enabled == "true" ]]; then
-  taito_provider_service_account_secret=$taito_project-$taito_env-serviceaccount.key
-  taito_remote_secrets="
-    $taito_remote_secrets
-    $taito_provider_service_account_secret:file
-  "
-else
-  provider_service_account_enabled="false"
-fi
-
 # Database SSL client key
 if [[ $db_database_ssl_client_cert_enabled == "true" ]]; then
   db_database_ssl_ca_secret=$db_database_instance-ssl.ca
@@ -374,6 +362,12 @@ if [[ $db_database_ssl_client_cert_enabled == "true" ]]; then
     $db_database_ssl_ca_secret:copy/devops
     $db_database_ssl_cert_secret:copy/devops
     $db_database_ssl_key_secret:copy/devops
+  "
+elif [[ $db_database_ssl_server_cert_enabled == "true" ]]; then
+  db_database_ssl_ca_secret=$db_database_instance-ssl.ca
+  taito_remote_secrets="
+    $taito_remote_secrets
+    $db_database_ssl_ca_secret:copy/devops
   "
 fi
 

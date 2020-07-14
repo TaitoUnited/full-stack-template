@@ -66,7 +66,15 @@ module.exports = (on, config) => {
             cert: readSecretSync('/run/secrets/DATABASE_SSL_CERT'),
             key: readSecretSync('/run/secrets/DATABASE_SSL_KEY'),
           }
-        : process.env.DATABASE_SSL_ENABLED !== 'false',
+        : // TODO: enable once it works with AWS CI/CD
+        // : process.env.DATABASE_SSL_ENABLED &&
+        //   process.env.DATABASE_SSL_SERVER_CERT_ENABLED
+        // ? {
+        //     ca: readSecretSync('/run/secrets/DATABASE_SSL_CA'),
+        //   }
+        process.env.DATABASE_SSL_ENABLED
+        ? { rejectUnauthorized: false }
+        : false,
     poolSize: 2,
   };
   console.log(`URL: ${config.baseUrl}`);

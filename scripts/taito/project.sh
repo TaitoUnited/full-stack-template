@@ -21,10 +21,6 @@ taito_environments="${template_default_environments}"
 # environment only.
 # taito_basic_auth_enabled=false
 
-# Service account: Uncomment the line below to always create Cloud provider
-# service account
-# provider_service_account_enabled=true
-
 # ------ Stack ------
 # Configuration instructions:
 # TODO
@@ -40,11 +36,6 @@ taito_databases=" database "
 taito_buckets=" bucket "
 taito_networks="default"
 
-# Uptime monitoring
-taito_uptime_targets=" admin client graphql server www "
-taito_uptime_paths=" /admin/uptimez /uptimez /graphql/uptimez /api/uptimez /docs/uptimez "
-taito_uptime_timeouts=" 5 5 5 5 5 "
-
 # ------ Secrets ------
 # Configuration instructions:
 # https://taitounited.github.io/taito-cli/tutorial/06-env-variables-and-secrets/
@@ -55,6 +46,7 @@ taito_local_secrets="
 taito_remote_secrets="
   $taito_project-$taito_env-basic-auth.auth:htpasswd-plain
   $taito_project-$taito_env-scheduler.secret:random
+  $taito_project-$taito_env-storage-serviceaccount.key:file
   $db_database_viewer_secret:random
   $db_database_mgr_secret/devops:random
 "

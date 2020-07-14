@@ -9,8 +9,7 @@
 ##########################################################################
 
 taito_project=full-stack-template
-# taito_project_short max 10 characters
-taito_project_short=fstemplate
+taito_project_short=fstemplate # Max 10 characters
 taito_random_name=full-stack-template
 taito_company=companyname
 taito_family=

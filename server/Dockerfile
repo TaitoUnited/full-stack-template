@@ -9,6 +9,7 @@ ENV NODE_ENV development
 COPY ${SERVICE_DIR}/package.json \
   ${SERVICE_DIR}/package-lock.* \
   /service/
+ENV BASE_PATH /api
 RUN npm install --loglevel warn
 EXPOSE 8080
 CMD eval $DC_COMMAND; npm install; npm run start

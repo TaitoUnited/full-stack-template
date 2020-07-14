@@ -58,6 +58,11 @@ function prune () {
   local path=$3
   local path2=$4
 
+  local terraform_name=$name
+  if [[ $terraform_name == "storage" ]]; then
+    terraform_name=bucket
+  fi
+
   echo
   read -r -t 1 -n 1000 || :
   read -p "$message" -n 1 -r confirm
@@ -82,6 +87,8 @@ function prune () {
     fi
     sed -i "/^    $name:\r*\$/,/^\r*$/d" ./scripts/helm.yaml
     sed -i "/-$name$/d" ./scripts/helm.yaml
+    sed -i "/^    $terraform_name:\r*\$/,/^\r*$/d" ./scripts/terraform.yaml
+    sed -i "/-$terraform_name$/d" ./scripts/terraform.yaml
 
     sed -i "s/ $name / /" scripts/taito/project.sh
     sed -i "s/ \\/$name\\/uptimez / /" scripts/taito/project.sh
@@ -210,6 +217,14 @@ function prune () {
 
     rm -rf "$name"
   else
+    # Remove target from terraform.yaml if Kubernetes is enabled
+    if [[ "admin client graphql redis server worker www" == *"$terraform_name"* ]] && (
+         [[ ${template_default_kubernetes:-} ]] ||
+         [[ ${kubernetes_name:-} ]]
+       ); then
+      sed -i "/^    $terraform_name:\r*\$/,/^\r*$/d" ./scripts/terraform.yaml
+    fi
+
     if [[ $name == "www" ]]; then
       read -r -t 1 -n 1000 || :
       echo
@@ -267,7 +282,7 @@ function prune () {
         sed -i "/CREATE EXTENSION/d" database/db.sql
         sed -i "s/5432/3306/g" database/sqitch.conf
         sed -i "s/5432/3306/g" *.yaml
-        sed -i "s/postgres:11/mysql:5.7/g" docker-*.yaml
+        sed -i "s/postgres:12/mysql:5.7/g" docker-*.yaml
         sed -i "s/POSTGRES_DB/MYSQL_DATABASE/g" docker-*.yaml
         sed -i "s/POSTGRES_USER/MYSQL_USER/g" docker-*.yaml
         sed -i "s/POSTGRES_PASSWORD_FILE/MYSQL_PASSWORD_FILE/g" docker-*.yaml
@@ -331,10 +346,23 @@ prune "Worker for background jobs? [y/N] " worker
 prune "Relational database? [Y/n] " database
 prune "Permanent object storage for files? [y/N] " storage \\/bucket \\/minio
 
-# Remove serverless-http adapter if Kubernetes is enabled
-if [[ ! ${template_default_kubernetes} ]] && [[ ! ${kubernetes_name} ]]; then
+if [[ ${template_default_kubernetes} ]] || [[ ${kubernetes_name} ]]; then
+  # Remove serverless-http adapter since Kubernetes is enabled
   sed -i '/serverless/d' ./server/package.json
   sed -i '/serverless/d' ./server/src/server.ts
+else
+  # Remove helm.yaml since kubernetes is disabled
+  rm -f ./scripts/helm*.yaml
+fi
+
+if [[ ${taito_provider} == "aws" ]]; then
+  # Use service account instead of aws policy
+  sed -i "/^      awsPolicy:\r*\$/,/^\r*$/d" ./scripts/terraform.yaml
+  sed -i '/BUCKET_REGION/d' ./scripts/terraform.yaml
+else
+  # Use aws policy instead of service account
+  sed -i '/SERVICE_ACCOUNT_KEY/d' ./scripts/terraform.yaml
+  sed -i 'id: ${taito_project}-${taito_env}-server' ./scripts/terraform.yaml
 fi
 
 echo

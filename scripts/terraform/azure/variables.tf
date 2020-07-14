@@ -1,22 +1,29 @@
-# Project
+# Uptime provider
 
-variable "taito_project" {
+variable "taito_uptime_provider" {
   type = string
+  default = ""
 }
 
-variable "taito_env" {
-  type = string
+variable "taito_uptime_channels" {
+  type = string  # whitespace delimited strings
+  default = ""
 }
 
-# Namespaces
+# Labels
 
 variable "taito_resource_namespace_id" {
   type = string
 }
 
-# Storage
+variable "project" {
+  type        = string
+  description = "Project name: e.g. \"my-project\""
+}
 
-variable "taito_storages" {
-  type = string  # whitespace delimited strings
-  default = ""
+# Environment info
+
+variable "env" {
+  type        = string
+  description = "Environment: e.g. \"dev\""
 }

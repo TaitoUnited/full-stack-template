@@ -1,0 +1,148 @@
+stack:
+  uptimeEnabled: false
+  backupEnabled: false
+
+  ingress:
+    class: gateway
+    enabled: true
+    createMainDomain: false
+    domains:
+      - name: ${taito_domain}
+        altName: ${taito_altdomain} # TODO: implement altName support
+
+  services:
+    admin:
+      type: static
+      path: /admin
+      uptimePath: /admin
+
+    client:
+      type: static
+      path: /
+      uptimePath: /
+
+    www:
+      type: static
+      path: /docs
+      uptimePath: /docs
+
+    graphql:
+      type: function
+      path: /graphql
+      uptimePath: /api/uptimez
+      timeout: 30
+      runtime: nodejs12.x
+      memoryRequest: 256
+      secrets:
+        SERVICE_ACCOUNT_KEY: ${taito_project}-${taito_env}-graphql-serviceaccount.key
+        DATABASE_PASSWORD: ${db_database_app_secret}
+        DATABASE_SSL_CA: ${db_database_ssl_ca_secret}
+        REDIS_PASSWORD: ${taito_project}-${taito_env}-redis.secretKey
+      env:
+        # Paths and bind
+        BASE_PATH: /graphql
+        SECRET_NAME_PATH: ${taito_secret_name_path}
+        # Common variables
+        COMMON_LOG_FORMAT: ${taito_logging_format}
+        COMMON_LOG_LEVEL: info
+        # Services
+        SENTRY_DSN: #sentryDSN
+        DATABASE_HOST: '${db_database_real_host}'
+        DATABASE_PORT: '${db_database_real_port}'
+        DATABASE_SSL_ENABLED: ${db_database_ssl_enabled}
+        DATABASE_SSL_SERVER_CERT_ENABLED: ${db_database_ssl_server_cert_enabled}
+        DATABASE_NAME: ${db_database_name}
+        DATABASE_USER: ${db_database_app_username}
+        DATABASE_POOL_MIN: '5'
+        DATABASE_POOL_MAX: '10'
+        REDIS_HOST: ${taito_random_name}-${taito_env}-001.${taito_random_name}-${taito_env}.nde1c2.use1.cache.amazonaws.com
+        REDIS_PORT: 6379
+        BUCKET_BUCKET: ${taito_random_name}-${taito_env}
+        BUCKET_REGION: ${taito_provider_region}
+      awsPolicy:
+        Version: '2012-10-17'
+        Statement:
+          # Allow bucket access
+          - Effect: Allow
+            Action:
+              - s3:GetObject
+              - s3:PutObject
+              - s3:PutObjectAcl
+            Resource: 'arn:aws:s3:::${taito_random_name}-${taito_env}/*'
+
+    server:
+      type: function
+      path: /api
+      uptimePath: /api/uptimez
+      timeout: 30
+      runtime: nodejs12.x
+      memoryRequest: 256
+      secrets:
+        SERVICE_ACCOUNT_KEY: ${taito_project}-${taito_env}-server-serviceaccount.key
+        DATABASE_PASSWORD: ${db_database_app_secret}
+        DATABASE_SSL_CA: ${db_database_ssl_ca_secret}
+        REDIS_PASSWORD: ${taito_project}-${taito_env}-redis.secretKey
+      env:
+        # Paths and bind
+        BASE_PATH: /api
+        SECRET_NAME_PATH: ${taito_secret_name_path}
+        # Common variables
+        COMMON_LOG_FORMAT: ${taito_logging_format}
+        COMMON_LOG_LEVEL: info
+        # Services
+        SENTRY_DSN: #sentryDSN
+        DATABASE_HOST: '${db_database_real_host}'
+        DATABASE_PORT: '${db_database_real_port}'
+        DATABASE_SSL_ENABLED: ${db_database_ssl_enabled}
+        DATABASE_SSL_SERVER_CERT_ENABLED: ${db_database_ssl_server_cert_enabled}
+        DATABASE_NAME: ${db_database_name}
+        DATABASE_USER: ${db_database_app_username}
+        DATABASE_POOL_MIN: '5'
+        DATABASE_POOL_MAX: '10'
+        REDIS_HOST: ${taito_random_name}-${taito_env}-001.${taito_random_name}-${taito_env}.nde1c2.use1.cache.amazonaws.com
+        REDIS_PORT: 6379
+        BUCKET_BUCKET: ${taito_random_name}-${taito_env}
+        BUCKET_REGION: ${taito_provider_region}
+      awsPolicy:
+        Version: '2012-10-17'
+        Statement:
+          # Allow bucket access
+          - Effect: Allow
+            Action:
+              - s3:GetObject
+              - s3:PutObject
+              - s3:PutObjectAcl
+            Resource: 'arn:aws:s3:::${taito_random_name}-${taito_env}/*'
+
+    redis:
+      type: redis
+      name: ${taito_random_name}-${taito_env}
+      replicas: 1
+      machineType: cache.t2.small
+      zones:
+        - ${taito_provider_region}b
+      secret: ${taito_project}-${taito_env}-redis.secretKey
+
+    bucket:
+      type: bucket
+      name: ${taito_random_name}-${taito_env}
+      location: ${taito_default_storage_location}
+      storageClass: ${taito_default_storage_class}
+      cors:
+        - domain: https://${taito_domain}
+      # Object lifecycle
+      versioning: true
+      versioningRetainDays: ${taito_default_storage_days}
+      # Backup (TODO: implement)
+      backupRetainDays: ${taito_default_storage_backup_days}
+      backupLocation: ${taito_default_storage_backup_location}
+      # User rights
+      admins:
+        - id: ${taito_project}-${taito_env}-graphql
+        - id: ${taito_project}-${taito_env}-server
+      objectAdmins:
+      objectViewers:
+
+  serviceAccounts:
+    - id: ${taito_project}-${taito_env}-graphql
+    - id: ${taito_project}-${taito_env}-server

@@ -39,6 +39,8 @@ substitutions:
   _TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED_PROD:
   _TEMPLATE_DEFAULT_POSTGRES_SSL_CLIENT_CERT_ENABLED:
   _TEMPLATE_DEFAULT_POSTGRES_SSL_CLIENT_CERT_ENABLED_PROD:
+  _TEMPLATE_DEFAULT_POSTGRES_SSL_SERVER_CERT_ENABLED:
+  _TEMPLATE_DEFAULT_POSTGRES_SSL_SERVER_CERT_ENABLED_PROD:
   _TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED:
   _TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED_PROD:
   _TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME:
@@ -86,6 +88,8 @@ steps:
     - template_default_postgres_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_SSL_ENABLED_PROD}
     - template_default_postgres_ssl_client_cert_enabled_enabled=${_TEMPLATE_DEFAULT_POSTGRES_SSL_CLIENT_CERT_ENABLED}
     - template_default_postgres_ssl_client_cert_enabled_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_SSL_CLIENT_CERT_ENABLED_PROD}
+    - template_default_postgres_ssl_server_cert_enabled_enabled=${_TEMPLATE_DEFAULT_POSTGRES_SSL_SERVER_CERT_ENABLED}
+    - template_default_postgres_ssl_server_cert_enabled_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_SSL_SERVER_CERT_ENABLED_PROD}
     - template_default_postgres_proxy_ssl_enabled=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED}
     - template_default_postgres_proxy_ssl_enabled_prod=${_TEMPLATE_DEFAULT_POSTGRES_PROXY_SSL_ENABLED_PROD}
     - template_default_postgres_master_username=${_TEMPLATE_DEFAULT_POSTGRES_MASTER_USERNAME}

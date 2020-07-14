@@ -1,0 +1,4 @@
+# Overrides for dev environment
+stack:
+  uptimeEnabled: true
+  backupEnabled: true

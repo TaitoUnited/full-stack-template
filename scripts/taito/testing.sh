@@ -23,17 +23,23 @@ elif [[ $taito_env == "dev" ]] || [[ $taito_env == "f-"* ]]; then
     # NOTE: Add all secrets required by test runs here. Remember to add them
     # also to docker-compose-test.yaml secret definitions.
     echo "testing.sh: Export secrets for testing"
-    taito secret export:$taito_env $db_database_app_secret
+    taito secret export:$taito_env $db_database_mgr_secret
   fi
 fi
 
 # Database connection
-test_all_DATABASE_HOST=$taito_project-database-proxy
+if [[ $taito_mode == "ci" ]] && [[ ${ci_disable_db_proxy} == "true" ]]; then
+  test_all_DATABASE_HOST=${database_real_host:-$database_host}
+  test_all_DATABASE_SSL_ENABLED=${db_database_ssl_enabled}
+else
+  test_all_DATABASE_HOST=$taito_project-database-proxy
+  test_all_DATABASE_SSL_ENABLED=${db_database_proxy_ssl_enabled}
+fi
 test_all_DATABASE_PORT=$db_database_real_port
-test_all_DATABASE_SSL_ENABLED=${db_database_proxy_ssl_enabled}
 test_all_DATABASE_SSL_CLIENT_CERT_ENABLED=${db_database_ssl_client_cert_enabled}
+test_all_DATABASE_SSL_SERVER_CERT_ENABLED=${db_database_ssl_server_cert_enabled}
 test_all_DATABASE_NAME=$db_database_name
-test_all_DATABASE_USER=$db_database_app_username
+test_all_DATABASE_USER=$db_database_mgr_username
 if [[ "$taito_target_env" == "local" ]]; then
   # On local env we connect directly to the local database
   test_all_DATABASE_HOST=$taito_project-database

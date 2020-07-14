@@ -67,6 +67,7 @@ full-stack:
       paths:
         - path: /graphql
       env:
+        BASE_PATH: /graphql
         GRAPHQL_PORT: '8080'
         GRAPHQL_BINDADDR: '0.0.0.0'
         API_HOST: ${taito_project}-${taito_env}-server
@@ -121,8 +122,8 @@ full-stack:
         - fullname: ${taito_project}-${taito_env}-redis
         - fullname: ${taito_project}-${taito_env}-storage
       livenessInitialDelay: 120
-      serviceAccount:
-        secret: ${taito_provider_service_account_secret}
+      # serviceAccount:
+      #   secret: ${taito_project}-${taito_env}-server-serviceaccount.key
       # Database proxy config
       db:
         useProxy: ${gcp_db_proxy_enabled}
@@ -139,15 +140,17 @@ full-stack:
       secretEnv:
         BUCKET_KEY_ID: ${taito_project}-${taito_env}-storage.accessKeyId
       env:
-        SENTRY_DSN: #sentryDSN
+        BASE_PATH: /api
         API_PORT: '8080'
         API_BINDADDR: '0.0.0.0'
+        SENTRY_DSN: #sentryDSN
         KAFKA_HOST: ${taito_project}-${taito_env}-kafka
         KAFKA_PORT: 9092
         DATABASE_HOST: '${db_database_real_host}'
         DATABASE_PORT: '${db_database_real_port}'
         DATABASE_SSL_ENABLED: ${db_database_ssl_enabled}
         DATABASE_SSL_CLIENT_CERT_ENABLED: ${db_database_ssl_client_cert_enabled}
+        DATABASE_SSL_SERVER_CERT_ENABLED: ${db_database_ssl_server_cert_enabled}
         DATABASE_NAME: ${db_database_name}
         DATABASE_USER: ${db_database_app_username}
         DATABASE_POOL_MIN: '0'
@@ -185,7 +188,7 @@ full-stack:
         - gcs
         - ${taito_resource_namespace}
       serviceAccount:
-        secret: ${taito_provider_service_account_secret}
+        secret: ${taito_project}-${taito_env}-storage-serviceaccount.key
       secretEnv:
         # Minio requires secret as environment variable in gateway mode
         MINIO_ACCESS_KEY: ${taito_project}-${taito_env}-storage.accessKeyId

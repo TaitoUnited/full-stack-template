@@ -101,6 +101,7 @@ if [[ $db_database_type == "pg" ]]; then
   db_database_real_port=5432
   db_database_ssl_enabled="${template_default_postgres_ssl_enabled:-true}"
   db_database_ssl_client_cert_enabled="${template_default_postgres_ssl_client_cert_enabled:-false}"
+  db_database_ssl_server_cert_enabled="${template_default_postgres_ssl_server_cert_enabled:-false}"
   db_database_proxy_ssl_enabled="${template_default_postgres_proxy_ssl_enabled:-true}"
   db_database_create=true
 elif [[ $db_database_type == "mysql" ]]; then
@@ -113,6 +114,7 @@ elif [[ $db_database_type == "mysql" ]]; then
   db_database_real_port=3306
   db_database_ssl_enabled="${template_default_mysql_ssl_enabled:-true}"
   db_database_ssl_client_cert_enabled="${template_default_mysql_ssl_client_cert_enabled:-false}"
+  db_database_ssl_server_cert_enabled="${template_default_mysql_ssl_server_cert_enabled:-false}"
   db_database_proxy_ssl_enabled="${template_default_mysql_proxy_ssl_enabled:-true}"
   db_database_create=true
 fi
@@ -215,12 +217,14 @@ case $taito_env in
       db_database_username_suffix=${template_default_postgres_username_suffix_prod}
       db_database_ssl_enabled="${template_default_postgres_ssl_enabled_prod:-true}"
       db_database_ssl_client_cert_enabled="${template_default_postgres_ssl_client_cert_enabled_prod:-false}"
+      db_database_ssl_server_cert_enabled="${template_default_postgres_ssl_server_cert_enabled_prod:-false}"
       db_database_proxy_ssl_enabled="${template_default_postgres_proxy_ssl_enabled_prod:-true}"
     elif [[ $db_database_type == "mysql" ]]; then
       db_database_real_host="${template_default_mysql_host_prod}"
       db_database_username_suffix=${template_default_mysql_username_suffix_prod}
       db_database_ssl_enabled="${template_default_mysql_ssl_enabled_prod:-true}"
       db_database_ssl_client_cert_enabled="${template_default_mysql_ssl_client_cert_enabled_prod:-false}"
+      db_database_ssl_server_cert_enabled="${template_default_mysql_ssl_server_cert_enabled_prod:-false}"
       db_database_proxy_ssl_enabled="${template_default_mysql_proxy_ssl_enabled_prod:-true}"
     fi
 
@@ -272,12 +276,14 @@ case $taito_env in
       db_database_username_suffix=${template_default_postgres_username_suffix_prod}
       db_database_ssl_enabled="${template_default_postgres_ssl_enabled_prod:-true}"
       db_database_ssl_client_cert_enabled="${template_default_postgres_ssl_client_cert_enabled_prod:-false}"
+      db_database_ssl_server_cert_enabled="${template_default_postgres_ssl_server_cert_enabled_prod:-false}"
       db_database_proxy_ssl_enabled="${template_default_postgres_proxy_ssl_enabled_prod:-true}"
     elif [[ $db_database_type == "mysql" ]]; then
       db_database_real_host="${template_default_mysql_host_prod}"
       db_database_username_suffix=${template_default_mysql_username_suffix_prod}
       db_database_ssl_enabled="${template_default_mysql_ssl_enabled_prod:-true}"
       db_database_ssl_client_cert_enabled="${template_default_mysql_ssl_client_cert_enabled_prod:-false}"
+      db_database_ssl_server_cert_enabled="${template_default_mysql_ssl_server_cert_enabled_prod:-false}"
       db_database_proxy_ssl_enabled="${template_default_mysql_proxy_ssl_enabled_prod:-true}"
     fi
 
@@ -316,6 +322,7 @@ case $taito_env in
     db_database_host=$taito_project-database
     db_database_ssl_enabled=false
     db_database_ssl_client_cert_enabled=false
+    db_database_ssl_server_cert_enabled=false
     db_database_proxy_ssl_enabled=false
     db_database_username_suffix=
     if [[ $db_database_type == "pg" ]]; then
@@ -346,9 +353,10 @@ esac
 # ------ Derived values after environment specific settings ------
 
 # Platforms
-taito_deployment_platforms="${taito_deployment_platforms:-terraform kubernetes}"
-if [[ ! ${kubernetes_name} ]]; then
-  taito_deployment_platforms="${taito_deployment_platforms/kubernetes/}"
+if [[ ${kubernetes_name} ]]; then
+  taito_deployment_platforms="${taito_deployment_platforms:-kubernetes}"
+else
+  taito_deployment_platforms="${taito_deployment_platforms:-terraform}"
 fi
 
 # Provider and namespaces

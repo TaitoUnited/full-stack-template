@@ -1,83 +1,89 @@
-# Provider
+# AWS provider
 
-variable "taito_organization" {
+variable "taito_provider_org_id" {
   type = string
+  description = "AWS account id."
+}
+
+variable "taito_provider_region" {
+  type = string
+  description = "AWS region."
 }
 
 variable "taito_provider_user_profile" {
   type    = string
   default = ""
+  description = "AWS user profile that is used to create the resources."
 }
 
-variable "taito_provider_region" {
+variable "taito_organization" {
   type = string
+  default = ""
 }
 
-# Project
+# Uptime provider
+
+variable "taito_uptime_provider" {
+  type = string
+  default = ""
+}
+
+variable "taito_uptime_channels" {
+  type = string  # whitespace delimited strings
+  default = ""
+}
+
+# Labels
+
+variable "taito_zone" {
+  type = string
+  description = "Name of the zone (e.g. \"my-zone\"). It is required if gateway_asset_reader or secret_resource_path has not been set. "
+}
 
 variable "taito_project" {
   type = string
+  description = "Name of the project (e.g. \"my-project\"). Required if secret_resource_path has not been set"
 }
 
-variable "taito_domain" {
+variable "taito_namespace" {
   type = string
+  description = "Namespace for the project environment (e.g. \"my-project-dev\"). Required if secret_resource_path has not been set"
 }
+
+# Environment
 
 variable "taito_env" {
   type = string
+  description = "For example one of these: dev, test, uat, stag, canary, prod"
 }
 
 variable "taito_vc_repository" {
   type = string
+  description = "For example: \"my-project\""
 }
+
+# Containers
 
 variable "taito_container_registry_provider" {
   type    = string
   default = ""
+  description = "Container registry provider (e.g. \"aws\")."
 }
-
-# Shared infrastructure
-
-variable "taito_functions_bucket" {
-  type = string
-  default = ""
-}
-
-# Targets
 
 variable "taito_ci_cache_all_targets_with_docker" {
-  type = bool  # whitespace delimited strings
+  type = bool
   default = false
+  description = "If true, docker is used to cache also non-docker build artifacts."
 }
 
 variable "taito_targets" {
   type = string  # whitespace delimited strings
   default = ""
+  description = "All targets."
 }
 
 variable "taito_containers" {
   type = string  # whitespace delimited strings
   default = ""
-}
-
-# Storage
-
-variable "taito_storages" {
-  type = string  # whitespace delimited strings
-  default = ""
-}
-
-variable "taito_storage_locations" {
-  type = string  # whitespace delimited strings
-  default = ""
-}
-
-variable "taito_storage_classes" {
-  type = string  # whitespace delimited strings
-  default = ""
-}
-
-variable "taito_storage_days" {
-  type = string  # whitespace delimited strings
-  default = ""
+  description = "Container targets."
 }
