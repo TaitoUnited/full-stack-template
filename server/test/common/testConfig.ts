@@ -1,6 +1,6 @@
 import config, { getSecrets } from '../../src/common/config';
 
-let testConfig = null;
+let testConfig: any = null;
 
 const getTestConfig = async () => {
   if (testConfig) {

@@ -98,7 +98,7 @@ const config = {
   COMMON_LOG_FORMAT: process.env.COMMON_LOG_FORMAT as 'text' | 'stackdriver',
 };
 
-let secrets = null;
+let secrets: any = null;
 
 export const getSecrets = async () => {
   if (secrets) {
