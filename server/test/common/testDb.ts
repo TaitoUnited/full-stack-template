@@ -1,7 +1,7 @@
 import pgpInit, { IDatabase } from 'pg-promise';
 import getTestConfig from './testConfig';
 
-let testDb: IDatabase<{}> | null = null;
+let testDb: IDatabase<Record<string, unknown>> | null = null;
 
 const getTestDb = async () => {
   if (testDb) {
@@ -47,4 +47,4 @@ const getTestDb = async () => {
   return testDb;
 };
 
-export default testDb;
+export default getTestDb;

@@ -2,7 +2,7 @@ import { Context } from 'koa';
 import BaseRouter from '../common/BaseRouter';
 
 import config from '../common/config';
-import storagesById from '../common/storage';
+import getStoragesById from '../common/storage';
 
 class InfraRouter extends BaseRouter {
   constructor() {
@@ -60,6 +60,7 @@ class InfraRouter extends BaseRouter {
         // Check database
         await ctx.state.db.any('SELECT 1');
         // Check storage buckets
+        const storagesById = await getStoragesById();
         await storagesById.bucket.s3
           .headBucket({ Bucket: storagesById.bucket.bucket })
           .promise(); // storage
