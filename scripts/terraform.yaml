@@ -37,7 +37,7 @@ stack:
         SERVICE_ACCOUNT_KEY: ${taito_project}-${taito_env}-graphql-serviceaccount.key
         DATABASE_PASSWORD: ${db_database_app_secret}
         DATABASE_SSL_CA: ${db_database_ssl_ca_secret}
-        REDIS_PASSWORD: ${taito_project}-${taito_env}-redis.secretKey
+        REDIS_PASSWORD: ${taito_project}-${taito_env}-redis.password
       env:
         # Paths and bind
         BASE_PATH: /graphql
@@ -81,7 +81,7 @@ stack:
         SERVICE_ACCOUNT_KEY: ${taito_project}-${taito_env}-server-serviceaccount.key
         DATABASE_PASSWORD: ${db_database_app_secret}
         DATABASE_SSL_CA: ${db_database_ssl_ca_secret}
-        REDIS_PASSWORD: ${taito_project}-${taito_env}-redis.secretKey
+        REDIS_PASSWORD: ${taito_project}-${taito_env}-redis.password
       env:
         # Paths and bind
         BASE_PATH: /api

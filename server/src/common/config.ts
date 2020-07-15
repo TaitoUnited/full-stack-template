@@ -18,15 +18,19 @@ export const readParameter = async (paramName: string) => {
 
 export const readSecret = async (secret: string, isFileSecret = false) => {
   let value = null;
-  if (process.env[secret]) {
-    value = process.env[secret];
-  } else if (process.env[`${secret}_PARAM`]) {
-    value = await readParameter(process.env[`${secret}_PARAM`] as string);
-    if (value && isFileSecret) {
-      value = Buffer.from(value, 'base64').toString('ascii');
+  try {
+    if (process.env[secret]) {
+      value = process.env[secret];
+    } else if (process.env[`${secret}_PARAM`]) {
+      value = await readParameter(process.env[`${secret}_PARAM`] as string);
+      if (value && isFileSecret) {
+        value = Buffer.from(value, 'base64').toString('ascii');
+      }
+    } else {
+      value = await readFile(`/run/secrets/${secret}`);
     }
-  } else {
-    value = await readFile(`/run/secrets/${secret}`);
+  } catch (err) {
+    console.log(err);
   }
   // tslint:disable-next-line
   if (!value) console.warn(`WARNING: Failed to read secret ${secret}`);
