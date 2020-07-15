@@ -17,3 +17,8 @@ taito_application=template
 taito_suffix=
 
 taito_default_db_type=pg
+
+# Template
+template_version=1.0.0
+template_name=FULL-STACK-TEMPLATE
+template_source_git=git@github.com:TaitoUnited

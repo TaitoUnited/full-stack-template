@@ -139,7 +139,6 @@ services:
     secrets:
       - DATABASE_PASSWORD
       - REDIS_PASSWORD
-      - BUCKET_KEY_SECRET
       - EXAMPLE_SECRET
     environment:
       # Paths and bind
@@ -178,6 +177,7 @@ services:
       BUCKET_BROWSE_URL: http://localhost:9729/bucket   # TODO
       BUCKET_DOWNLOAD_URL: http://localhost:9729/bucket # TODO
       BUCKET_KEY_ID: minio
+      BUCKET_KEY_SECRET: ${taito_default_password}
       BUCKET_FORCE_PATH_STYLE: 'true'
 
   full-stack-template-www:
@@ -279,8 +279,6 @@ secrets:
     file: ./secrets/${taito_env}/${db_database_app_secret}
   REDIS_PASSWORD:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-redis.password
-  BUCKET_KEY_SECRET:
-    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-storage.secretKey
   EXAMPLE_SECRET:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-example.secret
 

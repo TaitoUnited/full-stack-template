@@ -65,10 +65,14 @@ stack:
           # Allow bucket access
           - Effect: Allow
             Action:
+              - s3:ListBucket
+              - s3:GetBucketLocation
               - s3:GetObject
               - s3:PutObject
               - s3:PutObjectAcl
-            Resource: 'arn:aws:s3:::${taito_random_name}-${taito_env}/*'
+            Resource:
+              - 'arn:aws:s3:::${taito_random_name}-${taito_env}'
+              - 'arn:aws:s3:::${taito_random_name}-${taito_env}/*'
 
     server:
       type: function

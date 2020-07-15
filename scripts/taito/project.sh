@@ -48,7 +48,7 @@ taito_remote_secrets="
   $taito_project-$taito_env-scheduler.secret:random
   $taito_project-$taito_env-storage-serviceaccount.key:file
   $db_database_viewer_secret:random
-  $db_database_mgr_secret/devops:random
+  ${db_database_mgr_secret}${taito_cicd_secrets_path}:random
 "
 
 taito_secrets="

@@ -44,6 +44,7 @@ taito_zone=${template_default_zone}
 taito_namespace=$taito_project-$taito_env
 taito_resource_namespace=$taito_organization_abbr-$taito_company-dev
 taito_provider_secrets_location=${template_default_provider_secrets_location}
+taito_cicd_secrets_path=${template_default_cicd_secrets_path}
 
 # URLs
 taito_domain=$taito_project-$taito_target_env.${template_default_domain}
@@ -163,11 +164,6 @@ ci_exec_revert=false       # revert deployment automatically on fail
 
 # ------ Plugin and provider specific settings ------
 
-# Template plugin
-template_version=1.0.0
-template_name=FULL-STACK-TEMPLATE
-template_source_git=git@github.com:TaitoUnited
-
 # Kubernetes plugin
 kubernetes_name=${template_default_kubernetes}
 kubernetes_replicas=1
@@ -207,6 +203,7 @@ case $taito_env in
     taito_provider_zone=${template_default_provider_zone_prod}
     taito_resource_namespace=$taito_organization_abbr-$taito_company-prod
     taito_provider_secrets_location=${template_default_provider_secrets_location_prod}
+    taito_cicd_secrets_path=${template_default_cicd_secrets_path_prod}
 
     # Domain and resources
     taito_cdn_domain=${template_default_cdn_domain_prod}
@@ -264,6 +261,7 @@ case $taito_env in
     taito_provider_zone=${template_default_provider_zone_prod}
     taito_resource_namespace=$taito_organization_abbr-$taito_company-prod
     taito_provider_secrets_location=${template_default_provider_secrets_location_prod}
+    taito_cicd_secrets_path=${template_default_cicd_secrets_path_prod}
 
     # Domain and resources
     taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod}

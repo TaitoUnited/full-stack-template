@@ -353,16 +353,19 @@ if [[ ${template_default_kubernetes} ]] || [[ ${kubernetes_name} ]]; then
 else
   # Remove helm.yaml since kubernetes is disabled
   rm -f ./scripts/helm*.yaml
-fi
 
-if [[ ${taito_provider} == "aws" ]]; then
-  # Use service account instead of aws policy
-  sed -i "/^      awsPolicy:\r*\$/,/^\r*$/d" ./scripts/terraform.yaml
-  sed -i '/BUCKET_REGION/d' ./scripts/terraform.yaml
-else
-  # Use aws policy instead of service account
-  sed -i '/SERVICE_ACCOUNT_KEY/d' ./scripts/terraform.yaml
-  sed -i 'id: ${taito_project}-${taito_env}-server' ./scripts/terraform.yaml
+  if [[ ${taito_provider} == "aws" ]]; then
+    # Use aws policy instead of service account
+    sed -i '/SERVICE_ACCOUNT_KEY/d' ./scripts/terraform.yaml
+    sed -i '/id: ${taito_project}-${taito_env}-server/d' ./scripts/terraform.yaml
+    sed -i '/-storage-serviceaccount/d' ./scripts/taito/project.sh
+    sed -i '/-storage.accessKeyId/d' ./scripts/taito/project.sh
+    sed -i '/-storage.secretKey/d' ./scripts/taito/project.sh
+  else
+    # Use service account instead of aws policy
+    sed -i "/^      awsPolicy:\r*\$/,/^\r*$/d" ./scripts/terraform.yaml
+    sed -i '/BUCKET_REGION/d' ./scripts/terraform.yaml
+  fi
 fi
 
 echo
