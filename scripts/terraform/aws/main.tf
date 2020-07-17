@@ -21,7 +21,7 @@ locals {
 
 module "aws" {
   source  = "TaitoUnited/project-resources/aws"
-  version = "2.1.3"
+  version = "2.1.5"
 
   # Create flags
   create_domain                       = true
