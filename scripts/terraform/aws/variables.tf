@@ -29,8 +29,8 @@ variable "taito_uptime_provider" {
 }
 
 variable "taito_uptime_channels" {
-  type = string  # whitespace delimited strings
-  default = ""
+  type = list(string)
+  default = []
 }
 
 # Labels
@@ -104,13 +104,13 @@ variable "taito_ci_cache_all_targets_with_docker" {
 }
 
 variable "taito_targets" {
-  type = string  # whitespace delimited strings
-  default = ""
+  type = list(string)
+  default = []
   description = "All targets."
 }
 
 variable "taito_containers" {
-  type = string  # whitespace delimited strings
-  default = ""
+  type = list(string)
+  default = []
   description = "Container targets."
 }
