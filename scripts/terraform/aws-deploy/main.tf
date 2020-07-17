@@ -31,7 +31,7 @@ locals {
 
 module "aws" {
   source  = "TaitoUnited/project-resources/aws"
-  version = "2.0.2"
+  version = "2.1.1"
 
   # Create flags
   create_gateway              = true
@@ -63,9 +63,13 @@ module "aws" {
   env                         = var.taito_env
   build_image_tag             = var.taito_build_image_tag
 
+  # Policies
+  cicd_policies               = var.taito_cicd_policies
+  gateway_policies            = var.taito_gateway_policies
+
   # Network
-  function_subnet_ids          = data.aws_subnet_ids.private_subnet_ids.ids
-  function_security_group_ids  = data.aws_security_groups.security_groups.ids
+  function_subnet_ids         = data.aws_subnet_ids.function_subnet_ids.ids
+  function_security_group_ids = data.aws_security_groups.function_security_groups.ids
 
   # Additional variables as a json file
   variables                   = local.variables

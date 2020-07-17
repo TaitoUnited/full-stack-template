@@ -144,10 +144,28 @@ sed -i "s/\${template_default_provider_region}/${template_default_provider_regio
 sed -i "s/\${template_default_provider_region_prod}/${template_default_provider_region_prod:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_provider_zone}/${template_default_provider_zone:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_provider_zone_prod}/${template_default_provider_zone_prod:-}/g" scripts/taito/config/main.sh
-sed -i "s/\${template_default_provider_secrets_location}/${template_default_provider_secrets_location:-}/g" scripts/taito/config/main.sh
-sed -i "s/\${template_default_provider_secrets_location_prod}/${template_default_provider_secrets_location_prod:-}/g" scripts/taito/config/main.sh
-sed -i "s/\${template_default_cicd_secrets_path}/${template_default_cicd_secrets_path:-}/g" scripts/taito/config/main.sh
-sed -i "s/\${template_default_cicd_secrets_path_prod}/${template_default_cicd_secrets_path_prod:-}/g" scripts/taito/config/main.sh
+
+sed -i "s|\${template_default_network_tags}|${template_default_network_tags//[$'\t\r\n']}|g" scripts/taito/config/main.sh
+sed -i "s|\${template_default_network_tags_prod}|${template_default_network_tags_prod//[$'\t\r\n']}|g" scripts/taito/config/main.sh
+sed -i "s|\${template_default_function_subnet_tags}|${template_default_function_subnet_tags//[$'\t\r\n']}|g" scripts/taito/config/main.sh
+sed -i "s|\${template_default_function_subnet_tags_prod}|${template_default_function_subnet_tags_prod//[$'\t\r\n']}|g" scripts/taito/config/main.sh
+sed -i "s|\${template_default_function_security_group_tags}|${template_default_function_security_group_tags//[$'\t\r\n']}|g" scripts/taito/config/main.sh
+sed -i "s|\${template_default_function_security_group_tags_prod}|${template_default_function_security_group_tags_prod//[$'\t\r\n']}|g" scripts/taito/config/main.sh
+sed -i "s|\${template_default_cache_subnet_tags}|${template_default_cache_subnet_tags//[$'\t\r\n']}|g" scripts/taito/config/main.sh
+sed -i "s|\${template_default_cache_subnet_tags_prod}|${template_default_cache_subnet_tags_prod//[$'\t\r\n']}|g" scripts/taito/config/main.sh
+sed -i "s|\${template_default_cache_security_group_tags}|${template_default_cache_security_group_tags//[$'\t\r\n']}|g" scripts/taito/config/main.sh
+sed -i "s|\${template_default_cache_security_group_tags_prod}|${template_default_cache_security_group_tags_prod//[$'\t\r\n']}|g" scripts/taito/config/main.sh
+
+sed -i "s|\${template_default_cicd_policies}|${template_default_cicd_policies//[$'\t\r\n']}|g" scripts/taito/config/main.sh
+sed -i "s|\${template_default_cicd_policies_prod}|${template_default_cicd_policies_prod//[$'\t\r\n']}|g" scripts/taito/config/main.sh
+sed -i "s|\${template_default_gateway_policies}|${template_default_gateway_policies//[$'\t\r\n']}|g" scripts/taito/config/main.sh
+sed -i "s|\${template_default_gateway_policies_prod}|${template_default_gateway_policies_prod//[$'\t\r\n']}|g" scripts/taito/config/main.sh
+
+sed -i "s|\${template_default_provider_secrets_location}|${template_default_provider_secrets_location:-}|g" scripts/taito/config/main.sh
+sed -i "s|\${template_default_provider_secrets_location_prod}|${template_default_provider_secrets_location_prod:-}|g" scripts/taito/config/main.sh
+sed -i "s|\${template_default_cicd_secrets_path}|${template_default_cicd_secrets_path:-}|g" scripts/taito/config/main.sh
+sed -i "s|\${template_default_cicd_secrets_path_prod}|${template_default_cicd_secrets_path_prod:-}|g" scripts/taito/config/main.sh
+
 sed -i "s|\${template_default_uptime_channels}|${template_default_uptime_channels:-}|g" scripts/taito/config/main.sh
 sed -i "s|\${template_default_uptime_channels_prod}|${template_default_uptime_channels_prod:-}|g" scripts/taito/config/main.sh
 sed -i "s|\${template_default_source_git}|${template_default_source_git:-}|g" scripts/taito/config/main.sh
@@ -185,6 +203,8 @@ sed -i "s/\${template_default_kubernetes}/${template_default_kubernetes:-}/g" sc
 sed -i "s/\${template_default_postgres}/${template_default_postgres:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_postgres_host}/${template_default_postgres_host:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_postgres_host_prod}/${template_default_postgres_host_prod:-}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_postgres_port}/${template_default_postgres_port:-5432}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_postgres_port_prod}/${template_default_postgres_port_prod:-5432}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_postgres_username_suffix}/${template_default_postgres_username_suffix:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_postgres_username_suffix_prod}/${template_default_postgres_username_suffix_prod:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_postgres_ssl_enabled:-true}/${template_default_postgres_ssl_enabled:-true}/g" scripts/taito/config/main.sh
@@ -202,6 +222,8 @@ sed -i "s/\${template_default_postgres_master_password_hint}/${template_default_
 sed -i "s/\${template_default_mysql}/${template_default_mysql:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_mysql_host}/${template_default_mysql_host:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_mysql_host_prod}/${template_default_mysql_host_prod:-}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_mysql_port}/${template_default_mysql_port:-3306}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_mysql_port_prod}/${template_default_mysql_port_prod:-3306}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_mysql_username_suffix}/${template_default_mysql_username_suffix:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_mysql_username_suffix_prod}/${template_default_mysql_username_suffix_prod:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_mysql_ssl_enabled:-true}/${template_default_mysql_ssl_enabled:-true}/g" scripts/taito/config/main.sh

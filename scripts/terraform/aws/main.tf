@@ -28,7 +28,7 @@ locals {
 
 module "aws" {
   source  = "TaitoUnited/project-resources/aws"
-  version = "2.0.2"
+  version = "2.1.1"
 
   # Create flags
   create_domain                       = true
@@ -64,12 +64,16 @@ module "aws" {
   )
 
   # Uptime
-  uptime_channels             = local.taito_uptime_channels
+  uptime_channels                 = local.taito_uptime_channels
+
+  # Policies
+  cicd_policies                   = var.taito_cicd_policies
+  gateway_policies                = var.taito_gateway_policies
 
   # Network
   elasticache_subnet_ids          = data.aws_subnet_ids.elasticache_subnet_ids.ids
-  elasticache_security_group_ids  = data.aws_security_groups.security_groups.ids
+  elasticache_security_group_ids  = data.aws_security_groups.elasticache_security_groups.ids
 
   # Additional variables as a json file
-  variables                   = local.variables
+  variables                        = local.variables
 }

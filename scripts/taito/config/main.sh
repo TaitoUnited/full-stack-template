@@ -43,6 +43,19 @@ taito_provider_zone=${template_default_provider_zone}
 taito_zone=${template_default_zone}
 taito_namespace=$taito_project-$taito_env
 taito_resource_namespace=$taito_organization_abbr-$taito_company-dev
+
+# Network
+taito_network_tags='${template_default_network_tags}'
+taito_function_subnet_tags='${template_default_function_subnet_tags}'
+taito_function_security_group_tags='${template_default_function_security_group_tags}'
+taito_cache_subnet_tags='${template_default_cache_subnet_tags}'
+taito_cache_security_group_tags='${template_default_cache_security_group_tags}'
+
+# Policies
+taito_cicd_policies='${template_default_cicd_policies}'
+taito_gateway_policies='${template_default_gateway_policies}'
+
+# Secrets location
 taito_provider_secrets_location=${template_default_provider_secrets_location}
 taito_cicd_secrets_path=${template_default_cicd_secrets_path}
 
@@ -99,7 +112,7 @@ if [[ $db_database_type == "pg" ]]; then
   db_database_host="127.0.0.1"
   db_database_port=5001
   db_database_real_host="${template_default_postgres_host}"
-  db_database_real_port=5432
+  db_database_real_port="${template_default_postgres_port}"
   db_database_ssl_enabled="${template_default_postgres_ssl_enabled:-true}"
   db_database_ssl_client_cert_enabled="${template_default_postgres_ssl_client_cert_enabled:-false}"
   db_database_ssl_server_cert_enabled="${template_default_postgres_ssl_server_cert_enabled:-false}"
@@ -112,7 +125,7 @@ elif [[ $db_database_type == "mysql" ]]; then
   db_database_host="127.0.0.1"
   db_database_port=5001
   db_database_real_host="${template_default_mysql_host}"
-  db_database_real_port=3306
+  db_database_real_port="${template_default_mysql_port}"
   db_database_ssl_enabled="${template_default_mysql_ssl_enabled:-true}"
   db_database_ssl_client_cert_enabled="${template_default_mysql_ssl_client_cert_enabled:-false}"
   db_database_ssl_server_cert_enabled="${template_default_mysql_ssl_server_cert_enabled:-false}"
@@ -202,6 +215,19 @@ case $taito_env in
     taito_provider_region=${template_default_provider_region_prod}
     taito_provider_zone=${template_default_provider_zone_prod}
     taito_resource_namespace=$taito_organization_abbr-$taito_company-prod
+
+    # Network
+    taito_network_tags="${template_default_network_tags_prod}"
+    taito_function_subnet_tags="${template_default_function_subnet_tags_prod}"
+    taito_function_security_group_tags="${template_default_function_security_group_tags_prod}"
+    taito_cache_subnet_tags="${template_default_cache_subnet_tags_prod}"
+    taito_cache_security_group_tags="${template_default_cache_security_group_tags_prod}"
+
+    # Policies
+    taito_cicd_policies='${template_default_cicd_policies_prod}'
+    taito_gateway_policies='${template_default_gateway_policies_prod}'
+
+    # Secrets location
     taito_provider_secrets_location=${template_default_provider_secrets_location_prod}
     taito_cicd_secrets_path=${template_default_cicd_secrets_path_prod}
 
@@ -211,6 +237,7 @@ case $taito_env in
     ssh_db_proxy_host="${template_default_bastion_public_ip_prod}"
     if [[ $db_database_type == "pg" ]]; then
       db_database_real_host="${template_default_postgres_host_prod}"
+      db_database_real_port="${template_default_postgres_port_prod}"
       db_database_username_suffix=${template_default_postgres_username_suffix_prod}
       db_database_ssl_enabled="${template_default_postgres_ssl_enabled_prod:-true}"
       db_database_ssl_client_cert_enabled="${template_default_postgres_ssl_client_cert_enabled_prod:-false}"
@@ -218,6 +245,7 @@ case $taito_env in
       db_database_proxy_ssl_enabled="${template_default_postgres_proxy_ssl_enabled_prod:-true}"
     elif [[ $db_database_type == "mysql" ]]; then
       db_database_real_host="${template_default_mysql_host_prod}"
+      db_database_real_port="${template_default_postgres_port_prod}"
       db_database_username_suffix=${template_default_mysql_username_suffix_prod}
       db_database_ssl_enabled="${template_default_mysql_ssl_enabled_prod:-true}"
       db_database_ssl_client_cert_enabled="${template_default_mysql_ssl_client_cert_enabled_prod:-false}"
@@ -260,6 +288,19 @@ case $taito_env in
     taito_provider_region=${template_default_provider_region_prod}
     taito_provider_zone=${template_default_provider_zone_prod}
     taito_resource_namespace=$taito_organization_abbr-$taito_company-prod
+
+    # Network
+    taito_network_tags="${template_default_network_tags_prod}"
+    taito_function_subnet_tags="${template_default_function_subnet_tags_prod}"
+    taito_function_security_group_tags="${template_default_function_security_group_tags_prod}"
+    taito_cache_subnet_tags="${template_default_cache_subnet_tags_prod}"
+    taito_cache_security_group_tags="${template_default_cache_security_group_tags_prod}"
+
+    # Policies
+    taito_cicd_policies='${template_default_cicd_policies_prod}'
+    taito_gateway_policies='${template_default_gateway_policies_prod}'
+
+    # Secrets location
     taito_provider_secrets_location=${template_default_provider_secrets_location_prod}
     taito_cicd_secrets_path=${template_default_cicd_secrets_path_prod}
 
@@ -325,8 +366,10 @@ case $taito_env in
     db_database_username_suffix=
     if [[ $db_database_type == "pg" ]]; then
       db_database_port=5432
+      db_database_real_port=5432
     elif [[ $db_database_type == "mysql" ]]; then
       db_database_port=3306
+      db_database_real_port=3306
     fi
 
     # shellcheck disable=SC1091

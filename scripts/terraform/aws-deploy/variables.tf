@@ -38,6 +38,33 @@ variable "taito_namespace" {
   description = "Namespace for the project environment (e.g. \"my-project-dev\"). Required if secret_resource_path has not been set"
 }
 
+# Network
+
+variable "taito_network_tags" {
+  type = map(string)
+}
+
+variable "taito_function_subnet_tags" {
+  type = map(string)
+}
+
+variable "taito_function_security_group_tags" {
+  type    = map(string)
+  default = {}
+}
+
+# Permissions
+
+variable "taito_cicd_policies" {
+  type    = list(string)
+  description = "Policy ARN:s attached to the CI/CD role. The policies should provide access to Kubernetes, assets bucket, functions bucket, secrets, etc."
+}
+
+variable "taito_gateway_policies" {
+  type    = list(string)
+  description = "Role used by API Gateway to read static assets from assets bucket."
+}
+
 # Secrets
 
 variable "taito_secret_resource_path" {
