@@ -67,12 +67,12 @@ module.exports = (on, config) => {
             key: readSecretSync('/run/secrets/DATABASE_SSL_KEY'),
           }
         : // TODO: enable once it works with AWS CI/CD
-        // : process.env.DATABASE_SSL_ENABLED &&
-        //   process.env.DATABASE_SSL_SERVER_CERT_ENABLED
+        // : process.env.DATABASE_SSL_ENABLED !== 'false' &&
+        //   process.env.DATABASE_SSL_SERVER_CERT_ENABLED === 'true'
         // ? {
         //     ca: readSecretSync('/run/secrets/DATABASE_SSL_CA'),
         //   }
-        process.env.DATABASE_SSL_ENABLED
+        process.env.DATABASE_SSL_ENABLED !== 'false'
         ? { rejectUnauthorized: false }
         : false,
     poolSize: 2,
