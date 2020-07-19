@@ -366,6 +366,12 @@ else
     sed -i "/^      awsPolicy:\r*\$/,/^\r*$/d" ./scripts/terraform.yaml
     sed -i '/BUCKET_REGION/d' ./scripts/terraform.yaml
   fi
+
+  if [[ ${taito_provider} != "gcp" ]]; then
+    # Remove GCP specific stuff
+    sed -i "s/serviceAccount://g" ./scripts/terraform.yaml
+    sed -i "s/@.*gserviceaccount.com//g" ./scripts/terraform.yaml
+  fi
 fi
 
 echo

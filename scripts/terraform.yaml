@@ -124,7 +124,7 @@ stack:
       replicas: 1
       machineType: cache.t2.small
       zones:
-        - ${taito_provider_region}b
+        - ${taito_provider_zone}
       secret: ${taito_project}-${taito_env}-redis.password
 
     bucket:
@@ -142,8 +142,8 @@ stack:
       backupLocation: ${taito_default_storage_backup_location}
       # User rights
       admins:
-        - id: ${taito_project}-${taito_env}-graphql
-        - id: ${taito_project}-${taito_env}-server
+        - id: serviceAccount:${taito_project}-${taito_env}-graphql@${taito_resource_namespace_id}.iam.gserviceaccount.com
+        - id: serviceAccount:${taito_project}-${taito_env}-server@${taito_resource_namespace_id}.iam.gserviceaccount.com
       objectAdmins:
       objectViewers:
 
