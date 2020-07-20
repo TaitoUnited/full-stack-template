@@ -31,7 +31,7 @@ Install additional libraries on host for autocompletion/linting on editor (optio
 Set up environment variables required by `docker-compose.yaml`:
 
     # On unix-like shell
-    . taito-config.sh
+    . ./taito-config.sh
 
     # On Windows shell
     taitoless.bat  # Copy from scripts/taito/examples to project root
@@ -46,11 +46,13 @@ Start containers defined in `docker-compose.yaml`:
 
 Deploy database migrations with Sqitch:
 
-    sqitch -h localhost -p 6000 -d $db_database_name -u $db_database_app_username -f database/sqitch.plan deploy
+    . ./taito-config.sh   # Set environment variables, if not already set for this shell
+    (cd database; SQITCH_PASSWORD=secret1234 sqitch -h localhost -p 6000 -d $db_database_name -u $db_database_app_username deploy)
 
 Import development data to database:
 
-    psql -h localhost -p 6000 -d $db_database_name -U $db_database_app_username -f database/data/local.sql
+    . ./taito-config.sh   # Set environment variables, if not already set for this shell
+    PGPASSWORD=secret1234 psql -h localhost -p 6000 -d $db_database_name -U $db_database_app_username -f database/data/local.sql
 
 Open the application on browser:
 

@@ -186,6 +186,13 @@ kubernetes_db_proxy_enabled=true
 
 if [[ ! ${taito_host_uname} ]]; then
   taito_host_uname="$(uname)"
+  if [[ $taito_host_uname == *"_NT"* ]]; then
+    taito_host_os=windows
+  elif [[ $taito_host_uname == "Darwin" ]]; then
+    taito_host_os=macos
+  else
+    taito_host_os=linux
+  fi
 fi
 
 # Default dockerfile
