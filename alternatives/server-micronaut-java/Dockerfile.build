@@ -3,6 +3,13 @@ FROM adoptopenjdk/openjdk11-openj9:alpine-slim as builder
 ARG SERVICE_DIR=.
 RUN mkdir -p /service
 WORKDIR /service
+
+RUN mkdir -p shared
+COPY ${SERVICE_DIR}/shared/package.json \
+     ${SERVICE_DIR}/shared/package-lock.* \
+     /service/shared/
+RUN (cd shared && npm install --loglevel warn)
+
 COPY ${SERVICE_DIR} ./
 RUN ./gradlew build
 

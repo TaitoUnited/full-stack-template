@@ -13,6 +13,7 @@ services:
       - "./admin:/service:delegated"
       - "./shared:/service/shared:delegated"
       - "/service/node_modules"
+      - "/service/shared/node_modules"
     network_mode: "bridge"
     secrets:
       - DATABASE_PASSWORD
@@ -27,6 +28,7 @@ services:
       - "./client:/service:delegated"
       - "./shared:/service/shared:delegated"
       - "/service/node_modules"
+      - "/service/shared/node_modules"
     links:
       - full-stack-template-database-proxy
     network_mode: "bridge"
@@ -43,6 +45,7 @@ services:
       - "./graphql:/service:delegated"
       - "./shared:/service/shared:delegated"
       - "/service/node_modules"
+      - "/service/shared/node_modules"
     network_mode: "bridge"
     secrets:
       - DATABASE_PASSWORD
@@ -57,6 +60,7 @@ services:
       - "./server:/service:delegated"
       - "./shared:/service/shared:delegated"
       - "/service/node_modules"
+      - "/service/shared/node_modules"
     links:
       - full-stack-template-database-proxy
       # - full-stack-template-services-proxy

@@ -3,11 +3,12 @@
   "scripts": {
     "install-ci": "echo '# No additional dependencies need to be installed in ci mode'",
     "install-dev": "echo '# Installing all libraries on host for code editor support. TODO how to minimize as --only=dev affects devDepencies also?' && npm run install-all",
-    "install-all": "npm-run-all install-all:admin install-all:client install-all:graphql install-all:server install-all:worker install-all:www ",
+    "install-all": "npm-run-all install-all:admin install-all:client install-all:graphql install-all:shared install-all:server install-all:worker install-all:www ",
     "install-all:admin": "cd admin && npm install",
     "install-all:client": "cd client && npm install",
     "install-all:graphql": "cd graphql && npm install",
     "install-all:server": "cd server && npm install",
+    "install-all:shared": "cd shared && npm install",
     "install-all:worker": "cd worker && npm install",
     "install-all:www": "cd www && npm install",
     "taito-init": "taito -z ${taito_options} init:${taito_env} && npm run import-db-data",

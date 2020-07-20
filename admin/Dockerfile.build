@@ -5,14 +5,21 @@ FROM taitounited/cypress:4.9.0 as builder
 ARG SERVICE_DIR=.
 ARG TARGET_ENV=prod
 ARG BUILD_VERSION
+ENV NODE_ENV development
 RUN mkdir -p /service
 WORKDIR /service
+
+RUN mkdir -p shared
+COPY ${SERVICE_DIR}/shared/package.json \
+     ${SERVICE_DIR}/shared/package-lock.* \
+     /service/shared/
+RUN (cd shared && npm install --loglevel warn)
+
 COPY ${SERVICE_DIR}/package.json \
      ${SERVICE_DIR}/package-lock.* \
      /service/
 ENV TARGET_ENV ${TARGET_ENV}
 ENV BUILD_VERSION ${BUILD_VERSION}
-ENV NODE_ENV development
 ENV API_ROOT ''
 ENV API_URL /api
 ENV APP_SENTRY_PUBLIC_DSN #sentryPublicDSN

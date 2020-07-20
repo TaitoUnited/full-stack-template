@@ -1,6 +1,7 @@
 # Builder, tester and runtime container for local development
 FROM python:3.7-alpine
 ARG SERVICE_DIR=.
+ENV NODE_ENV development
 ENV FLASK_ENV development
 ENV FLASK_APP src
 
@@ -13,6 +14,12 @@ RUN apk add --update-cache \
 
 RUN mkdir -p /service
 WORKDIR /service
+
+RUN mkdir -p shared
+COPY ${SERVICE_DIR}/shared/package.json \
+     ${SERVICE_DIR}/shared/package-lock.* \
+     /service/shared/
+RUN (cd shared && npm install --loglevel warn)
 
 COPY ${SERVICE_DIR}/requirements-dev.txt /service/
 RUN pip3 install --upgrade pip && pip3 install -r requirements-dev.txt && pip3 install ptvsd
