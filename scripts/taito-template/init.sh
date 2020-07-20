@@ -350,6 +350,18 @@ prune "Worker for background jobs? [y/N] " worker
 prune "Relational database? [Y/n] " database
 prune "Permanent object storage for files? [y/N] " storage \\/bucket \\/minio
 
+function remove_empty_secrets () {
+  sed -i -n '1h;1!H;${g;s/    secrets:\n    environment:/    environment:/;p;}' "$1"
+}
+
+remove_empty_secrets docker-compose.yaml
+if [[ -f docker-compose-test.yaml ]]; then
+  remove_empty_secrets docker-compose-test.yaml
+fi
+if [[ -f docker-compose-remote.yaml ]]; then
+  remove_empty_secrets docker-compose-remote.yaml
+fi
+
 if [[ ${template_default_kubernetes} ]] || [[ ${kubernetes_name} ]]; then
   # Remove serverless-http adapter since Kubernetes is enabled
   if [[ -d ./server ]]; then
