@@ -168,13 +168,15 @@ function prune () {
 
       # Remove database from server implementation
       # TODO: works only for the default Node.js server implementation
-      sed -i '/pg-promise/d' ./server/package.json &> /dev/null || :
-      sed -i '/types\\pg/d' ./server/package.json &> /dev/null || :
-      sed -i '/db/d' ./server/src/server.ts &> /dev/null || :
-      sed -i '/Db/d' ./server/src/common/types.ts &> /dev/null || :
-      sed -i '/Database/d' ./server/src/common/types.ts &> /dev/null || :
-      sed -i '/state.db/d' ./server/src/infra/InfraRouter.ts &> /dev/null || :
-      rm -f ./server/src/common/db.ts &> /dev/null || :
+      if [[ -d ./server ]]; then
+        sed -i '/pg-promise/d' ./server/package.json &> /dev/null || :
+        sed -i '/types\\pg/d' ./server/package.json &> /dev/null || :
+        sed -i '/db/d' ./server/src/server.ts &> /dev/null || :
+        sed -i '/Db/d' ./server/src/common/types.ts &> /dev/null || :
+        sed -i '/Database/d' ./server/src/common/types.ts &> /dev/null || :
+        sed -i '/state.db/d' ./server/src/infra/InfraRouter.ts &> /dev/null || :
+        rm -f ./server/src/common/db.ts &> /dev/null || :
+      fi
     fi
 
     if [[ $name == "redis" ]]; then
@@ -205,14 +207,16 @@ function prune () {
 
       # Remove storage from server implementation
       # TODO: works only for the default Node.js server implementation
-      sed -i '/aws-sdk/d' ./server/package.json &> /dev/null || :
-      sed -i '/storage/d' ./server/src/server.ts &> /dev/null || :
-      sed -i '/storage/d' ./server/src/common/types.ts &> /dev/null || :
-      sed -i '/Storage/d' ./server/src/common/config.ts &> /dev/null || :
-      sed -i '/BUCKET_/d' ./server/src/common/config.ts &> /dev/null || :
-      sed -i '/storage/d' ./server/src/infra/InfraRouter.ts &> /dev/null || :
-      sed -i '/storage/d' ./server/src/types/koa.d.ts &> /dev/null || :
-      rm -f ./server/src/common/storage.ts &> /dev/null || :
+      if [[ -d ./server ]]; then
+        sed -i '/aws-sdk/d' ./server/package.json &> /dev/null || :
+        sed -i '/storage/d' ./server/src/server.ts &> /dev/null || :
+        sed -i '/storage/d' ./server/src/common/types.ts &> /dev/null || :
+        sed -i '/Storage/d' ./server/src/common/config.ts &> /dev/null || :
+        sed -i '/BUCKET_/d' ./server/src/common/config.ts &> /dev/null || :
+        sed -i '/storage/d' ./server/src/infra/InfraRouter.ts &> /dev/null || :
+        sed -i '/storage/d' ./server/src/types/koa.d.ts &> /dev/null || :
+        rm -f ./server/src/common/storage.ts &> /dev/null || :
+      fi
     fi
 
     rm -rf "$name"
@@ -348,8 +352,10 @@ prune "Permanent object storage for files? [y/N] " storage \\/bucket \\/minio
 
 if [[ ${template_default_kubernetes} ]] || [[ ${kubernetes_name} ]]; then
   # Remove serverless-http adapter since Kubernetes is enabled
-  sed -i '/serverless/d' ./server/package.json
-  sed -i '/serverless/d' ./server/src/server.ts
+  if [[ -d ./server ]]; then
+    sed -i '/serverless/d' ./server/package.json
+    sed -i '/serverless/d' ./server/src/server.ts
+  fi
 else
   # Remove helm.yaml since kubernetes is disabled
   rm -f ./scripts/helm*.yaml
