@@ -33,9 +33,9 @@ do
     REPLACEMENT="${VAL//\//\\/}"
     replace "*.html" "${CONSTANT}" "${REPLACEMENT}"
 
-    # Replace ASSETS_PATH also in runtime-*.js and manifest.json
+    # Replace ASSETS_PATH also in runtime.*.js and manifest.json
     if [[ $NAME == "REPLACE_ASSETS_PATH" ]] && [[ ! $VAL ]]; then
-      replace "runtime-*.js" "${CONSTANT}" "${REPLACEMENT}"
+      replace "runtime.*.js" "${CONSTANT}" "${REPLACEMENT}"
       replace "manifest.json" "${CONSTANT}" "${REPLACEMENT}"
       remove "manifest.json" "start_url"
     fi

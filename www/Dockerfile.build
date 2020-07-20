@@ -53,8 +53,9 @@ COPY --from=builder /build .
 # Move source maps to /meta by default
 RUN mkdir /meta && mv *.map /meta || :
 
-# Give nginx modify rights to HTML files (html files are modified at startup)
-RUN find . -name '*.html' -exec chown nginx:nginx {} \;
+# Give nginx modify rights to some files that are modified at startup
+RUN find . -name '*.html' -exec chown nginx:nginx {} \; && \
+    find . -name 'runtime.*.js' -exec chown nginx:nginx {} \;
 
 # Startup
 USER nginx
