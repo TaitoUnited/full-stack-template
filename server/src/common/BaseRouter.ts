@@ -1,4 +1,4 @@
-import router, { ExtendedSpec, FullHandler, Joi } from 'koa-joi-router';
+import router, { FullHandler, Joi } from 'koa-joi-router';
 import stackTrace from 'stack-trace';
 
 // Wrapper for koa-joi-router with prefix and group additions
@@ -23,7 +23,7 @@ export default class BaseRouter {
     this.router.use(...middleware);
   }
 
-  public route(route: ExtendedSpec) {
+  public route(route: any) {
     if (route.documentation) {
       const caller = stackTrace.get()[1];
       const callerString = `${caller.getFileName()}:${caller.getFunctionName()}:${caller.getLineNumber()}`;

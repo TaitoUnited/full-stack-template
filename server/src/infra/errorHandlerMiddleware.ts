@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/node';
-import Boom from '@hapi/boom';
+import { Boom } from '@hapi/boom';
 import { Context } from 'koa';
 
 export default async function errorHandlerMiddleware(
