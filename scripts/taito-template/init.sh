@@ -212,7 +212,9 @@ function prune () {
       # Remove storage from server implementation
       # TODO: works only for the default Node.js server implementation
       if [[ -d ./server ]]; then
-        sed -i '/aws-sdk/d' ./server/package.json &> /dev/null || :
+        if [[ ${taito_provider} != "aws" ]]; then
+          sed -i '/aws-sdk/d' ./server/package.json &> /dev/null || :
+        fi
         sed -i '/storage/d' ./server/src/server.ts &> /dev/null || :
         sed -i '/storage/d' ./server/src/common/types.ts &> /dev/null || :
         sed -i '/Storage/d' ./server/src/common/config.ts &> /dev/null || :
@@ -400,6 +402,13 @@ else
   # (most likely not required for storage access with serverless)
   sed -i '/$taito_project-$taito_env-storage/d' ./scripts/taito/project.sh
   sed -i '/${taito_project}-${taito_env}-storage/d' ./scripts/terraform.yaml
+fi
+
+if [[ ${taito_provider} != "aws" ]]; then
+  # Remove AWS specific stuff from implementation
+  if [[ -d ./server ]]; then
+    sed -i '/aws/d' ./server/src/common/config.ts
+  fi
 fi
 
 if [[ ${taito_provider} != "gcp" ]]; then

@@ -8,24 +8,26 @@ export const readFile = async (path: string) => {
   return buf.toString();
 };
 
-export const readParameter = async (paramName: string) => {
-  const secretPath = `${process.env.SECRET_NAME_PATH}/${paramName}`;
-  const result = await awsParamStore
-    .getParameter({ Name: secretPath, WithDecryption: true })
-    .promise();
-  return result && result.Parameter && result.Parameter.Value;
-};
+// prettier-ignore
+export const readParameter = async (paramName: string) => { // aws
+  const secretPath = `${process.env.SECRET_NAME_PATH}/${paramName}`; // aws
+  const result = await awsParamStore // aws
+    .getParameter({ Name: secretPath, WithDecryption: true }) // aws
+    .promise(); // aws
+  return result && result.Parameter && result.Parameter.Value; // aws
+}; // aws
 
+// prettier-ignore
 export const readSecret = async (secret: string, isFileSecret = false) => {
   let value = null;
   try {
     if (process.env[secret]) {
       value = process.env[secret];
-    } else if (process.env[`${secret}_PARAM`]) {
-      value = await readParameter(process.env[`${secret}_PARAM`] as string);
-      if (value && isFileSecret) {
-        value = Buffer.from(value, 'base64').toString('ascii');
-      }
+    } else if (process.env[`${secret}_PARAM`]) { // aws
+      value = await readParameter(process.env[`${secret}_PARAM`] as string); // aws
+      if (value && isFileSecret) { // aws
+        value = Buffer.from(value, 'base64').toString('ascii'); // aws
+      } // aws
     } else {
       value = await readFile(`/run/secrets/${secret}`);
     }
