@@ -140,24 +140,6 @@ taito_default_storage_days="${template_default_storage_days}"
 taito_default_storage_backup_location="${template_default_backup_location}"
 taito_default_storage_backup_days="${template_default_backup_days}"
 
-# Storage definitions for Terraform
-st_bucket_name="$taito_random_name-$taito_env"
-
-# Storage example
-# st_example_name="$taito_random_name-example-$taito_env"
-# st_example_class="${template_default_storage_class}"
-# st_example_location="${template_default_storage_location}"
-# NOTE: Days defines archival days by default (days until deleted files are
-#       permanently deleted). To make all files temporary instead, use
-#       DAYS-expiration (e.g. 60-expiration)
-# st_example_days="${template_default_storage_days}"
-# st_example_cors="https://www.mydomain.com,https://www.mysite.com"
-# st_example_admins="user:john.doe@mydomain.com,user:jane.doe@mydomain.com"
-# st_example_object_admins="user:john.doe@mydomain.com,user:jane.doe@mydomain.com"
-# st_example_object_viewers="domain:mydomain.com,group:viewers@anotherdomain.com"
-# st_example_backup_location="${template_default_backup_location}"
-# st_example_backup_days="${template_default_backup_days}"
-
 # Misc settings
 taito_basic_auth_enabled=true
 taito_default_password=secret1234

@@ -142,11 +142,12 @@ stack:
       backupLocation: ${taito_default_storage_backup_location}
       # User rights
       admins:
-        - id: serviceAccount:${taito_project}-${taito_env}-graphql@${taito_resource_namespace_id}.iam.gserviceaccount.com
-        - id: serviceAccount:${taito_project}-${taito_env}-server@${taito_resource_namespace_id}.iam.gserviceaccount.com
+        - id: serviceAccount:${taito_project}-${taito_env}-storage@${taito_resource_namespace_id}.iam.gserviceaccount.com
       objectAdmins:
+        - id: serviceAccount:${taito_project}-${taito_env}-server@${taito_resource_namespace_id}.iam.gserviceaccount.com
       objectViewers:
 
   serviceAccounts:
     - id: ${taito_project}-${taito_env}-graphql
     - id: ${taito_project}-${taito_env}-server
+    - id: ${taito_project}-${taito_env}-storage

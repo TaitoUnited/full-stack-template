@@ -33,8 +33,11 @@ else
 fi
 taito_static_contents=" admin client www "
 taito_databases=" database "
-taito_buckets=" bucket "
 taito_networks="default"
+
+# Buckets
+taito_buckets=" bucket "
+st_bucket_name="$taito_random_name-$taito_env"
 
 # ------ Secrets ------
 # Configuration instructions:
@@ -46,6 +49,8 @@ taito_local_secrets="
 taito_remote_secrets="
   $taito_project-$taito_env-basic-auth.auth:htpasswd-plain
   $taito_project-$taito_env-scheduler.secret:random
+  $taito_project-$taito_env-graphql-serviceaccount.key:file
+  $taito_project-$taito_env-server-serviceaccount.key:file
   $taito_project-$taito_env-storage-serviceaccount.key:file
   $db_database_viewer_secret:random
   ${db_database_mgr_secret}${taito_cicd_secrets_path}:random

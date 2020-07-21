@@ -201,6 +201,7 @@ function prune () {
       # Remove storage from configs
       sed -i "s/ bucket / /" scripts/taito/project.sh
       sed -i '/storage/d' scripts/taito/project.sh
+      sed -i '/st_bucket_name/d' scripts/taito/project.sh
       sed -i '/BUCKET_/d' docker-compose.yaml
       sed -i '/BUCKET_/d' docker-compose-remote.yaml
       sed -i '/storage/d' docker-compose.yaml
@@ -371,6 +372,13 @@ if [[ ${template_default_kubernetes} ]] || [[ ${kubernetes_name} ]]; then
     sed -i '/serverless/d' ./server/package.json
     sed -i '/serverless/d' ./server/src/server.ts
   fi
+
+  # Remove server and graphql service accounts
+  # (most likely not required for storage access with kubernetes)
+  sed -i '/$taito_project-$taito_env-graphql/d' ./scripts/taito/project.sh
+  sed -i '/$taito_project-$taito_env-server/d' ./scripts/taito/project.sh
+  sed -i '/${taito_project}-${taito_env}-graphql/d' ./scripts/terraform.yaml
+  sed -i '/${taito_project}-${taito_env}-server/d' ./scripts/terraform.yaml
 else
   # Remove helm.yaml since kubernetes is disabled
   rm -f ./scripts/helm*.yaml
@@ -388,11 +396,16 @@ else
     sed -i '/BUCKET_REGION/d' ./scripts/terraform.yaml
   fi
 
-  if [[ ${taito_provider} != "gcp" ]]; then
-    # Remove GCP specific stuff
-    sed -i "s/serviceAccount://g" ./scripts/terraform.yaml
-    sed -i "s/@.*gserviceaccount.com//g" ./scripts/terraform.yaml
-  fi
+  # Remove storage service account
+  # (most likely not required for storage access with serverless)
+  sed -i '/$taito_project-$taito_env-storage/d' ./scripts/taito/project.sh
+  sed -i '/${taito_project}-${taito_env}-storage/d' ./scripts/terraform.yaml
+fi
+
+if [[ ${taito_provider} != "gcp" ]]; then
+  # Remove GCP specific stuff from terraform.yaml
+  sed -i "s/serviceAccount://g" ./scripts/terraform.yaml
+  sed -i "s/@.*gserviceaccount.com//g" ./scripts/terraform.yaml
 fi
 
 echo

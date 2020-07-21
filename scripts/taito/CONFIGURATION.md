@@ -81,7 +81,7 @@ Operations on production and staging environments usually require admin rights. 
 
 ## Stack
 
-**Additional microservices:** You can use either monorepo or multirepo approach with this template. If you are going for multirepo, just create a separate project for each microservice based on this project template, and define common `taito_namespace` in scripts/taito/project.sh if you want them to share the same namespace. If you are going for monorepo, you can add a new microservice with the following steps. You can skip the IMPLEMENTATION steps if you are using a prebuilt Docker image (e.g. Redis).
+**Additional microservices:** Add a new microservice with the following steps. You can skip the IMPLEMENTATION steps if you are using a prebuilt Docker image (e.g. Redis).
 
   1. IMPLEMENTATION OR DATABASE: Create a new directory for your service implementation or database migration scripts. Look [FULL-STACK-TEMPLATE](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/) and [alternatives](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/tree/master/alternatives) for examples.
   2. IMPLEMENTATION: Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `check-deps`, `check-size`.
@@ -90,7 +90,7 @@ Operations on production and staging environments usually require admin rights. 
   5. Add the service to `taito_containers`, `taito_functions`, or `taito_databases` variable in `scripts/taito/project.sh` depending on its type. If it is a database running in container, you may add it to both `taito_containers` and `taito_databases`.
   6. Add required secret definitions to `taito_*secrets` variables in `scripts/taito/project.sh`, and set local secret values with `taito secret rotate: NAME`.
   7. Add the service to `docker-compose*.yaml` files.
-  8. Add the service to `scripts/helm.yaml`.
+  8. Add the service to `scripts/helm.yaml` for Kubernetes or to `scripts/terraform.yaml` for serverless.
   9. OPTIONAL: Add the service to `docker-nginx.conf` if external access is required (e.g. with web browser).
   10. Run `taito kaboom` and check that the service works ok in local development environment.
   11. Add secret values for each remote environment with `taito secret rotate:ENV NAME`.
@@ -102,12 +102,32 @@ Operations on production and staging environments usually require admin rights. 
   1. Add the storage bucket configuration to `scripts/taito/project.sh`. For example:
 
       ```
-      st_mybucket_name="$taito_random_name-mybucket-$taito_env"
+      taito_buckets="... archive ..."
+      st_archive_name="${taito_random_name}-archive-${taito_env}"
       ```
 
-      > TIP: There are also other optional attributes that you can define for your bucket. See `st_example_*` settings of `scripts/taito/config/main.sh` as an example.
+  2. Add the storage bucket configuration to `terraform.yaml`. For example:
 
-  2. Add the storage bucket to `taito_buckets` in `scripts/taito/project.sh`. For example: `taito_buckets="bucket mybucket"`
+      ```
+      archive:
+        type: bucket
+        name: ${taito_random_name}-archive-${taito_env}
+        location: ${taito_default_storage_location}
+        storageClass: ${taito_default_storage_class}
+        cors:
+          - domain: https://${taito_domain}
+        # Object lifecycle
+        versioning: true
+        versioningRetainDays: ${taito_default_storage_days}
+        # Backup (TODO: implement)
+        backupRetainDays: ${taito_default_storage_backup_days}
+        backupLocation: ${taito_default_storage_backup_location}
+        # User rights
+        admins:
+          - id: serviceAccount:${taito_project}-${taito_env}-server@${taito_resource_namespace_id}.iam.gserviceaccount.com
+        objectAdmins:
+        objectViewers:
+      ```
   3. Add the storage bucket to `storage/` and `storage/.minio.sys/buckets/`.
   4. Add the storage bucket environment variables in `docker-compose.yaml` and `helm.yaml`.
   5. Add the storage bucket to implementation (e.g. configuration in `config.ts` and `storage.ts`, uptime check in `InfraRouter.ts`)

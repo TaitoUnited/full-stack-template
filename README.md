@@ -10,6 +10,8 @@ You can create a new project from this template by running `taito project create
 
 You can also migrate an existing project that does not currently use Taito CLI by running `taito project migrate: full-stack-template` in your project root folder.
 
+You can use either monorepo or multirepo approach with this template. If you are going for multirepo, just create a separate project for each microservice based on this project template, and define common `taito_namespace` in scripts/taito/project.sh if you want them to share the same namespace.
+
 [//]: # (TEMPLATE NOTE END)
 # Project title
 
