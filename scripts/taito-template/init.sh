@@ -88,7 +88,9 @@ function prune () {
     sed -i "/^    $name:\r*\$/,/^\r*$/d" ./scripts/helm.yaml
     sed -i "/-$name$/d" ./scripts/helm.yaml
     sed -i "/^    $terraform_name:\r*\$/,/^\r*$/d" ./scripts/terraform.yaml
+    sed -i "/^    $terraform_name:\r*\$/,/^\r*$/d" ./scripts/terraform-dev.yaml
     sed -i "/-$terraform_name$/d" ./scripts/terraform.yaml
+    sed -i "/-$terraform_name$/d" ./scripts/terraform-dev.yaml
 
     sed -i "s/ $name / /" scripts/taito/project.sh
     sed -i "s/ \\/$name\\/uptimez / /" scripts/taito/project.sh
@@ -204,6 +206,7 @@ function prune () {
       sed -i '/storage/d' docker-compose.yaml
       sed -i '/storage/d' docker-compose-remote.yaml
       sed -i '/BUCKET_/d' ./scripts/helm.yaml
+      rm -f ./scripts/terraform-dev.yaml
 
       # Remove storage from server implementation
       # TODO: works only for the default Node.js server implementation
