@@ -6,12 +6,6 @@ ENV NODE_ENV development
 RUN mkdir -p /service
 WORKDIR /service
 
-RUN mkdir -p shared
-COPY ${SERVICE_DIR}/shared/package.json \
-     ${SERVICE_DIR}/shared/package-lock.* \
-     /service/shared/
-RUN (cd shared && npm install --loglevel warn)
-
 COPY ${SERVICE_DIR} /service
 # ENV GRADLE_OPTS "--project-cache-dir /.gradle"
 RUN ./gradlew

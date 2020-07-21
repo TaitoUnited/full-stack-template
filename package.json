@@ -1,7 +1,7 @@
 {
   "name": "full-stack-template",
   "scripts": {
-    "install-ci": "echo '# No additional dependencies need to be installed in ci mode'",
+    "install-ci": "npm-run-all install-all:shared",
     "install-dev": "echo '# Installing all libraries on host for code editor support. TODO how to minimize as --only=dev affects devDepencies also?' && npm run install-all",
     "install-all": "npm-run-all install-all:admin install-all:client install-all:graphql install-all:shared install-all:server install-all:worker install-all:www ",
     "install-all:admin": "cd admin && npm install",
