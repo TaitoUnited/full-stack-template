@@ -1,19 +1,22 @@
 # Builder and tester container for production build
 FROM node:lts-buster-slim as builder
-ARG SERVICE_DIR=.
-ARG TARGET_ENV=prod
-ARG BUILD_VERSION
-ENV TARGET_ENV ${TARGET_ENV}
-ENV BUILD_VERSION ${BUILD_VERSION}
-ENV NODE_ENV development
-ENV APP_SENTRY_PUBLIC_DSN #sentryPublicDSN
 
 RUN mkdir -p /service
 WORKDIR /service
 
+ARG SERVICE_DIR=.
 COPY ${SERVICE_DIR}/*.sh \
      ${SERVICE_DIR}/package* \
      /service/
+
+ENV NODE_ENV development
+ENV BASE_PATH BASE_PATH
+ENV ASSETS_PATH ASSETS_PATH
+ENV ASSETS_DOMAIN ASSETS_DOMAIN
+ENV API_ROOT ''
+ENV API_URL /api
+ENV APP_SENTRY_PUBLIC_DSN #sentryPublicDSN
+
 RUN ./install.sh
 RUN cp ~/.bashrc /home/node/.bashrc
 RUN mkdir -p /build && \

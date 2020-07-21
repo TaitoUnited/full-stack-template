@@ -17,18 +17,12 @@ const COPYRIGHT = 'Copyright ' + y + ' Taito United Oy - All rights reserved.';
 const OUTPUT_DIR = '../../build';
 const ASSETS_DIR = 'assets';
 const PWA_ICON_DIR = ASSETS_DIR + '/icon.png';
-const BASE_PATH = process.env.BASE_PATH !== undefined
-  ? process.env.BASE_PATH
-  : 'BASE_PATH';
-const ASSETS_PATH = process.env.ASSETS_PATH !== undefined
-  ? process.env.ASSETS_PATH
-  : 'ASSETS_PATH';
-const ASSETS_DOMAIN = process.env.ASSETS_DOMAIN !== undefined
-  ? process.env.ASSETS_DOMAIN
-  : 'ASSETS_DOMAIN';
+const BASE_PATH = process.env.BASE_PATH || '';
+const ASSETS_PATH = process.env.ASSETS_PATH || '';
+const ASSETS_DOMAIN = process.env.ASSETS_DOMAIN || '';
 // TODO: DOCKER_HOST contains the host ip? Use it instead of the hard coded ip
 const PUBLIC_HOST = process.env.DOCKER_HOST ? '192.168.99.100' : 'localhost';
-const PUBLIC_PORT = process.env.COMMON_PUBLIC_PORT;
+const PUBLIC_PORT = process.env.COMMON_PUBLIC_PORT || '8080';
 const DEV_PORT = 8080;
 const DEV_POLL =
   (process.env.HOST_OS == 'macos' || process.env.HOST_OS == 'windows') &&
@@ -132,7 +126,7 @@ module.exports = function(env, argv) {
 
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-        'process.env.API_URL': JSON.stringify(process.env.API_URL),
+        'process.env.API_URL': JSON.stringify(process.env.API_URL || '/api'),
         'process.env.SENTRY_PUBLIC_DSN': JSON.stringify(
           process.env.SENTRY_PUBLIC_DSN
         ),

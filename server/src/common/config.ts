@@ -63,7 +63,7 @@ const config = {
     : `${process.env.BUILD_VERSION}+${process.env.BUILD_IMAGE_TAG}`,
   API_PORT: parseInt(process.env.API_PORT as string, 10),
   API_BINDADDR: process.env.API_BINDADDR,
-  BASE_PATH: process.env.BASE_PATH,
+  BASE_PATH: process.env.BASE_PATH || '/api',
 
   // Cache
   CACHE_HOST: process.env.CACHE_HOST as string,

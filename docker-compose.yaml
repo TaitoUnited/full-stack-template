@@ -32,19 +32,19 @@ services:
     environment:
       # Paths
       BASE_PATH: /admin
+      REPLACE_BASE_PATH: /admin   # For Dockerfile.build
       ASSETS_PATH: /admin
+      REPLACE_ASSETS_PATH: /admin # For Dockerfile.build
       ASSETS_DOMAIN: ''
+      REPLACE_ASSETS_DOMAIN: ''   # For Dockerfile.build
       API_ROOT: ''
       API_URL: /api
-      # Common variables
+      COMMON_PUBLIC_PORT: 9999
+      # Host specific variables
       DC_COMMAND: ${DC_COMMAND}
       DOCKER_HOST: ${DOCKER_HOST}
       HOST_OS: ${taito_host_os}
       HOST_UNAME: ${taito_host_uname}
-      COMMON_COMPANY: companyname
-      COMMON_PROJECT: full-stack-template
-      COMMON_PUBLIC_PORT: 9999
-      NODE_ENV: development
 
   full-stack-template-client:
     container_name: full-stack-template-client
@@ -65,19 +65,19 @@ services:
     environment:
       # Paths
       BASE_PATH: ''
+      REPLACE_BASE_PATH: ''       # For Dockerfile.build
       ASSETS_PATH: ''
+      REPLACE_ASSETS_PATH: ''     # For Dockerfile.build
       ASSETS_DOMAIN: ''
+      REPLACE_ASSETS_DOMAIN: ''   # For Dockerfile.build
       API_ROOT: ''
       API_URL: /api
-      # Common variables
+      COMMON_PUBLIC_PORT: 9999
+      # Host specific variables
       DC_COMMAND: ${DC_COMMAND}
       DOCKER_HOST: ${DOCKER_HOST}
       HOST_OS: ${taito_host_os}
       HOST_UNAME: ${taito_host_uname}
-      COMMON_COMPANY: companyname
-      COMMON_PROJECT: full-stack-template
-      COMMON_PUBLIC_PORT: 9999
-      NODE_ENV: development
       # Services
       # NOTE: Database connection is for tests only
       DATABASE_HOST: full-stack-template-database
@@ -104,13 +104,14 @@ services:
       BASE_PATH: /graphql
       GRAPHQL_PORT: 8080
       GRAPHQL_BINDADDR: 0.0.0.0
-      # Common variables
+      COMMON_PUBLIC_PORT: 9999
+      # Host specific variables
       DC_COMMAND: ${DC_COMMAND}
       HOST_OS: ${taito_host_os}
       HOST_UNAME: ${taito_host_uname}
+      # Common variables
       COMMON_COMPANY: companyname
       COMMON_PROJECT: full-stack-template
-      COMMON_PUBLIC_PORT: 9999
       COMMON_DOMAIN: localhost
       COMMON_URL: http://localhost:9999
       COMMON_DEBUG: 'false'
@@ -145,13 +146,14 @@ services:
       BASE_PATH: /api
       API_PORT: 8080
       API_BINDADDR: 0.0.0.0
-      # Common variables
+      COMMON_PUBLIC_PORT: 9999
+      # Host specific variables
       DC_COMMAND: ${DC_COMMAND}
       HOST_OS: ${taito_host_os}
       HOST_UNAME: ${taito_host_uname}
+      # Common variables
       COMMON_COMPANY: companyname
       COMMON_PROJECT: full-stack-template
-      COMMON_PUBLIC_PORT: 9999
       COMMON_DEBUG: 'false'
       COMMON_LOG_FORMAT: text
       COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
@@ -200,13 +202,16 @@ services:
     environment:
       # Paths
       BASE_PATH: /docs
+      REPLACE_BASE_PATH: /docs    # For Dockerfile.build
       ASSETS_PATH: /docs
+      REPLACE_ASSETS_PATH: /docs  # For Dockerfile.build
       ASSETS_DOMAIN: ''
-      # Common variables
+      REPLACE_ASSETS_DOMAIN: ''   # For Dockerfile.build
+      COMMON_PUBLIC_PORT: 9999
+      # Host specific variables
       DC_COMMAND: ${DC_COMMAND}
       HOST_OS: ${taito_host_os}
       HOST_UNAME: ${taito_host_uname}
-      COMMON_PUBLIC_PORT: 9999
 
   full-stack-template-redis:
     container_name: full-stack-template-redis

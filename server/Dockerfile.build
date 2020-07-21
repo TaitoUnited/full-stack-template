@@ -1,19 +1,20 @@
 # Builder and tester container for production build
 FROM node:lts-alpine as builder
-ARG SERVICE_DIR=.
-ARG TARGET_ENV=prod
 RUN apk add --update-cache build-base python git fontconfig
-ENV NODE_ENV development
+
 RUN mkdir -p /service
 WORKDIR /service
 
+ARG SERVICE_DIR=.
 COPY ${SERVICE_DIR}/package.json \
      ${SERVICE_DIR}/package-lock.* \
      /service/
-ENV TARGET_ENV ${TARGET_ENV}
-ENV BASE_PATH /api
+
+ENV NODE_ENV development
 RUN npm ci --loglevel warn
+
 COPY ${SERVICE_DIR} /service
+
 RUN npm run lint
 RUN npm run unit
 RUN npm run build:prod
@@ -25,8 +26,7 @@ LABEL version=${BUILD_VERSION} \
       company=companyname \
       project=full-stack-template \
       role=server
-ENV BUILD_VERSION ${BUILD_VERSION}
-ENV NODE_ENV production
+
 RUN mkdir -p /service
 WORKDIR /service
 COPY --from=builder /build .
@@ -40,6 +40,10 @@ RUN npm prune --production && \
     adduser -S -u 74276 -s /bin/false node || \
     addgroup node node || \
     su node -s /bin/sh -c "node --version"
+
+ENV BUILD_VERSION ${BUILD_VERSION}
+ENV NODE_ENV production
+ENV BASE_PATH /api
 
 USER node
 EXPOSE 8080
