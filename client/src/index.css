@@ -34,7 +34,3 @@ img {
     page-break-inside: auto;
   }
 }
-
-@media print {
-  -moz-appearance: number-input;
-}
