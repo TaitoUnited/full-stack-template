@@ -31,9 +31,11 @@ fi
 if [[ $taito_mode == "ci" ]] && [[ ${ci_disable_db_proxy} == "true" ]]; then
   test_all_DATABASE_HOST=${database_real_host:-$database_host}
   test_all_DATABASE_SSL_ENABLED=${db_database_ssl_enabled}
+  :
 else
   test_all_DATABASE_HOST=$taito_project-database-proxy
   test_all_DATABASE_SSL_ENABLED=${db_database_proxy_ssl_enabled}
+  :
 fi
 test_all_DATABASE_PORT=$db_database_real_port
 test_all_DATABASE_SSL_CLIENT_CERT_ENABLED=${db_database_ssl_client_cert_enabled}

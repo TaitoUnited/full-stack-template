@@ -88,7 +88,9 @@ function prune () {
     sed -i "/^    $name:\r*\$/,/^\r*$/d" ./scripts/helm.yaml
     sed -i "/-$name$/d" ./scripts/helm.yaml
     sed -i "/^    $terraform_name:\r*\$/,/^\r*$/d" ./scripts/terraform.yaml
+    sed -i "/^    $terraform_name:\r*\$/,/^\r*$/d" ./scripts/terraform-dev.yaml
     sed -i "/-$terraform_name$/d" ./scripts/terraform.yaml
+    sed -i "/-$terraform_name$/d" ./scripts/terraform-dev.yaml
 
     sed -i "s/ $name / /" scripts/taito/project.sh
     sed -i "s/ \\/$name\\/uptimez / /" scripts/taito/project.sh
@@ -168,13 +170,15 @@ function prune () {
 
       # Remove database from server implementation
       # TODO: works only for the default Node.js server implementation
-      sed -i '/pg-promise/d' ./server/package.json &> /dev/null || :
-      sed -i '/types\\pg/d' ./server/package.json &> /dev/null || :
-      sed -i '/db/d' ./server/src/server.ts &> /dev/null || :
-      sed -i '/Db/d' ./server/src/common/types.ts &> /dev/null || :
-      sed -i '/Database/d' ./server/src/common/types.ts &> /dev/null || :
-      sed -i '/state.db/d' ./server/src/infra/InfraRouter.ts &> /dev/null || :
-      rm -f ./server/src/common/db.ts &> /dev/null || :
+      if [[ -d ./server ]]; then
+        sed -i '/pg-promise/d' ./server/package.json &> /dev/null || :
+        sed -i '/types\\pg/d' ./server/package.json &> /dev/null || :
+        sed -i '/db/d' ./server/src/server.ts &> /dev/null || :
+        sed -i '/Db/d' ./server/src/common/types.ts &> /dev/null || :
+        sed -i '/Database/d' ./server/src/common/types.ts &> /dev/null || :
+        sed -i '/state.db/d' ./server/src/infra/InfraRouter.ts &> /dev/null || :
+        rm -f ./server/src/common/db.ts &> /dev/null || :
+      fi
     fi
 
     if [[ $name == "redis" ]]; then
@@ -202,17 +206,20 @@ function prune () {
       sed -i '/storage/d' docker-compose.yaml
       sed -i '/storage/d' docker-compose-remote.yaml
       sed -i '/BUCKET_/d' ./scripts/helm.yaml
+      rm -f ./scripts/terraform-dev.yaml
 
       # Remove storage from server implementation
       # TODO: works only for the default Node.js server implementation
-      sed -i '/aws-sdk/d' ./server/package.json &> /dev/null || :
-      sed -i '/storage/d' ./server/src/server.ts &> /dev/null || :
-      sed -i '/storage/d' ./server/src/common/types.ts &> /dev/null || :
-      sed -i '/Storage/d' ./server/src/common/config.ts &> /dev/null || :
-      sed -i '/BUCKET_/d' ./server/src/common/config.ts &> /dev/null || :
-      sed -i '/storage/d' ./server/src/infra/InfraRouter.ts &> /dev/null || :
-      sed -i '/storage/d' ./server/src/types/koa.d.ts &> /dev/null || :
-      rm -f ./server/src/common/storage.ts &> /dev/null || :
+      if [[ -d ./server ]]; then
+        sed -i '/aws-sdk/d' ./server/package.json &> /dev/null || :
+        sed -i '/storage/d' ./server/src/server.ts &> /dev/null || :
+        sed -i '/storage/d' ./server/src/common/types.ts &> /dev/null || :
+        sed -i '/Storage/d' ./server/src/common/config.ts &> /dev/null || :
+        sed -i '/BUCKET_/d' ./server/src/common/config.ts &> /dev/null || :
+        sed -i '/storage/d' ./server/src/infra/InfraRouter.ts &> /dev/null || :
+        sed -i '/storage/d' ./server/src/types/koa.d.ts &> /dev/null || :
+        rm -f ./server/src/common/storage.ts &> /dev/null || :
+      fi
     fi
 
     rm -rf "$name"
@@ -346,10 +353,24 @@ prune "Worker for background jobs? [y/N] " worker
 prune "Relational database? [Y/n] " database
 prune "Permanent object storage for files? [y/N] " storage \\/bucket \\/minio
 
+function remove_empty_secrets () {
+  sed -i -n '1h;1!H;${g;s/    secrets:\n    environment:/    environment:/;p;}' "$1"
+}
+
+remove_empty_secrets docker-compose.yaml
+if [[ -f docker-compose-test.yaml ]]; then
+  remove_empty_secrets docker-compose-test.yaml
+fi
+if [[ -f docker-compose-remote.yaml ]]; then
+  remove_empty_secrets docker-compose-remote.yaml
+fi
+
 if [[ ${template_default_kubernetes} ]] || [[ ${kubernetes_name} ]]; then
   # Remove serverless-http adapter since Kubernetes is enabled
-  sed -i '/serverless/d' ./server/package.json
-  sed -i '/serverless/d' ./server/src/server.ts
+  if [[ -d ./server ]]; then
+    sed -i '/serverless/d' ./server/package.json
+    sed -i '/serverless/d' ./server/src/server.ts
+  fi
 else
   # Remove helm.yaml since kubernetes is disabled
   rm -f ./scripts/helm*.yaml

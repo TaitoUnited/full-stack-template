@@ -23,7 +23,7 @@ locals {
 
 module "gcp" {
   source  = "TaitoUnited/project-resources/google"
-  version = "2.0.1"
+  version = "2.0.2"
 
   # Create flags
   create_storage_buckets              = true
