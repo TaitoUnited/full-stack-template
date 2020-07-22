@@ -59,8 +59,10 @@ const config = {
   APP_VERSION: !process.env.BUILD_IMAGE_TAG
     ? `${process.env.BUILD_VERSION}+local`
     : `${process.env.BUILD_VERSION}+${process.env.BUILD_IMAGE_TAG}`,
-  API_PORT: parseInt(process.env.API_PORT as string, 10),
-  API_BINDADDR: process.env.API_BINDADDR,
+  API_PORT: process.env.API_PORT
+    ? parseInt(process.env.API_PORT as string, 10)
+    : 4000,
+  API_BINDADDR: process.env.API_BINDADDR || '127.0.0.1',
   BASE_PATH: process.env.BASE_PATH || '/api',
 
   // Cache

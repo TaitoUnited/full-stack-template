@@ -20,15 +20,17 @@ const PWA_ICON_DIR = ASSETS_DIR + '/icon.png';
 const BASE_PATH = process.env.BASE_PATH || '';
 const ASSETS_PATH = process.env.ASSETS_PATH || '';
 const ASSETS_DOMAIN = process.env.ASSETS_DOMAIN || '';
-// TODO: DOCKER_HOST contains the host ip? Use it instead of the hard coded ip
-const PUBLIC_HOST = process.env.DOCKER_HOST ? '192.168.99.100' : 'localhost';
-const PUBLIC_PORT = process.env.COMMON_PUBLIC_PORT || '8080';
-const DEV_PORT = 8080;
+
+const DEV_PORT = process.env.DEV_PORT || '3000';
 const DEV_POLL =
   (process.env.HOST_OS == 'macos' || process.env.HOST_OS == 'windows') &&
   !process.env.DC_COMMAND
     ? 2000
     : undefined;
+
+// TODO: DOCKER_HOST contains the host ip? Use it instead of the hard coded ip
+const PUBLIC_HOST = process.env.DOCKER_HOST ? '192.168.99.100' : 'localhost';
+const PUBLIC_PORT = process.env.COMMON_PUBLIC_PORT || DEV_PORT;
 
 module.exports = function(env, argv) {
   const isProd = !!env.production;

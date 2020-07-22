@@ -37,8 +37,10 @@ app.use(
 );
 
 // Start the server.
-app.listen(process.env.GRAPHQL_PORT, process.env.GRAPHQL_BINDADDR, () =>
-  console.log('GraphQL gateway started')
+app.listen(
+  process.env.GRAPHQL_PORT || 4001,
+  process.env.GRAPHQL_BINDADDR || '127.0.0.1',
+  () => console.log('GraphQL gateway started')
 );
 
 export default app;

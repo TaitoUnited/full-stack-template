@@ -15,5 +15,6 @@ COPY ${SERVICE_DIR}/package.json \
 ENV NODE_ENV development
 RUN npm install --loglevel warn
 
+ENV DEV_PORT 8080
 EXPOSE 8080
 CMD eval $DC_COMMAND; npm install; npm run start

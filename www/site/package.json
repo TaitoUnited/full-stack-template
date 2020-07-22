@@ -35,7 +35,7 @@
     "publish:preview": "gatsby build --prefix-paths",
     "develop": "gatsby develop",
     "start": "npm run develop",
-    "start:docker": "gatsby develop --host 0.0.0.0 --port 8080",
+    "start:docker": "gatsby develop --host 0.0.0.0 --port ${DEV_PORT}",
     "format": "prettier --write \"src/**/*.js\"",
     "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\""
   },
