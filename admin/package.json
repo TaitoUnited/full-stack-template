@@ -19,6 +19,7 @@
     "core-js": "^3.2.1",
     "history": "^4.10.1",
     "qs": "^6.8.0",
+    "query-string": "^6.13.1",
     "ra-input-rich-text": "^3.3.1",
     "ra-language-english": "^3.6.2",
     "react": "^16.13.1",
