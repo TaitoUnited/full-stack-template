@@ -1,13 +1,11 @@
 import { promises as fsPromises } from 'fs';
 import aws from 'aws-sdk';
-
 const awsParamStore = new aws.SSM();
 
 export const readFile = async (path: string) => {
   const buf = await fsPromises.readFile(path);
   return buf.toString();
 };
-
 // prettier-ignore
 export const readParameter = async (paramName: string) => { // aws
   const secretPath = `${process.env.SECRET_NAME_PATH}/${paramName}`; // aws

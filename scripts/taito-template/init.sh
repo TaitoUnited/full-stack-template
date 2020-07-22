@@ -408,6 +408,7 @@ if [[ ${taito_provider} != "aws" ]]; then
   # Remove AWS specific stuff from implementation
   if [[ -d ./server ]]; then
     sed -i '/aws/d' ./server/src/common/config.ts
+    sed -i '/prettier-ignore/d' ./server/src/common/config.ts
   fi
 fi
 
