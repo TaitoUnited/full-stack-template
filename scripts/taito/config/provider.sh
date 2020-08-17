@@ -25,17 +25,18 @@ case $taito_provider in
     kubernetes_user="clusterUser_${taito_zone}_${kubernetes_cluster}"
 
     # Set Azure specific storage urls
-    if [[ $taito_env != "local" ]]; then
-      for bucket in ${taito_buckets[@]}; do
-        storage_name=$(env | grep '^st_bucket_name' | head -n1 | sed 's/.*=//')
-        storage_url="https://portal.azure.com/#blade/Microsoft_Azure_Storage/ContainerMenuBlade/overview/storageAccountId/%2Fsubscriptions%2F${taito_provider_billing_account_id}%2FresourceGroups%2F${taito_resource_namespace}%2Fproviders%2FMicrosoft.Storage%2FstorageAccounts%2F${taito_project//-/}${taito_env//-/}/path/${storage_name}"
+    for bucket in ${taito_buckets[@]}; do
+      storage_name=$(env | grep '^st_bucket_name' | head -n1 | sed 's/.*=//')
+      storage_url="https://portal.azure.com/#blade/Microsoft_Azure_Storage/ContainerMenuBlade/overview/storageAccountId/%2Fsubscriptions%2F${taito_provider_billing_account_id}%2FresourceGroups%2F${taito_resource_namespace}%2Fproviders%2FMicrosoft.Storage%2FstorageAccounts%2F${taito_project//-/}${taito_env//-/}/path/${storage_name}"
+      if [[ $taito_env == "local" ]]; then
+        storage_url="$taito_app_url/$bucket"
+      fi
 
-        link_urls="
-          ${link_urls}
-          * $bucket:ENV=$storage_url $bucket (:ENV)
-        "
-      done
-    fi
+      link_urls="
+        ${link_urls}
+        * $bucket[:ENV]=$storage_url $bucket (:ENV)
+      "
+    done
     ;;
   aws)
     taito_plugins="
@@ -55,17 +56,18 @@ case $taito_provider in
     kubernetes_user="${kubernetes_cluster}"
 
     # Set AWS specific storage urls
-    if [[ $taito_env != "local" ]]; then
-      for bucket in ${taito_buckets[@]}; do
-        storage_name=$(env | grep '^st_bucket_name' | head -n1 | sed 's/.*=//')
-        storage_url="https://s3.console.aws.amazon.com/s3/buckets/${storage_name}/?region=${taito_provider_region}&tab=overview"
+    for bucket in ${taito_buckets[@]}; do
+      storage_name=$(env | grep '^st_bucket_name' | head -n1 | sed 's/.*=//')
+      storage_url="https://s3.console.aws.amazon.com/s3/buckets/${storage_name}/?region=${taito_provider_region}&tab=overview"
+      if [[ $taito_env == "local" ]]; then
+        storage_url="$taito_app_url/$bucket"
+      fi
 
-        link_urls="
-          ${link_urls}
-          * $bucket:ENV=$storage_url $bucket (:ENV)
-        "
-      done
-    fi
+      link_urls="
+        ${link_urls}
+        * $bucket[:ENV]=$storage_url $bucket (:ENV)
+      "
+    done
     ;;
   "do")
     taito_plugins="
@@ -102,17 +104,18 @@ case $taito_provider in
     fi
 
     # Set google specific storage urls
-    if [[ $taito_env != "local" ]]; then
-      for bucket in ${taito_buckets[@]}; do
-        storage_name=$(env | grep '^st_bucket_name' | head -n1 | sed 's/.*=//')
-        storage_url="https://console.cloud.google.com/storage/browser/${storage_name}?project=$taito_resource_namespace_id"
+    for bucket in ${taito_buckets[@]}; do
+      storage_name=$(env | grep '^st_bucket_name' | head -n1 | sed 's/.*=//')
+      storage_url="https://console.cloud.google.com/storage/browser/${storage_name}?project=$taito_resource_namespace_id"
+      if [[ $taito_env == "local" ]]; then
+        storage_url="$taito_app_url/$bucket"
+      fi
 
-        link_urls="
-          ${link_urls}
-          * $bucket:ENV=$storage_url $bucket (:ENV)
-        "
-      done
-    fi
+      link_urls="
+        ${link_urls}
+        * $bucket[:ENV]=$storage_url $bucket (:ENV)
+      "
+    done
 
     link_urls="
       ${link_urls}
@@ -189,7 +192,7 @@ case $taito_uptime_provider in
     "
     link_urls="
       ${link_urls}
-      * uptime[:ENV]=https://console.aws.amazon.com/cloudwatch/home?region=${taito_provider_region}#alarmsV2:?search=${taito_project}-${taito_target_env}&alarmFilter=ALL  Uptime monitoring (:ENV)
+      * uptime[:ENV]=https://console.aws.amazon.com/cloudwatch/home?region=${taito_provider_region}#alarmsV2:?search=${taito_project}-${taito_target_env}&alarmFilter=ALL Uptime monitoring (:ENV)
     "
     ;;
   gcp)
@@ -200,7 +203,7 @@ case $taito_uptime_provider in
     "
     link_urls="
       ${link_urls}
-      * uptime[:ENV]=https://console.cloud.google.com/monitoring/uptime?project=$taito_zone
+      * uptime[:ENV]=https://console.cloud.google.com/monitoring/uptime?project=$taito_zone Uptime monitoring (:ENV)
     "
     ;;
 esac
