@@ -63,6 +63,7 @@ taito_cicd_secrets_path=${template_default_cicd_secrets_path}
 taito_domain=$taito_project-$taito_target_env.${template_default_domain}
 taito_default_domain=$taito_project-$taito_target_env.${template_default_domain}
 taito_cdn_domain=${template_default_cdn_domain}
+taito_app_url=
 
 # Hosts
 taito_host="${template_default_host}"
