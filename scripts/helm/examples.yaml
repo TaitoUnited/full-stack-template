@@ -180,7 +180,7 @@ full-stack:
          targetPort: 9080
 
 # ----------------------------------------------------------
-# Volumes and persistence
+# Volumes, persistence, and init commands
 # ----------------------------------------------------------
 
   # ENABLE PERSISTENCE
@@ -193,12 +193,15 @@ full-stack:
     size: 4Gi
     storageClass: fast
 
-  # USE THE DISK
+  # INIT FILE PERMISSIONS, USE THE DISK
   services:
     database:
       ...
       # Avoid duplicate mount errors by using Recreate instead of RollingUpdate
       strategyType: Recreate
+      # Give volume write permissions for root(0) group
+      fsGroup: '0'
+      initCommand: 'chmod g+w /data/db'
       # Mount /data/db and /data/backup to the external disk
       persistentVolumeMounts:
         - mountPath: /data/db
