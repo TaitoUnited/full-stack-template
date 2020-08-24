@@ -76,6 +76,22 @@ full-stack:
       memoryLimit: 512Mi    # limit to 512 MB
 
 # ----------------------------------------------------------
+# Node selector
+# ----------------------------------------------------------
+
+  # Run all containers on specific Kubernetes nodes by default
+  serviceDefaults:
+    nodeSelector:
+      cloud.google.com/gke-nodepool: pool-1
+
+  # Run worker container on different Kubernetes nodes
+  services:
+    worker:
+      nodeSelector:
+        cloud.google.com/gke-nodepool: worker-pool-1
+        accelerator: nvidia-tesla-p100
+
+# ----------------------------------------------------------
 # Health checks
 # ----------------------------------------------------------
 
