@@ -1,5 +1,5 @@
-# terraform
+# Terraform
 
-Terraform is used to configure storage buckets and other non-kubernetes resources.
+> NOTE: There is rarely need to modify these files manually. All application specific configurations are located in `../terraform*.yaml` files.
 
-The `common/` folder contains reusable terraform scripts for applications and APIs running on server. Do not modify them.
+This folder contains a terraform modules for your application. [Terraform](https://www.terraform.io/) is a infrastructure as code software tool that is used to manage cloud infrastructure.

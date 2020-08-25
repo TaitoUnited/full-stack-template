@@ -1,3 +1,6 @@
+# You can configure all your Kubernetes resources here using a developer
+# friendly YAML format
+
 global:
   domain: ${taito_domain}
   url: https://${taito_domain}

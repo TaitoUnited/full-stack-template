@@ -1,4 +1,4 @@
-# NOTE: Here you can override default settings for production environment.
+# Overrides for prod environment
 
 full-stack:
   serviceDefaults:

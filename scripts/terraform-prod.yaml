@@ -1,4 +1,5 @@
-# Overrides for dev environment
+# Overrides for prod environment
+
 stack:
   uptimeEnabled: true
   backupEnabled: true
