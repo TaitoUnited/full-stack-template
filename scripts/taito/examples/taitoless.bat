@@ -6,8 +6,6 @@ SET taito_host_os="windows"
 
 # Docker
 SET dockerfile="Dockerfile"
-SET DC_PATH='/rsync'
-SET DC_COMMAND='sh -c \"cp -rf /rsync/service/. /service; (while true; do rsync -rtq /rsync/service/. /service; sleep 2; done) &\" '
 
 # Database
 SET db_database_name="full_stack_template_local"

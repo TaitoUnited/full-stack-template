@@ -8,8 +8,7 @@ RUN apk add --update-cache \
   g++ \
   libffi-dev \
   postgresql-dev \
-  python3-dev \
-  rsync # rsync for windows devs
+  python3-dev
 
 RUN mkdir -p /service
 WORKDIR /service
@@ -19,4 +18,4 @@ COPY ${SERVICE_DIR}/requirements-dev.txt /service/
 RUN pip3 install --upgrade pip && pip3 install -r requirements-dev.txt && pip3 install ptvsd
 
 EXPOSE 8080
-CMD eval $DC_COMMAND; python -m ptvsd --host 0.0.0.0 --port 9229 -m flask run --host $API_BINDADDR --port $API_PORT --no-debugger
+CMD python -m ptvsd --host 0.0.0.0 --port 9229 -m flask run --host $API_BINDADDR --port $API_PORT --no-debugger

@@ -1,7 +1,3 @@
-# NOTE: docker-compose taito plugin sets DC_PATH and DC_COMMAND to mitigate
-# slow volume mounts on Windows. They might also be used in some other purposes
-# in the future.
-
 version: '3.5'
 services:
   full-stack-template-ingress:
@@ -26,9 +22,9 @@ services:
     ports:
       - "8080"
     volumes:
-      - "./admin:${DC_PATH}/service:delegated"
-      - "./shared:${DC_PATH}/service/shared:delegated"
-      - "${DC_PATH}/service/node_modules"
+      - "./admin:/service:delegated"
+      - "./shared:/service/shared:delegated"
+      - "/service/node_modules"
     environment:
       # Paths
       BASE_PATH: /admin
@@ -41,10 +37,8 @@ services:
       API_URL: /api
       COMMON_PUBLIC_PORT: 9999
       # Host specific variables
-      DC_COMMAND: ${DC_COMMAND}
       DOCKER_HOST: ${DOCKER_HOST}
       HOST_OS: ${taito_host_os}
-      HOST_UNAME: ${taito_host_uname}
 
   full-stack-template-client:
     container_name: full-stack-template-client
@@ -57,9 +51,9 @@ services:
     ports:
       - "8080"
     volumes:
-      - "./client:${DC_PATH}/service:delegated"
-      - "./shared:${DC_PATH}/service/shared:delegated"
-      - "${DC_PATH}/service/node_modules"
+      - "./client:/service:delegated"
+      - "./shared:/service/shared:delegated"
+      - "/service/node_modules"
     secrets:
       - DATABASE_PASSWORD
     environment:
@@ -74,10 +68,8 @@ services:
       API_URL: /api
       COMMON_PUBLIC_PORT: 9999
       # Host specific variables
-      DC_COMMAND: ${DC_COMMAND}
       DOCKER_HOST: ${DOCKER_HOST}
       HOST_OS: ${taito_host_os}
-      HOST_UNAME: ${taito_host_uname}
       # Services
       # NOTE: Database connection is for tests only
       DATABASE_HOST: full-stack-template-database
@@ -96,9 +88,9 @@ services:
     ports:
       - "8080"
     volumes:
-      - "./graphql:${DC_PATH}/service:delegated"
-      - "./shared:${DC_PATH}/service/shared:delegated"
-      - "${DC_PATH}/service/node_modules"
+      - "./graphql:/service:delegated"
+      - "./shared:/service/shared:delegated"
+      - "/service/node_modules"
     environment:
       # Paths and bind
       BASE_PATH: /graphql
@@ -106,9 +98,7 @@ services:
       GRAPHQL_BINDADDR: 0.0.0.0
       COMMON_PUBLIC_PORT: 9999
       # Host specific variables
-      DC_COMMAND: ${DC_COMMAND}
       HOST_OS: ${taito_host_os}
-      HOST_UNAME: ${taito_host_uname}
       # Common variables
       COMMON_COMPANY: companyname
       COMMON_PROJECT: full-stack-template
@@ -134,9 +124,9 @@ services:
       - "8080"
       - "127.0.0.1:4229:9229"
     volumes:
-      - "./server:${DC_PATH}/service:delegated"
-      - "./shared:${DC_PATH}/service/shared:delegated"
-      - "${DC_PATH}/service/node_modules"
+      - "./server:/service:delegated"
+      - "./shared:/service/shared:delegated"
+      - "/service/node_modules"
     secrets:
       - DATABASE_PASSWORD
       - REDIS_PASSWORD
@@ -148,9 +138,7 @@ services:
       API_BINDADDR: 0.0.0.0
       COMMON_PUBLIC_PORT: 9999
       # Host specific variables
-      DC_COMMAND: ${DC_COMMAND}
       HOST_OS: ${taito_host_os}
-      HOST_UNAME: ${taito_host_uname}
       # Common variables
       COMMON_COMPANY: companyname
       COMMON_PROJECT: full-stack-template
@@ -194,9 +182,9 @@ services:
       # TODO: Temporary hack for https://github.com/gatsbyjs/gatsby/issues/3721
       - "127.0.0.1:7463:8080"
     volumes:
-      - "./www:${DC_PATH}/service:delegated"
-      - "${DC_PATH}/service/node_modules"
-      - "${DC_PATH}/service/site/node_modules" # FOR GATSBY ONLY
+      - "./www:/service:delegated"
+      - "/service/node_modules"
+      - "/service/site/node_modules" # FOR GATSBY ONLY
       # FOR GATSBY ONLY:
       # - "/service/site/node_modules"
     environment:
@@ -209,9 +197,7 @@ services:
       REPLACE_ASSETS_DOMAIN: ''   # For Dockerfile.build
       COMMON_PUBLIC_PORT: 9999
       # Host specific variables
-      DC_COMMAND: ${DC_COMMAND}
       HOST_OS: ${taito_host_os}
-      HOST_UNAME: ${taito_host_uname}
 
   full-stack-template-redis:
     container_name: full-stack-template-redis

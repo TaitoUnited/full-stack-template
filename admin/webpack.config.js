@@ -19,8 +19,7 @@ const ASSETS_DOMAIN = process.env.ASSETS_DOMAIN || '';
 
 const DEV_PORT = process.env.DEV_PORT || '3001';
 const DEV_POLL =
-  (process.env.HOST_OS == 'macos' || process.env.HOST_OS == 'windows') &&
-  !process.env.DC_COMMAND
+  process.env.HOST_OS == 'macos' || process.env.HOST_OS == 'windows'
     ? 2000
     : undefined;
 
