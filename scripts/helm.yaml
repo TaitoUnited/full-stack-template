@@ -1,5 +1,5 @@
-# You can configure all your Kubernetes resources here using a developer
-# friendly YAML format
+# Here you can configure all your Kubernetes resources with a
+# developer-friendly YAML format
 
 global:
   domain: ${taito_domain}

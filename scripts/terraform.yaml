@@ -1,5 +1,5 @@
-# You can configure all your cloud resources (non-Kubernetes resources) here
-# using a cloud agnostic and developer friendly YAML format
+# Here you can configure all your cloud resources (non-Kubernetes resources)
+# with a cloud-agnostic and developer-friendly YAML format
 
 stack:
   uptimeEnabled: false
