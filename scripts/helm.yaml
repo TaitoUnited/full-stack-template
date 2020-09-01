@@ -24,8 +24,6 @@ full-stack:
       - name: ${taito_domain}
         altName: ${taito_altdomain}
 
-  # NOTE: See helm/values.yaml for a list of all service attributes
-  # and helm/examples.yaml for some examples.
   serviceDefaults:
     # Path defaults
     basicAuthEnabled: ${taito_basic_auth_enabled}
@@ -45,6 +43,8 @@ full-stack:
       COMMON_ENV: ${taito_env}
 
   services:
+    # NOTE: See helm/values.yaml for a list of all service attributes
+    # and helm/examples.yaml for some examples.
 
     admin:
       paths:
@@ -166,15 +166,6 @@ full-stack:
         BUCKET_BROWSE_URL: https://console.cloud.google.com/storage/browser/${taito_random_name}-${taito_env}
         BUCKET_DOWNLOAD_URL: https://storage.cloud.google.com/${taito_random_name}-${taito_env}
         BUCKET_FORCE_PATH_STYLE: 'true'
-      # EXAMPLE: cron jobs that re-use the same Docker image and settings as server
-      # cronJobs:
-      #   - name: examplejob1
-      #     schedule: "30 2 * * *"
-      #     concurrencyPolicy: Forbid # Forbid or Allow
-      #     args:
-      #       - /bin/sh
-      #       - -c
-      #       - date; echo Hello from server
 
     storage:
       egress:
@@ -211,5 +202,3 @@ full-stack:
         REPLACE_BASE_PATH: /docs
         REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/${taito_build_image_tag}/docs
         REPLACE_ASSETS_DOMAIN: ${taito_cdn_domain}
-
-    # TODO: https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/#ttl-mechanism-for-finished-jobs
