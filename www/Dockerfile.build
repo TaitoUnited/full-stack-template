@@ -26,11 +26,19 @@ RUN mkdir -p /build && \
 USER node
 RUN . ~/.bashrc && npm ci --loglevel warn
 
-# Install, build and test site
+# Install site
 COPY --chown=node:root ${SERVICE_DIR} /service
 RUN . ~/.bashrc && \
-    npm run install-site && \
-    npm run build && \
+    npm run install-site
+
+# Force no docker caching during build
+# -> required only if data is retrieved from a CMS during build
+# ARG BUILD_IMAGE_TAG
+# ENV BUILD_IMAGE_TAG ${BUILD_IMAGE_TAG}
+# RUN echo "${BUILD_IMAGE_TAG}"
+
+# Build and test site
+RUN npm run build && \
     npm run unit
 
 
