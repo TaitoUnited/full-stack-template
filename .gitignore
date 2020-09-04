@@ -22,6 +22,9 @@ build
 .metadata
 RemoteSystemsTempFiles
 
+# Helm
+scripts/helm/charts/*
+
 # Terraform
 **/.terraform/*
 *.tfstate
