@@ -25,9 +25,10 @@ full-stack:
         altName: ${taito_altdomain}
 
   serviceDefaults:
-    # Path defaults
+    # Auth and security
     basicAuthEnabled: ${taito_basic_auth_enabled}
     basicAuthHtpasswdSecret: ${taito_project}-${taito_env}-basic-auth
+    modsecurityEnabled: true
     # Vertical scaling
     verticalScaleUpdateMode: Off
     # Horizontal scaling

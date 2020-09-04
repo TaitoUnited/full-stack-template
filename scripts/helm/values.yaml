@@ -77,9 +77,9 @@ full-stack:
     runAsUser:
     runAsGroup:
     # Resources
-    cpuRequest: 2m
+    cpuRequest: 20m
     cpuLimit: 100m
-    memoryRequest: 50Mi
+    memoryRequest: 70Mi
     memoryLimit: 256Mi
     # Vertical scaling
     verticalScaleUpdateMode: Off

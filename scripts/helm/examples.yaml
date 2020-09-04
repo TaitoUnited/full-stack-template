@@ -2,36 +2,74 @@
 # Path attributes
 # ----------------------------------------------------------
 
-    # UPLOAD: /api/upload for uploading large files
+  serviceDefaults:
+    # MODSECURITY: Enable modsecurity with the default OWASP Core Rule Set
+    modsecurityEnabled: true
+
+    # LIMIT BY IP/LOCATION: https://en.wikipedia.org/wiki/ISO_3166-2
+    allowedCountries: ["FI", "SE", "NO", "DK", "EE"]
+    # OR ALTERNATIVELY blockedCountries: [
+    #   "TH", "VN", "ID", "IN", "CN", "BR", "RU", "UA", "TR", "US"
+    # ]
+    # OR ALTERNATIVELY allowedCidrs: [
+    #   "123.123.123.123/24", "124.124.124.124/32"
+    # ]
+    # NOTE: You can block CIDRs in nginx-ingress config map
+
+  services:
     server:
       paths:
         - path: /api
+
+        # LOGIN: /api/login with rate limited login attempts
+        # RATE LIMIT: Limit number of requests for single IP address
+        - path: /api/login
+          rewriteTarget: /login
+          limitRpm: 5               # 5 requests per minute
+              # NOTE: Actually a lot higher as 5x bursts are accepted and there
+              # are also multiple nginx replicas that each limit separately
+
+        # UPLOAD: /api/upload with a large request body
+        # CONNNECTION LIMIT: Limit number of connections for single IP address
+        # RATE LIMIT: Limit network bandwith for very large files
         - path: /api/upload
-          clientMaxBodySize: 100m
+          rewriteTarget: /upload
+          limitConnections: 5       # Max 5 connections for single IP address
+              # NOTE: Actually connection limit is a lot higher as there are
+              # multiple nginx replicas that each limit separately
+          clientMaxBodySize: 500m   # Allow 500 MB file
+          limitRateAfter: 102400    # Start limiting after 100 MB (102400 KB)
+          limitRate: 100            # Limit bandwith to 100 KB/s
 
-    # LONG PROCESSING: /api/process with a large read timeout
-    server:
-      paths:
-        - path: /api
+        # LONG PROCESSING: /api/process with a large read timeout
         - path: /api/process
-          readTimeout: 120
+          rewriteTarget: /process
+          readTimeout: 120          # 2 minutes
 
-    # BASIC AUTH: /api/public with basic auth disabled
-    server:
-      paths:
-        - path: /api
+        # BASIC AUTH: /api/public with basic auth disabled
         - path: /api/public
+          rewriteTarget: /public
           basicAuthEnabled: false
 
-    # BASIC AUTH: /api/private with path specific basic auth secret
-    server:
-      paths:
-        - path: /api
+        # BASIC AUTH: /api/private with path specific basic auth secret
         - path: /api/private
+          rewriteTarget: /private
           basicAuthEnabled: true
           basicAuthHtpasswdSecret: ${taito_project}-${taito_env}-private-auth
 
-    # TODO: More examples
+        # MODSECURITY: /api/special with custom modsecurity rules
+        # https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual-%28v2.x%29#configuration-directives
+        - path: /api/special
+          rewriteTarget: /special
+          modsecurityRules: |
+            SecRuleEngine On
+            SecRequestBodyAccess On
+            SecAuditEngine RelevantOnly
+            SecAuditLogParts ABCIJDEFHZ
+            SecAuditLog /dev/stdout
+            Include /etc/nginx/owasp-modsecurity-crs/nginx-modsecurity.conf
+
+        # TODO: More examples
 
 # ----------------------------------------------------------
 # Networking rules
@@ -159,6 +197,8 @@ full-stack:
 # External services (dedicated IP address, any port)
 # ----------------------------------------------------------
 
+  # NOTE: Dedicated IP address might not be required as nginx-ingress
+  # supports also tcp and udp connections.
   services:
     mail:
       type: external
