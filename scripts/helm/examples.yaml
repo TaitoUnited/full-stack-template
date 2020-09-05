@@ -2,14 +2,21 @@
 # Path attributes
 # ----------------------------------------------------------
 
+  # NOTE: These examples are for nginx-ingress controller. If some other
+  # ingress controller is being used, it might not support all of these
+  # options.
+
   serviceDefaults:
-    # MODSECURITY: Enable modsecurity with the default OWASP Core Rule Set
+    # BASIC AUTH: enabled/disabled
+    basicAuthEnabled: false
+
+    # MODSECURITY: modsecurity with the default OWASP Core Rule Set
     modsecurityEnabled: true
 
     # LIMIT BY IP/LOCATION: https://en.wikipedia.org/wiki/ISO_3166-2
-    allowedCountries: ["FI", "SE", "NO", "DK", "EE"]
+    allowedCountries: ["FI", "SE", "NO", "DK", "EE", "US"]
     # OR ALTERNATIVELY blockedCountries: [
-    #   "TH", "VN", "ID", "IN", "CN", "BR", "RU", "UA", "TR", "US"
+    #   "TH", "VN", "ID", "IN", "CN", "BR", "RU", "UA", "TR", "IQ"
     # ]
     # OR ALTERNATIVELY allowedCidrs: [
     #   "123.123.123.123/24", "124.124.124.124/32"
@@ -22,40 +29,56 @@
         - path: /api
 
         # LOGIN: /api/login with rate limited login attempts
-        # RATE LIMIT: Limit number of requests for single IP address
+        # rate limit: Limit number of requests from a single IP address
         - path: /api/login
           rewriteTarget: /login
           limitRpm: 5               # 5 requests per minute
-              # NOTE: Actually a lot higher as 5x bursts are accepted and there
-              # are also multiple nginx replicas that each limit separately
+              # NOTE: Actually rate limit is a lot higher as 5x bursts are
+              # accepted and there are also multiple nginx replicas that each
+              # limit separately
 
-        # UPLOAD: /api/upload with a large request body
-        # CONNNECTION LIMIT: Limit number of connections for single IP address
-        # RATE LIMIT: Limit network bandwith for very large files
+        # UPLOAD: /api/upload with a large request body and connection limit
+        # request size: Use a large request body size limit
+        # connection limit: Limit number of connections from a single IP address
         - path: /api/upload
           rewriteTarget: /upload
-          limitConnections: 5       # Max 5 connections for single IP address
+          clientMaxBodySize: 100m   # Allow 100 MB file
+          limitConnections: 5       # Max 5 connections from a single IP address
               # NOTE: Actually connection limit is a lot higher as there are
               # multiple nginx replicas that each limit separately
-          clientMaxBodySize: 500m   # Allow 500 MB file
+
+        # DOWNLOAD: /api/download with bandwith and connection limit
+        # rate limit: Limit network bandwith for very large files
+        # connection limit: Limit number of connections from a single IP address
+        - path: /api/download
+          rewriteTarget: /download
           limitRateAfter: 102400    # Start limiting after 100 MB (102400 KB)
           limitRate: 100            # Limit bandwith to 100 KB/s
+          limitConnections: 5       # Max 5 connections from a single IP address
+              # NOTE: Actually connection limit is a lot higher as there are
+              # multiple nginx replicas that each limit separately
 
-        # LONG PROCESSING: /api/process with a large read timeout
+        # LONG PROCESSING: /api/process with a large read timeout and conn limit
+        # read timeout: Allow long processing on server before response is sent
+        # connection limit: Limit number of connections from a single IP address
         - path: /api/process
           rewriteTarget: /process
           readTimeout: 120          # 2 minutes
+          limitConnections: 5       # Max 5 connections from a single IP address
+              # NOTE: Actually connection limit is a lot higher as there are
+              # multiple nginx replicas that each limit separately
 
-        # BASIC AUTH: /api/public with basic auth disabled
-        - path: /api/public
-          rewriteTarget: /public
-          basicAuthEnabled: false
+        # TODO: Sticky sessions example
 
-        # BASIC AUTH: /api/private with path specific basic auth secret
+        # TODO: OAUTH example
+
+        # BASIC AUTH: /api/private with a path specific basic auth secret
+        # IP LIMIT: allow connections from a specific IP only
         - path: /api/private
           rewriteTarget: /private
           basicAuthEnabled: true
           basicAuthHtpasswdSecret: ${taito_project}-${taito_env}-private-auth
+          allowedCidrs: [ "124.124.124.124/32" ]
 
         # MODSECURITY: /api/special with custom modsecurity rules
         # https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual-%28v2.x%29#configuration-directives
