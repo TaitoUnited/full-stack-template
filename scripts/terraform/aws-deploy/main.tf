@@ -34,7 +34,7 @@ module "aws" {
   version = "2.1.6"
 
   # Create flags
-  create_gateway              = true
+  create_ingress              = true
   create_containers           = true
   create_functions            = true
   create_function_permissions = true

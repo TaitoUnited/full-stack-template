@@ -1,7 +1,7 @@
 terraform {
   backend "gcs" {
   }
-  required_version = ">= 0.12"
+  required_version = ">= 0.13"
 }
 
 provider "google" {
@@ -23,30 +23,37 @@ locals {
 
 module "gcp" {
   source  = "TaitoUnited/project-resources/google"
-  version = "2.0.2"
+  version = "2.1.1"
 
   # Create flags
-  create_storage_buckets              = true
-  create_databases                    = true
-  create_in_memory_databases          = true
-  create_topics                       = true
-  create_service_accounts             = true
-  create_uptime_checks                = var.taito_uptime_provider == "gcp"
+  create_build_trigger       = true
+  create_storage_buckets     = true
+  create_databases           = true
+  create_in_memory_databases = true
+  create_topics              = true
+  create_service_accounts    = true
+  create_alert_metrics       = true
+  create_alert_policies      = var.taito_env == "prod"
+  create_uptime_checks       = var.taito_uptime_provider == "gcp"
 
   # Provider
-  project_id              = var.taito_resource_namespace_id
-  region                  = var.taito_provider_region
-  zone                    = var.taito_provider_zone
+  project_id                 = var.taito_resource_namespace_id
+  region                     = var.taito_provider_region
+  zone                       = var.taito_provider_zone
 
   # Labels
-  project                 = var.taito_project
+  project                    = var.taito_project
 
   # Environment info
-  env                     = var.taito_env
+  env                        = var.taito_env
+
+  # Version control info
+  vc_repo                    = "${var.taito_vc_provider}_${var.taito_vc_organization}_${var.taito_vc_repository}"
+  vc_branch                  = var.taito_branch
 
   # Uptime
-  uptime_channels             = local.taito_uptime_channels
+  uptime_channels            = local.taito_uptime_channels
 
   # Additional variables as a json file
-  variables                   = local.variables
+  variables                  = local.variables
 }

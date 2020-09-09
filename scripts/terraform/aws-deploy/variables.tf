@@ -79,12 +79,12 @@ variable "taito_secret_name_path" {
 
 variable "taito_static_assets_bucket" {
   type    = string
-  description = "Storage bucket for static assets (html, css, js). Required if create_gateway is true."
+  description = "Storage bucket for static assets (html, css, js). Required if create_ingress is true."
 }
 
 variable "taito_static_assets_path" {
   type    = string
-  description = "Storage bucket path for static assets (html, css, js). Required if create_gateway is true."
+  description = "Storage bucket path for static assets (html, css, js). Required if create_ingress is true."
 }
 
 variable "taito_functions_bucket" {

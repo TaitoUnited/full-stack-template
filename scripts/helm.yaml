@@ -1,6 +1,9 @@
 # Here you can configure all your Kubernetes resources with a
 # developer-friendly YAML format
 
+# NOTE: See helm/values.yaml for a list of all service attributes
+# and helm/examples.yaml for some examples.
+
 global:
   domain: ${taito_domain}
   url: https://${taito_domain}
@@ -44,8 +47,6 @@ full-stack:
       COMMON_ENV: ${taito_env}
 
   services:
-    # NOTE: See helm/values.yaml for a list of all service attributes
-    # and helm/examples.yaml for some examples.
 
     admin:
       paths:

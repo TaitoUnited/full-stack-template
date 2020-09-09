@@ -1,6 +1,8 @@
 # Here you can configure all your cloud resources (non-Kubernetes resources)
 # with a cloud-agnostic and developer-friendly YAML format
 
+# NOTE: terraform/examples.yaml for some examples.
+
 stack:
   uptimeEnabled: false
   backupEnabled: false

@@ -1,0 +1,12 @@
+# ----------------------------------------------------------
+# Log alerts
+# ----------------------------------------------------------
+
+  alerts:
+    - name: ${taito_project}-${taito_env}-alert-example
+      type: log
+      channels: [ "${taito_messaging_monitoring_channel}" ]
+      rule: >
+        resource.type="k8s_container"
+        resource.labels.namespace_name="${taito_project}-${taito_env}"
+        jsonPayload.message:"Example message"

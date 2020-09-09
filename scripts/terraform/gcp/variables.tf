@@ -34,6 +34,24 @@ variable "taito_domain" {
   type = string
 }
 
+# Version control
+
+variable "taito_vc_provider" {
+  type = string
+}
+
+variable "taito_vc_organization" {
+  type = string
+}
+
+variable "taito_vc_repository" {
+  type = string
+}
+
+variable "taito_branch" {
+  type = string
+}
+
 # Namespaces
 
 variable "taito_namespace" {
