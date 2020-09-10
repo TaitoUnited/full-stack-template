@@ -165,11 +165,6 @@ kubernetes_name=${template_default_kubernetes}
 kubernetes_replicas=1
 kubernetes_db_proxy_enabled=true
 
-# Database plugins
-# set db_create to false (we create databases with Terraform instead)
-postgres_db_create=false
-mysql_db_create=false
-
 # ------ OS specific docker settings ------
 
 if [[ ! ${taito_host_uname} ]]; then
