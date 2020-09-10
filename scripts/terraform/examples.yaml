@@ -11,14 +11,3 @@ settings:
         resource.type="k8s_container"
         resource.labels.namespace_name="${taito_project}-${taito_env}"
         jsonPayload.message:"Example message"
-
-# ----------------------------------------------------------
-# Permissions
-# ----------------------------------------------------------
-
-settings:
-  permissions:
-    statusViewers:
-      - user:john.statusviewer@mydomain.com
-    developers:
-      - user:john.developer@mydomain.com
