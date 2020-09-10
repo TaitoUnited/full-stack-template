@@ -11,7 +11,7 @@ locals {
   taito_uptime_channels = (var.taito_uptime_channels == "" ? [] :
     split(" ", trimspace(replace(var.taito_uptime_channels, "/\\s+/", " "))))
 
-  variables = (
+  resources = (
     fileexists("${path.root}/../../terraform-${var.taito_env}-merged.yaml")
       ? yamldecode(file("${path.root}/../../terraform-${var.taito_env}-merged.yaml"))
       : jsondecode(file("${path.root}/../../terraform-merged.json.tmp"))
@@ -40,6 +40,6 @@ module "azure" {
   # Uptime
   uptime_channels             = local.taito_uptime_channels
 
-  # Additional variables as a json file
-  variables                   = local.variables
+  # Additional resources as a json file
+  resources                   = local.resources
 }

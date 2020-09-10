@@ -22,7 +22,7 @@ provider "aws" {
 }
 
 locals {
-  variables = (
+  resources = (
     fileexists("${path.root}/../../terraform-${var.taito_env}-merged.yaml")
       ? yamldecode(file("${path.root}/../../terraform-${var.taito_env}-merged.yaml"))
       : jsondecode(file("${path.root}/../../terraform-merged.json.tmp"))
@@ -71,6 +71,6 @@ module "aws" {
   function_subnet_ids         = data.aws_subnet_ids.function_subnet_ids.ids
   function_security_group_ids = data.aws_security_groups.function_security_groups.ids
 
-  # Additional variables as a json file
-  variables                   = local.variables
+  # Additional resources as a json file
+  resources                   = local.resources
 }
