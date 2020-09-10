@@ -5,7 +5,7 @@ terraform {
 }
 
 locals {
-  variables = (
+  resources = (
     fileexists("${path.root}/../../terraform-${var.taito_env}-merged.yaml")
       ? yamldecode(file("${path.root}/../../terraform-${var.taito_env}-merged.yaml"))
       : jsondecode(file("${path.root}/../../terraform-merged.json.tmp"))
@@ -14,8 +14,8 @@ locals {
 
 module "namespace_admin" {
   source  = "TaitoUnited/namespace-admin/helm"
-  version = "1.0.0"
+  version = "1.0.1"
 
   namespace                  = var.taito_namespace
-  variables                  = local.variables
+  resources                  = local.resources
 }
