@@ -33,6 +33,7 @@ full-stack:
     basicAuthEnabled: ${taito_basic_auth_enabled}
     basicAuthHtpasswdSecret: ${taito_project}-${taito_env}-basic-auth
     modsecurityEnabled: true
+    serviceAccountRoles: [ "restricted-pod" ]
     # Vertical scaling
     verticalScaleUpdateMode: Off
     # Horizontal scaling
