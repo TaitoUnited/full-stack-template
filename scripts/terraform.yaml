@@ -3,7 +3,7 @@
 
 # NOTE: terraform/examples.yaml for some examples.
 
-stack:
+settings:
   uptimeEnabled: false
   backupEnabled: false
 

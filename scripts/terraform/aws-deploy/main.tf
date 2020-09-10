@@ -26,7 +26,7 @@ locals {
     fileexists("${path.root}/../../terraform-${var.taito_env}-merged.yaml")
       ? yamldecode(file("${path.root}/../../terraform-${var.taito_env}-merged.yaml"))
       : jsondecode(file("${path.root}/../../terraform-merged.json.tmp"))
-  )["stack"]
+  )["settings"]
 }
 
 module "aws" {

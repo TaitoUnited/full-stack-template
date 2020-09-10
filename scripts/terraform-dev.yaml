@@ -1,6 +1,6 @@
 # Overrides for dev environment
 
-stack:
+settings:
   services:
     bucket:
       cors:
