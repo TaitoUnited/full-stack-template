@@ -1,10 +1,7 @@
 terraform {
   backend "s3" {
-    profile = "taitounited"
-    bucket  = "taito-aws-kubeless1-projects"
-    region = "us-east-1"
-    key  = "acme-serverless1/terraform/aws"
   }
+  required_version = ">= 0.13"
 }
 
 provider "aws" {

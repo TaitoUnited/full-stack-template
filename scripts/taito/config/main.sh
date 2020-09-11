@@ -42,7 +42,9 @@ taito_provider_region=${template_default_provider_region}
 taito_provider_zone=${template_default_provider_zone}
 taito_zone=${template_default_zone}
 taito_namespace=$taito_project-$taito_env
-taito_resource_namespace=$taito_organization_abbr-$taito_company-dev
+taito_resource_namespace_prefix=$taito_organization_abbr-$taito_company
+taito_resource_namespace_prefix_sha1sum=TAITO_RESOURCE_NAMESPACE_PREFIX_SHA1SUM
+taito_resource_namespace=$taito_resource_namespace_prefix-dev
 
 # Network
 taito_network_tags='${template_default_network_tags}'
@@ -58,6 +60,11 @@ taito_gateway_policies='${template_default_gateway_policies}'
 # Secrets location
 taito_provider_secrets_location=${template_default_provider_secrets_location}
 taito_cicd_secrets_path=${template_default_cicd_secrets_path}
+
+# Buckets
+taito_state_bucket=${template_default_state_bucket}
+taito_functions_bucket=${template_default_functions_bucket}
+taito_static_assets_bucket=${template_default_public_bucket}
 
 # URLs
 taito_domain=$taito_project-$taito_target_env.${template_default_domain}
@@ -195,7 +202,7 @@ case $taito_env in
     taito_provider_billing_account_id=${template_default_provider_billing_account_id_prod}
     taito_provider_region=${template_default_provider_region_prod}
     taito_provider_zone=${template_default_provider_zone_prod}
-    taito_resource_namespace=$taito_organization_abbr-$taito_company-prod
+    taito_resource_namespace=$taito_resource_namespace_prefix-prod
 
     # Network
     taito_network_tags="${template_default_network_tags_prod}"
@@ -234,6 +241,11 @@ case $taito_env in
       db_database_proxy_ssl_enabled="${template_default_mysql_proxy_ssl_enabled_prod:-true}"
     fi
 
+    # Storages
+    taito_state_bucket=${template_default_state_bucket_prod}
+    taito_functions_bucket=${template_default_functions_bucket_prod}
+    taito_static_assets_bucket=${template_default_public_bucket_prod}
+
     # Storage defaults
     taito_default_storage_class="${template_default_storage_class_prod}"
     taito_default_storage_location="${template_default_storage_location_prod}"
@@ -268,7 +280,7 @@ case $taito_env in
     taito_provider_billing_account_id=${template_default_provider_billing_account_id_prod}
     taito_provider_region=${template_default_provider_region_prod}
     taito_provider_zone=${template_default_provider_zone_prod}
-    taito_resource_namespace=$taito_organization_abbr-$taito_company-prod
+    taito_resource_namespace=$taito_resource_namespace_prefix-prod
 
     # Network
     taito_network_tags="${template_default_network_tags_prod}"
@@ -306,6 +318,11 @@ case $taito_env in
       db_database_ssl_server_cert_enabled="${template_default_mysql_ssl_server_cert_enabled_prod:-false}"
       db_database_proxy_ssl_enabled="${template_default_mysql_proxy_ssl_enabled_prod:-true}"
     fi
+
+    # Storages
+    taito_state_bucket=${template_default_state_bucket_prod}
+    taito_functions_bucket=${template_default_functions_bucket_prod}
+    taito_static_assets_bucket=${template_default_public_bucket_prod}
 
     # Storage defaults
     taito_default_storage_class="${template_default_storage_class_prod}"
@@ -387,11 +404,8 @@ taito_uptime_namespace_id=$taito_zone
 
 # URLs
 taito_app_url=${taito_app_url:-https://$taito_domain}
-taito_state_bucket=$taito_zone-projects
 taito_state_path=state/$taito_project-$taito_env
-taito_functions_bucket=$taito_zone-projects
 taito_functions_path=functions/$taito_project
-taito_static_assets_bucket=$taito_zone-public
 taito_static_assets_path=assets/$taito_project
 taito_cdn_path=$taito_static_assets_path
 if [[ $taito_cdn_domain ]]; then

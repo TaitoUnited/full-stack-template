@@ -10,6 +10,8 @@
 # and env-*.sh.
 ##########################################################################
 
+# --- Cloud ---
+
 case $taito_provider in
   azure)
     taito_plugins="
@@ -132,6 +134,8 @@ case $taito_provider in
     ;;
 esac
 
+# --- Logging ---
+
 taito_logging_provider=${taito_logging_provider:-$taito_provider}
 case $taito_logging_provider in
   azure)
@@ -171,6 +175,8 @@ case $taito_logging_provider in
     ;;
 esac
 
+# --- Monitoring ---
+
 case $taito_uptime_provider in
   azure)
     taito_plugins="${taito_plugins/azure:-local/}"
@@ -207,6 +213,15 @@ case $taito_uptime_provider in
     "
     ;;
 esac
+
+if [[ $taito_plugins == *"sentry"* ]]; then
+  link_urls="
+    ${link_urls}
+    * errors:ENV=https://sentry.io/${sentry_organization}/$taito_project/?query=is%3Aunresolved+environment%3A$taito_target_env Sentry errors (:ENV)
+  "
+fi
+
+# --- CI/CD ---
 
 case $taito_ci_provider in
   azure)
@@ -257,6 +272,8 @@ case $taito_ci_provider in
     ;;
 esac
 
+# --- Version control ---
+
 case $taito_vc_provider in
   bitbucket)
     link_urls="
@@ -282,6 +299,8 @@ case $taito_vc_provider in
     fi
     ;;
 esac
+
+# --- Container registry ---
 
 case $taito_container_registry_provider in
   azure)
@@ -327,7 +346,7 @@ case $taito_container_registry_provider in
     ;;
 esac
 
-# Deployment platforms
+# --- Container orchestration ---
 
 if [[ ${taito_deployment_platforms} == *"kubernetes"* ]] &&
    [[ ${kubernetes_name:-} ]]
@@ -347,13 +366,7 @@ if [[ ${taito_deployment_platforms} == *"docker-compose"* ]]; then
   "
 fi
 
-# Sentry
-if [[ $taito_plugins == *"sentry"* ]]; then
-  link_urls="
-    ${link_urls}
-    * errors:ENV=https://sentry.io/${sentry_organization}/$taito_project/?query=is%3Aunresolved+environment%3A$taito_target_env Sentry errors (:ENV)
-  "
-fi
+# --- Database SSL keys and proxies ---
 
 # Database SSL client key
 if [[ $db_database_ssl_client_cert_enabled == "true" ]]; then
@@ -396,4 +409,18 @@ if [[ ${gcp_db_proxy_enabled} != "true" ]] && (
     # CI/CD has direct VPC access on AWS
     ci_disable_db_proxy="true"
   fi
+fi
+
+# --- Misc env variable mappings ---
+
+if [[ ${taito_provider_secrets_location} == "taito_resource_namespace_id" ]]; then
+  taito_provider_secrets_location="$taito_resource_namespace_id"
+fi
+
+if [[ ${taito_state_bucket} == "taito_resource_namespace_prefix_sha1sum" ]]; then
+  taito_state_bucket="$taito_resource_namespace_prefix_sha1sum"
+fi
+
+if [[ ${taito_functions_bucket} == "taito_resource_namespace_prefix_sha1sum" ]]; then
+  taito_functions_bucket="$taito_resource_namespace_prefix_sha1sum"
 fi
