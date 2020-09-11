@@ -124,7 +124,6 @@ sed -i "s/taito_family=.*/taito_family=${taito_family}/g" scripts/taito/labels.s
 sed -i "s/taito_application=.*/taito_application=${taito_application}/g" scripts/taito/labels.sh
 sed -i "s/taito_suffix=.*/taito_suffix=${taito_suffix}/g" scripts/taito/labels.sh
 sed -i "s/taito_project=.*/taito_project=${taito_vc_repository}/g" scripts/taito/labels.sh
-
 sed -i "s/taito_project=.*/taito_project=${taito_vc_repository}/g" scripts/taito/labels.sh
 sed -i "s/TAITO_RESOURCE_NAMESPACE_PREFIX_SHA1SUM/$(echo "$template_default_organization_abbr-$taito_company" | sha1sum)/g" scripts/taito/config/main.sh
 
@@ -152,6 +151,14 @@ sed -i "s/\${template_default_provider_region}/${template_default_provider_regio
 sed -i "s/\${template_default_provider_region_prod}/${template_default_provider_region_prod:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_provider_zone}/${template_default_provider_zone:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_provider_zone_prod}/${template_default_provider_zone_prod:-}/g" scripts/taito/config/main.sh
+
+# Permissions
+sed -i "s/\${template_default_resource_namespace_owners}/${template_default_resource_namespace_owners:-}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_resource_namespace_owners_prod}/${template_default_resource_namespace_owners_prod:-}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_resource_namespace_editors}/${template_default_resource_namespace_editors:-}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_resource_namespace_editors_prod}/${template_default_resource_namespace_editors_prod:-}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_resource_namespace_viewers}/${template_default_resource_namespace_viewers:-}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_resource_namespace_viewers_prod}/${template_default_resource_namespace_viewers_prod:-}/g" scripts/taito/config/main.sh
 
 sed -i "s|\${template_default_network_tags}|${template_default_network_tags//[$'\t\r\n']}|g" scripts/taito/config/main.sh
 sed -i "s|\${template_default_network_tags_prod}|${template_default_network_tags_prod//[$'\t\r\n']}|g" scripts/taito/config/main.sh

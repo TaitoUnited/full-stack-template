@@ -46,6 +46,11 @@ taito_resource_namespace_prefix=$taito_organization_abbr-$taito_company
 taito_resource_namespace_prefix_sha1sum=TAITO_RESOURCE_NAMESPACE_PREFIX_SHA1SUM
 taito_resource_namespace=$taito_resource_namespace_prefix-dev
 
+# Permissions
+taito_resource_namespace_owners="${template_default_resource_namespace_owners}"
+taito_resource_namespace_editors="${template_default_resource_namespace_editors}"
+taito_resource_namespace_viewers="${template_default_resource_namespace_viewers}"
+
 # Network
 taito_network_tags='${template_default_network_tags}'
 taito_function_subnet_tags='${template_default_function_subnet_tags}'
@@ -204,6 +209,11 @@ case $taito_env in
     taito_provider_zone=${template_default_provider_zone_prod}
     taito_resource_namespace=$taito_resource_namespace_prefix-prod
 
+    # Permissions
+    taito_resource_namespace_owners="${template_default_resource_namespace_owners_prod}"
+    taito_resource_namespace_editors="${template_default_resource_namespace_editors_prod}"
+    taito_resource_namespace_viewers="${template_default_resource_namespace_viewers_prod}"
+
     # Network
     taito_network_tags="${template_default_network_tags_prod}"
     taito_function_subnet_tags="${template_default_function_subnet_tags_prod}"
@@ -281,6 +291,11 @@ case $taito_env in
     taito_provider_region=${template_default_provider_region_prod}
     taito_provider_zone=${template_default_provider_zone_prod}
     taito_resource_namespace=$taito_resource_namespace_prefix-prod
+
+    # Permissions
+    taito_resource_namespace_owners="${template_default_resource_namespace_owners_prod}"
+    taito_resource_namespace_editors="${template_default_resource_namespace_editors_prod}"
+    taito_resource_namespace_viewers="${template_default_resource_namespace_viewers_prod}"
 
     # Network
     taito_network_tags="${template_default_network_tags_prod}"
