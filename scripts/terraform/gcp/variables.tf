@@ -62,6 +62,14 @@ variable "taito_resource_namespace_id" {
   type = string
 }
 
+variable "taito_logging_namespace_id" {
+  type = string
+}
+
+variable "taito_uptime_namespace_id" {
+  type = string
+}
+
 # Storage
 
 variable "taito_storages" {

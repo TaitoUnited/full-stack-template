@@ -415,6 +415,7 @@ fi
 
 # Provider and namespaces
 taito_resource_namespace_id=$taito_resource_namespace
+taito_logging_namespace_id=$taito_zone
 taito_uptime_namespace_id=$taito_zone
 
 # URLs
