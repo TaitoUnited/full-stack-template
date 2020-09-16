@@ -24,7 +24,6 @@ taito_plugins="
 # Project labeling
 taito_organization=${template_default_organization}
 taito_organization_abbr=${template_default_organization_abbr}
-sentry_organization=${template_default_sentry_organization}
 # shellcheck disable=SC1091
 . scripts/taito/labels.sh
 
@@ -85,35 +84,48 @@ taito_host_dir="/projects/$taito_namespace"
 ssh_db_proxy_host="${template_default_bastion_public_ip}"
 ssh_db_proxy_username="ubuntu"
 
-# Version control
+# Version control provider
 taito_vc_provider=${template_default_vc_provider}
 taito_vc_organization=${template_default_vc_organization}
 taito_vc_repository=$taito_project
 taito_vc_repository_url=${template_default_vc_url}/$taito_vc_repository
 
-# CI/CD
+# CI/CD provider
 taito_ci_provider=${template_default_ci_provider}
 taito_ci_organization=${template_default_ci_organization}
 taito_ci_image=${template_default_taito_image}
 taito_ci_cache_all_targets_with_docker=true
 
-# Container registry
+# Container registry provider
 taito_container_registry_provider=${template_default_container_registry_provider}
+taito_container_registry_provider_url=${template_default_container_registry_provider_url}
+taito_container_registry_organization=${template_default_container_registry_organization}
 taito_container_registry=${template_default_container_registry}/$taito_project
 
-# Messaging
+# Uptime monitoring provider
+taito_uptime_provider= # only for prod by default
+taito_uptime_provider_url=${template_default_uptime_provider_url}
+taito_uptime_provider_org_id=${template_default_uptime_provider_org_id}
+# You can list all monitoring channels with `taito env info:ENV`
+taito_uptime_channels="${template_default_uptime_channels}"
+
+# Tracking provider
+taito_tracking_provider=${template_default_tracking_provider}
+taito_tracking_provider_url=${template_default_tracking_provider_url}
+taito_tracking_organization=${template_default_tracking_organization}
+
+# Tracing provider
+taito_tracking_provider=${template_default_tracking_provider}
+taito_tracking_provider_url=${template_default_tracking_provider_url}
+taito_tracking_organization=${template_default_tracking_organization}
+
+# Messaging provider
 taito_messaging_provider=slack
 taito_messaging_webhook=
 taito_messaging_channel=companyname
 taito_messaging_builds_channel=builds
 taito_messaging_critical_channel=critical
 taito_messaging_monitoring_channel=monitoring
-
-# Uptime monitoring
-taito_uptime_provider= # only for prod by default
-taito_uptime_provider_org_id=${template_default_uptime_provider_org_id}
-# You can list all monitoring channels with `taito env info:ENV`
-taito_uptime_channels="${template_default_uptime_channels}"
 
 # Database definitions for database plugins
 # NOTE: database users are defined later in this file
@@ -263,18 +275,35 @@ case $taito_env in
     taito_default_storage_backup_location="${template_default_backup_location_prod}"
     taito_default_storage_backup_days="${template_default_backup_days_prod}"
 
-    # Monitoring
+    # Container registry provider
+    taito_container_registry_provider=${template_default_container_registry_provider_prod}
+    taito_container_registry_provider_url=${template_default_container_registry_provider_url_prod}
+    taito_container_registry_organization=${template_default_container_registry_organization_prod}
+    taito_container_registry=${template_default_container_registry_prod}/$taito_project
+
+    # CI/CD provider
+    taito_ci_provider=${template_default_ci_provider_prod}
+    taito_ci_organization=${template_default_ci_organization_prod}
+
+    # CI/CD settings
+    ci_exec_deploy=${template_default_ci_exec_deploy_prod:-true}
+    ci_exec_release=true
+
+    # Uptime monitoring provider
     taito_uptime_provider=${template_default_uptime_provider_prod}
+    taito_uptime_provider_url=${template_default_uptime_provider_url_prod}
     taito_uptime_provider_org_id=${template_default_uptime_provider_org_id_prod}
     taito_uptime_channels="${template_default_uptime_channels_prod}"
 
-    # CI/CD and repositories
-    taito_container_registry_provider=${template_default_container_registry_provider_prod}
-    taito_container_registry=${template_default_container_registry_prod}/$taito_project
-    taito_ci_provider=${template_default_ci_provider_prod}
-    taito_ci_organization=${template_default_ci_organization_prod}
-    ci_exec_deploy=${template_default_ci_exec_deploy_prod:-true}
-    ci_exec_release=true
+    # Tracking provider
+    taito_tracking_provider=${template_default_tracking_provider_prod}
+    taito_tracking_provider_url=${template_default_tracking_provider_url_prod}
+    taito_tracking_organization=${template_default_tracking_organization_prod}
+
+    # Tracing provider
+    taito_tracking_provider=${template_default_tracking_provider_prod}
+    taito_tracking_provider_url=${template_default_tracking_provider_url_prod}
+    taito_tracking_organization=${template_default_tracking_organization_prod}
 
     # shellcheck disable=SC1091
     if [[ -f scripts/taito/env-prod.sh ]]; then . scripts/taito/env-prod.sh; fi
@@ -346,17 +375,34 @@ case $taito_env in
     taito_default_storage_backup_location="${template_default_backup_location_prod}"
     taito_default_storage_backup_days="${template_default_backup_days_prod}"
 
-    # Monitoring
+    # Container registry provider
+    taito_container_registry_provider=${template_default_container_registry_provider_prod}
+    taito_container_registry_provider_url=${template_default_container_registry_provider_url_prod}
+    taito_container_registry_organization=${template_default_container_registry_organization_prod}
+    taito_container_registry=${template_default_container_registry_prod}/$taito_project
+
+    # CI/CD provider
+    taito_ci_provider=${template_default_ci_provider_prod}
+    taito_ci_organization=${template_default_ci_organization_prod}
+
+    # CI/CD settings
+    ci_exec_deploy=${template_default_ci_exec_deploy_prod:-true}
+
+    # Uptime monitoring provider
     taito_uptime_provider= # only for prod by default
+    taito_uptime_provider_url=${template_default_uptime_provider_url_prod}
     taito_uptime_provider_org_id=${template_default_uptime_provider_org_id_prod}
     taito_uptime_channels="${template_default_uptime_channels_prod}"
 
-    # CI/CD and repositories
-    taito_container_registry_provider=${template_default_container_registry_provider_prod}
-    taito_container_registry=${template_default_container_registry_prod}/$taito_project
-    taito_ci_provider=${template_default_ci_provider_prod}
-    taito_ci_organization=${template_default_ci_organization_prod}
-    ci_exec_deploy=${template_default_ci_exec_deploy_prod:-true}
+    # Tracking provider
+    taito_tracking_provider=${template_default_tracking_provider_prod}
+    taito_tracking_provider_url=${template_default_tracking_provider_url_prod}
+    taito_tracking_organization=${template_default_tracking_organization_prod}
+
+    # Tracing provider
+    taito_tracking_provider=${template_default_tracking_provider_prod}
+    taito_tracking_provider_url=${template_default_tracking_provider_url_prod}
+    taito_tracking_organization=${template_default_tracking_organization_prod}
 
     # shellcheck disable=SC1091
     if [[ -f scripts/taito/env-stag.sh ]]; then . scripts/taito/env-stag.sh; fi

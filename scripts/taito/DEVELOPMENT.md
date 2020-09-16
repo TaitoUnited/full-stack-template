@@ -216,7 +216,7 @@ Add a new migration:
 
 1. Add a new step to migration plan:
 
-    `taito db add: NAME`, for example: `taito db add: role_enum`
+    `taito db add NAME`, for example: `taito db add role_enum`
 
 2. Modify database/deploy/NAME.sql, database/revert/NAME.sql and database/verify/NAME.sql
 

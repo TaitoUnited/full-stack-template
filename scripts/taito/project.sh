@@ -10,7 +10,6 @@
 taito_plugins="
   ${taito_plugins}
   postgres-db sqitch-db
-  sentry
 "
 
 # Environments: In the correct order (e.g. dev test uat stag canary prod)

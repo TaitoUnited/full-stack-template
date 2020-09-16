@@ -214,12 +214,28 @@ case $taito_uptime_provider in
     ;;
 esac
 
-if [[ $taito_plugins == *"sentry"* ]]; then
-  link_urls="
-    ${link_urls}
-    * errors:ENV=https://sentry.io/${sentry_organization}/$taito_project/?query=is%3Aunresolved+environment%3A$taito_target_env Sentry errors (:ENV)
-  "
-fi
+# --- Tracking (errors) ---
+
+case $taito_tracking_provider in
+  sentry)
+    taito_plugins="
+      sentry
+      ${taito_plugins}
+    "
+    link_urls="
+      ${link_urls}
+      * tracking:ENV=${taito_tracking_provider_url:-https://sentry.io}/${sentry_organization}/$taito_project/?query=is%3Aunresolved+environment%3A$taito_target_env Sentry errors (:ENV)
+    "
+    ;;
+esac
+
+# --- Tracing ---
+
+case $taito_tracing_provider in
+  jaeger)
+    # TODO
+    ;;
+esac
 
 # --- CI/CD ---
 
