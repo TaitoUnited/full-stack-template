@@ -69,7 +69,7 @@ full-stack:
     # Path defaults
     basicAuthEnabled: false
     basicAuthHtpasswdSecret:
-    # clientMaxBodySize: 1m
+    clientMaxBodySize: 1k
     # bufferSize: 4k
     # requestBuffering: on
     # connectTimeout: 5
