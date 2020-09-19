@@ -6,9 +6,9 @@ taito_plugins="
   run:-local
   ${taito_plugins}
 "
-run_scripts_location="scripts/linux-provider"
+run_scripts_location="scripts/taito/deploy-docker-compose"
 
-# Set some configuration parameters for scripts/linux-provider scripts
+# Set some configuration parameters for scripts/taito/deploy-docker-compose scripts
 LINUX_SUDO=sudo # NOTE: Put empty value if sudo is not required or allowed
 LINUX_CLIENT_MAX_BODY_SIZE=1m
 

@@ -387,16 +387,16 @@ fi
 
 echo "Removing obsolete provider scripts"
 
-if [[ -d scripts/linux-provider ]] && \
+if [[ -d scripts/taito/deploy-docker-compose ]] && \
    [[ $template_default_provider != "linux" ]] && \
    [[ $template_default_provider_prod != "linux" ]]; then
-  rm -rf scripts/linux-provider
+  rm -rf scripts/taito/deploy-docker-compose
 fi
 
-if [[ -d scripts/custom-provider ]] && \
+if [[ -d scripts/taito/deploy-custom ]] && \
    [[ $template_default_provider != "custom" ]] && \
    [[ $template_default_provider_prod != "custom" ]]; then
-  rm -rf scripts/custom-provider
+  rm -rf scripts/taito/deploy-custom
 fi
 
 if [[ -f docker-compose-remote.yaml ]] && \

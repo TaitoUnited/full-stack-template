@@ -7,7 +7,7 @@ taito_plugins="
   run:-local
   ${taito_plugins}
 "
-run_scripts_location="scripts/custom-provider"
+run_scripts_location="scripts/taito/deploy-docker-compose"
 
 # Do not use Docker, Kubernetes and Helm on remote environments
 taito_plugins="${taito_plugins/docker /docker:local }"

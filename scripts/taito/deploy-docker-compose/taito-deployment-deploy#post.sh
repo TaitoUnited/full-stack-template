@@ -11,7 +11,7 @@
 
 set -e
 
-. "${taito_project_path}/scripts/linux-provider/_config.sh"
+. "${taito_project_path}/scripts/taito/deploy-docker-compose/_config.sh"
 . "${taito_cli_path}/plugins/ssh/util/opts.sh"
 
 image_tag=$1

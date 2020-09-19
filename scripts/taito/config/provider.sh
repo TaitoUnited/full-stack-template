@@ -126,11 +126,13 @@ case $taito_provider in
     ;;
   linux)
     # shellcheck disable=SC1091
-    . scripts/linux-provider/taito-provider-config.sh
+    # TODO: include based on taito_deployment_platforms instead
+    . scripts/taito/deploy-docker-compose/taito-provider-config.sh
     ;;
   custom)
     # shellcheck disable=SC1091
-    . scripts/custom-provider/taito-provider-config.sh
+    # TODO: include based on taito_deployment_platforms instead
+    . scripts/taito/deploy-custom/taito-provider-config.sh
     ;;
 esac
 
