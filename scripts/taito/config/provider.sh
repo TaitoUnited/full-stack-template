@@ -91,7 +91,11 @@ case $taito_provider in
     "
 
     # Kubernetes
-    kubernetes_cluster="gke_${taito_zone}_${taito_provider_region}_${kubernetes_name}"
+    if [[ ${kubernetes_regional} == true ]]; then
+      kubernetes_cluster="gke_${taito_zone}_${taito_provider_region}_${kubernetes_name}"
+    else
+      kubernetes_cluster="gke_${taito_zone}_${taito_provider_zone}_${kubernetes_name}"
+    fi
     kubernetes_user="${kubernetes_cluster}"
 
     # Database

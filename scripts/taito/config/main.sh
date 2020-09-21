@@ -33,22 +33,27 @@ taito_project_icon=$taito_project-dev.${template_default_domain}/favicon.ico
 # Environment mappings
 taito_env=${taito_target_env/canary/prod} # canary -> prod
 
-# Provider and namespaces
+# Cloud provider
 taito_provider=${template_default_provider}
 taito_provider_org_id=${template_default_provider_org_id}
 taito_provider_billing_account_id=${template_default_provider_billing_account_id}
 taito_provider_region=${template_default_provider_region}
 taito_provider_zone=${template_default_provider_zone}
+
+# Taito zone
 taito_zone=${template_default_zone}
+taito_zone_multi_tenant=${template_default_zone_multi_tenant}
+
+# Namespace
 taito_namespace=$taito_project-$taito_env
+
+# Resource namespace (tenant namespace)
+taito_resource_namespace=$taito_zone
 taito_resource_namespace_prefix=$taito_organization_abbr-$taito_company
 taito_resource_namespace_prefix_sha1sum=TAITO_RESOURCE_NAMESPACE_PREFIX_SHA1SUM
-taito_resource_namespace=$taito_resource_namespace_prefix-dev
-
-# Permissions
-taito_resource_namespace_owners="${template_default_resource_namespace_owners}"
-taito_resource_namespace_editors="${template_default_resource_namespace_editors}"
-taito_resource_namespace_viewers="${template_default_resource_namespace_viewers}"
+if [[ $taito_zone_multi_tenant == true ]]; then
+  taito_resource_namespace=$taito_resource_namespace_prefix-dev
+fi
 
 # Network
 taito_network_tags='${template_default_network_tags}'
@@ -186,8 +191,14 @@ ci_exec_revert=false       # revert deployment automatically on fail
 
 # Kubernetes plugin
 kubernetes_name=${template_default_kubernetes}
+kubernetes_regional=${template_default_kubernetes_regional}
 kubernetes_replicas=1
 kubernetes_db_proxy_enabled=true
+
+# Binary authorization
+binauthz_attestor=${template_default_binauthz_attestor}
+binauthz_secret_name=${template_default_binauthz_secret_name}
+binauthz_public_key_id=${template_default_binauthz_public_key_id}
 
 # ------ OS specific docker settings ------
 
@@ -209,22 +220,20 @@ dockerfile=${dockerfile:-Dockerfile}
 
 case $taito_env in
   prod)
-    # Settings
-    kubernetes_replicas=2
-
     # Provider and namespaces
     taito_zone=${template_default_zone_prod}
+    taito_zone_multi_tenant=${template_default_zone_multi_tenant_prod}
     taito_provider=${template_default_provider_prod}
     taito_provider_org_id=${template_default_provider_org_id_prod}
     taito_provider_billing_account_id=${template_default_provider_billing_account_id_prod}
     taito_provider_region=${template_default_provider_region_prod}
     taito_provider_zone=${template_default_provider_zone_prod}
-    taito_resource_namespace=$taito_resource_namespace_prefix-prod
 
-    # Permissions
-    taito_resource_namespace_owners="${template_default_resource_namespace_owners_prod}"
-    taito_resource_namespace_editors="${template_default_resource_namespace_editors_prod}"
-    taito_resource_namespace_viewers="${template_default_resource_namespace_viewers_prod}"
+    # Resource namespace (= tenant namespace)
+    taito_resource_namespace=$taito_zone
+    if [[ $taito_zone_multi_tenant == true ]]; then
+      taito_resource_namespace=$taito_resource_namespace_prefix-prod
+    fi
 
     # Network
     taito_network_tags="${template_default_network_tags_prod}"
@@ -241,9 +250,21 @@ case $taito_env in
     taito_provider_secrets_location=${template_default_provider_secrets_location_prod}
     taito_cicd_secrets_path=${template_default_cicd_secrets_path_prod}
 
-    # Domain and resources
+    # Domain
     taito_cdn_domain=${template_default_cdn_domain_prod}
     taito_host="${template_default_host_prod}"
+
+    # Kubernetes
+    kubernetes_name=${template_default_kubernetes_prod}
+    kubernetes_regional=${template_default_kubernetes_regional_prod}
+    kubernetes_replicas=2
+
+    # Binary authorization
+    binauthz_attestor=${template_default_binauthz_attestor_prod}
+    binauthz_secret_name=${template_default_binauthz_secret_name_prod}
+    binauthz_public_key_id=${template_default_binauthz_public_key_id_prod}
+
+    # Databases
     ssh_db_proxy_host="${template_default_bastion_public_ip_prod}"
     if [[ $db_database_type == "pg" ]]; then
       db_database_real_host="${template_default_postgres_host_prod}"
@@ -309,22 +330,20 @@ case $taito_env in
     if [[ -f scripts/taito/env-prod.sh ]]; then . scripts/taito/env-prod.sh; fi
     ;;
   stag)
-    # Settings
-    kubernetes_replicas=2
-
     # Provider and namespaces
     taito_zone=${template_default_zone_prod}
+    taito_zone_multi_tenant=${template_default_zone_multi_tenant_prod}
     taito_provider=${template_default_provider_prod}
     taito_provider_org_id=${template_default_provider_org_id_prod}
     taito_provider_billing_account_id=${template_default_provider_billing_account_id_prod}
     taito_provider_region=${template_default_provider_region_prod}
     taito_provider_zone=${template_default_provider_zone_prod}
-    taito_resource_namespace=$taito_resource_namespace_prefix-prod
 
-    # Permissions
-    taito_resource_namespace_owners="${template_default_resource_namespace_owners_prod}"
-    taito_resource_namespace_editors="${template_default_resource_namespace_editors_prod}"
-    taito_resource_namespace_viewers="${template_default_resource_namespace_viewers_prod}"
+    # Resource namespace (= tenant namespace)
+    taito_resource_namespace=$taito_zone
+    if [[ $taito_zone_multi_tenant == true ]]; then
+      taito_resource_namespace=$taito_resource_namespace_prefix-prod
+    fi
 
     # Network
     taito_network_tags="${template_default_network_tags_prod}"
@@ -341,11 +360,23 @@ case $taito_env in
     taito_provider_secrets_location=${template_default_provider_secrets_location_prod}
     taito_cicd_secrets_path=${template_default_cicd_secrets_path_prod}
 
-    # Domain and resources
+    # Domain
     taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod}
     taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_prod}
     taito_cdn_domain=${template_default_cdn_domain_prod}
     taito_host="${template_default_host_prod}"
+
+    # Kubernetes
+    kubernetes_name=${template_default_kubernetes_prod}
+    kubernetes_regional=${template_default_kubernetes_regional_prod}
+    kubernetes_replicas=2
+
+    # Binary authorization
+    binauthz_attestor=${template_default_binauthz_attestor_prod}
+    binauthz_secret_name=${template_default_binauthz_secret_name_prod}
+    binauthz_public_key_id=${template_default_binauthz_public_key_id_prod}
+
+    # Databases
     ssh_db_proxy_host="${template_default_bastion_public_ip_prod}"
     if [[ $db_database_type == "pg" ]]; then
       db_database_real_host="${template_default_postgres_host_prod}"

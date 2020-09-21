@@ -139,6 +139,8 @@ sed -i "s/\${template_default_cdn_domain}/${template_default_cdn_domain:-}/g" sc
 sed -i "s/\${template_default_cdn_domain_prod}/${template_default_cdn_domain_prod:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_zone}/${template_default_zone:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_zone_prod}/${template_default_zone_prod:-}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_zone_multi_tenant}/${template_default_zone_multi_tenant:-}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_zone_multi_tenant_prod}/${template_default_zone_multi_tenant_prod:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_provider}/${template_default_provider}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_provider_prod}/${template_default_provider_prod}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_provider_org_id}/${template_default_provider_org_id:-}/g" scripts/taito/config/main.sh
@@ -239,6 +241,17 @@ sed -i "s|\${template_default_container_registry_prod}|${template_default_contai
 
 # Kubernetes
 sed -i "s/\${template_default_kubernetes}/${template_default_kubernetes:-}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_kubernetes_prod}/${template_default_kubernetes_prod:-}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_kubernetes_regional}/${template_default_kubernetes_regional:-}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_kubernetes_regional_prod}/${template_default_kubernetes_regional_prod:-}/g" scripts/taito/config/main.sh
+
+# Binary authorization
+sed -i "s/\${template_default_binauthz_attestor}/${template_default_binauthz_attestor:-}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_binauthz_attestor_prod}/${template_default_binauthz_attestor_prod:-}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_binauthz_secret_name}/${template_default_binauthz_secret_name:-}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_binauthz_secret_name_prod}/${template_default_binauthz_secret_name_prod:-}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_binauthz_public_key_id}/${template_default_binauthz_public_key_id:-}/g" scripts/taito/config/main.sh
+sed -i "s/\${template_default_binauthz_public_key_id_prod}/${template_default_binauthz_public_key_id_prod:-}/g" scripts/taito/config/main.sh
 
 # Postgres
 sed -i "s/\${template_default_postgres}/${template_default_postgres:-}/g" scripts/taito/config/main.sh
