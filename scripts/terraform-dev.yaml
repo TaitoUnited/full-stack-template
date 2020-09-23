@@ -4,5 +4,5 @@ settings:
   services:
     bucket:
       cors:
-        - domain: https://${taito_domain}
-        - domain: http://localhost:9999
+        - origin: https://${taito_domain}
+        - origin: http://localhost:9999
