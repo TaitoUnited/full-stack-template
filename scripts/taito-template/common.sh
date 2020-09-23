@@ -187,24 +187,24 @@ sed -i "s/\${template_default_bastion_public_ip_prod}/${template_default_bastion
 # Uptime provider
 sed -i "s/\${template_default_uptime_provider}/${template_default_uptime_provider:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_uptime_provider_prod}/${template_default_uptime_provider_prod:-}/g" scripts/taito/config/main.sh
-sed -i "s/\${template_default_uptime_provider_url}/${template_default_uptime_provider_url:-}/g" scripts/taito/config/main.sh
-sed -i "s/\${template_default_uptime_provider_url_prod}/${template_default_uptime_provider_url_prod:-}/g" scripts/taito/config/main.sh
+sed -i "s|\${template_default_uptime_provider_url}|${template_default_uptime_provider_url:-}|g" scripts/taito/config/main.sh
+sed -i "s|\${template_default_uptime_provider_url_prod}|${template_default_uptime_provider_url_prod:-}|g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_uptime_provider_org_id}/${template_default_uptime_provider_org_id:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_uptime_provider_org_id_prod}/${template_default_uptime_provider_org_id_prod:-}/g" scripts/taito/config/main.sh
 
 # Tracking provider
 sed -i "s/\${template_default_tracking_provider}/${template_default_tracking_provider:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_tracking_provider_prod}/${template_default_tracking_provider_prod:-}/g" scripts/taito/config/main.sh
-sed -i "s/\${template_default_tracking_provider_url}/${template_default_tracking_provider_url:-}/g" scripts/taito/config/main.sh
-sed -i "s/\${template_default_tracking_provider_url_prod}/
+sed -i "s|\${template_default_tracking_provider_url}|${template_default_tracking_provider_url:-}|g" scripts/taito/config/main.sh
+sed -i "s|\${template_default_tracking_provider_url_prod}|${template_default_tracking_provider_url_prod:-}|g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_tracking_organization}/${template_default_tracking_organization:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_tracking_organization_prod}/${template_default_tracking_organization_prod:-}/g" scripts/taito/config/main.sh
 
 # Tracing provider
 sed -i "s/\${template_default_tracing_provider}/${template_default_tracing_provider:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_tracing_provider_prod}/${template_default_tracing_provider_prod:-}/g" scripts/taito/config/main.sh
-sed -i "s/\${template_default_tracing_provider_url}/${template_default_tracing_provider_url:-}/g" scripts/taito/config/main.sh
-sed -i "s/\${template_default_tracing_provider_url_prod}/
+sed -i "s|\${template_default_tracing_provider_url}|${template_default_tracing_provider_url:-}|g" scripts/taito/config/main.sh
+sed -i "s|\${template_default_tracing_provider_url_prod}|${template_default_tracing_provider_url_prod:-}|g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_tracing_organization}/${template_default_tracing_organization:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_tracing_organization_prod}/${template_default_tracing_organization_prod:-}/g" scripts/taito/config/main.sh
 
@@ -224,8 +224,8 @@ sed -i "s/\${template_default_vc_provider}/${template_default_vc_provider:-}/g" 
 # Container registry
 sed -i "s/\${template_default_container_registry_provider}/${template_default_container_registry_provider:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_container_registry_provider_prod}/${template_default_container_registry_provider_prod:-}/g" scripts/taito/config/main.sh
-sed -i "s/\${template_default_container_registry_provider_url}/${template_default_container_registry_provider_url:-}/g" scripts/taito/config/main.sh
-sed -i "s/\${template_default_container_registry_provider_url_prod}/${template_default_container_registry_provider_url_prod:-}/g" scripts/taito/config/main.sh
+sed -i "s|\${template_default_container_registry_provider_url}|${template_default_container_registry_provider_url:-}|g" scripts/taito/config/main.sh
+sed -i "s|\${template_default_container_registry_provider_url_prod}|${template_default_container_registry_provider_url_prod:-}|g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_container_registry_organization}/${template_default_container_registry_organization:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_container_registry_organization_prod}/${template_default_container_registry_organization_prod:-}/g" scripts/taito/config/main.sh
 sed -i "s|\${template_default_container_registry}|${template_default_container_registry:-}|g" scripts/taito/config/main.sh
