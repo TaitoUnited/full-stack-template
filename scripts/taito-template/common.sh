@@ -152,14 +152,6 @@ sed -i "s/\${template_default_provider_region_prod}/${template_default_provider_
 sed -i "s/\${template_default_provider_zone}/${template_default_provider_zone:-}/g" scripts/taito/config/main.sh
 sed -i "s/\${template_default_provider_zone_prod}/${template_default_provider_zone_prod:-}/g" scripts/taito/config/main.sh
 
-# Permissions
-sed -i "s/\${template_default_resource_namespace_owners}/${template_default_resource_namespace_owners:-}/g" scripts/taito/config/main.sh
-sed -i "s/\${template_default_resource_namespace_owners_prod}/${template_default_resource_namespace_owners_prod:-}/g" scripts/taito/config/main.sh
-sed -i "s/\${template_default_resource_namespace_editors}/${template_default_resource_namespace_editors:-}/g" scripts/taito/config/main.sh
-sed -i "s/\${template_default_resource_namespace_editors_prod}/${template_default_resource_namespace_editors_prod:-}/g" scripts/taito/config/main.sh
-sed -i "s/\${template_default_resource_namespace_viewers}/${template_default_resource_namespace_viewers:-}/g" scripts/taito/config/main.sh
-sed -i "s/\${template_default_resource_namespace_viewers_prod}/${template_default_resource_namespace_viewers_prod:-}/g" scripts/taito/config/main.sh
-
 sed -i "s|\${template_default_network_tags}|${template_default_network_tags//[$'\t\r\n']}|g" scripts/taito/config/main.sh
 sed -i "s|\${template_default_network_tags_prod}|${template_default_network_tags_prod//[$'\t\r\n']}|g" scripts/taito/config/main.sh
 sed -i "s|\${template_default_function_subnet_tags}|${template_default_function_subnet_tags//[$'\t\r\n']}|g" scripts/taito/config/main.sh
