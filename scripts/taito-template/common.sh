@@ -124,7 +124,7 @@ sed -i "s/taito_application=.*/taito_application=${taito_application}/g" scripts
 sed -i "s/taito_suffix=.*/taito_suffix=${taito_suffix}/g" scripts/taito/labels.sh
 sed -i "s/taito_project=.*/taito_project=${taito_vc_repository}/g" scripts/taito/labels.sh
 sed -i "s/taito_project=.*/taito_project=${taito_vc_repository}/g" scripts/taito/labels.sh
-sed -i "s/TAITO_RESOURCE_NAMESPACE_PREFIX_SHA1SUM/$(echo "$template_default_organization_abbr-$taito_company" | sha1sum)/g" scripts/taito/config/main.sh
+sed -i "s/TAITO_RESOURCE_NAMESPACE_PREFIX_SHA1SUM/$(echo "$template_default_organization_abbr-$taito_company" | sha1sum | awk '{print $1;}')/g" scripts/taito/config/main.sh
 
 echo "Replacing template variables with the user specific settings..."
 sed -i "s/\${template_default_environments}/${template_default_environments}/g" scripts/taito/project.sh
