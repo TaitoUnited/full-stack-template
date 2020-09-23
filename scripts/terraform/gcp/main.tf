@@ -63,7 +63,7 @@ locals {
 
 module "gcp" {
   source  = "TaitoUnited/project-resources/google"
-  version = "2.2.2"
+  version = "2.4.2"
 
   create_storage_buckets         = true
   create_databases               = true
@@ -83,7 +83,9 @@ module "gcp" {
   zone                           = var.taito_provider_zone
 
   # Version control
-  vc_repo                        = "${var.taito_vc_provider}_${var.taito_vc_organization}_${var.taito_vc_repository}"
+  vc_provider                    = var.taito_vc_provider
+  vc_organization                = var.taito_vc_organization
+  vc_repository                  = var.taito_vc_repository
   vc_branch                      = var.taito_branch
 
   # CI/CD
