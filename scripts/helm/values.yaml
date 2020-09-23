@@ -26,12 +26,8 @@ global:
   debug: false
 
 full-stack:
+  serviceAccountCreate: true
   networkPolicyEnabled: true
-
-  # These are created with Terraform
-  rbacCreate: false
-  serviceAccountCreate: false
-  podSecurityPolicyCreate: false
 
   persistence:
     enabled: false
