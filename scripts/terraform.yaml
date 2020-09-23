@@ -4,16 +4,28 @@
 # NOTE: terraform/examples.yaml for some examples.
 
 settings:
-  uptimeEnabled: false
   backupEnabled: false
+  uptimeEnabled: false
+  alerts: []
+  apiKeys: []
+
+  serviceAccounts:
+    - id: ${taito_project}-${taito_env}-graphql
+      roles: [] # -graphql roles
+    - id: ${taito_project}-${taito_env}-server
+      roles: [] # -server roles
+    - id: ${taito_project}-${taito_env}-storage
+      roles: [] # -storage roles
 
   ingress:
     class: gateway
-    enabled: true
+    enabled: true # ingress
     createMainDomain: false
     domains:
       - name: ${taito_domain}
-        altName: ${taito_altdomain} # TODO: implement altName support
+        # TODO: implement altDomains support
+        altDomains:
+          - name: ${taito_altdomain}
 
   services:
     admin:
@@ -137,22 +149,25 @@ settings:
       name: ${taito_random_name}-${taito_env}
       location: ${taito_default_storage_location}
       storageClass: ${taito_default_storage_class}
-      cors:
-        - domain: https://${taito_domain}
       # Object lifecycle
-      versioning: true
+      versioningEnabled: true
       versioningRetainDays: ${taito_default_storage_days}
+      lockRetainDays:
+      transitionRetainDays:
+      transitionStorageClass:
+      autoDeletionRetainDays:
+      # Replication (TODO: implement)
+      replicationBucket:
       # Backup (TODO: implement)
       backupRetainDays: ${taito_default_storage_backup_days}
       backupLocation: ${taito_default_storage_backup_location}
+      backupLock:
+      # Cors
+      cors:
+        - origin: https://${taito_domain}
       # User rights
       admins:
         - id: serviceAccount:${taito_project}-${taito_env}-storage@${taito_resource_namespace_id}.iam.gserviceaccount.com
       objectAdmins:
         - id: serviceAccount:${taito_project}-${taito_env}-server@${taito_resource_namespace_id}.iam.gserviceaccount.com
       objectViewers:
-
-  serviceAccounts:
-    - id: ${taito_project}-${taito_env}-graphql
-    - id: ${taito_project}-${taito_env}-server
-    - id: ${taito_project}-${taito_env}-storage

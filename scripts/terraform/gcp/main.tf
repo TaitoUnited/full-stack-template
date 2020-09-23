@@ -14,16 +14,56 @@ locals {
   taito_uptime_channels = (var.taito_uptime_channels == "" ? [] :
     split(" ", trimspace(replace(var.taito_uptime_channels, "/\\s+/", " "))))
 
-  resources = (
+  orig = (
     fileexists("${path.root}/../../terraform-${var.taito_env}-merged.yaml")
       ? yamldecode(file("${path.root}/../../terraform-${var.taito_env}-merged.yaml"))
       : jsondecode(file("${path.root}/../../terraform-merged.json.tmp"))
   )["settings"]
+
+  services = {
+    for key in keys(local.orig.services):
+    key => merge(
+      {
+        # Default values
+        machineType = null
+        name = null
+        location = null
+        storageClass = null
+        cors = []
+        versioningEnabled = null
+        versioningRetainDays = null
+        lockRetainDays = null
+        transitionRetainDays = null
+        transitionStorageClass = null
+        autoDeletionRetainDays = null
+        replicationBucket = null
+        backupRetainDays = null
+        backupLocation = null
+        backupLock = null
+        admins = []
+        objectAdmins = []
+        objectViewers = []
+        replicas = null
+        path = null
+        uptimePath = null
+        timeout = null
+        runtime = null
+        memoryRequest = null
+        secrets = {}
+        env = {}
+        publishers = []
+        subscribers = []
+      },
+      local.orig.services[key]
+    )
+  }
+
+  resources = merge(local.orig, { services = local.services })
 }
 
 module "gcp" {
   source  = "TaitoUnited/project-resources/google"
-  version = "2.2.0"
+  version = "2.2.1"
 
   create_storage_buckets         = true
   create_databases               = true

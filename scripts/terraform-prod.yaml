@@ -1,5 +1,5 @@
 # Overrides for prod environment
 
 settings:
-  uptimeEnabled: true
   backupEnabled: true
+  uptimeEnabled: true

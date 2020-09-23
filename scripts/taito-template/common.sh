@@ -48,7 +48,8 @@ rm LICENSE
 
 # Remove ingress from terraform.yaml if Kubernetes is enabled
 if [[ ${template_default_kubernetes:-} ]] || [[ ${kubernetes_name:-} ]]; then
-  sed -i "/^  ingress:\r*\$/,/^\r*$/d" ./scripts/terraform.yaml
+  sed -i "s/enabled: true # ingress/enabled: false # ingress/g" \
+    ./scripts/terraform.yaml
 fi
 
 ##########################
