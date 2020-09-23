@@ -392,9 +392,9 @@ fi
 
 # Database SSL client key
 if [[ $db_database_ssl_client_cert_enabled == "true" ]]; then
-  db_database_ssl_ca_secret=$db_database_instance-ssl.ca
-  db_database_ssl_cert_secret=$db_database_instance-ssl.cert
-  db_database_ssl_key_secret=$db_database_instance-ssl.key
+  db_database_ssl_ca_secret=$db_database_instance-db-ssl.ca
+  db_database_ssl_cert_secret=$db_database_instance-db-ssl.cert
+  db_database_ssl_key_secret=$db_database_instance-db-ssl.key
   taito_remote_secrets="
     $taito_remote_secrets
     $db_database_ssl_ca_secret:copy/devops
@@ -402,7 +402,7 @@ if [[ $db_database_ssl_client_cert_enabled == "true" ]]; then
     $db_database_ssl_key_secret:copy/devops
   "
 elif [[ $db_database_ssl_server_cert_enabled == "true" ]]; then
-  db_database_ssl_ca_secret=$db_database_instance-ssl.ca
+  db_database_ssl_ca_secret=$db_database_instance-db-ssl.ca
   taito_remote_secrets="
     $taito_remote_secrets
     $db_database_ssl_ca_secret:copy/devops
