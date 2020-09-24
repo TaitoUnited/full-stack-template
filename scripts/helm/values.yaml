@@ -38,6 +38,12 @@ full-stack:
     accessMode: ReadWriteOnce
     size: 8Gi
 
+  ingress:
+    tls: true
+    certManagerEnabled: true
+    oldAcmeCertificate: false
+    oldRewritePolicy: false
+
   serviceDefaults:
     # Basics
     image: # For 3rd party container image

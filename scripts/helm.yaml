@@ -21,8 +21,6 @@ full-stack:
   ingress:
     class: nginx
     namespace: nginx-ingress
-    oldRewritePolicy: false
-    tls: true
     domains:
       - name: ${taito_domain}
         altDomains:
@@ -34,18 +32,11 @@ full-stack:
     basicAuthHtpasswdSecret: ${taito_project}-${taito_env}-basic-auth
     modsecurityEnabled: true
     serviceAccountRoles: [ "taito-restricted-pod" ]
-    # Vertical scaling
-    verticalScaleUpdateMode: Off
     # Horizontal scaling
     replicas: ${kubernetes_replicas}
-    autoscale: false
-    autoscaleCpuPercentage: 70
-    autoscaleMemoryPercentage: 70
     minReplicas: ${kubernetes_replicas}
-    maxReplicas: 5
-    # Env
+    # Environment variables
     env:
-      # Environment variables
       COMMON_ENV: ${taito_env}
 
   services:
