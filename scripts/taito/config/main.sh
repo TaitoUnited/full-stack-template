@@ -498,6 +498,10 @@ taito_resource_namespace_id=$taito_resource_namespace
 taito_ci_namespace_id=$taito_resource_namespace
 taito_logging_namespace_id=$taito_zone
 taito_uptime_namespace_id=$taito_zone
+taito_devops_namespace=devops
+if [[ ${taito_zone_multi_tenant} == true ]]; then
+  taito_devops_namespace="${taito_company}"
+fi
 
 # URLs
 taito_app_url=${taito_app_url:-https://$taito_domain}
