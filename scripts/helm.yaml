@@ -131,12 +131,6 @@ full-stack:
       livenessInitialDelay: 120
       # serviceAccount:
       #   secret: ${taito_project}-${taito_env}-server-serviceaccount.key
-      # Database proxy config
-      db:
-        useProxy: ${gcp_db_proxy_enabled}
-        instance: ${taito_zone}:${taito_provider_region}:${db_database_instance}
-        port: ${db_database_real_port}
-        proxySecret: ${taito_provider_db_proxy_secret}
       secrets:
         DATABASE_SSL_CA: ${db_database_ssl_ca_secret}
         DATABASE_SSL_CERT: ${db_database_ssl_cert_secret}

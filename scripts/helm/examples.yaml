@@ -278,6 +278,19 @@ full-stack:
       ...
 
 # ----------------------------------------------------------
+# Database proxy (GCP cloud sql proxy)
+# ----------------------------------------------------------
+
+  services:
+    server:
+      # Database proxy config
+      db:
+        useProxy: ${gcp_db_proxy_enabled}
+        instance: ${taito_zone}:${taito_provider_region}:${db_database_instance}
+        port: ${db_database_real_port}
+        proxySecret: ${taito_provider_db_proxy_secret}
+
+# ----------------------------------------------------------
 # Sidecars
 # ----------------------------------------------------------
 
