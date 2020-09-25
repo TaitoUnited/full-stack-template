@@ -47,7 +47,7 @@ taito_zone_multi_tenant=${template_default_zone_multi_tenant}
 # Namespace
 taito_namespace=$taito_project-$taito_env
 
-# Resource namespace (tenant namespace)
+# Resource namespace (= tenant namespace)
 taito_resource_namespace=$taito_zone
 taito_resource_namespace_prefix=$taito_organization_abbr-$taito_company
 taito_resource_namespace_prefix_sha1sum=TAITO_RESOURCE_NAMESPACE_PREFIX_SHA1SUM
@@ -191,6 +191,8 @@ ci_exec_release=false      # release build
 ci_exec_revert=false       # revert deployment automatically on fail
 
 # ------ Plugin and provider specific settings ------
+
+taito_deployment_platforms=
 
 # Kubernetes plugin
 kubernetes_name=${template_default_kubernetes}
