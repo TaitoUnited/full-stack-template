@@ -148,7 +148,7 @@ case $taito_logging_provider in
     taito_logging_format=text
     link_urls="
       ${link_urls}
-      * logs:ENV=https://portal.azure.com/#@${taito_provider_org_id}/resource/subscriptions/${taito_provider_billing_account_id}/resourceGroups/${taito_zone}/analytics Logs (:ENV)
+      * logs:ENV=https://portal.azure.com/#@${taito_provider_org_id}/resource/subscriptions/${taito_provider_billing_account_id}/resourceGroups/${taito_logging_namespace_id}/analytics Logs (:ENV)
     "
     ;;
   aws)
@@ -173,7 +173,7 @@ case $taito_logging_provider in
     taito_logging_format=stackdriver
     link_urls="
       ${link_urls}
-      * logs:ENV=https://console.cloud.google.com/logs/viewer?project=$taito_zone&minLogLevel=0&expandAll=false&resource=k8s_container%2Fcluster_name%2F$kubernetes_name%2Fnamespace_name%2F$taito_namespace Logs (:ENV)
+      * logs:ENV=https://console.cloud.google.com/logs/viewer?project=$taito_logging_namespace_id&minLogLevel=0&expandAll=false&resource=k8s_container%2Fcluster_name%2F$kubernetes_name%2Fnamespace_name%2F$taito_namespace Logs (:ENV)
     "
     ;;
   *)
@@ -192,8 +192,8 @@ case $taito_uptime_provider in
     "
     link_urls="
       ${link_urls}
-      * alerts[:ENV]=https://portal.azure.com/#@${taito_provider_org_id}/resource/subscriptions/${taito_provider_billing_account_id}/resourceGroups/${taito_zone}/alerts Alerts (:ENV)
-      * uptime[:ENV]=https://portal.azure.com/#blade/AppInsightsExtension/AvailabilityCuratedFrameBlade/id/%2Fsubscriptions%2F${taito_provider_billing_account_id}%2FresourceGroups%2F${taito_zone}%2Fproviders%2FMicrosoft.Insights%2Fwebtests%2F${taito_project}-${taito_env}-client Uptime monitoring (:ENV)
+      * alerts[:ENV]=https://portal.azure.com/#@${taito_provider_org_id}/resource/subscriptions/${taito_provider_billing_account_id}/resourceGroups/${taito_uptime_namespace_id}/alerts Alerts (:ENV)
+      * uptime[:ENV]=https://portal.azure.com/#blade/AppInsightsExtension/AvailabilityCuratedFrameBlade/id/%2Fsubscriptions%2F${taito_provider_billing_account_id}%2FresourceGroups%2F${taito_uptime_namespace_id}%2Fproviders%2FMicrosoft.Insights%2Fwebtests%2F${taito_project}-${taito_env}-client Uptime monitoring (:ENV)
     "
     ;;
   aws)
@@ -215,7 +215,7 @@ case $taito_uptime_provider in
     "
     link_urls="
       ${link_urls}
-      * uptime[:ENV]=https://console.cloud.google.com/monitoring/uptime?project=$taito_zone Uptime monitoring (:ENV)
+      * uptime[:ENV]=https://console.cloud.google.com/monitoring/uptime?project=$taito_uptime_namespace_id Uptime monitoring (:ENV)
     "
     ;;
 esac
@@ -283,7 +283,7 @@ case $taito_ci_provider in
     "
     link_urls="
       ${link_urls}
-      * builds[:ENV]=https://console.cloud.google.com/cloud-build/builds?project=$taito_zone&query=source.repo_source.repo_name%3D%22${taito_vc_provider}_${taito_vc_organization}_$taito_vc_repository%22 Build logs
+      * builds[:ENV]=https://console.cloud.google.com/cloud-build/builds?project=$taito_ci_namespace_id&query=source.repo_source.repo_name%3D%22${taito_vc_provider}_${taito_vc_organization}_$taito_vc_repository%22 Build logs
     "
     ;;
   local)
