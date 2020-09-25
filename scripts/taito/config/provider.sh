@@ -281,9 +281,11 @@ case $taito_ci_provider in
       ${taito_plugins}
       gcp-ci:-local
     "
+    # TODO: Add support for github app source repo
+    # -> this worked with mirror: &query=source.repo_source.repo_name%3D%22${taito_vc_provider}_${taito_vc_organization}_$taito_vc_repository%22
     link_urls="
       ${link_urls}
-      * builds[:ENV]=https://console.cloud.google.com/cloud-build/builds?project=$taito_ci_namespace_id&query=source.repo_source.repo_name%3D%22${taito_vc_provider}_${taito_vc_organization}_$taito_vc_repository%22 Build logs
+      * builds[:ENV]=https://console.cloud.google.com/cloud-build/builds?project=$taito_ci_namespace_id Build logs
     "
     ;;
   local)
