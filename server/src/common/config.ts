@@ -1,4 +1,5 @@
 import { promises as fsPromises } from 'fs';
+import { isIP } from 'net';
 import aws from 'aws-sdk';
 const awsParamStore = new aws.SSM();
 
@@ -132,6 +133,29 @@ export const getSecrets = async () => {
     secrets = s;
   }
   return secrets;
+};
+
+export const getDatabaseSSL = (config: any, secrets: any) => {
+  const ssl = config.DATABASE_SSL_ENABLED && config.DATABASE_SSL_CLIENT_CERT_ENABLED
+    ? {
+        ca: secrets.DATABASE_SSL_CA,
+        cert: secrets.DATABASE_SSL_CERT,
+        key: secrets.DATABASE_SSL_KEY,
+      }
+    : config.DATABASE_SSL_ENABLED &&
+      config.DATABASE_SSL_SERVER_CERT_ENABLED
+    ? {
+        ca: secrets.DATABASE_SSL_CA,
+      }
+    : config.DATABASE_SSL_ENABLED
+    ? { }
+    : false;
+
+  return isIP(config.DATABASE_HOST) ? {
+    ...ssl,
+    // checkServerIdentity -> Skip hostname check (allow IP address)
+    checkServerIdentity: () => undefined,
+  } : ssl;
 };
 
 export default config;

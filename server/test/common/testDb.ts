@@ -1,4 +1,5 @@
 import pgpInit, { IDatabase } from 'pg-promise';
+import { getDatabaseSSL } from '../../src/common/config';
 import getTestConfig from './testConfig';
 
 let testDb: IDatabase<Record<string, unknown>> | null = null;
@@ -22,23 +23,7 @@ const getTestDb = async () => {
       user: testConfig.DATABASE_USER,
       password: testConfig.DATABASE_PASSWORD,
       poolSize: testConfig.DATABASE_POOL_MAX,
-      ssl:
-        testConfig.DATABASE_SSL_ENABLED &&
-        testConfig.DATABASE_SSL_CLIENT_CERT_ENABLED
-          ? {
-              ca: testConfig.DATABASE_SSL_CA,
-              cert: testConfig.DATABASE_SSL_CERT,
-              key: testConfig.DATABASE_SSL_KEY,
-            }
-          : // TODO: enable once it works with AWS CI/CD
-          // : testConfig.DATABASE_SSL_ENABLED &&
-          //   testConfig.DATABASE_SSL_SERVER_CERT_ENABLED
-          // ? {
-          //     ca: testConfig.DATABASE_SSL_CA,
-          //   }
-          testConfig.DATABASE_SSL_ENABLED
-          ? { rejectUnauthorized: false }
-          : false,
+      ssl: getDatabaseSSL(testConfig, testConfig),
     };
 
     testDb = pgp(cn);
