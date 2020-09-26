@@ -22,8 +22,14 @@ elif [[ $taito_env == "dev" ]] || [[ $taito_env == "f-"* ]]; then
     # Export test secrets to disk
     # NOTE: Add all secrets required by test runs here. Remember to add them
     # also to docker-compose-test.yaml secret definitions.
-    echo "testing.sh: Export secrets for testing"
+    echo
+    echo "----------------------------------------------------"
+    echo "scripts/taito/testing.sh: Export secrets for testing"
+    echo "----------------------------------------------------"
     taito secret export:$taito_env $db_database_mgr_secret
+    taito secret export:$taito_env $db_database_ssl_ca_secret
+    taito secret export:$taito_env $db_database_ssl_cert_secret
+    taito secret export:$taito_env $db_database_ssl_key_secret
   fi
 fi
 
