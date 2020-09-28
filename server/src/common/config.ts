@@ -151,7 +151,8 @@ export const getDatabaseSSL = (config: any, secrets: any) => {
       ? {}
       : false;
 
-  return isIP(config.DATABASE_HOST)
+  return isIP(config.DATABASE_HOST) ||
+    config.DATABASE_HOST.indexOf('proxy') !== -1
     ? {
         ...ssl,
         // checkServerIdentity -> Skip hostname check (allow IP address)

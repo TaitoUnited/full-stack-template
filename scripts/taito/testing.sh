@@ -47,7 +47,7 @@ test_all_DATABASE_PORT=$db_database_real_port
 test_all_DATABASE_SSL_CLIENT_CERT_ENABLED=${db_database_ssl_client_cert_enabled}
 test_all_DATABASE_SSL_SERVER_CERT_ENABLED=${db_database_ssl_server_cert_enabled}
 test_all_DATABASE_NAME=$db_database_name
-test_all_DATABASE_USER=$db_database_mgr_username
+test_all_DATABASE_USER=${db_database_mgr_username:-$db_database_app_username}
 if [[ "$taito_target_env" == "local" ]]; then
   # On local env we connect directly to the local database
   test_all_DATABASE_HOST=$taito_project-database
