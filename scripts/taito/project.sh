@@ -56,6 +56,7 @@ taito_remote_secrets="
   $taito_project-$taito_env-storage-serviceaccount.key:file
   $db_database_viewer_secret:random
   ${db_database_mgr_secret}${taito_cicd_secrets_path}:random
+  cicd-tester-serviceaccount.key:read/$taito_devops_namespace
 "
 
 taito_secrets="

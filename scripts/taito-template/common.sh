@@ -80,10 +80,16 @@ then
 fi
 
 if [[ -f docker-compose-test.yaml ]] && \
-   [[ $template_default_provider != "gcp" ]] && \
-   [[ $template_default_provider_prod != "gcp" ]]
+   [[ $template_default_provider != "gcp" ]]
 then
   sed -i '/GOOGLE_/d' docker-compose-test.yaml
+  sed -i '/CICD_TESTER_SERVICEACCOUNT_KEY/d' docker-compose-test.yaml
+  sed -i '/cicd-tester-serviceaccount/d' docker-compose-test.yaml
+fi
+
+if [[ $template_default_provider != "gcp" ]]; then
+  sed -i '/cicd-tester-serviceaccount/d' scripts/taito/project.sh 2> /dev/null || :
+  sed -i '/cicd-tester-serviceaccount/d' scripts/taito/testing.sh 2> /dev/null || :
 fi
 
 # Currently network policy supported only for gcp (database host is static IP)

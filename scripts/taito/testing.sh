@@ -26,6 +26,7 @@ elif [[ $taito_env == "dev" ]] || [[ $taito_env == "f-"* ]]; then
     echo "----------------------------------------------------"
     echo "scripts/taito/testing.sh: Export secrets for testing"
     echo "----------------------------------------------------"
+    taito secret export:$taito_env cicd-tester-serviceaccount
     taito secret export:$taito_env $db_database_mgr_secret
     taito secret export:$taito_env $db_database_ssl_ca_secret
     taito secret export:$taito_env $db_database_ssl_cert_secret
