@@ -20,9 +20,9 @@ steps:
   name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: 'bash'
   env:
-    - branch_name=$BRANCH_NAME
     - build_id=$BUILD_ID
-    - full_repo_name=$_REPO_NAME
+    - repo_name=$_REPO_NAME
+    - branch_name=$BRANCH_NAME
   args:
   - '-c'
   - |
@@ -33,10 +33,8 @@ steps:
       --format="table[no-heading](id)" \
       --ongoing \
       --filter=" \
-        source.repoSource.repoName~.*$${full_repo_name} AND ( \
-          source.repoSource.branchName:$${branch_name} OR \
-          substitutions.BRANCH_NAME:$${branch_name} \
-        )" | \
+        substitutions._REPO_NAME='$${repo_name}' AND \
+        substitutions.BRANCH_NAME='$${branch_name}'" | \
       grep -v "$${build_id}" | \
       xargs gcloud builds cancel 2> /dev/null || :
 
