@@ -421,17 +421,23 @@ fi
 # Remove database SSL keys if they are not required
 if [[ ${template_default_postgres_ssl_enabled} != "true" ]] ||
    [[ ${template_default_postgres_ssl_client_cert_enabled} != "true" ]]; then
-  sed -i '/DATABASE_SSL_CERT/d' ./docker-compose-test.yaml
-  sed -i '/database_ssl_cert/d' ./docker-compose-test.yaml
+  if [[ -f docker-compose-test.yaml ]]; then
+    sed -i '/DATABASE_SSL_CERT/d' ./docker-compose-test.yaml
+    sed -i '/database_ssl_cert/d' ./docker-compose-test.yaml
+  fi
   sed -i '/database_ssl_cert/d' ./scripts/taito/testing.sh
-  sed -i '/DATABASE_SSL_KEY/d' ./docker-compose-test.yaml
-  sed -i '/database_ssl_key/d' ./docker-compose-test.yaml
+  if [[ -f docker-compose-test.yaml ]]; then
+    sed -i '/DATABASE_SSL_KEY/d' ./docker-compose-test.yaml
+    sed -i '/database_ssl_key/d' ./docker-compose-test.yaml
+  fi
   sed -i '/database_ssl_key/d' ./scripts/taito/testing.sh
 fi
 if [[ ${template_default_postgres_ssl_enabled} != "true" ]] ||
    [[ ${template_default_postgres_ssl_server_cert_enabled} != "true" ]]; then
-  sed -i '/DATABASE_SSL_CA/d' ./docker-compose-test.yaml
-  sed -i '/database_ssl_ca/d' ./docker-compose-test.yaml
+  if [[ -f docker-compose-test.yaml ]]; then
+    sed -i '/DATABASE_SSL_CA/d' ./docker-compose-test.yaml
+    sed -i '/database_ssl_ca/d' ./docker-compose-test.yaml
+  fi
   sed -i '/database_ssl_ca/d' ./scripts/taito/testing.sh
 fi
 
