@@ -10,6 +10,10 @@
     <!-- TODO: avoid unsafe-inline by setting nonce for all styles -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' <%= htmlWebpackPlugin.options.assetsDomain %>; style-src 'self' <%= htmlWebpackPlugin.options.assetsDomain %> fonts.googleapis.com 'unsafe-inline'; font-src 'self' <%= htmlWebpackPlugin.options.assetsDomain %> fonts.googleapis.com fonts.gstatic.com;">
 
+    <!-- Disable cache for index.html -->
+    <meta http-equiv="Cache-control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+
     <title><%= htmlWebpackPlugin.options.title %></title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />
