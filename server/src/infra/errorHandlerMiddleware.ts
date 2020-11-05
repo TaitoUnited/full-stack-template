@@ -2,6 +2,16 @@ import * as Sentry from '@sentry/node';
 import { Boom } from '@hapi/boom';
 import { Context } from 'koa';
 
+const unexpectedErrorMessage = 'Unexpected error while handling request';
+
+const getErrorBody = (status, message) => {
+  return {
+    error: {
+      message: status < 500 ? message : unexpectedErrorMessage,
+    },
+  };
+};
+
 export default async function errorHandlerMiddleware(
   ctx: Context,
   next: () => Promise<void>
@@ -17,20 +27,14 @@ export default async function errorHandlerMiddleware(
     if (err.expose) {
       // Koa ctx.throw
       ctx.response.status = err.status;
-      ctx.response.body = {
-        error: {
-          message: err.message,
-        },
-      };
+      ctx.response.body = getErrorBody(ctx.response.status, err.message);
       return;
     }
 
     if (err.isBoom) {
       // Boom errors are controlled errors
       ctx.response.status = err.output.statusCode;
-      ctx.response.body = {
-        error: err.output.payload,
-      };
+      ctx.response.body = getErrorBody(ctx.response.status, err.output.payload);
       ctx.response.set(err.output.headers);
       return;
     }
@@ -38,14 +42,14 @@ export default async function errorHandlerMiddleware(
     if (err.isJoi) {
       // Joi errors are controlled errors
       ctx.response.status = err.status;
-      ctx.response.body = { error: { message: err.message } };
+      ctx.response.body = getErrorBody(ctx.response.status, err.message);
       return;
     }
 
     // Uncontrolled (unexpected) error stack trace is logged and
     // they are sent to Sentry if enabled
     ctx.response.status = 500;
-    ctx.response.body = { error: { message: err.message } };
+    ctx.response.body = getErrorBody(500, err.message);
     ctx.state.log.error({ err }, 'Unexpected error while handling request');
     Sentry.captureException(err);
   }
