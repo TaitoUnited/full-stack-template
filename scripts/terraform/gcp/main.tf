@@ -63,7 +63,7 @@ locals {
 
 module "gcp" {
   source  = "TaitoUnited/project-resources/google"
-  version = "2.4.2"
+  version = "2.5.1"
 
   create_storage_buckets         = true
   create_databases               = true
@@ -94,9 +94,7 @@ module "gcp" {
 
   # Log monitoring
   create_log_alert_metrics       = var.taito_logging_provider == "gcp"
-  create_log_alert_policies      = (
-    var.taito_logging_provider == "gcp" && var.taito_env == "prod"
-  )
+  create_log_alert_policies      = var.taito_logging_provider == "gcp"
   log_alert_project_id           = var.taito_logging_namespace_id
 
   # Uptime monitoring
