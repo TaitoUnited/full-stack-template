@@ -34,6 +34,13 @@ elif [[ $taito_env == "dev" ]] || [[ $taito_env == "f-"* ]]; then
   fi
 fi
 
+# Environment
+test_all_TEST_ENV=$taito_env
+test_all_TEST_ENV_REMOTE=true
+if [[ $taito_env == "local" ]]; then
+  test_all_TEST_ENV_REMOTE=false
+fi
+
 # Database connection
 if [[ $taito_mode == "ci" ]] && [[ ${ci_disable_db_proxy} == "true" ]]; then
   test_all_DATABASE_HOST=${database_real_host:-$database_host}
