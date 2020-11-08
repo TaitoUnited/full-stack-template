@@ -64,6 +64,7 @@ full-stack:
     graphql:
       paths:
         - path: /graphql
+          clientMaxBodySize: 1m
       env:
         BASE_PATH: /graphql
         GRAPHQL_PORT: '8080'
@@ -114,6 +115,7 @@ full-stack:
     server:
       paths:
         - path: /api
+          clientMaxBodySize: 1m
       egress:
         - ip: '${db_database_real_host}/32'
         - fullname: ${taito_project}-${taito_env}-kafka
