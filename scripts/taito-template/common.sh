@@ -48,9 +48,16 @@ rm LICENSE
 
 # Remove ingress from terraform.yaml if Kubernetes is enabled
 if [[ ${template_default_kubernetes:-} ]] || [[ ${kubernetes_name:-} ]]; then
-  sed -i "s/enabled: true # ingress/enabled: false # ingress/g" \
-    ./scripts/terraform.yaml
+  sed -i "/^  ingress:\r*\$/,/^\r*$/d" ./scripts/terraform.yaml
 fi
+
+# Remove empty attributes from terraform.yaml
+sed -i '/^  [^[:space:]]*:$/!b;N;/:\n$/d' ./scripts/terraform.yaml
+sed -i '/^  [^[:space:]]*:$/!b;N;/:\n$/d' ./scripts/terraform-dev.yaml
+sed -i '/^  [^[:space:]]*:$/!b;N;/:\n$/d' ./scripts/terraform-prod.yaml
+sed -i '/^# END$/d' ./scripts/terraform.yaml
+sed -i '/^# END$/d' ./scripts/terraform-dev.yaml
+sed -i '/^# END$/d' ./scripts/terraform-prod.yaml
 
 ##########################
 # Prune provider settings

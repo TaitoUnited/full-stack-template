@@ -171,3 +171,5 @@ settings:
       objectAdmins:
         - id: serviceAccount:${taito_project}-${taito_env}-server@${taito_resource_namespace_id}.iam.gserviceaccount.com
       objectViewers:
+
+# END
