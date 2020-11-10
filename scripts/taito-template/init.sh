@@ -379,8 +379,8 @@ if [[ ${template_default_kubernetes} ]] || [[ ${kubernetes_name} ]]; then
   # (most likely not required for storage access with kubernetes)
   sed -i '/$taito_project-$taito_env-graphql/d' ./scripts/taito/project.sh
   sed -i '/$taito_project-$taito_env-server/d' ./scripts/taito/project.sh
-  sed -i '/${taito_project}-${taito_env}-graphql/d' ./scripts/terraform.yaml
-  sed -i '/${taito_project}-${taito_env}-server/d' ./scripts/terraform.yaml
+  sed -i '/-graphql/d' ./scripts/terraform.yaml
+  sed -i '/-server/d' ./scripts/terraform.yaml
 else
   # Remove helm.yaml since kubernetes is disabled
   rm -f ./scripts/helm*.yaml
@@ -401,7 +401,7 @@ else
   # Remove storage service account
   # (most likely not required for storage access with serverless)
   sed -i '/$taito_project-$taito_env-storage/d' ./scripts/taito/project.sh
-  sed -i '/${taito_project}-${taito_env}-storage/d' ./scripts/terraform.yaml
+  sed -i '-storage/d' ./scripts/terraform.yaml
 fi
 
 if [[ ${taito_provider} != "aws" ]]; then
