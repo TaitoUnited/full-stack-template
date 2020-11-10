@@ -255,12 +255,13 @@ full-stack:
   # ENABLE PERSISTENCE
   persistence:
     enabled: true
-    # a) Either use an existing disk:
+    # a) Either use an existing volume claim:
     existingClaim: existing-pvc
-    # b) Or create new:
+    # b) Or create new volume claim:
     accessMode: ReadWriteOnce # NOTE: GCP does not support ReadWriteMany
     size: 4Gi
     storageClass: fast
+    # volumeName: existing-volume (optional)
 
   # INIT FILE PERMISSIONS, USE THE DISK
   services:
@@ -269,7 +270,7 @@ full-stack:
       # Avoid duplicate mount errors by using Recreate instead of RollingUpdate
       strategyType: Recreate
       # Give volume write permissions for root(0) group
-      fsGroup: '0'
+      fsGroup: 0
       initCommand: 'chmod g+w /data/db'
       # Mount /data/db and /data/backup to the external disk
       persistentVolumeMounts:
