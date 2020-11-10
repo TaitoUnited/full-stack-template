@@ -16,6 +16,10 @@ taito_family=
 taito_application=template
 taito_suffix=
 
+# Namespace
+taito_namespace=full-stack-template-$taito_env
+
+# Database defaults
 taito_default_db_type=pg
 
 # Template

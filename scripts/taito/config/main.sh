@@ -44,9 +44,6 @@ taito_provider_zone=${template_default_provider_zone}
 taito_zone=${template_default_zone}
 taito_zone_multi_tenant=${template_default_zone_multi_tenant}
 
-# Namespace
-taito_namespace=$taito_project-$taito_env
-
 # Resource namespace (= tenant namespace)
 taito_resource_namespace=$taito_zone
 taito_resource_namespace_prefix=$taito_organization_abbr-$taito_company
