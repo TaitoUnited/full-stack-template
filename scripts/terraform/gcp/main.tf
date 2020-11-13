@@ -63,7 +63,7 @@ locals {
 
 module "gcp" {
   source  = "TaitoUnited/project-resources/google"
-  version = "2.5.1"
+  version = "3.0.0"
 
   create_storage_buckets         = true
   create_databases               = true
