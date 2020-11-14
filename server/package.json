@@ -23,7 +23,7 @@
     "koa-qs": "^3.0.0",
     "lodash": "^4.17.15",
     "mustache": "^4.0.1",
-    "pg-promise": "^10.5.7",
+    "pg-promise": "^10.7.4",
     "serverless-http": "^2.5.0",
     "showdown": "^1.9.1",
     "stack-trace": "0.0.10",
