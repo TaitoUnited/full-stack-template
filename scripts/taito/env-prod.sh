@@ -24,3 +24,6 @@ if [[ $taito_target_env == "canary" ]]; then
   taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod}
   taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_prod}
 fi
+
+# Temporarily allow building hotfix to prod by setting this to true
+ci_exec_build=false
