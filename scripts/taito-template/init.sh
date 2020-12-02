@@ -88,9 +88,11 @@ function prune () {
     sed -i "/^    $name:\r*\$/,/^\r*$/d" ./scripts/helm.yaml
     sed -i "/-$name$/d" ./scripts/helm.yaml
     sed -i "/^    $terraform_name:\r*\$/,/^\r*$/d" ./scripts/terraform.yaml
-    sed -i "/^    $terraform_name:\r*\$/,/^\r*$/d" ./scripts/terraform-dev.yaml
     sed -i "/-$terraform_name$/d" ./scripts/terraform.yaml
-    sed -i "/-$terraform_name$/d" ./scripts/terraform-dev.yaml
+    if [[ -f ./scripts/terraform-dev.yaml ]]; then
+      sed -i "/^    $terraform_name:\r*\$/,/^\r*$/d" ./scripts/terraform-dev.yaml
+      sed -i "/-$terraform_name$/d" ./scripts/terraform-dev.yaml
+    fi
 
     sed -i "s/ $name / /" scripts/taito/project.sh
     sed -i "s/ \\/$name\\/uptimez / /" scripts/taito/project.sh
