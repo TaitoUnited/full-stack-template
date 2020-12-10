@@ -362,7 +362,7 @@ export default function createApiDocumentation(options: ApiDocOptions): string {
             key,
             type: key === 'body' ? input.type : null,
             value: JSON.stringify(
-              schemaToObject(Joi.describe(input[key])),
+              schemaToObject(input[key].describe()),
               null,
               2
             ),
@@ -374,7 +374,7 @@ export default function createApiDocumentation(options: ApiDocOptions): string {
             .map((key) => ({
               key,
               value: JSON.stringify(
-                schemaToObject(Joi.describe(output[status][key])),
+                schemaToObject(output[status][key].describe()),
                 null,
                 2
               ),

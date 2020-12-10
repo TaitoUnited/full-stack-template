@@ -3,7 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const WebappWebpackPlugin = require('webapp-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
@@ -83,14 +83,7 @@ module.exports = function(env, argv) {
         filename: isProd ? '[name].[contenthash].css' : '[name].css',
       }),
 
-      new WebappWebpackPlugin({
-        /* TODO:
-         * At the moment there is a bug where the generated png icon
-         * will have an ugly grey border around it but it should be fixed
-         * as soon as `webapp-webpack-plugin` updates it's dependency of
-         * https://github.com/haydenbleasel/favicons
-         * So keep an eye on updates for `webapp-webpack-plugin` !!!
-         */
+      new FaviconsWebpackPlugin({
         logo: path.resolve(__dirname, PWA_ICON_DIR),
         cache: true, // Make builds faster
         prefix: 'assets/', // Where to put pwa icons, manifests, etc.

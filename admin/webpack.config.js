@@ -4,7 +4,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const WebappWebpackPlugin = require('webapp-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 
@@ -74,7 +74,7 @@ module.exports = function(env, argv) {
         filename: isProd ? '[name].[contenthash].css' : '[name].css',
       }),
 
-      new WebappWebpackPlugin({
+      new FaviconsWebpackPlugin({
         logo: path.resolve(__dirname, ICON_DIR),
         cache: true, // Make builds faster
         prefix: 'assets/', // Where to put pwa icons, manifests, etc.

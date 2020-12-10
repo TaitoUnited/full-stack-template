@@ -4,7 +4,7 @@ import { Context } from 'koa';
 
 const unexpectedErrorMessage = 'Unexpected error while handling request';
 
-const getErrorBody = (status, message) => {
+const getErrorBody = (status: any, message: any) => {
   return {
     error: {
       message: status < 500 ? message : unexpectedErrorMessage,
