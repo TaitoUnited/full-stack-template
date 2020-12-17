@@ -115,7 +115,7 @@ services:
   full-stack-template-server:
     container_name: full-stack-template-server
     build:
-      context: ./server
+      context: ./alternatives/server-django
       dockerfile: ${dockerfile}
     restart: unless-stopped
     networks:
@@ -129,8 +129,8 @@ services:
       - "/develop/node_modules"
     secrets:
       - DATABASE_PASSWORD
-      - REDIS_PASSWORD
-      - EXAMPLE_SECRET
+      # - REDIS_PASSWORD
+      # - EXAMPLE_SECRET
     environment:
       # Paths and bind
       BASE_PATH: /api
@@ -268,10 +268,6 @@ services:
 secrets:
   DATABASE_PASSWORD:
     file: ./secrets/${taito_env}/${db_database_app_secret}
-  REDIS_PASSWORD:
-    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-redis.password
-  EXAMPLE_SECRET:
-    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-example.secret
 
 networks:
   default:
