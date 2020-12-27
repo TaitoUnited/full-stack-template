@@ -1,16 +1,9 @@
-from django.db import modelsz
+from django.db import models
 
 class Posts(models.Model):
-    id = models.TextField()
-    license = models.TextField()
-    license = models.TextField()
-    license = models.TextField()
-    license = models.TextField()
-    license = models.TextField()
-    license = models.TextField()
-    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-    created_at timestamp with time zone NOT NULL DEFAULT current_timestamp,
-    updated_at timestamp with time zone NOT NULL DEFAULT current_timestamp,
-    subject text NOT NULL,
-    content text NOT NULL,
-    author text NOT NULL
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True) 
+    updated_at = models.DateTimeField(auto_now=True)
+    subject = models.TextField()
+    content = models.TextField()
+    author = models.TextField()
