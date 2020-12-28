@@ -167,7 +167,8 @@ services:
       BUCKET_BROWSE_URL: http://localhost:9729/bucket   # TODO
       BUCKET_DOWNLOAD_URL: http://localhost:9729/bucket # TODO
       BUCKET_KEY_ID: minio
-      BUCKET_KEY_SECRET: ${taito_default_password}
+      # BUCKET_KEY_SECRET: ${taito_default_password}
+      BUCKET_KEY_SECRET: secret1234
       BUCKET_FORCE_PATH_STYLE: 'true'
 
   full-stack-template-www:

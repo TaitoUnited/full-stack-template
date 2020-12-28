@@ -1,5 +1,12 @@
 from pydantic.dataclasses import dataclass
-from .common import DBItem
+# from .common import DBItem
+
+
+@dataclass
+class DBItem:
+    created_at: datetime
+    id: UUID
+    updated_at: datetime
 
 
 @dataclass
