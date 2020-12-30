@@ -59,8 +59,8 @@ class Config:
     BUCKET_REGION = _config['BUCKET_REGION']
     BUCKET_BUCKET = _config['BUCKET_BUCKET']
     BUCKET_KEY_ID = _config['BUCKET_KEY_ID']
+    BUCKET_KEY_SECRET = _config['BUCKET_KEY_SECRET']
     # BUCKET_KEY_SECRET = read_secret('BUCKET_KEY_SECRET')
-    BUCKET_KEY_SECRET = 'BUCKET_KEY_SECRET'
     BUCKET_FORCE_PATH_STYLE = bool(_config['BUCKET_FORCE_PATH_STYLE'])
 
     # Logging
