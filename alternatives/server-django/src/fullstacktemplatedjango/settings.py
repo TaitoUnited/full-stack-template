@@ -11,7 +11,16 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+
 from .config import Config
+from .log import CustomisedJSONFormatter
+
+
+def exclude_paths(record):
+    if any(map(record.args[0].lower().__contains__, ['uptimez', 'healthz'])):
+      return False
+    return True
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -70,6 +79,40 @@ TEMPLATES = [
         },
     },
 ]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'exclude_paths': {
+            '()': 'django.utils.log.CallbackFilter',
+            'callback': exclude_paths
+        }
+    },
+    'formatters': {
+        'django.server': {
+            '()': CustomisedJSONFormatter,
+            # '()': 'json_log_formatter.JSONFormatter',
+            # '()': 'django.utils.log.ServerFormatter',
+            # 'format': '[%(server_time)s] %(message)s'
+        }
+    },
+    'handlers': {
+        'django.server': {
+            'level': 'INFO',
+            'filters': ['exclude_paths'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'django.server'
+        }
+    },
+    'loggers': {
+        'django.server': {
+            'handlers': ['django.server'],
+            'level': 'INFO',
+            'propagate': False
+        }
+    }
+}
 
 WSGI_APPLICATION = 'fullstacktemplatedjango.wsgi.application'
 
