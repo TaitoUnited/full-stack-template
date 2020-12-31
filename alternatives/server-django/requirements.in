@@ -2,6 +2,7 @@ django
 psycopg2-binary
 django-cors-headers
 djangorestframework
+JSON-log-formatter
 pydantic
 debugpy
 python-json-logger

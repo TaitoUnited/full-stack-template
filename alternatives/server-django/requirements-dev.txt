@@ -16,6 +16,7 @@ flake8==3.8.4             # via -r requirements-dev.in
 idna==2.10                # via requests
 importlib-metadata==3.3.0  # via flake8, pluggy, pytest
 iniconfig==1.1.1          # via pytest
+json-log-formatter==0.3.0  # via -r requirements.in
 mccabe==0.6.1             # via flake8
 mypy-extensions==0.4.3    # via mypy
 mypy==0.790               # via -r requirements-dev.in
