@@ -1,5 +1,5 @@
 # Builder and tester container for production build
-FROM python:3.7-alpine as builder
+FROM python:3.9-alpine as builder
 
 RUN apk add --update-cache \
   g++ \
@@ -24,7 +24,7 @@ RUN python3 setup.py bdist_wheel --version=${BUILD_VERSION}
 
 
 # Production runtime container
-FROM python:3.7-alpine
+FROM python:3.9-alpine
 ARG BUILD_VERSION=1.0.0
 ENV BUILD_VERSION ${BUILD_VERSION}
 ENV PYTHON_ENV production

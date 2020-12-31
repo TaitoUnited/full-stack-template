@@ -1,4 +1,4 @@
-"""fullstacktemplatedjango URL Configuration
+"""site URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
@@ -18,7 +18,7 @@ from django.urls import include, path
 from infra import views as infraViews
 
 urlpatterns = [
-    path('posts/', include('posts.urls')),
+    path('posts/', include('blog.urls')),
     path('admin/', admin.site.urls),
     path('uptimez/', infraViews.get_uptimez, name='get_uptimez'),
     path('healthz/', infraViews.get_healthz, name='get_healthz'),
