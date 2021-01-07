@@ -6,8 +6,6 @@
 settings:
   backupEnabled: false
   uptimeEnabled: false
-  alerts: []
-  apiKeys: []
 
   serviceAccounts:
     - id: ${taito_project}-${taito_env}-graphql
