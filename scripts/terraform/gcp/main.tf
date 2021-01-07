@@ -21,7 +21,7 @@ locals {
   )["settings"]
 
   services = {
-    for key in keys(local.orig.services):
+    for key in keys(coalesce(local.orig.services, {})):
     key => merge(
       {
         # Default values
@@ -58,7 +58,13 @@ locals {
     )
   }
 
-  resources = merge(local.orig, { services = local.services })
+  resources = merge(
+    local.orig,
+    { alerts = coalesce(local.orig.alerts, []) },
+    { apiKeys = coalesce(local.orig.apiKeys, []) },
+    { serviceAccounts = coalesce(local.orig.serviceAccounts, []) },
+    { services = local.services },
+  )
 }
 
 module "gcp" {

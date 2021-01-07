@@ -11,11 +11,19 @@ locals {
   taito_uptime_channels = (var.taito_uptime_channels == "" ? [] :
     split(" ", trimspace(replace(var.taito_uptime_channels, "/\\s+/", " "))))
 
-  resources = (
+  orig = (
     fileexists("${path.root}/../../terraform-${var.taito_env}-merged.yaml")
       ? yamldecode(file("${path.root}/../../terraform-${var.taito_env}-merged.yaml"))
       : jsondecode(file("${path.root}/../../terraform-merged.json.tmp"))
   )["settings"]
+
+  resources = merge(
+    local.orig,
+    { alerts = coalesce(local.orig.alerts, []) },
+    { apiKeys = coalesce(local.orig.apiKeys, []) },
+    { serviceAccounts = coalesce(local.orig.serviceAccounts, []) },
+    /* TODO { services = local.services }, */
+  )
 }
 
 module "azure" {
