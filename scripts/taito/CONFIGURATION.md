@@ -153,6 +153,21 @@ Operations on production and staging environments usually require admin rights. 
 
 **Custom deployment:** If you cannot use Docker containers on your remote environments, you can customize the deployment. Instead of deploying the application as docker container images, you can, for example, deploy the application as WAR or EAR packages on a Java application server, or install everything directly on the remote host. You can enable the custom provider by setting `taito_provider=custom` (TODO: use taito_deployment_platforms instead) in `scripts/taito/config/main.sh` and by implementing [custom deployment scripts](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/blob/master/scripts/taito/deploy-custom) yourself.
 
+**Environment descriptions in a separate repository**: Execute the following steps, if you want to keep your environment descriptions (`scripts/` and `database/`) in an another git repository:
+
+1. Move `scripts/`, `database/` and `taito-config.sh` to the another repository.
+
+2. Move `db-deploy`, `deployment-deploy`, `deployment-wait`, `test`, and `deployment-verify` CI/CD steps to the another repository.
+
+3. OPTIONAL: As a last step of your CI/CD script, trigger deployment of the another repository by setting image tag value (COMMIT_SHA) either to the CI/CD script or helm.yaml of the another repository.
+
+4. Add a new `taito-config.sh` to the project root dir that refers to the scripts located on the another repository:
+
+   ```
+   # TODO: mount `scripts` and `database` from the other repository
+   . scripts/taito/config/main.sh
+   ```
+
 ## Kubernetes
 
 The `scripts/heml.yaml` file contains default Kubernetes settings for all environments and the `scripts/helm-*.yaml` files contain environment specific overrides for them. By modifying these files you can easily configure environment variables, resource requirements and autoscaling for your containers.
