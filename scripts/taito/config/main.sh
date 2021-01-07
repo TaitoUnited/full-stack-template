@@ -545,16 +545,16 @@ db_database_mgr_secret="${db_database_name//_/-}-db-mgr.password"
 # Determine default user for executing database operations
 if [[ ${taito_env} == "local" ]]; then
   # App in local environment (there is only app user)
-  db_database_default_username="${db_database_app_username}"
-  db_database_default_secret="${db_database_app_secret}"
+  db_database_default_username="${db_database_default_username:-$db_database_app_username}"
+  db_database_default_secret="${db_database_default_secret:-$db_database_app_secret}"
 elif [[ ${taito_env} == "prod" ]]; then
   # Viewer in production environment
-  db_database_default_username="${db_database_viewer_username}"
-  db_database_default_secret="${db_database_viewer_secret}"
+  db_database_default_username="${db_database_default_username:-$db_database_viewer_username}"
+  db_database_default_secret="${db_database_default_secret:-$db_database_viewer_secret}"
 else
   # Manager in other environments
-  db_database_default_username="${db_database_mgr_username}"
-  db_database_default_secret="${db_database_mgr_secret}"
+  db_database_default_username="${db_database_default_username:-$db_database_mgr_username}"
+  db_database_default_secret="${db_database_default_secret:-$db_database_mgr_secret}"
 fi
 
 # ------ All environments config ------
