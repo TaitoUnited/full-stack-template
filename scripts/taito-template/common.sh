@@ -22,6 +22,10 @@ template_default_zone=${template_default_zone:-my-zone}
 template_default_zone_prod=${template_default_zone_prod:-$template_default_zone}
 template_default_environments=${template_default_environments:-dev prod}
 
+template_default_kubernetes_prod=${template_default_kubernetes_prod:-$template_default_kubernetes}
+template_default_zone_multi_tenant=${template_default_zone_multi_tenant:-false}
+template_default_zone_multi_tenant_prod=${template_default_zone_multi_tenant:-false}
+
 if [[ ${taito_verbose:-} == "true" ]]; then
   set -x
 fi
@@ -432,6 +436,16 @@ fi
 
 if [[ -f ./scripts/helm.yaml ]]; then
   sed -i "/# TODO:/d" ./scripts/helm.yaml
+fi
+
+######################
+# HACK: for old cluster
+######################
+
+if [[ $template_default_zone == "gcloud-temp1" ]]; then
+  sed -i 's/taito_ci_namespace_id=$taito_resource_namespace/taito_ci_namespace_id=$taito_zone/' ./scripts/taito/config/main.sh
+  sed -i 's/copy\/db-proxy/copy\/devops/' ./scripts/taito/config/provider.sh
+  sed -i "/^    namespace: nginx-ingress/a\      oldRewritePolicy: true" scripts/helm.yaml
 fi
 
 ######################
