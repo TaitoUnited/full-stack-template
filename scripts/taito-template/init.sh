@@ -172,7 +172,7 @@ function prune () {
 
       # Remove database from server implementation
       # TODO: works only for the default Node.js server implementation
-      if [[ -d ./server ]]; then
+      if [[ -d ./server ]] && [[ -f ./server/src/server.ts ]]; then
         sed -i '/pg-promise/d' ./server/package.json &> /dev/null || :
         sed -i '/types\\pg/d' ./server/package.json &> /dev/null || :
         sed -i '/db/d' ./server/src/server.ts &> /dev/null || :
@@ -214,7 +214,7 @@ function prune () {
 
       # Remove storage from server implementation
       # TODO: works only for the default Node.js server implementation
-      if [[ -d ./server ]]; then
+      if [[ -d ./server ]] && [[ -f ./server/src/server.ts ]]; then
         if [[ ${taito_provider} != "aws" ]]; then
           sed -i '/aws-sdk/d' ./server/package.json &> /dev/null || :
         fi
@@ -378,7 +378,7 @@ fi
 
 if [[ ${template_default_kubernetes} ]] || [[ ${kubernetes_name} ]]; then
   # Remove serverless-http adapter since Kubernetes is enabled
-  if [[ -d ./server ]]; then
+  if [[ -d ./server ]] && [[ -f ./server/src/server.ts ]]; then
     sed -i '/serverless/d' ./server/package.json
     sed -i '/serverless/d' ./server/src/server.ts
   fi
