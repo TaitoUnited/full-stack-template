@@ -241,7 +241,7 @@ function prune () {
 
       # Leave the uptime path however
       if [[ "admin client graphql server www" == *"$terraform_name"* ]]; then
-        sed -i "/^  services/a\    $terraform_name:\n      uptimePath: $path\n" scripts/terraform.yaml
+        echo -e "    $terraform_name:\n      uptimePath: $path\n" >> scripts/terraform.yaml
       fi
     fi
 

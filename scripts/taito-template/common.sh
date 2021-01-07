@@ -50,9 +50,12 @@ sed -i "/# TEMPLATE-REMOVE/d" \
 # TODO leave a reference to the original?
 rm LICENSE
 
-# Disable ingress of terraform.yaml if Kubernetes is enabled
+# Disable and simplify ingress of terraform.yaml if Kubernetes is enabled
 if [[ ${template_default_kubernetes:-} ]] || [[ ${kubernetes_name:-} ]]; then
   sed -i 's/enabled: true # ingress/enabled: false/' ./scripts/terraform.yaml
+  sed -i '/class: gateway/d' ./scripts/terraform.yaml
+  sed -i '/createMainDomain: false/d' ./scripts/terraform.yaml
+  sed -i '/# TODO: implement altDomains support/d' ./scripts/terraform.yaml
 else
   sed -i 's/enabled: true # ingress/enabled: true/' ./scripts/terraform.yaml
 fi
