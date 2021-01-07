@@ -209,6 +209,7 @@ function prune () {
       sed -i '/storage/d' docker-compose.yaml
       sed -i '/storage/d' docker-compose-remote.yaml
       sed -i '/BUCKET_/d' ./scripts/helm.yaml
+      sed -i '/-storage/d' ./scripts/terraform.yaml
       rm -f ./scripts/terraform-dev.yaml
 
       # Remove storage from server implementation
