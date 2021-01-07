@@ -194,9 +194,11 @@ function prune () {
 
       # Remove redis from server implementation
       # TODO: works only for the default Node.js server implementation
-      sed -i '/Redis/d' ./server/src/common/config.ts &> /dev/null || :
-      sed -i '/REDIS_/d' ./server/src/common/config.ts &> /dev/null || :
-      sed -i '/6379/d' ./server/src/common/config.ts &> /dev/null || :
+      if [[ -f ./server/src/common/config.ts ]]; then
+        sed -i '/Redis/d' ./server/src/common/config.ts &> /dev/null || :
+        sed -i '/REDIS_/d' ./server/src/common/config.ts &> /dev/null || :
+        sed -i '/6379/d' ./server/src/common/config.ts &> /dev/null || :
+      fi
     fi
 
     if [[ $name == "storage" ]]; then
@@ -414,7 +416,7 @@ fi
 
 if [[ ${taito_provider} != "aws" ]]; then
   # Remove AWS specific stuff from implementation
-  if [[ -d ./server ]]; then
+  if [[ -d ./server ]] && [[ -f ./server/src/common/config.ts ]]; then
     sed -i '/aws/d' ./server/src/common/config.ts
     sed -i '/prettier-ignore/d' ./server/src/common/config.ts
   fi
