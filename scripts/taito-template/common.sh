@@ -46,9 +46,11 @@ sed -i "/# TEMPLATE-REMOVE/d" \
 # TODO leave a reference to the original?
 rm LICENSE
 
-# Remove ingress from terraform.yaml if Kubernetes is enabled
+# Disable ingress of terraform.yaml if Kubernetes is enabled
 if [[ ${template_default_kubernetes:-} ]] || [[ ${kubernetes_name:-} ]]; then
-  sed -i "/^  ingress:\r*\$/,/^\r*$/d" ./scripts/terraform.yaml
+  sed -i 's/enabled: true # ingress/enabled: false/' ./scripts/terraform.yaml
+else
+  sed -i 's/enabled: true # ingress/enabled: true/' ./scripts/terraform.yaml
 fi
 
 # Remove empty attributes from terraform.yaml

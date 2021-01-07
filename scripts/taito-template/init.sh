@@ -235,6 +235,11 @@ function prune () {
          [[ ${kubernetes_name:-} ]]
        ); then
       sed -i "/^    $terraform_name:\r*\$/,/^\r*$/d" ./scripts/terraform.yaml
+
+      # Leave the uptime path however
+      if [[ "admin client graphql server www" == *"$terraform_name"* ]]; then
+        sed -i "/^  services/a\    $terraform_name:\n      uptimePath: $path2\n" scripts/terraform.yaml
+      fi
     fi
 
     if [[ $name == "www" ]]; then
