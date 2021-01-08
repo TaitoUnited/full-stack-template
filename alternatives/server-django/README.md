@@ -6,10 +6,10 @@ Pip packages are managed with pip-tools by running `pip-compile requirements-[de
 
 * requirements.in
   * Common packages for dev and prod.
-  * Contains `sentry-sdk[flask]` and `python-json-logger` for testing purposes (neither are really needed in local environment).
+  * Contains `python-json-logger` for logging.
 * requirements-dev.in
   * Packages for local environment: flake8, mypy, pytest...
 * requirements-prod.in
-  * Packages for non-local environment: sentry, stackdriver, uwsgi...
+  * Packages for non-local environment: stackdriver, uwsgi...
 
 NOTE that some script is required to run the `pip-compile` inside the server container to ensure correct python and pip versions.

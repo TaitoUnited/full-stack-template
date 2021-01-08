@@ -5,14 +5,11 @@
 #    pip-compile requirements-prod.in
 #
 asgiref==3.3.1            # via django
-certifi==2020.12.5        # via sentry-sdk
-django==3.1.4             # via -r requirements.in, sentry-sdk
+django==3.1.4             # via -r requirements.in
 psycopg2-binary==2.8.6    # via -r requirements.in
 pydantic==1.7.3           # via -r requirements.in
 python-json-logger==2.0.1  # via -r requirements.in
 pytz==2020.4              # via django
-sentry-sdk[django]==0.19.5  # via -r requirements.in
 sqlparse==0.4.1           # via django
-urllib3==1.26.2           # via sentry-sdk
 uwsgi==2.0.19.1           # via -r requirements-prod.in
 uwsgidecorators==1.1.0    # via -r requirements-prod.in

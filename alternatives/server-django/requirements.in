@@ -6,4 +6,3 @@ JSON-log-formatter
 pydantic
 debugpy
 python-json-logger
-sentry-sdk[django]

@@ -21,7 +21,6 @@ setup(
         'psycopg2-binary',
         'pydantic',
         'python-json-logger',
-        'sentry-sdk[django]',
         'uwsgi',
         'uwsgidecorators',
     ],
