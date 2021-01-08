@@ -11,13 +11,13 @@ RUN apk add --update-cache \
   postgresql-dev \
   python3-dev
 
-RUN mkdir -p /service
-WORKDIR /service
+RUN mkdir -p /develop
+WORKDIR /develop
 
 ARG SERVICE_DIR=.
 COPY ${SERVICE_DIR}/requirements-dev.txt \
      ${SERVICE_DIR}/src/manage.py \
-     /service/
+     /develop/
 RUN pip3 install --upgrade pip && pip3 install -r requirements-dev.txt
 
 EXPOSE 8080
