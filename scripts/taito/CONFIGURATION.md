@@ -164,8 +164,16 @@ Operations on production and staging environments usually require admin rights. 
 4. Add a new `taito-config.sh` to the project root dir that refers to the scripts located on the another repository:
 
    ```
-   # TODO: mount `scripts` and `database` from the other repository
-   . scripts/taito/config/main.sh
+   # Mount `scripts/` and `database/` from environment repository
+   taito_mounts="
+     ~/projects/my-project-env/database:/project/database
+     ~/projects/my-project-env/scripts:/project/scripts
+   "
+
+   # Read Taito CLI configurations from the environment repository
+   if [[ -f scripts/taito/config/main.sh ]]; then
+     . scripts/taito/config/main.sh
+   fi
    ```
 
 ## Kubernetes
