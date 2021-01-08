@@ -45,9 +45,9 @@ def create_app(
         storage.connect(app)
 
         # Register routes
-        from . import posts, routes
+        from . import blog, routes
         app.register_blueprint(routes.bp)
-        app.register_blueprint(posts.routes.bp)
+        app.register_blueprint(blog.routes.bp)
 
     try:
         # If running behind uwsgi, init db as post fork op to avoid workers
