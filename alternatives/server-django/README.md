@@ -1,4 +1,4 @@
-# full-stack-template | alternative server flask+uwsgi
+# full-stack-template | alternative server django+uwsgi
 
 ## Pip packages
 
