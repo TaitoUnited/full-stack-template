@@ -115,7 +115,7 @@ services:
   full-stack-template-server:
     container_name: full-stack-template-server
     build:
-      context: ./alternatives/server-django
+      context: ./server
       dockerfile: ${dockerfile}
     restart: unless-stopped
     networks:
@@ -129,8 +129,8 @@ services:
       - "/develop/node_modules"
     secrets:
       - DATABASE_PASSWORD
-      # - REDIS_PASSWORD
-      # - EXAMPLE_SECRET
+      - REDIS_PASSWORD
+      - EXAMPLE_SECRET
     environment:
       # Paths and bind
       BASE_PATH: /api
@@ -167,8 +167,7 @@ services:
       BUCKET_BROWSE_URL: http://localhost:9729/bucket   # TODO
       BUCKET_DOWNLOAD_URL: http://localhost:9729/bucket # TODO
       BUCKET_KEY_ID: minio
-      # BUCKET_KEY_SECRET: ${taito_default_password}
-      BUCKET_KEY_SECRET: secret1234
+      BUCKET_KEY_SECRET: ${taito_default_password}
       BUCKET_FORCE_PATH_STYLE: 'true'
 
   full-stack-template-www:
@@ -269,6 +268,10 @@ services:
 secrets:
   DATABASE_PASSWORD:
     file: ./secrets/${taito_env}/${db_database_app_secret}
+  REDIS_PASSWORD:
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-redis.password
+  EXAMPLE_SECRET:
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-example.secret
 
 networks:
   default:
