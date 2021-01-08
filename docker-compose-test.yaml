@@ -10,9 +10,9 @@ services:
     image: full-stack-template-admin-test:latest
     restart: 'no'
     volumes:
-      - "./admin:/service:delegated"
-      - "./shared:/service/shared:delegated"
-      - "/service/node_modules"
+      - "./admin:/develop:delegated"
+      - "./shared:/develop/shared:delegated"
+      - "/develop/node_modules"
     network_mode: "bridge"
     secrets:
       - DATABASE_PASSWORD
@@ -27,9 +27,9 @@ services:
     image: full-stack-template-client-test:latest
     restart: 'no'
     volumes:
-      - "./client:/service:delegated"
-      - "./shared:/service/shared:delegated"
-      - "/service/node_modules"
+      - "./client:/develop:delegated"
+      - "./shared:/develop/shared:delegated"
+      - "/develop/node_modules"
     links:
       - full-stack-template-database-proxy
     network_mode: "bridge"
@@ -46,9 +46,9 @@ services:
     image: full-stack-template-graphql-test:latest
     restart: 'no'
     volumes:
-      - "./graphql:/service:delegated"
-      - "./shared:/service/shared:delegated"
-      - "/service/node_modules"
+      - "./graphql:/develop:delegated"
+      - "./shared:/develop/shared:delegated"
+      - "/develop/node_modules"
     network_mode: "bridge"
     secrets:
       - DATABASE_PASSWORD
@@ -63,9 +63,9 @@ services:
     image: full-stack-template-server-test:latest
     restart: 'no'
     volumes:
-      - "./server:/service:delegated"
-      - "./shared:/service/shared:delegated"
-      - "/service/node_modules"
+      - "./server:/develop:delegated"
+      - "./shared:/develop/shared:delegated"
+      - "/develop/node_modules"
     links:
       - full-stack-template-database-proxy
       # - full-stack-template-services-proxy

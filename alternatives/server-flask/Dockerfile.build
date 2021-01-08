@@ -7,12 +7,12 @@ RUN apk add --update-cache \
   postgresql-dev \
   python3-dev
 
-RUN mkdir -p /service
-WORKDIR /service
+RUN mkdir -p /develop
+WORKDIR /develop
 
 ARG SERVICE_DIR=.
-COPY ${SERVICE_DIR} /service
-COPY ${SERVICE_DIR}/requirements-dev.txt /service/
+COPY ${SERVICE_DIR} /develop
+COPY ${SERVICE_DIR}/requirements-dev.txt /develop/
 RUN pip3 install --upgrade pip && pip3 install -r requirements-dev.txt
 
 RUN flake8
@@ -36,8 +36,10 @@ LABEL version=${BUILD_VERSION} \
 
 RUN apk add --update-cache g++ libffi-dev nginx postgresql-dev
 
-COPY --from=builder /service/dist .
-COPY --from=builder /service/requirements-prod.txt .
+RUN mkdir -p /service
+WORKDIR /service
+COPY --from=builder /develop/dist .
+COPY --from=builder /develop/requirements-prod.txt .
 
 RUN pip3 install --upgrade pip && \
     pip3 install -r requirements-prod.txt && \

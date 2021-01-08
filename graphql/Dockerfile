@@ -2,13 +2,13 @@
 # NOTE: npm libraries are installed inside container to speed up build
 FROM node:lts-alpine
 
-RUN mkdir -p /service
-WORKDIR /service
+RUN mkdir -p /develop
+WORKDIR /develop
 
 ARG SERVICE_DIR=.
 COPY ${SERVICE_DIR}/package.json \
      ${SERVICE_DIR}/package-lock.* \
-     /service/
+     /develop/
 
 ENV NODE_ENV development
 RUN npm install --loglevel warn

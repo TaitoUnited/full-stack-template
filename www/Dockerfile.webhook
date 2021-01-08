@@ -10,10 +10,10 @@ USER root
 RUN apt-get -y update && \
     apt-get -y install git curl webhook
 RUN mkdir -p /etc/webhook && \
-    ln -s /service/hooks.json /etc/webhook/hooks.json
+    ln -s /develop/hooks.json /etc/webhook/hooks.json
 
 # Prepare preview
-RUN cp -rp /service /preview && \
+RUN cp -rp /develop /preview && \
     cp -rp /build/public /build/preview
 
 # Build preview

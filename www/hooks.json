@@ -1,8 +1,8 @@
 [
   {
     "id": "build",
-    "command-working-directory": "/service",
-    "execute-command": "/service/webhook.sh",
+    "command-working-directory": "/develop",
+    "execute-command": "/develop/webhook.sh",
     "pass-arguments-to-command": [
       {
         "source": "string",
@@ -12,8 +12,8 @@
   },
   {
     "id": "preview",
-    "command-working-directory": "/service",
-    "execute-command": "/service/webhook.sh",
+    "command-working-directory": "/develop",
+    "execute-command": "/develop/webhook.sh",
     "pass-arguments-to-command": [
       {
         "source": "string",
@@ -47,8 +47,8 @@
   },
   {
     "id": "publish",
-    "command-working-directory": "/service",
-    "execute-command": "/service/webhook.sh",
+    "command-working-directory": "/develop",
+    "execute-command": "/develop/webhook.sh",
     "pass-arguments-to-command": [
       {
         "source": "string",

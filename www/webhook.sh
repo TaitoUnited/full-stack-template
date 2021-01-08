@@ -159,22 +159,22 @@ function exec_hook_command() {
 
     if [[ "${VC_PULL_ENABLED}" == "true" ]]; then
       # Clone git repository and install libraries for real-time full builds
-      cd /service
+      cd /develop
       git clone "https://${VC_TOKEN}@${VC_REPOSITORY_URL}" repository
-      cd "/service${DIR_SUFFIX}"
+      cd "/develop${DIR_SUFFIX}"
       git checkout "${COMMON_ENV/prod/master}"
       npm run install-site
-      cp -r /service/repository /preview/repository
+      cp -r /develop/repository /preview/repository
     fi
   elif [[ "${command}" == "build" ]]; then
     full_build build:preview /preview "${VC_PULL_ENABLED}"
-    full_build build /service "${VC_PULL_ENABLED}"
+    full_build build /develop "${VC_PULL_ENABLED}"
   elif [[ "${command}" == "publish:preview" ]]; then
     # Partially build the preview site
     (cd "/preview${DIR_SUFFIX}" && npm run publish:preview)
   elif [[ "${command}" == "publish" ]]; then
     # Partially build the real site
-    (cd "/service${DIR_SUFFIX}" && npm run publish)
+    (cd "/develop${DIR_SUFFIX}" && npm run publish)
   else
     echo "Unknown command: ${command}"
     exit 1

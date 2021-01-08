@@ -10,11 +10,11 @@ RUN apk add --update-cache \
   postgresql-dev \
   python3-dev
 
-RUN mkdir -p /service
-WORKDIR /service
+RUN mkdir -p /develop
+WORKDIR /develop
 
 ARG SERVICE_DIR=.
-COPY ${SERVICE_DIR}/requirements-dev.txt /service/
+COPY ${SERVICE_DIR}/requirements-dev.txt /develop/
 RUN pip3 install --upgrade pip && pip3 install -r requirements-dev.txt && pip3 install ptvsd
 
 EXPOSE 8080

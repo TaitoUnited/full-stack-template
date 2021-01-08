@@ -8,7 +8,7 @@ set -e
 
 if [[ -f ./site/package.json ]]; then
   # Gatsby
-  cd /service/site
+  cd /develop/site
   npm install
   npm run start:docker
 elif [[ -d ./public ]]; then

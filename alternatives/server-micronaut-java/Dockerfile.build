@@ -1,8 +1,8 @@
 # Builder and tester container for production build
 FROM adoptopenjdk/openjdk11-openj9:alpine-slim as builder
 
-RUN mkdir -p /service
-WORKDIR /service
+RUN mkdir -p /develop
+WORKDIR /develop
 
 ARG SERVICE_DIR=.
 COPY ${SERVICE_DIR} ./

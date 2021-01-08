@@ -22,9 +22,9 @@ services:
     ports:
       - "8080"
     volumes:
-      - "./admin:/service:delegated"
-      - "./shared:/service/shared:delegated"
-      - "/service/node_modules"
+      - "./admin:/develop:delegated"
+      - "./shared:/develop/shared:delegated"
+      - "/develop/node_modules"
     environment:
       # Paths
       BASE_PATH: /admin
@@ -51,9 +51,9 @@ services:
     ports:
       - "8080"
     volumes:
-      - "./client:/service:delegated"
-      - "./shared:/service/shared:delegated"
-      - "/service/node_modules"
+      - "./client:/develop:delegated"
+      - "./shared:/develop/shared:delegated"
+      - "/develop/node_modules"
     secrets:
       - DATABASE_PASSWORD
     environment:
@@ -88,9 +88,9 @@ services:
     ports:
       - "8080"
     volumes:
-      - "./graphql:/service:delegated"
-      - "./shared:/service/shared:delegated"
-      - "/service/node_modules"
+      - "./graphql:/develop:delegated"
+      - "./shared:/develop/shared:delegated"
+      - "/develop/node_modules"
     environment:
       # Paths and bind
       BASE_PATH: /graphql
@@ -124,9 +124,9 @@ services:
       - "8080"
       - "127.0.0.1:4229:9229"
     volumes:
-      - "./server:/service:delegated"
-      - "./shared:/service/shared:delegated"
-      - "/service/node_modules"
+      - "./server:/develop:delegated"
+      - "./shared:/develop/shared:delegated"
+      - "/develop/node_modules"
     secrets:
       - DATABASE_PASSWORD
       - REDIS_PASSWORD
@@ -182,11 +182,11 @@ services:
       # TODO: Temporary hack for https://github.com/gatsbyjs/gatsby/issues/3721
       - "127.0.0.1:7463:8080"
     volumes:
-      - "./www:/service:delegated"
-      - "/service/node_modules"
-      - "/service/site/node_modules" # FOR GATSBY ONLY
+      - "./www:/develop:delegated"
+      - "/develop/node_modules"
+      - "/develop/site/node_modules" # FOR GATSBY ONLY
       # FOR GATSBY ONLY:
-      # - "/service/site/node_modules"
+      # - "/develop/site/node_modules"
     environment:
       # Paths
       BASE_PATH: /docs
@@ -256,7 +256,7 @@ services:
       context: ./storage
       dockerfile: ${dockerfile}
     restart: unless-stopped
-    command: server /service
+    command: server /develop
     networks:
       - default
     ports:

@@ -1,13 +1,13 @@
 # Builder and tester container for production build
 FROM node:lts-buster-slim as builder
 
-RUN mkdir -p /service
-WORKDIR /service
+RUN mkdir -p /develop
+WORKDIR /develop
 
 ARG SERVICE_DIR=.
 COPY ${SERVICE_DIR}/*.sh \
      ${SERVICE_DIR}/package* \
-     /service/
+     /develop/
 
 ENV NODE_ENV development
 ENV BASE_PATH BASE_PATH
@@ -21,13 +21,13 @@ RUN ./install.sh
 RUN cp ~/.bashrc /home/node/.bashrc
 RUN mkdir -p /build && \
     chown -R node:root /build && \
-    chown -R node:root /service
+    chown -R node:root /develop
 
 USER node
 RUN . ~/.bashrc && npm ci --loglevel warn
 
 # Install site
-COPY --chown=node:root ${SERVICE_DIR} /service
+COPY --chown=node:root ${SERVICE_DIR} /develop
 RUN . ~/.bashrc && \
     npm run install-site
 

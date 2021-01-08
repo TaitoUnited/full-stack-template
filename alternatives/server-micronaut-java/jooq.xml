@@ -41,7 +41,7 @@
       <packageName>jooq</packageName>
 
       <!-- The destination directory of your generated classes. Using Maven directory layout here -->
-      <directory>/service/src/main/gen</directory>
+      <directory>./src/main/gen</directory>
     </target>
   </generator>
 </configuration>

@@ -1,11 +1,11 @@
 # For local development
 FROM adoptopenjdk/openjdk11-openj9:jdk-11.0.1.13-alpine-slim
 
-RUN mkdir -p /service
-WORKDIR /service
+RUN mkdir -p /develop
+WORKDIR /develop
 
 ARG SERVICE_DIR=.
-COPY ${SERVICE_DIR} /service
+COPY ${SERVICE_DIR} /develop
 # ENV GRADLE_OPTS "--project-cache-dir /.gradle"
 RUN ./gradlew
 
