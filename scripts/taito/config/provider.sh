@@ -318,7 +318,7 @@ case $taito_vc_provider in
     if [[ $taito_plugins == *"semantic-release:$taito_env"* ]]; then
       taito_remote_secrets="
         $taito_remote_secrets
-        version-control-buildbot.token:read/${taito_devops_namespace}
+        version-control-buildbot.token:read/${taito_tenant_devops_namespace}
       "
     fi
     ;;
