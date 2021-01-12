@@ -122,9 +122,9 @@ taito_tracking_provider_url=${default_tracking_provider_url}
 taito_tracking_organization=${default_tracking_organization}
 
 # Tracing provider
-taito_tracking_provider=${default_tracking_provider}
-taito_tracking_provider_url=${default_tracking_provider_url}
-taito_tracking_organization=${default_tracking_organization}
+taito_tracing_provider=${default_tracing_provider}
+taito_tracing_provider_url=${default_tracing_provider_url}
+taito_tracing_organization=${default_tracing_organization}
 
 # Messaging provider
 taito_messaging_provider=slack
@@ -332,9 +332,9 @@ case $taito_env in
     taito_tracking_organization=${default_tracking_organization_prod}
 
     # Tracing provider
-    taito_tracking_provider=${default_tracking_provider_prod}
-    taito_tracking_provider_url=${default_tracking_provider_url_prod}
-    taito_tracking_organization=${default_tracking_organization_prod}
+    taito_tracing_provider=${default_tracing_provider_prod}
+    taito_tracing_provider_url=${default_tracing_provider_url_prod}
+    taito_tracing_organization=${default_tracing_organization_prod}
 
     # shellcheck disable=SC1091
     if [[ -f scripts/taito/env-prod.sh ]]; then . scripts/taito/env-prod.sh; fi
@@ -443,9 +443,9 @@ case $taito_env in
     taito_tracking_organization=${default_tracking_organization_prod}
 
     # Tracing provider
-    taito_tracking_provider=${default_tracking_provider_prod}
-    taito_tracking_provider_url=${default_tracking_provider_url_prod}
-    taito_tracking_organization=${default_tracking_organization_prod}
+    taito_tracing_provider=${default_tracing_provider_prod}
+    taito_tracing_provider_url=${default_tracing_provider_url_prod}
+    taito_tracing_organization=${default_tracing_organization_prod}
 
     # shellcheck disable=SC1091
     if [[ -f scripts/taito/env-stag.sh ]]; then . scripts/taito/env-stag.sh; fi

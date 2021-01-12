@@ -92,18 +92,23 @@ default_vc_provider=${template_default_vc_provider}
 default_vc_organization=${template_default_vc_organization}
 
 # Version control provider (prod)
-default_vc_provider_prod=${template_default_vc_provider_prod}
-default_vc_organization_prod=${template_default_vc_organization_prod}
+# - use the same for prod
 
 # CI/CD provider
 default_ci_provider=${template_default_ci_provider}
 default_ci_organization=${template_default_ci_organization}
 default_ci_image=${template_default_taito_image}
+default_ci_image_username='${template_default_taito_image_username}'
+default_ci_image_password='${template_default_taito_image_password}'
+default_ci_image_email='${template_default_taito_image_email}'
 
 # CI/CD provider (prod)
 default_ci_provider_prod=${template_default_ci_provider_prod}
 default_ci_organization_prod=${template_default_ci_organization_prod}
 default_ci_image_prod=${template_default_taito_image_prod}
+default_ci_image_username_prod='${template_default_taito_image_username_prod}'
+default_ci_image_password_prod='${template_default_taito_image_password_prod}'
+default_ci_image_email_prod='${template_default_taito_image_email_prod}'
 
 # Container registry provider
 default_container_registry_provider=${template_default_container_registry_provider}
@@ -138,14 +143,14 @@ default_tracking_provider_url_prod=${template_default_tracking_provider_url_prod
 default_tracking_organization_prod=${template_default_tracking_organization_prod}
 
 # Tracing provider
-default_tracking_provider=${template_default_tracking_provider}
-default_tracking_provider_url=${template_default_tracking_provider_url}
-default_tracking_organization=${template_default_tracking_organization}
+default_tracing_provider=${template_default_tracing_provider}
+default_tracing_provider_url=${template_default_tracing_provider_url}
+default_tracing_organization=${template_default_tracing_organization}
 
 # Tracing provider (prod)
-default_tracking_provider_prod=${template_default_tracking_provider_prod}
-default_tracking_provider_url_prod=${template_default_tracking_provider_url_prod}
-default_tracking_organization_prod=${template_default_tracking_organization_prod}
+default_tracing_provider_prod=${template_default_tracing_provider_prod}
+default_tracing_provider_url_prod=${template_default_tracing_provider_url_prod}
+default_tracing_organization_prod=${template_default_tracing_organization_prod}
 
 # Postgres
 default_postgres=${template_default_postgres}
