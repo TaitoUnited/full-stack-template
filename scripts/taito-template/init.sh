@@ -241,7 +241,8 @@ function prune () {
 
       # Leave the uptime path however
       if [[ "admin client graphql server www" == *"$terraform_name"* ]]; then
-        echo -e "    $terraform_name:\n      uptimePath: ${path//\\/}\n" >> scripts/terraform.yaml
+        path_f="${path//\\/}"
+        echo -e "    $terraform_name:\n      uptimePath: ${path_f%/}/uptimez\n" >> scripts/terraform.yaml
       fi
     fi
 
@@ -351,6 +352,13 @@ function prune () {
         sed -i "/^  full-stack-template-zookeeper:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
         sed -i "/^  # full-stack-template-zookeeper:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
       fi
+    fi
+
+    if [[ $name == "server" ]] && [[ -f ./server/src/manage.py ]]; then
+      # Use trailing slash with Django
+      sed -i 's|/api/uptimez|/api/uptimez/|g' ./scripts/taito/project.sh
+      sed -i 's|/api/uptimez|/api/uptimez/|g' ./scripts/terraform.yaml
+      sed -i '/^    server:/a\      livenessPath: /healthz/' scripts/helm.yaml
     fi
   fi
 }

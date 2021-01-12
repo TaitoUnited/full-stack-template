@@ -44,7 +44,7 @@ settings:
     graphql:
       type: function
       path: /graphql
-      uptimePath: /api/uptimez
+      uptimePath: /graphql/uptimez
       timeout: 30
       runtime: nodejs12.x
       memoryRequest: 256
