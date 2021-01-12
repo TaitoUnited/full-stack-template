@@ -18,19 +18,6 @@ elif [[ $taito_env == "dev" ]] || [[ $taito_env == "f-"* ]]; then
   if [[ $taito_command == "util-test" ]]; then
     # Constitute test url by combining basic auth secret and domain name
     ci_test_base_url=https://$(taito -q secret show:$taito_env basic-auth | head -1)@$taito_domain
-  elif [[ $taito_command == "test" ]]; then
-    # Export test secrets to disk
-    # NOTE: Add all secrets required by test runs here. Remember to add them
-    # also to docker-compose-test.yaml secret definitions.
-    echo
-    echo "----------------------------------------------------"
-    echo "scripts/taito/testing.sh: Export secrets for testing"
-    echo "----------------------------------------------------"
-    taito secret export:$taito_env cicd-tester-serviceaccount.key
-    taito secret export:$taito_env $db_database_mgr_secret
-    taito secret export:$taito_env $db_database_ssl_ca_secret
-    taito secret export:$taito_env $db_database_ssl_cert_secret
-    taito secret export:$taito_env $db_database_ssl_key_secret
   fi
 fi
 

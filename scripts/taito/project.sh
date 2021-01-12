@@ -67,6 +67,14 @@ taito_secrets="
   $taito_project-$taito_env-storage.secretKey:random
 "
 
+taito_testing_secrets="
+  cicd-tester-serviceaccount.key
+  $db_database_mgr_secret
+  $db_database_ssl_ca_secret
+  $db_database_ssl_cert_secret
+  $db_database_ssl_key_secret
+"
+
 # ------ Links ------
 # Add custom links here. You can regenerate README.md links with
 # 'taito project docs'. Configuration instructions: TODO
