@@ -34,9 +34,9 @@ def post_client_to_server(data: PostDict) -> typing.Union[DBPost, Post]:
     """
     _data = to_snake(data)
     try:
-        return DBPost(**_data)
+        return DBPost(**_data)  # type: ignore
     except TypeError:
         # If the request is missing createdAt, id, updatedAt fields
         # then TypeError will be raised. So we can deduct that this is
         # new post.
-        return Post(**_data)
+        return Post(**_data)  # type: ignore

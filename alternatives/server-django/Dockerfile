@@ -1,9 +1,9 @@
 # Builder, tester and runtime container for local development
 FROM python:3.9-alpine
+ENV PYTHONPATH /usr/local/lib/python3.9/site-packages
 ENV NODE_ENV development
 ENV DJANGO_ENV development
 ENV DJANGO_APP src
-ENV PYTHONPATH /usr/local/lib/python3.8/site-packages
 
 RUN apk add --update-cache \
   g++ \
@@ -18,7 +18,8 @@ ARG SERVICE_DIR=.
 COPY ${SERVICE_DIR}/requirements-dev.txt \
      ${SERVICE_DIR}/src/manage.py \
      /develop/
-RUN pip3 install --upgrade pip && pip3 install -r requirements-dev.txt
+RUN pip3 install --upgrade pip pip-tools
+RUN pip3 install -r requirements-dev.txt
 
 EXPOSE 8080
-CMD sleep 2; python3.9 src/manage.py runserver 0.0.0.0:8080
+CMD sleep 2; python3 src/manage.py runserver 0.0.0.0:8080

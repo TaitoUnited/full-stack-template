@@ -15,7 +15,8 @@ WORKDIR /develop
 
 ARG SERVICE_DIR=.
 COPY ${SERVICE_DIR}/requirements-dev.txt /develop/
-RUN pip3 install --upgrade pip && pip3 install -r requirements-dev.txt && pip3 install ptvsd
+RUN pip3 install --upgrade pip pip-tools
+RUN pip3 install -r requirements-dev.txt && pip3 install ptvsd
 
 EXPOSE 8080
 CMD python -m ptvsd --host 0.0.0.0 --port 9229 -m flask run --host $API_BINDADDR --port $API_PORT --no-debugger

@@ -4,46 +4,90 @@
 #
 #    pip-compile requirements-dev.in
 #
-atomicwrites==1.3.0       # via pytest
-attrs==19.1.0             # via packaging, pytest
-blinker==1.4              # via sentry-sdk
-boto3==1.9.220
-botocore==1.12.220        # via boto3, s3transfer
-certifi==2019.6.16        # via requests, sentry-sdk
-chardet==3.0.4            # via requests
-click==7.0                # via flask
-docutils==0.15.2          # via botocore
-entrypoints==0.3          # via flake8
-flake8==3.7.8
-flask==1.1.1
-idna==2.8                 # via requests
-importlib-metadata==0.19  # via pluggy, pytest
-itsdangerous==1.1.0       # via flask
-jinja2==2.10.1            # via flask
-jmespath==0.9.4           # via boto3, botocore
-markupsafe==1.1.1         # via jinja2
-mccabe==0.6.1             # via flake8
-more-itertools==7.2.0     # via pytest, zipp
-mypy-extensions==0.4.1    # via mypy
-mypy==0.720
-packaging==19.1           # via pytest
-pluggy==0.12.0            # via pytest
-psycopg2-binary==2.8.3
-py==1.8.0                 # via pytest
-pycodestyle==2.5.0        # via flake8
-pydantic==0.32.2
-pyflakes==2.1.1           # via flake8
-pyparsing==2.4.2          # via packaging
-pytest==5.1.1
-python-dateutil==2.8.0    # via botocore
-python-json-logger==0.1.11
-requests==2.22.0
-s3transfer==0.2.1         # via boto3
-sentry-sdk[flask]==0.11.2
-six==1.12.0               # via packaging, python-dateutil
-typed-ast==1.4.0          # via mypy
-typing-extensions==3.7.4  # via mypy
-urllib3==1.25.3           # via botocore, requests, sentry-sdk
-wcwidth==0.1.7            # via pytest
-werkzeug==0.15.5          # via flask
-zipp==0.6.0               # via importlib-metadata
+attrs==20.3.0
+    # via pytest
+blinker==1.4
+    # via sentry-sdk
+boto3==1.16.53
+    # via -r requirements.in
+botocore==1.19.53
+    # via
+    #   boto3
+    #   s3transfer
+certifi==2020.12.5
+    # via
+    #   requests
+    #   sentry-sdk
+chardet==4.0.0
+    # via requests
+click==7.1.2
+    # via flask
+flake8==3.8.4
+    # via -r requirements-dev.in
+flask==1.1.2
+    # via
+    #   -r requirements.in
+    #   sentry-sdk
+idna==2.10
+    # via requests
+iniconfig==1.1.1
+    # via pytest
+itsdangerous==1.1.0
+    # via flask
+jinja2==2.11.2
+    # via flask
+jmespath==0.10.0
+    # via
+    #   boto3
+    #   botocore
+markupsafe==1.1.1
+    # via jinja2
+mccabe==0.6.1
+    # via flake8
+mypy-extensions==0.4.3
+    # via mypy
+mypy==0.790
+    # via -r requirements-dev.in
+packaging==20.8
+    # via pytest
+pluggy==0.13.1
+    # via pytest
+psycopg2-binary==2.8.6
+    # via -r requirements.in
+py==1.10.0
+    # via pytest
+pycodestyle==2.6.0
+    # via flake8
+pydantic==1.7.3
+    # via -r requirements.in
+pyflakes==2.2.0
+    # via flake8
+pyparsing==2.4.7
+    # via packaging
+pytest==6.2.1
+    # via -r requirements-dev.in
+python-dateutil==2.8.1
+    # via botocore
+python-json-logger==2.0.1
+    # via -r requirements.in
+requests==2.25.1
+    # via -r requirements-dev.in
+s3transfer==0.3.4
+    # via boto3
+sentry-sdk[flask]==0.19.5
+    # via -r requirements.in
+six==1.15.0
+    # via python-dateutil
+toml==0.10.2
+    # via pytest
+typed-ast==1.4.2
+    # via mypy
+typing-extensions==3.7.4.3
+    # via mypy
+urllib3==1.26.2
+    # via
+    #   botocore
+    #   requests
+    #   sentry-sdk
+werkzeug==1.0.1
+    # via flask
