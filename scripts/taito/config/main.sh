@@ -314,6 +314,7 @@ case $taito_env in
     # CI/CD provider
     taito_ci_provider=${default_ci_provider_prod}
     taito_ci_organization=${default_ci_organization_prod}
+    taito_ci_image=${default_taito_image_prod}
 
     # CI/CD settings
     ci_exec_deploy=${default_ci_exec_deploy_prod:-true}
@@ -425,6 +426,7 @@ case $taito_env in
     # CI/CD provider
     taito_ci_provider=${default_ci_provider_prod}
     taito_ci_organization=${default_ci_organization_prod}
+    taito_ci_image=${default_taito_image_prod}
 
     # CI/CD settings
     ci_exec_deploy=${default_ci_exec_deploy_prod:-true}
