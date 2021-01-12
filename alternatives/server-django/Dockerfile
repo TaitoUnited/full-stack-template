@@ -15,9 +15,7 @@ RUN mkdir -p /develop
 WORKDIR /develop
 
 ARG SERVICE_DIR=.
-COPY ${SERVICE_DIR}/requirements-dev.txt \
-     ${SERVICE_DIR}/src/manage.py \
-     /develop/
+COPY ${SERVICE_DIR}/requirements-dev.txt /develop/
 RUN pip3 install --upgrade pip pip-tools
 RUN pip3 install -r requirements-dev.txt
 
