@@ -157,7 +157,7 @@ default_postgres_ssl_client_cert_enabled=${template_default_postgres_ssl_client_
 default_postgres_ssl_server_cert_enabled=${template_default_postgres_ssl_server_cert_enabled}
 default_postgres_proxy_ssl_enabled=${template_default_postgres_proxy_ssl_enabled}
 default_postgres_master_username=${template_default_postgres_master_username}
-default_postgres_master_password_hint=${template_default_postgres_master_password_hint}
+default_postgres_master_password_hint='${template_default_postgres_master_password_hint}'
 
 # Postgres (prod)
 default_postgres_prod=${template_default_postgres_prod}
@@ -169,7 +169,7 @@ default_postgres_ssl_client_cert_enabled_prod=${template_default_postgres_ssl_cl
 default_postgres_ssl_server_cert_enabled_prod=${template_default_postgres_ssl_server_cert_enabled_prod}
 default_postgres_proxy_ssl_enabled_prod=${template_default_postgres_proxy_ssl_enabled_prod}
 default_postgres_master_username_prod=${template_default_postgres_master_username_prod}
-default_postgres_master_password_hint_prod=${template_default_postgres_master_password_hint_prod}
+default_postgres_master_password_hint_prod='${template_default_postgres_master_password_hint_prod}'
 
 # MySQL
 default_mysql=${template_default_mysql}
@@ -181,7 +181,7 @@ default_mysql_ssl_client_cert_enabled=${template_default_mysql_ssl_client_cert_e
 default_mysql_ssl_server_cert_enabled=${template_default_mysql_ssl_server_cert_enabled}
 default_mysql_proxy_ssl_enabled=${template_default_mysql_proxy_ssl_enabled}
 default_mysql_master_username=${template_default_mysql_master_username}
-default_mysql_master_password_hint=${template_default_mysql_master_password_hint}
+default_mysql_master_password_hint='${template_default_mysql_master_password_hint}'
 
 # MySQL (prod)
 default_mysql_prod=${template_default_mysql_prod}
@@ -193,7 +193,7 @@ default_mysql_ssl_client_cert_enabled_prod=${template_default_mysql_ssl_client_c
 default_mysql_ssl_server_cert_enabled_prod=${template_default_mysql_ssl_server_cert_enabled_prod}
 default_mysql_proxy_ssl_enabled_prod=${template_default_mysql_proxy_ssl_enabled_prod}
 default_mysql_master_username_prod=${template_default_mysql_master_username_prod}
-default_mysql_master_password_hint_prod=${template_default_mysql_master_password_hint_prod}
+default_mysql_master_password_hint_prod='${template_default_mysql_master_password_hint_prod}'
 
 # Storage defaults
 default_storage_class="${template_default_storage_class}"
