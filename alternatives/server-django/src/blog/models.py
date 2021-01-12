@@ -1,10 +1,11 @@
 from django.db import models
-import uuid
+
 
 class Posts(models.Model):
 
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4(), editable=False)
-    # created_at = models.DateTimeField(auto_now_add=True) 
+    # id = models.UUIDField(primary_key=True, default=uuid.uuid4(),
+    #   editable=False)
+    # created_at = models.DateTimeField(auto_now_add=True)
     # updated_at = models.DateTimeField(auto_now=True)
     id = models.UUIDField(primary_key=True)
     created_at = models.DateTimeField()
@@ -16,6 +17,7 @@ class Posts(models.Model):
     class Meta:
         managed = False
         db_table = 'posts'
+
 
 class PostsCreate(models.Model):
     subject = models.TextField()

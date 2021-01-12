@@ -21,7 +21,4 @@ COPY ${SERVICE_DIR}/requirements-dev.txt \
 RUN pip3 install --upgrade pip && pip3 install -r requirements-dev.txt
 
 EXPOSE 8080
-CMD python3.9 src/manage.py runserver 0.0.0.0:9229
-# For debugging:
-# ENTRYPOINT [ "tail", "-f", "/dev/null" ]
-
+CMD sleep 2; python3.9 src/manage.py runserver 0.0.0.0:8080

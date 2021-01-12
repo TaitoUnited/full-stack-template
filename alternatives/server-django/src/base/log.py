@@ -1,10 +1,7 @@
 
 
 import logging
-import sys
-import typing
 import os
-from time import time
 import json_log_formatter
 from collections import defaultdict
 
@@ -13,8 +10,14 @@ _config = defaultdict(
     os.environ,
     )
 
+
 class CustomisedJSONFormatter(json_log_formatter.JSONFormatter):
-    def json_record(self, message: str, extra: dict, record: logging.LogRecord) -> dict:
+    def json_record(
+        self,
+        message: str,
+        extra: dict,
+        record: logging.LogRecord
+    ) -> dict:
         print('EXTRA', extra)
         print('REC', record)
         # # Stackdriver severity levels map one-to-one with python

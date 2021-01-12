@@ -11,6 +11,7 @@ class PostReadSerializer(serializers.ModelSerializer):
                   'content',
                   'author')
 
+
 class PostCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -18,6 +19,7 @@ class PostCreateSerializer(serializers.ModelSerializer):
         fields = ('subject',
                   'content',
                   'author')
+
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
