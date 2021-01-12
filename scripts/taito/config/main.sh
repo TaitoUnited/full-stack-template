@@ -21,28 +21,32 @@ taito_plugins="
   semantic-release:prod
 "
 
+# Zone defaults
+# shellcheck disable=SC1091
+. scripts/taito/config/defaults.sh
+
 # Project labeling
-taito_organization=${template_default_organization}
-taito_organization_abbr=${template_default_organization_abbr}
+taito_organization=${default_organization}
+taito_organization_abbr=${default_organization_abbr}
 # shellcheck disable=SC1091
 . scripts/taito/labels.sh
 
 # Assets
-taito_project_icon=$taito_project-dev.${template_default_domain}/favicon.ico
+taito_project_icon=$taito_project-dev.${default_domain}/favicon.ico
 
 # Environment mappings
 taito_env=${taito_target_env/canary/prod} # canary -> prod
 
 # Cloud provider
-taito_provider=${template_default_provider}
-taito_provider_org_id=${template_default_provider_org_id}
-taito_provider_billing_account_id=${template_default_provider_billing_account_id}
-taito_provider_region=${template_default_provider_region}
-taito_provider_zone=${template_default_provider_zone}
+taito_provider=${default_provider}
+taito_provider_org_id=${default_provider_org_id}
+taito_provider_billing_account_id=${default_provider_billing_account_id}
+taito_provider_region=${default_provider_region}
+taito_provider_zone=${default_provider_zone}
 
 # Taito zone
-taito_zone=${template_default_zone}
-taito_zone_multi_tenant=${template_default_zone_multi_tenant}
+taito_zone=${default_zone}
+taito_zone_multi_tenant=${default_zone_multi_tenant}
 
 # Resource namespace (= tenant namespace)
 taito_resource_namespace=$taito_zone
@@ -53,73 +57,74 @@ if [[ $taito_zone_multi_tenant == true ]]; then
 fi
 
 # Network
-taito_network_tags='${template_default_network_tags}'
-taito_function_subnet_tags='${template_default_function_subnet_tags}'
-taito_function_security_group_tags='${template_default_function_security_group_tags}'
-taito_cache_subnet_tags='${template_default_cache_subnet_tags}'
-taito_cache_security_group_tags='${template_default_cache_security_group_tags}'
+taito_network_tags='${default_network_tags}'
+taito_function_subnet_tags='${default_function_subnet_tags}'
+taito_function_security_group_tags='${default_function_security_group_tags}'
+taito_cache_subnet_tags='${default_cache_subnet_tags}'
+taito_cache_security_group_tags='${default_cache_security_group_tags}'
 
 # Policies
-taito_cicd_policies='${template_default_cicd_policies}'
-taito_gateway_policies='${template_default_gateway_policies}'
+taito_cicd_policies='${default_cicd_policies}'
+taito_gateway_policies='${default_gateway_policies}'
 
 # Secrets location
-taito_provider_secrets_location=${template_default_provider_secrets_location}
-taito_cicd_secrets_path=${template_default_cicd_secrets_path}
+taito_provider_secrets_location=${default_provider_secrets_location}
+taito_cicd_secrets_path=${default_cicd_secrets_path}
 
 # Buckets
-taito_state_bucket=${template_default_state_bucket}
-taito_functions_bucket=${template_default_functions_bucket}
-taito_static_assets_bucket=${template_default_public_bucket}
+taito_state_bucket=${default_state_bucket}
+taito_functions_bucket=${default_functions_bucket}
+taito_static_assets_bucket=${default_public_bucket}
 
 # URLs
-taito_domain=$taito_project-$taito_target_env.${template_default_domain}
-taito_default_domain=$taito_project-$taito_target_env.${template_default_domain}
-taito_cdn_domain=${template_default_cdn_domain}
+taito_domain=$taito_project-$taito_target_env.${default_domain}
+taito_default_domain=$taito_project-$taito_target_env.${default_domain}
+taito_cdn_domain=${default_cdn_domain}
 taito_app_url=
 
 # Hosts
-taito_host="${template_default_host}"
+taito_host="${default_host}"
 taito_host_dir="/projects/$taito_namespace"
 
 # SSH bastion host
-ssh_db_proxy_host="${template_default_bastion_public_ip}"
+ssh_db_proxy_host="${default_bastion_public_ip}"
 ssh_db_proxy_username="ubuntu"
 
 # Version control provider
-taito_vc_provider=${template_default_vc_provider}
-taito_vc_organization=${template_default_vc_organization}
+taito_vc_provider=${default_vc_provider}
+taito_vc_organization=${default_vc_organization}
 taito_vc_repository=$taito_project
-taito_vc_repository_url=${template_default_vc_url}/$taito_vc_repository
+taito_vc_repository_url=${default_vc_url}/$taito_vc_repository
 
 # CI/CD provider
-taito_ci_provider=${template_default_ci_provider}
-taito_ci_organization=${template_default_ci_organization}
-taito_ci_image=${template_default_taito_image}
+taito_ci_provider=${default_ci_provider}
+taito_ci_organization=${default_ci_organization}
+taito_ci_image=${default_taito_image}
 taito_ci_cache_all_targets_with_docker=true
 
 # Container registry provider
-taito_container_registry_provider=${template_default_container_registry_provider}
-taito_container_registry_provider_url=${template_default_container_registry_provider_url}
-taito_container_registry_organization=${template_default_container_registry_organization}
-taito_container_registry=${template_default_container_registry}/$taito_project
+taito_container_registry_provider=${default_container_registry_provider}
+taito_container_registry_provider_url=${default_container_registry_provider_url}
+taito_container_registry_organization=${default_container_registry_organization}
+taito_container_registry=${default_container_registry}/$taito_project
+taito_container_registry_common=$taito_container_registry
 
 # Uptime monitoring provider
-taito_uptime_provider= # only for prod by default
-taito_uptime_provider_url=${template_default_uptime_provider_url}
-taito_uptime_provider_org_id=${template_default_uptime_provider_org_id}
+taito_uptime_provider=${default_uptime_provider}
+taito_uptime_provider_url=${default_uptime_provider_url}
+taito_uptime_provider_org_id=${default_uptime_provider_org_id}
 # You can list all monitoring channels with `taito env info:ENV`
-taito_uptime_channels="${template_default_uptime_channels}"
+taito_uptime_channels="${default_uptime_channels}"
 
 # Tracking provider
-taito_tracking_provider=${template_default_tracking_provider}
-taito_tracking_provider_url=${template_default_tracking_provider_url}
-taito_tracking_organization=${template_default_tracking_organization}
+taito_tracking_provider=${default_tracking_provider}
+taito_tracking_provider_url=${default_tracking_provider_url}
+taito_tracking_organization=${default_tracking_organization}
 
 # Tracing provider
-taito_tracking_provider=${template_default_tracking_provider}
-taito_tracking_provider_url=${template_default_tracking_provider_url}
-taito_tracking_organization=${template_default_tracking_organization}
+taito_tracking_provider=${default_tracking_provider}
+taito_tracking_provider_url=${default_tracking_provider_url}
+taito_tracking_organization=${default_tracking_organization}
 
 # Messaging provider
 taito_messaging_provider=slack
@@ -133,42 +138,42 @@ taito_messaging_monitoring_channel=monitoring
 # NOTE: database users are defined later in this file
 db_database_type=${taito_default_db_type:-pg}
 if [[ $db_database_type == "pg" ]]; then
-  db_database_instance=${template_default_postgres}
+  db_database_instance=${default_postgres}
   db_database_name=${taito_project//-/_}_${taito_env}
   if [[ $taito_zone_multi_tenant == true ]]; then
     db_database_name=${taito_random_name//-/_}_${taito_env}
   fi
-  db_database_username_suffix=${template_default_postgres_username_suffix}
+  db_database_username_suffix=${default_postgres_username_suffix}
   db_database_host="127.0.0.1"
   db_database_port=5001
-  db_database_real_host="${template_default_postgres_host}"
-  db_database_real_port="${template_default_postgres_port}"
-  db_database_ssl_enabled="${template_default_postgres_ssl_enabled:-true}"
-  db_database_ssl_client_cert_enabled="${template_default_postgres_ssl_client_cert_enabled:-false}"
-  db_database_ssl_server_cert_enabled="${template_default_postgres_ssl_server_cert_enabled:-false}"
-  db_database_proxy_ssl_enabled="${template_default_postgres_proxy_ssl_enabled:-true}"
+  db_database_real_host="${default_postgres_host}"
+  db_database_real_port="${default_postgres_port}"
+  db_database_ssl_enabled="${default_postgres_ssl_enabled:-true}"
+  db_database_ssl_client_cert_enabled="${default_postgres_ssl_client_cert_enabled:-false}"
+  db_database_ssl_server_cert_enabled="${default_postgres_ssl_server_cert_enabled:-false}"
+  db_database_proxy_ssl_enabled="${default_postgres_proxy_ssl_enabled:-true}"
   db_database_create=true
 elif [[ $db_database_type == "mysql" ]]; then
-  db_database_instance=${template_default_mysql}
+  db_database_instance=${default_mysql}
   db_database_name=${taito_project_short}${taito_env}
-  db_database_username_suffix=${template_default_mysql_username_suffix}
+  db_database_username_suffix=${default_mysql_username_suffix}
   db_database_host="127.0.0.1"
   db_database_port=5001
-  db_database_real_host="${template_default_mysql_host}"
-  db_database_real_port="${template_default_mysql_port}"
-  db_database_ssl_enabled="${template_default_mysql_ssl_enabled:-true}"
-  db_database_ssl_client_cert_enabled="${template_default_mysql_ssl_client_cert_enabled:-false}"
-  db_database_ssl_server_cert_enabled="${template_default_mysql_ssl_server_cert_enabled:-false}"
-  db_database_proxy_ssl_enabled="${template_default_mysql_proxy_ssl_enabled:-true}"
+  db_database_real_host="${default_mysql_host}"
+  db_database_real_port="${default_mysql_port}"
+  db_database_ssl_enabled="${default_mysql_ssl_enabled:-true}"
+  db_database_ssl_client_cert_enabled="${default_mysql_ssl_client_cert_enabled:-false}"
+  db_database_ssl_server_cert_enabled="${default_mysql_ssl_server_cert_enabled:-false}"
+  db_database_proxy_ssl_enabled="${default_mysql_proxy_ssl_enabled:-true}"
   db_database_create=true
 fi
 
 # Storage defaults
-taito_default_storage_class="${template_default_storage_class}"
-taito_default_storage_location="${template_default_storage_location}"
-taito_default_storage_days="${template_default_storage_days}"
-taito_default_storage_backup_location="${template_default_backup_location}"
-taito_default_storage_backup_days="${template_default_backup_days}"
+taito_default_storage_class="${default_storage_class}"
+taito_default_storage_location="${default_storage_location}"
+taito_default_storage_days="${default_storage_days}"
+taito_default_storage_backup_location="${default_backup_location}"
+taito_default_storage_backup_days="${default_backup_days}"
 
 # Misc settings
 taito_basic_auth_enabled=true
@@ -181,7 +186,7 @@ taito_default_password=secret1234
 # After that the same container image will be deployed to other environments:
 # dev -> test -> uat -> stag -> canary -> prod
 ci_exec_build=false        # build container image if it does not exist already
-ci_exec_deploy=${template_default_ci_exec_deploy:-true}        # deploy automatically
+ci_exec_deploy=${default_ci_exec_deploy:-true}        # deploy automatically
 ci_exec_test=false         # execute test suites after deploy
 ci_exec_test_init=false    # run 'init --clean' before each test suite
 ci_exec_release=false      # release build
@@ -192,15 +197,16 @@ ci_exec_revert=false       # revert deployment automatically on fail
 taito_deployment_platforms=
 
 # Kubernetes plugin
-kubernetes_name=${template_default_kubernetes}
-kubernetes_regional=${template_default_kubernetes_regional}
+kubernetes_name=${default_kubernetes}
+kubernetes_regional=${default_kubernetes_regional}
+kubernetes_network_policy_provider=${default_kubernetes_network_policy_provider}
 kubernetes_replicas=1
 kubernetes_db_proxy_enabled=true
 
 # Binary authorization
-binauthz_attestor=${template_default_binauthz_attestor}
-binauthz_secret_name=${template_default_binauthz_secret_name}
-binauthz_public_key_id=${template_default_binauthz_public_key_id}
+binauthz_attestor=${default_binauthz_attestor}
+binauthz_secret_name=${default_binauthz_secret_name}
+binauthz_public_key_id=${default_binauthz_public_key_id}
 
 # ------ OS specific docker settings ------
 
@@ -223,13 +229,13 @@ dockerfile=${dockerfile:-Dockerfile}
 case $taito_env in
   prod)
     # Provider and namespaces
-    taito_zone=${template_default_zone_prod}
-    taito_zone_multi_tenant=${template_default_zone_multi_tenant_prod}
-    taito_provider=${template_default_provider_prod}
-    taito_provider_org_id=${template_default_provider_org_id_prod}
-    taito_provider_billing_account_id=${template_default_provider_billing_account_id_prod}
-    taito_provider_region=${template_default_provider_region_prod}
-    taito_provider_zone=${template_default_provider_zone_prod}
+    taito_zone=${default_zone_prod}
+    taito_zone_multi_tenant=${default_zone_multi_tenant_prod}
+    taito_provider=${default_provider_prod}
+    taito_provider_org_id=${default_provider_org_id_prod}
+    taito_provider_billing_account_id=${default_provider_billing_account_id_prod}
+    taito_provider_region=${default_provider_region_prod}
+    taito_provider_zone=${default_provider_zone_prod}
 
     # Resource namespace (= tenant namespace)
     taito_resource_namespace=$taito_zone
@@ -238,108 +244,109 @@ case $taito_env in
     fi
 
     # Network
-    taito_network_tags="${template_default_network_tags_prod}"
-    taito_function_subnet_tags="${template_default_function_subnet_tags_prod}"
-    taito_function_security_group_tags="${template_default_function_security_group_tags_prod}"
-    taito_cache_subnet_tags="${template_default_cache_subnet_tags_prod}"
-    taito_cache_security_group_tags="${template_default_cache_security_group_tags_prod}"
+    taito_network_tags="${default_network_tags_prod}"
+    taito_function_subnet_tags="${default_function_subnet_tags_prod}"
+    taito_function_security_group_tags="${default_function_security_group_tags_prod}"
+    taito_cache_subnet_tags="${default_cache_subnet_tags_prod}"
+    taito_cache_security_group_tags="${default_cache_security_group_tags_prod}"
 
     # Policies
-    taito_cicd_policies='${template_default_cicd_policies_prod}'
-    taito_gateway_policies='${template_default_gateway_policies_prod}'
+    taito_cicd_policies='${default_cicd_policies_prod}'
+    taito_gateway_policies='${default_gateway_policies_prod}'
 
     # Secrets location
-    taito_provider_secrets_location=${template_default_provider_secrets_location_prod}
-    taito_cicd_secrets_path=${template_default_cicd_secrets_path_prod}
+    taito_provider_secrets_location=${default_provider_secrets_location_prod}
+    taito_cicd_secrets_path=${default_cicd_secrets_path_prod}
 
     # Domain
-    taito_cdn_domain=${template_default_cdn_domain_prod}
-    taito_host="${template_default_host_prod}"
+    taito_cdn_domain=${default_cdn_domain_prod}
+    taito_host="${default_host_prod}"
 
     # Kubernetes
-    kubernetes_name=${template_default_kubernetes_prod}
-    kubernetes_regional=${template_default_kubernetes_regional_prod}
+    kubernetes_name=${default_kubernetes_prod}
+    kubernetes_regional=${default_kubernetes_regional_prod}
+    kubernetes_network_policy_provider=${default_kubernetes_network_policy_provider_prod}
     kubernetes_replicas=2
 
     # Binary authorization
-    binauthz_attestor=${template_default_binauthz_attestor_prod}
-    binauthz_secret_name=${template_default_binauthz_secret_name_prod}
-    binauthz_public_key_id=${template_default_binauthz_public_key_id_prod}
+    binauthz_attestor=${default_binauthz_attestor_prod}
+    binauthz_secret_name=${default_binauthz_secret_name_prod}
+    binauthz_public_key_id=${default_binauthz_public_key_id_prod}
 
     # Databases
-    ssh_db_proxy_host="${template_default_bastion_public_ip_prod}"
+    ssh_db_proxy_host="${default_bastion_public_ip_prod}"
     if [[ $db_database_type == "pg" ]]; then
-      db_database_real_host="${template_default_postgres_host_prod}"
-      db_database_real_port="${template_default_postgres_port_prod}"
-      db_database_username_suffix=${template_default_postgres_username_suffix_prod}
-      db_database_ssl_enabled="${template_default_postgres_ssl_enabled_prod:-true}"
-      db_database_ssl_client_cert_enabled="${template_default_postgres_ssl_client_cert_enabled_prod:-false}"
-      db_database_ssl_server_cert_enabled="${template_default_postgres_ssl_server_cert_enabled_prod:-false}"
-      db_database_proxy_ssl_enabled="${template_default_postgres_proxy_ssl_enabled_prod:-true}"
+      db_database_real_host="${default_postgres_host_prod}"
+      db_database_real_port="${default_postgres_port_prod}"
+      db_database_username_suffix=${default_postgres_username_suffix_prod}
+      db_database_ssl_enabled="${default_postgres_ssl_enabled_prod:-true}"
+      db_database_ssl_client_cert_enabled="${default_postgres_ssl_client_cert_enabled_prod:-false}"
+      db_database_ssl_server_cert_enabled="${default_postgres_ssl_server_cert_enabled_prod:-false}"
+      db_database_proxy_ssl_enabled="${default_postgres_proxy_ssl_enabled_prod:-true}"
     elif [[ $db_database_type == "mysql" ]]; then
-      db_database_real_host="${template_default_mysql_host_prod}"
-      db_database_real_port="${template_default_postgres_port_prod}"
-      db_database_username_suffix=${template_default_mysql_username_suffix_prod}
-      db_database_ssl_enabled="${template_default_mysql_ssl_enabled_prod:-true}"
-      db_database_ssl_client_cert_enabled="${template_default_mysql_ssl_client_cert_enabled_prod:-false}"
-      db_database_ssl_server_cert_enabled="${template_default_mysql_ssl_server_cert_enabled_prod:-false}"
-      db_database_proxy_ssl_enabled="${template_default_mysql_proxy_ssl_enabled_prod:-true}"
+      db_database_real_host="${default_mysql_host_prod}"
+      db_database_real_port="${default_postgres_port_prod}"
+      db_database_username_suffix=${default_mysql_username_suffix_prod}
+      db_database_ssl_enabled="${default_mysql_ssl_enabled_prod:-true}"
+      db_database_ssl_client_cert_enabled="${default_mysql_ssl_client_cert_enabled_prod:-false}"
+      db_database_ssl_server_cert_enabled="${default_mysql_ssl_server_cert_enabled_prod:-false}"
+      db_database_proxy_ssl_enabled="${default_mysql_proxy_ssl_enabled_prod:-true}"
     fi
 
     # Storages
-    taito_state_bucket=${template_default_state_bucket_prod}
-    taito_functions_bucket=${template_default_functions_bucket_prod}
-    taito_static_assets_bucket=${template_default_public_bucket_prod}
+    taito_state_bucket=${default_state_bucket_prod}
+    taito_functions_bucket=${default_functions_bucket_prod}
+    taito_static_assets_bucket=${default_public_bucket_prod}
 
     # Storage defaults
-    taito_default_storage_class="${template_default_storage_class_prod}"
-    taito_default_storage_location="${template_default_storage_location_prod}"
-    taito_default_storage_days="${template_default_storage_days_prod}"
-    taito_default_storage_backup_location="${template_default_backup_location_prod}"
-    taito_default_storage_backup_days="${template_default_backup_days_prod}"
+    taito_default_storage_class="${default_storage_class_prod}"
+    taito_default_storage_location="${default_storage_location_prod}"
+    taito_default_storage_days="${default_storage_days_prod}"
+    taito_default_storage_backup_location="${default_backup_location_prod}"
+    taito_default_storage_backup_days="${default_backup_days_prod}"
 
     # Container registry provider
-    taito_container_registry_provider=${template_default_container_registry_provider_prod}
-    taito_container_registry_provider_url=${template_default_container_registry_provider_url_prod}
-    taito_container_registry_organization=${template_default_container_registry_organization_prod}
-    taito_container_registry=${template_default_container_registry_prod}/$taito_project
+    taito_container_registry_provider=${default_container_registry_provider_prod}
+    taito_container_registry_provider_url=${default_container_registry_provider_url_prod}
+    taito_container_registry_organization=${default_container_registry_organization_prod}
+    taito_container_registry=${default_container_registry_prod}/$taito_project
 
     # CI/CD provider
-    taito_ci_provider=${template_default_ci_provider_prod}
-    taito_ci_organization=${template_default_ci_organization_prod}
+    taito_ci_provider=${default_ci_provider_prod}
+    taito_ci_organization=${default_ci_organization_prod}
 
     # CI/CD settings
-    ci_exec_deploy=${template_default_ci_exec_deploy_prod:-true}
+    ci_exec_deploy=${default_ci_exec_deploy_prod:-true}
     ci_exec_release=true
 
     # Uptime monitoring provider
-    taito_uptime_provider=${template_default_uptime_provider_prod}
-    taito_uptime_provider_url=${template_default_uptime_provider_url_prod}
-    taito_uptime_provider_org_id=${template_default_uptime_provider_org_id_prod}
-    taito_uptime_channels="${template_default_uptime_channels_prod}"
+    taito_uptime_provider=${default_uptime_provider_prod}
+    taito_uptime_provider_url=${default_uptime_provider_url_prod}
+    taito_uptime_provider_org_id=${default_uptime_provider_org_id_prod}
+    taito_uptime_channels="${default_uptime_channels_prod}"
 
     # Tracking provider
-    taito_tracking_provider=${template_default_tracking_provider_prod}
-    taito_tracking_provider_url=${template_default_tracking_provider_url_prod}
-    taito_tracking_organization=${template_default_tracking_organization_prod}
+    taito_tracking_provider=${default_tracking_provider_prod}
+    taito_tracking_provider_url=${default_tracking_provider_url_prod}
+    taito_tracking_organization=${default_tracking_organization_prod}
 
     # Tracing provider
-    taito_tracking_provider=${template_default_tracking_provider_prod}
-    taito_tracking_provider_url=${template_default_tracking_provider_url_prod}
-    taito_tracking_organization=${template_default_tracking_organization_prod}
+    taito_tracking_provider=${default_tracking_provider_prod}
+    taito_tracking_provider_url=${default_tracking_provider_url_prod}
+    taito_tracking_organization=${default_tracking_organization_prod}
 
     # shellcheck disable=SC1091
     if [[ -f scripts/taito/env-prod.sh ]]; then . scripts/taito/env-prod.sh; fi
     ;;
   stag)
     # Provider and namespaces
-    taito_zone=${template_default_zone_prod}
-    taito_zone_multi_tenant=${template_default_zone_multi_tenant_prod}
-    taito_provider=${template_default_provider_prod}
-    taito_provider_org_id=${template_default_provider_org_id_prod}
-    taito_provider_billing_account_id=${template_default_provider_billing_account_id_prod}
-    taito_provider_region=${template_default_provider_region_prod}
-    taito_provider_zone=${template_default_provider_zone_prod}
+    taito_zone=${default_zone_prod}
+    taito_zone_multi_tenant=${default_zone_multi_tenant_prod}
+    taito_provider=${default_provider_prod}
+    taito_provider_org_id=${default_provider_org_id_prod}
+    taito_provider_billing_account_id=${default_provider_billing_account_id_prod}
+    taito_provider_region=${default_provider_region_prod}
+    taito_provider_zone=${default_provider_zone_prod}
 
     # Resource namespace (= tenant namespace)
     taito_resource_namespace=$taito_zone
@@ -348,94 +355,95 @@ case $taito_env in
     fi
 
     # Network
-    taito_network_tags="${template_default_network_tags_prod}"
-    taito_function_subnet_tags="${template_default_function_subnet_tags_prod}"
-    taito_function_security_group_tags="${template_default_function_security_group_tags_prod}"
-    taito_cache_subnet_tags="${template_default_cache_subnet_tags_prod}"
-    taito_cache_security_group_tags="${template_default_cache_security_group_tags_prod}"
+    taito_network_tags="${default_network_tags_prod}"
+    taito_function_subnet_tags="${default_function_subnet_tags_prod}"
+    taito_function_security_group_tags="${default_function_security_group_tags_prod}"
+    taito_cache_subnet_tags="${default_cache_subnet_tags_prod}"
+    taito_cache_security_group_tags="${default_cache_security_group_tags_prod}"
 
     # Policies
-    taito_cicd_policies='${template_default_cicd_policies_prod}'
-    taito_gateway_policies='${template_default_gateway_policies_prod}'
+    taito_cicd_policies='${default_cicd_policies_prod}'
+    taito_gateway_policies='${default_gateway_policies_prod}'
 
     # Secrets location
-    taito_provider_secrets_location=${template_default_provider_secrets_location_prod}
-    taito_cicd_secrets_path=${template_default_cicd_secrets_path_prod}
+    taito_provider_secrets_location=${default_provider_secrets_location_prod}
+    taito_cicd_secrets_path=${default_cicd_secrets_path_prod}
 
     # Domain
-    taito_domain=$taito_project-$taito_target_env.${template_default_domain_prod}
-    taito_default_domain=$taito_project-$taito_target_env.${template_default_domain_prod}
-    taito_cdn_domain=${template_default_cdn_domain_prod}
-    taito_host="${template_default_host_prod}"
+    taito_domain=$taito_project-$taito_target_env.${default_domain_prod}
+    taito_default_domain=$taito_project-$taito_target_env.${default_domain_prod}
+    taito_cdn_domain=${default_cdn_domain_prod}
+    taito_host="${default_host_prod}"
 
     # Kubernetes
-    kubernetes_name=${template_default_kubernetes_prod}
-    kubernetes_regional=${template_default_kubernetes_regional_prod}
+    kubernetes_name=${default_kubernetes_prod}
+    kubernetes_regional=${default_kubernetes_regional_prod}
+    kubernetes_network_policy_provider=${default_kubernetes_network_policy_provider_prod}
     kubernetes_replicas=2
 
     # Binary authorization
-    binauthz_attestor=${template_default_binauthz_attestor_prod}
-    binauthz_secret_name=${template_default_binauthz_secret_name_prod}
-    binauthz_public_key_id=${template_default_binauthz_public_key_id_prod}
+    binauthz_attestor=${default_binauthz_attestor_prod}
+    binauthz_secret_name=${default_binauthz_secret_name_prod}
+    binauthz_public_key_id=${default_binauthz_public_key_id_prod}
 
     # Databases
-    ssh_db_proxy_host="${template_default_bastion_public_ip_prod}"
+    ssh_db_proxy_host="${default_bastion_public_ip_prod}"
     if [[ $db_database_type == "pg" ]]; then
-      db_database_real_host="${template_default_postgres_host_prod}"
-      db_database_username_suffix=${template_default_postgres_username_suffix_prod}
-      db_database_ssl_enabled="${template_default_postgres_ssl_enabled_prod:-true}"
-      db_database_ssl_client_cert_enabled="${template_default_postgres_ssl_client_cert_enabled_prod:-false}"
-      db_database_ssl_server_cert_enabled="${template_default_postgres_ssl_server_cert_enabled_prod:-false}"
-      db_database_proxy_ssl_enabled="${template_default_postgres_proxy_ssl_enabled_prod:-true}"
+      db_database_real_host="${default_postgres_host_prod}"
+      db_database_username_suffix=${default_postgres_username_suffix_prod}
+      db_database_ssl_enabled="${default_postgres_ssl_enabled_prod:-true}"
+      db_database_ssl_client_cert_enabled="${default_postgres_ssl_client_cert_enabled_prod:-false}"
+      db_database_ssl_server_cert_enabled="${default_postgres_ssl_server_cert_enabled_prod:-false}"
+      db_database_proxy_ssl_enabled="${default_postgres_proxy_ssl_enabled_prod:-true}"
     elif [[ $db_database_type == "mysql" ]]; then
-      db_database_real_host="${template_default_mysql_host_prod}"
-      db_database_username_suffix=${template_default_mysql_username_suffix_prod}
-      db_database_ssl_enabled="${template_default_mysql_ssl_enabled_prod:-true}"
-      db_database_ssl_client_cert_enabled="${template_default_mysql_ssl_client_cert_enabled_prod:-false}"
-      db_database_ssl_server_cert_enabled="${template_default_mysql_ssl_server_cert_enabled_prod:-false}"
-      db_database_proxy_ssl_enabled="${template_default_mysql_proxy_ssl_enabled_prod:-true}"
+      db_database_real_host="${default_mysql_host_prod}"
+      db_database_username_suffix=${default_mysql_username_suffix_prod}
+      db_database_ssl_enabled="${default_mysql_ssl_enabled_prod:-true}"
+      db_database_ssl_client_cert_enabled="${default_mysql_ssl_client_cert_enabled_prod:-false}"
+      db_database_ssl_server_cert_enabled="${default_mysql_ssl_server_cert_enabled_prod:-false}"
+      db_database_proxy_ssl_enabled="${default_mysql_proxy_ssl_enabled_prod:-true}"
     fi
 
     # Storages
-    taito_state_bucket=${template_default_state_bucket_prod}
-    taito_functions_bucket=${template_default_functions_bucket_prod}
-    taito_static_assets_bucket=${template_default_public_bucket_prod}
+    taito_state_bucket=${default_state_bucket_prod}
+    taito_functions_bucket=${default_functions_bucket_prod}
+    taito_static_assets_bucket=${default_public_bucket_prod}
 
     # Storage defaults
-    taito_default_storage_class="${template_default_storage_class_prod}"
-    taito_default_storage_location="${template_default_storage_location_prod}"
-    taito_default_storage_days="${template_default_storage_days_prod}"
-    taito_default_storage_backup_location="${template_default_backup_location_prod}"
-    taito_default_storage_backup_days="${template_default_backup_days_prod}"
+    taito_default_storage_class="${default_storage_class_prod}"
+    taito_default_storage_location="${default_storage_location_prod}"
+    taito_default_storage_days="${default_storage_days_prod}"
+    taito_default_storage_backup_location="${default_backup_location_prod}"
+    taito_default_storage_backup_days="${default_backup_days_prod}"
 
     # Container registry provider
-    taito_container_registry_provider=${template_default_container_registry_provider_prod}
-    taito_container_registry_provider_url=${template_default_container_registry_provider_url_prod}
-    taito_container_registry_organization=${template_default_container_registry_organization_prod}
-    taito_container_registry=${template_default_container_registry_prod}/$taito_project
+    taito_container_registry_provider=${default_container_registry_provider_prod}
+    taito_container_registry_provider_url=${default_container_registry_provider_url_prod}
+    taito_container_registry_organization=${default_container_registry_organization_prod}
+    taito_container_registry=${default_container_registry_prod}/$taito_project
 
     # CI/CD provider
-    taito_ci_provider=${template_default_ci_provider_prod}
-    taito_ci_organization=${template_default_ci_organization_prod}
+    taito_ci_provider=${default_ci_provider_prod}
+    taito_ci_organization=${default_ci_organization_prod}
 
     # CI/CD settings
-    ci_exec_deploy=${template_default_ci_exec_deploy_prod:-true}
+    ci_exec_deploy=${default_ci_exec_deploy_prod:-true}
 
     # Uptime monitoring provider
     taito_uptime_provider= # only for prod by default
-    taito_uptime_provider_url=${template_default_uptime_provider_url_prod}
-    taito_uptime_provider_org_id=${template_default_uptime_provider_org_id_prod}
-    taito_uptime_channels="${template_default_uptime_channels_prod}"
+    taito_uptime_provider_url=${default_uptime_provider_url_prod}
+    taito_uptime_provider_org_id=${default_uptime_provider_org_id_prod}
+    taito_uptime_channels="${default_uptime_channels_prod}"
 
     # Tracking provider
-    taito_tracking_provider=${template_default_tracking_provider_prod}
-    taito_tracking_provider_url=${template_default_tracking_provider_url_prod}
-    taito_tracking_organization=${template_default_tracking_organization_prod}
+    taito_tracking_provider=${default_tracking_provider_prod}
+    taito_tracking_provider_url=${default_tracking_provider_url_prod}
+    taito_tracking_organization=${default_tracking_organization_prod}
 
     # Tracing provider
-    taito_tracking_provider=${template_default_tracking_provider_prod}
-    taito_tracking_provider_url=${template_default_tracking_provider_url_prod}
-    taito_tracking_organization=${template_default_tracking_organization_prod}
+    taito_tracking_provider=${default_tracking_provider_prod}
+    taito_tracking_provider_url=${default_tracking_provider_url_prod}
+    taito_tracking_organization=${default_tracking_organization_prod}
 
     # shellcheck disable=SC1091
     if [[ -f scripts/taito/env-stag.sh ]]; then . scripts/taito/env-stag.sh; fi
@@ -514,6 +522,13 @@ else
   taito_cdn_project_path=-
 fi
 
+# CI/CD
+# Allow rebuilding container for stag/canary if common registry not being used
+if [[ $taito_container_registry_common != $taito_container_registry ]] &&
+   [[ "stag canary" == *"${taito_target_env}"* ]]; then
+  ci_exec_build=true
+fi
+
 # ------ Database users ------
 
 db_database_app_user_suffix="_app"
@@ -521,13 +536,13 @@ db_database_viewer_user_suffix="_viewer"
 
 # master user for creating and destroying databases
 if [[ $db_database_type == "pg" ]]; then
-  db_database_master_username="${template_default_postgres_master_username}${db_database_username_suffix}"
-  db_database_master_password_hint="${template_default_postgres_master_password_hint}"
+  db_database_master_username="${default_postgres_master_username}${db_database_username_suffix}"
+  db_database_master_password_hint="${default_postgres_master_password_hint}"
 elif [[ $db_database_type == "mysql" ]]; then
   db_database_app_user_suffix="a"
   db_database_viewer_user_suffix="v"
-  db_database_master_username="${template_default_mysql_master_username}${db_database_username_suffix}"
-  db_database_master_password_hint="${template_default_mysql_master_password_hint}"
+  db_database_master_username="${default_mysql_master_username}${db_database_username_suffix}"
+  db_database_master_password_hint="${default_mysql_master_password_hint}"
 fi
 
 # app user for application

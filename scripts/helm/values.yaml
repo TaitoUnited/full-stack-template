@@ -28,6 +28,7 @@ global:
 full-stack:
   serviceAccountCreate: true
   networkPolicyEnabled: true
+  networkPolicyProvider: CALICO
 
   persistence:
     enabled: false

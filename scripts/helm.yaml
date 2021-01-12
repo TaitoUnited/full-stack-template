@@ -17,6 +17,7 @@ global:
 
 full-stack:
   networkPolicyEnabled: true
+  networkPolicyProvider: ${kubernetes_network_policy_provider}
 
   ingress:
     class: nginx
