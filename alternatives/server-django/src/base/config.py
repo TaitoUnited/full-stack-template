@@ -37,6 +37,9 @@ class Config:
     API_PORT = int(_config.get('API_PORT', -1))
     API_BINDADDR = _config['API_BINDADDR']
 
+    # Django
+    DJANGO_SECRET_KEY = read_secret('DJANGO_SECRET_KEY')
+
     # Cache
     CACHE_HOST = _config['CACHE_HOST']
     CACHE_PORT = int(_config.get('CACHE_PORT', -1))
