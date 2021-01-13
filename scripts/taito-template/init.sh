@@ -362,7 +362,7 @@ function prune () {
       sed -i '/^    server:/a\      livenessPath: /healthz/' scripts/helm.yaml
 
       # Add Django secret key
-      sed -i '/^taito_secrets="/a\  $taito_project-$taito_env-django.secretKey:random50' scripts/taito/project.sh
+      sed -i '/^taito_secrets="/a\  $taito_project-$taito_env-django.secretKey:random-50' scripts/taito/project.sh
       sed -i '/^        EXAMPLE_SECRET:/a\        DJANGO_SECRET_KEY: ${taito_project}-${taito_env}-django.secretKey' scripts/helm.yaml
       sed -i '/^      - EXAMPLE_SECRET/a\      - DJANGO_SECRET_KEY' docker-compose.yaml
       sed -i '/^    file: .\/secrets\/${taito_env}\/${taito_project}-${taito_env}-example.secret/a\  DJANGO_SECRET_KEY:\n    file: .\/secrets\/${taito_env}\/${taito_project}-${taito_env}-django.secretKey' docker-compose.yaml
