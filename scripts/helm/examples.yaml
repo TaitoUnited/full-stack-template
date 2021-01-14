@@ -272,6 +272,9 @@ full-stack:
       # Give volume write permissions for root(0) group
       fsGroup: 0
       initCommand: 'chmod g+w /data/db'
+      # Optionally place the on the same node as another pod using the same disk
+      # placementSameAs: database2
+      # placementPreferSameAs: database2
       # Mount /data/db and /data/backup to the external disk
       persistentVolumeMounts:
         - mountPath: /data/db
