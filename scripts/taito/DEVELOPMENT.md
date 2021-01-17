@@ -102,7 +102,7 @@ List all project related links and open one of them in browser:
     taito open -h
     taito open NAME
 
-code check quality:
+Check code quality:
 
     taito code check
     <!-- TODO
