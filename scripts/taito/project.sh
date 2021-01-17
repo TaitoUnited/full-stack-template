@@ -75,6 +75,12 @@ taito_testing_secrets="
   $db_database_ssl_key_secret
 "
 
+taito_secret_hints="
+  * basic-auth=Basic authentication is used to hide non-production environments from public
+  * serviceaccount=Service account is typically used to access Cloud resources
+  * example=Just an example secret. You can type anything as a value.
+"
+
 # ------ Links ------
 # Add custom links here. You can regenerate README.md links with
 # 'taito project generate'. Configuration instructions: TODO
