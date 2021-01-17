@@ -4,26 +4,26 @@ This file has been copied from [FULL-STACK-TEMPLATE](https://github.com/TaitoUni
 
 Table of contents:
 
-* [Prerequisites](#prerequisites)
-* [Quick start](#quick-start)
-* [Development tips](#development-tips)
-* [Code structure](#code-structure)
-* [Version control](#version-control)
-* [Database migrations](#database-migrations)
-* [Deployment](#deployment)
-* [Upgrading](#upgrading)
-* [Configuration](#configuration)
+- [Prerequisites](#prerequisites)
+- [Quick start](#quick-start)
+- [Development tips](#development-tips)
+- [Code structure](#code-structure)
+- [Version control](#version-control)
+- [Database migrations](#database-migrations)
+- [Deployment](#deployment)
+- [Upgrading](#upgrading)
+- [Configuration](#configuration)
 
 ## Prerequisites
 
-* [Node.js](https://nodejs.org/)
-* [Docker Compose](https://docs.docker.com/compose/install/)
-* [Taito CLI](https://taitounited.github.io/taito-cli/) (or see [TAITOLESS.md](TAITOLESS.md))
-* Optional: Some editor plugins depending on technology (e.g. [ESLint](https://eslint.org/docs/user-guide/integrations#editors) and [Prettier](https://prettier.io/docs/en/editors.html) for JavaScript/TypeScript)
+- [Node.js](https://nodejs.org/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+- [Taito CLI](https://taitounited.github.io/taito-cli/) (or see [TAITOLESS.md](TAITOLESS.md))
+- Optional: Some editor plugins depending on technology (e.g. [ESLint](https://eslint.org/docs/user-guide/integrations#editors) and [Prettier](https://prettier.io/docs/en/editors.html) for JavaScript/TypeScript)
 
 ## Quick start
 
-> TIP: Start application in a cleaned and initialized local environment with a single command: `taito kaboom`. This is essentially the same thing as running `taito env apply --clean`, `taito start --clean`, and `taito init`. If the application fails to start, run `taito trouble` to see troubleshooting.
+> TIP: Start application in a cleaned and initialized local environment with a single command: `taito develop`. This is essentially the same thing as running `taito env apply --clean`, `taito start --clean`, and `taito init`. If the application fails to start, run `taito trouble` to see troubleshooting.
 
 Create local environment by installing some libraries and generating secrets (add `--clean` to recreate clean environment):
 
@@ -102,26 +102,26 @@ List all project related links and open one of them in browser:
     taito open -h
     taito open NAME
 
-Check code quality:
+code check quality:
 
-    taito check code
+    taito code check
     <!-- TODO
-    taito check code:admin
-    taito check code:client
-    taito check code:server
+    taito code check:admin
+    taito code check:client
+    taito code check:server
     -->
 
 Check build size:
 
-    taito check size
-    taito check size:client
+    taito size check
+    taito size check:client
 
 Check dependencies (available updates, vulnerabilities):
 
-    taito check deps
-    taito check deps:server
-    taito check deps:server -u             # update packages interactively
-    taito check deps:server -y             # update all packages (non-iteractive)
+    taito dep check
+    taito dep check:server
+    taito dep check:server -u               # update packages interactively
+    taito dep check:server -y               # update all packages (non-iteractive)
 
 > NOTE: Many of the `devDependencies` and `~` references are actually in use even if reported unused. But all unused `dependencies` can usually be removed from package.json.
 
@@ -180,21 +180,22 @@ Sometimes docker may start hogging up cpu on macOS and Windows. In such case, ju
 
 If the cooling fans of your computer spin fast and the computer seems slow, a high cpu load (or too slow computer) might not be the only cause. Check that your computer is not full of dust, the environment is not too hot, and your computer is not running on low-energy mode to save battery. Many computers start to limit available cpu on too hot conditions, or when battery charge is low.
 
-Docker volume mounts can be slow on non-Linux systems. The template uses *delegated* volume mounts to mitigate this issue on macOS.
+Docker volume mounts can be slow on non-Linux systems. The template uses _delegated_ volume mounts to mitigate this issue on macOS.
 
 To get maximum performace on non-Linux system, you may also choose to run some of the services locally, if you have all the necessary dependencies installed on your host system. For example, to run the client locally, you can add the following lines to your `taito-user-config.sh`. Taito CLI will modify docker-compose.yaml and docker-nginx.conf accordingly on `taito start`.
 
-   ```
-   docker_compose_local_services="full-stack-template-client:8080"
-   ```
+```
+docker_compose_local_services="full-stack-template-client:8080"
+```
 
 Note that you also need to start the local client manually with the necessary environment variables set, for example:
-   ```
-   cd client
-   export COMMON_PUBLIC_PORT=9999
-   export API_URL=/api
-   npm run start
-   ```
+
+```
+cd client
+export COMMON_PUBLIC_PORT=9999
+export API_URL=/api
+npm run start
+```
 
 ## Code structure
 
@@ -216,13 +217,13 @@ Add a new migration:
 
 1. Add a new step to migration plan:
 
-    `taito db add NAME`, for example: `taito db add role_enum`
+   `taito db add NAME`, for example: `taito db add role_enum`
 
 2. Modify database/deploy/NAME.sql, database/revert/NAME.sql and database/verify/NAME.sql
 
 3. Deploy the change to your local database:
 
-    `taito db deploy`
+   `taito db deploy`
 
 The CI/CD tool will deploy your database changes automatically to servers once you push your changes to git. Database migrations are executed using sqitch. More instructions on sqitch: [Sqitch tutorial](https://metacpan.org/pod/sqitchtutorial)
 
@@ -236,13 +237,13 @@ The CI/CD tool will deploy your database changes automatically to servers once y
 
 Container images are built for dev and feature branches only. Once built and tested successfully, the container images will be deployed to other environments on git branch merge:
 
-* **f-NAME**: Push to the `feature/NAME` branch.
-* **dev**: Push to the `dev` branch.
-* **test**: Merge changes to the `test` branch using fast-forward.
-* **uat**: Merge changes to the `uat` branch using fast-forward.
-* **stag**: Merge changes to the `stag` branch using fast-forward.
-* **canary**: Merge changes to the `canary` branch using fast-forward. NOTE: Canary environment uses production resources (database, storage, 3rd party services) so be careful with database migrations.
-* **prod**: Merge changes to the `master` branch using fast-forward. Version number and release notes are generated automatically by the CI/CD tool.
+- **f-NAME**: Push to the `feature/NAME` branch.
+- **dev**: Push to the `dev` branch.
+- **test**: Merge changes to the `test` branch using fast-forward.
+- **uat**: Merge changes to the `uat` branch using fast-forward.
+- **stag**: Merge changes to the `stag` branch using fast-forward.
+- **canary**: Merge changes to the `canary` branch using fast-forward. NOTE: Canary environment uses production resources (database, storage, 3rd party services) so be careful with database migrations.
+- **prod**: Merge changes to the `master` branch using fast-forward. Version number and release notes are generated automatically by the CI/CD tool.
 
 Simple projects require only two environments: **dev** and **prod**. You can list the environments with `taito env list`.
 

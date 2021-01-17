@@ -35,7 +35,7 @@ echo
 echo "Mandatory:"
 echo "1) Review all changes."
 echo "2) Make the project work locally. The project should start locally with"
-echo "   'taito kaboom' (see scripts/taito/DEVELOPMENT.md)."
+echo "   'taito develop' (see scripts/taito/DEVELOPMENT.md)."
 echo "3) Modify all **/package.json files so that they provide scripts required"
 echo "   by the CI/CD build (build:prod, lint, unit, test)"
 echo "4) Implement /healthz and /uptimez endpoints in your server implementation"

@@ -11,7 +11,7 @@ This file has been copied from [FULL-STACK-TEMPLATE](https://github.com/TaitoUni
 
 ## Local development environment
 
-Start your local development environment by running `taito kaboom`. Once the command starts to install libraries, you can leave it on the background while you continue with configuration. Once the application has started, open the web application GUI with `taito open client`. NOTE: If your project includes a static website instead of web application GUI, you need to configure it first (see [/www/README.md](/www/README.md)), and then you can open it with `taito open www`.
+Start your local development environment by running `taito develop`. Once the command starts to install libraries, you can leave it on the background while you continue with configuration. Once the application has started, open the web application GUI with `taito open client`. NOTE: If your project includes a static website instead of web application GUI, you need to configure it first (see [/www/README.md](/www/README.md)), and then you can open it with `taito open www`.
 
 > If the application fails to start, run `taito trouble` to see troubleshooting. More information on local development you can find from [DEVELOPMENT.md](DEVELOPMENT.md).
 
@@ -63,7 +63,7 @@ See it build and deploy:
 
 ## Blog example
 
-The project template comes with a blog implementation that includes examples for web user interface, REST, GraphQL, database, files, background jobs, real-time notifications, pdf printing, etc. Once you don't need the examples anymore, just remove everything related to `blog` and use the `taito check deps` command to prune unused dependencies from `package.json` files. NOTE: Many of the `devDependencies` and `~` references are actually in use even if reported unused by the tool. But all unused `dependencies` may usually be removed from package.json.
+The project template comes with a blog implementation that includes examples for web user interface, REST, GraphQL, database, files, background jobs, real-time notifications, pdf printing, etc. Once you don't need the examples anymore, just remove everything related to `blog` and use the `taito dep check` command to prune unused dependencies from `package.json` files. NOTE: Many of the `devDependencies` and `~` references are actually in use even if reported unused by the tool. But all unused `dependencies` may usually be removed from package.json.
 
 The client GUI uses [Material-UI](https://material-ui-next.com/) component library by default. It's a good match with the [react-admin](https://github.com/marmelab/react-admin) GUI, but please consider also other alternatives based on customer requirements. For example [Semantic UI React](https://react.semantic-ui.com/), [React Bootstrap](https://react-bootstrap.github.io/) and [Elemental](http://elemental-ui.com/) are also good alternatives.
 
@@ -86,7 +86,7 @@ Operations on production and staging environments usually require admin rights. 
 **Additional microservices:** Add a new microservice with the following steps. You can skip the IMPLEMENTATION steps if you are using a prebuilt Docker image (e.g. Redis).
 
   1. IMPLEMENTATION OR DATABASE: Create a new directory for your service implementation or database migration scripts. Look [FULL-STACK-TEMPLATE](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/) and [alternatives](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/tree/master/alternatives) for examples.
-  2. IMPLEMENTATION: Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `check-deps`, `check-size`.
+  2. IMPLEMENTATION: Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `dep-check`, `size-check`.
   3. IMPLEMENTATION: Add the service to your CI/CD script (`.yml/.yaml` or `Jenkinsfile` in project root or `.github/main.workflow`).
   4. OPTIONAL: In case of a database, you may want to enable the corresponding Taito CLI plugins in `scripts/taito/project.sh`. For example `postgres-db` and `sqitch-db` for PostgreSQL with Sqitch.
   5. Add the service to `taito_containers`, `taito_functions`, or `taito_databases` variable in `scripts/taito/project.sh` depending on its type. If it is a database running in container, you may add it to both `taito_containers` and `taito_databases`.
@@ -94,7 +94,7 @@ Operations on production and staging environments usually require admin rights. 
   7. Add the service to `docker-compose*.yaml` files.
   8. Add the service to `scripts/helm.yaml` for Kubernetes or to `scripts/terraform.yaml` for serverless.
   9. OPTIONAL: Add the service to `docker-nginx.conf` if external access is required (e.g. with web browser).
-  10. Run `taito kaboom` and check that the service works ok in local development environment.
+  10. Run `taito develop` and check that the service works ok in local development environment.
   11. Add secret values for each remote environment with `taito secret rotate:ENV NAME`.
 
 **Additional databases:** The template provides default configuration for a PostgreSQL database. You can add an additional databases the same way you add a microservice (described above), but you need to also add default settings for your additional database in `scripts/taito/project.sh` and environment specific overrides in `scripts/taito/env-*.sh` files. Use `db_database_*` settings of `scripts/taito/config/main.sh` as an example, and add the corresponding settings to `project.sh` and `env-*.sh` using `db_MYDATABASE_*` as environment variable naming. You may also want to add data import to your `taito-init` and `taito-init:clean` scripts in `package.json`.

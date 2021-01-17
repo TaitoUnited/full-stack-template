@@ -77,7 +77,7 @@ taito_testing_secrets="
 
 # ------ Links ------
 # Add custom links here. You can regenerate README.md links with
-# 'taito project docs'. Configuration instructions: TODO
+# 'taito project generate'. Configuration instructions: TODO
 
 link_urls="
   * client[:ENV]=$taito_app_url Web application GUI (:ENV)
