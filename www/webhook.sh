@@ -155,7 +155,9 @@ function exec_hook_command() {
   if [[ "${command}" == "deployment" ]]; then
     # Copy the original build to the empty shared volume
     mkdir -p /build
-    cp -rf /build-orig/* /build
+    if [[ -z "$(ls -A /build)" ]]; then
+      cp -rf /build-orig/* /build
+    fi
 
     if [[ "${VC_PULL_ENABLED}" == "true" ]]; then
       # Clone git repository and install libraries for real-time full builds
