@@ -1,13 +1,22 @@
-# This file is used for running integration tests against a remote
-# environment. It is needed only if your test implementations require
-# a remote database access through a proxy, or secrets defined in the remote
-# environment.
+# This file is used to run operations on CI/CD pipeline against your remotely
+# running application. These operations include:
+#
+# - End-to-end tests for the UI
+# - Integration tests for the API
+# - Database migrations for the database
+#
+# This file contains to types of containers:
+#
+# a) Containers that provide the implementations (tests, migrations, etc).
+#    Typically the build stage of the Dockerfile.build includes these.
+# b) Containers that act as a proxy to provide access to database or
+#    internal services. Typically Taito CLI image is used as a proxy.
 
-version: '3.5'
+version: '3.9'
 services:
-  full-stack-template-admin-test:
-    container_name: full-stack-template-admin-test
-    image: full-stack-template-admin-test:latest
+  full-stack-template-admin-cicd:
+    container_name: full-stack-template-admin-cicd
+    image: full-stack-template-admin-builder:latest
     restart: 'no'
     volumes:
       - "./admin:/develop:delegated"
@@ -22,9 +31,9 @@ services:
     environment:
       taito_running_tests: "true"
 
-  full-stack-template-client-test:
-    container_name: full-stack-template-client-test
-    image: full-stack-template-client-test:latest
+  full-stack-template-client-cicd:
+    container_name: full-stack-template-client-cicd
+    image: full-stack-template-client-builder:latest
     restart: 'no'
     volumes:
       - "./client:/develop:delegated"
@@ -41,9 +50,9 @@ services:
     environment:
       taito_running_tests: "true"
 
-  full-stack-template-graphql-test:
-    container_name: full-stack-template-graphql-test
-    image: full-stack-template-graphql-test:latest
+  full-stack-template-graphql-cicd:
+    container_name: full-stack-template-graphql-cicd
+    image: full-stack-template-graphql-builder:latest
     restart: 'no'
     volumes:
       - "./graphql:/develop:delegated"
@@ -58,9 +67,9 @@ services:
     environment:
       taito_running_tests: "true"
 
-  full-stack-template-server-test:
-    container_name: full-stack-template-server-test
-    image: full-stack-template-server-test:latest
+  full-stack-template-server-cicd:
+    container_name: full-stack-template-server-cicd
+    image: full-stack-template-server-builder:latest
     restart: 'no'
     volumes:
       - "./server:/develop:delegated"
@@ -95,8 +104,8 @@ services:
     network_mode: "bridge"
     volumes:
       - ".:/project:delegated"
-    secrets: # CICD_TESTER_SERVICEACCOUNT_KEY
-      - CICD_TESTER_SERVICEACCOUNT_KEY
+    secrets: # CICD_PROXY_SERVICEACCOUNT_KEY
+      - CICD_PROXY_SERVICEACCOUNT_KEY
     environment:
       taito_docker: 'true'
       AZURE_CLIENT_ID: ${AZURE_CLIENT_ID}
@@ -104,7 +113,7 @@ services:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       DO_API_KEY: ${DO_API_KEY}
-      GOOGLE_APPLICATION_CREDENTIALS: /run/secrets/CICD_TESTER_SERVICEACCOUNT_KEY
+      GOOGLE_APPLICATION_CREDENTIALS: /run/secrets/CICD_PROXY_SERVICEACCOUNT_KEY
       template_default_taito_image: ${template_default_taito_image}
       template_default_environments: ${template_default_environments}
       template_default_organization: ${template_default_organization}
@@ -152,8 +161,8 @@ services:
   #   network_mode: "bridge"
   #   volumes:
   #     - ".:/project:delegated"
-  #   secrets: # CICD_TESTER_SERVICEACCOUNT_KEY
-  #     - CICD_TESTER_SERVICEACCOUNT_KEY
+  #   secrets: # CICD_PROXY_SERVICEACCOUNT_KEY
+  #     - CICD_PROXY_SERVICEACCOUNT_KEY
   #   environment:
   #     taito_docker: "true"
   #     AZURE_CLIENT_ID: ${AZURE_CLIENT_ID}
@@ -161,11 +170,11 @@ services:
   #     AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
   #     AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
   #     DO_API_KEY: ${DO_API_KEY}
-  #     GOOGLE_APPLICATION_CREDENTIALS: /run/secrets/CICD_TESTER_SERVICEACCOUNT_KEY
+  #     GOOGLE_APPLICATION_CREDENTIALS: /run/secrets/CICD_PROXY_SERVICEACCOUNT_KEY
 
 secrets:
-  CICD_TESTER_SERVICEACCOUNT_KEY:
-    file: ./tmp/secrets/${taito_env}/cicd-tester-serviceaccount.key
+  CICD_PROXY_SERVICEACCOUNT_KEY:
+    file: ./tmp/secrets/${taito_env}/cicd-proxy-serviceaccount.key
   DATABASE_PASSWORD:
     file: ./tmp/secrets/${taito_env}/${db_database_mgr_secret}
   DATABASE_SSL_CA:

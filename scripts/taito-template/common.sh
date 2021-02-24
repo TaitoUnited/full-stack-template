@@ -76,38 +76,38 @@ fi
 
 echo "Pruning provider settings"
 
-if [[ -f docker-compose-test.yaml ]] && \
+if [[ -f docker-compose-cicd.yaml ]] && \
    [[ $template_default_provider != "azure" ]] && \
    [[ $template_default_provider_prod != "azure" ]]
 then
-  sed -i '/AZURE_/d' docker-compose-test.yaml
+  sed -i '/AZURE_/d' docker-compose-cicd.yaml
 fi
 
-if [[ -f docker-compose-test.yaml ]] && \
+if [[ -f docker-compose-cicd.yaml ]] && \
    [[ $template_default_provider != "aws" ]] && \
    [[ $template_default_provider_prod != "aws" ]]
 then
-  sed -i '/AWS_/d' docker-compose-test.yaml
+  sed -i '/AWS_/d' docker-compose-cicd.yaml
 fi
 
-if [[ -f docker-compose-test.yaml ]] && \
+if [[ -f docker-compose-cicd.yaml ]] && \
    [[ $template_default_provider != "do" ]] && \
    [[ $template_default_provider_prod != "do" ]]
 then
-  sed -i '/DO_/d' docker-compose-test.yaml
+  sed -i '/DO_/d' docker-compose-cicd.yaml
 fi
 
-if [[ -f docker-compose-test.yaml ]] && \
+if [[ -f docker-compose-cicd.yaml ]] && \
    [[ $template_default_provider != "gcp" ]]
 then
-  sed -i '/GOOGLE_/d' docker-compose-test.yaml
-  sed -i '/CICD_TESTER_SERVICEACCOUNT_KEY/d' docker-compose-test.yaml
-  sed -i '/cicd-tester-serviceaccount/d' docker-compose-test.yaml
+  sed -i '/GOOGLE_/d' docker-compose-cicd.yaml
+  sed -i '/CICD_PROXY_SERVICEACCOUNT_KEY/d' docker-compose-cicd.yaml
+  sed -i '/cicd-proxy-serviceaccount/d' docker-compose-cicd.yaml
 fi
 
 if [[ $template_default_provider != "gcp" ]]; then
-  sed -i '/cicd-tester-serviceaccount/d' scripts/taito/project.sh 2> /dev/null || :
-  sed -i '/cicd-tester-serviceaccount/d' scripts/taito/testing.sh 2> /dev/null || :
+  sed -i '/cicd-proxy-serviceaccount/d' scripts/taito/project.sh 2> /dev/null || :
+  sed -i '/cicd-proxy-serviceaccount/d' scripts/taito/testing.sh 2> /dev/null || :
 fi
 
 # Currently network policy supported only for gcp (database host is static IP)
@@ -159,9 +159,9 @@ mv scripts/taito/config/defaults.sh scripts/taito/config/defaults-orig.sh
 envsubst < scripts/taito/config/defaults-orig.sh > scripts/taito/config/defaults.sh
 rm -f scripts/taito/config/defaults-orig.sh
 
-if [[ -f docker-compose-test.yaml ]]; then
-  echo "Removing template settings from docker-compose-test.yaml..."
-  sed -i '/template_default_/d' docker-compose-test.yaml
+if [[ -f docker-compose-cicd.yaml ]]; then
+  echo "Removing template settings from docker-compose-cicd.yaml..."
+  sed -i '/template_default_/d' docker-compose-cicd.yaml
 fi
 
 ######################

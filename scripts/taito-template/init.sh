@@ -81,9 +81,9 @@ function prune () {
     sed -i "/^  full-stack-template-$name:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
     sed -i "/^  # full-stack-template-$name:\r*\$/,/^\r*$/d" docker-compose.yaml
     sed -i "/^  # full-stack-template-$name:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
-    if [[ -f docker-compose-test.yaml ]]; then
-      sed -i "/^  full-stack-template-$name-test:\r*\$/,/^\r*$/d" docker-compose-test.yaml
-      sed -i "/^  # full-stack-template-$name-test:\r*\$/,/^\r*$/d" docker-compose-test.yaml
+    if [[ -f docker-compose-cicd.yaml ]]; then
+      sed -i "/^  full-stack-template-$name-test:\r*\$/,/^\r*$/d" docker-compose-cicd.yaml
+      sed -i "/^  # full-stack-template-$name-test:\r*\$/,/^\r*$/d" docker-compose-cicd.yaml
     fi
     sed -i "/^    $name:\r*\$/,/^\r*$/d" ./scripts/helm.yaml
     sed -i "/-$name$/d" ./scripts/helm.yaml
@@ -168,7 +168,7 @@ function prune () {
       sed -i '/db_/d' docker-compose-remote.yaml
       sed -i '/DATABASE_/d' ./scripts/helm.yaml
       sed -i "/^      db:\r*\$/,/^\r*        proxySecret:.*$/d" ./scripts/helm.yaml
-      rm -f docker-compose-test.yaml
+      rm -f docker-compose-cicd.yaml
 
       # Remove database from server implementation
       # TODO: works only for the default Node.js server implementation
@@ -386,8 +386,8 @@ function remove_empty_secrets () {
 }
 
 remove_empty_secrets docker-compose.yaml
-if [[ -f docker-compose-test.yaml ]]; then
-  remove_empty_secrets docker-compose-test.yaml
+if [[ -f docker-compose-cicd.yaml ]]; then
+  remove_empty_secrets docker-compose-cicd.yaml
 fi
 if [[ -f docker-compose-remote.yaml ]]; then
   remove_empty_secrets docker-compose-remote.yaml
@@ -446,22 +446,22 @@ fi
 # Remove database SSL keys if they are not required
 if [[ ${template_default_postgres_ssl_enabled} != "true" ]] ||
    [[ ${template_default_postgres_ssl_client_cert_enabled} != "true" ]]; then
-  if [[ -f docker-compose-test.yaml ]]; then
-    sed -i '/DATABASE_SSL_CERT/d' ./docker-compose-test.yaml
-    sed -i '/database_ssl_cert/d' ./docker-compose-test.yaml
+  if [[ -f docker-compose-cicd.yaml ]]; then
+    sed -i '/DATABASE_SSL_CERT/d' ./docker-compose-cicd.yaml
+    sed -i '/database_ssl_cert/d' ./docker-compose-cicd.yaml
   fi
   sed -i '/database_ssl_cert/d' ./scripts/taito/testing.sh
-  if [[ -f docker-compose-test.yaml ]]; then
-    sed -i '/DATABASE_SSL_KEY/d' ./docker-compose-test.yaml
-    sed -i '/database_ssl_key/d' ./docker-compose-test.yaml
+  if [[ -f docker-compose-cicd.yaml ]]; then
+    sed -i '/DATABASE_SSL_KEY/d' ./docker-compose-cicd.yaml
+    sed -i '/database_ssl_key/d' ./docker-compose-cicd.yaml
   fi
   sed -i '/database_ssl_key/d' ./scripts/taito/testing.sh
 fi
 if [[ ${template_default_postgres_ssl_enabled} != "true" ]] ||
    [[ ${template_default_postgres_ssl_server_cert_enabled} != "true" ]]; then
-  if [[ -f docker-compose-test.yaml ]]; then
-    sed -i '/DATABASE_SSL_CA/d' ./docker-compose-test.yaml
-    sed -i '/database_ssl_ca/d' ./docker-compose-test.yaml
+  if [[ -f docker-compose-cicd.yaml ]]; then
+    sed -i '/DATABASE_SSL_CA/d' ./docker-compose-cicd.yaml
+    sed -i '/database_ssl_ca/d' ./docker-compose-cicd.yaml
   fi
   sed -i '/database_ssl_ca/d' ./scripts/taito/testing.sh
 fi

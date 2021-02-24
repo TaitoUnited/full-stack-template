@@ -45,20 +45,7 @@ st_bucket_name="$taito_random_name-$taito_env"
 # Configuration instructions:
 # https://taitounited.github.io/taito-cli/tutorial/06-env-variables-and-secrets/
 
-taito_local_secrets="
-"
-
-taito_remote_secrets="
-  $taito_project-$taito_env-basic-auth.auth:htpasswd-plain
-  $taito_project-$taito_env-scheduler.secret:random
-  $taito_project-$taito_env-graphql-serviceaccount.key:file
-  $taito_project-$taito_env-server-serviceaccount.key:file
-  $taito_project-$taito_env-storage-serviceaccount.key:file
-  $db_database_viewer_secret:random
-  ${db_database_mgr_secret}${taito_cicd_secrets_path}:random
-  cicd-tester-serviceaccount.key:read/common
-"
-
+# Secrets for all environments
 taito_secrets="
   $db_database_app_secret:random
   $taito_project-$taito_env-example.secret:manual
@@ -67,14 +54,32 @@ taito_secrets="
   $taito_project-$taito_env-storage.secretKey:random
 "
 
-taito_testing_secrets="
-  cicd-tester-serviceaccount.key
+# Secrets for local environment only
+taito_local_secrets="
+"
+
+# Secrets for non-local environments
+taito_remote_secrets="
+  $taito_project-$taito_env-basic-auth.auth:htpasswd-plain
+  $taito_project-$taito_env-scheduler.secret:random
+  $taito_project-$taito_env-graphql-serviceaccount.key:file
+  $taito_project-$taito_env-server-serviceaccount.key:file
+  $taito_project-$taito_env-storage-serviceaccount.key:file
+  $db_database_viewer_secret:random
+  ${db_database_mgr_secret}${taito_cicd_secrets_path}:random
+  cicd-proxy-serviceaccount.key:read/common
+"
+
+# Secrets required by CI/CD
+taito_cicd_secrets="
+  cicd-proxy-serviceaccount.key
   $db_database_mgr_secret
   $db_database_ssl_ca_secret
   $db_database_ssl_cert_secret
   $db_database_ssl_key_secret
 "
 
+# Secret hints and descriptions
 taito_secret_hints="
   * basic-auth=Basic authentication is used to hide non-production environments from public
   * serviceaccount=Service account is typically used to access Cloud resources
