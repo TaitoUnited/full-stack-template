@@ -1,13 +1,23 @@
-# This file is used for running Docker Compose on remote servers. It is not
-# needed if you use Kubernetes instead.
+# This file is used to run your application on remote servers with
+# Docker Compose. It is not needed if you use Kubernetes or cloud services
+# instead.
+
 # TODO: health checks
 
-version: '3.5'
+version: '3.9'
+x-logging:
+  &default-logging
+  options:
+    max-size: '100m'
+    max-file: '10'
+  driver: json-file
+
 services:
-  full-stack-template-ingress:
-    container_name: full-stack-template-ingress
+  full-stack-template-${taito_env}-ingress:
+    container_name: full-stack-template-${taito_env}-ingress
     image: nginx:stable-alpine
     restart: unless-stopped
+    logging: *default-logging
     networks:
       - default
     ports:
@@ -21,10 +31,11 @@ services:
     volumes:
       - "./docker-nginx.conf:/etc/nginx/nginx.conf:delegated"
 
-  full-stack-template-admin:
-    container_name: full-stack-template-admin
+  full-stack-template-${taito_env}-admin:
+    container_name: full-stack-template-${taito_env}-admin
     image: local/full-stack-template/admin:_IMAGE_TAG_
     restart: unless-stopped
+    logging: *default-logging
     networks:
       - default
     ports:
@@ -38,10 +49,11 @@ services:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: full-stack-template
 
-  full-stack-template-client:
-    container_name: full-stack-template-client
+  full-stack-template-${taito_env}-client:
+    container_name: full-stack-template-${taito_env}-client
     image: local/full-stack-template/client:_IMAGE_TAG_
     restart: unless-stopped
+    logging: *default-logging
     networks:
       - default
     ports:
@@ -59,10 +71,11 @@ services:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: full-stack-template
 
-  full-stack-template-graphql:
-    container_name: full-stack-template-graphql
+  full-stack-template-${taito_env}-graphql:
+    container_name: full-stack-template-${taito_env}-graphql
     image: local/full-stack-template/graphql:_IMAGE_TAG_
     restart: unless-stopped
+    logging: *default-logging
     networks:
       - default
     ports:
@@ -82,13 +95,14 @@ services:
       COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
       COMMON_ENV: local
       # Services
-      API_HOST: full-stack-template-server
+      API_HOST: full-stack-template-${taito_env}-server
       API_PORT: 8080
 
-  full-stack-template-server:
-    container_name: full-stack-template-server
+  full-stack-template-${taito_env}-server:
+    container_name: full-stack-template-${taito_env}-server
     image: local/full-stack-template/server:_IMAGE_TAG_
     restart: unless-stopped
+    logging: *default-logging
     networks:
       - default
     ports:
@@ -112,16 +126,16 @@ services:
       COMMON_ENV: local
       # Services
       SENTRY_DSN: #sentryDSN
-      KAFKA_HOST: full-stack-template-kafka
+      KAFKA_HOST: full-stack-template-${taito_env}-kafka
       KAFKA_PORT: 9092
-      DATABASE_HOST: 172.17.0.1  # For docker db: full-stack-template-database
+      DATABASE_HOST: 172.17.0.1  # For docker db: full-stack-template-${taito_env}-database
       DATABASE_NAME: ${db_database_name}
       DATABASE_USER: ${db_database_app_username}
       DATABASE_POOL_MIN: '1'
       DATABASE_POOL_MAX: '10'
-      REDIS_HOST: full-stack-template-redis
+      REDIS_HOST: full-stack-template-${taito_env}-redis
       REDIS_PORT: 6379
-      BUCKET_URL: http://full-stack-template-storage:9000/
+      BUCKET_URL: http://full-stack-template-${taito_env}-storage:9000/
       BUCKET_REGION: milkyway
       BUCKET_BUCKET: bucket
       BUCKET_BROWSE_URL: http://localhost:_PORT_/bucket   # TODO
@@ -129,10 +143,11 @@ services:
       BUCKET_KEY_ID: minio
       BUCKET_FORCE_PATH_STYLE: 'true'
 
-  full-stack-template-www:
-    container_name: full-stack-template-www
+  full-stack-template-${taito_env}-www:
+    container_name: full-stack-template-${taito_env}-www
     image: local/full-stack-template/www:_IMAGE_TAG_
     restart: unless-stopped
+    logging: *default-logging
     networks:
       - default
     ports:
@@ -143,10 +158,11 @@ services:
       REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/_IMAGE_TAG_/www
       REPLACE_ASSETS_DOMAIN: '${taito_cdn_domain}'
 
-  full-stack-template-redis:
-    container_name: full-stack-template-redis
+  full-stack-template-${taito_env}-redis:
+    container_name: full-stack-template-${taito_env}-redis
     image: bitnami/redis:6.0
     restart: unless-stopped
+    logging: *default-logging
     networks:
       - default
     ports:
@@ -161,26 +177,30 @@ services:
   # "EXTERNAL RESOURCES"
   # Uncomment these if you want to run them in Docker Compose instead
 
-  full-stack-template-kafka:
-    container_name: full-stack-template-kafka
+  full-stack-template-${taito_env}-kafka:
+    container_name: full-stack-template-${taito_env}-kafka
     image: 'bitnami/kafka:latest'
+    restart: unless-stopped
+    logging: *default-logging
     ports:
       - '9092'
     environment:
-      - KAFKA_ZOOKEEPER_CONNECT=full-stack-template-zookeeper:2181
+      - KAFKA_ZOOKEEPER_CONNECT=full-stack-template-${taito_env}-zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
 
-  full-stack-template-zookeeper:
-    container_name: full-stack-template-zookeeper
+  full-stack-template-${taito_env}-zookeeper:
+    container_name: full-stack-template-${taito_env}-zookeeper
     image: 'bitnami/zookeeper:latest'
+    restart: unless-stopped
+    logging: *default-logging
     ports:
       - '2181'
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
 
-  # NOTE: If you use full-stack-template-database instead of external database,
+  # NOTE: If you use full-stack-template-${taito_env}-database instead of external database,
   # do the following:
-  # - Uncomment the full-stack-template-database in this file.
+  # - Uncomment the full-stack-template-${taito_env}-database in this file.
   # - Modify the following settings in taito-config.sh:
   #     db_database_mgr_username="$db_database_app_username"
   #     db_database_mgr_secret="$db_database_app_secret"
@@ -188,10 +208,11 @@ services:
   #   'deployment-deploy' step, since database must be running during db deploy.
   # - Answer 'no' to the database creation step during 'taito env apply:ENV'.
 
-  # full-stack-template-database:
-  #   container_name: full-stack-template-database
+  # full-stack-template-${taito_env}-database:
+  #   container_name: full-stack-template-${taito_env}-database
   #   image: postgres:12
   #   restart: unless-stopped
+  #   logging: *default-logging
   #   networks:
   #     - default
   #   ports:
@@ -211,8 +232,9 @@ services:
   # "INFRASTRUCTURE"
 
   # watchtower:
-  #   restart: always
   #   image: index.docker.io/v2tec/watchtower
+  #   restart: unless-stopped
+  #   logging: *default-logging
   #   volumes:
   #     - /var/run/docker.sock:/var/run/docker.sock
   #     - ./watchtower-config.json:/config.json

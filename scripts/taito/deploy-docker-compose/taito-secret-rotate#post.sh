@@ -8,7 +8,7 @@
 set -e
 
 . "${taito_project_path}/scripts/taito/deploy-docker-compose/_config.sh"
-. "${taito_cli_path}/plugins/ssh/util/opts.sh"
+taito::expose_ssh_opts
 
 # TODO: some duplicate code with taito-env-apply#post.sh
 
@@ -18,13 +18,13 @@ echo "[Copy changed secrets to ${taito_host}:/tmp]"
   ${taito_setv:-}
   mkdir -p tmp
   tar -cf "tmp/${taito_namespace}-secrets.tar" -C "secrets/changed/${taito_env}" .
-  scp ${opts} "tmp/${taito_namespace}-secrets.tar" "${taito_ssh_user}@${taito_host}:/tmp"
+  scp ${ssh_opts} "tmp/${taito_namespace}-secrets.tar" "${taito_ssh_user}@${taito_host}:/tmp"
   rm -f "tmp/${taito_namespace}-secrets.tar"
 )
 echo
 
 echo "[Execute on ${taito_host}]"
-ssh ${opts} "${taito_ssh_user}@${taito_host}" "
+ssh ${ssh_opts} "${taito_ssh_user}@${taito_host}" "
   ${LINUX_SUDO} bash -c '
     set -e
     ${taito_setv:-}
@@ -35,10 +35,14 @@ ssh ${opts} "${taito_ssh_user}@${taito_host}" "
     echo
 
     echo [Restart docker-compose]
-    cd ${taito_host_dir}
-    . taito-config.sh
-    docker-compose stop
-    docker-compose -d up
+    if [[ -f docker-compose.yaml ]]; then
+      cd ${taito_host_dir}
+      . taito-config.sh
+      docker-compose stop
+      docker-compose -d up
+    else
+      echo File docker-compose.yaml not found. Skipping restart.
+    fi
   '
 "
 echo

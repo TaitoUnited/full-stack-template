@@ -1,8 +1,8 @@
 #!/bin/sh
 
-##################################################################
-# NOTE: Run CI/CD builds locally with command 'taito ci run:ENV'
-##################################################################
+###################################################################
+# NOTE: Run CI/CD builds locally with command 'taito -r ci run:ENV'
+###################################################################
 
 BRANCH=$1     # e.g. dev, test, uat, stag, canary, or prod
 IMAGE_TAG=$2  # e.g. commit SHA

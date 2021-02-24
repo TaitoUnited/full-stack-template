@@ -7,10 +7,10 @@
 set -e
 
 . "${taito_project_path}/scripts/taito/deploy-docker-compose/_config.sh"
-. "${taito_cli_path}/plugins/ssh/util/opts.sh"
+taito::expose_ssh_opts
 
 echo "[Execute on ${taito_host}]"
-ssh ${opts} "${taito_ssh_user}@${taito_host}" "
+ssh ${ssh_opts} "${taito_ssh_user}@${taito_host}" "
   ${LINUX_SUDO} bash -c '
     set -e
     ${taito_setv:-}
