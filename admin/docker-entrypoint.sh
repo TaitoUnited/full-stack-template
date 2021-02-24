@@ -16,30 +16,32 @@ function remove() {
 # if REPLACE_ASSETS_PATH environment variable is defined, string 'ASSETS_PATH' is
 # replaced with REPLACE_ASSETS_PATH environment variable value in all html files.
 # Note that if the value starts with '-', an empty string is used as value.
-for NAME in $(awk "END { for (name in ENVIRON) { print name; }}" < /dev/null)
-do
-  case $NAME in REPLACE_*)
-    VAL="$(awk "END { printf ENVIRON[\"$NAME\"]; }" < /dev/null)"
-    case $VAL in -*)
-      VAL= # Replace with empty string
+if [[ $REPLACEMENT_DISABLED != "true" ]]; then
+  for NAME in $(awk "END { for (name in ENVIRON) { print name; }}" < /dev/null)
+  do
+    case $NAME in REPLACE_*)
+      VAL="$(awk "END { printf ENVIRON[\"$NAME\"]; }" < /dev/null)"
+      case $VAL in -*)
+        VAL= # Replace with empty string
+      esac
+
+      # Use BASE_PATH as default value for ASSETS_PATH
+      if [[ $NAME == "REPLACE_ASSETS_PATH" ]] && [[ ! $VAL ]]; then
+        VAL="${REPLACE_BASE_PATH}"
+      fi
+
+      CONSTANT="${NAME/REPLACE_/}"
+      REPLACEMENT="${VAL//\//\\/}"
+      replace "*.html" "${CONSTANT}" "${REPLACEMENT}"
+
+      # Replace ASSETS_PATH also in runtime.*.js and manifest.json
+      if [[ $NAME == "REPLACE_ASSETS_PATH" ]] && [[ ! $VAL ]]; then
+        replace "runtime.*.js" "${CONSTANT}" "${REPLACEMENT}"
+        replace "manifest.json" "${CONSTANT}" "${REPLACEMENT}"
+        remove "manifest.json" "start_url"
+      fi
     esac
-
-    # Use BASE_PATH as default value for ASSETS_PATH
-    if [[ $NAME == "REPLACE_ASSETS_PATH" ]] && [[ ! $VAL ]]; then
-      VAL="${REPLACE_BASE_PATH}"
-    fi
-
-    CONSTANT="${NAME/REPLACE_/}"
-    REPLACEMENT="${VAL//\//\\/}"
-    replace "*.html" "${CONSTANT}" "${REPLACEMENT}"
-
-    # Replace ASSETS_PATH also in runtime.*.js and manifest.json
-    if [[ $NAME == "REPLACE_ASSETS_PATH" ]] && [[ ! $VAL ]]; then
-      replace "runtime.*.js" "${CONSTANT}" "${REPLACEMENT}"
-      replace "manifest.json" "${CONSTANT}" "${REPLACEMENT}"
-      remove "manifest.json" "start_url"
-    fi
-  esac
-done
+  done
+fi
 
 exec "$@"
