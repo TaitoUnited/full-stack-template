@@ -185,11 +185,6 @@ esac
 
 case $taito_uptime_provider in
   azure)
-    taito_plugins="${taito_plugins/azure:-local/}"
-    taito_plugins="
-      azure:-local
-      ${taito_plugins}
-    "
     link_urls="
       ${link_urls}
       * alerts[:ENV]=https://portal.azure.com/#@${taito_provider_org_id}/resource/subscriptions/${taito_provider_billing_account_id}/resourceGroups/${taito_uptime_namespace_id}/alerts Alerts (:ENV)
@@ -197,22 +192,12 @@ case $taito_uptime_provider in
     "
     ;;
   aws)
-    taito_plugins="${taito_plugins/aws:-local/}"
-    taito_plugins="
-      aws:-local
-      ${taito_plugins}
-    "
     link_urls="
       ${link_urls}
       * uptime[:ENV]=https://console.aws.amazon.com/cloudwatch/home?region=${taito_provider_region}#alarmsV2:?search=${taito_project}-${taito_target_env}&alarmFilter=ALL Uptime monitoring (:ENV)
     "
     ;;
   gcp)
-    taito_plugins="${taito_plugins/gcp:-local/}"
-    taito_plugins="
-      gcp:-local
-      ${taito_plugins}
-    "
     link_urls="
       ${link_urls}
       * uptime[:ENV]=https://console.cloud.google.com/monitoring/uptime?project=$taito_uptime_namespace_id Uptime monitoring (:ENV)
@@ -422,10 +407,11 @@ if [[ ${gcp_db_proxy_enabled} != "true" ]] && (
   "
 
   # TODO: export_database_config does not work on taitoless
-  taito::export_database_config "${taito_target:-}" || :
   taito_ssh_user="${ssh_db_proxy_username:?}"
-  ssh_db_proxy="\
-    -L 0.0.0.0:${database_port}:${database_real_host:-}:${database_real_port:-} ${ssh_db_proxy_username}@${ssh_db_proxy_host}"
+  ssh_db_proxy=$(
+    taito::export_database_config "${taito_target:-}" &> /dev/null || :
+    echo "-L 0.0.0.0:${database_port}:${database_real_host:-}:${database_real_port:-} ${ssh_db_proxy_username}@${ssh_db_proxy_host}"
+  )
   ssh_forward_for_db="${ssh_db_proxy}"
 
   ssh_db_proxy_enabled=true

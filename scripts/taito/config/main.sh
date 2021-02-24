@@ -285,7 +285,7 @@ case $taito_env in
       db_database_proxy_ssl_enabled="${default_postgres_proxy_ssl_enabled_prod:-true}"
     elif [[ $db_database_type == "mysql" ]]; then
       db_database_real_host="${default_mysql_host_prod}"
-      db_database_real_port="${default_postgres_port_prod}"
+      db_database_real_port="${default_mysql_port_prod}"
       db_database_username_suffix=${default_mysql_username_suffix_prod}
       db_database_ssl_enabled="${default_mysql_ssl_enabled_prod:-true}"
       db_database_ssl_client_cert_enabled="${default_mysql_ssl_client_cert_enabled_prod:-false}"
@@ -564,10 +564,10 @@ if [[ ${taito_env} == "local" ]]; then
   # App in local environment (there is only app user)
   db_database_default_username="${db_database_default_username:-$db_database_app_username}"
   db_database_default_secret="${db_database_default_secret:-$db_database_app_secret}"
-elif [[ ${taito_env} == "prod" ]]; then
-  # Viewer in production environment
-  db_database_default_username="${db_database_default_username:-$db_database_viewer_username}"
-  db_database_default_secret="${db_database_default_secret:-$db_database_viewer_secret}"
+# elif [[ ${taito_env} == "prod" ]]; then
+#   # TODO: Use viewer in production environment by default
+#   db_database_default_username="${db_database_default_username:-$db_database_viewer_username}"
+#   db_database_default_secret="${db_database_default_secret:-$db_database_viewer_secret}"
 else
   # Manager in other environments
   db_database_default_username="${db_database_default_username:-$db_database_mgr_username}"
