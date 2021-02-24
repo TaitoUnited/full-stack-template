@@ -90,6 +90,7 @@ default_bastion_public_ip_prod="${template_default_bastion_public_ip_prod}"
 # Version control provider
 default_vc_provider=${template_default_vc_provider}
 default_vc_organization=${template_default_vc_organization}
+default_vc_url=${template_default_vc_url}
 
 # Version control provider (prod)
 # - use the same for prod
