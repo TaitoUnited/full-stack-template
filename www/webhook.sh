@@ -2,6 +2,8 @@
 
 set -e
 hook_command="$1"
+entry_title="$2"
+lock_name="${3:-$hook_command}"
 
 # -------------------------------------------------------------------
 # Prepare
@@ -31,7 +33,7 @@ fi
 # https://github.com/adnanh/webhook/issues/148
 # -------------------------------------------------------------------
 
-LOCKDIR=".webhook-${hook_command//:/_}-lock"
+LOCKDIR=".webhook-${lock_name//:/_}-lock"
 
 function acquireLock() {
   for i in `seq 1 900`; do
@@ -92,14 +94,14 @@ function notify() {
       failedMessage="Failed to build"
       ;;
     publish:preview)
-      startedMessage="Started publishing preview..."
-      finishedMessage="Successfully published preview"
+      startedMessage="Started publishing preview for '${entry_title}'..."
+      finishedMessage="Successfully published preview for '${entry_title}'"
       failedMessage="Failed to publish preview"
       site_url="${WEBSITE_URL}/preview/"
       ;;
     publish)
-      startedMessage="Started publishing..."
-      finishedMessage="Successfully published"
+      startedMessage="Started publishing '${entry_title}'..."
+      finishedMessage="Successfully published '${entry_title}'"
       failedMessage="Failed to publish"
       ;;
   esac

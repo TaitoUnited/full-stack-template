@@ -19,31 +19,7 @@
         "source": "string",
         "name": "publish:preview"
       }
-    ],
-    "trigger-rule": {
-      "or": [
-        {
-          "match": {
-            "type": "value",
-            "value": "draft",
-            "parameter": {
-              "source": "payload",
-              "name": "entry.status"
-            }
-          }
-        },
-        {
-          "match": {
-            "type": "value",
-            "value": "archived",
-            "parameter": {
-              "source": "payload",
-              "name": "entry.status"
-            }
-          }
-        }
-      ]
-    }
+    ]
   },
   {
     "id": "publish",
@@ -54,26 +30,52 @@
         "source": "string",
         "name": "publish"
       }
+    ]
+  },
+
+  {
+    "id": "publish-for-strapi",
+    "command-working-directory": "/develop",
+    "execute-command": "/develop/webhook.sh",
+    "pass-arguments-to-command": [
+      {
+        "source": "string",
+        "name": "publish"
+      },
+      {
+        "source": "payload",
+        "name": "entry.title"
+      }
     ],
     "trigger-rule": {
       "or": [
         {
           "match": {
-            "type": "value",
-            "value": "published",
+            "type": "regex",
+            "value": ".+",
             "parameter": {
               "source": "payload",
-              "name": "entry.status"
+              "name": "entry.published_at"
             }
           }
         },
         {
           "match": {
             "type": "value",
-            "value": "archived",
+            "value": "entry.unpublish",
             "parameter": {
               "source": "payload",
-              "name": "entry.status"
+              "name": "event"
+            }
+          }
+        },
+        {
+          "match": {
+            "type": "value",
+            "value": "entry.delete",
+            "parameter": {
+              "source": "payload",
+              "name": "event"
             }
           }
         }

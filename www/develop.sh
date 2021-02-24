@@ -18,5 +18,6 @@ elif [[ -d ./public ]]; then
 else
   # No site yet
   echo "develop.sh: No site yet at www/site. Just keep the container running."
+  echo "develop.sh: See CONFIGURATION.md for configuration instructions."
   tail -f /dev/null
 fi

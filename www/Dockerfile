@@ -1,16 +1,15 @@
 # Builder, tester and runtime container for local development
 FROM node:lts-buster-slim
+ARG SERVICE_DIR=.
+ENV NODE_ENV development
 
 RUN mkdir -p /develop
 WORKDIR /develop
 
 # Install dependencies and npm libraries on container
-ARG SERVICE_DIR=.
 COPY ${SERVICE_DIR}/install.sh \
      ${SERVICE_DIR}/package* \
      /develop/
-
-ENV NODE_ENV development
 RUN ./install.sh
 RUN npm install --loglevel warn
 
@@ -21,6 +20,5 @@ COPY ${SERVICE_DIR}/hooks.json \
 RUN npm run install-site
 
 # Start development
-ENV DEV_PORT 8080
 EXPOSE 8080
 CMD . ~/.bashrc && ./develop.sh
