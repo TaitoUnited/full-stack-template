@@ -1,4 +1,6 @@
-version: '3.5'
+# This file is used to run your application locally with Docker Compose
+
+version: '3.9'
 services:
   full-stack-template-ingress:
     container_name: full-stack-template-ingress
