@@ -30,7 +30,7 @@ locals {
   )
 
   services = {
-    for key in keys(coalesce(try(local.orig.services, null), {})):
+    for key in keys(try(local.orig.services, null)):
     key => merge(
       {
         # Default values
@@ -75,7 +75,7 @@ locals {
     { apiKeys = coalesce(try(local.orig.apiKeys, null), []) },
     { serviceAccounts = coalesce(try(local.orig.serviceAccounts, null), []) },
     { ingress = local.ingress },
-    { services = coalesce(local.services, {}) },
+    { services = local.services },
   )
 }
 
