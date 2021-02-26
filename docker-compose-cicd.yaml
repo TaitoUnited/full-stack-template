@@ -5,7 +5,7 @@
 # - Integration tests for the API
 # - Database migrations for the database
 #
-# This file contains to types of containers:
+# This file contains two types of containers:
 #
 # a) Containers that provide the implementations (tests, migrations, etc).
 #    Typically the build stage of the Dockerfile.build includes these.
