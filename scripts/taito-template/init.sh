@@ -78,12 +78,12 @@ function prune () {
     fi
 
     sed -i "/^  full-stack-template-$name:\r*\$/,/^\r*$/d" docker-compose.yaml
-    sed -i "/^  full-stack-template-$name:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
+    sed -i "/^  full-stack-template-\${taito_env}-$name:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
     sed -i "/^  # full-stack-template-$name:\r*\$/,/^\r*$/d" docker-compose.yaml
-    sed -i "/^  # full-stack-template-$name:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
+    sed -i "/^  # full-stack-template-\${taito_env}-$name:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
     if [[ -f docker-compose-cicd.yaml ]]; then
-      sed -i "/^  full-stack-template-$name-test:\r*\$/,/^\r*$/d" docker-compose-cicd.yaml
-      sed -i "/^  # full-stack-template-$name-test:\r*\$/,/^\r*$/d" docker-compose-cicd.yaml
+      sed -i "/^  full-stack-template-$name-cicd:\r*\$/,/^\r*$/d" docker-compose-cicd.yaml
+      sed -i "/^  # full-stack-template-$name-cicd:\r*\$/,/^\r*$/d" docker-compose-cicd.yaml
     fi
     sed -i "/^    $name:\r*\$/,/^\r*$/d" ./scripts/helm.yaml
     sed -i "/-$name$/d" ./scripts/helm.yaml
@@ -145,9 +145,9 @@ function prune () {
       # Remove also Zookeeper
       sed -i "s/ zookeeper / /" scripts/taito/project.sh
       sed -i "/^  full-stack-template-zookeeper:\r*\$/,/^\r*$/d" docker-compose.yaml
-      sed -i "/^  full-stack-template-zookeeper:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
+      sed -i "/^  full-stack-template-\${taito_env}-zookeeper:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
       sed -i "/^  # full-stack-template-zookeeper:\r*\$/,/^\r*$/d" docker-compose.yaml
-      sed -i "/^  # full-stack-template-zookeeper:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
+      sed -i "/^  # full-stack-template-\${taito_env}-zookeeper:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
       sed -i "/^    zookeeper:\r*\$/,/^\r*$/d" ./scripts/helm.yaml
     fi
 
@@ -347,10 +347,10 @@ function prune () {
         sed -i "/^    $name:\r*\$/,/^\r*$/d" ./scripts/helm.yaml
         sed -i "/^    zookeeper:\r*\$/,/^\r*$/d" ./scripts/helm.yaml
 
-        sed -i "/^  full-stack-template-kafka:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
-        sed -i "/^  # full-stack-template-kafka:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
-        sed -i "/^  full-stack-template-zookeeper:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
-        sed -i "/^  # full-stack-template-zookeeper:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
+        sed -i "/^  full-stack-template-\${taito_env}-kafka:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
+        sed -i "/^  # full-stack-template-\${taito_env}-kafka:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
+        sed -i "/^  full-stack-template-\${taito_env}-zookeeper:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
+        sed -i "/^  # full-stack-template-\${taito_env}-zookeeper:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
       fi
     fi
 
