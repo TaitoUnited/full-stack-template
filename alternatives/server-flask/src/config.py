@@ -3,8 +3,14 @@ from collections import defaultdict
 
 
 def read_secret(name: str) -> str:
-    with open(f'/run/secrets/{name}', 'r') as secret:
-        return secret.read()
+    if _config[name]:
+        return _config[name]
+    try:
+        with open(f'/run/secrets/{name}', 'r') as secret:
+            return secret.read()
+    except FileNotFoundError:
+        print('WARNING: Secret file /run/secrets/' + name + ' not found')
+        return ''
 
 
 _config = defaultdict(
