@@ -1,26 +1,22 @@
 /* eslint-disable */
 const path = require('path');
 const webpack = require('webpack');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
-
-// TODO: Support legacy + modern bundles:
-// https://philipwalton.com/articles/deploying-es2015-code-in-production-today/
 
 const y = new Date().getFullYear();
 const COPYRIGHT = 'Copyright ' + y + ' Taito United Oy - All rights reserved.';
 const OUTPUT_DIR = '../../build';
-const ASSETS_DIR = 'assets';
-const PWA_ICON_DIR = ASSETS_DIR + '/icon.png';
 const BASE_PATH = process.env.BASE_PATH || '';
 const ASSETS_PATH = process.env.ASSETS_PATH || '';
 const ASSETS_DOMAIN = process.env.ASSETS_DOMAIN || '';
-
 const DEV_PORT = process.env.DEV_PORT || '3000';
 const DEV_POLL =
   process.env.HOST_OS == 'macos' || process.env.HOST_OS == 'windows'
@@ -31,14 +27,16 @@ const DEV_POLL =
 const PUBLIC_HOST = process.env.DOCKER_HOST ? '192.168.99.100' : 'localhost';
 const PUBLIC_PORT = process.env.COMMON_PUBLIC_PORT || DEV_PORT;
 
-module.exports = function(env, argv) {
+module.exports = function (env) {
   const isProd = !!env.production;
   const analyzeBundle = isProd && process.env.ANALYZE_BUNDLE === 'true';
+
+  console.log(`> Bundling for ${isProd ? 'production' : 'development'}...`);
 
   return {
     mode: isProd ? 'production' : 'development',
 
-    devtool: isProd ? 'source-maps' : 'inline-source-map',
+    devtool: isProd ? 'source-map' : 'eval-source-map',
 
     entry: ['src/index'],
 
@@ -64,6 +62,8 @@ module.exports = function(env, argv) {
     },
 
     plugins: [
+      new CleanWebpackPlugin(),
+
       // No need to type check when analyzing the JS bundle
       // NOTE: if type checking fails -> the build will fail
       !analyzeBundle && new ForkTsCheckerWebpackPlugin(),
@@ -83,38 +83,41 @@ module.exports = function(env, argv) {
         filename: isProd ? '[name].[contenthash].css' : '[name].css',
       }),
 
-      new FaviconsWebpackPlugin({
-        logo: path.resolve(__dirname, PWA_ICON_DIR),
-        cache: true, // Make builds faster
-        prefix: 'assets/', // Where to put pwa icons, manifests, etc.
-        favicons: {
-          appName: 'full-stack-template',
-          appShortName: 'Taito',
-          appDescription: 'Taito template app',
-          developerName: 'Taito United',
-          developerURL: 'https://github.com/TaitoUnited',
-          background: '#ffffff',
-          theme_color: '#15994C',
-          orientation: 'portrait',
-          display: 'standalone',
-          start_url: '.',
-          icons: {
-            // Don't include unnecessary icons
-            coast: false,
-            yandex: false,
-            windows: false,
+      new WebpackPwaManifest({
+        name: 'Fullstack template',
+        short_name: 'Taito',
+        description: 'Taito fullstack template application',
+        background_color: '#ffffff',
+        theme_color: '#15994C',
+        crossorigin: null,
+        orientation: 'portrait',
+        display: 'standalone',
+        start_url: '.',
+        ios: true,
+        icons: [
+          {
+            src: path.resolve('assets/icon.png'),
+            sizes: [120, 152, 167, 180, 1024],
+            ios: true,
           },
-        },
+          {
+            src: path.resolve('assets/icon.png'),
+            size: 1024,
+            ios: 'startup'
+          },
+          {
+            src: path.resolve('assets/icon.png'),
+            sizes: [36, 48, 72, 96, 144, 192, 512],
+          },
+        ],
       }),
 
       // If you use moment add any locales you need here
       new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en|fi/),
 
-      // Caching -> vendor hash should stay consistent between prod builds
-      isProd && new webpack.HashedModuleIdsPlugin(),
-
-      // Enable HRM for development
+      // Enable HMR + Fast Refresh for development
       !isProd && new webpack.HotModuleReplacementPlugin(),
+      !isProd && new ReactRefreshWebpackPlugin(),
 
       analyzeBundle && new BundleAnalyzerPlugin(),
 
@@ -168,25 +171,33 @@ module.exports = function(env, argv) {
             quiet: true, // Don't report warnings
           },
         },
-
         {
           test: /\.(js|tsx?)$/,
-          use: ['babel-loader'],
+          use: [
+            {
+              loader: require.resolve('babel-loader'),
+              options: {
+                plugins: [
+                  !isProd && require.resolve('react-refresh/babel'),
+                ].filter(Boolean),
+              },
+            },
+          ],
           exclude: /node_modules/,
         },
-
         {
           test: /\.js$/,
           use: ['source-map-loader'],
           enforce: 'pre',
         },
-
         {
-          test: /\.(png|svg|jpg|gif)$/,
-          use: ['file-loader'],
-          exclude: /node_modules/,
+          test: /\.(png|svg|jpg|jpeg|gif)$/i,
+          type: 'asset/resource',
         },
-
+        {
+          test: /\.(woff|woff2|eot|ttf|otf)$/i,
+          type: 'asset/resource',
+        },
         {
           test: /\.css$/,
           use: [
@@ -242,18 +253,16 @@ module.exports = function(env, argv) {
           host: '0.0.0.0',
           port: DEV_PORT,
           public: `${PUBLIC_HOST}:${PUBLIC_PORT}`, // Fix HMR inside Docker container
-          contentBase: [
-            path.join(__dirname, 'assets')
-          ],
+          contentBase: [path.join(__dirname, 'assets')],
           hot: true,
           historyApiFallback: true,
           stats: 'minimal',
           disableHostCheck: true, // For headless cypress tests running in container
           lazy: false,
-          watchOptions: {
-            aggregateTimeout: 300,
-            poll: DEV_POLL,
-          },
+          // watchOptions: {
+          //   aggregateTimeout: 300,
+          //   poll: DEV_POLL,
+          // },
           proxy: {
             '/api/*': {
               target: `http://server:${PUBLIC_PORT}`,
