@@ -35,11 +35,10 @@ ssh ${ssh_opts} "${taito_ssh_user}@${taito_host}" "
     echo
 
     echo [Restart docker-compose]
+    cd ${taito_host_dir}
     if [[ -f docker-compose.yaml ]]; then
-      cd ${taito_host_dir}
-      . taito-config.sh
-      docker-compose stop
-      docker-compose -d up
+      docker-compose stop || :
+      docker-compose up -d
     else
       echo File docker-compose.yaml not found. Skipping restart.
     fi
