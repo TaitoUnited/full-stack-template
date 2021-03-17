@@ -277,6 +277,8 @@ if [[ $template_default_zone == "gcloud-temp1" ]]; then
   sed -i 's/taito_ci_namespace_id=$taito_resource_namespace/taito_ci_namespace_id=$taito_zone/' ./scripts/taito/config/main.sh
   sed -i 's/copy\/common/copy\/devops/' ./scripts/taito/config/provider.sh
   sed -i "/^    namespace: nginx-ingress/a\    oldRewritePolicy: true" scripts/helm.yaml
+else
+  sed -i "/# For old gcp environments/d" ./scripts/helm.yaml
 fi
 
 ######################

@@ -123,6 +123,11 @@ full-stack:
         - fullname: ${taito_project}-${taito_env}-redis
         - fullname: ${taito_project}-${taito_env}-storage
       livenessInitialDelay: 120
+      db: # For old gcp environments
+         useProxy: ${gcp_db_proxy_enabled} # For old gcp environments
+         instance: ${taito_zone}:${taito_provider_region}:${db_database_instance} # For old gcp environments
+         port: ${db_database_real_port} # For old gcp environments
+         proxySecret: ${taito_provider_db_proxy_secret} # For old gcp environments
       # serviceAccount:
       #   secret: ${taito_project}-${taito_env}-server-serviceaccount.key
       secrets:
