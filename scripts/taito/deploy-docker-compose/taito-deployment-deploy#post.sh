@@ -132,6 +132,7 @@ ssh ${ssh_opts} "${taito_ssh_user}@${taito_host}" "
       echo [Stop docker-compose using the old configuration]
       echo NOTE: Pulling of local-only images will print an error! This is OK.
       docker-compose stop || :
+      mv -f docker-compose.yaml docker-compose-previous.yaml
       echo
     fi
     echo [Start docker-compose using the new configuration]
