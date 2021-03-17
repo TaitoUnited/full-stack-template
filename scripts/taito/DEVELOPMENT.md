@@ -144,12 +144,12 @@ The commands mentioned above work also for server environments (`f-NAME`, `dev`,
     taito open admin:dev                    # Open admin GUI in browser
     taito info:dev                          # Show info
     taito status:dev                        # Show status of dev environment
-    taito test:dev                          # Run integration and e2e tests
-    taito cypress:client:dev                # Open cypress for client
-    taito shell:server:dev                  # Start a shell on server container
     taito logs:server:dev                   # Tail logs of server container
     taito open logs:dev                     # Open logs on browser
     taito open storage:dev                  # Open storage bucket on browser
+    taito shell:server:dev                  # Start a shell on server container
+    taito test:dev                          # Run integration and e2e tests
+    taito cypress:client:dev                # Open cypress for client
     taito init:dev --clean                  # Clean reinit for dev environment
     taito db connect:dev                    # Access database on command line
     taito db proxy:dev                      # Start a proxy for database access
