@@ -4,11 +4,10 @@
 # - Enable the custom section
 
 image:
-  # TODO: replace these on 'project create'?
-  name: $template_default_taito_image
-  username: $template_default_taito_image_username
-  password: $template_default_taito_image_password
-  email: $template_default_taito_image_email
+  name: ${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+  username:
+  password:
+  email:
 options:
   docker: true
   max-time: 60
@@ -96,7 +95,7 @@ pipelines:
           # - export taito_ci_phases=build
           - "taito -v artifact load: tester"
           - taito deployment wait:$BITBUCKET_BRANCH
-          - export taito_image=$template_default_taito_image
+          - export taito_image='${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
           - taito test:$BITBUCKET_BRANCH
           - taito deployment verify:$BITBUCKET_BRANCH
         # # TODO: revert deployment on fail

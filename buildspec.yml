@@ -9,6 +9,7 @@ phases:
       # Determine ENV and IMAGE_TAG
       - export ENV=$(git branch -a --contains HEAD | sed -n 2p | awk '{ printf $1 }' | xargs echo $CODEBUILD_WEBHOOK_HEAD_REF | awk '{ printf $1 }' | sed 's/.*\///')
       - export IMAGE_TAG=$CODEBUILD_RESOLVED_SOURCE_VERSION
+      - export taito_image='${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
       # TODO: Cancel other ongoing builds for $ENV
       # - taito deployment cancel:$ENV $CURRENT_BUILD_ID
       # Prepare build

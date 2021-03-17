@@ -101,6 +101,7 @@ steps:
   env:
     - taito_mode=ci
     - taito_ci_phases=${_TAITO_CI_PHASES}
+    - taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
 
 - id: deployment-deploy
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
