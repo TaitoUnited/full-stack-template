@@ -16,7 +16,7 @@ function remove() {
 # if REPLACE_ASSETS_PATH environment variable is defined, string 'ASSETS_PATH' is
 # replaced with REPLACE_ASSETS_PATH environment variable value in all html files.
 # Note that if the value starts with '-', an empty string is used as value.
-if [[ $REPLACEMENT_DISABLED != "true" ]]; then
+if [ "$REPLACEMENT_DISABLED" != "true" ]; then
   for NAME in $(awk "END { for (name in ENVIRON) { print name; }}" < /dev/null)
   do
     case $NAME in REPLACE_*)
@@ -26,16 +26,16 @@ if [[ $REPLACEMENT_DISABLED != "true" ]]; then
       esac
 
       # Use BASE_PATH as default value for ASSETS_PATH
-      if [[ $NAME == "REPLACE_ASSETS_PATH" ]] && [[ ! $VAL ]]; then
+      if [ "$NAME" = "REPLACE_ASSETS_PATH" ] && [ -z "$VAL" ]; then
         VAL="${REPLACE_BASE_PATH}"
       fi
 
-      CONSTANT="${NAME/REPLACE_/}"
-      REPLACEMENT="${VAL//\//\\/}"
+      CONSTANT=$(echo "${NAME}" | sed -e 's@REPLACE_@@')
+      REPLACEMENT=$(echo "${VAL}" | sed -e 's@/@\\/@g')
       replace "*.html" "${CONSTANT}" "${REPLACEMENT}"
 
       # Replace ASSETS_PATH also in runtime.*.js and manifest.json
-      if [[ $NAME == "REPLACE_ASSETS_PATH" ]] && [[ ! $VAL ]]; then
+      if [ "$NAME" = "REPLACE_ASSETS_PATH" ] && [ -z "$VAL" ]; then
         replace "runtime.*.js" "${CONSTANT}" "${REPLACEMENT}"
         replace "manifest.json" "${CONSTANT}" "${REPLACEMENT}"
         remove "manifest.json" "start_url"
