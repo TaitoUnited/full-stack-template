@@ -12,7 +12,7 @@
 # b) Containers that act as a proxy to provide access to database or
 #    internal services. Typically Taito CLI image is used as a proxy.
 
-version: '3.9'
+version: '3.8'
 services:
   full-stack-template-admin-cicd:
     container_name: full-stack-template-admin-cicd
