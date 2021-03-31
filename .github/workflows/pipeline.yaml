@@ -1,0 +1,62 @@
+name: CI/CD Pipeline
+on:
+  push:
+    branches:
+      - dev
+      - test
+      - uat
+      - stag
+      - canary
+      - prod
+      - master
+      - main
+
+jobs:
+  pipeline:
+    name: Pipeline
+    runs-on: ubuntu-latest
+    container:
+      image: taitounited/taito-cli:ci-azure
+      # options: --user taito
+      env:
+        taito_mode: ci
+        taito_image: taitounited/taito-cli:ci-azure
+        taito_ci_phases:
+        AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+        AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+        IMAGE_TAG: ${{ github.sha }}
+    steps:
+      # Prepare build
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - run: taito build prepare:${GITHUB_REF##*/} $IMAGE_TAG
+
+      # Prepare artifacts for deployment
+      # TODO: Should be run parallel
+      - run: taito artifact prepare:admin:${GITHUB_REF##*/} $IMAGE_TAG
+      - run: taito artifact prepare:client:${GITHUB_REF##*/} $IMAGE_TAG
+      - run: taito artifact prepare:graphql:${GITHUB_REF##*/} $IMAGE_TAG
+      - run: taito artifact prepare:server:${GITHUB_REF##*/} $IMAGE_TAG
+      - run: taito artifact prepare:worker:${GITHUB_REF##*/} $IMAGE_TAG
+      - run: taito artifact prepare:www:${GITHUB_REF##*/} $IMAGE_TAG
+
+      # Deploy changes to target environment
+      - run: taito db deploy:${GITHUB_REF##*/}
+      - run: taito deployment deploy:${GITHUB_REF##*/} $IMAGE_TAG
+
+      # Test and verify deployment
+      - run: taito deployment wait:${GITHUB_REF##*/}
+      - run: taito test:${GITHUB_REF##*/}
+      - run: taito deployment verify:${GITHUB_REF##*/}
+
+      # Release artifacts
+      # TODO: Should be run parallel
+      - run: taito artifact release:admin:${GITHUB_REF##*/} $IMAGE_TAG
+      - run: taito artifact release:client:${GITHUB_REF##*/} $IMAGE_TAG
+      - run: taito artifact release:graphql:${GITHUB_REF##*/} $IMAGE_TAG
+      - run: taito artifact release:server:${GITHUB_REF##*/} $IMAGE_TAG
+      - run: taito artifact release:worker:${GITHUB_REF##*/} $IMAGE_TAG
+      - run: taito artifact release:www:${GITHUB_REF##*/} $IMAGE_TAG
+
+      # Release build
+      - run: taito build release:${GITHUB_REF##*/}

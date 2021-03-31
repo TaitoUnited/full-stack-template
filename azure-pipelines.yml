@@ -6,7 +6,9 @@ trigger:
 - uat
 - stag
 - canary
+- prod
 - master
+- main
 
 pool:
   vmImage: 'ubuntu-latest'

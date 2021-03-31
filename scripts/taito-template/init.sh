@@ -110,7 +110,8 @@ function prune () {
     sed -i "s/ && npm run clean:$name//g" package.json
 
     # Prune target from CI/CD scripts
-    sed -i "/^action \"artifact:$name\"/,/^}$/d" .github/main.workflow
+    sed -i "/taito artifact prepare:$name/d" .github/workflows/pipeline.yaml
+    sed -i "/taito artifact release:$name/d" .github/workflows/pipeline.yaml
     sed -i "/taito artifact prepare:$name/d" azure-pipelines.yml
     sed -i "/taito artifact release:$name/d" azure-pipelines.yml
     sed -i "/- step: # $name prepare/,/$name-tester.docker/d" bitbucket-pipelines.yml

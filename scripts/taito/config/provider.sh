@@ -273,6 +273,16 @@ case $taito_ci_provider in
       * builds[:ENV]=https://console.cloud.google.com/cloud-build/builds?project=$taito_ci_namespace_id Build logs
     "
     ;;
+  github)
+    taito_plugins="
+      ${taito_plugins}
+      github-ci:-local
+    "
+    link_urls="
+      ${link_urls}
+      * builds=https://$taito_vc_repository_url/actions Build logs
+    "
+    ;;    
   local)
     link_urls="
       ${link_urls}
