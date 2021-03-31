@@ -17,7 +17,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: taitounited/taito-cli:ci-azure
-      # options: --user taito
       env:
         taito_mode: ci
         taito_image: taitounited/taito-cli:ci-azure
@@ -26,6 +25,12 @@ jobs:
         AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
         IMAGE_TAG: ${{ github.sha }}
     steps:
+      # NOTE: GitHub actions runs all jobs on separate virtual machines by
+      # default. Currently all steps are run in a single job to avoid pulling
+      # Taito CLI image multiple times. However, if you are using a self-hosted
+      # runner to execute the build, you could run these as separate jobs
+      # (see bitbucket-pipelines.yml as an example).
+
       # Prepare build
       - name: Check out the repo
         uses: actions/checkout@v2
