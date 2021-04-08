@@ -111,7 +111,6 @@ fi
 
 if [[ $template_default_provider != "gcp" ]] &&
    [[ $template_default_provider_prod != "gcp" ]]; then
-then
   if [[ -d scripts/terraform/gcp ]]; then
     rm -rf scripts/terraform/gcp
   fi
