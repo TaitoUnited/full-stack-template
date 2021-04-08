@@ -194,7 +194,7 @@ sed -i "s|\${_TEMPLATE_DEFAULT_TAITO_IMAGE}|${template_default_taito_image}|g" b
 sed -i "s|\${_TEMPLATE_DEFAULT_TAITO_IMAGE}|${template_default_taito_image}|g" buildspec.yml
 
 ci_scripts="buildspec.yml azure-pipelines.yml bitbucket-pipelines.yml \
-  .github/main.workflow .gitlab-ci.yml cloudbuild.yaml Jenkinsfile local-ci.sh \
+  .github/workflows/pipeline.yaml .gitlab-ci.yml cloudbuild.yaml Jenkinsfile local-ci.sh \
   .travis.yml"
 
 sed -i "s/\$template_default_taito_image_username/${template_default_taito_image_username:-}/g" ${ci_scripts}
