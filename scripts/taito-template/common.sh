@@ -76,43 +76,59 @@ fi
 
 echo "Pruning provider settings"
 
-if [[ -f docker-compose-cicd.yaml ]] && \
-   [[ $template_default_provider != "azure" ]] && \
-   [[ $template_default_provider_prod != "azure" ]]
-then
-  sed -i '/AZURE_/d' docker-compose-cicd.yaml
+if [[ $template_default_provider != "aws" ]] &&
+   [[ $template_default_provider_prod != "aws" ]]; then
+  if [[ -d scripts/terraform/aws ]]; then
+    rm -rf scripts/terraform/aws
+  fi
+
+  if [[ -f docker-compose-cicd.yaml ]]; then
+    sed -i '/AWS_/d' docker-compose-cicd.yaml
+  fi
 fi
 
-if [[ -f docker-compose-cicd.yaml ]] && \
-   [[ $template_default_provider != "aws" ]] && \
-   [[ $template_default_provider_prod != "aws" ]]
-then
-  sed -i '/AWS_/d' docker-compose-cicd.yaml
+if [[ $template_default_provider != "azure" ]] &&
+   [[ $template_default_provider_prod != "azure" ]]; then
+  if [[ -d scripts/terraform/azure ]]; then
+    rm -rf scripts/terraform/azure
+  fi
+
+  if [[ -f docker-compose-cicd.yaml ]]; then
+    sed -i '/AZURE_/d' docker-compose-cicd.yaml
+  fi
 fi
 
-if [[ -f docker-compose-cicd.yaml ]] && \
-   [[ $template_default_provider != "do" ]] && \
-   [[ $template_default_provider_prod != "do" ]]
-then
-  sed -i '/DO_/d' docker-compose-cicd.yaml
+if [[ $template_default_provider != "do" ]] &&
+   [[ $template_default_provider_prod != "do" ]]; then
+  if [[ -d scripts/terraform/do ]]; then
+    rm -rf scripts/terraform/do
+  fi
+
+  if [[ -f docker-compose-cicd.yaml ]]; then
+    sed -i '/DO_/d' docker-compose-cicd.yaml
+  fi
 fi
 
-if [[ -f docker-compose-cicd.yaml ]] && \
-   [[ $template_default_provider != "gcp" ]]
+if [[ $template_default_provider != "gcp" ]] &&
+   [[ $template_default_provider_prod != "gcp" ]]; then
 then
-  sed -i '/GOOGLE_/d' docker-compose-cicd.yaml
-  sed -i '/CICD_PROXY_SERVICEACCOUNT_KEY/d' docker-compose-cicd.yaml
-  sed -i '/cicd-proxy-serviceaccount/d' docker-compose-cicd.yaml
-fi
+  if [[ -d scripts/terraform/gcp ]]; then
+    rm -rf scripts/terraform/gcp
+  fi
 
-if [[ $template_default_provider != "gcp" ]]; then
+  if [[ -f docker-compose-cicd.yaml ]]; then
+    sed -i '/GOOGLE_/d' docker-compose-cicd.yaml
+    sed -i '/CICD_PROXY_SERVICEACCOUNT_KEY/d' docker-compose-cicd.yaml
+    sed -i '/cicd-proxy-serviceaccount/d' docker-compose-cicd.yaml
+  fi
+
+  # TODO: remove
+  if [[ -f ./scripts/helm.yaml ]]; then
+    sed -i "s/networkPolicyEnabled: true/networkPolicyEnabled: false/" ./scripts/helm.yaml
+  fi
+
   sed -i '/cicd-proxy-serviceaccount/d' scripts/taito/project.sh 2> /dev/null || :
   sed -i '/cicd-proxy-serviceaccount/d' scripts/taito/testing.sh 2> /dev/null || :
-fi
-
-# Currently network policy supported only for gcp (database host is static IP)
-if [[ $template_default_provider != "gcp" ]] && [[ -f ./scripts/helm.yaml ]]; then
-  sed -i "s/networkPolicyEnabled: true/networkPolicyEnabled: false/" ./scripts/helm.yaml
 fi
 
 ######################
@@ -230,9 +246,9 @@ if [[ $ci != "jenkins" ]] && [[ $template_default_ci_provider_prod != "jenkins" 
 fi
 
 # shell
-# if [[ $ci != "local" ]] && [[ $template_default_ci_provider_prod != "local" ]]; then
-#   rm -f local-ci.sh
-# fi
+if [[ $ci != "local" ]] && [[ $template_default_ci_provider_prod != "local" ]]; then
+  rm -f local-ci.sh
+fi
 
 # travis
 if [[ $ci != "travis" ]] && [[ $template_default_ci_provider_prod != "travis" ]]; then
