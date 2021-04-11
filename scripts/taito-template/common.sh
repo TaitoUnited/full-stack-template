@@ -80,6 +80,7 @@ if [[ $template_default_provider != "aws" ]] &&
    [[ $template_default_provider_prod != "aws" ]]; then
   if [[ -d scripts/terraform/aws ]]; then
     rm -rf scripts/terraform/aws
+    rm -rf scripts/terraform/aws-deploy
   fi
 
   if [[ -f docker-compose-cicd.yaml ]]; then
