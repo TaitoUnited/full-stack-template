@@ -81,7 +81,7 @@ locals {
 
 module "azure" {
   source  = "TaitoUnited/project-resources/azurerm"
-  version = "3.0.2"
+  version = "3.1.0"
 
   # Create flags
   create_storage_buckets              = true
