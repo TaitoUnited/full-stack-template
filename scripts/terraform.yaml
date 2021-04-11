@@ -161,8 +161,8 @@ settings:
       backupLocation: ${taito_default_storage_backup_location}
       backupLock:
       # Cors
-      cors:
-        - origin: https://${taito_domain}
+      corsRules:
+        - allowedOrigins: [ "https://${taito_domain}" ]
       # User rights
       admins:
         - id: serviceAccount:${taito_project}-${taito_env}-storage@${taito_resource_namespace_id}.iam.gserviceaccount.com
