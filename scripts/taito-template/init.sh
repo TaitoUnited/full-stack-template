@@ -412,7 +412,7 @@ if [[ ${template_default_kubernetes} ]] || [[ ${kubernetes_name} ]]; then
     # Remove storage service account
     # (not required with Azure)
     sed -i '/$taito_project-$taito_env-storage/d' ./scripts/taito/project.sh
-    sed -i '-storage/d' ./scripts/terraform.yaml
+    sed -i '/-storage/d' ./scripts/terraform.yaml
   fi
 else
   # Remove helm.yaml since kubernetes is disabled
@@ -434,7 +434,7 @@ else
   # Remove storage service account
   # (most likely not required for storage access with serverless)
   sed -i '/$taito_project-$taito_env-storage/d' ./scripts/taito/project.sh
-  sed -i '-storage/d' ./scripts/terraform.yaml
+  sed -i '/-storage/d' ./scripts/terraform.yaml
 fi
 
 if [[ ${taito_provider} != "aws" ]]; then
