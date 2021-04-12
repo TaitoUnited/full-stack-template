@@ -72,7 +72,7 @@ settings:
         DATABASE_POOL_MAX: '10'
         REDIS_HOST: ${taito_random_name}-${taito_env}-001.${taito_random_name}-${taito_env}.nde1c2.use1.cache.amazonaws.com
         REDIS_PORT: 6379
-        BUCKET_BUCKET: ${taito_random_name}-${taito_env}
+        BUCKET_BUCKET: ${st_bucket_name}
         BUCKET_REGION: ${taito_provider_region}
       awsPolicy:
         Version: '2012-10-17'
@@ -86,8 +86,8 @@ settings:
               - s3:PutObject
               - s3:PutObjectAcl
             Resource:
-              - 'arn:aws:s3:::${taito_random_name}-${taito_env}'
-              - 'arn:aws:s3:::${taito_random_name}-${taito_env}/*'
+              - 'arn:aws:s3:::${st_bucket_name}'
+              - 'arn:aws:s3:::${st_bucket_name}/*'
 
     server:
       type: function
@@ -120,7 +120,7 @@ settings:
         DATABASE_POOL_MAX: '10'
         REDIS_HOST: ${taito_random_name}-${taito_env}-001.${taito_random_name}-${taito_env}.nde1c2.use1.cache.amazonaws.com
         REDIS_PORT: 6379
-        BUCKET_BUCKET: ${taito_random_name}-${taito_env}
+        BUCKET_BUCKET: ${st_bucket_name}
         BUCKET_REGION: ${taito_provider_region}
       awsPolicy:
         Version: '2012-10-17'
@@ -131,7 +131,7 @@ settings:
               - s3:GetObject
               - s3:PutObject
               - s3:PutObjectAcl
-            Resource: 'arn:aws:s3:::${taito_random_name}-${taito_env}/*'
+            Resource: 'arn:aws:s3:::${st_bucket_name}/*'
 
     redis:
       type: redis
@@ -144,7 +144,7 @@ settings:
 
     bucket:
       type: bucket
-      name: ${taito_random_name}-${taito_env}
+      name: ${st_bucket_name}
       location: ${taito_default_storage_location}
       storageClass: ${taito_default_storage_class}
       # Object lifecycle
@@ -154,8 +154,6 @@ settings:
       transitionRetainDays:
       transitionStorageClass:
       autoDeletionRetainDays:
-      # Replication (TODO: implement)
-      replicationBucket:
       # Backup (TODO: implement)
       backupRetainDays: ${taito_default_storage_backup_days}
       backupLocation: ${taito_default_storage_backup_location}

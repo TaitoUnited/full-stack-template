@@ -113,7 +113,7 @@ Operations on production and staging environments usually require admin rights. 
       ```
       archive:
         type: bucket
-        name: ${taito_random_name}-archive-${taito_env}
+        name: ${st_archive_name}
         location: ${taito_default_storage_location}
         storageClass: ${taito_default_storage_class}
         cors:
