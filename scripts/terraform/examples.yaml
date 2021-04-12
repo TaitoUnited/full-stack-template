@@ -1,4 +1,19 @@
 # ----------------------------------------------------------
+# Permisisions
+# ----------------------------------------------------------
+
+settings:
+  namespace:
+    roles:
+      - name: taito-developer
+        subjects:
+          - user:john.doe@mydomain.com
+          - user:jane.doe@mydomain.com
+      - name: taito-status-viewer
+        subjects:
+          - user:james.toe@mydomain.com
+
+# ----------------------------------------------------------
 # Log alerts
 # ----------------------------------------------------------
 

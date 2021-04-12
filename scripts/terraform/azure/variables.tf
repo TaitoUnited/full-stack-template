@@ -1,4 +1,57 @@
-# Uptime provider
+# Flags
+
+variable "create_cicd_service_account" {
+  type = bool
+  default = true
+}
+
+variable "create_kubernetes_service_account" {
+  type = bool
+  default = true
+}
+
+# Project
+
+variable "taito_project" {
+  type = string
+}
+
+variable "taito_env" {
+  type = string
+}
+
+variable "taito_namespace" {
+  type = string
+}
+
+# Cloud provider
+
+variable "taito_resource_namespace_id" {
+  type = string
+}
+
+variable "taito_provider_billing_account_id" {
+  type = string
+}
+
+# Kubernetes
+
+variable "kubernetes_name" {
+  type = string
+  default = ""
+}
+
+variable "kubernetes_db_proxy_enabled" {
+  type = bool
+  default = false
+}
+
+variable "kubernetes_service_account_role" {
+  type = string
+  default = "taito-restricted-pod"
+}
+
+# Uptime monitoring
 
 variable "taito_uptime_provider" {
   type = string
@@ -8,22 +61,4 @@ variable "taito_uptime_provider" {
 variable "taito_uptime_channels" {
   type = string  # whitespace delimited strings
   default = ""
-}
-
-# Labels
-
-variable "taito_resource_namespace_id" {
-  type = string
-}
-
-variable "project" {
-  type        = string
-  description = "Project name: e.g. \"my-project\""
-}
-
-# Environment info
-
-variable "env" {
-  type        = string
-  description = "Environment: e.g. \"dev\""
 }
