@@ -1,3 +1,15 @@
+# Flags
+
+variable "create_cicd_service_account" {
+  type = bool
+  default = false # TODO: true
+}
+
+variable "create_kubernetes_service_account" {
+  type = bool
+  default = true
+}
+
 # AWS provider
 
 variable "taito_provider_org_id" {
@@ -113,4 +125,21 @@ variable "taito_containers" {
   type = list(string)
   default = []
   description = "Container targets."
+}
+
+# Kubernetes
+
+variable "kubernetes_name" {
+  type = string
+  default = ""
+}
+
+variable "kubernetes_db_proxy_enabled" {
+  type = bool
+  default = false
+}
+
+variable "kubernetes_service_account_role" {
+  type = string
+  default = "taito-restricted-pod"
 }

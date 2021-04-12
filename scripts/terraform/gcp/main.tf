@@ -10,6 +10,12 @@ provider "google" {
   zone    = var.taito_provider_zone
 }
 
+provider "helm" {
+  kubernetes {
+    config_path = "~/.kube/config"
+  }
+}
+
 locals {
   taito_uptime_channels = (var.taito_uptime_channels == "" ? [] :
     split(" ", trimspace(replace(var.taito_uptime_channels, "/\\s+/", " "))))
@@ -78,12 +84,71 @@ locals {
     { ingress = local.ingress },
     { services = local.services },
   )
+
+  namespace = {
+    serviceAccounts = concat(
+      try(local.orig.namespace.serviceAccounts, []),
+      var.create_kubernetes_service_account
+        ? [
+            {
+              name = var.taito_namespace
+            }
+        ]
+        : []
+    )
+
+    roles = concat(
+      try(local.orig.namespace.roles, []),
+
+      # Set role for Kubernetes service account
+      var.create_kubernetes_service_account
+        ? [
+            {
+              name = var.kubernetes_service_account_role
+              id = "${var.kubernetes_service_account_role}-for-${var.taito_namespace}-sa"
+              subjects = [ "sa:${var.taito_namespace}" ]
+            }
+        ]
+        : [],
+
+      # Grant developer and common secrets access for CI/CD
+      var.create_cicd_service_account
+        ? [
+            {
+              name = "taito-developer"
+              id = "taito-developer-for-${var.taito_project}-${var.taito_env}-cicd"
+              namespace = null
+              subjects = [ "user:${module.azure.cicd_service_principal_object_id}" ]
+            },
+            {
+              name = "taito-secret-viewer"
+              id = "taito-secret-viewer-for-${var.taito_project}-${var.taito_env}-cicd"
+              namespace = "common"
+              subjects = [ "user:${module.azure.cicd_service_principal_object_id}" ]
+            },
+        ]
+        : [],
+
+        # Grant db-proxy access for CI/CD
+        var.create_cicd_service_account && var.kubernetes_db_proxy_enabled
+          ? [
+              {
+                name = "taito-proxyer"
+                id = "taito-proxyer-for-${var.taito_project}-${var.taito_env}-cicd"
+                namespace = "db-proxy"
+                subjects = [ "user:${module.azure.cicd_service_principal_object_id}" ]
+              },
+          ]
+          : [],
+    )
+  }
 }
 
 module "gcp" {
   source  = "TaitoUnited/project-resources/google"
   version = "3.2.0"
 
+  # TODO: create_cicd_service_account    = var.create_cicd_service_account
   create_storage_buckets         = true
   create_databases               = true
   create_in_memory_databases     = true
@@ -123,4 +188,18 @@ module "gcp" {
 
   # Additional resources as a json file
   resources                      = local.resources
+}
+
+resource "helm_release" "namespace" {
+  count      = var.kubernetes_name != "" ? 1 : 0
+
+  name       = "${var.taito_namespace}-namespace"
+  namespace  = var.taito_namespace
+  repository = "https://taitounited.github.io/taito-charts/"
+  chart      = "namespace"
+  version    = "1.2.0"
+
+  values = [
+    jsonencode(local.namespace)
+  ]
 }

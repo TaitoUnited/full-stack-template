@@ -82,7 +82,6 @@ locals {
     { serviceAccounts = coalesce(try(local.orig.serviceAccounts, null), []) },
     { ingress = local.ingress },
     { services = local.services },
-    { kubernetes = try(local.orig.kubernetes, {}) },
   )
 
   namespace = {
