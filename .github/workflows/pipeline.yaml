@@ -15,6 +15,7 @@ jobs:
   pipeline:
     name: Pipeline
     runs-on: ubuntu-latest
+    timeout-minutes: 50
     container:
       image: taitounited/taito-cli:ci-azure
       env:
