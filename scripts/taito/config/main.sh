@@ -564,14 +564,31 @@ if [[ ${taito_env} == "local" ]]; then
   # App in local environment (there is only app user)
   db_database_default_username="${db_database_default_username:-$db_database_app_username}"
   db_database_default_secret="${db_database_default_secret:-$db_database_app_secret}"
-# elif [[ ${taito_env} == "prod" ]]; then
-#   # TODO: Use viewer in production environment by default
-#   db_database_default_username="${db_database_default_username:-$db_database_viewer_username}"
-#   db_database_default_secret="${db_database_default_secret:-$db_database_viewer_secret}"
 else
   # Manager in other environments
   db_database_default_username="${db_database_default_username:-$db_database_mgr_username}"
   db_database_default_secret="${db_database_default_secret:-$db_database_mgr_secret}"
+fi
+
+# Use viewer user by default for 'taito db connect:prod' and 'taito db proxy:prod'
+if [[ ${taito_env} == "prod" ]]; then
+  db_database_default_connect_username="${db_database_default_username:-$db_database_viewer_username}"
+  db_database_default_connect_secret="${db_database_default_secret:-$db_database_viewer_secret}"
+fi
+
+# Set personal database accounts
+if [[ ${taito_env} == "stag" ]] || [[ ${taito_env} == "prod" ]]; then
+  if [[ ${default_database_personal_usernames_enabled_prod} == true ]]; then
+    db_database_default_username=GIVE_YOUR_PERSONAL_USERNAME_AS_COMMAND_LINE_ARGUMENT
+    db_database_default_secret=GIVE_YOUR_PERSONAL_USERNAME_AS_COMMAND_LINE_ARGUMENT
+    db_database_default_connect_username=GIVE_YOUR_PERSONAL_USERNAME_AS_COMMAND_LINE_ARGUMENT
+    db_database_default_connect_secret=GIVE_YOUR_PERSONAL_USERNAME_AS_COMMAND_LINE_ARGUMENT
+  fi
+else
+  if [[ ${default_database_personal_usernames_enabled} == true ]]; then
+    db_database_default_username=GIVE_YOUR_PERSONAL_USERNAME_AS_COMMAND_LINE_ARGUMENT
+    db_database_default_secret=GIVE_YOUR_PERSONAL_USERNAME_AS_COMMAND_LINE_ARGUMENT
+  fi
 fi
 
 # ------ All environments config ------

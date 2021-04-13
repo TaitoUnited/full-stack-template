@@ -155,6 +155,10 @@ default_tracing_provider_prod=${template_default_tracing_provider_prod}
 default_tracing_provider_url_prod=${template_default_tracing_provider_url_prod}
 default_tracing_organization_prod=${template_default_tracing_organization_prod}
 
+# Database
+default_database_personal_usernames_enabled=${template_default_database_personal_usernames_enabled}
+default_database_personal_usernames_enabled_prod=${template_default_database_personal_usernames_enabled_prod}
+
 # Postgres
 default_postgres=${template_default_postgres}
 default_postgres_username_suffix=${template_default_postgres_username_suffix}
