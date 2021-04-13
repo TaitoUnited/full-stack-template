@@ -81,6 +81,11 @@ taito_cicd_secrets="
   $db_database_ssl_key_secret
 "
 
+# Secrets required by CI/CD tests
+taito_testing_secrets="
+  $taito_project-$taito_env-basic-auth.auth
+"
+
 # Secret hints and descriptions
 taito_secret_hints="
   * basic-auth=Basic authentication is used to hide non-production environments from public
