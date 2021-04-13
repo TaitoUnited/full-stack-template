@@ -104,8 +104,8 @@ services:
     network_mode: "bridge"
     volumes:
       - ".:/project:delegated"
-    secrets: # CICD_PROXY_SERVICEACCOUNT_KEY
-      - CICD_PROXY_SERVICEACCOUNT_KEY
+    secrets: # For GCP
+      - CICD_PROXY_SERVICEACCOUNT_KEY # For GCP
     environment:
       taito_docker: 'true'
       AZURE_CLIENT_ID: ${AZURE_CLIENT_ID}
@@ -113,7 +113,7 @@ services:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       DO_API_KEY: ${DO_API_KEY}
-      GOOGLE_APPLICATION_CREDENTIALS: /run/secrets/CICD_PROXY_SERVICEACCOUNT_KEY
+      GOOGLE_APPLICATION_CREDENTIALS: /run/secrets/CICD_PROXY_SERVICEACCOUNT_KEY # For GCP
       template_default_taito_image: ${template_default_taito_image}
       template_default_environments: ${template_default_environments}
       template_default_organization: ${template_default_organization}
@@ -161,8 +161,8 @@ services:
   #   network_mode: "bridge"
   #   volumes:
   #     - ".:/project:delegated"
-  #   secrets: # CICD_PROXY_SERVICEACCOUNT_KEY
-  #     - CICD_PROXY_SERVICEACCOUNT_KEY
+  #   secrets: # For GCP
+  #     - CICD_PROXY_SERVICEACCOUNT_KEY # For GCP
   #   environment:
   #     taito_docker: "true"
   #     AZURE_CLIENT_ID: ${AZURE_CLIENT_ID}
@@ -170,11 +170,11 @@ services:
   #     AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
   #     AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
   #     DO_API_KEY: ${DO_API_KEY}
-  #     GOOGLE_APPLICATION_CREDENTIALS: /run/secrets/CICD_PROXY_SERVICEACCOUNT_KEY
+  #     GOOGLE_APPLICATION_CREDENTIALS: /run/secrets/CICD_PROXY_SERVICEACCOUNT_KEY # For GCP
 
 secrets:
-  CICD_PROXY_SERVICEACCOUNT_KEY:
-    file: ./tmp/secrets/${taito_env}/cicd-proxy-serviceaccount.key
+  CICD_PROXY_SERVICEACCOUNT_KEY: # For GCP
+    file: ./tmp/secrets/${taito_env}/cicd-proxy-serviceaccount.key # For GCP
   DATABASE_PASSWORD:
     file: ./tmp/secrets/${taito_env}/${db_database_mgr_secret}
   DATABASE_SSL_CA:

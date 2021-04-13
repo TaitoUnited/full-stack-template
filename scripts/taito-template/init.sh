@@ -315,10 +315,11 @@ function prune () {
       fi
     fi
 
-    if [[ $name == "storage" ]] && (
-         [[ ${taito_provider:?} == "azure" ]] ||
-         [[ ${taito_provider} == "aws" ]]
-       ); then
+    if [[ $name == "storage" ]] && [[ ${taito_provider} == "aws" ]]; then
+      # Remove minio proxy
+      sed -i "/^    storage:\r*\$/,/^\r*$/d" ./scripts/helm.yaml
+      sed -i '/BUCKET_URL/d' ./scripts/helm.yaml
+
       # Define access key and secret key for AWS (not using minio as proxy)
       sed -i '/storage.accessKeyId/d' scripts/taito/project.sh
       sed -i '/storage.secretKey/d' scripts/taito/project.sh
@@ -326,16 +327,6 @@ function prune () {
       sed -i '/^taito_remote_secrets=/a\  $taito_project-$taito_env-storage.accessKeyId:manual' scripts/taito/project.sh
       sed -i '/^taito_local_secrets=/a\  $taito_project-$taito_env-storage.secretKey:random' scripts/taito/project.sh
       sed -i '/^taito_local_secrets=/a\  $taito_project-$taito_env-storage.accessKeyId:random' scripts/taito/project.sh
-
-      if [[ ${taito_provider} == "azure" ]]; then
-        # Use minio as azure gateway instead of gcs gateway
-        sed -i 's/- gcs/- azure/' scripts/helm.yaml
-        sed -i '/- ${taito_resource_namespace}/d' scripts/helm.yaml
-      elif [[ ${taito_provider} == "aws" ]]; then
-        # Remove minio proxy
-        sed -i "/^    storage:\r*\$/,/^\r*$/d" ./scripts/helm.yaml
-        sed -i '/BUCKET_URL/d' ./scripts/helm.yaml
-      fi
     fi
 
     if [[ $name == "kafka" ]]; then
@@ -408,12 +399,6 @@ if [[ ${template_default_kubernetes} ]] || [[ ${kubernetes_name} ]]; then
   sed -i '/-graphql/d' ./scripts/terraform.yaml
   sed -i '/-server/d' ./scripts/terraform.yaml
 
-  if [[ ${taito_provider} == "azure" ]]; then
-    # Remove storage service account
-    # (not required with Azure)
-    sed -i '/$taito_project-$taito_env-storage/d' ./scripts/taito/project.sh
-    sed -i '/-storage/d' ./scripts/terraform.yaml
-  fi
 else
   # Remove helm.yaml since kubernetes is disabled
   rm -f ./scripts/helm*.yaml
@@ -443,35 +428,6 @@ if [[ ${taito_provider} != "aws" ]]; then
     sed -i '/aws/d' ./server/src/common/config.ts
     sed -i '/prettier-ignore/d' ./server/src/common/config.ts
   fi
-fi
-
-if [[ ${taito_provider} != "gcp" ]]; then
-  # Remove GCP specific stuff from terraform.yaml
-  sed -i "s/serviceAccount://g" ./scripts/terraform.yaml
-  sed -i "s/@.*gserviceaccount.com//g" ./scripts/terraform.yaml
-fi
-
-# Remove database SSL keys if they are not required
-if [[ ${template_default_postgres_ssl_enabled} != "true" ]] ||
-   [[ ${template_default_postgres_ssl_client_cert_enabled} != "true" ]]; then
-  if [[ -f docker-compose-cicd.yaml ]]; then
-    sed -i '/DATABASE_SSL_CERT/d' ./docker-compose-cicd.yaml
-    sed -i '/database_ssl_cert/d' ./docker-compose-cicd.yaml
-  fi
-  sed -i '/database_ssl_cert/d' ./scripts/taito/testing.sh
-  if [[ -f docker-compose-cicd.yaml ]]; then
-    sed -i '/DATABASE_SSL_KEY/d' ./docker-compose-cicd.yaml
-    sed -i '/database_ssl_key/d' ./docker-compose-cicd.yaml
-  fi
-  sed -i '/database_ssl_key/d' ./scripts/taito/testing.sh
-fi
-if [[ ${template_default_postgres_ssl_enabled} != "true" ]] ||
-   [[ ${template_default_postgres_ssl_server_cert_enabled} != "true" ]]; then
-  if [[ -f docker-compose-cicd.yaml ]]; then
-    sed -i '/DATABASE_SSL_CA/d' ./docker-compose-cicd.yaml
-    sed -i '/database_ssl_ca/d' ./docker-compose-cicd.yaml
-  fi
-  sed -i '/database_ssl_ca/d' ./scripts/taito/testing.sh
 fi
 
 echo

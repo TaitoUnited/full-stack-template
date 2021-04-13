@@ -7,13 +7,13 @@ settings:
   backupEnabled: false
   uptimeEnabled: false
 
-  serviceAccounts:
-    - id: ${taito_project}-${taito_env}-graphql
-      roles: [] # -graphql roles
-    - id: ${taito_project}-${taito_env}-server
-      roles: [] # -server roles
-    - id: ${taito_project}-${taito_env}-storage
-      roles: [] # -storage roles
+  serviceAccounts: # For GCP
+    - id: ${taito_project}-${taito_env}-graphql # For GCP
+      roles: [] # -graphql roles # For GCP
+    - id: ${taito_project}-${taito_env}-server # For GCP
+      roles: [] # -server roles # For GCP
+    - id: ${taito_project}-${taito_env}-storage # For GCP
+      roles: [] # -storage roles # For GCP
 
   ingress:
     class: gateway
@@ -161,11 +161,11 @@ settings:
       # Cors
       corsRules:
         - allowedOrigins: [ "https://${taito_domain}" ]
-      # User rights
-      admins:
-        - id: serviceAccount:${taito_project}-${taito_env}-storage@${taito_resource_namespace_id}.iam.gserviceaccount.com
-      objectAdmins:
-        - id: serviceAccount:${taito_project}-${taito_env}-server@${taito_resource_namespace_id}.iam.gserviceaccount.com
-      objectViewers:
+      # User rights # For GCP
+      admins: # For GCP
+        - id: serviceAccount:${taito_project}-${taito_env}-storage@${taito_resource_namespace_id}.iam.gserviceaccount.com # For GCP
+      objectAdmins: # For GCP
+        - id: serviceAccount:${taito_project}-${taito_env}-server@${taito_resource_namespace_id}.iam.gserviceaccount.com # For GCP
+      objectViewers: # For GCP
 
 # END

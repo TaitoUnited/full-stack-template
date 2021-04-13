@@ -70,69 +70,146 @@ if [[ -f ./scripts/terraform-dev.yaml ]]; then
   sed -i '/^# END$/d' ./scripts/terraform-dev.yaml
 fi
 
-##########################
-# Prune provider settings
-##########################
+#########################################
+# Prune cloud provider specific settings
+#########################################
 
-echo "Pruning provider settings"
+echo "Pruning cloud provider specific settings"
 
+# Remove AWS specific settings
 if [[ $template_default_provider != "aws" ]] &&
    [[ $template_default_provider_prod != "aws" ]]; then
+
   if [[ -d scripts/terraform/aws ]]; then
     rm -rf scripts/terraform/aws
     rm -rf scripts/terraform/aws-deploy
   fi
 
+  if [[ -f scripts/terraform.yaml ]]; then
+    sed -i '/# For AWS/d' scripts/terraform.yaml
+  fi
+
+  if [[ -f scripts/helm.yaml ]]; then
+    sed -i '/# For AWS/d' scripts/helm.yaml
+  fi
+
   if [[ -f docker-compose-cicd.yaml ]]; then
+    sed -i '/# For AWS/d' docker-compose-cicd.yaml
     sed -i '/AWS_/d' docker-compose-cicd.yaml
   fi
 fi
 
+# Remove Azure specific settings
 if [[ $template_default_provider != "azure" ]] &&
    [[ $template_default_provider_prod != "azure" ]]; then
+
   if [[ -d scripts/terraform/azure ]]; then
     rm -rf scripts/terraform/azure
   fi
 
+  if [[ -f scripts/terraform.yaml ]]; then
+    sed -i '/# For Azure/d' scripts/terraform.yaml
+  fi
+
+  if [[ -f scripts/helm.yaml ]]; then
+    sed -i '/# For Azure/d' scripts/helm.yaml
+  fi
+
   if [[ -f docker-compose-cicd.yaml ]]; then
+    sed -i '/# For Azure/d' docker-compose-cicd.yaml
     sed -i '/AZURE_/d' docker-compose-cicd.yaml
   fi
+
+  sed -i '/-storage.accessKey1/d' scripts/taito/project.sh 2> /dev/null || :
+  sed -i '/-storage.accessKey2/d' scripts/taito/project.sh 2> /dev/null || :
 else
   # Use non-random bucket names on Azure
   # TODO: some configurable flag instead?
   sed -i 's/st_bucket_name="$taito_random_name-$taito_env"/st_bucket_name="$taito_project-$taito_env"/' scripts/taito/project.sh
 fi
 
+# Remove DigitalOcean specific settings
 if [[ $template_default_provider != "do" ]] &&
    [[ $template_default_provider_prod != "do" ]]; then
+
   if [[ -d scripts/terraform/do ]]; then
     rm -rf scripts/terraform/do
   fi
 
+  if [[ -f scripts/terraform.yaml ]]; then
+    sed -i '/# For DO/d' scripts/terraform.yaml
+  fi
+
+  if [[ -f scripts/helm.yaml ]]; then
+    sed -i '/# For DO/d' scripts/helm.yaml
+  fi
+
   if [[ -f docker-compose-cicd.yaml ]]; then
+    sed -i '/# For DO/d' docker-compose-cicd.yaml
     sed -i '/DO_/d' docker-compose-cicd.yaml
   fi
 fi
 
+# Remove GCP specific settings
 if [[ $template_default_provider != "gcp" ]] &&
    [[ $template_default_provider_prod != "gcp" ]]; then
+
   if [[ -d scripts/terraform/gcp ]]; then
     rm -rf scripts/terraform/gcp
   fi
 
+  if [[ -f scripts/terraform.yaml ]]; then
+    sed -i '/# For GCP/d' scripts/terraform.yaml
+  fi
+
+  if [[ -f scripts/helm.yaml ]]; then
+    sed -i '/# For GCP/d' scripts/helm.yaml
+  fi
+
   if [[ -f docker-compose-cicd.yaml ]]; then
+    sed -i '/# For GCP/d' docker-compose-cicd.yaml
     sed -i '/GOOGLE_/d' docker-compose-cicd.yaml
-    sed -i '/CICD_PROXY_SERVICEACCOUNT_KEY/d' docker-compose-cicd.yaml
-    sed -i '/cicd-proxy-serviceaccount/d' docker-compose-cicd.yaml
   fi
 
-  # TODO: remove
-  if [[ -f ./scripts/helm.yaml ]]; then
-    sed -i "s/networkPolicyEnabled: true/networkPolicyEnabled: false/" ./scripts/helm.yaml
-  fi
+  sed -i '/-serviceaccount/d' scripts/taito/project.sh 2> /dev/null || :
+  sed -i '/-serviceaccount/d' scripts/taito/testing.sh 2> /dev/null || :
+fi
 
-  sed -i '/cicd-proxy-serviceaccount/d' scripts/taito/project.sh 2> /dev/null || :
-  sed -i '/cicd-proxy-serviceaccount/d' scripts/taito/testing.sh 2> /dev/null || :
+# HACK: remove old cluster settings
+if [[ $template_default_zone == "gcloud-temp1" ]]; then
+  sed -i 's/taito_ci_namespace_id=$taito_resource_namespace/taito_ci_namespace_id=$taito_zone/' ./scripts/taito/config/main.sh
+  sed -i 's/copy\/common/copy\/devops/' ./scripts/taito/config/provider.sh
+  sed -i "/^    namespace: nginx-ingress/a\    oldRewritePolicy: true" scripts/helm.yaml
+else
+  sed -i "/# For old gcp environments/d" ./scripts/helm.yaml
+fi
+
+##############################
+# Prune database SSL settings
+##############################
+
+echo "Pruning database SSL settings"
+
+# Remove database SSL keys if they are not required
+if [[ ${template_default_postgres_ssl_enabled} != "true" ]] ||
+   [[ ${template_default_postgres_ssl_client_cert_enabled} != "true" ]]; then
+  if [[ -f docker-compose-cicd.yaml ]]; then
+    sed -i '/DATABASE_SSL_KEY/d' docker-compose-cicd.yaml
+    sed -i '/database_ssl_key/d' docker-compose-cicd.yaml
+  fi
+  if [[ -f scripts/taito/testing.sh ]]; then
+    sed -i '/database_ssl_key/d' scripts/taito/testing.sh
+  fi
+fi
+if [[ ${template_default_postgres_ssl_enabled} != "true" ]] ||
+   [[ ${template_default_postgres_ssl_server_cert_enabled} != "true" ]]; then
+  if [[ -f docker-compose-cicd.yaml ]]; then
+    sed -i '/DATABASE_SSL_CA/d' docker-compose-cicd.yaml
+    sed -i '/database_ssl_ca/d' docker-compose-cicd.yaml
+  fi
+  if [[ -f scripts/taito/testing.sh ]]; then
+    sed -i '/database_ssl_ca/d' scripts/taito/testing.sh
+  fi
 fi
 
 ######################
@@ -287,18 +364,6 @@ fi
 
 if [[ -f ./scripts/helm.yaml ]]; then
   sed -i "/# TODO:/d" ./scripts/helm.yaml
-fi
-
-######################
-# HACK: for old cluster
-######################
-
-if [[ $template_default_zone == "gcloud-temp1" ]]; then
-  sed -i 's/taito_ci_namespace_id=$taito_resource_namespace/taito_ci_namespace_id=$taito_zone/' ./scripts/taito/config/main.sh
-  sed -i 's/copy\/common/copy\/devops/' ./scripts/taito/config/provider.sh
-  sed -i "/^    namespace: nginx-ingress/a\    oldRewritePolicy: true" scripts/helm.yaml
-else
-  sed -i "/# For old gcp environments/d" ./scripts/helm.yaml
 fi
 
 ######################

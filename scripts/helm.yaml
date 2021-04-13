@@ -177,14 +177,14 @@ full-stack:
       command:
         - minio
         - gateway
-        - gcs
-        - ${taito_resource_namespace}
-      serviceAccount:
-        secret: ${taito_project}-${taito_env}-storage-serviceaccount.key
-      secretEnv:
-        # Minio requires secret as environment variable in gateway mode
-        MINIO_ACCESS_KEY: ${taito_project}-${taito_env}-storage.accessKeyId
-        MINIO_SECRET_KEY: ${taito_project}-${taito_env}-storage.secretKey
+        - azure # For Azure
+        - gcs # For GCP
+        - ${taito_resource_namespace} # For GCP
+      serviceAccount: # For GCP
+        secret: ${taito_project}-${taito_env}-storage-serviceaccount.key # For GCP
+      secretEnv: # For Azure
+        MINIO_ACCESS_KEY: ${taito_project}-${taito_env}-storage.accessKey1 # For Azure
+        MINIO_SECRET_KEY: ${taito_project}-${taito_env}-storage.accessKey2 # For Azure
       env:
         MINIO_CONFIG_DIR: /tmp
 
