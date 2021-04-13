@@ -65,6 +65,14 @@ pipelines:
           artifacts:
             - server.docker
             - server-tester.docker
+      - step: # worker prepare
+          script:
+            - export taito_mode=ci
+            # - export taito_ci_phases=build
+            - taito artifact prepare:worker:$BITBUCKET_BRANCH $BITBUCKET_COMMIT true
+          artifacts:
+            - worker.docker
+            - worker-tester.docker
       - step: # www prepare
           script:
             - export taito_mode=ci
@@ -124,6 +132,11 @@ pipelines:
             - export taito_mode=ci
             # - export taito_ci_phases=build
             - taito artifact release:server:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
+      - step: # worker release
+          script:
+            - export taito_mode=ci
+            # - export taito_ci_phases=build
+            - taito artifact release:worker:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
       - step: # www release
           script:
             - export taito_mode=ci
@@ -186,6 +199,14 @@ pipelines:
   #         artifacts:
   #           - server.docker
   #           - server-tester.docker
+  #     - step: # worker prepare
+  #         script:
+  #           - export taito_mode=ci
+  #           - export taito_ci_phases=deploy,test,release
+  #           - taito artifact prepare:worker:$BITBUCKET_BRANCH $BITBUCKET_COMMIT true
+  #         artifacts:
+  #           - worker.docker
+  #           - worker-tester.docker
   #     - step: # www prepare
   #         script:
   #           - export taito_mode=ci
@@ -238,6 +259,11 @@ pipelines:
   #           - export taito_mode=ci
   #           - export taito_ci_phases=deploy,test,release
   #           - taito artifact release:server:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
+  #     - step: # worker release
+  #         script:
+  #           - export taito_mode=ci
+  #           - export taito_ci_phases=deploy,test,release
+  #           - taito artifact release:worker:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
   #     - step: # www release
   #         script:
   #           - export taito_mode=ci
