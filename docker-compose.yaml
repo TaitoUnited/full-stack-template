@@ -172,6 +172,64 @@ services:
       BUCKET_KEY_SECRET: ${taito_default_password}
       BUCKET_FORCE_PATH_STYLE: 'true'
 
+  full-stack-template-worker:
+    container_name: full-stack-template-worker
+    build:
+      context: ./worker
+      dockerfile: ${dockerfile}
+    tty: true
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      - "8080"
+      - "127.0.0.1:5229:9229"
+    volumes:
+      - "./worker:/develop:delegated"
+      - "./shared:/develop/shared:delegated"
+      - "/develop/node_modules"
+    secrets:
+      - DATABASE_PASSWORD
+      - REDIS_PASSWORD
+      - EXAMPLE_SECRET
+    environment:
+      # Paths and bind
+      API_PORT: 8080
+      API_BINDADDR: 0.0.0.0
+      COMMON_PUBLIC_PORT: 9999
+      # Host specific variables
+      HOST_OS: ${taito_host_os}
+      # Common variables
+      COMMON_COMPANY: companyname
+      COMMON_PROJECT: full-stack-template
+      COMMON_DEBUG: 'false'
+      COMMON_LOG_FORMAT: text
+      COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
+      COMMON_ENV: local
+      # Services
+      SENTRY_DSN: #sentryDSN
+      KAFKA_HOST: full-stack-template-kafka
+      KAFKA_PORT: 9092
+      DATABASE_HOST: full-stack-template-database
+      DATABASE_PORT: ${db_database_port}
+      DATABASE_NAME: ${db_database_name}
+      DATABASE_USER: ${db_database_app_username}
+      DATABASE_POOL_MIN: '1'
+      DATABASE_POOL_MAX: '10'
+      DATABASE_SSL_ENABLED: ${db_database_ssl_enabled}
+      DATABASE_SSL_CLIENT_CERT_ENABLED: ${db_database_ssl_client_cert_enabled}
+      DATABASE_SSL_SERVER_CERT_ENABLED: ${db_database_ssl_server_cert_enabled}
+      REDIS_HOST: full-stack-template-redis
+      REDIS_PORT: 6379
+      BUCKET_URL: http://full-stack-template-storage:9000/
+      BUCKET_REGION: milkyway
+      BUCKET_BUCKET: bucket
+      BUCKET_BROWSE_URL: http://localhost:9729/bucket   # TODO
+      BUCKET_DOWNLOAD_URL: http://localhost:9729/bucket # TODO
+      BUCKET_KEY_ID: minio
+      BUCKET_KEY_SECRET: ${taito_default_password}
+      BUCKET_FORCE_PATH_STYLE: 'true'
+
   full-stack-template-www:
     container_name: full-stack-template-www
     build:
