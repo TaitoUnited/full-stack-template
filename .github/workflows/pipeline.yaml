@@ -22,9 +22,9 @@ jobs:
         taito_mode: ci
         taito_image: taitounited/taito-cli:ci-azure
         taito_ci_phases:
+        IMAGE_TAG: ${{ github.sha }}
         AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
         AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-        IMAGE_TAG: ${{ github.sha }}
     steps:
       # NOTE: GitHub actions runs all jobs on separate virtual machines by
       # default. Currently all steps are run in a single job to avoid pulling
@@ -32,37 +32,49 @@ jobs:
       # runner to execute the build, you could run these as separate jobs
       # (see bitbucket-pipelines.yml as an example).
 
-      # Prepare build
+      # Init
       - name: Check out the repo
         uses: actions/checkout@v2
-      - run: taito build prepare:${GITHUB_REF##*/} $IMAGE_TAG
+
+      - name: Set environment
+        run: echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
+
+      - name: Set authentication
+        run: |
+          if [ ! -z "${{ secrets[format('{0}_AZURE_CLIENT_ID', env.BRANCH)] }}" ]; then
+            echo "AZURE_CLIENT_ID=${{ secrets[format('{0}_AZURE_CLIENT_ID', env.BRANCH)] }}" >> $GITHUB_ENV
+            echo "AZURE_CLIENT_SECRET=${{ secrets[format('{0}_AZURE_CLIENT_SECRET', env.BRANCH)] }}" >> $GITHUB_ENV
+          fi # END AZURE_CLIENT_ID
+
+      # Prepare build
+      - run: taito build prepare:$BRANCH $IMAGE_TAG
 
       # Prepare artifacts for deployment
       # TODO: Should be run parallel
-      - run: taito artifact prepare:admin:${GITHUB_REF##*/} $IMAGE_TAG
-      - run: taito artifact prepare:client:${GITHUB_REF##*/} $IMAGE_TAG
-      - run: taito artifact prepare:graphql:${GITHUB_REF##*/} $IMAGE_TAG
-      - run: taito artifact prepare:server:${GITHUB_REF##*/} $IMAGE_TAG
-      - run: taito artifact prepare:worker:${GITHUB_REF##*/} $IMAGE_TAG
-      - run: taito artifact prepare:www:${GITHUB_REF##*/} $IMAGE_TAG
+      - run: taito artifact prepare:admin:$BRANCH $IMAGE_TAG
+      - run: taito artifact prepare:client:$BRANCH $IMAGE_TAG
+      - run: taito artifact prepare:graphql:$BRANCH $IMAGE_TAG
+      - run: taito artifact prepare:server:$BRANCH $IMAGE_TAG
+      - run: taito artifact prepare:worker:$BRANCH $IMAGE_TAG
+      - run: taito artifact prepare:www:$BRANCH $IMAGE_TAG
 
       # Deploy changes to target environment
-      - run: taito db deploy:${GITHUB_REF##*/}
-      - run: taito deployment deploy:${GITHUB_REF##*/} $IMAGE_TAG
+      - run: taito db deploy:$BRANCH
+      - run: taito deployment deploy:$BRANCH $IMAGE_TAG
 
       # Test and verify deployment
-      - run: taito deployment wait:${GITHUB_REF##*/}
-      - run: taito test:${GITHUB_REF##*/}
-      - run: taito deployment verify:${GITHUB_REF##*/}
+      - run: taito deployment wait:$BRANCH
+      - run: taito test:$BRANCH
+      - run: taito deployment verify:$BRANCH
 
       # Release artifacts
       # TODO: Should be run parallel
-      - run: taito artifact release:admin:${GITHUB_REF##*/} $IMAGE_TAG
-      - run: taito artifact release:client:${GITHUB_REF##*/} $IMAGE_TAG
-      - run: taito artifact release:graphql:${GITHUB_REF##*/} $IMAGE_TAG
-      - run: taito artifact release:server:${GITHUB_REF##*/} $IMAGE_TAG
-      - run: taito artifact release:worker:${GITHUB_REF##*/} $IMAGE_TAG
-      - run: taito artifact release:www:${GITHUB_REF##*/} $IMAGE_TAG
+      - run: taito artifact release:admin:$BRANCH $IMAGE_TAG
+      - run: taito artifact release:client:$BRANCH $IMAGE_TAG
+      - run: taito artifact release:graphql:$BRANCH $IMAGE_TAG
+      - run: taito artifact release:server:$BRANCH $IMAGE_TAG
+      - run: taito artifact release:worker:$BRANCH $IMAGE_TAG
+      - run: taito artifact release:www:$BRANCH $IMAGE_TAG
 
       # Release build
-      - run: taito build release:${GITHUB_REF##*/}
+      - run: taito build release:$BRANCH

@@ -5,6 +5,10 @@ timeout: 3000s
 # grant the outsiders access to the bucket
 # logsBucket: 'gs://my-builds' # TODO _TEMPLATE_DEFAULT for this also
 
+options:
+  # You can give CI/CD more cpu/mem with machineType
+  # machineType: N1_HIGHCPU_8
+
 substitutions:
   _REPO_NAME: full-stack-template
   _IMAGE_REGISTRY: eu.gcr.io/$PROJECT_ID

@@ -21,6 +21,7 @@ resources:
       taito_mode: ci
       taito_image: ${_TEMPLATE_DEFAULT_TAITO_IMAGE}
       taito_ci_phases: $(TAITO_CI_PHASES)
+      # TODO: Add branch prefix (e.g. DEV_AZURE_CLIENT_ID)
       AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
       AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
 
