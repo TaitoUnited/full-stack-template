@@ -25,11 +25,13 @@ taito_plugins="
 # shellcheck disable=SC1091
 . scripts/taito/config/defaults.sh
 
+# Project defaults
+# shellcheck disable=SC1091
+. scripts/taito/defaults.sh
+
 # Project labeling
 taito_organization=${default_organization}
 taito_organization_abbr=${default_organization_abbr}
-# shellcheck disable=SC1091
-. scripts/taito/labels.sh
 
 # Assets
 taito_project_icon=$taito_project-dev.${default_domain}/favicon.ico
