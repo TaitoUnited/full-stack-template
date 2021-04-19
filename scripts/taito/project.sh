@@ -66,7 +66,6 @@ taito_remote_secrets="
   $taito_project-$taito_env-server-serviceaccount.key:file
   $taito_project-$taito_env-storage-serviceaccount.key:file
   $taito_project-$taito_env-storage.accessKey1:manual
-  $taito_project-$taito_env-storage.accessKey2:manual
   $db_database_viewer_secret:random
   ${db_database_mgr_secret}${taito_cicd_secrets_path}:random
   cicd-proxy-serviceaccount.key:read/common

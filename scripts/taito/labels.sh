@@ -10,6 +10,7 @@
 
 taito_project=full-stack-template
 taito_project_short=fstemplate # Max 10 characters
+taito_project_nonspecial=${taito_project//-/}
 taito_random_name=full-stack-template
 taito_company=companyname
 taito_family=
