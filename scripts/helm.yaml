@@ -21,7 +21,7 @@ full-stack:
 
   ingress:
     class: nginx
-    namespace: nginx-ingress
+    namespace: ingress-nginx
     domains:
       - name: ${taito_domain}
         altDomains:
