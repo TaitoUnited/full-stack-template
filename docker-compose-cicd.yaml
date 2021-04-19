@@ -18,11 +18,16 @@ services:
     container_name: full-stack-template-admin-cicd
     image: full-stack-template-admin-builder:latest
     restart: 'no'
+    networks:
+      - cicd
     volumes:
-      - "./admin:/develop:delegated"
-      - "./shared:/develop/shared:delegated"
+      - "${DOCKER_HOST_PATH}/admin:/develop:delegated"
+      - "${DOCKER_HOST_PATH}/shared:/develop/shared:delegated"
       - "/develop/node_modules"
-    network_mode: "bridge"
+      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_mgr_secret}:/run/secrets/DATABASE_PASSWORD" # For GitHub Actions
+      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_ca_secret}:/run/secrets/DATABASE_SSL_CA" # For GitHub Actions
+      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_cert_secret}:/run/secrets/DATABASE_SSL_CERT" # For GitHub Actions
+      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_key_secret}:/run/secrets/DATABASE_SSL_KEY" # For GitHub Actions
     secrets:
       - DATABASE_PASSWORD
       - DATABASE_SSL_CA
@@ -35,13 +40,18 @@ services:
     container_name: full-stack-template-client-cicd
     image: full-stack-template-client-builder:latest
     restart: 'no'
-    volumes:
-      - "./client:/develop:delegated"
-      - "./shared:/develop/shared:delegated"
-      - "/develop/node_modules"
-    links:
+    networks:
+      - cicd
+    depends_on:
       - full-stack-template-database-proxy
-    network_mode: "bridge"
+    volumes:
+      - "${DOCKER_HOST_PATH}/client:/develop:delegated"
+      - "${DOCKER_HOST_PATH}/shared:/develop/shared:delegated"
+      - "/develop/node_modules"
+      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_mgr_secret}:/run/secrets/DATABASE_PASSWORD" # For GitHub Actions
+      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_ca_secret}:/run/secrets/DATABASE_SSL_CA" # For GitHub Actions
+      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_cert_secret}:/run/secrets/DATABASE_SSL_CERT" # For GitHub Actions
+      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_key_secret}:/run/secrets/DATABASE_SSL_KEY" # For GitHub Actions
     secrets:
       - DATABASE_PASSWORD
       - DATABASE_SSL_CA
@@ -54,11 +64,16 @@ services:
     container_name: full-stack-template-graphql-cicd
     image: full-stack-template-graphql-builder:latest
     restart: 'no'
+    networks:
+      - cicd
     volumes:
-      - "./graphql:/develop:delegated"
-      - "./shared:/develop/shared:delegated"
+      - "${DOCKER_HOST_PATH}/graphql:/develop:delegated"
+      - "${DOCKER_HOST_PATH}/shared:/develop/shared:delegated"
       - "/develop/node_modules"
-    network_mode: "bridge"
+      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_mgr_secret}:/run/secrets/DATABASE_PASSWORD" # For GitHub Actions
+      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_ca_secret}:/run/secrets/DATABASE_SSL_CA" # For GitHub Actions
+      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_cert_secret}:/run/secrets/DATABASE_SSL_CERT" # For GitHub Actions
+      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_key_secret}:/run/secrets/DATABASE_SSL_KEY" # For GitHub Actions
     secrets:
       - DATABASE_PASSWORD
       - DATABASE_SSL_CA
@@ -71,14 +86,19 @@ services:
     container_name: full-stack-template-server-cicd
     image: full-stack-template-server-builder:latest
     restart: 'no'
-    volumes:
-      - "./server:/develop:delegated"
-      - "./shared:/develop/shared:delegated"
-      - "/develop/node_modules"
-    links:
+    networks:
+      - cicd
+    depends_on:
       - full-stack-template-database-proxy
       # - full-stack-template-services-proxy
-    network_mode: "bridge"
+    volumes:
+      - "${DOCKER_HOST_PATH}/server:/develop:delegated"
+      - "${DOCKER_HOST_PATH}/shared:/develop/shared:delegated"
+      - "/develop/node_modules"
+      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_mgr_secret}:/run/secrets/DATABASE_PASSWORD" # For GitHub Actions
+      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_ca_secret}:/run/secrets/DATABASE_SSL_CA" # For GitHub Actions
+      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_cert_secret}:/run/secrets/DATABASE_SSL_CERT" # For GitHub Actions
+      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_key_secret}:/run/secrets/DATABASE_SSL_KEY" # For GitHub Actions
     secrets:
       - DATABASE_PASSWORD
       - DATABASE_SSL_CA
@@ -93,6 +113,8 @@ services:
     image: ${taito_image}
     restart: 'no'
     user: taito
+    networks:
+      - cicd
     entrypoint:
       - /bin/sh
       - -c
@@ -101,13 +123,14 @@ services:
         taito db proxy:${taito_env} 5432
     ports:
       - "5432"
-    network_mode: "bridge"
     volumes:
-      - ".:/project:delegated"
+      - "${DOCKER_HOST_PATH}/:/project:delegated"
+      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/cicd-proxy-serviceaccount.key:/run/secrets/CICD_PROXY_SERVICEACCOUNT_KEY" # For GitHub Actions # For GCP
     secrets: # For GCP
       - CICD_PROXY_SERVICEACCOUNT_KEY # For GCP
     environment:
       taito_docker: 'true'
+      taito_mode: 'ci'
       AZURE_CLIENT_ID: ${AZURE_CLIENT_ID}
       AZURE_CLIENT_SECRET: ${AZURE_CLIENT_SECRET}
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
@@ -146,6 +169,8 @@ services:
   #   image: ${taito_image}
   #   restart: 'no'
   #   user: taito
+  #   networks:
+  #     - cicd
   #   entrypoint:
   #     - /bin/sh
   #     - -c
@@ -158,13 +183,14 @@ services:
   #       # tail -f /dev/null
   #   ports:
   #     - "6379"
-  #   network_mode: "bridge"
   #   volumes:
-  #     - ".:/project:delegated"
+  #     - "${DOCKER_HOST_PATH}/:/project:delegated"
+  #     - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/cicd-proxy-serviceaccount.key:/run/secrets/CICD_PROXY_SERVICEACCOUNT_KEY" # For GitHub Actions # For GCP
   #   secrets: # For GCP
   #     - CICD_PROXY_SERVICEACCOUNT_KEY # For GCP
   #   environment:
-  #     taito_docker: "true"
+  #     taito_docker: 'true'
+  #     taito_mode: 'ci'
   #     AZURE_CLIENT_ID: ${AZURE_CLIENT_ID}
   #     AZURE_CLIENT_SECRET: ${AZURE_CLIENT_SECRET}
   #     AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
@@ -174,12 +200,15 @@ services:
 
 secrets:
   CICD_PROXY_SERVICEACCOUNT_KEY: # For GCP
-    file: ./tmp/secrets/${taito_env}/cicd-proxy-serviceaccount.key # For GCP
+    file: ${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/cicd-proxy-serviceaccount.key # For GCP
   DATABASE_PASSWORD:
-    file: ./tmp/secrets/${taito_env}/${db_database_mgr_secret}
+    file: ${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_mgr_secret}
   DATABASE_SSL_CA:
-    file: ./tmp/secrets/${taito_env}/${db_database_ssl_ca_secret}
+    file: ${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_ca_secret}
   DATABASE_SSL_CERT:
-    file: ./tmp/secrets/${taito_env}/${db_database_ssl_cert_secret}
+    file: ${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_cert_secret}
   DATABASE_SSL_KEY:
-    file: ./tmp/secrets/${taito_env}/${db_database_ssl_key_secret}
+    file: ${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_key_secret}
+
+networks:
+  cicd:

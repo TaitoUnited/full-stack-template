@@ -23,6 +23,7 @@ jobs:
         taito_image: taitounited/taito-cli:ci-azure
         taito_ci_phases:
         IMAGE_TAG: ${{ github.sha }}
+        DOCKER_HOST_PATH: /home/runner/work/full-stack-template/full-stack-template
         AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
         AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
     steps:
