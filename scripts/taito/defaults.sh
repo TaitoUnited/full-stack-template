@@ -6,7 +6,7 @@
 # Project specific default values used for various purposes
 ##########################################################################
 
-# Project specific labels
+# Labels
 taito_project=full-stack-template
 taito_project_short=fstemplate # Max 10 characters
 taito_project_nonspecial=${taito_project//-/}
@@ -15,8 +15,6 @@ taito_company=companyname
 taito_family=
 taito_application=template
 taito_suffix=
-
-# Namespace name
 taito_namespace=full-stack-template-$taito_env
 
 # Template reference
