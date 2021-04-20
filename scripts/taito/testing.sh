@@ -72,10 +72,3 @@ if [[ $taito_target_env == "local" ]]; then
   test_all_DATABASE_HOST=$taito_project-database
   :
 fi
-
-# Tests disabled on Azure DevOps and GitHub Actions for now
-# TODO: For some reason Docker Compose volume mounts and networks do not work
-if [[ ${taito_target_env} != "local" ]] &&
-   ([[ ${taito_ci_provider} == "azure" ]] || [[ ${taito_ci_provider} == "github" ]]); then
-  ci_exec_test=false
-fi
