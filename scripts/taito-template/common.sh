@@ -239,18 +239,18 @@ if [[ ! ${taito_random_name} ]] || [[ ${taito_random_name} == *"-template" ]]; t
   taito_random_name="$(taito -q util random words: 3)" # TODO: remove util
 fi
 echo "Setting random name: ${taito_random_name}"
-sed -i "s/^taito_random_name=.*$/taito_random_name=${taito_random_name}/" scripts/taito/labels.sh
+sed -i "s/^taito_random_name=.*$/taito_random_name=${taito_random_name}/" scripts/taito/defaults.sh
 
 echo "Replacing git repository url"
 sed -i "s|TaitoUnited/.*-template.git|${template_default_vc_organization}/${taito_vc_repository}.git|g" package.json
 
 echo "Replacing template variables with the given settings..."
-sed -i "s/taito_company=.*/taito_company=${taito_company}/g" scripts/taito/labels.sh
-sed -i "s/taito_family=.*/taito_family=${taito_family}/g" scripts/taito/labels.sh
-sed -i "s/taito_application=.*/taito_application=${taito_application}/g" scripts/taito/labels.sh
-sed -i "s/taito_suffix=.*/taito_suffix=${taito_suffix}/g" scripts/taito/labels.sh
-sed -i "s/taito_project=.*/taito_project=${taito_vc_repository}/g" scripts/taito/labels.sh
-sed -i "s/taito_project=.*/taito_project=${taito_vc_repository}/g" scripts/taito/labels.sh
+sed -i "s/taito_company=.*/taito_company=${taito_company}/g" scripts/taito/defaults.sh
+sed -i "s/taito_family=.*/taito_family=${taito_family}/g" scripts/taito/defaults.sh
+sed -i "s/taito_application=.*/taito_application=${taito_application}/g" scripts/taito/defaults.sh
+sed -i "s/taito_suffix=.*/taito_suffix=${taito_suffix}/g" scripts/taito/defaults.sh
+sed -i "s/taito_project=.*/taito_project=${taito_vc_repository}/g" scripts/taito/defaults.sh
+sed -i "s/taito_project=.*/taito_project=${taito_vc_repository}/g" scripts/taito/defaults.sh
 sed -i "s/TAITO_RESOURCE_NAMESPACE_PREFIX_SHA1SUM/$(echo "$template_default_organization_abbr-$taito_company" | sha1sum | awk '{print $1;}')/g" scripts/taito/config/main.sh
 
 echo "Replacing template variables with the user specific settings..."

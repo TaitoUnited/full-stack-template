@@ -295,7 +295,7 @@ function prune () {
       read -p "Use MySQL instead of Postgres? [y/N] " -n 1 -r confirm
       if [[ ${confirm} =~ ^[Yy]$ ]]; then
         sed -i "s/taito_default_db_type=pg/taito_default_db_type=mysql/" \
-          scripts/taito/labels.sh
+          scripts/taito/defaults.sh
         sed -i "s/postgres-db/mysql-db/" scripts/taito/project.sh
         sed -i "s/pg/mysql/g" database/sqitch.conf
         sed -i "s/_app/a/g" database/sqitch.conf
