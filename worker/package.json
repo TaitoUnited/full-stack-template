@@ -2,8 +2,9 @@
   "name": "full-stack-template-worker",
   "version": "1.0.0",
   "scripts": {
-    "lint": "echo 'TODO lint code'",
-    "unit": "echo 'TODO run unit tests'"
+    "lint": "echo 'TODO: lint code'",
+    "unit": "echo 'TODO: run unit tests'",
+    "start": "echo 'TODO: start' && tail -f /dev/null"
   },
   "devDependencies": {}
 }
