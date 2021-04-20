@@ -272,15 +272,15 @@ fi
 
 echo "Initializing CI/CD: $ci"
 
-# Remove GitHub Actions specific settings
-if [[ $ci != "github" ]]; then
+if [[ $ci == "github" ]]; then
+  # Secrets are not supported on GitHub Actions
+  sed -i '/^    environment:/i \\' docker-compose-cicd.yaml
+  sed -i "/^    secrets:.*\r*\$/,/^\r*$/d" docker-compose-cicd.yaml
+  sed -i "/^secrets:\r*\$/,/^\r*$/d" docker-compose-cicd.yaml
+else
+  # Remove GitHub Actions specific settings
   if [[ -f docker-compose-cicd.yaml ]]; then
     sed -i '/# For GitHub Actions/d' docker-compose-cicd.yaml
-
-    # secrets are not supported
-    sed -i '/^    environment:/i \\' docker-compose-cicd.yaml
-    sed -i "/^    secrets:.*\r*\$/,/^\r*$/d" docker-compose-cicd.yaml
-    sed -i "/^secrets:\r*\$/,/^\r*$/d" docker-compose-cicd.yaml
   fi
 fi
 
