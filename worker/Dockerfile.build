@@ -47,4 +47,4 @@ ENV BASE_PATH /api
 
 USER node
 EXPOSE 8080
-CMD ["node", "./index.production.js"]
+CMD ["node", "./index.js"]

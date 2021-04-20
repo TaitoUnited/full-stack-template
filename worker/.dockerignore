@@ -1,6 +1,3 @@
 node_modules
 *.log
 *.md
-test/reports
-test/screenshots
-test/videos

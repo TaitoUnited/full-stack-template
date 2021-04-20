@@ -163,6 +163,52 @@ full-stack:
         BUCKET_DOWNLOAD_URL: https://storage.cloud.google.com/${st_bucket_name}
         BUCKET_FORCE_PATH_STYLE: 'true'
 
+    worker:
+      egress:
+        - ip: '${db_database_real_host}/32'
+        - fullname: ${taito_project}-${taito_env}-kafka
+        - fullname: ${taito_project}-${taito_env}-redis
+        - fullname: ${taito_project}-${taito_env}-storage
+      livenessInitialDelay: 120
+      db: # For old gcp environments
+         useProxy: ${gcp_db_proxy_enabled} # For old gcp environments
+         instance: ${taito_zone}:${taito_provider_region}:${db_database_instance} # For old gcp environments
+         port: ${db_database_real_port} # For old gcp environments
+         proxySecret: ${taito_provider_db_proxy_secret} # For old gcp environments
+      secrets:
+        DATABASE_SSL_CA: ${db_database_ssl_ca_secret}
+        DATABASE_SSL_CERT: ${db_database_ssl_cert_secret}
+        DATABASE_SSL_KEY: ${db_database_ssl_key_secret}
+        DATABASE_PASSWORD: ${db_database_app_secret}
+        REDIS_PASSWORD: ${taito_project}-${taito_env}-redis.password
+        BUCKET_KEY_SECRET: ${taito_project}-${taito_env}-storage.secretKey
+        EXAMPLE_SECRET: ${taito_project}-${taito_env}-example.secret
+      secretEnv:
+        BUCKET_KEY_ID: ${taito_project}-${taito_env}-storage.accessKeyId
+      env:
+        API_PORT: '8080'
+        API_BINDADDR: '0.0.0.0'
+        SENTRY_DSN: #sentryDSN
+        KAFKA_HOST: ${taito_project}-${taito_env}-kafka
+        KAFKA_PORT: 9092
+        DATABASE_HOST: '${db_database_real_host}'
+        DATABASE_PORT: '${db_database_real_port}'
+        DATABASE_SSL_ENABLED: ${db_database_ssl_enabled}
+        DATABASE_SSL_CLIENT_CERT_ENABLED: ${db_database_ssl_client_cert_enabled}
+        DATABASE_SSL_SERVER_CERT_ENABLED: ${db_database_ssl_server_cert_enabled}
+        DATABASE_NAME: ${db_database_name}
+        DATABASE_USER: ${db_database_app_username}
+        DATABASE_POOL_MIN: '0'
+        DATABASE_POOL_MAX: '5'
+        REDIS_HOST: ${taito_project}-${taito_env}-redis
+        REDIS_PORT: 6379
+        BUCKET_URL: http://${taito_project}-${taito_env}-storage:9000/
+        BUCKET_REGION: ${taito_provider_region}
+        BUCKET_BUCKET: ${st_bucket_name}
+        BUCKET_BROWSE_URL: https://console.cloud.google.com/storage/browser/${st_bucket_name}
+        BUCKET_DOWNLOAD_URL: https://storage.cloud.google.com/${st_bucket_name}
+        BUCKET_FORCE_PATH_STYLE: 'true'
+
     storage:
       egress:
         - ip: public
@@ -187,9 +233,6 @@ full-stack:
       env:
         AZURE_STORAGE_ACCOUNT: acmeazureware${taito_env} # For Azure
         MINIO_CONFIG_DIR: /tmp
-
-    worker:
-      enabled: false
 
     www:
       paths:
