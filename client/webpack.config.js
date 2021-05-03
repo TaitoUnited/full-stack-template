@@ -27,8 +27,8 @@ const DEV_POLL =
 const PUBLIC_HOST = process.env.DOCKER_HOST ? '192.168.99.100' : 'localhost';
 const PUBLIC_PORT = process.env.COMMON_PUBLIC_PORT || DEV_PORT;
 
-module.exports = function (env) {
-  const isProd = !!env.production;
+module.exports = function (env, options) {
+  const isProd = options.mode !== 'development';
   const analyzeBundle = isProd && process.env.ANALYZE_BUNDLE === 'true';
 
   console.log(`> Bundling for ${isProd ? 'production' : 'development'}...`);
@@ -36,7 +36,7 @@ module.exports = function (env) {
   return {
     mode: isProd ? 'production' : 'development',
 
-    devtool: isProd ? 'source-map' : 'eval-source-map',
+    devtool: isProd ? 'source-map' : 'inline-source-map',
 
     entry: ['src/index'],
 
@@ -83,6 +83,9 @@ module.exports = function (env) {
         filename: isProd ? '[name].[contenthash].css' : '[name].css',
       }),
 
+      // This causes a deprecation error [DEP_WEBPACK_COMPILATION_ASSETS]
+      // See: https://github.com/arthurbergmz/webpack-pwa-manifest/issues/144
+      // This will probably be fixed in a future version
       new WebpackPwaManifest({
         name: 'Fullstack template',
         short_name: 'Taito',
@@ -257,8 +260,8 @@ module.exports = function (env) {
           hot: true,
           historyApiFallback: true,
           stats: 'minimal',
-          disableHostCheck: true, // For headless cypress tests running in container
-          lazy: false,
+          //disableHostCheck: true, // For headless cypress tests running in container
+          // lazy: false,
           // watchOptions: {
           //   aggregateTimeout: 300,
           //   poll: DEV_POLL,
