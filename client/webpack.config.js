@@ -21,10 +21,6 @@ const ASSETS_DOMAIN = process.env.ASSETS_DOMAIN || '';
 const DEV_PORT = process.env.DEV_PORT || '3000';
 const ASSETS_DIR = 'assets';
 const ICON_DIR = ASSETS_DIR + '/icon.png';
-const DEV_POLL =
-  process.env.HOST_OS == 'macos' || process.env.HOST_OS == 'windows'
-    ? 2000
-    : undefined;
 
 // TODO: DOCKER_HOST contains the host ip? Use it instead of the hard coded ip
 const PUBLIC_HOST = process.env.DOCKER_HOST ? '192.168.99.100' : 'localhost';
@@ -288,12 +284,6 @@ module.exports = function (env, options) {
           hot: true,
           historyApiFallback: true,
           stats: 'minimal',
-          // disableHostCheck: true, // For headless cypress tests running in container
-          // lazy: false,
-          // watchOptions: {
-          //   aggregateTimeout: 300,
-          //   poll: DEV_POLL,
-          // },
           proxy: {
             '/api/*': {
               target: `http://server:${PUBLIC_PORT}`,
