@@ -10,6 +10,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 const y = new Date().getFullYear();
 const COPYRIGHT = 'Copyright ' + y + ' Taito United Oy - All rights reserved.';
@@ -18,6 +19,8 @@ const BASE_PATH = process.env.BASE_PATH || '';
 const ASSETS_PATH = process.env.ASSETS_PATH || '';
 const ASSETS_DOMAIN = process.env.ASSETS_DOMAIN || '';
 const DEV_PORT = process.env.DEV_PORT || '3000';
+const ASSETS_DIR = 'assets';
+const ICON_DIR = ASSETS_DIR + '/icon.png';
 const DEV_POLL =
   process.env.HOST_OS == 'macos' || process.env.HOST_OS == 'windows'
     ? 2000
@@ -81,6 +84,31 @@ module.exports = function (env, options) {
       // Extract imported CSS into separate file for caching
       new MiniCssExtractPlugin({
         filename: isProd ? '[name].[contenthash].css' : '[name].css',
+      }),
+
+      // This plugin causes a bunch of vulnerability issues
+      // See: https://github.com/itgalaxy/favicons/issues/322
+      new FaviconsWebpackPlugin({
+        logo: path.resolve(__dirname, ICON_DIR),
+        cache: true, // Make builds faster
+        prefix: 'assets/', // Where to put pwa icons, manifests, etc.
+        favicons: {
+          appName: 'full-stack-template-admin',
+          appShortName: 'Taito Admin',
+          appDescription: 'Taito admin template app',
+          developerName: 'Taito United',
+          developerURL: 'https://github.com/TaitoUnited',
+          background: '#ffffff',
+          theme_color: '#0C6298',
+          display: 'standalone',
+          start_url: '.',
+          icons: {
+            // Don't include unnecessary icons
+            coast: false,
+            yandex: false,
+            windows: false,
+          },
+        },
       }),
 
       // This causes a deprecation error [DEP_WEBPACK_COMPILATION_ASSETS]
@@ -260,7 +288,7 @@ module.exports = function (env, options) {
           hot: true,
           historyApiFallback: true,
           stats: 'minimal',
-          //disableHostCheck: true, // For headless cypress tests running in container
+          // disableHostCheck: true, // For headless cypress tests running in container
           // lazy: false,
           // watchOptions: {
           //   aggregateTimeout: 300,
