@@ -1,4 +1,6 @@
-version: '3.5'
+# This file is used to run your application locally with Docker Compose
+
+version: '3.8'
 services:
   full-stack-template-ingress:
     container_name: full-stack-template-ingress
@@ -11,34 +13,34 @@ services:
     volumes:
       - "./docker-nginx.conf:/etc/nginx/nginx.conf:delegated"
 
-  # full-stack-template-admin:
-  #   container_name: full-stack-template-admin
-  #   build:
-  #     context: ./admin
-  #     dockerfile: ${dockerfile}
-  #   restart: unless-stopped
-  #   networks:
-  #     - default
-  #   ports:
-  #     - "8080"
-  #   volumes:
-  #     - "./admin:/service:delegated"
-  #     - "./shared:/service/shared:delegated"
-  #     - "/service/node_modules"
-  #   environment:
-  #     # Paths
-  #     BASE_PATH: /admin
-  #     REPLACE_BASE_PATH: /admin   # For Dockerfile.build
-  #     ASSETS_PATH: /admin
-  #     REPLACE_ASSETS_PATH: /admin # For Dockerfile.build
-  #     ASSETS_DOMAIN: ''
-  #     REPLACE_ASSETS_DOMAIN: ''   # For Dockerfile.build
-  #     API_ROOT: ''
-  #     API_URL: /api
-  #     COMMON_PUBLIC_PORT: 9999
-  #     # Host specific variables
-  #     DOCKER_HOST: ${DOCKER_HOST}
-  #     HOST_OS: ${taito_host_os}
+  full-stack-template-admin:
+    container_name: full-stack-template-admin
+    build:
+      context: ./admin
+      dockerfile: ${dockerfile}
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      - "8080"
+    volumes:
+      - "./admin:/develop:delegated"
+      - "./shared:/develop/shared:delegated"
+      - "/develop/node_modules"
+    environment:
+      # Paths
+      BASE_PATH: /admin
+      REPLACE_BASE_PATH: /admin   # For Dockerfile.build
+      ASSETS_PATH: /admin
+      REPLACE_ASSETS_PATH: /admin # For Dockerfile.build
+      ASSETS_DOMAIN: ''
+      REPLACE_ASSETS_DOMAIN: ''   # For Dockerfile.build
+      API_ROOT: ''
+      API_URL: /api
+      COMMON_PUBLIC_PORT: 9999
+      # Host specific variables
+      DOCKER_HOST: ${DOCKER_HOST}
+      HOST_OS: ${taito_host_os}
 
   full-stack-template-client:
     container_name: full-stack-template-client
@@ -51,9 +53,9 @@ services:
     ports:
       - "8080"
     volumes:
-      - "./client:/service:delegated"
-      - "./shared:/service/shared:delegated"
-      - "/service/node_modules"
+      - "./client:/develop:delegated"
+      - "./shared:/develop/shared:delegated"
+      - "/develop/node_modules"
     secrets:
       - DATABASE_PASSWORD
     environment:
@@ -77,193 +79,252 @@ services:
       DATABASE_NAME: ${db_database_name}
       DATABASE_USER: ${db_database_app_username}
 
-  # full-stack-template-graphql:
-  #   container_name: full-stack-template-graphql
-  #   build:
-  #     context: ./graphql
-  #     dockerfile: ${dockerfile}
-  #   restart: unless-stopped
-  #   networks:
-  #     - default
-  #   ports:
-  #     - "8080"
-  #   volumes:
-  #     - "./graphql:/service:delegated"
-  #     - "./shared:/service/shared:delegated"
-  #     - "/service/node_modules"
-  #   environment:
-  #     # Paths and bind
-  #     BASE_PATH: /graphql
-  #     GRAPHQL_PORT: 8080
-  #     GRAPHQL_BINDADDR: 0.0.0.0
-  #     COMMON_PUBLIC_PORT: 9999
-  #     # Host specific variables
-  #     HOST_OS: ${taito_host_os}
-  #     # Common variables
-  #     COMMON_COMPANY: companyname
-  #     COMMON_PROJECT: full-stack-template
-  #     COMMON_DOMAIN: localhost
-  #     COMMON_URL: http://localhost:9999
-  #     COMMON_DEBUG: 'false'
-  #     COMMON_LOG_FORMAT: text
-  #     COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
-  #     COMMON_ENV: local
-  #     # Services
-  #     API_HOST: full-stack-template-server
-  #     API_PORT: 8080
+  full-stack-template-graphql:
+    container_name: full-stack-template-graphql
+    build:
+      context: ./graphql
+      dockerfile: ${dockerfile}
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      - "8080"
+    volumes:
+      - "./graphql:/develop:delegated"
+      - "./shared:/develop/shared:delegated"
+      - "/develop/node_modules"
+    environment:
+      # Paths and bind
+      BASE_PATH: /graphql
+      GRAPHQL_PORT: 8080
+      GRAPHQL_BINDADDR: 0.0.0.0
+      COMMON_PUBLIC_PORT: 9999
+      # Host specific variables
+      HOST_OS: ${taito_host_os}
+      # Common variables
+      COMMON_COMPANY: companyname
+      COMMON_PROJECT: full-stack-template
+      COMMON_DOMAIN: localhost
+      COMMON_URL: http://localhost:9999 # TODO: rename to COMMON_BASE_URL
+      COMMON_DEBUG: 'false'
+      COMMON_LOG_FORMAT: text
+      COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
+      COMMON_ENV: local
+      # Services
+      API_HOST: full-stack-template-server
+      API_PORT: 8080
 
-  # full-stack-template-server:
-  #   container_name: full-stack-template-server
-  #   build:
-  #     context: ./server
-  #     dockerfile: ${dockerfile}
-  #   restart: unless-stopped
-  #   networks:
-  #     - default
-  #   ports:
-  #     - "8080"
-  #     - "127.0.0.1:4229:9229"
-  #   volumes:
-  #     - "./server:/service:delegated"
-  #     - "./shared:/service/shared:delegated"
-  #     - "/service/node_modules"
-  #   secrets:
-  #     - DATABASE_PASSWORD
-  #     - REDIS_PASSWORD
-  #     - EXAMPLE_SECRET
-  #   environment:
-  #     # Paths and bind
-  #     BASE_PATH: /api
-  #     API_PORT: 8080
-  #     API_BINDADDR: 0.0.0.0
-  #     COMMON_PUBLIC_PORT: 9999
-  #     # Host specific variables
-  #     HOST_OS: ${taito_host_os}
-  #     # Common variables
-  #     COMMON_COMPANY: companyname
-  #     COMMON_PROJECT: full-stack-template
-  #     COMMON_DEBUG: 'false'
-  #     COMMON_LOG_FORMAT: text
-  #     COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
-  #     COMMON_ENV: local
-  #     # Services
-  #     SENTRY_DSN: #sentryDSN
-  #     KAFKA_HOST: full-stack-template-kafka
-  #     KAFKA_PORT: 9092
-  #     DATABASE_HOST: full-stack-template-database
-  #     DATABASE_PORT: ${db_database_port}
-  #     DATABASE_NAME: ${db_database_name}
-  #     DATABASE_USER: ${db_database_app_username}
-  #     DATABASE_POOL_MIN: '1'
-  #     DATABASE_POOL_MAX: '10'
-  #     DATABASE_SSL_ENABLED: ${db_database_ssl_enabled}
-  #     DATABASE_SSL_CLIENT_CERT_ENABLED: ${db_database_ssl_client_cert_enabled}
-  #     DATABASE_SSL_SERVER_CERT_ENABLED: ${db_database_ssl_server_cert_enabled}
-  #     REDIS_HOST: full-stack-template-redis
-  #     REDIS_PORT: 6379
-  #     BUCKET_URL: http://full-stack-template-storage:9000/
-  #     BUCKET_REGION: milkyway
-  #     BUCKET_BUCKET: bucket
-  #     BUCKET_BROWSE_URL: http://localhost:9729/bucket   # TODO
-  #     BUCKET_DOWNLOAD_URL: http://localhost:9729/bucket # TODO
-  #     BUCKET_KEY_ID: minio
-  #     BUCKET_KEY_SECRET: ${taito_default_password}
-  #     BUCKET_FORCE_PATH_STYLE: 'true'
+  full-stack-template-server:
+    container_name: full-stack-template-server
+    build:
+      context: ./server
+      dockerfile: ${dockerfile}
+    tty: true
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      - "8080"
+      - "127.0.0.1:4229:9229"
+    volumes:
+      - "./server:/develop:delegated"
+      - "./shared:/develop/shared:delegated"
+      - "/develop/node_modules"
+    secrets:
+      - DATABASE_PASSWORD
+      - REDIS_PASSWORD
+      - EXAMPLE_SECRET
+    environment:
+      # Paths and bind
+      BASE_PATH: /api ********************* TODO **************
+      API_PORT: 8080
+      API_BINDADDR: 0.0.0.0
+      COMMON_PUBLIC_PORT: 9999
+      # Host specific variables
+      HOST_OS: ${taito_host_os}
+      # Common variables
+      COMMON_COMPANY: companyname
+      COMMON_PROJECT: full-stack-template
+      COMMON_DEBUG: 'false'
+      COMMON_LOG_FORMAT: text
+      COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
+      COMMON_ENV: local
+      # Services
+      SENTRY_DSN: #sentryDSN
+      KAFKA_HOST: full-stack-template-kafka
+      KAFKA_PORT: 9092
+      DATABASE_HOST: full-stack-template-database
+      DATABASE_PORT: ${db_database_port}
+      DATABASE_NAME: ${db_database_name}
+      DATABASE_USER: ${db_database_app_username}
+      DATABASE_POOL_MIN: '1'
+      DATABASE_POOL_MAX: '10'
+      DATABASE_SSL_ENABLED: ${db_database_ssl_enabled}
+      DATABASE_SSL_CLIENT_CERT_ENABLED: ${db_database_ssl_client_cert_enabled}
+      DATABASE_SSL_SERVER_CERT_ENABLED: ${db_database_ssl_server_cert_enabled}
+      REDIS_HOST: full-stack-template-redis
+      REDIS_PORT: 6379
+      BUCKET_URL: http://full-stack-template-storage:9000/
+      BUCKET_REGION: milkyway
+      BUCKET_BUCKET: bucket
+      BUCKET_BROWSE_URL: http://localhost:9729/bucket   # TODO
+      BUCKET_DOWNLOAD_URL: http://localhost:9729/bucket # TODO
+      BUCKET_KEY_ID: minio
+      BUCKET_KEY_SECRET: ${taito_default_password}
+      BUCKET_FORCE_PATH_STYLE: 'true'
 
-  # full-stack-template-www:
-  #   container_name: full-stack-template-www
-  #   build:
-  #     context: ./www
-  #     dockerfile: ${dockerfile}
-  #   restart: unless-stopped
-  #   networks:
-  #     - default
-  #   ports:
-  #     # TODO: Temporary hack for https://github.com/gatsbyjs/gatsby/issues/3721
-  #     - "127.0.0.1:7463:8080"
-  #   volumes:
-  #     - "./www:/service:delegated"
-  #     - "/service/node_modules"
-  #     - "/service/site/node_modules" # FOR GATSBY ONLY
-  #     # FOR GATSBY ONLY:
-  #     # - "/service/site/node_modules"
-  #   environment:
-  #     # Paths
-  #     BASE_PATH: /docs
-  #     REPLACE_BASE_PATH: /docs    # For Dockerfile.build
-  #     ASSETS_PATH: /docs
-  #     REPLACE_ASSETS_PATH: /docs  # For Dockerfile.build
-  #     ASSETS_DOMAIN: ''
-  #     REPLACE_ASSETS_DOMAIN: ''   # For Dockerfile.build
-  #     COMMON_PUBLIC_PORT: 9999
-  #     # Host specific variables
-  #     HOST_OS: ${taito_host_os}
+  full-stack-template-worker:
+    container_name: full-stack-template-worker
+    build:
+      context: ./worker
+      dockerfile: ${dockerfile}
+    tty: true
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      - "8080"
+      - "127.0.0.1:5229:9229"
+    volumes:
+      - "./worker:/develop:delegated"
+      - "./shared:/develop/shared:delegated"
+      - "/develop/node_modules"
+    secrets:
+      - DATABASE_PASSWORD
+      - REDIS_PASSWORD
+      - EXAMPLE_SECRET
+    environment:
+      # Paths and bind
+      API_PORT: 8080
+      API_BINDADDR: 0.0.0.0
+      COMMON_PUBLIC_PORT: 9999
+      # Host specific variables
+      HOST_OS: ${taito_host_os}
+      # Common variables
+      COMMON_COMPANY: companyname
+      COMMON_PROJECT: full-stack-template
+      COMMON_DEBUG: 'false'
+      COMMON_LOG_FORMAT: text
+      COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
+      COMMON_ENV: local
+      # Services
+      SENTRY_DSN: #sentryDSN
+      KAFKA_HOST: full-stack-template-kafka
+      KAFKA_PORT: 9092
+      DATABASE_HOST: full-stack-template-database
+      DATABASE_PORT: ${db_database_port}
+      DATABASE_NAME: ${db_database_name}
+      DATABASE_USER: ${db_database_app_username}
+      DATABASE_POOL_MIN: '1'
+      DATABASE_POOL_MAX: '10'
+      DATABASE_SSL_ENABLED: ${db_database_ssl_enabled}
+      DATABASE_SSL_CLIENT_CERT_ENABLED: ${db_database_ssl_client_cert_enabled}
+      DATABASE_SSL_SERVER_CERT_ENABLED: ${db_database_ssl_server_cert_enabled}
+      REDIS_HOST: full-stack-template-redis
+      REDIS_PORT: 6379
+      BUCKET_URL: http://full-stack-template-storage:9000/
+      BUCKET_REGION: milkyway
+      BUCKET_BUCKET: bucket
+      BUCKET_BROWSE_URL: http://localhost:9729/bucket   # TODO
+      BUCKET_DOWNLOAD_URL: http://localhost:9729/bucket # TODO
+      BUCKET_KEY_ID: minio
+      BUCKET_KEY_SECRET: ${taito_default_password}
+      BUCKET_FORCE_PATH_STYLE: 'true'
 
-  # full-stack-template-redis:
-  #   container_name: full-stack-template-redis
-  #   image: bitnami/redis:6.0
-  #   restart: unless-stopped
-  #   networks:
-  #     - default
-  #   ports:
-  #     - "6379"
-  #   secrets:
-  #     - REDIS_PASSWORD
-  #   environment:
-  #     REDIS_PASSWORD_FILE: '/run/secrets/REDIS_PASSWORD'
-  #     REDIS_AOF_ENABLED: 'no'
+  full-stack-template-www:
+    container_name: full-stack-template-www
+    build:
+      context: ./www
+      dockerfile: ${dockerfile}
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      # TODO: Temporary hack for https://github.com/gatsbyjs/gatsby/issues/3721
+      - "127.0.0.1:7463:8080"
+    volumes:
+      - "./www:/develop:delegated"
+      - "/develop/node_modules"
+      - "/develop/site/node_modules" # FOR GATSBY ONLY
+      # FOR GATSBY ONLY:
+      # - "/develop/site/node_modules"
+    environment:
+      # Paths
+      BASE_PATH: /docs
+      REPLACE_BASE_PATH: /docs    # For Dockerfile.build
+      ASSETS_PATH: /docs
+      REPLACE_ASSETS_PATH: /docs  # For Dockerfile.build
+      ASSETS_DOMAIN: ''
+      REPLACE_ASSETS_DOMAIN: ''   # For Dockerfile.build
+      COMMON_PUBLIC_PORT: 9999
+      # Host specific variables
+      HOST_OS: ${taito_host_os}
 
-  # full-stack-template-kafka:
-  #   container_name: full-stack-template-kafka
-  #   image: 'bitnami/kafka:latest'
-  #   ports:
-  #     - '9092'
-  #   environment:
-  #     - KAFKA_ZOOKEEPER_CONNECT=full-stack-template-zookeeper:2181
-  #     - ALLOW_PLAINTEXT_LISTENER=yes
+  full-stack-template-redis:
+    container_name: full-stack-template-redis
+    image: bitnami/redis:6.0
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      - "6379"
+    secrets:
+      - REDIS_PASSWORD
+    environment:
+      REDIS_PASSWORD_FILE: '/run/secrets/REDIS_PASSWORD'
+      REDIS_AOF_ENABLED: 'no'
 
-  # full-stack-template-zookeeper:
-  #   container_name: full-stack-template-zookeeper
-  #   image: 'bitnami/zookeeper:latest'
-  #   ports:
-  #     - '2181'
-  #   environment:
-  #     - ALLOW_ANONYMOUS_LOGIN=yes
+  full-stack-template-kafka:
+    container_name: full-stack-template-kafka
+    image: 'bitnami/kafka:latest'
+    ports:
+      - '9092'
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=full-stack-template-zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
 
-  # # "EXTERNAL RESOURCES"
+  full-stack-template-zookeeper:
+    container_name: full-stack-template-zookeeper
+    image: 'bitnami/zookeeper:latest'
+    ports:
+      - '2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
 
-  # full-stack-template-database:
-  #   container_name: full-stack-template-database
-  #   image: postgres:12
-  #   restart: unless-stopped
-  #   networks:
-  #     - default
-  #   ports:
-  #     - "127.0.0.1:6000:5432"
-  #   secrets:
-  #     - DATABASE_PASSWORD
-  #   environment:
-  #     POSTGRES_DB: ${db_database_name}
-  #     POSTGRES_USER: ${db_database_app_username}
-  #     POSTGRES_PASSWORD_FILE: /run/secrets/DATABASE_PASSWORD
-  #     MYSQL_ROOT_PASSWORD: ${taito_default_password}
-  #   volumes:
-  #     - "./database:/docker-entrypoint-initdb.d:delegated"
+  # "EXTERNAL RESOURCES"
 
-  # full-stack-template-storage:
-  #   container_name: full-stack-template-storage
-  #   build:
-  #     context: ./storage
-  #     dockerfile: ${dockerfile}
-  #   restart: unless-stopped
-  #   command: server /service
-  #   networks:
-  #     - default
-  #   ports:
-  #     - "9000"
-  #   environment:
-  #     MINIO_ACCESS_KEY: minio
-  #     MINIO_SECRET_KEY: ${taito_default_password}
+  full-stack-template-database:
+    container_name: full-stack-template-database
+    image: postgres:12
+    restart: unless-stopped
+    networks:
+      - default
+    ports:
+      - "127.0.0.1:6000:5432"
+    secrets:
+      - DATABASE_PASSWORD
+    environment:
+      POSTGRES_DB: ${db_database_name}
+      POSTGRES_USER: ${db_database_app_username}
+      POSTGRES_PASSWORD_FILE: /run/secrets/DATABASE_PASSWORD
+      MYSQL_ROOT_PASSWORD: ${taito_default_password}
+    volumes:
+      - "./database:/docker-entrypoint-initdb.d:delegated"
+
+  full-stack-template-storage:
+    container_name: full-stack-template-storage
+    build:
+      context: ./storage
+      dockerfile: ${dockerfile}
+    restart: unless-stopped
+    command: server /develop
+    networks:
+      - default
+    ports:
+      - "9000"
+    environment:
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: ${taito_default_password}
 
 secrets:
   DATABASE_PASSWORD:
@@ -272,6 +333,9 @@ secrets:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-redis.password
   EXAMPLE_SECRET:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-example.secret
+
+  DJANGO_SECRET_KEY: *** TODO ***
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-django.secretKey
 
 networks:
   default:
