@@ -1,40 +1,41 @@
 /* eslint-disable */
 const path = require('path');
 const webpack = require('webpack');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 const y = new Date().getFullYear();
 const COPYRIGHT = 'Copyright ' + y + ' Taito United Oy - All rights reserved.';
 const OUTPUT_DIR = '../../build';
-const ASSETS_DIR = 'assets';
-const ICON_DIR = ASSETS_DIR + '/icon.png';
 const BASE_PATH = process.env.BASE_PATH || '';
 const ASSETS_PATH = process.env.ASSETS_PATH || '';
 const ASSETS_DOMAIN = process.env.ASSETS_DOMAIN || '';
-
 const DEV_PORT = process.env.DEV_PORT || '3001';
-const DEV_POLL =
-  process.env.HOST_OS == 'macos' || process.env.HOST_OS == 'windows'
-    ? 2000
-    : undefined;
+const ASSETS_DIR = 'assets';
+const ICON_DIR = ASSETS_DIR + '/icon.png';
 
 // TODO: DOCKER_HOST contains the host ip? Use it instead of the hard coded ip
 const PUBLIC_HOST = process.env.DOCKER_HOST ? '192.168.99.100' : 'localhost';
 const PUBLIC_PORT = process.env.COMMON_PUBLIC_PORT || DEV_PORT;
 
-module.exports = function(env, argv) {
-  const isProd = !!env.production;
+module.exports = function (env, options) {
+  const isProd = options.mode !== 'development';
   const analyzeBundle = isProd && process.env.ANALYZE_BUNDLE === 'true';
+
+  console.log(`> Bundling for ${isProd ? 'production' : 'development'}...`);
 
   return {
     mode: isProd ? 'production' : 'development',
 
-    devtool: isProd ? 'source-maps' : 'inline-source-map',
+    devtool: isProd ? 'source-map' : 'inline-source-map',
 
     entry: ['src/index'],
 
@@ -55,6 +56,8 @@ module.exports = function(env, argv) {
     },
 
     plugins: [
+      new CleanWebpackPlugin(),
+
       // No need to type check when analyzing the JS bundle
       // NOTE: if type checking fails -> the build will fail
       !analyzeBundle && new ForkTsCheckerWebpackPlugin(),
@@ -74,6 +77,8 @@ module.exports = function(env, argv) {
         filename: isProd ? '[name].[contenthash].css' : '[name].css',
       }),
 
+      // This plugin causes a bunch of vulnerability issues
+      // See: https://github.com/itgalaxy/favicons/issues/322
       new FaviconsWebpackPlugin({
         logo: path.resolve(__dirname, ICON_DIR),
         cache: true, // Make builds faster
@@ -97,14 +102,44 @@ module.exports = function(env, argv) {
         },
       }),
 
+      // This causes a deprecation error [DEP_WEBPACK_COMPILATION_ASSETS]
+      // See: https://github.com/arthurbergmz/webpack-pwa-manifest/issues/144
+      // This will probably be fixed in a future version
+      new WebpackPwaManifest({
+        name: 'Fullstack template',
+        short_name: 'Taito',
+        description: 'Taito fullstack template application',
+        background_color: '#ffffff',
+        theme_color: '#15994C',
+        crossorigin: null,
+        orientation: 'portrait',
+        display: 'standalone',
+        start_url: '.',
+        ios: true,
+        icons: [
+          {
+            src: path.resolve('assets/icon.png'),
+            sizes: [120, 152, 167, 180, 1024],
+            ios: true,
+          },
+          {
+            src: path.resolve('assets/icon.png'),
+            size: 1024,
+            ios: 'startup'
+          },
+          {
+            src: path.resolve('assets/icon.png'),
+            sizes: [36, 48, 72, 96, 144, 192, 512],
+          },
+        ],
+      }),
+
       // If you use moment add any locales you need here
       new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en|fi/),
 
-      // Caching -> vendor hash should stay consistent between prod builds
-      isProd && new webpack.HashedModuleIdsPlugin(),
-
-      // Enable HRM for development
+      // Enable HMR + Fast Refresh for development
       !isProd && new webpack.HotModuleReplacementPlugin(),
+      !isProd && new ReactRefreshWebpackPlugin(),
 
       analyzeBundle && new BundleAnalyzerPlugin(),
 
@@ -114,9 +149,38 @@ module.exports = function(env, argv) {
         'process.env.SENTRY_PUBLIC_DSN': JSON.stringify(
           process.env.SENTRY_PUBLIC_DSN
         ),
+        'process.env.GA_TRACKING_ID': JSON.stringify(
+          process.env.GA_TRACKING_ID
+        ),
       }),
 
       new webpack.BannerPlugin({ banner: COPYRIGHT }),
+
+      // Generate a Service Worker automatically to cache generated JS files
+      // NOTE: this should be the last plugin in the list!
+      new WorkboxPlugin.GenerateSW({
+        swDest: 'sw.js',
+
+        clientsClaim: true,
+
+        // NOTE: `skipWaiting` with lazy-loaded content might lead to nasty bugs
+        // https://stackoverflow.com/questions/51715127/what-are-the-downsides-to-using-skipwaiting-and-clientsclaim-with-workbox
+        skipWaiting: false,
+
+        // Exclude images from the precache
+        exclude: [/\.(?:png|jpg|jpeg|svg)$/],
+
+        runtimeCaching: [
+          {
+            urlPattern: /\.(?:png|gif|jpg|jpeg|svg)$/,
+            handler: 'CacheFirst',
+          },
+          {
+            urlPattern: /.*(?:googleapis|gstatic)\.com/,
+            handler: 'StaleWhileRevalidate',
+          },
+        ],
+      }),
     ].filter(Boolean),
 
     module: {
@@ -129,25 +193,33 @@ module.exports = function(env, argv) {
             quiet: true, // Don't report warnings
           },
         },
-
         {
           test: /\.(js|tsx?)$/,
-          use: ['babel-loader'],
+          use: [
+            {
+              loader: require.resolve('babel-loader'),
+              options: {
+                plugins: [
+                  !isProd && require.resolve('react-refresh/babel'),
+                ].filter(Boolean),
+              },
+            },
+          ],
           exclude: /node_modules/,
         },
-
         {
           test: /\.js$/,
           use: ['source-map-loader'],
           enforce: 'pre',
         },
-
         {
-          test: /\.(png|svg|jpg|gif)$/,
-          use: ['file-loader'],
-          exclude: /node_modules/,
+          test: /\.(png|svg|jpg|jpeg|gif)$/i,
+          type: 'asset/resource',
         },
-
+        {
+          test: /\.(woff|woff2|eot|ttf|otf)$/i,
+          type: 'asset/resource',
+        },
         {
           test: /\.css$/,
           use: [
@@ -166,6 +238,14 @@ module.exports = function(env, argv) {
       // Extract third-party libraries (lodash, etc.) to a separate vendor chunk
       splitChunks: {
         cacheGroups: {
+          // Separate sentry into it's own bundle since it is huge
+          sentry: {
+            test: /[\\/]node_modules[\\/](@sentry)[\\/]/,
+            name: 'sentry',
+            chunks: 'all',
+            priority: 30,
+          },
+
           // Group most libs into one vendor bundle
           vendor: {
             test: /[\\/]node_modules[\\/]/,
@@ -195,19 +275,11 @@ module.exports = function(env, argv) {
           host: '0.0.0.0',
           port: DEV_PORT,
           publicPath: '/',
-          // Fix HMR inside Docker container
-          public: `${PUBLIC_HOST}:${PUBLIC_PORT}/admin/sockjs-node`,
-          contentBase: [
-            path.join(__dirname, 'assets')
-          ],
+          public: `${PUBLIC_HOST}:${PUBLIC_PORT}${BASE_PATH}/sockjs-node`, // Fix HMR inside Docker container
+          contentBase: [path.join(__dirname, 'assets')],
           hot: true,
           historyApiFallback: true,
           stats: 'minimal',
-          lazy: false,
-          watchOptions: {
-            aggregateTimeout: 300,
-            poll: DEV_POLL,
-          },
           proxy: {
             '/api/*': {
               target: `http://server:${PUBLIC_PORT}`,
