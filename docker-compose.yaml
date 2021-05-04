@@ -105,7 +105,7 @@ services:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: full-stack-template
       COMMON_DOMAIN: localhost
-      COMMON_URL: http://localhost:9999 # TODO: rename to COMMON_BASE_URL
+      COMMON_URL: http://localhost:9999
       COMMON_DEBUG: 'false'
       COMMON_LOG_FORMAT: text
       COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
@@ -119,7 +119,6 @@ services:
     build:
       context: ./server
       dockerfile: ${dockerfile}
-    tty: true
     restart: unless-stopped
     networks:
       - default
@@ -136,7 +135,7 @@ services:
       - EXAMPLE_SECRET
     environment:
       # Paths and bind
-      BASE_PATH: /api ********************* TODO **************
+      BASE_PATH: /api
       API_PORT: 8080
       API_BINDADDR: 0.0.0.0
       COMMON_PUBLIC_PORT: 9999
@@ -333,9 +332,6 @@ secrets:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-redis.password
   EXAMPLE_SECRET:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-example.secret
-
-  DJANGO_SECRET_KEY: *** TODO ***
-    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-django.secretKey
 
 networks:
   default:
