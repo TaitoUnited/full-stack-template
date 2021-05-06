@@ -1,7 +1,7 @@
 # Builder, tester and runtime container for local development
 # NOTE: Use the same cypress version both in Dockerfile and package.json to
 #       avoid unnecessary cypress download
-FROM taitounited/cypress:6.1.0
+FROM taitounited/cypress:7.2.0
 
 RUN mkdir -p /develop
 WORKDIR /develop
