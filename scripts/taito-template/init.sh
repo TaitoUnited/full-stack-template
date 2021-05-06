@@ -371,7 +371,7 @@ prune "Kafka for event-based streaming/queuing? [y/N] " kafka
 prune "Redis (e.g. as in-memory cache)? [y/N] " redis
 prune "Worker for background jobs? [y/N] " worker
 prune "Relational database? [Y/n] " database
-prune "Permanent object storage for files? [y/N] " storage \\/bucket \\/minio
+prune "Permanent object storage for files? [y/N] " storage \\/minio
 
 function remove_empty_secrets () {
   sed -i -n '1h;1!H;${g;s/    secrets:\n    environment:/    environment:/;p;}' "$1"
