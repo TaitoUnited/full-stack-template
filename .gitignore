@@ -8,6 +8,7 @@ template-tmp
 tmp
 
 __pycache__
+.ipynb_checkpoints
 node_modules
 site-packages
 .DS_Store
