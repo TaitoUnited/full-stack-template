@@ -562,7 +562,7 @@ db_database_mgr_username="${db_database_name}${db_database_username_suffix}"
 db_database_mgr_secret="${db_database_name//_/-}-db-mgr.password"
 
 # Determine default user for executing database operations
-if [[ ${taito_env} == "local" ]]; then
+if [[ ${taito_env} == "local" ]] && [[ ${db_database_name} == *"local" ]]; then
   # App in local environment (there is only app user)
   db_database_default_username="${db_database_default_username:-$db_database_app_username}"
   db_database_default_secret="${db_database_default_secret:-$db_database_app_secret}"
