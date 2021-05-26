@@ -1,4 +1,45 @@
 # ----------------------------------------------------------
+# Service examples
+# ----------------------------------------------------------
+
+  services:
+    admin:
+      paths:
+        - path: /admin
+      cpuRequest: 2m
+      memoryRequest: 2Mi
+
+    lab:
+      paths:
+        - path: /lab
+          clientMaxBodySize: 10m
+      egress:
+        - ip: '${db_database_real_host}/32'
+        - ip: public
+      livenessInitialDelay: 120
+      livenessCommand:
+        - python3
+        - --version
+      tty: true
+      secretEnv:
+        DATABASE_PASSWORD: ${db_database_app_secret}
+        STORAGE_ACCESS_KEY: ${taito_project}-${taito_env}-storage.accessKeyId
+        STORAGE_SECRET_KEY: ${taito_project}-${taito_env}-storage.secretKey
+      env:
+        DATABASE_HOST: '${db_database_real_host}'
+        DATABASE_PORT: '${db_database_real_port}'
+        DATABASE_NAME: ${db_database_name}
+        DATABASE_USER: ${db_database_app_username}
+        DATABASE_POOL_MIN: '0'
+        DATABASE_POOL_MAX: '5'
+        DATABASE_SSL_ENABLED: ${db_database_ssl_enabled}
+        DATABASE_SSL_CLIENT_CERT_ENABLED: ${db_database_ssl_client_cert_enabled}
+        DATABASE_SSL_SERVER_CERT_ENABLED: ${db_database_ssl_server_cert_enabled}
+        STORAGE_TYPE: azure
+        STORAGE_ENDPOINT:
+        STORAGE_BUCKET: ${st_bucket_name}
+
+# ----------------------------------------------------------
 # Path attributes
 # ----------------------------------------------------------
 
