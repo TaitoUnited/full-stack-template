@@ -41,6 +41,20 @@ taito_networks="default"
 taito_buckets=" bucket "
 st_bucket_name="$taito_random_name-$taito_env"
 
+# Additional databases
+# EXAMPLE:
+# db_bidb_name=${taito_project//-/_}_bidb_${taito_env}
+# db_bidb_port=5001
+# db_bidb_mgr_username="${db_bidb_name}${db_database_username_suffix}"
+# db_bidb_mgr_secret="${db_bidb_name//_/-}-db-mgr.password"
+# db_bidb_app_username="${db_bidb_name}${db_database_app_user_suffix}${db_database_username_suffix}"
+# db_bidb_app_secret="${db_bidb_name//_/-}-db-app.password"
+# db_bidb_viewer_username="${db_bidb_name}${db_database_viewer_user_suffix}${db_database_username_suffix}"
+# db_bidb_viewer_secret="${db_bidb_name//_/-}-db-viewer.password"
+# db_bidb_default_username="${db_bidb_mgr_username}"
+# db_bidb_default_secret="${db_bidb_mgr_secret}"
+
+
 # ------ Secrets ------
 # Configuration instructions:
 # https://taitounited.github.io/taito-cli/tutorial/06-env-variables-and-secrets/
