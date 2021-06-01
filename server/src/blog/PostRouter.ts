@@ -1,5 +1,6 @@
 import { Context } from 'koa';
 import { Joi } from 'koa-joi-router';
+import { Service } from 'typedi';
 import BaseRouter from '../common/BaseRouter';
 import { ItemSchema } from '../common/schemas';
 import { PostService } from './PostService';
@@ -12,14 +13,11 @@ const BasePostSchema = Joi.object({
 
 const PostSchema = ItemSchema.concat(BasePostSchema);
 
+@Service()
 export class PostRouter extends BaseRouter {
-  private postService: PostService;
-
-  constructor(injections: any = {}) {
-    const { router = null, postService = null } = injections;
+  constructor(private postService: PostService, router: any = null) {
     super(router);
-    this.postService = postService || new PostService(injections);
-    this.group = 'Posts'; // TODO: should this be 'blog'?
+    this.group = 'Posts';
     this.prefix = '/posts';
     this.setupRoutes();
   }

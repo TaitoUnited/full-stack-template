@@ -1,12 +1,14 @@
 import { Context } from 'koa';
+import { Service } from 'typedi';
 import BaseRouter from '../common/BaseRouter';
 
 import config from '../common/config';
 import getStoragesById from '../common/storage';
 
+@Service()
 class InfraRouter extends BaseRouter {
-  constructor() {
-    super();
+  constructor(router: any = null) {
+    super(router);
     this.group = 'Infra';
     this.setupRoutes();
   }

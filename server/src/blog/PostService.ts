@@ -1,15 +1,11 @@
 import { Context } from 'koa';
+import { Service } from 'typedi';
 import { Post } from '../../shared/types/blog';
 import { PostDao } from './PostDao';
 
+@Service()
 export class PostService {
-  private postDao: PostDao;
-
-  constructor(injections: any = {}) {
-    const { postDao = null } = injections;
-
-    this.postDao = postDao || new PostDao();
-  }
+  constructor(private postDao: PostDao) {}
 
   public async getAllPosts(state: Context['state']) {
     return this.postDao.getAllPosts(state.tx);

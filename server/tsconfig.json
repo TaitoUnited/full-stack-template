@@ -4,19 +4,13 @@
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
-    "typeRoots": [
-      "./src/types",
-      "./node_modules/@types"
-    ],
+    "typeRoots": ["./src/types", "./node_modules/@types"],
     "outDir": "../build",
     "sourceMap": true,
     "noImplicitAny": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
-  "include": [
-    "shared/**/*.ts",
-    "src/**/*.ts",
-    "index.ts",
-    "test/**/*.ts"
-  ]
+  "include": ["shared/**/*.ts", "src/**/*.ts", "index.ts", "test/**/*.ts"]
 }

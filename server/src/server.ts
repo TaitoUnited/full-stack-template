@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import serverless from 'serverless-http';
 import Koa from 'koa';
 import patchKoaQs from 'koa-qs';

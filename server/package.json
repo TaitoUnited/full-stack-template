@@ -24,9 +24,11 @@
     "lodash": "^4.17.15",
     "mustache": "^4.1.0",
     "pg-promise": "^10.8.1",
+    "reflect-metadata": "^0.1.13",
     "serverless-http": "^2.5.0",
     "showdown": "^1.9.1",
     "stack-trace": "0.0.10",
+    "typedi": "^0.10.0",
     "uuid": "^8.3.2"
   },
   "resolutions": {

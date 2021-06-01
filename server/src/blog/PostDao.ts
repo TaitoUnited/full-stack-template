@@ -1,7 +1,9 @@
+import { Service } from 'typedi';
 import { asCamelCase } from '../common/formatters';
 import { Db } from '../common/types';
 import { Post } from '../../shared/types/blog';
 
+@Service()
 export class PostDao {
   private tableColumns = [
     'id',
