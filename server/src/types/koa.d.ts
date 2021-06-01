@@ -2,7 +2,7 @@
 import { State } from '../common/types';
 
 declare module 'koa' {
-  interface Context {
-    state: State;
+  interface Context<TState = State> {
+    state: TState;
   }
 }

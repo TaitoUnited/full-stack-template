@@ -13,6 +13,9 @@ const BasePostSchema = Joi.object({
 
 const PostSchema = ItemSchema.concat(BasePostSchema);
 
+/**
+ * REST API router for Posts
+ */
 @Service()
 export class PostRouter extends BaseRouter {
   constructor(private postService: PostService, router: any = null) {

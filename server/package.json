@@ -15,9 +15,11 @@
   "dependencies": {
     "@hapi/boom": "^9.1.0",
     "@sentry/node": "^6.5.0",
+    "apollo-server-koa": "^2.25.0",
     "aws-sdk": "^2.807.0",
     "axios": "^0.21.0",
     "bunyan": "^1.8.14",
+    "graphql": "^15.5.0",
     "koa": "^2.13.0",
     "koa-joi-router": "^8.0.0",
     "koa-qs": "^3.0.0",
@@ -28,6 +30,7 @@
     "serverless-http": "^2.5.0",
     "showdown": "^1.9.1",
     "stack-trace": "0.0.10",
+    "type-graphql": "^1.1.1",
     "typedi": "^0.10.0",
     "uuid": "^8.3.2"
   },

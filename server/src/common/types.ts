@@ -1,6 +1,19 @@
 import { IDatabase, ITask } from 'pg-promise';
 import Bunyan from 'bunyan';
-import { User } from '../../shared/types/common';
+
+export enum UserRole {
+  ADMIN = 'admin',
+  GUEST = 'guest',
+}
+
+export interface User {
+  username: String;
+  firstName: String;
+  lastName: String;
+  email?: String;
+  language?: String;
+  role: UserRole;
+}
 
 // DAOs can work with raw database calls & transactions
 export type Db =

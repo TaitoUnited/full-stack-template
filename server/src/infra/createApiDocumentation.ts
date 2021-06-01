@@ -2,6 +2,10 @@ import { Joi } from 'koa-joi-router';
 import Mustache from 'mustache';
 import showdown from 'showdown';
 
+/**
+ * REST API documentation generator
+ */
+
 const markdownRenderer = new showdown.Converter({
   smartIndentationFix: true,
   simpleLineBreaks: true,

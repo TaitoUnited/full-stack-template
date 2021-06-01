@@ -1,7 +1,7 @@
 import { Service } from 'typedi';
 import { asCamelCase } from '../common/formatters';
 import { Db } from '../common/types';
-import { Post } from '../../shared/types/blog';
+import { Post, CreatePostInput } from './types';
 
 @Service()
 export class PostDao {
@@ -41,7 +41,7 @@ export class PostDao {
     return asCamelCase(data);
   }
 
-  public async createPost(db: Db, post: Post) {
+  public async createPost(db: Db, post: CreatePostInput) {
     const data = await db.one(
       `
         INSERT INTO posts (

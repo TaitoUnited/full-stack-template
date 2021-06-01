@@ -1,7 +1,9 @@
 import router, { FullHandler, Joi } from 'koa-joi-router';
 import stackTrace from 'stack-trace';
 
-// Wrapper for koa-joi-router with prefix and group additions
+/**
+ * REST API base router
+ */
 export default class BaseRouter {
   private router = router();
 

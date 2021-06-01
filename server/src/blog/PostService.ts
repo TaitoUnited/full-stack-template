@@ -1,6 +1,6 @@
 import { Context } from 'koa';
 import { Service } from 'typedi';
-import { Post } from '../../shared/types/blog';
+import { CreatePostInput } from './types';
 import { PostDao } from './PostDao';
 
 @Service()
@@ -15,7 +15,7 @@ export class PostService {
     return this.postDao.getPost(state.tx, id);
   }
 
-  public async createPost(state: Context['state'], post: Post) {
+  public async createPost(state: Context['state'], post: CreatePostInput) {
     return this.postDao.createPost(state.tx, post);
   }
 }
