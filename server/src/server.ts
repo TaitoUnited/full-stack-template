@@ -15,11 +15,12 @@ import initSentry from './infra/initSentry';
 import requestLoggerMiddleware from './infra/requestLoggerMiddleware';
 import routerMiddlewares from './routerMiddlewares';
 
+// Sentry
 initSentry();
 
+// Koa
 const server = new Koa();
-// Add support for query parameter nesting
-patchKoaQs(server);
+patchKoaQs(server); // Adds support for query parameter nesting
 
 // Request state prototype
 server.use(async (ctx, next) => {
@@ -43,7 +44,6 @@ routerMiddlewares.forEach((middleware) => {
 const schema = buildSchemaSync({
   resolvers: [`${process.env.PWD}/src/**/*Resolver.{ts,js}`],
   container: Container,
-  // NOTE: Add authentication
   authChecker: ({ context }, roles) => authChecker(context, roles),
   authMode: 'null',
   validate: true,
@@ -80,6 +80,7 @@ const apollo = new ApolloServer({
 });
 apollo.applyMiddleware({ app: server, path: '/' });
 
+// Start server or function handler
 let handler = null;
 handler = serverless(server, { basePath: config.BASE_PATH });
 if (!handler || config.COMMON_ENV === 'local') {

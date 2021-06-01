@@ -7,6 +7,10 @@ import createApiDocumentation from './infra/createApiDocumentation';
 import InfraRouter from './infra/InfraRouter';
 import { PostRouter } from './blog/PostRouter';
 
+/**
+ * REST API routers
+ */
+
 const postRouter = Container.get(PostRouter);
 const infraRouter = Container.get(InfraRouter);
 const apiDocRouter = router();
