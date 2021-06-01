@@ -4,10 +4,10 @@ This file has been copied from [FULL-STACK-TEMPLATE](https://github.com/TaitoUni
 
 ## Prerequisites
 
-* [npm](https://github.com/npm/cli) that usually ships with [Node.js](https://nodejs.org/)
-* [Docker Compose](https://docs.docker.com/compose/install/)
-* [Taito CLI](https://taitounited.github.io/taito-cli/) (or see [TAITOLESS.md](TAITOLESS.md))
-* Optional: Some editor plugins depending on technology (e.g. [ESLint](https://eslint.org/docs/user-guide/integrations#editors) and [Prettier](https://prettier.io/docs/en/editors.html) for JavaScript/TypeScript)
+- [npm](https://github.com/npm/cli) that usually ships with [Node.js](https://nodejs.org/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+- [Taito CLI](https://taitounited.github.io/taito-cli/) (or see [TAITOLESS.md](TAITOLESS.md))
+- Optional: Some editor plugins depending on technology (e.g. [ESLint](https://eslint.org/docs/user-guide/integrations#editors) and [Prettier](https://prettier.io/docs/en/editors.html) for JavaScript/TypeScript)
 
 ## Local development environment
 
@@ -22,7 +22,7 @@ Start your local development environment by running `taito develop`. Once the co
 3. Run `taito project apply`
 4. Commit and push changes
 
-* [ ] All done
+- [ ] All done
 
 ## Your first remote environment (dev)
 
@@ -59,15 +59,15 @@ See it build and deploy:
 
 > If you have some trouble creating an environment, you can destroy it by running `taito env destroy:dev` and then try again with `taito env apply:dev`.
 
-* [ ] All done
+- [ ] All done
 
 ## Blog example
 
-The project template comes with a blog implementation that includes examples for web user interface, REST, GraphQL, database, files, background jobs, real-time notifications, pdf printing, etc. Once you don't need the examples anymore, just remove everything related to `blog` and use the `taito dep check` command to prune unused dependencies from `package.json` files. NOTE: Many of the `devDependencies` and `~` references are actually in use even if reported unused by the tool. But all unused `dependencies` may usually be removed from package.json.
+The project template comes with a simple example implementation. The example is currently based on REST, but the server provides an example for GraphQL also. Once you don't need the examples anymore, just remove everything related to `blog` or `billing`, and use the `taito dep check` command to prune unused dependencies from `package.json` files. NOTE: Many of the `devDependencies` and `~` references are actually in use even if reported unused by the tool. But all unused `dependencies` may usually be removed from package.json.
 
 The client GUI uses [Material-UI](https://material-ui-next.com/) component library by default. It's a good match with the [react-admin](https://github.com/marmelab/react-admin) GUI, but please consider also other alternatives based on customer requirements. For example [Semantic UI React](https://react.semantic-ui.com/), [React Bootstrap](https://react-bootstrap.github.io/) and [Elemental](http://elemental-ui.com/) are also good alternatives.
 
-* [ ] All done
+- [ ] All done
 
 ---
 
@@ -85,57 +85,58 @@ Operations on production and staging environments usually require admin rights. 
 
 **Additional microservices:** Add a new microservice with the following steps. You can skip the IMPLEMENTATION steps if you are using a prebuilt Docker image (e.g. Redis).
 
-  1. IMPLEMENTATION OR DATABASE: Create a new directory for your service implementation or database migration scripts. Look [FULL-STACK-TEMPLATE](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/) and [alternatives](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/tree/master/alternatives) for examples.
-  2. IMPLEMENTATION: Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `dep-check`, `size-check`.
-  3. IMPLEMENTATION: Add the service to your CI/CD script (`.yml/.yaml` or `Jenkinsfile` in project root or `.github/main.workflow`).
-  4. OPTIONAL: In case of a database, you may want to enable the corresponding Taito CLI plugins in `scripts/taito/project.sh`. For example `postgres-db` and `sqitch-db` for PostgreSQL with Sqitch.
-  5. Add the service to `taito_containers`, `taito_functions`, or `taito_databases` variable in `scripts/taito/project.sh` depending on its type. If it is a database running in container, you may add it to both `taito_containers` and `taito_databases`.
-  6. Add required secret definitions to `taito_*secrets` variables in `scripts/taito/project.sh`, and set local secret values with `taito secret rotate: NAME`.
-  7. Add the service to `docker-compose*.yaml` files.
-  8. Add the service to `scripts/helm.yaml` for Kubernetes or to `scripts/terraform.yaml` for serverless.
-  9. OPTIONAL: Add the service to `docker-nginx.conf` if external access is required (e.g. with web browser).
-  10. Run `taito develop` and check that the service works ok in local development environment.
-  11. Add secret values for each remote environment with `taito secret rotate:ENV NAME`.
+1. IMPLEMENTATION OR DATABASE: Create a new directory for your service implementation or database migration scripts. Look [FULL-STACK-TEMPLATE](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/) and [alternatives](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/tree/master/alternatives) for examples.
+2. IMPLEMENTATION: Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `dep-check`, `size-check`.
+3. IMPLEMENTATION: Add the service to your CI/CD script (`.yml/.yaml` or `Jenkinsfile` in project root or `.github/main.workflow`).
+4. OPTIONAL: In case of a database, you may want to enable the corresponding Taito CLI plugins in `scripts/taito/project.sh`. For example `postgres-db` and `sqitch-db` for PostgreSQL with Sqitch.
+5. Add the service to `taito_containers`, `taito_functions`, or `taito_databases` variable in `scripts/taito/project.sh` depending on its type. If it is a database running in container, you may add it to both `taito_containers` and `taito_databases`.
+6. Add required secret definitions to `taito_*secrets` variables in `scripts/taito/project.sh`, and set local secret values with `taito secret rotate: NAME`.
+7. Add the service to `docker-compose*.yaml` files.
+8. Add the service to `scripts/helm.yaml` for Kubernetes or to `scripts/terraform.yaml` for serverless.
+9. OPTIONAL: Add the service to `docker-nginx.conf` if external access is required (e.g. with web browser).
+10. Run `taito develop` and check that the service works ok in local development environment.
+11. Add secret values for each remote environment with `taito secret rotate:ENV NAME`.
 
 **Additional databases:** The template provides default configuration for a PostgreSQL database. You can add an additional databases the same way you add a microservice (described above), but you need to also add default settings for your additional database in `scripts/taito/project.sh` and environment specific overrides in `scripts/taito/env-*.sh` files. Use `db_database_*` settings of `scripts/taito/config/main.sh` as an example, and add the corresponding settings to `project.sh` and `env-*.sh` using `db_MYDATABASE_*` as environment variable naming. You may also want to add data import to your `taito-init` and `taito-init:clean` scripts in `package.json`.
 
 **Additional storage buckets** You can add an additional storage bucket with the following steps:
 
-  1. Add the storage bucket configuration to `scripts/taito/project.sh`. For example:
+1. Add the storage bucket configuration to `scripts/taito/project.sh`. For example:
 
-      ```
-      taito_buckets="... archive ..."
-      st_archive_name="${taito_random_name}-archive-${taito_env}"
-      ```
+   ```
+   taito_buckets="... archive ..."
+   st_archive_name="${taito_random_name}-archive-${taito_env}"
+   ```
 
-  2. Add the storage bucket configuration to `terraform.yaml`. For example:
+2. Add the storage bucket configuration to `terraform.yaml`. For example:
 
-      ```
-      archive:
-        type: bucket
-        name: ${st_archive_name}
-        location: ${taito_default_storage_location}
-        storageClass: ${taito_default_storage_class}
-        cors:
-          - domain: https://${taito_domain}
-        # Object lifecycle
-        versioning: true
-        versioningRetainDays: ${taito_default_storage_days}
-        # Backup (TODO: implement)
-        backupRetainDays: ${taito_default_storage_backup_days}
-        backupLocation: ${taito_default_storage_backup_location}
-        # User rights
-        admins:
-          - id: serviceAccount:${taito_project}-${taito_env}-server@${taito_resource_namespace_id}.iam.gserviceaccount.com
-        objectAdmins:
-        objectViewers:
-      ```
-  3. Add the storage bucket to `storage/` and `storage/.minio.sys/buckets/`.
-  4. Add the storage bucket environment variables in `docker-compose.yaml` and `helm.yaml`.
-  5. Add the storage bucket to implementation (e.g. configuration in `config.ts` and `storage.ts`, uptime check in `InfraRouter.ts`)
-  6. Start you local development environment with `taito start`.
-  7. Check that the bucket works ok by running the uptime check with `taito open server`.
-  8. Create the storage bucket for remote environments with `taito env apply:ENV`. You most likely need to run only the terraform step.
+   ```
+   archive:
+     type: bucket
+     name: ${st_archive_name}
+     location: ${taito_default_storage_location}
+     storageClass: ${taito_default_storage_class}
+     cors:
+       - domain: https://${taito_domain}
+     # Object lifecycle
+     versioning: true
+     versioningRetainDays: ${taito_default_storage_days}
+     # Backup (TODO: implement)
+     backupRetainDays: ${taito_default_storage_backup_days}
+     backupLocation: ${taito_default_storage_backup_location}
+     # User rights
+     admins:
+       - id: serviceAccount:${taito_project}-${taito_env}-server@${taito_resource_namespace_id}.iam.gserviceaccount.com
+     objectAdmins:
+     objectViewers:
+   ```
+
+3. Add the storage bucket to `storage/` and `storage/.minio.sys/buckets/`.
+4. Add the storage bucket environment variables in `docker-compose.yaml` and `helm.yaml`.
+5. Add the storage bucket to implementation (e.g. configuration in `config.ts` and `storage.ts`, uptime check in `InfraRouter.ts`)
+6. Start you local development environment with `taito start`.
+7. Check that the bucket works ok by running the uptime check with `taito open server`.
+8. Create the storage bucket for remote environments with `taito env apply:ENV`. You most likely need to run only the terraform step.
 
 **Minikube:** TODO: Using Minikube locally instead of Docker Compose.
 

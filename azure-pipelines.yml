@@ -1,86 +1,83 @@
 # Instructions: https://aka.ms/yaml
 
 trigger:
-- dev
-- test
-- uat
-- stag
-- canary
-- prod
-- master
-- main
+  - dev
+  - test
+  - uat
+  - stag
+  - canary
+  - prod
+  - master
+  - main
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: "ubuntu-latest"
 
 resources:
   containers:
-  - container: taito
-    image: ${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-    env:
-      taito_mode: ci
-      taito_image: ${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-      taito_ci_phases: $(TAITO_CI_PHASES)
-      # TODO: Add branch prefix (e.g. DEV_AZURE_CLIENT_ID)
-      AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
-      AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
+    - container: taito
+      image: ${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+      env:
+        taito_mode: ci
+        taito_image: ${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+        taito_ci_phases: $(TAITO_CI_PHASES)
+        # TODO: Add branch prefix (e.g. DEV_AZURE_CLIENT_ID)
+        AZURE_CLIENT_ID: $(AZURE_CLIENT_ID)
+        AZURE_CLIENT_SECRET: $(AZURE_CLIENT_SECRET)
 
 jobs:
-- job: build
-  container: taito
-  steps:
+  - job: build
+    container: taito
+    steps:
+      # init
+      - bash: |
+          # Azure creates a new user that we need to initialize
+          /taito-cli-deps/tools/user-init.sh
+          # TODO: Cancel other ongoing builds for ENV
+          # - taito deployment cancel:$(Build.SourceBranchName) TODO_CURRENT_BUILD_ID
+        displayName: init
 
-  # init
-  - bash: |
-      # Azure creates a new user that we need to initialize
-      /taito-cli-deps/tools/user-init.sh
-      # TODO: Cancel other ongoing builds for ENV
-      # - taito deployment cancel:$(Build.SourceBranchName) TODO_CURRENT_BUILD_ID
-    displayName: init
+      # prepare
+      - bash: |
+          taito build prepare:$(Build.SourceBranchName) $(Build.SourceVersion)
+        displayName: prepare
+        env:
+          VC_TOKEN: $(VC_TOKEN)
 
-  # prepare
-  - bash: |
-      taito build prepare:$(Build.SourceBranchName) $(Build.SourceVersion)
-    displayName: prepare
-    env:
-      VC_TOKEN: $(VC_TOKEN)
+      # prepare artifacts
+      - bash: |
+          taito artifact prepare:admin:$(Build.SourceBranchName) $(Build.SourceVersion)
+          taito artifact prepare:client:$(Build.SourceBranchName) $(Build.SourceVersion)
+          taito artifact prepare:server:$(Build.SourceBranchName) $(Build.SourceVersion)
+          taito artifact prepare:worker:$(Build.SourceBranchName) $(Build.SourceVersion)
+          taito artifact prepare:www:$(Build.SourceBranchName) $(Build.SourceVersion)
+        displayName: prepare artifacts
 
-  # prepare artifacts
-  - bash: |
-      taito artifact prepare:admin:$(Build.SourceBranchName) $(Build.SourceVersion)
-      taito artifact prepare:client:$(Build.SourceBranchName) $(Build.SourceVersion)
-      taito artifact prepare:graphql:$(Build.SourceBranchName) $(Build.SourceVersion)
-      taito artifact prepare:server:$(Build.SourceBranchName) $(Build.SourceVersion)
-      taito artifact prepare:worker:$(Build.SourceBranchName) $(Build.SourceVersion)
-      taito artifact prepare:www:$(Build.SourceBranchName) $(Build.SourceVersion)
-    displayName: prepare artifacts
+      # deploy
+      - bash: |
+          taito db deploy:$(Build.SourceBranchName)
+          taito deployment deploy:$(Build.SourceBranchName) $(Build.SourceVersion)
+        displayName: deploy
 
-  # deploy
-  - bash: |
-      taito db deploy:$(Build.SourceBranchName)
-      taito deployment deploy:$(Build.SourceBranchName) $(Build.SourceVersion)
-    displayName: deploy
+      # verify
+      - bash: |
+          taito deployment wait:$(Build.SourceBranchName)
+          taito test:$(Build.SourceBranchName)
+          taito deployment verify:$(Build.SourceBranchName)
+        displayName: verify
 
-  # verify
-  - bash: |
-      taito deployment wait:$(Build.SourceBranchName)
-      taito test:$(Build.SourceBranchName)
-      taito deployment verify:$(Build.SourceBranchName)
-    displayName: verify
+      # release artifacts
+      - bash: |
+          taito artifact release:admin:$(Build.SourceBranchName) $(Build.SourceVersion)
+          taito artifact release:client:$(Build.SourceBranchName) $(Build.SourceVersion)
+          taito artifact release:server:$(Build.SourceBranchName) $(Build.SourceVersion)
+          taito artifact release:worker:$(Build.SourceBranchName) $(Build.SourceVersion)
+          taito artifact release:www:$(Build.SourceBranchName) $(Build.SourceVersion)
+        displayName: release artifacts
 
-  # release artifacts
-  - bash: |
-      taito artifact release:admin:$(Build.SourceBranchName) $(Build.SourceVersion)
-      taito artifact release:client:$(Build.SourceBranchName) $(Build.SourceVersion)
-      taito artifact release:graphql:$(Build.SourceBranchName) $(Build.SourceVersion)
-      taito artifact release:server:$(Build.SourceBranchName) $(Build.SourceVersion)
-      taito artifact release:worker:$(Build.SourceBranchName) $(Build.SourceVersion)
-      taito artifact release:www:$(Build.SourceBranchName) $(Build.SourceVersion)
-    displayName: release artifacts
-
-  # release
-  - bash: |
-      taito build release:$(Build.SourceBranchName)
-    displayName: release
-    env:
-      VC_TOKEN: $(VC_TOKEN)
+      # release
+      - bash: |
+          taito build release:$(Build.SourceBranchName)
+        displayName: release
+        env:
+          VC_TOKEN: $(VC_TOKEN)

@@ -31,7 +31,6 @@ fi
 # URLs for tests
 test_admin_CYPRESS_baseUrl=$ci_test_base_url/admin
 test_client_CYPRESS_baseUrl=$ci_test_base_url
-test_graphql_TEST_API_URL=$ci_test_base_url/graphql
 test_server_TEST_API_URL=$ci_test_base_url/api
 
 # URLs for running Cypress on local host outside Docker

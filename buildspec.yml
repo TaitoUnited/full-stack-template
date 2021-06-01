@@ -19,7 +19,6 @@ phases:
       # Prepare artifacts for deployment (TODO: can be executed parallel)
       - taito artifact prepare:admin:$ENV $IMAGE_TAG
       - taito artifact prepare:client:$ENV $IMAGE_TAG
-      - taito artifact prepare:graphql:$ENV $IMAGE_TAG
       - taito artifact prepare:server:$ENV $IMAGE_TAG
       - taito artifact prepare:worker:$ENV $IMAGE_TAG
       - taito artifact prepare:www:$ENV $IMAGE_TAG
@@ -33,7 +32,6 @@ phases:
       # Release artifacts (TODO: can be executed parallel)
       - taito artifact release:admin:$ENV $IMAGE_TAG
       - taito artifact release:client:$ENV $IMAGE_TAG
-      - taito artifact release:graphql:$ENV $IMAGE_TAG
       - taito artifact release:server:$ENV $IMAGE_TAG
       - taito artifact release:worker:$ENV $IMAGE_TAG
       - taito artifact release:www:$ENV $IMAGE_TAG

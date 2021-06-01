@@ -79,41 +79,6 @@ services:
       DATABASE_NAME: ${db_database_name}
       DATABASE_USER: ${db_database_app_username}
 
-  full-stack-template-graphql:
-    container_name: full-stack-template-graphql
-    build:
-      context: ./graphql
-      dockerfile: ${dockerfile}
-    restart: unless-stopped
-    networks:
-      - default
-    ports:
-      - "8080"
-    volumes:
-      - "./graphql:/develop:delegated"
-      - "./shared:/develop/shared:delegated"
-      - "/develop/node_modules"
-    environment:
-      # Paths and bind
-      BASE_PATH: /graphql
-      GRAPHQL_PORT: 8080
-      GRAPHQL_BINDADDR: 0.0.0.0
-      COMMON_PUBLIC_PORT: 9999
-      # Host specific variables
-      HOST_OS: ${taito_host_os}
-      # Common variables
-      COMMON_COMPANY: companyname
-      COMMON_PROJECT: full-stack-template
-      COMMON_DOMAIN: localhost
-      COMMON_URL: http://localhost:9999
-      COMMON_DEBUG: 'false'
-      COMMON_LOG_FORMAT: text
-      COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
-      COMMON_ENV: local
-      # Services
-      API_HOST: full-stack-template-server
-      API_PORT: 8080
-
   full-stack-template-server:
     container_name: full-stack-template-server
     build:

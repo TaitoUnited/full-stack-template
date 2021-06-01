@@ -71,33 +71,6 @@ services:
       COMMON_COMPANY: companyname
       COMMON_PROJECT: full-stack-template
 
-  full-stack-template-${taito_env}-graphql:
-    container_name: full-stack-template-${taito_env}-graphql
-    image: local/full-stack-template/graphql:_IMAGE_TAG_
-    restart: unless-stopped
-    logging: *default-logging
-    networks:
-      - default
-    ports:
-      - "8080"
-    environment:
-      # Paths and bind
-      BASE_PATH: /graphql
-      GRAPHQL_PORT: 8080
-      GRAPHQL_BINDADDR: 0.0.0.0
-      # Common variables
-      COMMON_COMPANY: companyname
-      COMMON_PROJECT: full-stack-template
-      COMMON_DOMAIN: localhost
-      COMMON_URL: http://localhost:_PORT_
-      COMMON_DEBUG: 'false'
-      COMMON_LOG_FORMAT: text
-      COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
-      COMMON_ENV: local
-      # Services
-      API_HOST: full-stack-template-${taito_env}-server
-      API_PORT: 8080
-
   full-stack-template-${taito_env}-server:
     container_name: full-stack-template-${taito_env}-server
     image: local/full-stack-template/server:_IMAGE_TAG_

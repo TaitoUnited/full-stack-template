@@ -26,12 +26,12 @@ taito_environments="${template_default_environments}"
 
 if [[ ${taito_deployment_platforms} == *"docker"* ]] ||
    [[ ${taito_deployment_platforms} == *"kubernetes"* ]]; then
-  taito_containers=" admin client graphql kafka redis server storage worker www zookeeper "
+  taito_containers=" admin client kafka redis server storage worker www zookeeper "
   if [[ ${taito_env} == "local" ]]; then
     taito_containers="${taito_containers} database "
   fi
 else
-  taito_functions=" graphql server worker "
+  taito_functions=" server worker "
 fi
 taito_static_contents=" admin client www "
 taito_databases=" database "
@@ -76,7 +76,6 @@ taito_local_secrets="
 taito_remote_secrets="
   $taito_project-$taito_env-basic-auth.auth:htpasswd-plain
   $taito_project-$taito_env-scheduler.secret:random
-  $taito_project-$taito_env-graphql-serviceaccount.key:file
   $taito_project-$taito_env-server-serviceaccount.key:file
   $taito_project-$taito_env-storage-serviceaccount.key:file
   $taito_project-$taito_env-storage.accessKey1:manual
@@ -111,12 +110,12 @@ taito_secret_hints="
 # 'taito project generate'. Configuration instructions: TODO
 
 link_urls="
-  * client[:ENV]=$taito_app_url Web application GUI (:ENV)
   * admin[:ENV]=$taito_app_url/admin/ Administration GUI (:ENV)
+  * client[:ENV]=$taito_app_url Web application GUI (:ENV)
   * server[:ENV]=$taito_app_url/api/uptimez Server API (:ENV)
   * apidocs[:ENV]=$taito_app_url/api/docs API docs (:ENV)
+  * graphql[:ENV]=$taito_app_url/api GraphQL playground (:ENV)
   * www[:ENV]=$taito_app_url/docs Website (:ENV)
-  * graphql[:ENV]=$taito_app_url/graphql/uptimez GraphQL API (:ENV)
   * git=https://$taito_vc_repository_url Git repository
 "
 

@@ -73,14 +73,6 @@ steps:
     - taito_mode=ci
     - taito_ci_phases=${_TAITO_CI_PHASES}
 
-- id: artifact-prepare-graphql
-  waitFor: ['build-prepare']
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-prepare:graphql:$BRANCH_NAME', '$COMMIT_SHA']
-  env:
-    - taito_mode=ci
-    - taito_ci_phases=${_TAITO_CI_PHASES}
-
 - id: artifact-prepare-server
   waitFor: ['build-prepare']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
@@ -160,14 +152,6 @@ steps:
   waitFor: ['deployment-verify']
   name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
   args: ['artifact-release:client:$BRANCH_NAME', '$COMMIT_SHA']
-  env:
-    - taito_mode=ci
-    - taito_ci_phases=${_TAITO_CI_PHASES}
-
-- id: artifact-release-graphql
-  waitFor: ['deployment-verify']
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-release:graphql:$BRANCH_NAME', '$COMMIT_SHA']
   env:
     - taito_mode=ci
     - taito_ci_phases=${_TAITO_CI_PHASES}

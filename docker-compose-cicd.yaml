@@ -60,28 +60,6 @@ services:
     environment:
       taito_running_tests: "true"
 
-  full-stack-template-graphql-cicd:
-    container_name: full-stack-template-graphql-cicd
-    image: full-stack-template-graphql-builder:latest
-    restart: 'no'
-    networks:
-      - cicd
-    volumes:
-      - "${DOCKER_HOST_PATH}/graphql:/develop:delegated"
-      - "${DOCKER_HOST_PATH}/shared:/develop/shared:delegated"
-      - "/develop/node_modules"
-      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_mgr_secret}:/run/secrets/DATABASE_PASSWORD" # For GitHub Actions
-      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_ca_secret}:/run/secrets/DATABASE_SSL_CA" # For GitHub Actions
-      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_cert_secret}:/run/secrets/DATABASE_SSL_CERT" # For GitHub Actions
-      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_key_secret}:/run/secrets/DATABASE_SSL_KEY" # For GitHub Actions
-    secrets:
-      - DATABASE_PASSWORD
-      - DATABASE_SSL_CA
-      - DATABASE_SSL_CERT
-      - DATABASE_SSL_KEY
-    environment:
-      taito_running_tests: "true"
-
   full-stack-template-server-cicd:
     container_name: full-stack-template-server-cicd
     image: full-stack-template-server-builder:latest

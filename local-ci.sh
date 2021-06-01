@@ -20,7 +20,6 @@ taito build prepare:$BRANCH $IMAGE_TAG
 # NOTE: Can be executed in parallel if no user input is required
 taito artifact prepare:admin:$BRANCH $IMAGE_TAG
 taito artifact prepare:client:$BRANCH $IMAGE_TAG
-taito artifact prepare:graphql:$BRANCH $IMAGE_TAG
 taito artifact prepare:server:$BRANCH $IMAGE_TAG
 taito artifact prepare:worker:$BRANCH $IMAGE_TAG
 taito artifact prepare:www:$BRANCH $IMAGE_TAG
@@ -39,7 +38,6 @@ taito deployment verify:$BRANCH
 # NOTE: Can be executed in parallel if no user input is required
 taito artifact release:admin:$BRANCH $IMAGE_TAG
 taito artifact release:client:$BRANCH $IMAGE_TAG
-taito artifact release:graphql:$BRANCH $IMAGE_TAG
 taito artifact release:server:$BRANCH $IMAGE_TAG
 taito artifact release:worker:$BRANCH $IMAGE_TAG
 taito artifact release:www:$BRANCH $IMAGE_TAG

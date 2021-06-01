@@ -62,17 +62,6 @@ full-stack:
         REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/${taito_build_image_tag}/client
         REPLACE_ASSETS_DOMAIN: ${taito_cdn_domain}
 
-    graphql:
-      paths:
-        - path: /graphql
-          clientMaxBodySize: 1m
-      env:
-        BASE_PATH: /graphql
-        GRAPHQL_PORT: '8080'
-        GRAPHQL_BINDADDR: '0.0.0.0'
-        API_HOST: ${taito_project}-${taito_env}-server
-        API_PORT: '8080'
-
     # TODO: proper setup for Kafka
     kafka:
       enabled: false

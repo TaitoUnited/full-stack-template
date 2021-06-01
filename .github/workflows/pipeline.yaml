@@ -54,7 +54,6 @@ jobs:
       # TODO: Should be run parallel
       - run: taito artifact prepare:admin:$BRANCH $IMAGE_TAG
       - run: taito artifact prepare:client:$BRANCH $IMAGE_TAG
-      - run: taito artifact prepare:graphql:$BRANCH $IMAGE_TAG
       - run: taito artifact prepare:server:$BRANCH $IMAGE_TAG
       - run: taito artifact prepare:worker:$BRANCH $IMAGE_TAG
       - run: taito artifact prepare:www:$BRANCH $IMAGE_TAG
@@ -72,7 +71,6 @@ jobs:
       # TODO: Should be run parallel
       - run: taito artifact release:admin:$BRANCH $IMAGE_TAG
       - run: taito artifact release:client:$BRANCH $IMAGE_TAG
-      - run: taito artifact release:graphql:$BRANCH $IMAGE_TAG
       - run: taito artifact release:server:$BRANCH $IMAGE_TAG
       - run: taito artifact release:worker:$BRANCH $IMAGE_TAG
       - run: taito artifact release:www:$BRANCH $IMAGE_TAG

@@ -7,10 +7,6 @@ if [[ ${taito_verbose:-} == "true" ]]; then
   set -x
 fi
 
-# Function not supported yet
-rm -rf function
-sed -i "s/ function / /" scripts/taito/project.sh
-
 # Remove the example site
 rm -rf www/site
 sed -i '/\/site\/node_modules" # FOR GATSBY ONLY/d' docker-compose.yaml
@@ -234,14 +230,14 @@ function prune () {
     rm -rf "$name"
   else
     # Remove target from terraform.yaml if Kubernetes is enabled
-    if [[ "admin client graphql redis server worker www" == *"$terraform_name"* ]] && (
+    if [[ "admin client redis server worker www" == *"$terraform_name"* ]] && (
          [[ ${template_default_kubernetes:-} ]] ||
          [[ ${kubernetes_name:-} ]]
        ); then
       sed -i "/^    $terraform_name:\r*\$/,/^\r*$/d" ./scripts/terraform.yaml
 
       # Leave the uptime path however
-      if [[ "admin client graphql server www" == *"$terraform_name"* ]]; then
+      if [[ "admin client server www" == *"$terraform_name"* ]]; then
         path_f="${path//\\/}"
         echo -e "    $terraform_name:\n      uptimePath: ${path_f%/}/uptimez\n" >> scripts/terraform.yaml
       fi
@@ -366,7 +362,6 @@ prune "Web application GUI? [Y/n] " client \\/
 prune "Administration GUI? [y/N] " admin \\/admin
 prune "Static website? [y/N] " www \\/docs
 prune "RESTful API? [Y/n] " server \\/api
-prune "GraphQL gateway? [y/N] " graphql \\/graphql
 prune "Kafka for event-based streaming/queuing? [y/N] " kafka
 prune "Redis (e.g. as in-memory cache)? [y/N] " redis
 prune "Worker for background jobs? [y/N] " worker
@@ -392,11 +387,9 @@ if [[ ${template_default_kubernetes} ]] || [[ ${kubernetes_name} ]]; then
     sed -i '/serverless/d' ./server/src/server.ts
   fi
 
-  # Remove server and graphql service accounts
+  # Remove server service account
   # (most likely not required for storage access with kubernetes)
-  sed -i '/$taito_project-$taito_env-graphql/d' ./scripts/taito/project.sh
   sed -i '/$taito_project-$taito_env-server/d' ./scripts/taito/project.sh
-  sed -i '/-graphql/d' ./scripts/terraform.yaml
   sed -i '/-server/d' ./scripts/terraform.yaml
 
 else
