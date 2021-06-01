@@ -1,5 +1,5 @@
 const todo = () => {
-  console.log("TODO: implement");
+  console.log('TODO: implement worker');
   setTimeout(todo, 30000);
 };
 

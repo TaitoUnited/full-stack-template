@@ -1,6 +1,6 @@
 import { Context } from 'koa';
 import { Service } from 'typedi';
-import { CreatePostInput } from './types';
+import { CreatePostInput } from '../../shared/types/blog';
 import { PostDao } from './PostDao';
 
 @Service()

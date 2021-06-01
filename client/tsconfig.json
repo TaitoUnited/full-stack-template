@@ -12,8 +12,11 @@
     "moduleResolution": "node",
     "allowJs": true,
     "resolveJsonModule": true,
-    "strictNullChecks": true,
     "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "baseUrl": "./",
     "paths": {
       "~common/*": ["src/common/*"],
@@ -21,7 +24,7 @@
       "~shared/*": ["shared/*"],
       "~theme": ["src/common/theme"],
       "~ui": ["src/common/ui/index.ts"],
-      "~utils/*": ["src/common/utils/*"],
+      "~utils/*": ["src/common/utils/*"]
     },
     "types": [
       "node",

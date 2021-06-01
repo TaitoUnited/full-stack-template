@@ -1,7 +1,7 @@
 import { Context } from 'koa';
 import Container, { Service } from 'typedi';
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
-import { Post, CreatePostInput } from './types';
+import { Post, CreatePostInput } from '../../shared/types/blog';
 import { PostService } from './PostService';
 
 /**

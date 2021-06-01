@@ -3,10 +3,10 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import styled from 'styled-components';
 
-import { PostBasics } from '~shared/types/blog';
+import { CreatePostInput } from '~shared/types/blog';
 
 interface Props {
-  post: PostBasics;
+  post: CreatePostInput;
   onChangePost: any;
   onCreatePost: any;
 }

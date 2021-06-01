@@ -4,12 +4,12 @@ import { Trans } from '@lingui/macro';
 
 import PostForm from './PostForm';
 import PostList from './PostList';
-import { PostBasics, Post } from '~shared/types/blog';
+import { CreatePostInput, Post } from '~shared/types/blog';
 import * as api from '~services/api';
 import { Page } from '~ui';
 
 interface State {
-  post: PostBasics;
+  post: CreatePostInput;
   posts: Post[];
 }
 
@@ -28,7 +28,7 @@ class Posts extends React.Component<unknown, State> {
     this.fetchPosts();
   }
 
-  onChangePost = (newPost: PostBasics) => {
+  onChangePost = (newPost: CreatePostInput) => {
     const { post } = this.state;
     this.setState({
       post: { ...post, ...newPost },

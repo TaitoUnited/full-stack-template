@@ -12,8 +12,11 @@
     "moduleResolution": "node",
     "allowJs": true,
     "resolveJsonModule": true,
-    "strictNullChecks": true,
     "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "baseUrl": "./",
     "typeRoots": ["./src/types", "./node_modules/@types"],
     "types": [
