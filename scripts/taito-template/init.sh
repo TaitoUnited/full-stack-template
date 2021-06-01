@@ -358,15 +358,15 @@ function prune () {
   fi
 }
 
-prune "Web application GUI? [Y/n] " client \\/
-prune "Administration GUI? [y/N] " admin \\/admin
-prune "Static website? [y/N] " www \\/docs
-prune "RESTful API? [Y/n] " server \\/api
-prune "Kafka for event-based streaming/queuing? [y/N] " kafka
-prune "Redis (e.g. as in-memory cache)? [y/N] " redis
+prune "Web user interface (frontend)? [Y/n] " client \\/
+prune "Separate admin GUI in addition to the web user interface? [y/N] " admin \\/admin
+prune "Separate static website? [y/N] " www \\/docs
+prune "Server (backend)? [Y/n] " server \\/api
 prune "Worker for background jobs? [y/N] " worker
 prune "Relational database? [Y/n] " database
 prune "Permanent object storage for files? [y/N] " storage \\/minio
+prune "Redis for caching and queueing? [y/N] " redis
+prune "Kafka for event-based data streams? [y/N] " kafka
 
 function remove_empty_secrets () {
   sed -i -n '1h;1!H;${g;s/    secrets:\n    environment:/    environment:/;p;}' "$1"
