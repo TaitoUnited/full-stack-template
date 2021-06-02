@@ -7,10 +7,7 @@ import createApiDocumentation from './infra/createApiDocumentation';
 import InfraRouter from './infra/InfraRouter';
 import { PostRouter } from './blog/PostRouter';
 
-/**
- * REST API routers
- */
-
+// REST API routers
 const postRouter = Container.get(PostRouter);
 const infraRouter = Container.get(InfraRouter);
 const apiDocRouter = router();
@@ -30,10 +27,10 @@ apiDocRouter.route({
   },
 });
 
-const routerMiddlewares = [postRouter.middleware(), infraRouter.middleware()];
+const restMiddlewares = [postRouter.middleware(), infraRouter.middleware()];
 
 if (config.COMMON_ENV === 'local') {
-  routerMiddlewares.push(apiDocRouter.middleware());
+  restMiddlewares.push(apiDocRouter.middleware());
 }
 
-export default routerMiddlewares;
+export default restMiddlewares;

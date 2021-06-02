@@ -12,6 +12,10 @@
     "build:prod": "NODE_ENV=production tsc --build tsconfig.json",
     "start:prod": "NODE_ENV=production npm run build:prod && node build/index.js"
   },
+  "_comment1": "You may want to remove @sentry/node if you don't use Sentry",
+  "_comment2": "Required by REST API only: koa-joi-router",
+  "_comment3": "Required by REST API docs only: mustache, showdown",
+  "_comment4": "Required by GraphQL API only: apollo-server-koa, graphql, type-graphql",
   "dependencies": {
     "@hapi/boom": "^9.1.0",
     "@sentry/node": "^6.5.0",
