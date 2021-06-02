@@ -25,12 +25,6 @@ class PostResolver {
   @Authorized()
   @Mutation(() => Post, { description: 'Creates a new post.' })
   async createPost(@Ctx() ctx: Context, @Arg('post') post: CreatePostInput) {
-    const tempPost = {
-      ...post,
-      id: '',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-    return await this.postService.createPost(ctx.state, tempPost);
+    return await this.postService.createPost(ctx.state, post);
   }
 }
