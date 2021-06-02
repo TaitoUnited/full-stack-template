@@ -10,7 +10,8 @@
     "lint": "tsc -p . --noEmit && eslint ./src/**/*.ts --ignore-path .eslintignore --quiet",
     "build:test": "tsc --build tsconfig.test.json",
     "build:prod": "NODE_ENV=production tsc --build tsconfig.json",
-    "start:prod": "NODE_ENV=production npm run build:prod && node build/index.js"
+    "start:prod": "NODE_ENV=production npm run build:prod && node build/index.js",
+    "graphql:generate": "graphql-codegen --config codegen.yml"
   },
   "_comment1": "You may want to remove @sentry/node if you don't use Sentry",
   "_comment2": "Required by REST API only: koa-joi-router",
@@ -42,6 +43,12 @@
     "qs": "~6.3.2"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "1.21.3",
+    "@graphql-codegen/introspection": "1.18.1",
+    "@graphql-codegen/typescript": "1.21.1",
+    "@graphql-codegen/typescript-graphql-request": "^3.1.0",
+    "@graphql-codegen/typescript-operations": "^1.17.15",
+    "@graphql-codegen/typescript-resolvers": "1.19.0",
     "@types/bunyan": "1.8.6",
     "@types/jest": "^26.0.18",
     "@types/joi": "^17.2.3",
