@@ -7,11 +7,11 @@ export enum UserRole {
 }
 
 export interface User {
-  username: String;
-  firstName: String;
-  lastName: String;
-  email?: String;
-  language?: String;
+  username: string;
+  firstName: string;
+  lastName: string;
+  email?: string;
+  language?: string;
   role: UserRole;
 }
 

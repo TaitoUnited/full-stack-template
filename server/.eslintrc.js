@@ -11,13 +11,8 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
 
     // Enables eslint-plugin-prettier and displays prettier errors as ESLint errors.
-    // Make sure this is always the last configuration in the extends array.
+    'prettier',
     'plugin:prettier/recommended',
-
-    // Uses eslint-config-prettier to disable ESLint rules from various plugins
-    // that would conflict with prettier
-    'prettier/@typescript-eslint',
-    'prettier/standard',
   ],
 
   parserOptions: {
@@ -33,8 +28,12 @@ module.exports = {
   },
 
   rules: {
+    // ESLint standard has confilicts with typescript
+    'no-useless-constructor': 'off',
+    '@typescript-eslint/no-useless-constructor': 'error',
+
     // Turn of stupid TS specific rules
-    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/explicit-member-accessibility': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
@@ -50,6 +49,8 @@ module.exports = {
         ],
       },
     ],
+
+    'prettier/prettier': 'error',
 
     'no-var': 'error', // No `var` plz - we are not savages anymore
   },

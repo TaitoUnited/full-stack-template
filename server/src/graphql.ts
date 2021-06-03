@@ -12,7 +12,7 @@ const schema = buildSchemaSync({
   authChecker: ({ context }, roles) => authChecker(context, roles),
   authMode: 'null',
   validate: true,
-  emitSchemaFile: config.COMMON_ENV === 'local' ? 'schema.gql' : false,
+  emitSchemaFile: config.NODE_ENV === 'development' ? 'schema.gql' : false,
 });
 
 // GraphQL routing
