@@ -224,7 +224,25 @@ full-stack:
 # Cron jobs
 # ----------------------------------------------------------
 
-    # SIMPLE CRON JOB EXAMPLE:
+    # EXECUTE A COMMAND IN A NEW CONTAINER:
+    # Re-use server Docker image and settings for running the cron job.
+    # Add additional JOB_VARIABLE and JOB_SECRET for the cron job.
+    server:
+      ...
+      ...
+      cronJobs:
+        - name: examplejob
+          schedule: "30 2 * * *"
+          concurrencyPolicy: Forbid # Forbid or Allow
+          args:
+            - ./execute.sh
+            - createPost
+          secret:
+            JOB_SECRET: ${taito_project}-${taito_env}-job.secret
+          env:
+            JOB_VARIABLE: 1234
+
+    # TRIGGER SCHEDULED HTTP REQUESTS FOR A RUNNING SERVICE:
     # Scheduler polls server endpoint based on a cron schedule
     scheduler:
       type: job
@@ -243,25 +261,6 @@ full-stack:
             - /bin/sh
             - -c
             - curl -sS -H "X-Secret:$$SCHEDULER_SECRET" http://${taito_project}-${taito_target_env}-server:8080/posts?offset=0&limit=1
-
-    # RE-USE SETTINGS OF AN ANOTHER SERVICE:
-    # Re-use server Docker image and settings for running cron jobs also.
-    # Add additional JOB_VARIABLE and JOB_SECRET for cron job.
-    server:
-      ...
-      ...
-      cronJobs:
-        - name: examplejob
-          schedule: "30 2 * * *"
-          concurrencyPolicy: Forbid # Forbid or Allow
-          args:
-            - /bin/sh
-            - -c
-            - date; echo Hello from server
-          secret:
-            JOB_SECRET: ${taito_project}-${taito_env}-job.secret
-          env:
-            JOB_VARIABLE: 1234
 
 # ----------------------------------------------------------
 # External services (dedicated IP address, any port)
