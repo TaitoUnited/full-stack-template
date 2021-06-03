@@ -31,7 +31,7 @@ export type Mutation = {
 
 
 export type MutationCreatePostArgs = {
-  post: CreatePostInput;
+  input: CreatePostInput;
 };
 
 export type Post = {

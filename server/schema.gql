@@ -16,7 +16,7 @@ scalar DateTime
 
 type Mutation {
   """Creates a new post."""
-  createPost(post: CreatePostInput!): Post!
+  createPost(input: CreatePostInput!): Post!
 }
 
 type Post {
