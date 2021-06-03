@@ -1,13 +1,12 @@
 {
   "name": "full-stack-template",
   "scripts": {
-    "preinstall": "if [ -f package-lock.json ]; then npx npm-force-resolutions; fi",
     "install-clean": "echo '# Nothing to cleanup'",
     "install-ci": "npm-run-all install-all:shared",
     "install-dev": "echo '# Installing all libraries on host for code editor support. TODO how to minimize as --only=dev affects devDepencies also?' && npm run install-all",
     "install-all": "npm-run-all install-all:admin install-all:client install-all:shared install-all:server install-all:worker install-all:www ",
     "install-all:admin": "cd admin && npm install",
-    "install-all:client": "cd client && npm install",
+    "install-all:client": "cd client && npm install --legacy-peer-deps",
     "install-all:server": "cd server && npm install",
     "install-all:shared": "cd shared && npm install",
     "install-all:worker": "cd worker && npm install",
@@ -156,8 +155,5 @@
     "husky": "^6.0.0",
     "npm-run-all": "^4.1.5",
     "semantic-release": "^17.4.3"
-  },
-  "resolutions": {
-    "npm": "^6.14.13"
   }
 }
