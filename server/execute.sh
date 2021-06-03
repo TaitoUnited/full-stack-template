@@ -1,7 +1,8 @@
 #!/bin/sh
 
-# You can execute commands defined in ./src/commands.ts by running
-# './execute.sh myCommand [ARGS...]' on command line.
+# You can execute CLI commands manually with
+# 'taito exec:server:ENV ./execute COMMAND [ARGS]' or you can schedule
+# execution with cronjobs (see `scripts/helm/examples.yaml` for examples).
 
 if [ -f ./src/commands.js ]; then
   # Production

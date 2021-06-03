@@ -138,16 +138,6 @@ Operations on production and staging environments usually require admin rights. 
 7. Check that the bucket works ok by running the uptime check with `taito open server`.
 8. Create the storage bucket for remote environments with `taito env apply:ENV`. You most likely need to run only the terraform step.
 
-**Minikube:** TODO: Using Minikube locally instead of Docker Compose.
-
-**Kafka:** TODO: Kafka for event-driven microservices.
-
-**API gateway:** TODO: Ambassador etc. as alternatives to nginx-ingress.
-
-**Istio:** TODO: Istio service mesh.
-
-**Knative:** TODO: Knative.
-
 **Authentication:** Ingress provides basic authentication, but it is only meant for hiding non-production environments. Here are some good technologies for implementing authentication: [Auth0](https://auth0.com), [Passport](http://www.passportjs.org/), [ORY Oathkeeper](https://www.ory.sh/api-access-control-kubernetes-cloud-native).
 
 **Static site generator (www):** See [/www/README.md](/www/README.md) for configuration instructions. You can use static site generator e.g. for user guides, API documentation, or application website.
@@ -179,7 +169,7 @@ Operations on production and staging environments usually require admin rights. 
 
 ## Kubernetes
 
-The `scripts/heml.yaml` file contains default Kubernetes settings for all environments and the `scripts/helm-*.yaml` files contain environment specific overrides for them. By modifying these files you can easily configure environment variables, resource requirements and autoscaling for your containers.
+The `scripts/heml.yaml` file contains default Kubernetes settings for all environments and the `scripts/helm-*.yaml` files contain environment specific overrides for them. By modifying these files you can easily configure environment variables, secrets, resource requirements, autoscaling, and cronjob scheduling for your containers. See `scripts/helm/examples.yaml` for examples.
 
 You can deploy configuration changes without rebuilding with the `taito deployment deploy:ENV` command.
 
