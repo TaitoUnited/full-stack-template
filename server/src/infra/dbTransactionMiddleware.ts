@@ -1,4 +1,4 @@
-import { Context } from 'koa';
+import { Context, Request } from 'koa';
 import { txMode } from 'pg-promise';
 
 const noTransactionPaths = ['/healthz'];
@@ -11,13 +11,24 @@ const readWriteMode = new txMode.TransactionMode({
   /* Defaults */
 });
 
+const isGraphQLQuery = (request: Request) => {
+  return (
+    request.url === '/' && (request.body?.query || '').startsWith('query ')
+  );
+};
+
+const requiresWriteMode = (request: Request) => {
+  return (
+    ['POST', 'PUT', 'PATCH', 'DELETE'].includes(request.method) &&
+    !isGraphQLQuery(request)
+  );
+};
+
 export default async function dbTransactionMiddleware(
   ctx: Context,
   next: () => Promise<void>
 ) {
-  const mode = ['POST', 'PUT', 'PATCH', 'DELETE'].includes(ctx.request.method)
-    ? readWriteMode
-    : readOnlyMode;
+  const mode = requiresWriteMode(ctx.request) ? readWriteMode : readOnlyMode;
 
   if (noTransactionPaths.includes(ctx.request.path)) {
     await next();

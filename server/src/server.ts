@@ -1,6 +1,7 @@
 import 'reflect-metadata';
 import serverless from 'serverless-http';
 import Koa from 'koa';
+import bodyParser from 'koa-bodyparser';
 import patchKoaQs from 'koa-qs';
 import config from './common/config';
 import getDb from './common/db';
@@ -30,6 +31,7 @@ server.use(async (ctx, next) => {
 // Middlewares
 server.use(requestLoggerMiddleware); // Assume no errors in logging
 server.use(errorHandlerMiddleware);
+server.use(bodyParser()); // Required by dbTransactionMiddleware.isGraphQLQuery
 server.use(dbTransactionMiddleware);
 
 // REST API routing
