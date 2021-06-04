@@ -55,6 +55,17 @@ export type QueryPostsArgs = {
   id?: Maybe<Scalars['String']>;
 };
 
+export type GetPostsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetPostsQuery = (
+  { __typename?: 'Query' }
+  & { posts: Array<(
+    { __typename?: 'Post' }
+    & Pick<Post, 'id' | 'subject' | 'content' | 'author'>
+  )> }
+);
+
 export type GetPostQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
@@ -64,16 +75,53 @@ export type GetPostQuery = (
   { __typename?: 'Query' }
   & { posts: Array<(
     { __typename?: 'Post' }
-    & Pick<Post, 'id' | 'subject'>
+    & Pick<Post, 'id' | 'subject' | 'content' | 'author'>
   )> }
 );
 
+export type CreatePostMutationVariables = Exact<{
+  subject: Scalars['String'];
+  content: Scalars['String'];
+  author: Scalars['String'];
+}>;
 
+
+export type CreatePostMutation = (
+  { __typename?: 'Mutation' }
+  & { createPost: (
+    { __typename?: 'Post' }
+    & Pick<Post, 'id' | 'subject' | 'content' | 'author'>
+  ) }
+);
+
+
+export const GetPostsDocument = gql`
+    query getPosts {
+  posts {
+    id
+    subject
+    content
+    author
+  }
+}
+    `;
 export const GetPostDocument = gql`
     query getPost($id: String!) {
   posts(id: $id) {
     id
     subject
+    content
+    author
+  }
+}
+    `;
+export const CreatePostDocument = gql`
+    mutation createPost($subject: String!, $content: String!, $author: String!) {
+  createPost(input: {subject: $subject, content: $content, author: $author}) {
+    id
+    subject
+    content
+    author
   }
 }
     `;
@@ -85,8 +133,14 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName) => action();
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
+    getPosts(variables?: GetPostsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetPostsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetPostsQuery>(GetPostsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getPosts');
+    },
     getPost(variables: GetPostQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetPostQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetPostQuery>(GetPostDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getPost');
+    },
+    createPost(variables: CreatePostMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreatePostMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreatePostMutation>(CreatePostDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createPost');
     }
   };
 }

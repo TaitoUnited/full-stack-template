@@ -1,6 +1,26 @@
+query getPosts {
+  posts {
+    id
+    subject
+    content
+    author
+  }
+}
+
 query getPost($id: String!) {
   posts(id: $id) {
     id
     subject
+    content
+    author
+  }
+}
+
+mutation createPost($subject: String!, $content: String!, $author: String!) {
+  createPost(input: { subject: $subject, content: $content, author: $author }) {
+    id
+    subject
+    content
+    author
   }
 }

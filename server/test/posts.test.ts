@@ -1,9 +1,5 @@
-import axios from 'axios';
-
-const request = axios.create({
-  baseURL: `${process.env.TEST_API_URL}`,
-  responseType: 'json',
-});
+import { request, initGraphQL } from './common/test.utils';
+const { sdk } = initGraphQL();
 
 describe('posts', () => {
   beforeAll(async () => {
@@ -21,12 +17,33 @@ describe('posts', () => {
     expect(true).toBe(true);
   });
 
+  it('mutation "createPost" creates a new post', async () => {
+    const post = {
+      subject: 'test subject',
+      content: 'test content',
+      author: 'test author',
+    };
+
+    const response = await sdk.createPost(post);
+    expect({ ...response.createPost, id: undefined }).toEqual(post);
+
+    const response2 = await sdk.getPost({ id: response.createPost.id });
+    expect({ ...response2.posts[0], id: undefined }).toEqual(post);
+  });
+
+  it('query "posts" returns some posts', async () => {
+    const response = await sdk.getPosts();
+    const posts = response.posts;
+    expect(Array.isArray(posts)).toBe(true);
+    expect(posts.length).toBeGreaterThan(0);
+  });
+
   it('GET /posts returns some posts', async () => {
     const response = await request.get('/posts');
     expect(response.status).toBe(200);
-    // TODO: We should add some posts first to make sure that there
-    // are some posts to retrieve. Now we can only check that it returns
-    // an array.
-    expect(Array.isArray(response.data.data)).toBe(true);
+
+    const posts = response.data.data;
+    expect(Array.isArray(posts)).toBe(true);
+    expect(posts.length).toBeGreaterThan(0);
   });
 });
