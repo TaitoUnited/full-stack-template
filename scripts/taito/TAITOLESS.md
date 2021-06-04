@@ -33,7 +33,7 @@ Set up environment variables required by `docker-compose.yaml`:
 
 Setup secrets required by `docker-compose.yaml`:
 
-> See the secret file paths at the end of `docker-compose.yaml` and set the secret file contents accordingly. Use `secret1234` as value for all 'randomly generated' secrets like database password. Other secrets values you can retrieve from dev environment with `kubectl get secrets -o yaml --namespace full-stack-template-dev`. You need to decode the base64 encoded values with the `base64` command-line tool).
+> See the secret file paths at the end of `docker-compose.yaml` and set the secret file contents accordingly. Use `secret1234` as value for all 'randomly generated' secrets like database password. Ask other secret values from you colleagues or just retrieve them from dev environment with `kubectl get secrets -o yaml --namespace full-stack-template-dev`. You need to decode the base64 encoded values with the `base64` command-line tool).
 
 Start containers defined in `docker-compose.yaml`:
 
