@@ -61,11 +61,11 @@ See it build and deploy:
 
 - [ ] All done
 
-## Blog example
+## The blog and billing example
 
-The project template comes with a simple example implementation. The example is currently based on REST, but the server provides an example for GraphQL also. Once you don't need the examples anymore, just remove everything related to `blog` or `billing`, and use the `taito dep check` command to prune unused dependencies from `package.json` files. You may also want to remove all configurations and dependencies related to either REST API or GraphQL API if you don't need both. NOTE: Many of the `devDependencies` and `~` references are actually in use even if reported unused by the tool. But all unused `dependencies` may usually be removed from package.json.
+The project template comes with a simple example implementation. Once you don't need the examples anymore, just remove everything related to `blog` or `billing`. You may also want to remove all configurations and libraries related to either **REST API** or **GraphQL API** if you don't need both. Note that even if you mainly use GraphQL, you still might need some REST API endpoints for handling file uploads/downloads, etc.
 
-The client GUI uses [Material-UI](https://material-ui-next.com/) component library by default. It's a good match with the [react-admin](https://github.com/marmelab/react-admin) GUI, but please consider also other alternatives based on customer requirements. For example [Semantic UI React](https://react.semantic-ui.com/), [React Bootstrap](https://react-bootstrap.github.io/) and [Elemental](http://elemental-ui.com/) are also good alternatives.
+TIP: You can use the `taito dep check` command to prune unused dependencies from `package.json` files. NOTE: Many of the `devDependencies` and `~` references are actually in use even if reported unused by the tool. But all unused `dependencies` may usually be removed from package.json.
 
 - [ ] All done
 
