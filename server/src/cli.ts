@@ -4,8 +4,15 @@ import getDb from './common/db';
 import { PostDao } from './blog/PostDao';
 import { CreatePostInput } from '../shared/types/blog';
 
+// ------------------------------------------------------------------
 // CLI commands for cronjobs, etc.
-// See `server/execute.sh` and `scripts/helm/examples.yaml` for examples.
+//
+// You can execute CLI commands manually with:
+// taito exec:server:ENV ./execute.sh COMMAND [ARGS...]
+//
+// You can also schedule CLI command execution with cronjobs. See
+// `scripts/helm/examples.yaml` for examples.
+// ------------------------------------------------------------------
 
 const createPost = async (
   subject?: string,
