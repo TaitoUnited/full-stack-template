@@ -1,5 +1,4 @@
 import { Service } from 'typedi';
-import { asCamelCase } from '../common/formatters';
 import { Db } from '../common/types';
 import { Post, CreatePostInput } from '../../shared/types/blog';
 
@@ -17,19 +16,17 @@ export class PostDao {
     .join(', ');
 
   public async getAllPosts(db: Db): Promise<Post[]> {
-    const data = await db.any(
+    return await db.any(
       `
         SELECT ${this.tableColumns}
         FROM posts
         ORDER BY created_at DESC
       `
     );
-
-    return asCamelCase(data);
   }
 
   public async getPost(db: Db, id: string): Promise<Post> {
-    const data = await db.one(
+    return await db.one(
       `
         SELECT ${this.tableColumns}
         FROM posts
@@ -37,12 +34,10 @@ export class PostDao {
       `,
       { id }
     );
-
-    return asCamelCase(data);
   }
 
   public async createPost(db: Db, post: CreatePostInput) {
-    const data = await db.one(
+    return await db.one(
       `
         INSERT INTO posts (
           subject,
@@ -57,7 +52,5 @@ export class PostDao {
       `,
       post
     );
-
-    return asCamelCase(data);
   }
 }
