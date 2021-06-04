@@ -2,7 +2,7 @@ import { Context } from 'koa';
 import { Joi } from 'koa-joi-router';
 import { Service } from 'typedi';
 import BaseRouter from '../common/BaseRouter';
-import { ItemSchema } from '../common/schemas';
+import { ItemSchema } from '../common/schema';
 import { PostService } from './PostService';
 
 const BasePostSchema = Joi.object({
