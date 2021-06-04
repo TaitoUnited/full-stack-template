@@ -26,7 +26,7 @@ taito_environments="${template_default_environments}"
 
 if [[ ${taito_deployment_platforms} == *"docker"* ]] ||
    [[ ${taito_deployment_platforms} == *"kubernetes"* ]]; then
-  taito_containers=" admin client kafka redis server storage worker www zookeeper "
+  taito_containers=" admin client redis server storage worker www "
   if [[ ${taito_env} == "local" ]]; then
     taito_containers="${taito_containers} database "
   fi

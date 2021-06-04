@@ -134,20 +134,6 @@ function prune () {
       sed -i '/* apidocs/d' scripts/taito/project.sh
     fi
 
-    if [[ $name == "kafka" ]]; then
-      sed -i "/KAFKA/d" docker-compose.yaml
-      sed -i "/KAFKA/d" docker-compose-remote.yaml
-      sed -i "/KAFKA/d" ./scripts/helm.yaml
-
-      # Remove also Zookeeper
-      sed -i "s/ zookeeper / /" scripts/taito/project.sh
-      sed -i "/^  full-stack-template-zookeeper:\r*\$/,/^\r*$/d" docker-compose.yaml
-      sed -i "/^  full-stack-template-\${taito_env}-zookeeper:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
-      sed -i "/^  # full-stack-template-zookeeper:\r*\$/,/^\r*$/d" docker-compose.yaml
-      sed -i "/^  # full-stack-template-\${taito_env}-zookeeper:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
-      sed -i "/^    zookeeper:\r*\$/,/^\r*$/d" ./scripts/helm.yaml
-    fi
-
     if [[ $name == "www" ]]; then
       sed -i '/www-site/d' package.json
       sed -i "s/ \\/docs\\/uptimez / /" scripts/taito/project.sh
@@ -325,23 +311,6 @@ function prune () {
       sed -i '/^taito_local_secrets=/a\  $taito_project-$taito_env-storage.accessKeyId:random' scripts/taito/project.sh
     fi
 
-    if [[ $name == "kafka" ]]; then
-      echo
-      read -r -t 1 -n 1000 || :
-      read -p "Use external Kafka cluster? [Y/n] " -n 1 -r confirm
-      if [[ ${confirm} =~ ^[Yy]*$ ]]; then
-        sed -i "s/KAFKA_HOST:.*$/KAFKA_HOST: kafka.kafka.svc.cluster.local/g" \
-          ./scripts/helm.yaml
-        sed -i "/^    $name:\r*\$/,/^\r*$/d" ./scripts/helm.yaml
-        sed -i "/^    zookeeper:\r*\$/,/^\r*$/d" ./scripts/helm.yaml
-
-        sed -i "/^  full-stack-template-\${taito_env}-kafka:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
-        sed -i "/^  # full-stack-template-\${taito_env}-kafka:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
-        sed -i "/^  full-stack-template-\${taito_env}-zookeeper:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
-        sed -i "/^  # full-stack-template-\${taito_env}-zookeeper:\r*\$/,/^\r*$/d" docker-compose-remote.yaml
-      fi
-    fi
-
     # For Django
     if [[ $name == "server" ]] && [[ -f ./server/src/manage.py ]]; then
       # Use trailing slash with Django
@@ -366,7 +335,6 @@ prune "Worker for background jobs? [y/N] " worker
 prune "Relational database? [Y/n] " database
 prune "Permanent object storage for files? [y/N] " storage \\/minio
 prune "Redis for caching and queueing? [y/N] " redis
-prune "Kafka for event-based data streams? [y/N] " kafka
 
 function remove_empty_secrets () {
   sed -i -n '1h;1!H;${g;s/    secrets:\n    environment:/    environment:/;p;}' "$1"

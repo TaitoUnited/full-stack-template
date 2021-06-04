@@ -99,8 +99,6 @@ services:
       COMMON_ENV: local
       # Services
       SENTRY_DSN: #sentryDSN
-      KAFKA_HOST: full-stack-template-${taito_env}-kafka
-      KAFKA_PORT: 9092
       DATABASE_HOST: 172.17.0.1  # For docker db: full-stack-template-${taito_env}-database
       DATABASE_NAME: ${db_database_name}
       DATABASE_USER: ${db_database_app_username}
@@ -149,27 +147,6 @@ services:
 
   # "EXTERNAL RESOURCES"
   # Uncomment these if you want to run them in Docker Compose instead
-
-  full-stack-template-${taito_env}-kafka:
-    container_name: full-stack-template-${taito_env}-kafka
-    image: 'bitnami/kafka:latest'
-    restart: unless-stopped
-    logging: *default-logging
-    ports:
-      - '9092'
-    environment:
-      - KAFKA_ZOOKEEPER_CONNECT=full-stack-template-${taito_env}-zookeeper:2181
-      - ALLOW_PLAINTEXT_LISTENER=yes
-
-  full-stack-template-${taito_env}-zookeeper:
-    container_name: full-stack-template-${taito_env}-zookeeper
-    image: 'bitnami/zookeeper:latest'
-    restart: unless-stopped
-    logging: *default-logging
-    ports:
-      - '2181'
-    environment:
-      - ALLOW_ANONYMOUS_LOGIN=yes
 
   # NOTE: If you use full-stack-template-${taito_env}-database instead of external database,
   # do the following:

@@ -156,7 +156,6 @@ services:
   #       cd /project
   #       taito forward:redis:${taito_env} 6379
   #       # TIP: you can define multiple forwards like this:
-  #       # taito forward:kafka:${taito_env} 9092 &
   #       # taito forward:redis:${taito_env} 6379 &
   #       # tail -f /dev/null
   #   ports:

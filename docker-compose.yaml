@@ -115,8 +115,6 @@ services:
       COMMON_ENV: local
       # Services
       SENTRY_DSN: #sentryDSN
-      KAFKA_HOST: full-stack-template-kafka
-      KAFKA_PORT: 9092
       DATABASE_HOST: full-stack-template-database
       DATABASE_PORT: ${db_database_port}
       DATABASE_NAME: ${db_database_name}
@@ -173,8 +171,6 @@ services:
       COMMON_ENV: local
       # Services
       SENTRY_DSN: #sentryDSN
-      KAFKA_HOST: full-stack-template-kafka
-      KAFKA_PORT: 9092
       DATABASE_HOST: full-stack-template-database
       DATABASE_PORT: ${db_database_port}
       DATABASE_NAME: ${db_database_name}
@@ -237,23 +233,6 @@ services:
     environment:
       REDIS_PASSWORD_FILE: '/run/secrets/REDIS_PASSWORD'
       REDIS_AOF_ENABLED: 'no'
-
-  full-stack-template-kafka:
-    container_name: full-stack-template-kafka
-    image: 'bitnami/kafka:latest'
-    ports:
-      - '9092'
-    environment:
-      - KAFKA_ZOOKEEPER_CONNECT=full-stack-template-zookeeper:2181
-      - ALLOW_PLAINTEXT_LISTENER=yes
-
-  full-stack-template-zookeeper:
-    container_name: full-stack-template-zookeeper
-    image: 'bitnami/zookeeper:latest'
-    ports:
-      - '2181'
-    environment:
-      - ALLOW_ANONYMOUS_LOGIN=yes
 
   # "EXTERNAL RESOURCES"
 
