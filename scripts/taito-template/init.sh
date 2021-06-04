@@ -327,14 +327,16 @@ function prune () {
   fi
 }
 
-prune "Web user interface (frontend)? [Y/n] " client \\/
+prune "Web user interface? [Y/n] " client \\/
 prune "Separate admin GUI in addition to the web user interface? [y/N] " admin \\/admin
-prune "Separate static website? [y/N] " www \\/docs
+prune "Separate static website (for marketing, API docs, etc.)? [y/N] " www \\/docs
 prune "Server (backend)? [Y/n] " server \\/api
-prune "Worker for background jobs? [y/N] " worker
+echo
+echo "NOTE: Often you don't need a separate worker since you can use the server implementation for jobs also."
+prune "Separate worker in addition to server? [y/N] " worker
 prune "Relational database? [Y/n] " database
 prune "Permanent object storage for files? [y/N] " storage \\/minio
-prune "Redis for caching and queueing? [y/N] " redis
+prune "Redis for caching and/or queueing? [y/N] " redis
 
 function remove_empty_secrets () {
   sed -i -n '1h;1!H;${g;s/    secrets:\n    environment:/    environment:/;p;}' "$1"
