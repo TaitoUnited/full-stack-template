@@ -49,7 +49,6 @@ dependencies {
     compile "io.micronaut:micronaut-validation"
     compile "io.micronaut:micronaut-runtime"
     compile "io.micronaut.configuration:micronaut-jdbc-hikari"
-    compile "io.micronaut.configuration:micronaut-kafka"
     compile "io.micronaut:micronaut-http-server-netty"
     runtime "ch.qos.logback:logback-classic:1.2.3"
     testAnnotationProcessor "io.micronaut:micronaut-inject-java"

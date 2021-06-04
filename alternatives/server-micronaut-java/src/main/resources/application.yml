@@ -6,7 +6,6 @@ micronaut:
     watch:
       paths: src/main/java
       restart: false
-
 ---
 datasources:
   default:
@@ -17,14 +16,6 @@ datasources:
     minimum-idle: ${DATABASE_POOL_MIN}
     maximum-pool-size: ${DATABASE_POOL_MAX}
     driverClassName: org.postgresql.Driver
-
----
-kafka:
-  bootstrap:
-    servers: ${KAFKA_HOST}:${KAFKA_PORT}
-  producers:
-    default:
-      retries: 5
 ---
 jackson:
   serializationInclusion: ALWAYS
