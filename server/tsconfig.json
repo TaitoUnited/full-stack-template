@@ -4,7 +4,7 @@
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
-    "typeRoots": ["./src/vendor/types", "./node_modules/@types"],
+    "typeRoots": ["./src/common/vendor/types", "./node_modules/@types"],
     "outDir": "../build",
     "sourceMap": true,
     "noImplicitAny": true,
