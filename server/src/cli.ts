@@ -5,6 +5,7 @@ import { PostDao } from './blog/PostDao';
 import { CreatePostInput } from '../shared/types/blog';
 
 // CLI commands for cronjobs, etc.
+// See `server/execute.sh` and `scripts/helm/examples.yaml` for examples.
 
 const createPost = async (
   subject?: string,
