@@ -38,7 +38,7 @@ export class PostRouter extends BaseRouter {
           '200': {
             body: this.Joi.object({
               data: this.Joi.array().items(PostSchema).required(),
-              totalCount: this.Joi.number().required(),
+              total: this.Joi.number().required(),
             }),
           },
         },
@@ -49,12 +49,12 @@ export class PostRouter extends BaseRouter {
           // TODO: pagination, filters, order
           new Pagination(0, 10),
           [],
-          new Order(OrderDirection.ASC, 'name')
+          new Order(OrderDirection.ASC, 'created_at')
         );
 
         ctx.response.body = {
-          data,
-          totalCount: data.length,
+          total: data.total,
+          data: data.data,
         };
       },
     });

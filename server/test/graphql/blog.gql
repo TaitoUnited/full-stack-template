@@ -1,9 +1,12 @@
 query readPosts {
   posts {
-    id
-    subject
-    content
-    author
+    total
+    data {
+      id
+      subject
+      content
+      author
+    }
   }
 }
 

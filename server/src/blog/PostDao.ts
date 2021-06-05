@@ -1,7 +1,8 @@
 import { Service } from 'typedi';
 import { Db } from '../common/types';
+import { createFilterFragment, createOrderFragment } from '../common/dao.utils';
 import { Pagination, Filter, Order } from '../../shared/types/common';
-import { Post, CreatePostInput } from '../../shared/types/blog';
+import { Post, PaginatedPosts, CreatePostInput } from '../../shared/types/blog';
 
 @Service()
 export class PostDao {
@@ -21,15 +22,29 @@ export class PostDao {
     pagination: Pagination,
     filters: Filter<Post>[],
     order: Order
-  ): Promise<Post[]> {
-    // TODO: use pagination, filters, and order in SQL query
-    return await db.any(
+  ): Promise<PaginatedPosts> {
+    // TODO: check these implementations are ok (no SQL injection)
+    const filterFragment = createFilterFragment(filters);
+    const orderFragment = createOrderFragment(order, 'posts');
+
+    const count = await db.one(`select count(id) from posts ${filterFragment}`);
+
+    const data = await db.any(
       `
         SELECT ${this.tableColumns}
         FROM posts
-        ORDER BY created_at DESC
-      `
+        ${filterFragment} ${orderFragment}
+        offset $(offset) limit $(limit)
+      `,
+      {
+        ...pagination,
+      }
     );
+
+    return {
+      total: Number(count.count),
+      data,
+    };
   }
 
   public async createPost(db: Db, post: CreatePostInput) {

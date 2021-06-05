@@ -7,7 +7,7 @@ import {
   Order,
   OrderDirection,
 } from '../../shared/types/common';
-import { Post, CreatePostInput } from '../../shared/types/blog';
+import { Post, PaginatedPosts, CreatePostInput } from '../../shared/types/blog';
 import { PostService } from './PostService';
 
 /**
@@ -19,7 +19,7 @@ class PostResolver {
   constructor(private readonly postService = Container.get(PostService)) {}
 
   @Authorized()
-  @Query(() => [Post], { description: 'Returns posts.' })
+  @Query(() => PaginatedPosts, { description: 'Returns posts.' })
   async posts(
     @Ctx() ctx: Context,
     @Arg('pagination', () => Pagination, {
@@ -31,7 +31,7 @@ class PostResolver {
     })
     filters: Filter<Post>[],
     @Arg('order', () => Order, {
-      defaultValue: new Order(OrderDirection.ASC, 'name'),
+      defaultValue: new Order(OrderDirection.ASC, 'created_at'),
     })
     order: Order
   ) {

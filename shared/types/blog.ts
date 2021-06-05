@@ -1,4 +1,5 @@
-import { Field, InputType, ObjectType } from 'type-graphql';
+import { Field, InputType, ObjectType } from "type-graphql";
+import { Paginated } from "./common";
 
 @ObjectType()
 export class Post {
@@ -20,6 +21,9 @@ export class Post {
   @Field()
   author: string;
 }
+
+@ObjectType()
+export class PaginatedPosts extends Paginated(Post) {}
 
 @InputType()
 export class CreatePostInput {

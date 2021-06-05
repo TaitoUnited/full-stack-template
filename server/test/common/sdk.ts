@@ -23,6 +23,19 @@ export type CreatePostInput = {
 };
 
 
+export type Filter = {
+  field: Scalars['String'];
+  type: FilterType;
+  value: Scalars['String'];
+  /** Determines how the value is treated */
+  valueType?: Maybe<ValueType>;
+};
+
+export enum FilterType {
+  Exact = 'EXACT',
+  Like = 'LIKE'
+}
+
 export type Mutation = {
   __typename?: 'Mutation';
   /** Creates a new post. */
@@ -32,6 +45,27 @@ export type Mutation = {
 
 export type MutationCreatePostArgs = {
   input: CreatePostInput;
+};
+
+export type Order = {
+  dir: OrderDirection;
+  field: Scalars['String'];
+};
+
+export enum OrderDirection {
+  Asc = 'ASC',
+  Desc = 'DESC'
+}
+
+export type PaginatedPosts = {
+  __typename?: 'PaginatedPosts';
+  data: Array<Post>;
+  total: Scalars['Float'];
+};
+
+export type Pagination = {
+  limit: Scalars['Float'];
+  offset: Scalars['Float'];
 };
 
 export type Post = {
@@ -47,23 +81,35 @@ export type Post = {
 export type Query = {
   __typename?: 'Query';
   /** Returns posts. */
-  posts: Array<Post>;
+  posts: PaginatedPosts;
 };
 
 
 export type QueryPostsArgs = {
-  id?: Maybe<Scalars['String']>;
+  filters?: Maybe<Array<Filter>>;
+  order?: Maybe<Order>;
+  pagination?: Maybe<Pagination>;
 };
+
+export enum ValueType {
+  Date = 'DATE',
+  Number = 'NUMBER',
+  Text = 'TEXT'
+}
 
 export type ReadPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ReadPostsQuery = (
   { __typename?: 'Query' }
-  & { posts: Array<(
-    { __typename?: 'Post' }
-    & Pick<Post, 'id' | 'subject' | 'content' | 'author'>
-  )> }
+  & { posts: (
+    { __typename?: 'PaginatedPosts' }
+    & Pick<PaginatedPosts, 'total'>
+    & { data: Array<(
+      { __typename?: 'Post' }
+      & Pick<Post, 'id' | 'subject' | 'content' | 'author'>
+    )> }
+  ) }
 );
 
 export type CreatePostMutationVariables = Exact<{
@@ -85,10 +131,13 @@ export type CreatePostMutation = (
 export const ReadPostsDocument = gql`
     query readPosts {
   posts {
-    id
-    subject
-    content
-    author
+    total
+    data {
+      id
+      subject
+      content
+      author
+    }
   }
 }
     `;

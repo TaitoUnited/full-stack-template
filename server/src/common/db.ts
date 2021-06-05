@@ -17,6 +17,15 @@ const camelizeColumns = (data: any) => {
   }
 };
 
+// Initialize DB
+export const pgp = pgpInit({
+  // Initialization options
+  capSQL: true,
+  receive: (data) => {
+    camelizeColumns(data);
+  },
+});
+
 const getDb = async () => {
   if (db) {
     return db;
@@ -24,14 +33,6 @@ const getDb = async () => {
 
   const secrets = await getSecrets();
   if (!db) {
-    // Initialize DB
-    const pgp = pgpInit({
-      // Initialization options
-      receive: (data) => {
-        camelizeColumns(data);
-      },
-    });
-
     const cn = {
       host: config.DATABASE_HOST,
       port: config.DATABASE_PORT,

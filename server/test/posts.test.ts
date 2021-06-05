@@ -31,7 +31,7 @@ describe('posts', () => {
 
   it('query "posts" returns some posts', async () => {
     const response = await sdk.readPosts();
-    const posts = response.posts;
+    const posts = response.posts.data;
     expect(Array.isArray(posts)).toBe(true);
     expect(posts.length).toBeGreaterThan(0);
   });
