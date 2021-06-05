@@ -6,6 +6,7 @@ import {
   ValueType,
 } from '../../shared/types/common';
 import { pgp } from './db';
+import { asSnakeCase } from './format';
 
 // TODO: check that createFilterFragment and createOrderFragment
 // implementations are ok (no SQL injection)
@@ -100,6 +101,7 @@ export function createFilterFragment(
       } ${clause}`,
       {
         ...cur,
+        field: asSnakeCase(cur.field),
         value: parseValue(cur.valueType, cur.value),
         table,
       }
@@ -120,9 +122,9 @@ export function createOrderFragment(
     order by $(field~) $(dir^), $(table~).$(fallbackField~)
   `,
     {
-      field: order.field,
+      field: asSnakeCase(order.field),
       dir: order.dir === OrderDirection.ASC ? 'asc' : 'desc',
-      fallbackField,
+      fallbackField: asSnakeCase(fallbackField),
       table,
     }
   );

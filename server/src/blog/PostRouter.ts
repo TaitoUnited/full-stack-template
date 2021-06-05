@@ -49,7 +49,7 @@ export class PostRouter extends BaseRouter {
           // TODO: pagination, filters, order
           new Pagination(0, 10),
           [],
-          new Order(OrderDirection.ASC, 'created_at')
+          new Order(OrderDirection.ASC, 'createdAt')
         );
 
         ctx.response.body = {

@@ -31,7 +31,7 @@ class PostResolver {
     })
     filters: Filter<Post>[],
     @Arg('order', () => Order, {
-      defaultValue: new Order(OrderDirection.ASC, 'created_at'),
+      defaultValue: new Order(OrderDirection.ASC, 'createdAt'),
     })
     order: Order
   ) {
