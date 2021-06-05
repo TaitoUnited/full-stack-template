@@ -112,9 +112,9 @@ taito_secret_hints="
 link_urls="
   * admin[:ENV]=$taito_app_url/admin/ Administration GUI (:ENV)
   * client[:ENV]=$taito_app_url Web application GUI (:ENV)
-  * server[:ENV]=$taito_app_url/api/uptimez Server API (:ENV)
-  * apidocs[:ENV]=$taito_app_url/api/docs API docs (:ENV)
-  * graphql[:ENV]=$taito_app_url/api GraphQL playground (:ENV)
+  * server[:ENV]=$taito_app_url/api/uptimez Server API status (:ENV)
+  * apidocs[:ENV]=$taito_app_url/api/docs REST API docs (:ENV)
+  * graphql[:ENV]=$taito_app_url/api GraphQL Playground (:ENV)
   * www[:ENV]=$taito_app_url/docs Website (:ENV)
   * git=https://$taito_vc_repository_url Git repository
 "

@@ -1,8 +1,9 @@
 import { Context } from 'koa';
 import { Joi } from 'koa-joi-router';
 import { Service } from 'typedi';
+import { Pagination, Order, OrderDirection } from '../../shared/types/common';
 import BaseRouter from '../common/BaseRouter';
-import { ItemSchema } from '../common/schema';
+import { ItemSchema } from '../common/rest.schema';
 import { PostService } from './PostService';
 
 const BasePostSchema = Joi.object({
@@ -43,35 +44,17 @@ export class PostRouter extends BaseRouter {
         },
       },
       handler: async (ctx: Context) => {
-        const data = await this.postService.getAllPosts(ctx.state);
+        const data = await this.postService.readPosts(
+          ctx.state,
+          // TODO: pagination, filters, order
+          new Pagination(0, 10),
+          [],
+          new Order(OrderDirection.ASC, 'name')
+        );
 
         ctx.response.body = {
           data,
           totalCount: data.length,
-        };
-      },
-    });
-
-    this.route({
-      method: 'get',
-      path: '/:id',
-      documentation: {
-        description: 'List all posts',
-      },
-      validate: {
-        output: {
-          '200': {
-            body: this.Joi.object({
-              data: PostSchema.required(),
-            }),
-          },
-        },
-      },
-      handler: async (ctx: Context) => {
-        const data = await this.postService.getPost(ctx.state, ctx.params.id);
-
-        ctx.response.body = {
-          data,
         };
       },
     });

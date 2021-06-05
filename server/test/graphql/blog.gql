@@ -1,14 +1,5 @@
-query getPosts {
+query readPosts {
   posts {
-    id
-    subject
-    content
-    author
-  }
-}
-
-query getPost($id: String!) {
-  posts(id: $id) {
     id
     subject
     content

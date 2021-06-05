@@ -55,23 +55,10 @@ export type QueryPostsArgs = {
   id?: Maybe<Scalars['String']>;
 };
 
-export type GetPostsQueryVariables = Exact<{ [key: string]: never; }>;
+export type ReadPostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetPostsQuery = (
-  { __typename?: 'Query' }
-  & { posts: Array<(
-    { __typename?: 'Post' }
-    & Pick<Post, 'id' | 'subject' | 'content' | 'author'>
-  )> }
-);
-
-export type GetPostQueryVariables = Exact<{
-  id: Scalars['String'];
-}>;
-
-
-export type GetPostQuery = (
+export type ReadPostsQuery = (
   { __typename?: 'Query' }
   & { posts: Array<(
     { __typename?: 'Post' }
@@ -95,19 +82,9 @@ export type CreatePostMutation = (
 );
 
 
-export const GetPostsDocument = gql`
-    query getPosts {
+export const ReadPostsDocument = gql`
+    query readPosts {
   posts {
-    id
-    subject
-    content
-    author
-  }
-}
-    `;
-export const GetPostDocument = gql`
-    query getPost($id: String!) {
-  posts(id: $id) {
     id
     subject
     content
@@ -133,11 +110,8 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName) => action();
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    getPosts(variables?: GetPostsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetPostsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetPostsQuery>(GetPostsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getPosts');
-    },
-    getPost(variables: GetPostQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetPostQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetPostQuery>(GetPostDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getPost');
+    readPosts(variables?: ReadPostsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ReadPostsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<ReadPostsQuery>(ReadPostsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'readPosts');
     },
     createPost(variables: CreatePostMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreatePostMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreatePostMutation>(CreatePostDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createPost');

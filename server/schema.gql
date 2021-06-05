@@ -14,9 +14,38 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 """
 scalar DateTime
 
+input Filter {
+  field: String!
+  type: FilterType!
+  value: String!
+
+  """Determines how the value is treated"""
+  valueType: ValueType = TEXT
+}
+
+enum FilterType {
+  EXACT
+  LIKE
+}
+
 type Mutation {
   """Creates a new post."""
   createPost(input: CreatePostInput!): Post!
+}
+
+input Order {
+  dir: OrderDirection!
+  field: String!
+}
+
+enum OrderDirection {
+  ASC
+  DESC
+}
+
+input Pagination {
+  limit: Float!
+  offset: Float!
 }
 
 type Post {
@@ -30,5 +59,11 @@ type Post {
 
 type Query {
   """Returns posts."""
-  posts(id: String): [Post!]!
+  posts(filters: [Filter!] = [], order: Order = {dir: ASC, field: "name"}, pagination: Pagination = {limit: 10, offset: 0}): [Post!]!
+}
+
+enum ValueType {
+  DATE
+  NUMBER
+  TEXT
 }

@@ -1,5 +1,6 @@
 import { Service } from 'typedi';
 import { Db } from '../common/types';
+import { Pagination, Filter, Order } from '../../shared/types/common';
 import { Post, CreatePostInput } from '../../shared/types/blog';
 
 @Service()
@@ -15,24 +16,19 @@ export class PostDao {
     .map((column) => `posts.${column}`)
     .join(', ');
 
-  public async getAllPosts(db: Db): Promise<Post[]> {
+  public async readPosts(
+    db: Db,
+    pagination: Pagination,
+    filters: Filter<Post>[],
+    order: Order
+  ): Promise<Post[]> {
+    // TODO: use pagination, filters, and order in SQL query
     return await db.any(
       `
         SELECT ${this.tableColumns}
         FROM posts
         ORDER BY created_at DESC
       `
-    );
-  }
-
-  public async getPost(db: Db, id: string): Promise<Post> {
-    return await db.one(
-      `
-        SELECT ${this.tableColumns}
-        FROM posts
-        WHERE id = $[id]
-      `,
-      { id }
     );
   }
 
