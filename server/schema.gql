@@ -64,7 +64,7 @@ type Post {
 
 type Query {
   """Returns posts."""
-  posts(filters: [Filter!] = [], order: Order = {dir: ASC, field: "createdAt"}, pagination: Pagination = {limit: 10, offset: 0}): PaginatedPosts!
+  posts(filters: [Filter!] = [], order: Order = {dir: DESC, field: "createdAt"}, pagination: Pagination = {limit: 50, offset: 0}): PaginatedPosts!
 }
 
 enum ValueType {

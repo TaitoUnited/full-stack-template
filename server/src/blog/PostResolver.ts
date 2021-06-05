@@ -23,7 +23,7 @@ class PostResolver {
   async posts(
     @Ctx() ctx: Context,
     @Arg('pagination', () => Pagination, {
-      defaultValue: new Pagination(0, 10),
+      defaultValue: new Pagination(0, 50),
     })
     pagination: Pagination,
     @Arg('filters', () => [Filter], {
@@ -31,7 +31,7 @@ class PostResolver {
     })
     filters: Filter<Post>[],
     @Arg('order', () => Order, {
-      defaultValue: new Order(OrderDirection.ASC, 'createdAt'),
+      defaultValue: new Order(OrderDirection.DESC, 'createdAt'),
     })
     order: Order
   ) {

@@ -47,9 +47,9 @@ export class PostRouter extends BaseRouter {
         const data = await this.postService.readPosts(
           ctx.state,
           // TODO: pagination, filters, order
-          new Pagination(0, 10),
+          new Pagination(0, 50),
           [],
-          new Order(OrderDirection.ASC, 'createdAt')
+          new Order(OrderDirection.DESC, 'createdAt')
         );
 
         ctx.response.body = {
