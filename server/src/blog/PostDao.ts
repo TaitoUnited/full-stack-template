@@ -14,7 +14,7 @@ export class PostDao {
     'content',
     'author',
   ]
-    .map((column) => `posts.${column}`)
+    .map((column) => `post.${column}`)
     .join(', ');
 
   public async readPosts(
@@ -25,14 +25,14 @@ export class PostDao {
   ): Promise<PaginatedPosts> {
     // TODO: check these implementations are ok (no SQL injection)
     const filterFragment = createFilterFragment(filters);
-    const orderFragment = createOrderFragment(order, 'posts');
+    const orderFragment = createOrderFragment(order, 'post');
 
-    const count = await db.one(`select count(id) from posts ${filterFragment}`);
+    const count = await db.one(`select count(id) from post ${filterFragment}`);
 
     const data = await db.any(
       `
         SELECT ${this.tableColumns}
-        FROM posts
+        FROM post
         ${filterFragment} ${orderFragment}
         offset $(offset) limit $(limit)
       `,
@@ -50,7 +50,7 @@ export class PostDao {
   public async createPost(db: Db, post: CreatePostInput) {
     return await db.one(
       `
-        INSERT INTO posts (
+        INSERT INTO post (
           subject,
           content,
           author
