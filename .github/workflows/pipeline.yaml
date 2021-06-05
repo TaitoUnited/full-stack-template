@@ -17,10 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 50
     container:
-      image: taitounited/taito-cli:ci-azure
+      image: ${_TEMPLATE_DEFAULT_TAITO_IMAGE}
       env:
         taito_mode: ci
-        taito_image: taitounited/taito-cli:ci-azure
+        taito_image: ${_TEMPLATE_DEFAULT_TAITO_IMAGE}
         taito_ci_phases:
         IMAGE_TAG: ${{ github.sha }}
         DOCKER_HOST_PATH: /home/runner/work/full-stack-template/full-stack-template

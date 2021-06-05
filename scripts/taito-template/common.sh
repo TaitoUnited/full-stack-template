@@ -288,6 +288,7 @@ fi
 
 # Remove extra template stuff from CI/CD scripts
 rm -rf cloudbuild-template.yaml
+sed -i "s|\${_TEMPLATE_DEFAULT_TAITO_IMAGE}|${template_default_taito_image:-}|g" .github/workflows/pipeline.yaml
 sed -i "s|\${_TEMPLATE_DEFAULT_TAITO_IMAGE}|${template_default_taito_image:-}|g" cloudbuild.yaml
 sed -i "s|_IMAGE_REGISTRY: eu.gcr.io/\$PROJECT_ID|_IMAGE_REGISTRY: ${template_default_container_registry}|" cloudbuild.yaml
 sed -i "s|\${_TEMPLATE_DEFAULT_TAITO_IMAGE}|${template_default_taito_image}|g" azure-pipelines.yml
