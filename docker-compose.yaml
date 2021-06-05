@@ -40,7 +40,6 @@ services:
       COMMON_PUBLIC_PORT: 9999
       # Host specific variables
       DOCKER_HOST: ${DOCKER_HOST}
-      HOST_OS: ${taito_host_os}
 
   full-stack-template-client:
     container_name: full-stack-template-client
@@ -71,7 +70,6 @@ services:
       COMMON_PUBLIC_PORT: 9999
       # Host specific variables
       DOCKER_HOST: ${DOCKER_HOST}
-      HOST_OS: ${taito_host_os}
       # Services
       # NOTE: Database connection is for tests only
       DATABASE_HOST: full-stack-template-database
@@ -104,8 +102,6 @@ services:
       API_PORT: 8080
       API_BINDADDR: 0.0.0.0
       COMMON_PUBLIC_PORT: 9999
-      # Host specific variables
-      HOST_OS: ${taito_host_os}
       # Common variables
       COMMON_COMPANY: companyname
       COMMON_PROJECT: full-stack-template
@@ -160,8 +156,6 @@ services:
       API_PORT: 8080
       API_BINDADDR: 0.0.0.0
       COMMON_PUBLIC_PORT: 9999
-      # Host specific variables
-      HOST_OS: ${taito_host_os}
       # Common variables
       COMMON_COMPANY: companyname
       COMMON_PROJECT: full-stack-template
@@ -217,8 +211,6 @@ services:
       ASSETS_DOMAIN: ''
       REPLACE_ASSETS_DOMAIN: ''   # For Dockerfile.build
       COMMON_PUBLIC_PORT: 9999
-      # Host specific variables
-      HOST_OS: ${taito_host_os}
 
   full-stack-template-redis:
     container_name: full-stack-template-redis

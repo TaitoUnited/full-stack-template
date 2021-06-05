@@ -6,7 +6,7 @@
     "unit": "jest src/ --passWithNoTests -t",
     "test": "jest test/ --passWithNoTests -t",
     "start": "npm run start:dev",
-    "start:dev": "NODE_ENV=development ts-node-dev --respawn $( ( [ $HOST_OS = 'macos' ] || [ $HOST_OS = 'windows' ] ) && echo --poll) --inspect=0.0.0.0:9229 -- index.ts | bunyan -l debug",
+    "start:dev": "NODE_ENV=development ts-node-dev --respawn --inspect=0.0.0.0:9229 -- index.ts | bunyan -l debug",
     "lint": "tsc -p . --noEmit && eslint ./src/**/*.ts --ignore-path .eslintignore --quiet",
     "build:test": "tsc --build tsconfig.test.json",
     "build:prod": "NODE_ENV=production tsc --build tsconfig.json",
