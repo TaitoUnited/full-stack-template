@@ -15,7 +15,9 @@
     "taito-init:clean": "taito -z ${taito_options} init:${taito_env} --clean && npm run import-db-data && npm run clean:storage && npm run generate",
     "import-db-data": "if [ -f ./database/data/${taito_env}.sql ]; then taito ${taito_options} db import:${taito_env} ./database/data/${taito_env}.sql; fi",
     "clean:storage": "if [ ${taito_env} = 'local' ] && [ -d storage ]; then echo Cleaning storage; rm -rf ./storage/bucket/*; rm -rf ./storage/.minio.sys/buckets/bucket/*/; fi",
-    "generate": "if [ ${taito_env} = 'local' ] && [ -f ./server/generate.sh ]; then taito ${taito_options} exec:server ./generate.sh; else echo Nothing to generate; fi",
+    "generate": "npm-run-all --parallel generate:client generate:server",
+    "generate:client": "if [ ${taito_env} = 'local' ] && [ -f ./client/generate.sh ]; then taito ${taito_options} exec:client ./generate.sh; else echo Nothing to generate; fi",
+    "generate:server": "if [ ${taito_env} = 'local' ] && [ -f ./server/generate.sh ]; then taito ${taito_options} exec:server ./generate.sh; else echo Nothing to generate; fi",
     "info:local": "yes | taito ${taito_options} secret show:${taito_env}",
     "info": "yes | taito ${taito_options} secret show:${taito_env} basic-auth",
     "lint": "echo Running lint locally && npm-run-all --parallel lint:admin lint:client lint:server lint:worker lint:www ",
@@ -64,7 +66,7 @@
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-commit": "if [ \"$taito_mode\" != 'ci' ]; then npm run precommit:branch && npm run precommit:lint; fi",
-      "pre-push": "if [ \"$taito_mode\" != 'ci' ]; then npm-run-all --parallel lint unit; fi"
+      "pre-push": "if [ \"$taito_mode\" != 'ci' ]; then npm-run-all --parallel generate lint unit; fi"
     }
   },
   "commitlint": {

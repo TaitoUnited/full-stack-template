@@ -1,6 +1,3 @@
-// TODO: do we need airbnb config anymore?
-// The `recommended` configs that are already added should suffice
-
 module.exports = {
   parser: '@typescript-eslint/parser',
 
@@ -9,18 +6,14 @@ module.exports = {
   extends: [
     'standard',
     'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
     'plugin:@typescript-eslint/recommended',
-
-    // Enables eslint-plugin-prettier and displays prettier errors as ESLint errors.
-    // Make sure this is always the last configuration in the extends array.
+    'plugin:lodash/recommended',
+    'prettier',
     'plugin:prettier/recommended',
-
-    // Uses eslint-config-prettier to disable ESLint rules from various plugins
-    // that would conflict with prettier
-    'prettier/@typescript-eslint',
-    'prettier/react',
-    'prettier/standard',
   ],
+
+  plugins: ['@typescript-eslint', 'import', 'lodash', 'prettier'],
 
   parserOptions: {
     ecmaVersion: 2018,
@@ -28,8 +21,6 @@ module.exports = {
     ecmaFeatures: {
       jsx: true,
     },
-    // TODO: vscode's eslint extension borks with the following option :(
-    // project: './tsconfig.json',
   },
 
   env: {
@@ -38,16 +29,33 @@ module.exports = {
   },
 
   rules: {
-    // you must disable the base rule as it can report incorrect errors
-    "no-use-before-define": "off",
-    "@typescript-eslint/no-use-before-define": ["error"],
+    // You must disable the base rule as it can report incorrect errors
+    'no-use-before-define': 'off',
+    'no-var': 'error',
 
-    // Turn of stupid TS specific rules
+    'eslint-comments/no-unlimited-disable': 'off',
+
+    // Turn of unuseful TS specific rules
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-member-accessibility': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/no-unused-vars': 'warn',
+    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+
+    // https://reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html#eslint
+    'react/jsx-uses-react': 'off',
+    'react/react-in-jsx-scope': 'off',
+    'react/prop-types': 'off',
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
+
+    'lodash/import-scope': [2, 'member'],
+    'lodash/prefer-lodash-method': 'off',
+    'lodash/prefer-lodash-typecheck': 'off',
+    'lodash/collection-ordering': 'off',
+    'lodash/prop-shorthand': 'off',
+    'lodash/prefer-constant': 'off',
 
     // Enforce absolute imports to be first
     'import/order': [
@@ -59,9 +67,6 @@ module.exports = {
         ],
       },
     ],
-
-    'no-var': 'error', // No `var` plz - we are not savages anymore
-    'react/prop-types': 'off',
   },
 
   settings: {

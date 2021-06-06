@@ -1,32 +1,24 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { createBrowserHistory } from 'history';
-import { ConnectedRouter } from 'connected-react-router';
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import { ThemeProvider } from 'styled-components';
+import type { ReactNode } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { ApolloProvider } from '@apollo/client';
 
-import configureStore from './store';
-import theme from '~theme';
-import { connectApiToStore } from '~common/services/api';
-import { I18nProvider } from '~ui';
+import Toaster from '~components/common/Toaster';
+import { ThemingProvider } from '~services/theming';
+import { I18nProvider } from '~services/i18n';
+import { AuthProvider } from '~services/auth';
+import { apolloClient } from '~graphql';
 
-const history = createBrowserHistory();
-const store = configureStore(history);
-
-connectApiToStore(store);
-
-const Providers = ({ children }: { children: React.ReactNode }) => (
-  <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <MuiThemeProvider theme={theme}>
-        <I18nProvider>
-          <ConnectedRouter history={history}>
-            <div style={{ width: '100vw', height: '100vh' }}>{children}</div>
-          </ConnectedRouter>
-        </I18nProvider>
-      </MuiThemeProvider>
-    </ThemeProvider>
-  </Provider>
-);
-
-export default Providers;
+export default function Providers({ children }: { children: ReactNode }) {
+  return (
+    <ApolloProvider client={apolloClient}>
+      <ThemingProvider>
+        <AuthProvider>
+          <I18nProvider>
+            <Router>{children}</Router>
+            <Toaster />
+          </I18nProvider>
+        </AuthProvider>
+      </ThemingProvider>
+    </ApolloProvider>
+  );
+}
