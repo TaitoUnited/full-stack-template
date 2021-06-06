@@ -59,6 +59,7 @@ if [[ $taito_zone_multi_tenant == true ]]; then
 fi
 
 # Network
+taito_vpn_enabled=${default_vpn_enabled}
 taito_network_tags='${default_network_tags}'
 taito_function_subnet_tags='${default_function_subnet_tags}'
 taito_function_security_group_tags='${default_function_security_group_tags}'
@@ -246,6 +247,7 @@ case $taito_env in
     fi
 
     # Network
+    taito_vpn_enabled=${default_vpn_enabled_prod}
     taito_network_tags="${default_network_tags_prod}"
     taito_function_subnet_tags="${default_function_subnet_tags_prod}"
     taito_function_security_group_tags="${default_function_security_group_tags_prod}"
@@ -358,6 +360,7 @@ case $taito_env in
     fi
 
     # Network
+    taito_vpn_enabled=${default_vpn_enabled_prod}
     taito_network_tags="${default_network_tags_prod}"
     taito_function_subnet_tags="${default_function_subnet_tags_prod}"
     taito_function_security_group_tags="${default_function_security_group_tags_prod}"
@@ -502,6 +505,18 @@ if [[ ${kubernetes_name} ]]; then
   taito_deployment_platforms="${taito_deployment_platforms:-kubernetes}"
 else
   taito_deployment_platforms="${taito_deployment_platforms:-terraform}"
+fi
+
+# VPN overrides
+if [[ ${taito_vpn_enabled} == "true" ]]; then
+  kubernetes_db_proxy_enabled=false
+  if [[ $db_database_type == "pg" ]]; then
+    db_database_host="${default_postgres_host}"
+    db_database_port="${default_postgres_port}"
+  elif [[ $db_database_type == "mysql" ]]; then
+    db_database_host="${default_mysql_host}"
+    db_database_port="${default_mysql_port}"
+  fi
 fi
 
 # Provider and namespaces

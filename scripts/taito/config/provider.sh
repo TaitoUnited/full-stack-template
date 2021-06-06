@@ -407,7 +407,8 @@ elif [[ $db_database_ssl_server_cert_enabled == "true" ]]; then
 fi
 
 # Database SSH proxy
-if [[ ${gcp_db_proxy_enabled} != "true" ]] && (
+if [[ ${taito_vpn_enabled} != "true" ]] &&
+    [[ ${gcp_db_proxy_enabled} != "true" ]] && (
     [[ ${kubernetes_db_proxy_enabled} != "true" ]] ||
     [[ ${taito_deployment_platforms} != *"kubernetes"* ]]
   ); then

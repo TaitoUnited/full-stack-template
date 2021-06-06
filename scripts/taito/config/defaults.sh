@@ -32,6 +32,7 @@ default_zone_prod=${template_default_zone_prod}
 default_zone_multi_tenant_prod=${template_default_zone_multi_tenant_prod}
 
 # Network
+default_vpn_enabled=${template_default_vpn_enabled}
 default_network_tags='${template_default_network_tags}'
 default_function_subnet_tags='${template_default_function_subnet_tags}'
 default_function_security_group_tags='${template_default_function_security_group_tags}'
@@ -39,6 +40,7 @@ default_cache_subnet_tags='${template_default_cache_subnet_tags}'
 default_cache_security_group_tags='${template_default_cache_security_group_tags}'
 
 # Network (prod)
+default_vpn_enabled_prod=${template_default_vpn_enabled_prod}
 default_network_tags_prod='${template_default_network_tags_prod}'
 default_function_subnet_tags_prod='${template_default_function_subnet_tags_prod}'
 default_function_security_group_tags_prod='${template_default_function_security_group_tags_prod}'

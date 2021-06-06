@@ -304,6 +304,12 @@ sed -i "s/\$template_default_taito_image_password/${template_default_taito_image
 sed -i "s/\$template_default_taito_image_email/${template_default_taito_image_email:-}/g" ${ci_scripts}
 sed -i "s|\$template_default_taito_image|${template_default_taito_image}|g" ${ci_scripts}
 
+# Remove VPN step
+# TODO: Do this for all ci_scripts
+if [[ $template_default_vpn_enabled != "true" ]]; then
+  sed -i "/^      # Start VPN\r*\$/,/^\r*$/d" .github/workflows/pipeline.yaml
+fi
+
 ################################
 # Remove obsolete CI/CD scripts
 ################################

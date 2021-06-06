@@ -58,6 +58,29 @@ jobs:
       - run: taito artifact prepare:worker:$BRANCH $IMAGE_TAG
       - run: taito artifact prepare:www:$BRANCH $IMAGE_TAG
 
+      # Start VPN
+      - name: Start VPN if BRANCH_OVPN_FILE and BRANCH_OVPN_PASSWORD configured
+        env:
+          OVPN_FILE: ${{ secrets['OVPN_FILE'] }}
+          OVPN_PASSWORD: ${{ secrets['OVPN_PASSWORD'] }}
+          BRANCH_OVPN_FILE: ${{ secrets[format('{0}_OVPN_FILE', env.BRANCH)] }}
+          BRANCH_OVPN_PASSWORD: ${{ secrets[format('{0}_OVPN_PASSWORD', env.BRANCH)] }}
+        run: |
+          mkdir -p tmp
+          echo "$OVPN_FILE" > tmp/vpn.ovpn
+          echo "$OVPN_PASSWORD" > tmp/vpn.password
+          echo "$BRANCH_OVPN_FILE" > tmp/branch-vpn.ovpn
+          echo "$BRANCH_OVPN_PASSWORD" > tmp/branch-vpn.password
+          if grep client tmp/branch-vpn.ovpn > /dev/null; then
+            echo "askpass tmp/branch-vpn.password" >> tmp/branch-vpn.ovpn
+            openvpn --daemon --config tmp/branch-vpn.ovpn
+            sleep 10
+          elif grep client tmp/vpn.ovpn > /dev/null; then
+            echo "askpass tmp/vpn.password" >> tmp/vpn.ovpn
+            openvpn --daemon --config tmp/vpn.ovpn
+            sleep 10
+          fi
+
       # Deploy changes to target environment
       - run: taito db deploy:$BRANCH
       - run: taito deployment deploy:$BRANCH $IMAGE_TAG
