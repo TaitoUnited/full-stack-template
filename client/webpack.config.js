@@ -4,13 +4,12 @@ const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const WebpackPwaManifest = require('webpack-pwa-manifest');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin; // prettier-ignore
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 
 const y = new Date().getFullYear();
 const COPYRIGHT = 'Copyright ' + y + ' Taito United Oy - All rights reserved.';
@@ -35,7 +34,7 @@ module.exports = function (env, options) {
   return {
     mode: isProd ? 'production' : 'development',
 
-    devtool: isProd ? 'source-map' : 'inline-source-map',
+    devtool: isProd ? 'source-map' : 'eval-cheap-source-map',
 
     entry: ['src/index'],
 
@@ -44,6 +43,7 @@ module.exports = function (env, options) {
       filename: isProd ? '[name].[contenthash].js' : '[name].bundle.js',
       path: path.resolve(__dirname, OUTPUT_DIR),
       publicPath: `${ASSETS_PATH}/`,
+      pathinfo: false,
     },
 
     resolve: {
@@ -51,12 +51,13 @@ module.exports = function (env, options) {
       extensions: ['.json', '.mjs', '.jsx', '.js', '.ts', '.tsx'],
       // Add aliases here and remember to update tsconfig.json "paths" too
       alias: {
-        '~common': path.resolve(__dirname, 'src/common'),
-        '~services': path.resolve(__dirname, 'src/common/services'),
+        '~constants': path.resolve(__dirname, 'src/constants'),
+        '~services': path.resolve(__dirname, 'src/services'),
         '~shared': path.resolve(__dirname, 'shared'),
-        '~theme': path.resolve(__dirname, 'src/common/theme'),
-        '~ui': path.resolve(__dirname, 'src/common/ui/index'),
-        '~utils': path.resolve(__dirname, 'src/common/utils'),
+        '~graphql': path.resolve(__dirname, 'src/graphql/index'),
+        '~uikit': path.resolve(__dirname, 'src/components/uikit/index'),
+        '~components': path.resolve(__dirname, 'src/components'),
+        '~utils': path.resolve(__dirname, 'src/utils'),
       },
     },
 
@@ -71,95 +72,60 @@ module.exports = function (env, options) {
         title: 'full-stack-template',
         version: process.env.BUILD_VERSION,
         imageTag: process.env.BUILD_IMAGE_TAG,
-        template: 'index.html.template',
+        template: './src/index.html',
         basePath: BASE_PATH,
         assetsDomain: ASSETS_DOMAIN,
         inject: 'body',
       }),
 
       // Extract imported CSS into separate file for caching
-      new MiniCssExtractPlugin({
-        filename: isProd ? '[name].[contenthash].css' : '[name].css',
-      }),
+      isProd &&
+        new MiniCssExtractPlugin({
+          filename: '[name].[contenthash].css',
+        }),
 
       // This plugin causes a bunch of vulnerability issues
       // See: https://github.com/itgalaxy/favicons/issues/322
-      new FaviconsWebpackPlugin({
-        logo: path.resolve(__dirname, ICON_DIR),
-        cache: true, // Make builds faster
-        prefix: 'assets/', // Where to put pwa icons, manifests, etc.
-        favicons: {
-          appName: 'full-stack-template-admin',
-          appShortName: 'Taito Admin',
-          appDescription: 'Taito admin template app',
-          developerName: 'Taito United',
-          developerURL: 'https://github.com/TaitoUnited',
-          background: '#ffffff',
-          theme_color: '#0C6298',
-          display: 'standalone',
-          start_url: '.',
-          icons: {
-            // Don't include unnecessary icons
-            coast: false,
-            yandex: false,
-            windows: false,
+      isProd &&
+        new FaviconsWebpackPlugin({
+          logo: path.resolve(__dirname, ICON_DIR),
+          cache: true, // Make builds faster
+          prefix: 'assets/', // Where to put pwa icons, manifests, etc.
+          favicons: {
+            appName: 'full-stack-template',
+            appShortName: 'Taito app',
+            appDescription: 'Taito template app',
+            developerName: 'Taito United',
+            developerURL: 'https://github.com/TaitoUnited',
+            background: '#ffffff',
+            theme_color: '#15994C',
+            display: 'standalone',
+            start_url: '.',
+            icons: {
+              // Don't include unnecessary icons
+              coast: false,
+              yandex: false,
+              windows: false,
+            },
           },
-        },
-      }),
-
-      // This causes a deprecation error [DEP_WEBPACK_COMPILATION_ASSETS]
-      // See: https://github.com/arthurbergmz/webpack-pwa-manifest/issues/144
-      // This will probably be fixed in a future version
-      new WebpackPwaManifest({
-        name: 'Fullstack template',
-        short_name: 'Taito',
-        description: 'Taito fullstack template application',
-        background_color: '#ffffff',
-        theme_color: '#15994C',
-        crossorigin: null,
-        orientation: 'portrait',
-        display: 'standalone',
-        start_url: '.',
-        ios: true,
-        icons: [
-          {
-            src: path.resolve('assets/icon.png'),
-            sizes: [120, 152, 167, 180, 1024],
-            ios: true,
-          },
-          {
-            src: path.resolve('assets/icon.png'),
-            size: 1024,
-            ios: 'startup'
-          },
-          {
-            src: path.resolve('assets/icon.png'),
-            sizes: [36, 48, 72, 96, 144, 192, 512],
-          },
-        ],
-      }),
-
-      // If you use moment add any locales you need here
-      new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en|fi/),
+        }),
 
       // Enable HMR + Fast Refresh for development
       !isProd && new webpack.HotModuleReplacementPlugin(),
       !isProd && new ReactRefreshWebpackPlugin(),
+
+      isProd && new LodashModuleReplacementPlugin(),
 
       analyzeBundle && new BundleAnalyzerPlugin(),
 
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
         'process.env.API_URL': JSON.stringify(process.env.API_URL || '/api'),
-        'process.env.SENTRY_PUBLIC_DSN': JSON.stringify(
-          process.env.SENTRY_PUBLIC_DSN
-        ),
-        'process.env.GA_TRACKING_ID': JSON.stringify(
-          process.env.GA_TRACKING_ID
-        ),
+        'process.env.SENTRY_PUBLIC_DSN': JSON.stringify(process.env.SENTRY_PUBLIC_DSN), // prettier-ignore
+        'process.env.GA_TRACKING_ID': JSON.stringify(process.env.GA_TRACKING_ID), // prettier-ignore
       }),
 
-      new webpack.BannerPlugin({ banner: COPYRIGHT }),
+      isProd && new webpack.BannerPlugin({ banner: COPYRIGHT }),
 
       // Generate a Service Worker automatically to cache generated JS files
       // NOTE: this should be the last plugin in the list!
@@ -191,21 +157,17 @@ module.exports = function (env, options) {
     module: {
       rules: [
         {
-          test: /\.tsx?$/,
-          enforce: 'pre',
-          loader: 'eslint-loader',
-          options: {
-            quiet: true, // Don't report warnings
-          },
-        },
-        {
           test: /\.(js|tsx?)$/,
+          include: path.resolve(__dirname, 'src'),
           use: [
             {
               loader: require.resolve('babel-loader'),
               options: {
+                cacheCompression: false,
+                cacheDirectory: true,
                 plugins: [
                   !isProd && require.resolve('react-refresh/babel'),
+                  isProd && 'lodash',
                 ].filter(Boolean),
               },
             },
@@ -228,7 +190,6 @@ module.exports = function (env, options) {
         {
           test: /\.css$/,
           use: [
-            // NOTE: don't extract CSS in development
             isProd ? MiniCssExtractPlugin.loader : 'style-loader',
             'css-loader',
           ],
@@ -236,42 +197,62 @@ module.exports = function (env, options) {
       ],
     },
 
+    ignoreWarnings: [
+      /Failed to parse source map/,
+      /GenerateSW has been called multiple times/,
+      /and won't be precached. Configure maximumFileSizeToCacheInBytes to change this limit/,
+    ],
+
+    // Speed up development by lazily compiling dynamic imports
+    experiments: isProd
+      ? undefined
+      : {
+          lazyCompilation: {
+            entries: false,
+            imports: true,
+          },
+        },
+
     optimization: {
+      moduleIds: 'deterministic',
+
       // Split runtime code into a separate chunk
       runtimeChunk: 'single',
 
       // Extract third-party libraries (lodash, etc.) to a separate vendor chunk
-      splitChunks: {
-        cacheGroups: {
-          // Separate sentry into it's own bundle since it is huge
-          sentry: {
-            test: /[\\/]node_modules[\\/](@sentry)[\\/]/,
-            name: 'sentry',
-            chunks: 'all',
-            priority: 30,
-          },
+      splitChunks: isProd
+        ? {
+            cacheGroups: {
+              // Separate sentry into it's own bundle since it is huge
+              sentry: {
+                test: /[\\/]node_modules[\\/](@sentry)[\\/]/,
+                name: 'sentry',
+                chunks: 'all',
+                priority: 30,
+              },
 
-          // Group most libs into one vendor bundle
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            chunks: 'all',
-            priority: 20,
-          },
+              // Group most libs into one vendor bundle
+              vendor: {
+                test: /[\\/]node_modules[\\/]/,
+                name: 'vendors',
+                chunks: 'all',
+                priority: 20,
+              },
 
-          // TODO: not sure if this is necessary...
-          // This puts eg. ui components into a separate chunk.
-          // https://itnext.io/react-router-and-webpack-v4-code-splitting-using-splitchunksplugin-f0a48f110312
-          common: {
-            name: 'common',
-            minChunks: 2,
-            chunks: 'async',
-            priority: 10,
-            reuseExistingChunk: true,
-            enforce: true,
-          },
-        },
-      },
+              // TODO: not sure if this is necessary...
+              // This puts eg. ui components into a separate chunk.
+              // https://itnext.io/react-router-and-webpack-v4-code-splitting-using-splitchunksplugin-f0a48f110312
+              common: {
+                name: 'common',
+                minChunks: 2,
+                chunks: 'async',
+                priority: 10,
+                reuseExistingChunk: true,
+                enforce: true,
+              },
+            },
+          }
+        : false,
     },
 
     devServer: isProd

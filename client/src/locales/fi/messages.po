@@ -13,22 +13,198 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/settings/index.tsx:14
-msgid "Change language"
+#: src/routes/not-found/index.tsx:11
+msgid "404 - Not Found"
+msgstr "404 - Sivua ei löytynyt"
+
+#: src/routes/not-found/index.authenticated.tsx:11
+msgid "404 - Not Found (authenticated)"
+msgstr "404 - Sivua ei löytynyt (kirjautunut)"
+
+#: src/routes/home/Home.tsx:36
+msgid "A minimal design system provides a set of UI kit components that adhere to certain design principles backed by a set of design tokens. This template defines a comprehensive set of design tokens for things like colors, typography, spacing, etc. in a globally available theme object. Additionally, the design system incorporates a UI kit that is browsable in Storybook."
+msgstr "Minimaalinen design-systeemi tarjoaa kokoelman UI-komponentteja, jotka noudattavat tiettyjä design periaatteita nojaten erinäisiin design tokeneihin. Tässä templatessa on määritelty design tokenit esimerkiksi väreille, typografialle, ja tilalle globaalin teeman avulla. Lisäksi design-systeemi sisältää UI-komponentit, joita voi selailla Storybookin sisällä."
+
+#: src/routes/home/Home.tsx:20
+msgid "Accessibility"
+msgstr "Saavutettvasuus"
+
+#: src/routes/home/Home.tsx:25
+msgid "Authentication"
+msgstr "Autentikaatio"
+
+#: src/routes/post-create/PostCreate.tsx:65
+msgid "Author"
+msgstr "Kirjoittaja"
+
+#: src/components/navigation/Sidebar.tsx:15
+#: src/routes/post-list/PostList.tsx:28
+#: src/routes/post-list/index.tsx:17
+msgid "Blog"
+msgstr "Blogi"
+
+#: src/components/common/LangMenuButton.tsx:13
+msgid "Change locale"
 msgstr "Vaihda kieli"
 
-#: src/orders/index.tsx:7
-msgid "Orders"
-msgstr "Tilaukset"
+#: src/components/common/ColorModeButton.tsx:17
+msgid "Change theme to dark mode"
+msgstr "Vaihda tummaan teemaan"
 
-#: src/blog/index.tsx:60
-msgid "Posts"
-msgstr "Julkaisut"
+#: src/components/common/ColorModeButton.tsx:18
+msgid "Change theme to light mode"
+msgstr "Vaihda vaaleaan teemaan"
 
-#: src/reports/index.tsx:7
-msgid "Reports"
-msgstr "Raportit"
+#: src/routes/post-create/PostCreate.tsx:72
+msgid "Content"
+msgstr "Sisältö"
 
-#: src/settings/index.tsx:11
-msgid "Settings"
-msgstr "Asetukset"
+#: src/routes/post/Post.tsx:33
+msgid "Could not find post."
+msgstr "Artikkelia ei löytynyt"
+
+#: src/routes/post-create/PostCreate.tsx:90
+msgid "Create"
+msgstr "Luo"
+
+#: src/routes/post-create/PostCreate.tsx:88
+msgid "Creating"
+msgstr "Luodaan"
+
+#: src/routes/home/Home.tsx:30
+msgid "Dark Mode"
+msgstr "Tumma tila"
+
+#: src/routes/home/Home.tsx:35
+msgid "Design System"
+msgstr "Design-systeemi"
+
+#: src/routes/login/index.tsx:36
+msgid "Email"
+msgstr "Sähköposti"
+
+#: src/routes/home/Home.tsx:82
+msgid "Examples"
+msgstr "Esimerkit"
+
+#: src/routes/post-create/PostCreate.tsx:44
+msgid "Failed to add new blog post"
+msgstr "Blogikirjoituksen luominen epäonnistui"
+
+#: src/routes/post/Post.tsx:39
+msgid "Failed to load blog post."
+msgstr "Artikkelin lataaminen epäonnistui"
+
+#: src/routes/home/Home.tsx:95
+msgid "Features"
+msgstr "Ominaisuudet"
+
+#: src/routes/home/Home.tsx:21
+msgid "Good accessibility is a something that should be expected from every app. The building blocks for creating accessible components are provided by React Aria. This template has pre-built UI kit components, such as Button, Text, TextInput, etc., that have accessibility baked into them. You can use and extend this UI kit to fit your needs."
+msgstr "Riittävää saavutettavuutta tulisi vaatia jokaiselta sovellukselta. Tämän templaten saavutettavuuden legopalikat tarjoaa React Aria. Tässä templatessa on myös tarjolla UI-komponenttikirjasto, jossa on valmiiksi saavutettavia komponentteja, kuten Button, Text, ja TextInput. Voit vapaasti lisätä uusia komponentteja tai muokata olemassa olevia."
+
+#: src/routes/home/Home.tsx:31
+msgid "Having dark mode support is a common ask from users nowadays. This template has a ready-to-use theming setup with light and dark themes that can be easily modified to conform to the client's branding. Try to toggle the theme in the top right corner."
+msgstr "Nykyaikana monet käyttäjät odottavat sovelluksen tukevan tummaa tilaa. Tässä templatessa on määriteltynä valmiiksi sekä vaalea että tumma teema, joita pystyy helposti muokkamaan sopimaan asikkaan brändiin. Yritä vaihta teemaa oikeasta yläkulmasta."
+
+#: src/components/navigation/Sidebar.tsx:14
+#: src/routes/home/Home.tsx:64
+#: src/routes/home/index.tsx:10
+msgid "Home"
+msgstr "Koti"
+
+#: src/routes/home/Home.tsx:86
+msgid "In the sidebar you can browse through some example pages. (TODO: add more examples)"
+msgstr "Sivuvalikosta voit selata erinäisiä esimerkkisivuja läpi. (TODO: lisää enemmän esimerkkejä)"
+
+#: src/routes/home/Home.tsx:40
+msgid "Internationalization"
+msgstr "Kielistys"
+
+#: src/routes/login/index.tsx:56
+msgid "Logging in"
+msgstr "Kirjaudutaan sisään"
+
+#: src/components/navigation/Sidebar.tsx:43
+msgid "Logging out"
+msgstr "Kirjaudutaan ulos"
+
+#: src/routes/login/index.tsx:24
+#: src/routes/login/index.tsx:31
+msgid "Login"
+msgstr "Kirjaudu sisään"
+
+#: src/components/navigation/Sidebar.tsx:45
+msgid "Logout"
+msgstr "Kirjaudu ulos"
+
+#: src/routes/home/Home.tsx:41
+msgid "Most apps will require internationalization at some point in their lifetime. This template the necessary setup for multiple languages that are loaded lazily once selected. Try changing the language in the top right corner."
+msgstr "Useimmat sovellukset tarvitsevat kielistystä jossain vaiheessa elinkaartaan. Tämä template tarjoaa tarvittavan perustan laiskasti ladattaville kielistysmääritelmille. Yritä vaihtaa kieltä oikeasta yläkulmasta."
+
+#: src/routes/post-create/PostCreate.tsx:52
+#: src/routes/post-create/index.tsx:13
+msgid "New blog post"
+msgstr "Uusi blogikirjoitus"
+
+#: src/routes/post-create/PostCreate.tsx:41
+msgid "New blog post added"
+msgstr "Uusi blogikirjoitus lisätty"
+
+#: src/routes/home/Home.tsx:56
+msgid "No one likes looking at a blank screen. This template implements a traditional Single-Page-Application which means that the initial JS bundle has to downloaded before the app can render. A nice looking splash screen can be shown until the app is ready to render making the app loading UX more pleasant."
+msgstr "Kukaan ei tykkää katsoa tyhjää ruutua. Tämä template toteuttaa perinteisen Single-Page-Application sovelluksen, missä sivuston alustava koodi täytyy ladata ennen kuin sovellus voidaan renderöidä. Hyvän näköinen aloitusruut parantaa käyttökokemusta, kun se näytetään tyhjän ruudun sijaan sillä aikaa, kun sovelluksen tarvitsema koodi latautuu."
+
+#: src/routes/login/index.tsx:43
+msgid "Password"
+msgstr "Salasana"
+
+#: src/routes/home/Home.tsx:26
+msgid "Practically every app needs to have a way to log in the user. This template provides a barebones authentication setup that should be extended to have a real way to log in the user either with a cookie or JWT based authentication method."
+msgstr "Lähestulkoon jokainen sovellus tarvitsee tavan kirjata käyttäjän sisään sovellukseen. Tässä templatessa on valmiina yksinkertainen perusta autentikaatiolle, mitä täytyy jatkokehittää sovelluksen tarpeiden perusteella."
+
+#: src/components/common/ErrorBoundary.tsx:59
+msgid "Report an error"
+msgstr "Raportoi virhe"
+
+#: src/routes/home/Home.tsx:45
+msgid "Route Preloading"
+msgstr "Sivujen esilataus"
+
+#: src/routes/home/Home.tsx:50
+msgid "Skeleton Placeholders"
+msgstr "Luurankosisältö"
+
+#: src/routes/home/Home.tsx:46
+msgid "Speed is one of the most important aspects of a good UX. This template introduces a pattern for preloading route's data and code-split code in order to make page transitions feel instant."
+msgstr "Nopeus on yksi tärkeimmistä osa-aluista hyvän käyttökokemuksen luomiseksi. Tämä template mahdollistaa sivujen ja niiden datan esilatauksen mahdollistaen erittäin nopealta tuntuvan sivun vaihdoksen"
+
+#: src/routes/home/Home.tsx:51
+msgid "Spinners, so many spinners, everywhere. Traditional Single-Page-Applications usually show spinners while loading data for a given page. Instead of showing simple spinners this template offers a way to implement skeleton placeholders for pages with a cool shimmering effect."
+msgstr "Spinnereitä, spinnereitä kaikkialla. Perinteiset Single-Page-Application sovellukset usein näyttävät latausindikaattoreita sillä aikaa, kun dataa ladataan, Tämä template tarjoaa mahdollisuuden näyttää ns. luurankosisältöä tylsien spinnereiden sijaan hienon shimmer efektin kera."
+
+#: src/routes/home/Home.tsx:55
+msgid "Splash Screen"
+msgstr "Aloitusruutu"
+
+#: src/routes/post-create/PostCreate.tsx:58
+msgid "Subject"
+msgstr "Otsikko"
+
+#: src/routes/login/index.tsx:58
+msgid "Submit"
+msgstr "Lähetä"
+
+#: src/components/navigation/Sidebar.tsx:16
+#: src/routes/theming/Theming.tsx:12
+#: src/routes/theming/index.tsx:13
+msgid "Theming"
+msgstr "Teemoitus"
+
+#: src/routes/home/Home.tsx:72
+msgid "This React app contains the necessary building blocks that you need to get your project started. You can freely alter any aspect of the template to fit your needs better."
+msgstr "Tämä React sovellus toimii alkupisteenä sovelluksesi kehittämiselle. Voit vapaasti muokata tätä templatea sopimaan paremmin omiin tarpeisiisi."
+
+#: src/routes/home/Home.tsx:68
+msgid "Welcome to Taito Fullstack Template!"
+msgstr "Tervetuloa Taito Fullstack Templateen"

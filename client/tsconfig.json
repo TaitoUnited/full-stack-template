@@ -1,43 +1,42 @@
 {
   "compilerOptions": {
-    "outDir": "./build/",
-    "module": "commonjs",
-    "target": "esnext",
-    "noEmit": true,
-    "jsx": "react",
-    "lib": ["esnext", "dom"],
-    "sourceMap": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node",
     "allowJs": true,
-    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "./",
+    "downlevelIteration": true,
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "jsx": "react-jsx",
+    "lib": ["esnext", "dom", "dom.iterable"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noEmit": true,
+    "noFallthroughCasesInSwitch": true,
     "noImplicitAny": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": false,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "baseUrl": "./",
+    "target": "es5",
     "paths": {
-      "~common/*": ["src/common/*"],
-      "~services/*": ["src/common/services/*"],
+      "~constants/*": ["src/constants/*"],
+      "~services/*": ["src/services/*"],
       "~shared/*": ["shared/*"],
-      "~theme": ["src/common/theme"],
-      "~ui": ["src/common/ui/index.ts"],
-      "~utils/*": ["src/common/utils/*"]
-    },
-    "types": [
-      "node",
-      "jest",
-      "react",
-      "react-dom",
-      "react-redux",
-      "react-router-dom",
-      "redux-logger",
-      "styled-components",
-      "query-string"
-    ]
+      "~graphql": ["src/graphql/index.ts"],
+      "~uikit": ["src/components/uikit/index.ts"],
+      "~components/*": ["src/components/*"],
+      "~utils/*": ["src/utils/*"]
+    }
   },
   "include": ["shared", "src"],
-  "exclude": ["node_modules", "build", "jest", "test", "__mocks__", "src/sw.js"]
+  "exclude": [
+    "node_modules",
+    "assets",
+    "build",
+    "test",
+    ".storybook",
+    "__mocks__"
+  ]
 }

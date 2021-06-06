@@ -1,18 +1,14 @@
 import './index.css';
 
-import React from 'react';
 import ReactDOM from 'react-dom';
 
+import App from './App';
 import * as serviceWorker from './serviceWorker';
-import errorReporting from './common/services/reporting';
-import Root from './Root';
+import { setupErrorReporting } from '~services/reporting';
 
-errorReporting.setup();
+setupErrorReporting();
 
-// Where to mount on page
-const appElement = document.getElementById('app');
-
-ReactDOM.render(<Root />, appElement);
+ReactDOM.render(<App />, document.getElementById('app'));
 
 // NOTE: Service Worker is enabled only in production builds
 // NOTE: check `serviceWorker.ts` if you want to use automatic app update propmt

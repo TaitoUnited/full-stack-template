@@ -15,5 +15,6 @@ ENV NODE_ENV development
 RUN npm install --loglevel warn
 
 ENV DEV_PORT 8080
-EXPOSE 8080
+# Expose 8081 for webpack lazy compilation's http server
+EXPOSE 8080 8081
 CMD npm install; npm run start

@@ -1,3 +1,6 @@
-./static/
+assets/
+shared/
+__mocks__/
+src/graphql/generated.ts
 webpack.*.js
-index.root.js
+jest.config.js

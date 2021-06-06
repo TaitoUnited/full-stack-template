@@ -152,18 +152,17 @@ export const CreatePostDocument = gql`
 }
     `;
 
-export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string) => Promise<T>;
+export type SdkFunctionWrapper = <T>(action: () => Promise<T>) => Promise<T>;
 
 
-const defaultWrapper: SdkFunctionWrapper = (action, _operationName) => action();
-
+const defaultWrapper: SdkFunctionWrapper = sdkFunction => sdkFunction();
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
     readPosts(variables?: ReadPostsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<ReadPostsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<ReadPostsQuery>(ReadPostsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'readPosts');
+      return withWrapper(() => client.request<ReadPostsQuery>(ReadPostsDocument, variables, requestHeaders));
     },
     createPost(variables: CreatePostMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreatePostMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<CreatePostMutation>(CreatePostDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createPost');
+      return withWrapper(() => client.request<CreatePostMutation>(CreatePostDocument, variables, requestHeaders));
     }
   };
 }
