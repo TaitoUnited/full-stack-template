@@ -2,6 +2,7 @@
 # Permisisions
 # ----------------------------------------------------------
 
+# NOTE: On Azure use object id: user:2222222b-123b-123c-123d-1e2345a6c7e8
 settings:
   namespace:
     roles:
