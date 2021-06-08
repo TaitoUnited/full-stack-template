@@ -18,6 +18,7 @@ jobs:
     timeout-minutes: 50
     container:
       image: ${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+      options: --privileged -v /etc/hosts:/tmp/etchosts # For VPN
       env:
         taito_mode: ci
         taito_image: ${_TEMPLATE_DEFAULT_TAITO_IMAGE}
@@ -47,16 +48,19 @@ jobs:
             echo "AZURE_CLIENT_SECRET=${{ secrets[format('{0}_AZURE_CLIENT_SECRET', env.BRANCH)] }}" >> $GITHUB_ENV
           fi # END AZURE_CLIENT_ID
 
-      # Prepare build
-      - run: taito build prepare:$BRANCH $IMAGE_TAG
-
-      # Prepare artifacts for deployment
-      # TODO: Should be run parallel
-      - run: taito artifact prepare:admin:$BRANCH $IMAGE_TAG
-      - run: taito artifact prepare:client:$BRANCH $IMAGE_TAG
-      - run: taito artifact prepare:server:$BRANCH $IMAGE_TAG
-      - run: taito artifact prepare:worker:$BRANCH $IMAGE_TAG
-      - run: taito artifact prepare:www:$BRANCH $IMAGE_TAG
+      # Configure Kubernetes API
+      - name: Set Kubernetes API host if BRANCH_KUBE_API_HOST and BRANCH_KUBE_API_IP configured
+        env:
+          KUBE_API_HOST: ${{ secrets['KUBE_API_HOST'] }}
+          KUBE_API_IP: ${{ secrets['KUBE_API_IP'] }}
+          BRANCH_KUBE_API_HOST: ${{ secrets[format('{0}_KUBE_API_HOST', env.BRANCH)] }}
+          BRANCH_KUBE_API_IP: ${{ secrets[format('{0}_KUBE_API_IP', env.BRANCH)] }}
+        run: |
+          if [ ! -z "${BRANCH_KUBE_API_HOST}" ]; then
+            echo "${BRANCH_KUBE_API_IP} ${BRANCH_KUBE_API_HOST}" >> /tmp/etchosts
+          elif [ ! -z "${KUBE_API_HOST}" ]; then
+            echo "${KUBE_API_IP} ${KUBE_API_HOST}" >> /tmp/etchosts
+          fi
 
       # Start VPN
       - name: Start VPN if BRANCH_OVPN_FILE and BRANCH_OVPN_PASSWORD configured
@@ -67,19 +71,32 @@ jobs:
           BRANCH_OVPN_PASSWORD: ${{ secrets[format('{0}_OVPN_PASSWORD', env.BRANCH)] }}
         run: |
           mkdir -p tmp
-          echo "$OVPN_FILE" > tmp/vpn.ovpn
-          echo "$OVPN_PASSWORD" > tmp/vpn.password
-          echo "$BRANCH_OVPN_FILE" > tmp/branch-vpn.ovpn
-          echo "$BRANCH_OVPN_PASSWORD" > tmp/branch-vpn.password
-          if grep client tmp/branch-vpn.ovpn > /dev/null; then
-            echo "askpass tmp/branch-vpn.password" >> tmp/branch-vpn.ovpn
-            openvpn --daemon --config tmp/branch-vpn.ovpn
-            sleep 10
-          elif grep client tmp/vpn.ovpn > /dev/null; then
+          if [ ! -z "${BRANCH_OVPN_PASSWORD}" ]; then
+            echo "Starting VPN using BRANCH_OVPN_FILE"
+            echo "$BRANCH_OVPN_FILE" > tmp/vpn.ovpn
+            echo "$BRANCH_OVPN_PASSWORD" > tmp/vpn.password
+          elif [ ! -z "${OVPN_PASSWORD}" ]; then
+            echo "Starting VPN using OVPN_FILE"
+            echo "$OVPN_FILE" > tmp/vpn.ovpn
+            echo "$OVPN_PASSWORD" > tmp/vpn.password
+          fi
+          if [ -f tmp/vpn.ovpn ]; then
             echo "askpass tmp/vpn.password" >> tmp/vpn.ovpn
             openvpn --daemon --config tmp/vpn.ovpn
+            echo "Sleeping 10 seconds"
             sleep 10
           fi
+
+      # Prepare build
+      - run: taito build prepare:$BRANCH $IMAGE_TAG
+
+      # Prepare artifacts for deployment
+      # TODO: Should be run parallel
+      - run: taito artifact prepare:admin:$BRANCH $IMAGE_TAG
+      - run: taito artifact prepare:client:$BRANCH $IMAGE_TAG
+      - run: taito artifact prepare:server:$BRANCH $IMAGE_TAG
+      - run: taito artifact prepare:worker:$BRANCH $IMAGE_TAG
+      - run: taito artifact prepare:www:$BRANCH $IMAGE_TAG
 
       # Deploy changes to target environment
       - run: taito db deploy:$BRANCH

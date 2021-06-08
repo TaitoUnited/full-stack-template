@@ -508,7 +508,7 @@ else
 fi
 
 # VPN overrides
-if [[ ${taito_vpn_enabled} == "true" ]]; then
+if [[ ${taito_vpn_enabled} == "true" ]] && [[ ${taito_env} != "local" ]]; then
   kubernetes_db_proxy_enabled=false
   if [[ $db_database_type == "pg" ]]; then
     db_database_host="${default_postgres_host}"

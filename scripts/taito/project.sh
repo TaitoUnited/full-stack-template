@@ -45,6 +45,9 @@ st_bucket_name="$taito_random_name-$taito_env"
 # EXAMPLE:
 # db_bidb_name=${taito_project//-/_}_bidb_${taito_env}
 # db_bidb_port=5001
+# if [[ ${taito_env} == "local" ]] || [[ ${taito_vpn_enabled} == "true" ]]; then
+#   db_bidb_port=6000
+# fi
 # db_bidb_mgr_username="${db_bidb_name}${db_database_username_suffix}"
 # db_bidb_mgr_secret="${db_bidb_name//_/-}-db-mgr.password"
 # db_bidb_app_username="${db_bidb_name}${db_database_app_user_suffix}${db_database_username_suffix}"
