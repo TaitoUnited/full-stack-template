@@ -5,11 +5,11 @@ let db: IDatabase<Record<string, unknown>> | null = null;
 
 const camelizeColumns = (data: any) => {
   const template = data[0];
-  for (let prop in template) {
+  for (const prop in template) {
     const camel = pgpInit.utils.camelize(prop);
     if (!(camel in template)) {
       for (let i = 0; i < data.length; i++) {
-        let d = data[i];
+        const d = data[i];
         d[camel] = d[prop];
         delete d[prop];
       }
