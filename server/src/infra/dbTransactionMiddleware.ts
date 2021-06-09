@@ -13,7 +13,8 @@ const readWriteMode = new txMode.TransactionMode({
 
 const isGraphQLQuery = (request: Request) => {
   return (
-    request.url === '/' && (request.body?.query || '').startsWith('query ')
+    request.url === '/' &&
+    ((request.body as Record<string, any>)?.query || '').startsWith('query ')
   );
 };
 
