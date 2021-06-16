@@ -290,6 +290,7 @@ function prune () {
         sed -i "s/POSTGRES_DB/MYSQL_DATABASE/g" docker-*.yaml
         sed -i "s/POSTGRES_USER/MYSQL_USER/g" docker-*.yaml
         sed -i "s/POSTGRES_PASSWORD_FILE/MYSQL_PASSWORD_FILE/g" docker-*.yaml
+        rm -f database/sqitch-init.sql
       else
         sed -i '/MYSQL_/d' docker-*.yaml
         sed -i "/DATABASE_MGR_PASSWORD/d" docker-compose-remote.yaml
