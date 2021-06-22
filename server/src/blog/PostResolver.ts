@@ -63,7 +63,7 @@ class PostResolver {
   @Authorized()
   @Mutation(() => Post, { description: 'Creates a new post.' })
   async createPost(@Ctx() ctx: Context, @Arg('input') input: CreatePostInput) {
-    await this.postService.create(ctx.state, input);
+    return await this.postService.create(ctx.state, input);
   }
 
   @Authorized()

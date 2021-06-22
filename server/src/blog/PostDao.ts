@@ -65,7 +65,7 @@ export class PostDao {
     );
   }
 
-  public async create(db: Db, post: CreatePostInput) {
+  public async create(db: Db, post: CreatePostInput): Promise<Post> {
     return await db.one(
       `
         INSERT INTO post (${insertColumnNames})
@@ -76,7 +76,7 @@ export class PostDao {
     );
   }
 
-  public async update(db: Db, post: UpdatePostInput) {
+  public async update(db: Db, post: UpdatePostInput): Promise<Post> {
     const parameterAssignments = getParameterAssignments(
       createPostExample,
       post
@@ -95,7 +95,7 @@ export class PostDao {
     );
   }
 
-  public async delete(db: Db, post: DeletePostInput) {
+  public async delete(db: Db, post: DeletePostInput): Promise<String> {
     await db.one(
       `
         DELETE FROM post
