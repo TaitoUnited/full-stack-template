@@ -235,7 +235,7 @@ full-stack:
           schedule: "30 2 * * *"
           concurrencyPolicy: Forbid # Forbid or Allow
           args:
-            - ./execute.sh
+            - ./cli.sh
             - createPost
           secret:
             JOB_SECRET: ${taito_project}-${taito_env}-job.secret

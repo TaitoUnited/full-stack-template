@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { Container } from 'typedi';
 import getDb from './common/setup/db';
 import { PostDao } from './blog/PostDao';
-import { CreatePostInput } from '../shared/types/blog';
+import { CreatePostInput } from './blog/types';
 
 // ------------------------------------------------------------------
 // CLI commands for cronjobs, etc.
@@ -27,7 +27,7 @@ const createPost = async (
     author: author || 'example author,',
     content: content || 'example content',
   };
-  postDao.createPost(db, post);
+  postDao.create(db, post);
   console.log('New post created.');
 };
 
