@@ -1,9 +1,9 @@
 import { buildSchemaSync } from 'type-graphql';
 import { ApolloServer } from 'apollo-server-koa';
 import { Container } from 'typedi';
-import config from './common/config';
-import log from './common/log';
-import authChecker from './common/auth';
+import config from './common/setup/config';
+import log from './common/setup/log';
+import authChecker from './common/setup/auth';
 
 // GraphQL schema
 const schema = buildSchemaSync({

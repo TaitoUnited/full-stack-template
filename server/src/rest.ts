@@ -2,7 +2,7 @@ import { Context } from 'koa';
 import router from 'koa-joi-router';
 import { Container } from 'typedi';
 
-import config from './common/config';
+import config from './common/setup/config';
 import createApiDocumentation from './infra/createApiDocumentation';
 import InfraRouter from './infra/InfraRouter';
 import { PostRouter } from './blog/PostRouter';

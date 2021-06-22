@@ -4,7 +4,7 @@ import {
   InputType,
   ObjectType,
   registerEnumType,
-} from "type-graphql";
+} from 'type-graphql';
 
 @InputType()
 export class Pagination {
@@ -26,37 +26,52 @@ export function Paginated<T>(res: ClassType<T>) {
   })
   abstract class Paginated {
     constructor({ total, data }: { total: number; data: T[] }) {
-      this.data = data;
       this.total = total;
+      this.data = data;
     }
-
-    @Field(() => [res])
-    data: T[];
 
     @Field()
     total: number;
+
+    @Field(() => [res])
+    data: T[];
   }
 
   return Paginated;
 }
 
 export enum FilterType {
-  LIKE = "like",
-  EXACT = "exact",
+  EQ = 'EQ',
+  NEQ = 'NEQ',
+  GT = 'GT',
+  GTE = 'GTE',
+  LT = 'LT',
+  LTE = 'LTE',
+  LIKE = 'LIKE',
+  ILIKE = 'ILIKE',
+}
+
+export enum FilterOperator {
+  AND = 'AND',
+  OR = 'OR',
 }
 
 export enum ValueType {
-  TEXT = "text",
-  NUMBER = "float",
-  DATE = "datetime",
+  TEXT = 'TEXT',
+  NUMBER = 'FLOAT',
+  DATE = 'DATE',
 }
 
 registerEnumType(FilterType, {
-  name: "FilterType",
+  name: 'FilterType',
+});
+
+registerEnumType(FilterOperator, {
+  name: 'FilterOperator',
 });
 
 registerEnumType(ValueType, {
-  name: "ValueType",
+  name: 'ValueType',
 });
 
 @InputType()
@@ -68,11 +83,13 @@ export class Filter<
     itemType: ClassType<Item>,
     type: FilterType,
     field: Key,
-    value: Item[Key]
+    value: Item[Key],
+    valueType: ValueType
   ) {
     this.type = type;
     this.field = field;
     this.value = value;
+    this.valueType = valueType;
   }
 
   @Field(() => FilterType)
@@ -98,27 +115,33 @@ export class Filter<
   valueType: ValueType;
 }
 
+@InputType()
+export class FilterGroup<Item extends Record<string, any>> {
+  constructor(
+    itemType: ClassType<Item>,
+    operator: FilterOperator,
+    filters: Filter<Item>[]
+  ) {
+    this.operator = operator;
+    this.filters = filters;
+  }
+
+  @Field(() => FilterOperator)
+  operator: FilterOperator;
+
+  @Field(() => [Filter])
+  filters: Filter<Item>[];
+}
+
 export enum OrderDirection {
-  DESC = "desc",
-  ASC = "asc",
+  DESC = 'DESC',
+  ASC = 'ASC',
 }
 
 registerEnumType(OrderDirection, {
-  name: "OrderDirection",
+  name: 'OrderDirection',
 });
 
-/*
-  NOTE: maybe should make this into a function returning a class
-  i.e. the usage would be somthing like
-
-  enum CustomerField {
-    id = 'id',
-    name = 'name'
-  }
-
-  ...
-  @Field(() => Order(CustomerField))
-*/
 @InputType()
 export class Order {
   constructor(dir: OrderDirection, field: string) {

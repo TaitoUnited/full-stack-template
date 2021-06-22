@@ -1,7 +1,12 @@
 import { Context } from 'koa';
 import { Service } from 'typedi';
-import { Pagination, Filter, Order } from '../../shared/types/common';
-import { Post, CreatePostInput } from '../../shared/types/blog';
+import { Pagination, FilterGroup, Order } from '../common/schema/search';
+import {
+  Post,
+  CreatePostInput,
+  UpdatePostInput,
+  DeletePostInput,
+} from './types';
 import { PostDao } from './PostDao';
 
 // TODO: add support for @Authorized annotation on service level
@@ -10,18 +15,40 @@ import { PostDao } from './PostDao';
 export class PostService {
   constructor(private postDao: PostDao) {}
 
-  public async readPosts(
+  public async search(
     state: Context['state'],
-    pagination: Pagination,
-    filters: Filter<Post>[],
-    order: Order
+    search: string | null,
+    filterGroups: FilterGroup<Post>[],
+    order: Order,
+    pagination: Pagination
   ) {
     // NOTE: Add user right checks and business logic here
-    return this.postDao.readPosts(state.tx, pagination, filters, order);
+    return this.postDao.search(
+      state.tx,
+      search,
+      filterGroups,
+      order,
+      pagination
+    );
   }
 
-  public async createPost(state: Context['state'], post: CreatePostInput) {
+  public async read(state: Context['state'], id: string) {
     // NOTE: Add user right checks and business logic here
-    return this.postDao.createPost(state.tx, post);
+    return this.postDao.read(state.tx, id);
+  }
+
+  public async create(state: Context['state'], post: CreatePostInput) {
+    // NOTE: Add user right checks and business logic here
+    return this.postDao.create(state.tx, post);
+  }
+
+  public async update(state: Context['state'], post: UpdatePostInput) {
+    // NOTE: Add user right checks and business logic here
+    return this.postDao.update(state.tx, post);
+  }
+
+  public async delete(state: Context['state'], post: DeletePostInput) {
+    // NOTE: Add user right checks and business logic here
+    return this.postDao.delete(state.tx, post);
   }
 }

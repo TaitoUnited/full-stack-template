@@ -1,9 +1,9 @@
 import { Context } from 'koa';
 import { Joi } from 'koa-joi-router';
 import { Service } from 'typedi';
-import { Pagination, Order, OrderDirection } from '../../shared/types/common';
-import BaseRouter from '../common/BaseRouter';
-import { ItemSchema } from '../common/rest.schema';
+import { Pagination, Order, OrderDirection } from '../common/schema/search';
+import BaseRouter from '../common/setup/BaseRouter';
+import { ItemSchema } from '../common/schema/rest';
 import { PostService } from './PostService';
 
 const BasePostSchema = Joi.object({
@@ -31,7 +31,7 @@ export class PostRouter extends BaseRouter {
       method: 'get',
       path: '/',
       documentation: {
-        description: 'List all posts',
+        description: 'Search posts',
       },
       validate: {
         output: {
@@ -44,12 +44,13 @@ export class PostRouter extends BaseRouter {
         },
       },
       handler: async (ctx: Context) => {
-        const data = await this.postService.readPosts(
+        const data = await this.postService.search(
           ctx.state,
-          // TODO: pagination, filters, order
-          new Pagination(0, 50),
+          // TODO: search, filters, order, pagination
+          '',
           [],
-          new Order(OrderDirection.DESC, 'createdAt')
+          new Order(OrderDirection.DESC, 'createdAt'),
+          new Pagination(0, 50)
         );
 
         ctx.response.body = {
@@ -79,7 +80,7 @@ export class PostRouter extends BaseRouter {
         },
       },
       handler: async (ctx: Context) => {
-        const data = await this.postService.createPost(
+        const data = await this.postService.create(
           ctx.state,
           ctx.request.body.data
         );

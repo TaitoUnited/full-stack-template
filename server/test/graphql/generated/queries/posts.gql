@@ -1,0 +1,13 @@
+query posts($filterGroups: [FilterGroup!], $order: Order, $pagination: Pagination, $search: String) {
+    posts(filterGroups: $filterGroups, order: $order, pagination: $pagination, search: $search){
+        data{
+            author
+            content
+            createdAt
+            id
+            subject
+            updatedAt
+        }
+        total
+    }
+}

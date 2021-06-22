@@ -1,8 +1,5 @@
 {
   "name": "full-stack-template-shared",
   "private": true,
-  "dependencies": {
-    "graphql": "^15.5.0",
-    "type-graphql": "^1.1.1"
-  }
+  "dependencies": {}
 }

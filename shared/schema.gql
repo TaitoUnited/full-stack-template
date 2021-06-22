@@ -14,6 +14,10 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 """
 scalar DateTime
 
+input DeletePostInput {
+  id: String!
+}
+
 input Filter {
   field: String!
   type: FilterType!
@@ -23,14 +27,36 @@ input Filter {
   valueType: ValueType = TEXT
 }
 
+input FilterGroup {
+  filters: [Filter!]!
+  operator: FilterOperator!
+}
+
+enum FilterOperator {
+  AND
+  OR
+}
+
 enum FilterType {
-  EXACT
+  EQ
+  GT
+  GTE
+  ILIKE
   LIKE
+  LT
+  LTE
+  NEQ
 }
 
 type Mutation {
   """Creates a new post."""
   createPost(input: CreatePostInput!): Post!
+
+  """Deletes a post."""
+  deletePost(input: DeletePostInput!): String!
+
+  """Updates a post."""
+  updatePost(input: UpdatePostInput!): Post!
 }
 
 input Order {
@@ -63,8 +89,18 @@ type Post {
 }
 
 type Query {
-  """Returns posts."""
-  posts(filters: [Filter!] = [], order: Order = {dir: DESC, field: "createdAt"}, pagination: Pagination = {limit: 50, offset: 0}): PaginatedPosts!
+  """Reads a post."""
+  post(id: String!): Post
+
+  """Searches posts."""
+  posts(filterGroups: [FilterGroup!] = [], order: Order = {dir: DESC, field: "createdAt"}, pagination: Pagination = {limit: 50, offset: 0}, search: String = null): PaginatedPosts!
+}
+
+input UpdatePostInput {
+  author: String
+  content: String
+  id: String!
+  subject: String
 }
 
 enum ValueType {

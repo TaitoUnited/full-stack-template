@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/node';
 
-import config from '../common/config';
-import log from '../common/log';
+import config from '../common/setup/config';
+import log from '../common/setup/log';
 
 export default function initSentry() {
   if (config.NODE_ENV === 'development') {

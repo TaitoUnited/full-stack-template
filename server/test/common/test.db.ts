@@ -1,5 +1,5 @@
 import pgpInit, { IDatabase } from 'pg-promise';
-import { getDatabaseSSL } from '../../src/common/config';
+import { getDatabaseSSL } from '../../src/common/setup/config';
 import getTestConfig from './test.config';
 
 let testDb: IDatabase<Record<string, unknown>> | null = null;

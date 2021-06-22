@@ -1,67 +1,110 @@
 import { Service } from 'typedi';
-import { Db } from '../common/types';
-import { createFilterFragment, createOrderFragment } from '../common/dao.utils';
-import { Pagination, Filter, Order } from '../../shared/types/common';
-import { Post, PaginatedPosts, CreatePostInput } from '../../shared/types/blog';
+import { Db } from '../common/setup/types';
+import {
+  searchFromTable,
+  getColumnNames,
+  getParameterNames,
+  getParameterAssignments,
+  getParameterValues,
+} from '../common/utils/db';
+import { Pagination, FilterGroup, Order } from '../common/schema/search';
+import {
+  Post,
+  PaginatedPosts,
+  CreatePostInput,
+  UpdatePostInput,
+  DeletePostInput,
+  postExample,
+  createPostExample,
+} from './types';
+
+const selectColumnNames = getColumnNames(postExample);
+const insertColumnNames = getColumnNames(createPostExample);
+const insertParameterNames = getParameterNames(createPostExample);
 
 @Service()
 export class PostDao {
-  private tableColumns = [
-    'id',
-    'created_at',
-    'updated_at',
-    'subject',
-    'content',
-    'author',
-  ]
-    .map((column) => `post.${column}`)
-    .join(', ');
-
-  public async readPosts(
+  public async search(
     db: Db,
-    pagination: Pagination,
-    filters: Filter<Post>[],
-    order: Order
+    search: string | null,
+    filterGroups: FilterGroup<Post>[],
+    order: Order,
+    pagination: Pagination
   ): Promise<PaginatedPosts> {
-    // TODO: check these implementations are ok (no SQL injection)
-    const filterFragment = createFilterFragment(filters);
-    const orderFragment = createOrderFragment(order, 'post');
-
-    const count = await db.one(`select count(id) from post ${filterFragment}`);
-
-    const data = await db.any(
+    let searchFragment = search
+      ? `
+        AND (
+          subject ILIKE concat('%', $[search], '%')
+          OR content ILIKE concat('%', $[search], '%')
+          OR author ILIKE concat('%', $[search], '%')
+        )
       `
-        SELECT ${this.tableColumns}
-        FROM post
-        ${filterFragment} ${orderFragment}
-        offset $(offset) limit $(limit)
-      `,
-      {
-        ...pagination,
-      }
-    );
+      : '';
 
-    return {
-      total: Number(count.count),
-      data,
-    };
+    return searchFromTable(
+      'post',
+      db,
+      search,
+      filterGroups,
+      order,
+      pagination,
+      searchFragment,
+      selectColumnNames
+    );
   }
 
-  public async createPost(db: Db, post: CreatePostInput) {
+  public async read(db: Db, id: string): Promise<Post | null> {
+    return await db.oneOrNone(
+      `
+        SELECT ${selectColumnNames} FROM post
+        WHERE id = $[id]
+      `,
+      {
+        id: 'd52fbdc3-8ab4-4fdf-a913-e046267d10eb',
+      }
+    );
+  }
+
+  public async create(db: Db, post: CreatePostInput) {
     return await db.one(
       `
-        INSERT INTO post (
-          subject,
-          content,
-          author
-        ) VALUES (
-          $[subject],
-          $[content],
-          $[author]
-        )
-        RETURNING ${this.tableColumns}
+        INSERT INTO post (${insertColumnNames})
+        VALUES (${insertParameterNames})
+        RETURNING ${selectColumnNames}
       `,
+      getParameterValues(createPostExample, post)
+    );
+  }
+
+  public async update(db: Db, post: UpdatePostInput) {
+    const parameterAssignments = getParameterAssignments(
+      createPostExample,
       post
     );
+    return await db.one(
+      `
+        UPDATE post
+        SET ${parameterAssignments}
+        WHERE id = $[id]
+        RETURNING ${selectColumnNames}
+      `,
+      {
+        id: post.id,
+        ...getParameterValues(createPostExample, post),
+      }
+    );
+  }
+
+  public async delete(db: Db, post: DeletePostInput) {
+    await db.one(
+      `
+        DELETE FROM post
+        WHERE id = $[id]
+      `,
+      {
+        id: post.id,
+      }
+    );
+    return post.id;
   }
 }

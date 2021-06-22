@@ -1,4 +1,4 @@
-import config, { readSecret } from '../../src/common/config';
+import config, { readSecret } from '../../src/common/setup/config';
 
 let testConfig: any = null;
 

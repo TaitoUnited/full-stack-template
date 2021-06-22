@@ -1,0 +1,10 @@
+mutation deletePost($input: DeletePostInput!) {
+    deletePost(input: $input){
+        author
+        content
+        createdAt
+        id
+        subject
+        updatedAt
+    }
+}

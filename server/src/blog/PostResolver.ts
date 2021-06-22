@@ -3,11 +3,17 @@ import Container, { Service } from 'typedi';
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import {
   Pagination,
-  Filter,
+  FilterGroup,
   Order,
   OrderDirection,
-} from '../../shared/types/common';
-import { Post, PaginatedPosts, CreatePostInput } from '../../shared/types/blog';
+} from '../common/schema/search';
+import {
+  Post,
+  PaginatedPosts,
+  CreatePostInput,
+  UpdatePostInput,
+  DeletePostInput,
+} from './types';
 import { PostService } from './PostService';
 
 /**
@@ -19,33 +25,56 @@ class PostResolver {
   constructor(private readonly postService = Container.get(PostService)) {}
 
   @Authorized()
-  @Query(() => PaginatedPosts, { description: 'Returns posts.' })
+  @Query(() => PaginatedPosts, { description: 'Searches posts.' })
   async posts(
     @Ctx() ctx: Context,
-    @Arg('pagination', () => Pagination, {
-      defaultValue: new Pagination(0, 50),
+    @Arg('search', () => String, {
+      defaultValue: null,
     })
-    pagination: Pagination,
-    @Arg('filters', () => [Filter], {
+    search: string,
+    @Arg('filterGroups', () => [FilterGroup], {
       defaultValue: [],
     })
-    filters: Filter<Post>[],
+    filterGroups: FilterGroup<Post>[],
     @Arg('order', () => Order, {
       defaultValue: new Order(OrderDirection.DESC, 'createdAt'),
     })
-    order: Order
+    order: Order,
+    @Arg('pagination', () => Pagination, {
+      defaultValue: new Pagination(0, 50),
+    })
+    pagination: Pagination
   ) {
-    return await this.postService.readPosts(
+    return await this.postService.search(
       ctx.state,
-      pagination,
-      filters,
-      order
+      search,
+      filterGroups,
+      order,
+      pagination
     );
+  }
+
+  @Authorized()
+  @Query(() => Post, { description: 'Reads a post.', nullable: true })
+  async post(@Ctx() ctx: Context, @Arg('id', () => String) id: string) {
+    return await this.postService.read(ctx.state, id);
   }
 
   @Authorized()
   @Mutation(() => Post, { description: 'Creates a new post.' })
   async createPost(@Ctx() ctx: Context, @Arg('input') input: CreatePostInput) {
-    return await this.postService.createPost(ctx.state, input);
+    await this.postService.create(ctx.state, input);
+  }
+
+  @Authorized()
+  @Mutation(() => Post, { description: 'Updates a post.' })
+  async updatePost(@Ctx() ctx: Context, @Arg('input') input: UpdatePostInput) {
+    return await this.postService.update(ctx.state, input);
+  }
+
+  @Authorized()
+  @Mutation(() => String, { description: 'Deletes a post.' })
+  async deletePost(@Ctx() ctx: Context, @Arg('input') input: DeletePostInput) {
+    return await this.postService.delete(ctx.state, input);
   }
 }

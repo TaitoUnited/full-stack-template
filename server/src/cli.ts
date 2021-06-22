@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import { Container } from 'typedi';
-import getDb from './common/db';
+import getDb from './common/setup/db';
 import { PostDao } from './blog/PostDao';
 import { CreatePostInput } from '../shared/types/blog';
 
