@@ -160,10 +160,10 @@ function prune () {
         sed -i '/pg-promise/d' ./server/package.json &> /dev/null || :
         sed -i '/types\\pg/d' ./server/package.json &> /dev/null || :
         sed -i '/db/d' ./server/src/server.ts &> /dev/null || :
-        sed -i '/Db/d' ./server/src/common/types.ts &> /dev/null || :
-        sed -i '/Database/d' ./server/src/common/types.ts &> /dev/null || :
+        sed -i '/Db/d' ./server/src/common/setup/types.ts &> /dev/null || :
+        sed -i '/Database/d' ./server/src/common/setup/types.ts &> /dev/null || :
         sed -i '/state.db/d' ./server/src/infra/InfraRouter.ts &> /dev/null || :
-        rm -f ./server/src/common/db.ts &> /dev/null || :
+        rm -f ./server/src/common/setup/db.ts &> /dev/null || :
       fi
     fi
 
@@ -178,10 +178,10 @@ function prune () {
 
       # Remove redis from server implementation
       # TODO: works only for the default Node.js server implementation
-      if [[ -f ./server/src/common/config.ts ]]; then
-        sed -i '/Redis/d' ./server/src/common/config.ts &> /dev/null || :
-        sed -i '/REDIS_/d' ./server/src/common/config.ts &> /dev/null || :
-        sed -i '/6379/d' ./server/src/common/config.ts &> /dev/null || :
+      if [[ -f ./server/src/common/setup/config.ts ]]; then
+        sed -i '/Redis/d' ./server/src/common/setup/config.ts &> /dev/null || :
+        sed -i '/REDIS_/d' ./server/src/common/setup/config.ts &> /dev/null || :
+        sed -i '/6379/d' ./server/src/common/setup/config.ts &> /dev/null || :
       fi
     fi
 
@@ -205,12 +205,12 @@ function prune () {
           sed -i '/aws-sdk/d' ./server/package.json &> /dev/null || :
         fi
         sed -i '/storage/d' ./server/src/server.ts &> /dev/null || :
-        sed -i '/storage/d' ./server/src/common/types.ts &> /dev/null || :
-        sed -i '/Storage/d' ./server/src/common/config.ts &> /dev/null || :
-        sed -i '/BUCKET_/d' ./server/src/common/config.ts &> /dev/null || :
+        sed -i '/storage/d' ./server/src/common/setup/types.ts &> /dev/null || :
+        sed -i '/Storage/d' ./server/src/common/setup/config.ts &> /dev/null || :
+        sed -i '/BUCKET_/d' ./server/src/common/setup/config.ts &> /dev/null || :
         sed -i '/storage/d' ./server/src/infra/InfraRouter.ts &> /dev/null || :
         sed -i '/storage/d' ./server/src/types/koa.d.ts &> /dev/null || :
-        rm -f ./server/src/common/storage.ts &> /dev/null || :
+        rm -f ./server/src/common/setup/storage.ts &> /dev/null || :
       fi
     fi
 
@@ -389,9 +389,9 @@ fi
 
 if [[ ${taito_provider} != "aws" ]]; then
   # Remove AWS specific stuff from implementation
-  if [[ -d ./server ]] && [[ -f ./server/src/common/config.ts ]]; then
-    sed -i '/aws/d' ./server/src/common/config.ts
-    sed -i '/prettier-ignore/d' ./server/src/common/config.ts
+  if [[ -d ./server ]] && [[ -f ./server/src/common/setup/config.ts ]]; then
+    sed -i '/aws/d' ./server/src/common/setup/config.ts
+    sed -i '/prettier-ignore/d' ./server/src/common/setup/config.ts
   fi
 fi
 
