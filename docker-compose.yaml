@@ -51,9 +51,9 @@ services:
       - default
     ports:
       - "8080"
-      - "127.0.0.1:8081:8081"
+      - "127.0.0.1:9998:9998"
     sysctls:
-      net.ipv4.ip_local_port_range: "8081 8081" # Enforce all random http ports to be 8081 (used in webpack lazy compilation)
+      net.ipv4.ip_local_port_range: "9998 9998" # Enforce all random http ports to be 9998 (used in webpack lazy compilation)
     volumes:
       - "./client:/develop:delegated"
       - "./shared:/develop/shared:delegated"

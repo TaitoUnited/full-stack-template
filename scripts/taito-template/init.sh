@@ -98,6 +98,7 @@ function prune () {
 
     sed -i "/:$name\":/d" package.json
     sed -i "s/install-all:$name //g" package.json
+    sed -i "s/generate:$name //g" package.json
     sed -i "s/lint:$name //g" package.json
     sed -i "s/unit:$name //g" package.json
     sed -i "s/test:$name //g" package.json
@@ -412,6 +413,9 @@ if [[ ! $ingress_port ]]; then ingress_port=$(shuf -i 8000-9999 -n 1); fi
 if [[ ! $db_port ]]; then db_port=$(shuf -i 6000-7999 -n 1); fi
 if [[ ! $www_port ]]; then www_port=$(shuf -i 5000-5999 -n 1); fi
 if [[ ! $server_debug_port ]]; then server_debug_port=$(shuf -i 4000-4999 -n 1); fi
+if [[ ! $client_compile_port ]]; then client_compile_port=$(shuf -i 3000-3999 -n 1); fi
+sed -i "s/9998/${client_compile_port}/g" \
+  docker-compose.yaml &> /dev/null || :
 sed -i "s/4229/${server_debug_port}/g" \
   docker-compose.yaml \
   scripts/taito/project.sh scripts/taito/env-local.sh \

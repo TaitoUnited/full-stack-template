@@ -16,6 +16,8 @@ export www_port
 www_port=$(get_randomized_port ":8080\"")
 export server_debug_port
 server_debug_port=$(get_randomized_port ":9229\"")
+export client_compile_port
+client_compile_port=$(get_randomized_port ":9998\"") # TODO: original has also been replaced
 
 ${taito_setv:-}
 ./scripts/taito-template/init.sh
