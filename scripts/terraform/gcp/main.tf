@@ -118,13 +118,13 @@ locals {
               name = "taito-developer"
               id = "taito-developer-for-${var.taito_project}-${var.taito_env}-cicd"
               namespace = null
-              subjects = [ "user:${module.azure.cicd_service_principal_object_id}" ]
+              subjects = [ "user:${module.gcp.cicd_service_principal_object_id}" ]
             },
             {
               name = "taito-secret-viewer"
               id = "taito-secret-viewer-for-${var.taito_project}-${var.taito_env}-cicd"
               namespace = "common"
-              subjects = [ "user:${module.azure.cicd_service_principal_object_id}" ]
+              subjects = [ "user:${module.gcp.cicd_service_principal_object_id}" ]
             },
         ]
         : [],
@@ -136,7 +136,7 @@ locals {
                 name = "taito-proxyer"
                 id = "taito-proxyer-for-${var.taito_project}-${var.taito_env}-cicd"
                 namespace = "db-proxy"
-                subjects = [ "user:${module.azure.cicd_service_principal_object_id}" ]
+                subjects = [ "user:${module.gcp.cicd_service_principal_object_id}" ]
               },
           ]
           : [],
@@ -146,7 +146,7 @@ locals {
 
 module "gcp" {
   source  = "TaitoUnited/project-resources/google"
-  version = "3.2.0"
+  version = "3.1.0"
 
   # TODO: create_cicd_service_account    = var.create_cicd_service_account
   create_storage_buckets         = true
