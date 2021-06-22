@@ -24,6 +24,10 @@ export type CreatePostInput = {
 };
 
 
+export type DeletePostInput = {
+  id: Scalars['String'];
+};
+
 export type Filter = {
   field: Scalars['String'];
   type: FilterType;
@@ -32,20 +36,50 @@ export type Filter = {
   valueType?: Maybe<ValueType>;
 };
 
+export type FilterGroup = {
+  filters: Array<Filter>;
+  operator: FilterOperator;
+};
+
+export enum FilterOperator {
+  And = 'AND',
+  Or = 'OR'
+}
+
 export enum FilterType {
-  Exact = 'EXACT',
-  Like = 'LIKE'
+  Eq = 'EQ',
+  Gt = 'GT',
+  Gte = 'GTE',
+  Ilike = 'ILIKE',
+  Like = 'LIKE',
+  Lt = 'LT',
+  Lte = 'LTE',
+  Neq = 'NEQ'
 }
 
 export type Mutation = {
   __typename?: 'Mutation';
   /** Creates a new post. */
   createPost: Post;
+  /** Deletes a post. */
+  deletePost: Scalars['String'];
+  /** Updates a post. */
+  updatePost: Post;
 };
 
 
 export type MutationCreatePostArgs = {
   input: CreatePostInput;
+};
+
+
+export type MutationDeletePostArgs = {
+  input: DeletePostInput;
+};
+
+
+export type MutationUpdatePostArgs = {
+  input: UpdatePostInput;
 };
 
 export type Order = {
@@ -81,15 +115,30 @@ export type Post = {
 
 export type Query = {
   __typename?: 'Query';
-  /** Returns posts. */
+  /** Reads a post. */
+  post?: Maybe<Post>;
+  /** Searches posts. */
   posts: PaginatedPosts;
 };
 
 
+export type QueryPostArgs = {
+  id: Scalars['String'];
+};
+
+
 export type QueryPostsArgs = {
-  filters?: Maybe<Array<Filter>>;
+  filterGroups?: Maybe<Array<FilterGroup>>;
   order?: Maybe<Order>;
   pagination?: Maybe<Pagination>;
+  search?: Maybe<Scalars['String']>;
+};
+
+export type UpdatePostInput = {
+  author?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  subject?: Maybe<Scalars['String']>;
 };
 
 export enum ValueType {
@@ -135,13 +184,10 @@ export type PostQueryVariables = Exact<{
 
 export type PostQuery = (
   { __typename?: 'Query' }
-  & { posts: (
-    { __typename?: 'PaginatedPosts' }
-    & { data: Array<(
-      { __typename?: 'Post' }
-      & Pick<Post, 'id' | 'createdAt' | 'author' | 'subject' | 'content'>
-    )> }
-  ) }
+  & { post?: Maybe<(
+    { __typename?: 'Post' }
+    & Pick<Post, 'id' | 'createdAt' | 'author' | 'subject' | 'content'>
+  )> }
 );
 
 
@@ -221,14 +267,12 @@ export type PostListLazyQueryHookResult = ReturnType<typeof usePostListLazyQuery
 export type PostListQueryResult = Apollo.QueryResult<PostListQuery, PostListQueryVariables>;
 export const PostDocument = gql`
     query Post($id: String!) {
-  posts(filters: {type: EXACT, field: "id", value: $id}) {
-    data {
-      id
-      createdAt
-      author
-      subject
-      content
-    }
+  post(id: $id) {
+    id
+    createdAt
+    author
+    subject
+    content
   }
 }
     `;

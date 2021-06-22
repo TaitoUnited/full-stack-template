@@ -61,7 +61,7 @@ export type Mutation = {
   /** Creates a new post. */
   createPost: Post;
   /** Deletes a post. */
-  deletePost: Post;
+  deletePost: Scalars['String'];
   /** Updates a post. */
   updatePost: Post;
 };
@@ -115,7 +115,7 @@ export type Post = {
 export type Query = {
   __typename?: 'Query';
   /** Reads a post. */
-  post: Post;
+  post?: Maybe<Post>;
   /** Searches posts. */
   posts: PaginatedPosts;
 };
@@ -166,10 +166,7 @@ export type DeletePostMutationVariables = Exact<{
 
 export type DeletePostMutation = (
   { __typename?: 'Mutation' }
-  & { deletePost: (
-    { __typename?: 'Post' }
-    & Pick<Post, 'author' | 'content' | 'createdAt' | 'id' | 'subject' | 'updatedAt'>
-  ) }
+  & Pick<Mutation, 'deletePost'>
 );
 
 export type UpdatePostMutationVariables = Exact<{
@@ -192,10 +189,10 @@ export type PostQueryVariables = Exact<{
 
 export type PostQuery = (
   { __typename?: 'Query' }
-  & { post: (
+  & { post?: Maybe<(
     { __typename?: 'Post' }
     & Pick<Post, 'author' | 'content' | 'createdAt' | 'id' | 'subject' | 'updatedAt'>
-  ) }
+  )> }
 );
 
 export type PostsQueryVariables = Exact<{
@@ -233,14 +230,7 @@ export const CreatePostDocument = gql`
     `;
 export const DeletePostDocument = gql`
     mutation deletePost($input: DeletePostInput!) {
-  deletePost(input: $input) {
-    author
-    content
-    createdAt
-    id
-    subject
-    updatedAt
-  }
+  deletePost(input: $input)
 }
     `;
 export const UpdatePostDocument = gql`
