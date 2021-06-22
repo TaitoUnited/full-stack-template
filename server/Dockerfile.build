@@ -30,7 +30,7 @@ LABEL version=${BUILD_VERSION} \
 RUN mkdir -p /service
 WORKDIR /service
 COPY --from=builder /build .
-COPY --from=builder /develop/execute.sh .
+COPY --from=builder /develop/cli.sh .
 COPY --from=builder /develop/package.json .
 COPY --from=builder /develop/package-lock.json .
 COPY --from=builder /develop/node_modules ./node_modules
