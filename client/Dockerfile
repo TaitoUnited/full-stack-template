@@ -1,7 +1,7 @@
 # Builder, tester and runtime container for local development
 # NOTE: Use the same cypress version both in Dockerfile and package.json to
 #       avoid unnecessary cypress download
-FROM taitounited/cypress:7.2.0
+FROM taitounited/cypress:7.5.0
 
 RUN mkdir -p /develop
 WORKDIR /develop
@@ -15,6 +15,5 @@ ENV NODE_ENV development
 RUN npm install --loglevel warn
 
 ENV DEV_PORT 8080
-# Expose 8081 for webpack lazy compilation's http server
-EXPOSE 8080 8081
+EXPOSE 8080
 CMD npm install; npm run start
