@@ -24,13 +24,19 @@ describe('posts', () => {
       author: 'test author',
     };
 
-    const response = await sdk.createPost(post);
-    expect({ ...response.createPost, id: undefined }).toEqual(post);
-    expect(response.createPost.id).toBeTruthy();
+    const { createPost } = await sdk.createPost({
+      input: post,
+    });
+    expect({
+      subject: createPost.subject,
+      content: createPost.content,
+      author: createPost.author,
+    }).toEqual(post);
+    expect(createPost.id).toBeTruthy();
   });
 
   it('query "posts" returns some posts', async () => {
-    const response = await sdk.readPosts();
+    const response = await sdk.posts();
     const posts = response.posts.data;
     expect(Array.isArray(posts)).toBe(true);
     expect(posts.length).toBeGreaterThan(0);
