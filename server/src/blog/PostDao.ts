@@ -31,7 +31,7 @@ export class PostDao {
     order: Order,
     pagination: Pagination
   ): Promise<PaginatedPosts> {
-    let searchFragment = search
+    const searchFragment = search
       ? `
         AND (
           subject ILIKE concat('%', $[search], '%')
@@ -95,7 +95,7 @@ export class PostDao {
     );
   }
 
-  public async delete(db: Db, post: DeletePostInput): Promise<String> {
+  public async delete(db: Db, post: DeletePostInput): Promise<string> {
     await db.one(
       `
         DELETE FROM post

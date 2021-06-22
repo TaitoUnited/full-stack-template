@@ -24,9 +24,9 @@ export class CreatePostInput {
 @InputType()
 export class UpdatePostInput {
   @Field() id: string;
-  @Field(() => String, { nullable: true }) subject?: String | null;
-  @Field(() => String, { nullable: true }) content?: String | null;
-  @Field(() => String, { nullable: true }) author?: String | null;
+  @Field(() => String, { nullable: true }) subject?: string | null;
+  @Field(() => String, { nullable: true }) content?: string | null;
+  @Field(() => String, { nullable: true }) author?: string | null;
 }
 
 @InputType()
