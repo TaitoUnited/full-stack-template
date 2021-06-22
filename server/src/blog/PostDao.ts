@@ -60,7 +60,7 @@ export class PostDao {
         WHERE id = $[id]
       `,
       {
-        id: 'd52fbdc3-8ab4-4fdf-a913-e046267d10eb',
+        id,
       }
     );
   }

@@ -17,7 +17,7 @@ export default function PostPage({ postQuery }: Props) {
     return <PostPlaceholder />;
   }
 
-  const post = data?.posts.data[0];
+  const post = data?.post;
 
   return (
     <Wrapper>

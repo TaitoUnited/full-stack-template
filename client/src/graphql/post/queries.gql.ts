@@ -13,18 +13,14 @@ export const POST_LIST = gql`
   }
 `;
 
-// TODO: add a proper `post` query to the GraphQL API
-// this is abusing the `posts` filtering to get a single post
 export const POST = gql`
   query Post($id: String!) {
-    posts(filters: { type: EXACT, field: "id", value: $id }) {
-      data {
-        id
-        createdAt
-        author
-        subject
-        content
-      }
+    post(id: $id) {
+      id
+      createdAt
+      author
+      subject
+      content
     }
   }
 `;

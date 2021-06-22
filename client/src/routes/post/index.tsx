@@ -15,7 +15,7 @@ const Post = loadableWithFallback<PostParams>(
 export default function PostContainer() {
   const { id } = useParams();
   const postQuery = usePostQuery({ variables: { id } });
-  const postSubject = postQuery.data?.posts.data[0].subject ?? '';
+  const postSubject = postQuery.data?.post?.subject ?? '';
 
   useDocumentTitle(postSubject);
 
