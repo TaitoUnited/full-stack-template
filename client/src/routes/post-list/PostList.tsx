@@ -20,7 +20,7 @@ export default function PostListPage({ postListQuery }: Props) {
     return <PostListPlaceholder />;
   }
 
-  const posts = orderBy(data?.posts.data ?? [], 'createdAt', 'desc');
+  const posts = orderBy(data?.posts.data ?? [], o => o.createdAt, 'desc');
 
   return (
     <Stack axis="y" spacing="large">
