@@ -1,5 +1,5 @@
 # Builder, tester and runtime container for local development
-FROM python:3.9-alpine
+FROM python:3.9-alpine3.13
 ENV PYTHONPATH /usr/local/lib/python3.9/site-packages
 ENV NODE_ENV development
 ENV DJANGO_ENV development
