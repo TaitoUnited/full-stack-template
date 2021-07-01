@@ -1,10 +1,10 @@
 import { Context } from 'koa';
 import { Joi } from 'koa-joi-router';
 import { Service } from 'typedi';
-import { Pagination, Order, OrderDirection } from '../common/schema/search';
-import BaseRouter from '../common/setup/BaseRouter';
-import { ItemSchema } from '../common/schema/rest';
-import { PostService } from './PostService';
+import { Pagination, Order, OrderDirection } from '../../common/types/search';
+import BaseRouter from '../../common/setup/BaseRouter';
+import { ItemSchema } from '../../common/types/rest';
+import { PostService } from '../services/PostService';
 
 const BasePostSchema = Joi.object({
   subject: Joi.string().required(),

@@ -5,7 +5,7 @@ import { Container } from 'typedi';
 import config from './common/setup/config';
 import createApiDocumentation from './infra/createApiDocumentation';
 import InfraRouter from './infra/InfraRouter';
-import { PostRouter } from './blog/PostRouter';
+import { PostRouter } from './core/routers/PostRouter';
 
 // REST API routers
 const postRouter = Container.get(PostRouter);

@@ -1,13 +1,13 @@
 import { Service } from 'typedi';
-import { Db } from '../common/setup/types';
+import { Db } from '../../common/types/context';
 import {
   searchFromTable,
   getColumnNames,
   getParameterNames,
   getParameterAssignments,
   getParameterValues,
-} from '../common/utils/db';
-import { Pagination, FilterGroup, Order } from '../common/schema/search';
+} from '../../common/utils/db';
+import { Pagination, FilterGroup, Order } from '../../common/types/search';
 import {
   Post,
   PaginatedPosts,
@@ -16,7 +16,7 @@ import {
   DeletePostInput,
   postExample,
   createPostExample,
-} from './types';
+} from '../types/post';
 
 const selectColumnNames = getColumnNames(postExample);
 const insertColumnNames = getColumnNames(createPostExample);

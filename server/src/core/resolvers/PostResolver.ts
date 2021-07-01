@@ -6,15 +6,15 @@ import {
   FilterGroup,
   Order,
   OrderDirection,
-} from '../common/schema/search';
+} from '../../common/types/search';
 import {
   Post,
   PaginatedPosts,
   CreatePostInput,
   UpdatePostInput,
   DeletePostInput,
-} from './types';
-import { PostService } from './PostService';
+} from '../types/post';
+import { PostService } from '../services/PostService';
 
 /**
  * GraphQL resolver for Posts

@@ -1,13 +1,13 @@
 import { Context } from 'koa';
 import { Service } from 'typedi';
-import { Pagination, FilterGroup, Order } from '../common/schema/search';
+import { Pagination, FilterGroup, Order } from '../../common/types/search';
 import {
   Post,
   CreatePostInput,
   UpdatePostInput,
   DeletePostInput,
-} from './types';
-import { PostDao } from './PostDao';
+} from '../types/post';
+import { PostDao } from '../daos/PostDao';
 
 // TODO: add support for @Authorized annotation on service level
 

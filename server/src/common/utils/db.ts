@@ -1,5 +1,4 @@
 import { pgp } from '../setup/db';
-import { Db } from '../setup/types';
 import { toSnakeCase } from './format';
 import {
   Filter,
@@ -10,7 +9,7 @@ import {
   OrderDirection,
   Pagination,
   ValueType,
-} from '../schema/search';
+} from '../types/search';
 
 export const formatTableColumnNames = (
   tableName: string,
@@ -64,7 +63,7 @@ export const getParameterAssignments = (object: any, values?: any) => {
     }
   }
 
-  return assignments.join(',');
+  return assignments.join(', ');
 };
 
 // TODO: check that createFilterFragment and createOrderFragment
@@ -111,9 +110,9 @@ function generateFilterFragment<
   } else if (filter.type === FilterType.LTE) {
     return `<= $(value)`;
   } else if (filter.type === FilterType.LIKE) {
-    return `like concat('%', $(value), '%')`;
+    return `LIKE concat('%', $(value), '%')`;
   } else if (filter.type === FilterType.ILIKE) {
-    return `ilike concat('%', $(value), '%')`;
+    return `ILIKE concat('%', $(value), '%')`;
   }
   // makes typescript whine if a filterType is not being handled
   never(filter.type);
@@ -141,7 +140,7 @@ function generateFilterFragment<
  *   },
  * ]);
  */
-export function createFilterFragment(
+function createFilterFragment(
   filters: Filter<Record<string, any>, string>[],
   operator: FilterOperator,
   table?: string
@@ -164,16 +163,16 @@ export function createFilterFragment(
     );
 
     // use pg-promise's formatting engine to format the
-    // field and value to the fragment before making
-    // the actual query
-    // should be pretty safe in regards to sql injection risk
+    // field and value to the fragment before making the query
+    // TODO: even safer might be to collect field values to a separate
+    // parameter list given for pg-promise as parameters.
     const currentFragment = pgp.as.format(
       `${table ? `$(table~).` : ''}$(field~)${
         type ? `::${type}` : ''
       } ${clause}`,
       {
         ...cur,
-        field: toSnakeCase(cur.field),
+        field: toSnakeCase(cur.field, false),
         value: parseValue(cur.valueType, cur.value),
         table,
       }
@@ -184,7 +183,7 @@ export function createFilterFragment(
   return `( ${fragment} )`;
 }
 
-export function createFilterGroupFragment(
+function createFilterGroupFragment(
   filterGroups: FilterGroup<Record<string, any>>[],
   table?: string
 ) {
@@ -198,18 +197,18 @@ export function createFilterGroupFragment(
   }, '');
 }
 
-export function createOrderFragment(
+function createOrderFragment(
   order: Order,
   table: string,
   fallbackField = 'id'
 ) {
   return pgp.as.format(
     `
-    order by $(field~) $(dir^), $(table~).$(fallbackField~)
+    ORDER BY $(field~) $(dir^), $(table~).$(fallbackField~)
   `,
     {
       field: toSnakeCase(order.field),
-      dir: order.dir === OrderDirection.ASC ? 'asc' : 'desc',
+      dir: order.dir === OrderDirection.ASC ? 'ASC' : 'DESC',
       fallbackField: toSnakeCase(fallbackField),
       table,
     }
@@ -218,9 +217,9 @@ export function createOrderFragment(
 
 export async function searchFromTable(
   tableName: string,
-  db: Db,
+  db: any, // TODO: should be Db
   search: string | null,
-  filterGroups: FilterGroup<Record<string, any>>[],
+  filterGroups: FilterGroup<any>[], // TODO: should be FilterGroup<Record<string, any>>[],
   order: Order,
   pagination: Pagination,
   searchFragment: string,
@@ -232,7 +231,7 @@ export async function searchFromTable(
 
   const count = await db.one(
     `
-      select count(id) FROM ${tableName}
+      SELECT count(id) FROM ${tableName}
       ${noDeletedFragment}
       ${searchFragment}
       ${filterFragment}
@@ -249,7 +248,7 @@ export async function searchFromTable(
       ${searchFragment}
       ${filterFragment}
       ${orderFragment}
-      offset $[offset] limit $[limit]
+      OFFSET $[offset] LIMIT $[limit]
     `,
     {
       ...pagination,

@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import { Container } from 'typedi';
 import getDb from './common/setup/db';
-import { PostDao } from './blog/PostDao';
-import { CreatePostInput } from './blog/types';
+import { PostDao } from './core/daos/PostDao';
+import { CreatePostInput } from './core/types/post';
 
 // ------------------------------------------------------------------
 // CLI commands for cronjobs, etc.

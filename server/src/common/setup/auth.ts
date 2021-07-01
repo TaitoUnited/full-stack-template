@@ -1,5 +1,5 @@
 import { Context } from 'koa';
-import { UserRole } from './types';
+import { UserRole } from '../types/context';
 
 const authChecker = (context: Context, roles: UserRole[]) => {
   // TODO: Implement auth here

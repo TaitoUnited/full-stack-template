@@ -1,5 +1,5 @@
 import { Field, InputType, ObjectType } from 'type-graphql';
-import { Paginated } from '../common/schema/search';
+import { Paginated } from '../../common/types/search';
 
 @ObjectType()
 export class Post {
