@@ -1,4 +1,6 @@
+import Boom from '@hapi/boom';
 import { pgp } from '../setup/db';
+import * as format from './format';
 import { toSnakeCase } from './format';
 import {
   Filter,
@@ -24,13 +26,9 @@ export const getTableColumnNames = (tableName: string, object: any) => {
   return formatTableColumnNames(tableName, Object.getOwnPropertyNames(object));
 };
 
-export const formatColumnNames = (columns: string[]) => {
-  return columns.map((column) => `${toSnakeCase(column)}`);
-};
+export const formatColumnNames = format.toSnakeCaseArray;
 
-export const getColumnNames = (object: any) => {
-  return formatColumnNames(Object.getOwnPropertyNames(object));
-};
+export const getColumnNames = format.keysAsSnakeCaseArray;
 
 export const formatParameterNames = (columns: string[]) => {
   return columns.map((column) => `$[${toSnakeCase(column)}]`);
@@ -151,13 +149,15 @@ function createFilterFragment(
 
     // Allow filtering with specific columns only
     if (filterableColumnNames.indexOf(columnName) === -1) {
-      throw new Error(`Filtering with column ${columnName} not allowed`);
+      throw Boom.badImplementation(
+        `Filtering with column '${columnName}' not allowed`
+      );
     }
 
     // just in case since we are injecting the `i`
     // directly into the sql
     if (typeof i !== 'number') {
-      throw new Error(`i ${i} not a number`);
+      throw Boom.badImplementation(`i ${i} not a number`);
     }
 
     const prefix = i === 0 ? '' : operator.toString();

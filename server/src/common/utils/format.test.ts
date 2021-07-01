@@ -1,4 +1,9 @@
-import { toSnakeCase, trimGaps } from './format';
+import {
+  toSnakeCase,
+  trimGaps,
+  toSnakeCaseArray,
+  keysAsSnakeCaseArray,
+} from './format';
 
 describe('format.ts', () => {
   describe('#toSnakeCase', () => {
@@ -14,6 +19,31 @@ describe('format.ts', () => {
       expect(() =>
         toSnakeCase('myKeyName with some whiteSpace', false)
       ).toThrow('Invalid whitespace');
+    });
+  });
+
+  describe('#toSnakeCaseArray', () => {
+    it('works', async () => {
+      expect(toSnakeCaseArray(['colName', 'col_name', 'colname'])).toEqual([
+        'col_name',
+        'col_name',
+        'colname',
+      ]);
+    });
+  });
+
+  describe('#keysAsSnakeCaseArray', () => {
+    it('works', async () => {
+      const obj = {
+        colName: 'asdf',
+        col_name: 'wefef',
+        colname: 'asdf',
+      };
+      expect(keysAsSnakeCaseArray(obj)).toEqual([
+        'col_name',
+        'col_name',
+        'colname',
+      ]);
     });
   });
 

@@ -1,5 +1,5 @@
-// import { Db } from '../types/context';
 import 'reflect-metadata';
+// import { Db } from '../types/context';
 import { trimGaps } from '../utils/format';
 import {
   Pagination,
@@ -46,7 +46,7 @@ const expectedResult = {
   data: [{ id: 'test' }],
 };
 
-describe('dao/utils.ts', () => {
+describe('common/utils/db', () => {
   beforeEach(() => {
     jest.resetModules();
     jest.resetAllMocks();
@@ -106,7 +106,8 @@ describe('dao/utils.ts', () => {
         new Order(OrderDirection.ASC, 'title'),
         new Pagination(0, 10),
         '',
-        selectColumnNames
+        selectColumnNames,
+        []
       );
 
       expect(result).toEqual(expectedResult);
@@ -159,7 +160,8 @@ describe('dao/utils.ts', () => {
         new Order(OrderDirection.ASC, 'title'),
         new Pagination(0, 10),
         searchFragment,
-        selectColumnNames
+        selectColumnNames,
+        []
       );
 
       expect(result).toEqual(expectedResult);
@@ -206,7 +208,8 @@ describe('dao/utils.ts', () => {
         new Order(OrderDirection.DESC, 'notes'),
         new Pagination(50, 1200),
         '',
-        selectColumnNames
+        selectColumnNames,
+        []
       );
 
       expect(trimGaps(db.any.mock.calls[0][0])).toEqual(
@@ -274,7 +277,8 @@ describe('dao/utils.ts', () => {
         new Order(OrderDirection.ASC, 'title'),
         new Pagination(0, 10),
         '',
-        selectColumnNames
+        selectColumnNames,
+        ['title', 'notes']
       );
 
       expect(result).toEqual(expectedResult);
@@ -327,6 +331,48 @@ describe('dao/utils.ts', () => {
       });
     });
 
+    it('only allowed columns can be filtered', async () => {
+      const filters1: Filter<MyType>[] = [
+        new Filter<MyType>(
+          MyType,
+          FilterType.EQ,
+          'title',
+          "' DELETE * FROM my_table",
+          ValueType.TEXT
+        ),
+        new Filter<MyType>(
+          MyType,
+          FilterType.ILIKE,
+          'notes',
+          "' DELETE * FROM my_table",
+          ValueType.TEXT
+        ),
+      ];
+
+      const filterGroups: FilterGroup<MyType>[] = [
+        new FilterGroup<MyType>(MyType, FilterOperator.OR, filters1),
+      ];
+
+      try {
+        await searchFromTable(
+          'my_table',
+          db,
+          null,
+          filterGroups,
+          new Order(OrderDirection.ASC, 'title'),
+          new Pagination(0, 10),
+          '',
+          selectColumnNames,
+          ['title']
+        );
+        expect(true).toEqual(false);
+      } catch (err) {
+        expect(err.message).toEqual(
+          "Filtering with column 'notes' not allowed"
+        );
+      }
+    });
+
     it('filter groups do not contain sql injection', async () => {
       const filters1: Filter<MyType>[] = [
         new Filter<MyType>(
@@ -357,7 +403,8 @@ describe('dao/utils.ts', () => {
         new Order(OrderDirection.ASC, 'title'),
         new Pagination(0, 10),
         '',
-        selectColumnNames
+        selectColumnNames,
+        ['title', 'notes']
       );
 
       expect(result).toEqual(expectedResult);
