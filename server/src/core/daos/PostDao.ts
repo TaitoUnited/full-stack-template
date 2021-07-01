@@ -18,6 +18,7 @@ import {
   createPostExample,
 } from '../types/post';
 
+const tableName = 'post';
 const selectColumnNames = getColumnNames(postExample);
 const filterableColumnNames = selectColumnNames;
 const insertColumnNames = getColumnNames(createPostExample);
@@ -43,7 +44,7 @@ export class PostDao {
       : '';
 
     return searchFromTable(
-      'post',
+      tableName,
       db,
       search,
       filterGroups,
@@ -58,7 +59,7 @@ export class PostDao {
   public async read(db: Db, id: string): Promise<Post | null> {
     return await db.oneOrNone(
       `
-        SELECT ${selectColumnNames.join(',')} FROM post
+        SELECT ${selectColumnNames.join(',')} FROM ${tableName}
         WHERE id = $[id]
       `,
       {
@@ -70,7 +71,7 @@ export class PostDao {
   public async create(db: Db, post: CreatePostInput): Promise<Post> {
     return await db.one(
       `
-        INSERT INTO post (${insertColumnNames.join(',')})
+        INSERT INTO ${tableName} (${insertColumnNames.join(',')})
         VALUES (${insertParameterNames.join(',')})
         RETURNING ${selectColumnNames.join(',')}
       `,
@@ -85,8 +86,8 @@ export class PostDao {
     );
     return await db.one(
       `
-        UPDATE post
-        SET ${parameterAssignments}
+        UPDATE ${tableName}
+        SET ${parameterAssignments.join(',')}
         WHERE id = $[id]
         RETURNING ${selectColumnNames.join(',')}
       `,
@@ -100,7 +101,7 @@ export class PostDao {
   public async delete(db: Db, post: DeletePostInput): Promise<string> {
     await db.one(
       `
-        DELETE FROM post
+        DELETE FROM ${tableName}
         WHERE id = $[id]
       `,
       {
