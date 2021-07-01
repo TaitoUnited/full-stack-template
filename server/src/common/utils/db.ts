@@ -15,9 +15,9 @@ export const formatTableColumnNames = (
   tableName: string,
   columns: string[]
 ) => {
-  return columns
-    .map((column) => `${toSnakeCase(tableName)}.${toSnakeCase(column)}`)
-    .join(', ');
+  return columns.map(
+    (column) => `${toSnakeCase(tableName)}.${toSnakeCase(column)}`
+  );
 };
 
 export const getTableColumnNames = (tableName: string, object: any) => {
@@ -25,7 +25,7 @@ export const getTableColumnNames = (tableName: string, object: any) => {
 };
 
 export const formatColumnNames = (columns: string[]) => {
-  return columns.map((column) => `${toSnakeCase(column)}`).join(', ');
+  return columns.map((column) => `${toSnakeCase(column)}`);
 };
 
 export const getColumnNames = (object: any) => {
@@ -33,7 +33,7 @@ export const getColumnNames = (object: any) => {
 };
 
 export const formatParameterNames = (columns: string[]) => {
-  return columns.map((column) => `$[${toSnakeCase(column)}]`).join(', ');
+  return columns.map((column) => `$[${toSnakeCase(column)}]`);
 };
 
 export const getParameterNames = (object: any) => {
@@ -63,7 +63,7 @@ export const getParameterAssignments = (object: any, values?: any) => {
     }
   }
 
-  return assignments.join(', ');
+  return assignments;
 };
 
 // TODO: check that createFilterFragment and createOrderFragment
@@ -142,14 +142,22 @@ function generateFilterFragment<
  */
 function createFilterFragment(
   filters: Filter<Record<string, any>, string>[],
+  filterableColumnNames: string[],
   operator: FilterOperator,
   table?: string
 ) {
   const fragment = filters.reduce((str, cur, i) => {
+    const columnName = toSnakeCase(cur.field);
+
+    // Allow filtering with specific columns only
+    if (filterableColumnNames.indexOf(columnName) === -1) {
+      throw new Error(`Filtering with column ${columnName} not allowed`);
+    }
+
     // just in case since we are injecting the `i`
     // directly into the sql
     if (typeof i !== 'number') {
-      return str;
+      throw new Error(`i ${i} not a number`);
     }
 
     const prefix = i === 0 ? '' : operator.toString();
@@ -185,11 +193,13 @@ function createFilterFragment(
 
 function createFilterGroupFragment(
   filterGroups: FilterGroup<Record<string, any>>[],
+  filterableColumnNames: string[],
   table?: string
 ) {
   return filterGroups.reduce((str, cur) => {
     const currentFragment = createFilterFragment(
       cur.filters,
+      filterableColumnNames,
       cur.operator,
       table
     );
@@ -223,10 +233,15 @@ export async function searchFromTable(
   order: Order,
   pagination: Pagination,
   searchFragment: string,
-  selectColumnNames: string,
+  selectColumnNames: string[],
+  filterableColumnNames: string[],
   noDeletedFragment: string = 'WHERE 1 = 1'
 ) {
-  const filterFragment = createFilterGroupFragment(filterGroups, tableName);
+  const filterFragment = createFilterGroupFragment(
+    filterGroups,
+    filterableColumnNames,
+    tableName
+  );
   const orderFragment = createOrderFragment(order, tableName);
 
   const count = await db.one(
@@ -243,7 +258,7 @@ export async function searchFromTable(
 
   const data = await db.any(
     `
-      SELECT ${selectColumnNames} FROM ${tableName}
+      SELECT ${selectColumnNames.join(', ')} FROM ${tableName}
       ${noDeletedFragment}
       ${searchFragment}
       ${filterFragment}

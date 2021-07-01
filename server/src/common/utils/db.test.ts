@@ -56,13 +56,13 @@ describe('dao/utils.ts', () => {
 
   describe('#getParameterAssignments', () => {
     it('assigns subset of parameters', async () => {
-      const fragment = getParameterAssignments(exampleObject, {
+      const assignments = getParameterAssignments(exampleObject, {
         title: 'titlevalue',
       });
       const values = getParameterValues(exampleObject, {
         title: 'titlevalue',
       });
-      expect(trimGaps(fragment)).toEqual(trimGaps(`title = $[title]`));
+      expect(assignments.join(', ')).toEqual(trimGaps(`title = $[title]`));
       expect(values).toEqual({
         id: null,
         creation_date: null,
@@ -73,9 +73,9 @@ describe('dao/utils.ts', () => {
     });
 
     it('assigns all parameters', async () => {
-      const fragment = getParameterAssignments(exampleObject, exampleObject);
+      const assignments = getParameterAssignments(exampleObject, exampleObject);
       const values = getParameterValues(exampleObject, exampleObject);
-      expect(trimGaps(fragment)).toEqual(
+      expect(assignments.join(', ')).toEqual(
         trimGaps(
           `
           id = $[id],

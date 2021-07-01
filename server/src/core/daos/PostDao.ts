@@ -19,6 +19,7 @@ import {
 } from '../types/post';
 
 const selectColumnNames = getColumnNames(postExample);
+const filterableColumnNames = selectColumnNames;
 const insertColumnNames = getColumnNames(createPostExample);
 const insertParameterNames = getParameterNames(createPostExample);
 
@@ -49,14 +50,15 @@ export class PostDao {
       order,
       pagination,
       searchFragment,
-      selectColumnNames
+      selectColumnNames,
+      filterableColumnNames
     );
   }
 
   public async read(db: Db, id: string): Promise<Post | null> {
     return await db.oneOrNone(
       `
-        SELECT ${selectColumnNames} FROM post
+        SELECT ${selectColumnNames.join(',')} FROM post
         WHERE id = $[id]
       `,
       {
@@ -68,9 +70,9 @@ export class PostDao {
   public async create(db: Db, post: CreatePostInput): Promise<Post> {
     return await db.one(
       `
-        INSERT INTO post (${insertColumnNames})
-        VALUES (${insertParameterNames})
-        RETURNING ${selectColumnNames}
+        INSERT INTO post (${insertColumnNames.join(',')})
+        VALUES (${insertParameterNames.join(',')})
+        RETURNING ${selectColumnNames.join(',')}
       `,
       getParameterValues(createPostExample, post)
     );
@@ -86,7 +88,7 @@ export class PostDao {
         UPDATE post
         SET ${parameterAssignments}
         WHERE id = $[id]
-        RETURNING ${selectColumnNames}
+        RETURNING ${selectColumnNames.join(',')}
       `,
       {
         id: post.id,
