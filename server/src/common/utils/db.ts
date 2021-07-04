@@ -47,25 +47,30 @@ export const formatParameterValues = (names: string[], obj: any) => {
   return newObj;
 };
 
-export const getParameterValues = (object: any, values: any) => {
-  return formatParameterValues(Object.getOwnPropertyNames(object), values);
+export const getParameterValues = (p: { allowedKeys: any; values: any }) => {
+  const keys = Array.isArray(p.allowedKeys)
+    ? p.allowedKeys
+    : Object.getOwnPropertyNames(p.allowedKeys);
+  return formatParameterValues(keys, p.values);
 };
 
-export const getParameterAssignments = (object: any, values?: any) => {
+export const getParameterAssignments = (p: {
+  allowedKeys: any;
+  values?: any;
+}) => {
   const assignments = [];
 
-  const names = Object.getOwnPropertyNames(object);
-  for (const name of names) {
-    if (!values || values[name] !== undefined) {
-      assignments.push(`${toSnakeCase(name)} = $[${toSnakeCase(name)}]`);
+  const keys = Array.isArray(p.allowedKeys)
+    ? p.allowedKeys
+    : Object.getOwnPropertyNames(p.allowedKeys);
+  for (const key of keys) {
+    if (!p.values || p.values[key] !== undefined) {
+      assignments.push(`${toSnakeCase(key)} = $[${toSnakeCase(key)}]`);
     }
   }
 
   return assignments;
 };
-
-// TODO: check that createFilterFragment and createOrderFragment
-// implementations are ok (no SQL injection)
 
 function never(arg: never): never {
   throw new Error();
@@ -225,49 +230,52 @@ function createOrderFragment(
   );
 }
 
-export async function searchFromTable(
-  tableName: string,
-  db: any, // TODO: should be Db
-  search: string | null,
-  filterGroups: FilterGroup<any>[], // TODO: should be FilterGroup<Record<string, any>>[],
-  order: Order,
-  pagination: Pagination,
-  searchFragment: string,
-  selectColumnNames: string[],
-  filterableColumnNames: string[],
-  noDeletedFragment: string = 'WHERE 1 = 1'
-) {
-  const filterFragment = createFilterGroupFragment(
-    filterGroups,
-    filterableColumnNames,
-    tableName
-  );
-  const orderFragment = createOrderFragment(order, tableName);
+export type searchFromTableParams = {
+  tableName: string;
+  db: any; // TODO: should be Db
+  search?: string | null;
+  filterGroups: FilterGroup<any>[]; // TODO: should be FilterGroup<Record<string, any>>[],
+  order: Order;
+  pagination: Pagination;
+  searchFragment: string;
+  selectColumnNames: string[];
+  filterableColumnNames: string[];
+  noDeletedFragment?: string | null;
+};
 
-  const count = await db.one(
+export async function searchFromTable(p: searchFromTableParams) {
+  const basicFragment = p.noDeletedFragment || 'WHERE 1 = 1';
+  const filterFragment = createFilterGroupFragment(
+    p.filterGroups,
+    p.filterableColumnNames,
+    p.tableName
+  );
+  const orderFragment = createOrderFragment(p.order, p.tableName);
+
+  const count = await p.db.one(
     `
-      SELECT count(id) FROM ${tableName}
-      ${noDeletedFragment}
-      ${searchFragment}
+      SELECT count(id) FROM ${p.tableName}
+      ${basicFragment}
+      ${p.searchFragment}
       ${filterFragment}
     `,
     {
-      search: search || undefined,
+      search: p.search || undefined,
     }
   );
 
-  const data = await db.any(
+  const data = await p.db.any(
     `
-      SELECT ${selectColumnNames.join(', ')} FROM ${tableName}
-      ${noDeletedFragment}
-      ${searchFragment}
+      SELECT ${p.selectColumnNames.join(', ')} FROM ${p.tableName}
+      ${basicFragment}
+      ${p.searchFragment}
       ${filterFragment}
       ${orderFragment}
       OFFSET $[offset] LIMIT $[limit]
     `,
     {
-      ...pagination,
-      search: search || undefined,
+      ...p.pagination,
+      search: p.search || undefined,
     }
   );
 

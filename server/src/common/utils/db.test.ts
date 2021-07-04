@@ -56,11 +56,17 @@ describe('common/utils/db', () => {
 
   describe('#getParameterAssignments', () => {
     it('assigns subset of parameters', async () => {
-      const assignments = getParameterAssignments(exampleObject, {
-        title: 'titlevalue',
+      const assignments = getParameterAssignments({
+        allowedKeys: exampleObject,
+        values: {
+          title: 'titlevalue',
+        },
       });
-      const values = getParameterValues(exampleObject, {
-        title: 'titlevalue',
+      const values = getParameterValues({
+        allowedKeys: exampleObject,
+        values: {
+          title: 'titlevalue',
+        },
       });
       expect(assignments.join(', ')).toEqual(trimGaps(`title = $[title]`));
       expect(values).toEqual({
@@ -73,8 +79,14 @@ describe('common/utils/db', () => {
     });
 
     it('assigns all parameters', async () => {
-      const assignments = getParameterAssignments(exampleObject, exampleObject);
-      const values = getParameterValues(exampleObject, exampleObject);
+      const assignments = getParameterAssignments({
+        allowedKeys: exampleObject,
+        values: exampleObject,
+      });
+      const values = getParameterValues({
+        allowedKeys: exampleObject,
+        values: exampleObject,
+      });
       expect(assignments.join(', ')).toEqual(
         trimGaps(
           `
@@ -98,17 +110,17 @@ describe('common/utils/db', () => {
 
   describe('#searchFromTable', () => {
     it('basic query works', async () => {
-      const result = await searchFromTable(
-        'my_table',
+      const result = await searchFromTable({
+        tableName: 'my_table',
         db,
-        null,
-        [],
-        new Order(OrderDirection.ASC, 'title'),
-        new Pagination(0, 10),
-        '',
+        search: null,
+        filterGroups: [],
+        order: new Order(OrderDirection.ASC, 'title'),
+        pagination: new Pagination(0, 10),
+        searchFragment: '',
         selectColumnNames,
-        []
-      );
+        filterableColumnNames: [],
+      });
 
       expect(result).toEqual(expectedResult);
 
@@ -152,17 +164,17 @@ describe('common/utils/db', () => {
         )
       `;
 
-      const result = await searchFromTable(
-        'my_table',
+      const result = await searchFromTable({
+        tableName: 'my_table',
         db,
-        searchString,
-        [],
-        new Order(OrderDirection.ASC, 'title'),
-        new Pagination(0, 10),
+        search: searchString,
+        filterGroups: [],
+        order: new Order(OrderDirection.ASC, 'title'),
+        pagination: new Pagination(0, 10),
         searchFragment,
         selectColumnNames,
-        []
-      );
+        filterableColumnNames: [],
+      });
 
       expect(result).toEqual(expectedResult);
 
@@ -200,17 +212,17 @@ describe('common/utils/db', () => {
     });
 
     it('ordering and pagination works', async () => {
-      await searchFromTable(
-        'my_table',
+      await searchFromTable({
+        tableName: 'my_table',
         db,
-        null,
-        [],
-        new Order(OrderDirection.DESC, 'notes'),
-        new Pagination(50, 1200),
-        '',
+        search: null,
+        filterGroups: [],
+        order: new Order(OrderDirection.DESC, 'notes'),
+        pagination: new Pagination(50, 1200),
+        searchFragment: '',
         selectColumnNames,
-        []
-      );
+        filterableColumnNames: [],
+      });
 
       expect(trimGaps(db.any.mock.calls[0][0])).toEqual(
         trimGaps(
@@ -269,17 +281,17 @@ describe('common/utils/db', () => {
         new FilterGroup<MyType>(MyType, FilterOperator.AND, filters2),
       ];
 
-      const result = await searchFromTable(
-        'my_table',
+      const result = await searchFromTable({
+        tableName: 'my_table',
         db,
-        null,
+        search: null,
         filterGroups,
-        new Order(OrderDirection.ASC, 'title'),
-        new Pagination(0, 10),
-        '',
+        order: new Order(OrderDirection.ASC, 'title'),
+        pagination: new Pagination(0, 10),
+        searchFragment: '',
         selectColumnNames,
-        ['title', 'notes']
-      );
+        filterableColumnNames: ['title', 'notes'],
+      });
 
       expect(result).toEqual(expectedResult);
 
@@ -354,17 +366,17 @@ describe('common/utils/db', () => {
       ];
 
       try {
-        await searchFromTable(
-          'my_table',
+        await searchFromTable({
+          tableName: 'my_table',
           db,
-          null,
+          search: null,
           filterGroups,
-          new Order(OrderDirection.ASC, 'title'),
-          new Pagination(0, 10),
-          '',
+          order: new Order(OrderDirection.ASC, 'title'),
+          pagination: new Pagination(0, 10),
+          searchFragment: '',
           selectColumnNames,
-          ['title']
-        );
+          filterableColumnNames: ['title'],
+        });
         expect(true).toEqual(false);
       } catch (err) {
         expect(err.message).toEqual(
@@ -395,17 +407,17 @@ describe('common/utils/db', () => {
         new FilterGroup<MyType>(MyType, FilterOperator.OR, filters1),
       ];
 
-      const result = await searchFromTable(
-        'my_table',
+      const result = await searchFromTable({
+        tableName: 'my_table',
         db,
-        null,
+        search: null,
         filterGroups,
-        new Order(OrderDirection.ASC, 'title'),
-        new Pagination(0, 10),
-        '',
+        order: new Order(OrderDirection.ASC, 'title'),
+        pagination: new Pagination(0, 10),
+        searchFragment: '',
         selectColumnNames,
-        ['title', 'notes']
-      );
+        filterableColumnNames: ['title', 'notes'],
+      });
 
       expect(result).toEqual(expectedResult);
 

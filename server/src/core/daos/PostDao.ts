@@ -43,7 +43,7 @@ export class PostDao {
       `
       : '';
 
-    return searchFromTable(
+    return searchFromTable({
       tableName,
       db,
       search,
@@ -52,8 +52,8 @@ export class PostDao {
       pagination,
       searchFragment,
       selectColumnNames,
-      filterableColumnNames
-    );
+      filterableColumnNames,
+    });
   }
 
   public async read(db: Db, id: string): Promise<Post | null> {
@@ -75,15 +75,15 @@ export class PostDao {
         VALUES (${insertParameterNames.join(',')})
         RETURNING ${selectColumnNames.join(',')}
       `,
-      getParameterValues(createPostExample, post)
+      getParameterValues({ allowedKeys: createPostExample, values: post })
     );
   }
 
   public async update(db: Db, post: UpdatePostInput): Promise<Post> {
-    const parameterAssignments = getParameterAssignments(
-      createPostExample,
-      post
-    );
+    const parameterAssignments = getParameterAssignments({
+      allowedKeys: createPostExample,
+      values: post,
+    });
     return await db.one(
       `
         UPDATE ${tableName}
@@ -93,7 +93,7 @@ export class PostDao {
       `,
       {
         id: post.id,
-        ...getParameterValues(createPostExample, post),
+        ...getParameterValues({ allowedKeys: createPostExample, values: post }),
       }
     );
   }
