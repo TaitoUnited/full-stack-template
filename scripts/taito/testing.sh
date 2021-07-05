@@ -24,7 +24,7 @@ else
   test_all_TEST_ENV_REMOTE=true
   if [[ $taito_command == "util-test" ]]; then
     # Constitute test url by combining basic auth secret and domain name
-    ci_test_base_url=https://$(cat tmp/secrets/dev/acme-azureware-dev-basic-auth.auth | sed 's/:{PLAIN}/:/')@$taito_domain
+    ci_test_base_url=https://$(cat tmp/secrets/${taito_env}/${taito_project}-${taito_env}-basic-auth.auth | sed 's/:{PLAIN}/:/')@$taito_domain
   fi
 fi
 
