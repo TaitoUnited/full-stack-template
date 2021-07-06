@@ -1,3 +1,3 @@
 #!/bin/sh
 
-npm run graphql:generate
+npm run generate:graphql

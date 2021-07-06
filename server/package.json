@@ -11,8 +11,8 @@
     "build:test": "tsc --build tsconfig.test.json",
     "build:prod": "NODE_ENV=production tsc --build tsconfig.json",
     "start:prod": "NODE_ENV=production npm run build:prod && node build/index.js",
-    "gqlg:generate": "gqlg --schemaFilePath ./shared/schema.gql --destDirPath ./test/graphql/generated",
-    "graphql:generate": "graphql-codegen --config codegen.yml"
+    "generate:test-gql": "rm -rf ./test/graphql/generated/* && gqlg --schemaFilePath ./shared/schema.gql --destDirPath ./test/graphql/generated",
+    "generate:test-sdk": "graphql-codegen --config codegen.yml"
   },
   "_comment1": "You may want to remove @sentry/node if you don't use Sentry",
   "_comment2": "Required by REST API only: koa-joi-router",

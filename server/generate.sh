@@ -1,4 +1,4 @@
 #!/bin/sh
 
-npm run gqlg:generate
-npm run graphql:generate
+npm run generate:test-gql
+npm run generate:test-sdk

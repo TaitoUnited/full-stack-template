@@ -16,7 +16,7 @@
     "lang:extract": "lingui extract",
     "lang:compile": "lingui compile",
     "uikit:preview": "start-storybook -p 6006",
-    "graphql:generate": "graphql-codegen --config codegen.yml"
+    "generate:graphql": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@apollo/client": "3.3.20",
