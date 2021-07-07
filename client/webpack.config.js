@@ -18,6 +18,7 @@ const BASE_PATH = process.env.BASE_PATH || '';
 const ASSETS_PATH = process.env.ASSETS_PATH || '';
 const ASSETS_DOMAIN = process.env.ASSETS_DOMAIN || '';
 const DEV_PORT = process.env.DEV_PORT || '3000';
+const DEV_BINDADDR = process.env.DEV_BINDADDR || '127.0.0.1';
 const ASSETS_DIR = 'assets';
 const ICON_DIR = ASSETS_DIR + '/icon.png';
 
@@ -258,7 +259,7 @@ module.exports = function (env, options) {
     devServer: isProd
       ? undefined
       : {
-          host: '0.0.0.0',
+          host: DEV_BINDADDR,
           port: DEV_PORT,
           public: `${PUBLIC_HOST}:${PUBLIC_PORT}`, // Fix HMR inside Docker container
           contentBase: [path.join(__dirname, 'assets')],

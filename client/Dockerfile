@@ -15,5 +15,6 @@ ENV NODE_ENV development
 RUN npm install --loglevel warn
 
 ENV DEV_PORT 8080
+ENV DEV_BINDADDR 0.0.0.0
 EXPOSE 8080
 CMD npm install; npm run start
