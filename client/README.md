@@ -2,7 +2,7 @@
 
 ## Structure recommendation
 
-The example structure is meant for small applications. If you have a large application, you may want to divide it into 1-N independent modules that may also have submodules. This makes development easier in the long run, and also enables you to use newer technologies and conventions when implementing new modules aside the old ones. Example structure:
+The example structure used in the example implementation is meant for small applications. If you have a large application, you may want to divide it into 1-N independent modules that may also optionally contain submodules. This makes development easier in the long run, and also enables you to use newer technologies and conventions when implementing new modules aside the old ones. An example structure for a larger application:
 
 ```
 src/
