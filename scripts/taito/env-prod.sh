@@ -13,7 +13,7 @@ taito_basic_auth_enabled=true
 taito_domain=
 taito_domain=$taito_project-$taito_target_env.$default_domain_prod # TEMPLATE-REMOVE
 
-# Alternate domain name (e.g. mydomain.com) that redirects to main domain
+# OPTIONAL: Alternate domain name (e.g. mydomain.com) that redirects to main domain
 taito_altdomain=
 
 # Default domain name (copy this value to taito_domain if custom domain is not required)
