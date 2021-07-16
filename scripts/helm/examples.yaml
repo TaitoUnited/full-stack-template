@@ -32,9 +32,9 @@
         DATABASE_USER: ${db_database_app_username}
         DATABASE_POOL_MIN: '0'
         DATABASE_POOL_MAX: '5'
-        DATABASE_SSL_ENABLED: ${db_database_ssl_enabled}
-        DATABASE_SSL_CLIENT_CERT_ENABLED: ${db_database_ssl_client_cert_enabled}
-        DATABASE_SSL_SERVER_CERT_ENABLED: ${db_database_ssl_server_cert_enabled}
+        DATABASE_SSL_ENABLED: "${db_database_ssl_enabled}"
+        DATABASE_SSL_CLIENT_CERT_ENABLED: "${db_database_ssl_client_cert_enabled}"
+        DATABASE_SSL_SERVER_CERT_ENABLED: "${db_database_ssl_server_cert_enabled}"
         STORAGE_TYPE: azure
         STORAGE_ENDPOINT:
         STORAGE_BUCKET: ${st_bucket_name}

@@ -122,9 +122,9 @@ services:
       DATABASE_USER: ${db_database_app_username}
       DATABASE_POOL_MIN: '1'
       DATABASE_POOL_MAX: '10'
-      DATABASE_SSL_ENABLED: ${db_database_ssl_enabled}
-      DATABASE_SSL_CLIENT_CERT_ENABLED: ${db_database_ssl_client_cert_enabled}
-      DATABASE_SSL_SERVER_CERT_ENABLED: ${db_database_ssl_server_cert_enabled}
+      DATABASE_SSL_ENABLED: "${db_database_ssl_enabled}"
+      DATABASE_SSL_CLIENT_CERT_ENABLED: "${db_database_ssl_client_cert_enabled}"
+      DATABASE_SSL_SERVER_CERT_ENABLED: "${db_database_ssl_server_cert_enabled}"
       REDIS_HOST: full-stack-template-redis
       REDIS_PORT: 6379
       BUCKET_URL: http://full-stack-template-storage:9000/
@@ -176,9 +176,9 @@ services:
       DATABASE_USER: ${db_database_app_username}
       DATABASE_POOL_MIN: '1'
       DATABASE_POOL_MAX: '10'
-      DATABASE_SSL_ENABLED: ${db_database_ssl_enabled}
-      DATABASE_SSL_CLIENT_CERT_ENABLED: ${db_database_ssl_client_cert_enabled}
-      DATABASE_SSL_SERVER_CERT_ENABLED: ${db_database_ssl_server_cert_enabled}
+      DATABASE_SSL_ENABLED: "${db_database_ssl_enabled}"
+      DATABASE_SSL_CLIENT_CERT_ENABLED: "${db_database_ssl_client_cert_enabled}"
+      DATABASE_SSL_SERVER_CERT_ENABLED: "${db_database_ssl_server_cert_enabled}"
       REDIS_HOST: full-stack-template-redis
       REDIS_PORT: 6379
       BUCKET_URL: http://full-stack-template-storage:9000/
