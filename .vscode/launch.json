@@ -6,25 +6,12 @@
       "request": "attach",
       "name": "Attach to Node.js server process",
       "address": "localhost",
-      "port": 9229,
+      "port": 4229,
       "protocol": "inspector",
       "sourceMaps": true,
       "restart": true,
       "localRoot": "${workspaceFolder}/server",
-      "remoteRoot": "/service"
-    },
-    {
-      "name": "Attach to python server process",
-      "type": "python",
-      "request": "attach",
-      "pathMappings": [
-        {
-          "localRoot": "${workspaceFolder}/alternatives/flask-server",
-          "remoteRoot": "/service"
-        }
-      ],
-      "port": 9229,
-      "host": "localhost"
+      "remoteRoot": "/develop"
     }
   ]
 }

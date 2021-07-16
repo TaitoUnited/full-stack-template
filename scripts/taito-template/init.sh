@@ -422,6 +422,7 @@ sed -i "s/9998/$((client_free_port+2))/g" \
   docker-compose.yaml &> /dev/null || :
 sed -i "s/4229/${server_debug_port}/g" \
   docker-compose.yaml \
+  .vscode/launch.json \
   scripts/taito/project.sh scripts/taito/env-local.sh \
   scripts/taito/TAITOLESS.md www/README.md &> /dev/null || :
 sed -i "s/7463/${www_port}/g" \
