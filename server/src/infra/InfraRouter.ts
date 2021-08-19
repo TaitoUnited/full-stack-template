@@ -60,7 +60,7 @@ class InfraRouter extends BaseRouter {
       },
       handler: async (ctx: Context) => {
         // Check database
-        await ctx.state.db.any('SELECT 1');
+        await ctx.state.tx.any('SELECT 1');
         // Check storage buckets
         const storagesById = await getStoragesById();
         await storagesById.bucket.s3

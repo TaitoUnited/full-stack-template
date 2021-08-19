@@ -162,7 +162,7 @@ function prune () {
         sed -i '/db/d' ./server/src/server.ts &> /dev/null || :
         sed -i '/Db/d' ./server/src/common/setup/types.ts &> /dev/null || :
         sed -i '/Database/d' ./server/src/common/setup/types.ts &> /dev/null || :
-        sed -i '/state.db/d' ./server/src/infra/InfraRouter.ts &> /dev/null || :
+        sed -i '/state.tx/d' ./server/src/infra/InfraRouter.ts &> /dev/null || :
         rm -f ./server/src/common/setup/db.ts &> /dev/null || :
       fi
     fi
