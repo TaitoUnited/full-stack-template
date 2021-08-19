@@ -113,7 +113,7 @@ If you want to setup the application environments or run CI/CD steps without Tai
    echo $taito_remote_secrets | tr ' ' '\n'
    ```
 
-3. **Create and run CI/CD trigger:** CI/CD script is located on the project root directory. Use either `taitounited/taito-cli:ci-${taito_provider}` or your own custom image as docker image for the CI/CD.
+3. **Create and run CI/CD trigger:** CI/CD script is located on the project root directory. Use either `ghcr.io/taitounited/taito-cli:ci-${taito_provider}` or your own custom image as docker image for the CI/CD.
 
 4. **Optional:** If your project requires additional cloud resources set by terraform (e.g. storage buckets), run the terraform scripts:
 
