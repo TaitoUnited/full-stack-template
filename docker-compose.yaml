@@ -257,14 +257,17 @@ services:
       context: ./storage
       dockerfile: ${dockerfile}
     restart: unless-stopped
-    command: server /develop
+    command: server /develop --console-address ":8888"
     networks:
       - default
     ports:
       - "9000"
+      - "8888:8888"
     environment:
       MINIO_ACCESS_KEY: minio
       MINIO_SECRET_KEY: ${taito_default_password}
+      # Subpath not yet supported: https://github.com/minio/minio/issues/12727
+      # MINIO_BROWSER_REDIRECT_URL: http://localhost:9999/minio
 
 secrets:
   DATABASE_PASSWORD:
