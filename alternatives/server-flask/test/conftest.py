@@ -4,7 +4,7 @@ import requests
 from urllib.parse import urljoin
 
 
-@pytest.yield_fixture
+@pytest.fixture
 def client():
     with BaseUrlSession() as session:
         yield session

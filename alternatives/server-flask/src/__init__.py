@@ -2,10 +2,6 @@ import os
 import typing
 from flask import Flask
 
-if os.environ.get('FLASK_ENV') == 'development':
-    import ptvsd
-    ptvsd.enable_attach(address=('0.0.0.0', 9229), redirect_output=False)
-
 
 def create_app(
     test_config: typing.Optional[typing.Mapping[str, typing.Any]] = None,
@@ -15,13 +11,13 @@ def create_app(
     app = Flask(__name__)
 
     if test_config is None:
-        from . import config
+        from src.common.setup import config
         app.config.from_object(config.Config)
     else:
         # load the test config if passed in
         app.config.from_object(test_config)
 
-    from . import log, sentry
+    from src.common.setup import log, sentry
     log.setup(app)
     sentry.connect(app)
 
@@ -41,22 +37,20 @@ def create_app(
 
     def setup_worker() -> None:
         # Connect infra
-        from . import db, storage
+        from src.common.setup import db, storage
         db.connect(app)
         storage.connect(app)
 
         # Register routes
-        from . import blog, routes
-        app.register_blueprint(routes.bp)
-        app.register_blueprint(blog.routes.bp)
+        from .infra import infra_router
+        from .core.routers import post_router
+        app.register_blueprint(infra_router.bp)
+        app.register_blueprint(post_router.bp)
 
-    try:
-        # If running behind uwsgi, init db as post fork op to avoid workers
-        # sharing the connection pool.
-        import uwsgidecorators
-    except ImportError:
+    if os.environ.get('FLASK_ENV') == 'development':
         setup_worker()
     else:
+        import uwsgidecorators
         uwsgidecorators.postfork(setup_worker)
 
     return app

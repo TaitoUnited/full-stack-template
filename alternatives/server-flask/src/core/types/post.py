@@ -1,7 +1,20 @@
+from pydantic.dataclasses import dataclass
 import dataclasses
 import typing
-from src.common.formatters import to_camel, to_snake
-from src.types.post import DBPost, Post
+from src.common.types.entity import DBItem
+from src.common.utils.format import to_camel, to_snake
+
+
+@dataclass
+class Post:
+    author: str
+    content: str
+    subject: str
+
+
+@dataclass
+class DBPost(DBItem, Post):
+    pass
 
 
 PostDict = typing.Dict[str, typing.Any]

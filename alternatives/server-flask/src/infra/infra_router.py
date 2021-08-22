@@ -1,6 +1,6 @@
 import typing
 from flask import Blueprint, current_app
-from src import db
+from src.common.setup import db
 
 
 bp = Blueprint('infra', __name__)
