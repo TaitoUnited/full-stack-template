@@ -12,38 +12,31 @@ WORKDIR /develop
 
 ARG SERVICE_DIR=.
 COPY ${SERVICE_DIR} /develop
-COPY ${SERVICE_DIR}/requirements-dev.txt /develop/
 RUN pip3 install --upgrade pip && pip3 install -r requirements-dev.txt
 
 RUN flake8
 RUN mypy --ignore-missing-imports src
 RUN pytest src # Run unit tests
 
-ARG BUILD_VERSION=1.0.0
-RUN python3 setup.py bdist_wheel --version=${BUILD_VERSION}
-
 
 # Production runtime container
 FROM python:3.9-alpine3.13
-ARG BUILD_VERSION=1.0.0
-ENV BUILD_VERSION ${BUILD_VERSION}
-ENV PYTHON_ENV production
-
+ARG BUILD_VERSION
 LABEL version=${BUILD_VERSION} \
       company=companyname \
       project=full-stack-template \
       role=server
 
+ENV PYTHON_ENV production
 RUN apk add --update-cache g++ libffi-dev nginx postgresql-dev
 
 RUN mkdir -p /service
 WORKDIR /service
-COPY --from=builder /develop/dist .
+COPY --from=builder /develop/src ./src
 COPY --from=builder /develop/requirements-prod.txt .
 
 RUN pip3 install --upgrade pip && \
-    pip3 install -r requirements-prod.txt && \
-    pip3 install full_stack_template_server-${BUILD_VERSION}-py3-none-any.whl
+    pip3 install -r requirements-prod.txt
 RUN apk del g++ libffi-dev
 
 COPY ${SERVICE_DIR}/uwsgi.ini .
