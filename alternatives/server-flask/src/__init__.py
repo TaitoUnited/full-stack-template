@@ -34,7 +34,14 @@ def create_app(
         # All werkzeug raised exceptions (404 etc) have response code
         # assigned to them.
         code = getattr(e, "code", 500)
-        return {"error": {"message": str(e), "id": e_id}}, code
+        return {
+            "error": {
+                "message": str(e)
+                if code < 500
+                else f"{code}: Unexpected error",
+                "id": e_id,
+            }
+        }, code
 
     def setup_worker() -> None:
         # Connect infra
