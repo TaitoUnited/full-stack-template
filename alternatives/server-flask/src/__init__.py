@@ -1,6 +1,7 @@
 import os
 import typing
 from flask import Flask
+from . import api
 
 
 def create_app(
@@ -40,12 +41,8 @@ def create_app(
         from src.common.setup import db, storage
         db.connect(app)
         storage.connect(app)
-
-        # Register routes
-        from .infra import infra_router
-        from .core.routers import post_router
-        app.register_blueprint(infra_router.bp)
-        app.register_blueprint(post_router.bp)
+        api.register_rest_routes(app)
+        api.register_graphql_resolvers(app)
 
     if os.environ.get('FLASK_ENV') == 'development':
         setup_worker()
