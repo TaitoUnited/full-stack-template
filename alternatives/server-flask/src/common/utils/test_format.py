@@ -1,8 +1,8 @@
 from .formatters import to_camel, to_snake
 
 
-snake_dict = {'dict_key': 1}
-camel_dict = {'dictKey': 1}
+snake_dict = {"dict_key": 1}
+camel_dict = {"dictKey": 1}
 
 
 def test_common_formatters_to_camel() -> None:

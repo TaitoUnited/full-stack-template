@@ -1,1 +1,1 @@
-from . import post_dao # noqa
+from . import post_dao  # noqa

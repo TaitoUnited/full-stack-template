@@ -16,13 +16,13 @@ class BaseUrlSession(requests.Session):
     Based on requests_toolbelt.sessions.BaseUrlSession.
     """
 
-    base_url = os.environ['TEST_API_URL']
+    base_url = os.environ["TEST_API_URL"]
 
     def __init__(self):
         super().__init__()
-        if not self.base_url.endswith('/'):
+        if not self.base_url.endswith("/"):
             # urljoin is pretty exact about the slash use
-            self.base_url = f'{self.base_url}/'
+            self.base_url = f"{self.base_url}/"
 
     def request(self, method, url, *args, **kwargs):
         """Send the request after generating the complete URL."""
@@ -31,7 +31,7 @@ class BaseUrlSession(requests.Session):
 
     def create_url(self, url):
         """Create the URL based off this partial path."""
-        if url.startswith('/'):
+        if url.startswith("/"):
             # urljoin is pretty exact about the slash use
             url = url[1:]
         return urljoin(self.base_url, url)

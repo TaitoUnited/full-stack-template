@@ -1,1 +1,1 @@
-from . import infra_router # noqa
+from . import infra_router  # noqa

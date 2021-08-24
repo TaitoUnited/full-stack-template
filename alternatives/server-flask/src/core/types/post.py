@@ -31,10 +31,11 @@ def post_server_to_client(data: DBPost) -> PostDict:
 
 
 def post_server_to_client(data):
-    """Converst DBPost to dict.
-    """
+    """Converst DBPost to dict."""
+
     def convert(post: DBPost) -> PostDict:
         return to_camel(dataclasses.asdict(post))
+
     if type(data) is DBPost:
         return convert(data)
     return [convert(post) for post in data]

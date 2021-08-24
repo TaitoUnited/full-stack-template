@@ -1,1 +1,1 @@
-from . import entity # noqa
+from . import entity  # noqa

@@ -1,2 +1,2 @@
-from . import media # noqa
-from . import post # noqa
+from . import media  # noqa
+from . import post  # noqa

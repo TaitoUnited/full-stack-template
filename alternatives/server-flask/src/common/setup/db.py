@@ -16,7 +16,7 @@ def connect(app: flask.Flask) -> None:
     Uses simple connection pool. This is not thread safe, and should
     be called post-fork when behind e.g. uwsgi.
     """
-    app.logger.debug('Creating DB connection pool.')
+    app.logger.debug("Creating DB connection pool.")
     global pool
     attempt = 1
     while pool is None:
@@ -24,27 +24,27 @@ def connect(app: flask.Flask) -> None:
         # attempts.
         try:
             pool = psycopg2.pool.SimpleConnectionPool(
-                app.config['DATABASE_POOL_MIN'],
-                app.config['DATABASE_POOL_MAX'],
-                host=app.config['DATABASE_HOST'],
-                port=app.config['DATABASE_PORT'],
-                database=app.config['DATABASE_NAME'],
-                user=app.config['DATABASE_USER'],
-                password=app.config['DATABASE_PASSWORD'],
-                )
+                app.config["DATABASE_POOL_MIN"],
+                app.config["DATABASE_POOL_MAX"],
+                host=app.config["DATABASE_HOST"],
+                port=app.config["DATABASE_PORT"],
+                database=app.config["DATABASE_NAME"],
+                user=app.config["DATABASE_USER"],
+                password=app.config["DATABASE_PASSWORD"],
+            )
         except psycopg2.OperationalError as e:
-            if attempt >= app.config['DATABASE_MAX_RETRIES']:
-                app.logger.exception('Could not connect to DB.')
+            if attempt >= app.config["DATABASE_MAX_RETRIES"]:
+                app.logger.exception("Could not connect to DB.")
                 raise e
             else:
                 timeout = min(2 ** attempt, 32)
                 app.logger.error(
-                    f'DB connection error, retrying in {timeout} seconds. {e}'
+                    f"DB connection error, retrying in {timeout} seconds. {e}"
                 )
                 time.sleep(timeout)
                 attempt += 1
         else:
-            app.logger.info('DB connection pool created.')
+            app.logger.info("DB connection pool created.")
 
 
 @contextlib.contextmanager
@@ -80,11 +80,10 @@ def execute(
     params: typing.Optional[typing.Dict[str, typing.Any]] = None,
     single: typing.Optional[bool] = False,
 ) -> typing.Union[DBRow, typing.List[DBRow]]:
-    """Executes given statement with given params.
-    """
+    """Executes given statement with given params."""
     with database_connection() as conn, conn.cursor() as cursor:
         mogrified = cursor.mogrify(statement, params)
-        flask.current_app.logger.debug(mogrified.decode('utf8'))
+        flask.current_app.logger.debug(mogrified.decode("utf8"))
         cursor.execute(mogrified)
         if single:
             return cursor.fetchone()
