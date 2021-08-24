@@ -16,7 +16,7 @@ class Posts(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'posts'
+        db_table = "posts"
 
 
 class PostsCreate(models.Model):
@@ -26,4 +26,4 @@ class PostsCreate(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'posts'
+        db_table = "posts"
