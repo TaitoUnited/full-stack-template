@@ -12,7 +12,7 @@ import {
 import { useWindowFocusEffect } from '~utils/observe';
 
 // Re-export all hooks so that they can be used by graphql-codegen
-export * from '@apollo/client';
+export * from '@apollo/client'; // eslint-disable-line import/export
 
 // Add `revalidating` field to query result so that we are able to distinguish
 // between initial data loading and subsequent data revalidating that happens
@@ -22,6 +22,7 @@ interface QueryResult<D, V> extends ApolloQueryResult<D, V> {
 }
 
 // Enhance `useQuery` hook to add better support for Stale-While-Revalidate and Window-Focus-Refetching
+// eslint-disable-next-line import/export
 export function useQuery<TData = any, TVariables = OperationVariables>(
   query: DocumentNode | TypedDocumentNode<TData, TVariables>,
   options?: QueryHookOptions<TData, TVariables> | undefined
