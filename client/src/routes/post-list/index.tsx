@@ -20,7 +20,7 @@ export default function PostListContainer() {
 }
 
 // Preload component and data
-PostListContainer.preload = () => {
+PostListContainer.preload = async () => {
   PostList.preload();
-  apolloClient.query({ query: PostListDocument });
+  await apolloClient.query({ query: PostListDocument });
 };

@@ -76,7 +76,7 @@ function useLinkProps(
   }
 
   // Preload route code for faster page load experience
-  function handlePreload() {
+  async function handlePreload() {
     const match = ({ path }: any) => {
       // Remove search params
       const [_to] = to.toString().split('?');
@@ -93,7 +93,11 @@ function useLinkProps(
     const route = routes.find(match);
 
     if (route?.component && route.component.preload) {
-      route.component.preload(match(route)?.params);
+      try {
+        await route.component.preload(match(route)?.params);
+      } catch (error) {
+        console.log('> Failed to preload route', error);
+      }
     }
   }
 

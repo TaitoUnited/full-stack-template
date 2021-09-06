@@ -20,7 +20,7 @@ const NotFoundAuthenticated = loadable(
 );
 
 type ContainerPage = (() => JSX.Element) & {
-  preload?: (params?: Record<string, any>) => void;
+  preload?: (params?: Record<string, any>) => Promise<void>;
 };
 
 type Route = {

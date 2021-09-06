@@ -32,10 +32,10 @@ export default function PostContainer() {
 }
 
 // Preload component and data
-PostContainer.preload = (params: Record<string, any>) => {
+PostContainer.preload = async (params: Record<string, any>) => {
   Post.preload();
 
-  apolloClient.query({
+  await apolloClient.query({
     query: PostDocument,
     variables: { id: params.id },
   });

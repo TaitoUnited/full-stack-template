@@ -16,6 +16,6 @@ export default function ThemingContainer() {
 }
 
 // Preload component and data
-ThemingContainer.preload = () => {
+ThemingContainer.preload = async () => {
   Theming.preload();
 };
