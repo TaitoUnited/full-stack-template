@@ -28,15 +28,14 @@ export default function PageLayout({ children }: { children: ReactNode }) {
 const Layout = styled.div`
   position: relative;
   overflow: hidden;
-  min-height: 100vh;
-  height: 100%;
+  height: 100vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
   background-color: ${p => p.theme.colors.background};
 
   @supports (-webkit-touch-callout: none) {
-    min-height: -webkit-fill-available;
+    height: -webkit-fill-available;
   }
 `;
 
