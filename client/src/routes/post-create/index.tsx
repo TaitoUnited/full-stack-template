@@ -16,6 +16,6 @@ export default function PostCreateContainer() {
 }
 
 // Preload component and data
-PostCreateContainer.preload = () => {
-  PostCreate.preload();
+PostCreateContainer.preload = async () => {
+  await PostCreate.preload();
 };

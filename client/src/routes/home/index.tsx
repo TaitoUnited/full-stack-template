@@ -13,6 +13,6 @@ export default function HomeContainer() {
 }
 
 // Preload component and data
-HomeContainer.preload = () => {
+HomeContainer.preload = async () => {
   Home.preload();
 };
