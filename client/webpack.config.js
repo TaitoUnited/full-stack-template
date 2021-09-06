@@ -113,7 +113,13 @@ module.exports = function (env, options) {
 
       // Enable HMR + Fast Refresh for development
       !isProd && new webpack.HotModuleReplacementPlugin(),
-      !isProd && new ReactRefreshWebpackPlugin(),
+      !isProd &&
+        new ReactRefreshWebpackPlugin({
+          overlay: {
+            sockPath: PUBLIC_HOST,
+            sockPort: Number(PUBLIC_PORT),
+          },
+        }),
 
       isProd && new LodashModuleReplacementPlugin(),
 
@@ -261,21 +267,22 @@ module.exports = function (env, options) {
       : {
           host: DEV_BINDADDR,
           port: DEV_PORT,
-          public: `${PUBLIC_HOST}:${PUBLIC_PORT}`, // Fix HMR inside Docker container
-          contentBase: [path.join(__dirname, 'assets')],
+          client: {
+            // Fix HMR inside Docker container
+            webSocketURL: {
+              hostname: PUBLIC_HOST,
+              port: PUBLIC_PORT,
+            },
+          },
+          static: [path.join(__dirname, 'assets')],
           hot: true,
           historyApiFallback: true,
-          stats: 'minimal',
           proxy: {
             '/api/*': {
               target: `http://server:${PUBLIC_PORT}`,
               pathRewrite: {
                 '/api': '',
               },
-            },
-            '/socket.io/*': {
-              target: `http://server:${PUBLIC_PORT}`,
-              ws: true,
             },
           },
         },
