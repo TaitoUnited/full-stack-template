@@ -23,7 +23,7 @@ export default async function errorHandlerMiddleware(
     if (ctx.response.status >= 400 && !ctx.response.body) {
       throw new Boom(ctx.response.message, { statusCode: ctx.response.status });
     }
-  } catch (err) {
+  } catch (err: any) {
     if (err.expose) {
       // Koa ctx.throw
       ctx.response.status = err.status;
