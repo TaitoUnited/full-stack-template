@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { OverlayProvider } from 'react-aria';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
 
@@ -14,7 +15,9 @@ export default function Providers({ children }: { children: ReactNode }) {
       <ThemingProvider>
         <AuthProvider>
           <I18nProvider>
-            <Router>{children}</Router>
+            <OverlayProvider>
+              <Router>{children}</Router>
+            </OverlayProvider>
             <Toaster />
           </I18nProvider>
         </AuthProvider>
