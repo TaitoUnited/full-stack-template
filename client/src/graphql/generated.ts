@@ -23,7 +23,6 @@ export type CreatePostInput = {
   subject: Scalars['String'];
 };
 
-
 export type DeletePostInput = {
   id: Scalars['String'];
 };
@@ -154,41 +153,19 @@ export type CreatePostMutationVariables = Exact<{
 }>;
 
 
-export type CreatePostMutation = (
-  { __typename?: 'Mutation' }
-  & { createPost: (
-    { __typename?: 'Post' }
-    & Pick<Post, 'id'>
-  ) }
-);
+export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', id: string } };
 
 export type PostListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PostListQuery = (
-  { __typename?: 'Query' }
-  & { posts: (
-    { __typename?: 'PaginatedPosts' }
-    & Pick<PaginatedPosts, 'total'>
-    & { data: Array<(
-      { __typename?: 'Post' }
-      & Pick<Post, 'id' | 'subject' | 'createdAt'>
-    )> }
-  ) }
-);
+export type PostListQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', total: number, data: Array<{ __typename?: 'Post', id: string, subject: string, createdAt: any }> } };
 
 export type PostQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type PostQuery = (
-  { __typename?: 'Query' }
-  & { post?: Maybe<(
-    { __typename?: 'Post' }
-    & Pick<Post, 'id' | 'createdAt' | 'author' | 'subject' | 'content'>
-  )> }
-);
+export type PostQuery = { __typename?: 'Query', post?: Maybe<{ __typename?: 'Post', id: string, createdAt: any, author: string, subject: string, content: string }> };
 
 
 export const CreatePostDocument = gql`
