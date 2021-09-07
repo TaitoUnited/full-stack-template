@@ -3,22 +3,10 @@ import { LocalStorageWrapper, CachePersistor } from 'apollo3-cache-persist';
 import {
   ApolloClient,
   InMemoryCache,
-  DefaultOptions,
   NormalizedCacheObject,
 } from '@apollo/client';
 
 import config from '~constants/config';
-
-const defaultOptions: DefaultOptions = {
-  query: { fetchPolicy: 'cache-first' },
-  // Use Stale-While-Revalidate pattern to keep data fresh even when it's read from cache
-  watchQuery: {
-    fetchPolicy: 'cache-and-network',
-    // Avoid infinite loops
-    // https://github.com/apollographql/apollo-client/issues/6760#issuecomment-668188727
-    nextFetchPolicy: 'cache-first',
-  },
-};
 
 const cache = new InMemoryCache();
 
@@ -42,7 +30,11 @@ export async function setupApolloClient() {
   const client = new ApolloClient({
     uri: config.API_URL,
     cache,
-    defaultOptions,
+    defaultOptions: {
+      query: {
+        fetchPolicy: 'cache-first',
+      },
+    },
   });
 
   __client__ = client;
