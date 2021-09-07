@@ -31,7 +31,7 @@ type TransientProps = WithTransientMediaProp<{
 
 type ThemedProps = TransientProps & { theme: StyledTheme };
 
-const ownProps = ['axis', 'spacing', 'fluid', 'align', 'justify', 'media'];
+const ownProps = ['axis', 'spacing', 'fluid', 'align', 'justify'];
 
 const vstack = (p: ThemedProps) => css`
   flex-direction: column;

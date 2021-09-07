@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import Sidebar from './Sidebar';
 import Toolbar from './Toolbar';
-import { media } from '~utils/media';
 
 export default function PageLayout({ children }: { children: ReactNode }) {
   return (
@@ -64,11 +63,11 @@ const Content = styled.main`
   margin-right: auto;
   padding: ${p => p.theme.spacing.xlarge}px ${p => p.theme.spacing.medium}px;
 
-  ${p => media.tablet`
-    padding: ${p.theme.spacing.medium}px;
-  `}
+  ${p => p.theme.media.tablet} {
+    padding: ${p => p.theme.spacing.medium}px;
+  }
 
-  ${p => media.phone`
-    padding: ${p.theme.spacing.normal}px;
-  `}
+  ${p => p.theme.media.phone} {
+    padding: ${p => p.theme.spacing.normal}px;
+  }
 `;
