@@ -5,6 +5,7 @@ import PostPlaceholder from './PostPlaceholder';
 import Breadcrumbs from '~components/navigation/Breadcrumbs';
 import { loadableWithFallback } from '~utils/promise';
 import { useDocumentTitle } from '~utils/routing';
+
 import {
   preloadQuery,
   usePostQuery,
@@ -36,7 +37,6 @@ export default function PostContainer() {
   );
 }
 
-// Preload component and data
 PostContainer.preload = (async (params, trigger) => {
   Post.preload();
 

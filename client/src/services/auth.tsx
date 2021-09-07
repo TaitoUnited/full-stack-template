@@ -1,3 +1,5 @@
+import { useApolloClient } from '@apollo/client';
+
 import {
   createContext,
   useState,
@@ -6,7 +8,6 @@ import {
   ReactNode,
 } from 'react';
 
-import { getApolloClient } from '~graphql';
 import { hideSplashScreen } from '~utils/splash';
 import { sleep } from '~utils/promise';
 import storage from '~utils/storage';
@@ -30,6 +31,7 @@ const AuthContext = createContext<undefined | AuthContextValue>(undefined); // p
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState<AuthStatus>('undetermined');
+  const apolloClient = useApolloClient();
 
   async function login(credentials: { email: string; password: string }) {
     try {
@@ -56,10 +58,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } finally {
       // Logout the user even if the network call failed
       setStatus('unauthenticated');
-
-      const apolloClient = getApolloClient();
       await apolloClient.resetStore();
-
       storage.clearAll();
     }
   }
