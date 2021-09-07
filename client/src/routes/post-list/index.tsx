@@ -4,7 +4,13 @@ import type { Props as PostListProps } from './PostList';
 import PostListPlaceholder from './PostListPlaceholder';
 import { loadableWithFallback } from '~utils/promise';
 import { useDocumentTitle } from '~utils/routing';
-import { apolloClient, PostListDocument, usePostListQuery } from '~graphql';
+
+import {
+  preloadQuery,
+  PreloadHandler,
+  PostListDocument,
+  usePostListQuery,
+} from '~graphql';
 
 const PostList = loadableWithFallback<PostListProps>(
   () => import('./PostList'),
@@ -19,8 +25,10 @@ export default function PostListContainer() {
   return <PostList postListQuery={postListQuery} />;
 }
 
-// Preload component and data
-PostListContainer.preload = async () => {
+PostListContainer.preload = (async (_, trigger) => {
   PostList.preload();
-  await apolloClient.query({ query: PostListDocument });
-};
+
+  if (trigger === 'click') {
+    await preloadQuery(PostListDocument);
+  }
+}) as PreloadHandler;

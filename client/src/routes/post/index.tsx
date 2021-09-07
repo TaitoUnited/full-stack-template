@@ -5,7 +5,12 @@ import PostPlaceholder from './PostPlaceholder';
 import Breadcrumbs from '~components/navigation/Breadcrumbs';
 import { loadableWithFallback } from '~utils/promise';
 import { useDocumentTitle } from '~utils/routing';
-import { apolloClient, usePostQuery, PostDocument } from '~graphql';
+import {
+  preloadQuery,
+  usePostQuery,
+  PostDocument,
+  PreloadHandler,
+} from '~graphql';
 
 const Post = loadableWithFallback<PostParams>(
   () => import('./Post'),
@@ -32,11 +37,10 @@ export default function PostContainer() {
 }
 
 // Preload component and data
-PostContainer.preload = async (params: Record<string, any>) => {
+PostContainer.preload = (async (params, trigger) => {
   Post.preload();
 
-  await apolloClient.query({
-    query: PostDocument,
-    variables: { id: params.id },
-  });
-};
+  if (trigger === 'click') {
+    await preloadQuery(PostDocument, { id: params?.id });
+  }
+}) as PreloadHandler;

@@ -32,7 +32,7 @@ export default function PostListPage({ postListQuery }: Props) {
         <Stack as="ul" axis="y" spacing="normal">
           {posts.map(post => (
             <li key={post.id}>
-              <UnstyledLink to={post.id} preloadMethod="click">
+              <UnstyledLink to={post.id}>
                 <PostListCard
                   createdAt={post.createdAt}
                   subject={post.subject}

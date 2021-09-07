@@ -3,6 +3,7 @@ import { t } from '@lingui/macro';
 import PostCreatePlaceholder from './PostCreatePlaceholder';
 import { loadableWithFallback } from '~utils/promise';
 import { useDocumentTitle } from '~utils/routing';
+import { PreloadHandler } from '~graphql';
 
 const PostCreate = loadableWithFallback(
   () => import('./PostCreate'),
@@ -15,7 +16,6 @@ export default function PostCreateContainer() {
   return <PostCreate />;
 }
 
-// Preload component and data
-PostCreateContainer.preload = async () => {
-  await PostCreate.preload();
-};
+PostCreateContainer.preload = (async () => {
+  PostCreate.preload();
+}) as PreloadHandler;

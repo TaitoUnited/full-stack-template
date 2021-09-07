@@ -11,6 +11,7 @@ import Theming from './theming';
 import Page from '~components/navigation/Page';
 import ProtectedRoute from '~components/navigation/ProtectedRoute';
 import { useAuthCheck } from '~services/auth';
+import { PreloadHandler } from '~graphql';
 
 const Main = loadable(() => import('./Main'));
 const Login = loadable(() => import('./login'));
@@ -19,9 +20,7 @@ const NotFoundAuthenticated = loadable(
   () => import('./not-found/index.authenticated')
 );
 
-type ContainerPage = (() => JSX.Element) & {
-  preload?: (params?: Record<string, any>) => Promise<void>;
-};
+type ContainerPage = (() => JSX.Element) & { preload?: PreloadHandler };
 
 type Route = {
   path: string;

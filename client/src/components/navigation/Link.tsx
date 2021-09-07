@@ -14,12 +14,11 @@ import { routes } from '../../routes';
 
 type Props = LinkProps & {
   children: ReactNode;
-  preloadMethod?: 'hover' | 'click';
 };
 
 export const Link = forwardRef<any, Props>(
-  ({ children, to, preloadMethod, ...props }, ref: any) => {
-    const p = useLinkProps(to, preloadMethod);
+  ({ children, to, ...props }, ref: any) => {
+    const p = useLinkProps(to);
 
     return (
       <FocusRing focusRingClass="link-focus">
@@ -34,8 +33,8 @@ export const Link = forwardRef<any, Props>(
 Link.displayName = 'Link';
 
 export const UnstyledLink = forwardRef<any, Props>(
-  ({ children, to, preloadMethod, ...props }, ref: any) => {
-    const p = useLinkProps(to, preloadMethod);
+  ({ children, to, ...props }, ref: any) => {
+    const p = useLinkProps(to);
 
     return (
       <UnstyledLinkWrapper {...props} {...p} to={to} ref={ref}>
@@ -49,8 +48,8 @@ UnstyledLink.displayName = 'UnstyledLink';
 
 // Nav link knows whether it is active or not based on the current url
 export const NavLink = forwardRef<any, Props>(
-  ({ children, to, preloadMethod, ...props }, ref: any) => {
-    const p = useLinkProps(to, preloadMethod);
+  ({ children, to, ...props }, ref: any) => {
+    const p = useLinkProps(to);
 
     return (
       <FocusRing focusRingClass="link-focus">
@@ -64,10 +63,7 @@ export const NavLink = forwardRef<any, Props>(
 
 NavLink.displayName = 'NavLink';
 
-function useLinkProps(
-  to: Props['to'],
-  preloadMethod: Props['preloadMethod'] = 'hover'
-) {
+function useLinkProps(to: Props['to']) {
   const isStale = useStaleReload();
 
   function handleStaleNavigation() {
@@ -76,7 +72,7 @@ function useLinkProps(
   }
 
   // Preload route code for faster page load experience
-  async function handlePreload() {
+  async function handlePreload(trigger: 'click' | 'hover') {
     const match = ({ path }: any) => {
       // Remove search params
       const [_to] = to.toString().split('?');
@@ -94,7 +90,7 @@ function useLinkProps(
 
     if (route?.component && route.component.preload) {
       try {
-        await route.component.preload(match(route)?.params);
+        await route.component.preload(match(route)?.params || null, trigger);
       } catch (error) {
         console.log('> Failed to preload route', error);
       }
@@ -104,10 +100,10 @@ function useLinkProps(
   return useMemo(
     () => ({
       onClick: handleStaleNavigation,
-      onMouseEnter: preloadMethod === 'hover' ? handlePreload : undefined,
-      onMouseDown: preloadMethod === 'click' ? handlePreload : undefined,
+      onMouseEnter: () => handlePreload('hover'),
+      onMouseDown: () => handlePreload('click'),
     }),
-    [to, preloadMethod] // eslint-disable-line
+    [to] // eslint-disable-line
   );
 }
 
