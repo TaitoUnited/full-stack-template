@@ -6,7 +6,7 @@ import {
   ReactNode,
 } from 'react';
 
-import { apolloClient } from '~graphql';
+import { getApolloClient } from '~graphql';
 import { hideSplashScreen } from '~utils/splash';
 import { sleep } from '~utils/promise';
 import storage from '~utils/storage';
@@ -56,7 +56,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } finally {
       // Logout the user even if the network call failed
       setStatus('unauthenticated');
+
+      const apolloClient = getApolloClient();
       await apolloClient.resetStore();
+
       storage.clearAll();
     }
   }
