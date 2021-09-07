@@ -84,61 +84,68 @@ const darkColors = {
   background: '#111111', // app main background
 };
 
-const baseBreakpoints = {
+const rem = (px: number) => `${px / 16}rem`;
+const em = (px: number) => `${px / 16}em`;
+
+const breakpoints = {
   phone: { min: 0, max: 767 },
   tablet: { min: 768, max: 1024 },
   desktop: { min: 1025, max: 1800 },
   monitor: { min: 1801, max: Infinity },
 };
 
-const breakpoints = {
-  ...baseBreakpoints,
-  tabletDown: { max: baseBreakpoints.tablet.max },
-  tabletUp: { min: baseBreakpoints.tablet.min },
-  desktopDown: { max: baseBreakpoints.desktop.max },
-  desktopUp: { min: baseBreakpoints.desktop.min },
+const media = {
+  phone: `@media (max-width: ${em(breakpoints.phone.max)})`,
+  tablet: `@media (min-width: ${em(breakpoints.tablet.min)}) and (max-width: ${em(breakpoints.tablet.max)})`, // prettier-ignore
+  tabletDown: `@media (max-width: ${em(breakpoints.tablet.max)})`,
+  tabletUp: `@media (min-width: ${em(breakpoints.tablet.min)})`,
+  desktop: `@media (min-width: ${em(breakpoints.desktop.min)}) and (max-width: ${em(breakpoints.desktop.max)})`, // prettier-ignore
+  desktopDown: `@media (max-width: ${em(breakpoints.desktop.max)})`,
+  desktopUp: `@media (min-width: ${em(breakpoints.desktop.min)})`,
+  monitor: `@media (min-width: ${em(breakpoints.monitor.min)})`,
 };
 
 export const theme = {
-  breakpoints,
+  rem,
+  media,
   colors: lightColors,
   typography: {
     title1: {
-      fontSize: 48,
+      fontSize: rem(48),
       fontWeight: 700,
     } as CSSObject,
     title2: {
-      fontSize: 32,
+      fontSize: rem(32),
       fontWeight: 700,
     } as CSSObject,
     title3: {
-      fontSize: 24,
+      fontSize: rem(24),
       fontWeight: 700,
     } as CSSObject,
     subtitle: {
-      fontSize: 16,
+      fontSize: rem(16),
       fontWeight: 700,
     } as CSSObject,
     body: {
-      fontSize: 16,
+      fontSize: rem(16),
       fontWeight: 400,
     } as CSSObject,
     bodyLarge: {
-      fontSize: 18,
+      fontSize: rem(18),
       fontWeight: 400,
     } as CSSObject,
     bodySmall: {
-      fontSize: 12,
+      fontSize: rem(12),
       fontWeight: 400,
     } as CSSObject,
     overline: {
-      fontSize: 10,
+      fontSize: rem(10),
       textTransform: 'uppercase',
       fontWeight: 500,
       letterSpacing: 0.8,
     } as CSSObject,
     caption: {
-      fontSize: 10,
+      fontSize: rem(10),
       fontWeight: 400,
     } as CSSObject,
   },
@@ -190,6 +197,6 @@ export type Typography = keyof Theme['typography'];
 export type Color = keyof Theme['colors'];
 export type Spacing = keyof Theme['spacing'];
 export type Radius = keyof Theme['radii'];
-export type Breakpoint = keyof Theme['breakpoints'];
+export type Breakpoint = keyof Theme['media'];
 export type Shadow = keyof Theme['shadows'];
 export type Size = keyof Theme['sizing'];

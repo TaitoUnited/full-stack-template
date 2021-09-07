@@ -1,3 +1,5 @@
+import { css } from 'styled-components';
+
 export const getImportant = (i: boolean) => (i ? '!important' : '');
 
 const transient = (x: string) => `$${x}`;
@@ -41,8 +43,14 @@ export function getResponsiveCSS(
   getCSS: (p: any, b?: boolean) => any
 ) {
   if (!parsedProps.$media || !parsedProps.theme.media) return '';
+
   return Object.entries(parsedProps.$media).map(([breakpoint, props]: any) => {
     const breakpointCSS = getCSS({ ...parsedProps, ...props }, true); // true for adding !important
-    return parsedProps.theme.media[breakpoint]`${breakpointCSS}`;
+
+    return css`
+      ${parsedProps.theme.media[breakpoint]} {
+        ${breakpointCSS}
+      }
+    `;
   });
 }

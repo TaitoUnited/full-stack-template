@@ -23,7 +23,7 @@ type TransientProps = WithTransientMediaProp<{
 
 type ThemedProps = TransientProps & { theme: StyledTheme };
 
-const ownProps = ['axis', 'size', 'media'];
+const ownProps = ['axis', 'size'];
 
 const hspacer = (p: ThemedProps, i: string) => css`
   width: ${getSpacing(p)};
