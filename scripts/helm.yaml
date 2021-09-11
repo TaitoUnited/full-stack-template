@@ -184,9 +184,12 @@ full-stack:
         - ${taito_resource_namespace} # For GCP
       serviceAccount: # For GCP
         secret: ${taito_project}-${taito_env}-storage-serviceaccount.key # For GCP
+      secretEnv: # For GCP
+        MINIO_ROOT_USER: ${taito_project}-${taito_env}-storage.accessKeyId # For GCP
+        MINIO_ROOT_PASSWORD: ${taito_project}-${taito_env}-storage.secretKey # For GCP
       secretEnv: # For Azure
-        MINIO_ACCESS_KEY: ${taito_project}-${taito_env}-storage.accessKeyId # For Azure
-        MINIO_SECRET_KEY: ${taito_project}-${taito_env}-storage.secretKey # For Azure
+        MINIO_ROOT_USER: ${taito_project}-${taito_env}-storage.accessKeyId # For Azure
+        MINIO_ROOT_PASSWORD: ${taito_project}-${taito_env}-storage.secretKey # For Azure
         AZURE_STORAGE_KEY: ${taito_project}-${taito_env}-storage.accessKey1 # For Azure
       env:
         AZURE_STORAGE_ACCOUNT: acmeazureware${taito_env} # For Azure
