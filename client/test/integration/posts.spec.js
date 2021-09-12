@@ -3,13 +3,13 @@
 describe('Posts', () => {
   beforeEach(() => {
     // API call example
-    cy.request('/api/posts?offset=0&limit=1').then((response) => {
+    cy.request('/api/posts?offset=0&limit=1').then(response => {
       cy.log(JSON.stringify(response.body.data[0]));
     });
 
     // Database call example
     // NOTE: Prefer API calls.
-    cy.task('sql', 'select * from posts limit 1').then((data) => {
+    cy.task('sql', 'select * from post limit 1').then(data => {
       cy.log(JSON.stringify(data));
     });
 
@@ -39,7 +39,7 @@ describe('Posts', () => {
       .and('contain', `content-${random}`);
 
     // Assert: API call example
-    cy.request('/api/posts?offset=0&limit=20').then((response) => {
+    cy.request('/api/posts?offset=0&limit=20').then(response => {
       const post = response.body.data[0];
       expect(post).to.have.property('subject', `subject-${random}`);
       expect(post).to.have.property('author', `author-${random}`);
