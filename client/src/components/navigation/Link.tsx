@@ -14,15 +14,16 @@ import { routes } from '../../routes';
 
 type Props = LinkProps & {
   children: ReactNode;
+  testId?: string;
 };
 
 export const Link = forwardRef<any, Props>(
-  ({ children, to, ...props }, ref: any) => {
+  ({ children, to, testId, ...props }, ref: any) => {
     const p = useLinkProps(to);
 
     return (
       <FocusRing focusRingClass="link-focus">
-        <LinkWrapper {...props} {...p} to={to} ref={ref}>
+        <LinkWrapper {...props} {...p} to={to} ref={ref} data-test={testId}>
           {children}
         </LinkWrapper>
       </FocusRing>
@@ -33,11 +34,17 @@ export const Link = forwardRef<any, Props>(
 Link.displayName = 'Link';
 
 export const UnstyledLink = forwardRef<any, Props>(
-  ({ children, to, ...props }, ref: any) => {
+  ({ children, to, testId, ...props }, ref: any) => {
     const p = useLinkProps(to);
 
     return (
-      <UnstyledLinkWrapper {...props} {...p} to={to} ref={ref}>
+      <UnstyledLinkWrapper
+        {...props}
+        {...p}
+        to={to}
+        ref={ref}
+        data-test={testId}
+      >
         {children}
       </UnstyledLinkWrapper>
     );
@@ -48,12 +55,12 @@ UnstyledLink.displayName = 'UnstyledLink';
 
 // Nav link knows whether it is active or not based on the current url
 export const NavLink = forwardRef<any, Props>(
-  ({ children, to, ...props }, ref: any) => {
+  ({ children, to, testId, ...props }, ref: any) => {
     const p = useLinkProps(to);
 
     return (
       <FocusRing focusRingClass="link-focus">
-        <NavLinkWrapper {...props} {...p} to={to} ref={ref}>
+        <NavLinkWrapper {...props} {...p} to={to} ref={ref} data-test={testId}>
           {children}
         </NavLinkWrapper>
       </FocusRing>

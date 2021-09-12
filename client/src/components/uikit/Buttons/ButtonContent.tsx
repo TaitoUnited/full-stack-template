@@ -30,6 +30,7 @@ const ButtonContent = forwardRef<HTMLButtonElement, Props>(
       size = 'normal',
       type = 'button',
       variant,
+      testId,
       ...rest
     },
     ref
@@ -67,6 +68,7 @@ const ButtonContent = forwardRef<HTMLButtonElement, Props>(
         {...rest}
         {...buttonProps}
         {...focusProps}
+        testId={testId}
         as={asTag}
         ref={mergeRefs([localRef, ref])}
         $size={size}
@@ -119,9 +121,12 @@ type WrapperProps = {
   $isPressed: boolean;
   $size: ButtonSize;
   $variant: ButtonVariant;
+  testId?: string;
 };
 
-const Wrapper = styled.button<WrapperProps>`
+const Wrapper = styled.button.attrs<WrapperProps>(({ testId }) => ({
+  'data-test': testId,
+}))<WrapperProps>`
   position: relative;
   display: inline-flex;
   flex-direction: row;

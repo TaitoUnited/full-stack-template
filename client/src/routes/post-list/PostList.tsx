@@ -29,7 +29,7 @@ export default function PostListPage({ postListQuery }: Props) {
       </Text>
 
       {posts.length > 0 ? (
-        <Stack as="ul" axis="y" spacing="normal">
+        <Stack as="ul" axis="y" spacing="normal" data-test="post-list">
           {posts.map(post => (
             <li key={post.id}>
               <UnstyledLink to={post.id}>
@@ -52,6 +52,7 @@ export default function PostListPage({ postListQuery }: Props) {
           variant="primary"
           icon={HiPencil}
           label="New post"
+          testId="navigate-to-create-post"
           {...({ as: UnstyledLink, to: 'create' } as any)}
         />
       </NewPostButton>

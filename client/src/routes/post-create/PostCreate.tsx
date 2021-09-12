@@ -57,6 +57,7 @@ export default function PostCreatePage() {
             <TextInput
               label={t`Subject`}
               name="subject"
+              data-test="subject-field"
               value={formValues.subject}
               onChange={handleChange}
             />
@@ -64,6 +65,7 @@ export default function PostCreatePage() {
             <TextInput
               label={t`Author`}
               name="author"
+              data-test="author-field"
               value={formValues.author}
               onChange={handleChange}
             />
@@ -71,6 +73,7 @@ export default function PostCreatePage() {
             <TextInput
               label={t`Content`}
               name="content"
+              data-test="content-field"
               value={formValues.content}
               onChange={handleChange}
               as="textarea"
@@ -83,6 +86,7 @@ export default function PostCreatePage() {
               loading={createPostState.loading}
               disabled={submitDisabled}
               style={{ alignSelf: 'flex-end' }}
+              testId="submit-post"
             >
               {createPostState.loading ? (
                 <Trans>Creating</Trans>

@@ -11,18 +11,28 @@ export default function Sidebar() {
   const auth = useAuth();
 
   const items = [
-    { label: t`Home`, icon: HiHome, to: '/' },
-    { label: t`Blog`, icon: HiBookOpen, to: '/blog' },
-    { label: t`Theming`, icon: HiOutlineSupport, to: '/theming' },
+    { label: t`Home`, icon: HiHome, to: '/', testId: 'navigate-to-home' },
+    {
+      label: t`Blog`,
+      icon: HiBookOpen,
+      to: '/blog',
+      testId: 'navigate-to-blog',
+    },
+    {
+      label: t`Theming`,
+      icon: HiOutlineSupport,
+      to: '/theming',
+      testId: 'navigate-to-theming',
+    },
   ];
 
   return (
     <Wrapper>
       <Nav>
         <NavList>
-          {items.map(({ label, icon, to }) => (
+          {items.map(({ label, icon, to, testId }) => (
             <li key={label}>
-              <NavItemLink to={to}>
+              <NavItemLink to={to} testId={testId}>
                 <Icon icon={icon} size={24} color="text" />
                 <Spacer axis="x" size="normal" />
                 <Text variant="body">{label}</Text>
