@@ -57,7 +57,7 @@ export default function PostCreatePage() {
             <TextInput
               label={t`Subject`}
               name="subject"
-              data-test="subject-field"
+              data-test-id="subject-field"
               value={formValues.subject}
               onChange={handleChange}
             />
@@ -65,7 +65,7 @@ export default function PostCreatePage() {
             <TextInput
               label={t`Author`}
               name="author"
-              data-test="author-field"
+              data-test-id="author-field"
               value={formValues.author}
               onChange={handleChange}
             />
@@ -73,7 +73,7 @@ export default function PostCreatePage() {
             <TextInput
               label={t`Content`}
               name="content"
-              data-test="content-field"
+              data-test-id="content-field"
               value={formValues.content}
               onChange={handleChange}
               as="textarea"

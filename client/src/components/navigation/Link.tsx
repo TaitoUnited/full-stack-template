@@ -23,7 +23,7 @@ export const Link = forwardRef<any, Props>(
 
     return (
       <FocusRing focusRingClass="link-focus">
-        <LinkWrapper {...props} {...p} to={to} ref={ref} data-test={testId}>
+        <LinkWrapper {...props} {...p} to={to} ref={ref} data-test-id={testId}>
           {children}
         </LinkWrapper>
       </FocusRing>
@@ -43,7 +43,7 @@ export const UnstyledLink = forwardRef<any, Props>(
         {...p}
         to={to}
         ref={ref}
-        data-test={testId}
+        data-test-id={testId}
       >
         {children}
       </UnstyledLinkWrapper>
@@ -60,7 +60,13 @@ export const NavLink = forwardRef<any, Props>(
 
     return (
       <FocusRing focusRingClass="link-focus">
-        <NavLinkWrapper {...props} {...p} to={to} ref={ref} data-test={testId}>
+        <NavLinkWrapper
+          {...props}
+          {...p}
+          to={to}
+          ref={ref}
+          data-test-id={testId}
+        >
           {children}
         </NavLinkWrapper>
       </FocusRing>

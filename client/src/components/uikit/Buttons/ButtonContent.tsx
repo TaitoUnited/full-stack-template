@@ -125,7 +125,7 @@ type WrapperProps = {
 };
 
 const Wrapper = styled.button.attrs<WrapperProps>(({ testId }) => ({
-  'data-test': testId,
+  'data-test-id': testId,
 }))<WrapperProps>`
   position: relative;
   display: inline-flex;

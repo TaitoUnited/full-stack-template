@@ -29,7 +29,7 @@ export default function PostListPage({ postListQuery }: Props) {
       </Text>
 
       {posts.length > 0 ? (
-        <Stack as="ul" axis="y" spacing="normal" data-test="post-list">
+        <Stack as="ul" axis="y" spacing="normal" data-test-id="post-list">
           {posts.map(post => (
             <li key={post.id}>
               <UnstyledLink to={post.id}>

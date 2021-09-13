@@ -17,9 +17,9 @@ describe('Posts', () => {
 
     // Navigate to posts and clear the form
     cy.visit('/');
-    cy.get('[data-test=login]').click();
-    cy.get('[data-test=navigate-to-blog]').click();
-    cy.get('[data-test=navigate-to-create-post]').click();
+    cy.get('[data-test-id=login]').click();
+    cy.get('[data-test-id=navigate-to-blog]').click();
+    cy.get('[data-test-id=navigate-to-create-post]').click();
     cy.get('input').clear();
     cy.get('textarea').clear({ force: true });
   });
@@ -27,14 +27,14 @@ describe('Posts', () => {
   it('Submits a new post', () => {
     const random = Math.floor(Math.random() * 100000000);
 
-    cy.get('[data-test=subject-field]').type(`subject-${random}`);
-    cy.get('[data-test=author-field]').type(`author-${random}`);
-    cy.get('[data-test=content-field]').type(`content-${random}`);
-    cy.get('[data-test=submit-post]').click();
+    cy.get('[data-test-id=subject-field]').type(`subject-${random}`);
+    cy.get('[data-test-id=author-field]').type(`author-${random}`);
+    cy.get('[data-test-id=content-field]').type(`content-${random}`);
+    cy.get('[data-test-id=submit-post]').click();
 
     // Assert
     // TODO: implementation does not currently reload posts after submit
-    // cy.get('[data-test=post-list]')
+    // cy.get('[data-test-id=post-list]')
     //   .should('contain', `subject-${random}`)
     //   .and('contain', `author-${random}`)
     //   .and('contain', `content-${random}`);
