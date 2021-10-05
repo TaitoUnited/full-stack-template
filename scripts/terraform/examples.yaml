@@ -27,3 +27,12 @@ settings:
         resource.type="k8s_container"
         resource.labels.namespace_name="${taito_project}-${taito_env}"
         jsonPayload.message:"Example message"
+
+# ----------------------------------------------------------
+# More
+# ----------------------------------------------------------
+
+# - AWS: https://registry.terraform.io/modules/TaitoUnited/project-resources/aws/latest
+# - Azure: https://registry.terraform.io/modules/TaitoUnited/project-resources/azurerm/latest
+# - GCP: https://registry.terraform.io/modules/TaitoUnited/project-resources/google/latest
+# - DigitalOcean: https://registry.terraform.io/modules/TaitoUnited/project-resources/digitalocean/latest
