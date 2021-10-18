@@ -1,6 +1,6 @@
 > This page contains a short summary of the project itself. See [DEVELOPMENT.md](scripts/taito/DEVELOPMENT.md) and [CONFIGURATION.md](scripts/taito/CONFIGURATION.md) for development and configuration instructions.
 
-[//]: # (TEMPLATE NOTE START)
+[//]: # "TEMPLATE NOTE START"
 
 # full-stack-template
 
@@ -12,35 +12,36 @@ You can also migrate an existing project that does not currently use Taito CLI b
 
 You can use either monorepo or multirepo approach with this template. If you are going for multirepo, just create a separate project for each microservice based on this project template, and define common `taito_namespace` in scripts/taito/project.sh if you want them to share the same namespace. You can also place environment descriptions in a separate repository (see [CONFIGURATION.md](scripts/taito/CONFIGURATION.md#environment-descriptions-in-a-separate-repository)).
 
-[//]: # (TEMPLATE NOTE END)
+[//]: # "TEMPLATE NOTE END"
+
 # Project title
 
 Short description of the project: vision, purpose, company, etc.
 
 Table of contents:
 
-* [Links](#links)
-* [Usage](#usage)
-* [Contacts](#contacts)
-* [Responsibilities](#responsibilities)
-* [Intellectual property rights](#intellectual-property-rights)
-* [Manually configured settings](#manually-configured-settings)
-* [Recurring issues and solutions](#recurring-issues-and-solutions)
-* [Miscellaneous notes](#miscellaneous-notes)
-* [Conventions](#conventions)
-* [Architecture Overview](#architecture-overview)
-* [Security](#security)
-* [Compliance](#compliance)
+- [Links](#links)
+- [Usage](#usage)
+- [Contacts](#contacts)
+- [Responsibilities](#responsibilities)
+- [Intellectual property rights](#intellectual-property-rights)
+- [Manually configured settings](#manually-configured-settings)
+- [Recurring issues and solutions](#recurring-issues-and-solutions)
+- [Miscellaneous notes](#miscellaneous-notes)
+- [Conventions](#conventions)
+- [Architecture Overview](#architecture-overview)
+- [Security](#security)
+- [Compliance](#compliance)
 
 ## Links
 
 Non-production basic auth credentials: `USERNAME` / `PASSWORD`
 
-[//]: # (GENERATED LINKS START)
+[//]: # "GENERATED LINKS START"
 
 LINKS WILL BE GENERATED HERE
 
-[//]: # (GENERATED LINKS END)
+[//]: # "GENERATED LINKS END"
 
 > You can update this section by configuring links in `scripts/taito/project.sh` and running `taito project generate`.
 
@@ -50,8 +51,8 @@ LINKS WILL BE GENERATED HERE
 
 ## Contacts
 
-* Project Manager: John Doe, Company co.
-* Designer: Jane Doe, Company co.
+- Project Manager: John Doe, Company co.
+- Designer: Jane Doe, Company co.
 
 > NOTE: It is recommended to use a shared address book or CRM for keeping the contact details like email and phone number up-to-date.
 
@@ -85,10 +86,10 @@ DIAGRAM: You can use [Gravizo](https://www.gravizo.com) for making a architectur
 
 ### Integrations
 
-* Client uses Google Maps
-* Server uses system X for authorization (OAUTH)
-* Server fetches products from system Y (REST/json)
-* Server sends email using Sendgrid (REST/json)
+- Client uses Google Maps
+- Server uses system X for authorization (OAUTH)
+- Server fetches products from system Y (REST/json)
+- Server sends email using Sendgrid (REST/json)
 
 ### Processes
 
@@ -105,14 +106,14 @@ Only non-trivial processes need to be described here (e.g. scheduled batch proce
 
 1. User performs action on UI
 2. Server adds message to queue
-5. ...
-6. ...
-7. Server sends email
+3. ...
+4. ...
+5. Server sends email
 
 #### Scheduled Jobs
 
-* ...
-* ...
+- ...
+- ...
 
 ## Security
 
