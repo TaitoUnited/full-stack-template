@@ -1,6 +1,7 @@
+import { createContext, useContext, CSSProperties, ReactNode } from 'react';
 import styled, { keyframes, useTheme } from 'styled-components';
-import type { CSSProperties } from 'react';
-import type { Spacing, Radius } from '~constants/theme';
+import type { Spacing, Radius, Color } from '~constants/theme';
+import { fadeColor } from '~utils/fn';
 
 type Props = {
   marginTop?: Spacing | number;
@@ -11,9 +12,30 @@ type Props = {
   height?: Spacing | CSSProperties['height'];
   style?: CSSProperties;
   borderRadius?: Radius | number;
+  backgroundColor?: Color;
+};
+
+type SkeletonPlaceholderContextValue = {
+  backgroundColor: Color;
 };
 
 const BG_SIZE = 800; // this is just some arbitrary value that looks good
+
+const SkeletonPlaceholderContext = createContext<SkeletonPlaceholderContextValue>({ backgroundColor: 'muted5' }); // prettier-ignore
+
+export function SkeletonPlaceholderProvider({
+  children,
+  backgroundColor,
+}: {
+  children: ReactNode;
+  backgroundColor: Color;
+}) {
+  return (
+    <SkeletonPlaceholderContext.Provider value={{ backgroundColor }}>
+      {children}
+    </SkeletonPlaceholderContext.Provider>
+  );
+}
 
 export default function SkeletonPlaceholder({
   width,
@@ -27,6 +49,7 @@ export default function SkeletonPlaceholder({
   ...rest
 }: Props) {
   const { spacing, radii } = useTheme();
+  const { backgroundColor } = useContext(SkeletonPlaceholderContext);
 
   return (
     <Wrapper
@@ -43,6 +66,7 @@ export default function SkeletonPlaceholder({
         ...style,
       }}
       {...rest}
+      backgroundColor={rest.backgroundColor || backgroundColor}
     />
   );
 }
@@ -56,14 +80,14 @@ const shimmerAnimation = keyframes`
   }
 `;
 
-const Wrapper = styled.div<{ borderRadius?: Radius }>`
+const Wrapper = styled.div<{ borderRadius?: Radius; backgroundColor: Color }>`
   flex-shrink: 0;
   animation: ${shimmerAnimation} 2s forwards infinite linear;
   background-repeat: no-repeat;
   background: linear-gradient(
     to right,
-    ${p => p.theme.colors.muted5} 8%,
-    ${p => p.theme.colors.muted4} 18%,
-    ${p => p.theme.colors.muted5} 33%
+    ${p => fadeColor(p.theme.colors[p.backgroundColor], 0.5)} 8%,
+    ${p => p.theme.colors[p.backgroundColor]} 18%,
+    ${p => fadeColor(p.theme.colors[p.backgroundColor], 0.5)} 33%
   );
 `;
