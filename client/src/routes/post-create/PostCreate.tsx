@@ -5,7 +5,7 @@ import { toast } from 'react-hot-toast';
 import { t, Trans } from '@lingui/macro';
 
 import { Text, TextInput, Stack, FillButton } from '~uikit';
-import { useCreatePostMutation } from '~graphql';
+import { PostListDocument, useCreatePostMutation } from '~graphql';
 
 export default function PostCreatePage() {
   const [formValues, setFormValues] = useState({
@@ -34,6 +34,7 @@ export default function PostCreatePage() {
           author: formValues.author,
           content: formValues.content,
         },
+        refetchQueries: [PostListDocument],
       });
 
       navigate('/blog');
