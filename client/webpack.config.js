@@ -60,6 +60,7 @@ module.exports = function (env, options) {
         '~uikit': path.resolve(__dirname, 'src/components/uikit/index'),
         '~components': path.resolve(__dirname, 'src/components'),
         '~utils': path.resolve(__dirname, 'src/utils'),
+        '~types': path.resolve(__dirname, 'src/types'),
       },
     },
 

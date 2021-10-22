@@ -3,7 +3,7 @@ import { Trans } from '@lingui/macro';
 import { Text } from '~uikit';
 import { useDocumentTitle } from '~utils/routing';
 
-export default function NotFound() {
+export default function NotFoundAuthenticatedPage() {
   useDocumentTitle('404');
 
   return (

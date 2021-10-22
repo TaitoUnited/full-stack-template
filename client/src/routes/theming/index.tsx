@@ -3,19 +3,21 @@ import { t } from '@lingui/macro';
 import ThemingPlaceholder from './ThemingPlaceholder';
 import { loadableWithFallback } from '~utils/promise';
 import { useDocumentTitle } from '~utils/routing';
-import { PreloadHandler } from '~graphql';
+import type { PageEntry } from '~types/navigation';
 
 const Theming = loadableWithFallback(
   () => import('./Theming'),
   <ThemingPlaceholder />
 );
 
-export default function ThemingContainer() {
+const ThemingPageEntry: PageEntry = () => {
   useDocumentTitle(t`Theming`);
 
   return <Theming />;
-}
+};
 
-ThemingContainer.preload = (async () => {
+ThemingPageEntry.preload = async () => {
   Theming.preload();
-}) as PreloadHandler;
+};
+
+export default ThemingPageEntry;

@@ -3,19 +3,20 @@ import { t } from '@lingui/macro';
 import PostCreatePlaceholder from './PostCreatePlaceholder';
 import { loadableWithFallback } from '~utils/promise';
 import { useDocumentTitle } from '~utils/routing';
-import { PreloadHandler } from '~graphql';
+import type { PageEntry } from '~types/navigation';
 
 const PostCreate = loadableWithFallback(
   () => import('./PostCreate'),
   <PostCreatePlaceholder />
 );
-
-export default function PostCreateContainer() {
+const PostCreatePageEntry: PageEntry = () => {
   useDocumentTitle(t`New blog post`);
 
   return <PostCreate />;
-}
+};
 
-PostCreateContainer.preload = (async () => {
+PostCreatePageEntry.preload = async () => {
   PostCreate.preload();
-}) as PreloadHandler;
+};
+
+export default PostCreatePageEntry;
