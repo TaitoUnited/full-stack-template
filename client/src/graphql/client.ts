@@ -34,6 +34,10 @@ export async function setupApolloClient() {
       query: {
         fetchPolicy: 'cache-first',
       },
+      watchQuery: {
+        fetchPolicy: 'cache-and-network',
+        nextFetchPolicy: 'cache-first',
+      },
     },
   });
 
