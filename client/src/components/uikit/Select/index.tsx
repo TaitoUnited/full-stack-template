@@ -1,6 +1,6 @@
 import { InputHTMLAttributes, forwardRef, useState } from 'react';
 import styled, { css } from 'styled-components';
-import { FaChevronDown, } from 'react-icons/fa';
+import { FaChevronDown } from 'react-icons/fa';
 import type { IconType } from 'react-icons';
 
 import Text from '../Text';

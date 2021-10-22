@@ -5,6 +5,7 @@ const lightColors = {
   primary: '#009A48',
   primaryText: '#015227',
   primaryMuted: '#d6ebdb',
+  onPrimary: '#ffffff', // color when text/icon/etc is on primary color
 
   // Informative colors
   info: '#3B82F6',
@@ -48,6 +49,7 @@ const darkColors = {
   primary: '#009A48',
   primaryText: '#1cff87',
   primaryMuted: '#24392a',
+  onPrimary: '#ffffff', // color when text/icon/etc is on primary color
 
   // Informative colors
   info: '#3B82F6',
