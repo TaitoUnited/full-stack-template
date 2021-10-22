@@ -3,16 +3,18 @@ import { t } from '@lingui/macro';
 import HomePlaceholder from './HomePlaceholder';
 import { loadableWithFallback } from '~utils/promise';
 import { useDocumentTitle } from '~utils/routing';
-import { PreloadHandler } from '~graphql';
+import type { PageEntry } from '~types/navigation';
 
 const Home = loadableWithFallback(() => import('./Home'), <HomePlaceholder />);
 
-export default function HomeContainer() {
+const HomePageEntry: PageEntry = () => {
   useDocumentTitle(t`Home`);
 
   return <Home />;
-}
+};
 
-HomeContainer.preload = (async () => {
+HomePageEntry.preload = async () => {
   Home.preload();
-}) as PreloadHandler;
+};
+
+export default HomePageEntry;

@@ -27,7 +27,8 @@
       "~graphql": ["src/graphql/index.ts"],
       "~uikit": ["src/components/uikit/index.ts"],
       "~components/*": ["src/components/*"],
-      "~utils/*": ["src/utils/*"]
+      "~utils/*": ["src/utils/*"],
+      "~types/*": ["src/types/*"]
     }
   },
   "include": ["shared", "src"],
