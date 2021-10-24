@@ -97,6 +97,10 @@ if [[ $template_default_provider != "aws" ]] &&
     sed -i '/# For AWS/d' docker-compose-cicd.yaml
     sed -i '/AWS_/d' docker-compose-cicd.yaml
   fi
+
+  if [[ -f .github/workflows/pipeline.yaml ]]; then
+    sed -i '/# For AWS/d' .github/workflows/pipeline.yaml
+  fi
 fi
 
 # Remove Azure specific settings
@@ -118,6 +122,10 @@ if [[ $template_default_provider != "azure" ]] &&
   if [[ -f docker-compose-cicd.yaml ]]; then
     sed -i '/# For Azure/d' docker-compose-cicd.yaml
     sed -i '/AZURE_/d' docker-compose-cicd.yaml
+  fi
+
+  if [[ -f .github/workflows/pipeline.yaml ]]; then
+    sed -i '/# For Azure/d' .github/workflows/pipeline.yaml
   fi
 
   sed -i '/-storage.accessKey1/d' scripts/taito/project.sh 2> /dev/null || :
@@ -148,6 +156,10 @@ if [[ $template_default_provider != "do" ]] &&
     sed -i '/# For DO/d' docker-compose-cicd.yaml
     sed -i '/DO_/d' docker-compose-cicd.yaml
   fi
+
+  if [[ -f .github/workflows/pipeline.yaml ]]; then
+    sed -i '/# For DO/d' .github/workflows/pipeline.yaml
+  fi
 fi
 
 # Remove GCP specific settings
@@ -169,6 +181,10 @@ if [[ $template_default_provider != "gcp" ]] &&
   if [[ -f docker-compose-cicd.yaml ]]; then
     sed -i '/# For GCP/d' docker-compose-cicd.yaml
     sed -i '/GOOGLE_/d' docker-compose-cicd.yaml
+  fi
+
+  if [[ -f .github/workflows/pipeline.yaml ]]; then
+    sed -i '/# For GCP/d' .github/workflows/pipeline.yaml
   fi
 
   sed -i '/-serviceaccount/d' scripts/taito/project.sh 2> /dev/null || :

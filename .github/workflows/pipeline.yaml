@@ -25,8 +25,10 @@ jobs:
         taito_ci_phases:
         IMAGE_TAG: ${{ github.sha }}
         DOCKER_HOST_PATH: /home/runner/work/full-stack-template/full-stack-template
-        AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-        AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} # For AWS
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # For AWS
+        AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }} # For Azure
+        AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }} # For Azure
     steps:
       # NOTE: GitHub actions runs all jobs on separate virtual machines by
       # default. Currently all steps are run in a single job to avoid pulling
@@ -43,10 +45,14 @@ jobs:
 
       - name: Set authentication
         run: |
-          if [ ! -z "${{ secrets[format('{0}_AZURE_CLIENT_ID', env.BRANCH)] }}" ]; then
-            echo "AZURE_CLIENT_ID=${{ secrets[format('{0}_AZURE_CLIENT_ID', env.BRANCH)] }}" >> $GITHUB_ENV
-            echo "AZURE_CLIENT_SECRET=${{ secrets[format('{0}_AZURE_CLIENT_SECRET', env.BRANCH)] }}" >> $GITHUB_ENV
-          fi # END AZURE_CLIENT_ID
+          if [ ! -z "${{ secrets[format('{0}_AWS_ACCESS_KEY_ID', env.BRANCH)] }}" ]; then # For AWS
+            echo "AWS_ACCESS_KEY_ID=${{ secrets[format('{0}_AWS_ACCESS_KEY_ID', env.BRANCH)] }}" >> $GITHUB_ENV # For AWS
+            echo "AWS_SECRET_ACCESS_KEY=${{ secrets[format('{0}_AWS_SECRET_ACCESS_KEY', env.BRANCH)] }}" >> $GITHUB_ENV # For AWS
+          fi # For AWS
+          if [ ! -z "${{ secrets[format('{0}_AZURE_CLIENT_ID', env.BRANCH)] }}" ]; then # For Azure
+            echo "AZURE_CLIENT_ID=${{ secrets[format('{0}_AZURE_CLIENT_ID', env.BRANCH)] }}" >> $GITHUB_ENV # For Azure
+            echo "AZURE_CLIENT_SECRET=${{ secrets[format('{0}_AZURE_CLIENT_SECRET', env.BRANCH)] }}" >> $GITHUB_ENV # For Azure
+          fi # For Azure
 
       # Configure Kubernetes API
       - name: Set Kubernetes API host if BRANCH_KUBE_API_HOST and BRANCH_KUBE_API_IP configured
