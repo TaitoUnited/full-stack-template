@@ -60,15 +60,15 @@ fi
 
 # Network
 taito_vpn_enabled=${default_vpn_enabled}
-taito_network_tags='${default_network_tags}'
-taito_function_subnet_tags='${default_function_subnet_tags}'
-taito_function_security_group_tags='${default_function_security_group_tags}'
-taito_cache_subnet_tags='${default_cache_subnet_tags}'
-taito_cache_security_group_tags='${default_cache_security_group_tags}'
+taito_network_tags="${default_network_tags}"
+taito_function_subnet_tags="${default_function_subnet_tags}"
+taito_function_security_group_tags="${default_function_security_group_tags}"
+taito_cache_subnet_tags="${default_cache_subnet_tags}"
+taito_cache_security_group_tags="${default_cache_security_group_tags}"
 
 # Policies
-taito_cicd_policies='${default_cicd_policies}'
-taito_gateway_policies='${default_gateway_policies}'
+taito_cicd_policies="${default_cicd_policies}"
+taito_gateway_policies="${default_gateway_policies}"
 
 # Secrets location
 taito_provider_secrets_location=${default_provider_secrets_location}
@@ -255,8 +255,8 @@ case $taito_env in
     taito_cache_security_group_tags="${default_cache_security_group_tags_prod}"
 
     # Policies
-    taito_cicd_policies='${default_cicd_policies_prod}'
-    taito_gateway_policies='${default_gateway_policies_prod}'
+    taito_cicd_policies="${default_cicd_policies_prod}"
+    taito_gateway_policies="${default_gateway_policies_prod}"
 
     # Secrets location
     taito_provider_secrets_location=${default_provider_secrets_location_prod}
@@ -368,8 +368,8 @@ case $taito_env in
     taito_cache_security_group_tags="${default_cache_security_group_tags_prod}"
 
     # Policies
-    taito_cicd_policies='${default_cicd_policies_prod}'
-    taito_gateway_policies='${default_gateway_policies_prod}'
+    taito_cicd_policies="${default_cicd_policies_prod}"
+    taito_gateway_policies="${default_gateway_policies_prod}"
 
     # Secrets location
     taito_provider_secrets_location=${default_provider_secrets_location_prod}

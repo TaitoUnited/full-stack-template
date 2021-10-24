@@ -111,31 +111,31 @@ locals {
         : [],
 
       # Grant developer and common secrets access for CI/CD
-      var.create_cicd_service_account
+      var.create_cicd_service_account && false # TODO
         ? [
             {
               name = "taito-developer"
               id = "taito-developer-for-${var.taito_project}-${var.taito_env}-cicd"
               namespace = null
-              subjects = [ "user:${module.azure.cicd_service_principal_object_id}" ]
+              subjects = [ "user:${module.aws.cicd_service_account_arn}" ]
             },
             {
               name = "taito-secret-viewer"
               id = "taito-secret-viewer-for-${var.taito_project}-${var.taito_env}-cicd"
               namespace = "common"
-              subjects = [ "user:${module.azure.cicd_service_principal_object_id}" ]
+              subjects = [ "user:${module.aws.cicd_service_account_arn}" ]
             },
         ]
         : [],
 
         # Grant db-proxy access for CI/CD
-        var.create_cicd_service_account && var.kubernetes_db_proxy_enabled
+        var.create_cicd_service_account && var.kubernetes_db_proxy_enabled && false # TODO
           ? [
               {
                 name = "taito-proxyer"
                 id = "taito-proxyer-for-${var.taito_project}-${var.taito_env}-cicd"
                 namespace = "db-proxy"
-                subjects = [ "user:${module.azure.cicd_service_principal_object_id}" ]
+                subjects = [ "user:${module.aws.cicd_service_account_arn}" ]
               },
           ]
           : [],
@@ -145,7 +145,7 @@ locals {
 
 module "aws" {
   source  = "TaitoUnited/project-resources/aws"
-  version = "3.0.0"
+  version = "3.0.2"
 
   # Create flags
   # TODO: create_cicd_service_account         = var.create_cicd_service_account
