@@ -39,10 +39,8 @@ jobs:
       # Init
       - name: Check out the repo
         uses: actions/checkout@v2
-
       - name: Set environment
         run: echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
-
       - name: Set authentication
         run: |
           if [ ! -z "${{ secrets[format('{0}_AWS_ACCESS_KEY_ID', env.BRANCH)] }}" ]; then # For AWS
@@ -55,7 +53,7 @@ jobs:
           fi # For Azure
 
       # Configure Kubernetes API
-      - name: Set Kubernetes API host if BRANCH_KUBE_API_HOST and BRANCH_KUBE_API_IP configured
+      - name: Set Kubernetes API host if BRANCH_KUBE_API_* or KUBE_API_* are configured
         env:
           KUBE_API_HOST: ${{ secrets['KUBE_API_HOST'] }}
           KUBE_API_IP: ${{ secrets['KUBE_API_IP'] }}
@@ -68,8 +66,35 @@ jobs:
             echo "${KUBE_API_IP} ${KUBE_API_HOST}" >> /tmp/etchosts
           fi
 
+      # Configure bastion host
+      - name: Set bastion host ssh if BRANCH_BASTION_SSH_* or BASTION_SSH_* are configured
+        env:
+          BASTION_SSH_RSA: ${{ secrets['BASTION_SSH_RSA'] }}
+          BASTION_SSH_RSA_PUB: ${{ secrets['BASTION_SSH_RSA_PUB'] }}
+          BASTION_SSH_CONFIG: ${{ secrets['BASTION_SSH_CONFIG'] }}
+          BASTION_SSH_KNOWN_HOSTS: ${{ secrets['BASTION_SSH_KNOWN_HOSTS'] }}
+          BRANCH_BASTION_SSH_RSA: ${{ secrets[format('{0}_BASTION_SSH_RSA', env.BRANCH)] }}
+          BRANCH_BASTION_SSH_RSA_PUB: ${{ secrets[format('{0}_BASTION_SSH_RSA_PUB', env.BRANCH)] }}
+          BRANCH_BASTION_SSH_CONFIG: ${{ secrets[format('{0}_BASTION_SSH_CONFIG', env.BRANCH)] }}
+          BRANCH_BASTION_SSH_KNOWN_HOSTS: ${{ secrets[format('{0}_BASTION_SSH_KNOWN_HOSTS', env.BRANCH)] }}
+        run: |
+          if [ ! -z "${BRANCH_BASTION_SSH_RSA_PUB}" ]; then
+            echo "Using BRANCH_BASTION_SSH_RSA"
+            echo "$BRANCH_BASTION_SSH_RSA" > /etc/ssh/bastion_rsa
+            echo "$BRANCH_BASTION_SSH_RSA_PUB" > /etc/ssh/bastion_rsa.pub
+            echo "$BRANCH_BASTION_SSH_CONFIG" >> /etc/ssh/ssh_config
+            echo "$BRANCH_BASTION_SSH_KNOWN_HOSTS" >> /etc/ssh/known_hosts
+          elif [ ! -z "${BASTION_SSH_RSA_PUB}" ]; then
+            echo "Using BASTION_SSH_RSA"
+            echo "$BASTION_SSH_RSA" > /etc/ssh/bastion_rsa
+            echo "$BASTION_SSH_RSA_PUB" > /etc/ssh/bastion_rsa.pub
+            echo "$BASTION_SSH_CONFIG" >> /etc/ssh/ssh_config
+            echo "$BASTION_SSH_KNOWN_HOSTS" >> /etc/ssh/known_hosts
+          fi
+          chmod 700 /etc/ssh/bastion_rsa
+
       # Start VPN
-      - name: Start VPN if BRANCH_OVPN_FILE and BRANCH_OVPN_PASSWORD configured
+      - name: Start VPN if BRANCH_OVPN_* or OVPN_* are configured
         env:
           OVPN_FILE: ${{ secrets['OVPN_FILE'] }}
           OVPN_PASSWORD: ${{ secrets['OVPN_PASSWORD'] }}
