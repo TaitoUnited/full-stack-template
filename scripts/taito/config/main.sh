@@ -77,7 +77,7 @@ taito_cicd_secrets_path=${default_cicd_secrets_path}
 # Buckets
 taito_state_bucket=${default_state_bucket}
 taito_functions_bucket=${default_functions_bucket}
-taito_static_assets_bucket=${default_public_bucket}
+taito_static_assets_bucket=${default_static_assets_bucket}
 
 # URLs
 taito_domain=$taito_project-$taito_target_env.${default_domain}
@@ -300,7 +300,7 @@ case $taito_env in
     # Storages
     taito_state_bucket=${default_state_bucket_prod}
     taito_functions_bucket=${default_functions_bucket_prod}
-    taito_static_assets_bucket=${default_public_bucket_prod}
+    taito_static_assets_bucket=${default_static_assets_bucket_prod}
 
     # Storage defaults
     taito_default_storage_class="${default_storage_class_prod}"
@@ -413,7 +413,7 @@ case $taito_env in
     # Storages
     taito_state_bucket=${default_state_bucket_prod}
     taito_functions_bucket=${default_functions_bucket_prod}
-    taito_static_assets_bucket=${default_public_bucket_prod}
+    taito_static_assets_bucket=${default_static_assets_bucket_prod}
 
     # Storage defaults
     taito_default_storage_class="${default_storage_class_prod}"
