@@ -1,6 +1,6 @@
 # Builder and tester container for production build
 FROM node:lts-alpine as builder
-RUN apk add --update-cache build-base python git fontconfig
+RUN apk add --update-cache build-base python3 git fontconfig
 
 RUN mkdir -p /develop
 WORKDIR /develop
