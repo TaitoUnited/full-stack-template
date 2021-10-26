@@ -52,7 +52,7 @@ case $taito_provider in
     "
 
     # Secrets
-    taito_secret_resource_path="arn:aws:ssm:${taito_provider_region}:${taito_provider_org_id}:parameter/${taito_zone}/${taito_namespace}"
+    taito_secret_resource_path="arn:aws:secretsmanager:${taito_provider_region}:${taito_provider_org_id}:secret:/${taito_zone}/${taito_namespace}"
     taito_secret_name_path="/${taito_zone}/${taito_namespace}"
 
     # Kubernetes
