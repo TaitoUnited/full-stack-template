@@ -432,7 +432,7 @@ if [[ ${taito_vpn_enabled} != "true" ]] &&
   ssh_forward_for_db="${ssh_db_proxy}"
 
   ssh_db_proxy_enabled=true
-  if [[ ${taito_provider} == "aws" ]]; then
+  if [[ ${taito_ci_provider} == "aws" ]]; then
     # CI/CD has direct VPC access on AWS
     ci_disable_db_proxy="true"
   fi
