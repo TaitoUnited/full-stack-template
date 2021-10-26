@@ -1,20 +1,24 @@
 import { promises as fsPromises } from 'fs';
 import { isIP } from 'net';
 import aws from 'aws-sdk';
-const awsParamStore = new aws.SSM();
+
+// prettier-ignore
+const secretManagerClient = new aws.SecretsManager({ // aws
+  region: process.env.SECRET_REGION, // aws
+}); // aws
+
+// prettier-ignore
+export const readAwsSecret = async (secretId: string) => { // aws
+  const data = await secretManagerClient // aws
+    .getSecretValue({ SecretId: secretId }) // aws
+    .promise(); // aws
+  return data ? data.SecretString : null; // aws
+}; // aws
 
 export const readFile = async (path: string) => {
   const buf = await fsPromises.readFile(path);
   return buf.toString();
 };
-// prettier-ignore
-export const readParameter = async (paramName: string) => { // aws
-  const secretPath = `${process.env.SECRET_NAME_PATH}/${paramName}`; // aws
-  const result = await awsParamStore // aws
-    .getParameter({ Name: secretPath, WithDecryption: true }) // aws
-    .promise(); // aws
-  return result && result.Parameter && result.Parameter.Value; // aws
-}; // aws
 
 // prettier-ignore
 export const readSecret = async (secret: string, isFileSecret = false) => {
@@ -22,8 +26,8 @@ export const readSecret = async (secret: string, isFileSecret = false) => {
   try {
     if (process.env[secret]) {
       value = process.env[secret];
-    } else if (process.env[`${secret}_PARAM`]) { // aws
-      value = await readParameter(process.env[`${secret}_PARAM`] as string); // aws
+    } else if (process.env[`${secret}_SECRETID`]) { // aws
+      value = await readAwsSecret(process.env[`${secret}_SECRETID`] as string); // aws
       if (value && isFileSecret) { // aws
         value = Buffer.from(value, 'base64').toString('ascii'); // aws
       } // aws
@@ -148,7 +152,7 @@ export const getDatabaseSSL = (config: any, secrets: any) => {
           ca: secrets.DATABASE_SSL_CA,
         }
       : config.DATABASE_SSL_ENABLED
-      ? {}
+      ? { rejectUnauthorized: false } // TODO: remove once AWSCA check works
       : false;
 
   // Skip hostname check if SSL is enabled but HOST is IP or proxy
