@@ -84,14 +84,15 @@ jobs:
             echo "$BRANCH_BASTION_SSH_RSA_PUB" > /etc/ssh/bastion_rsa.pub
             echo "$BRANCH_BASTION_SSH_CONFIG" >> /etc/ssh/ssh_config
             echo "$BRANCH_BASTION_SSH_KNOWN_HOSTS" >> /etc/ssh/known_hosts
+            chmod 700 /etc/ssh/bastion_rsa
           elif [ ! -z "${BASTION_SSH_RSA_PUB}" ]; then
             echo "Using BASTION_SSH_RSA"
             echo "$BASTION_SSH_RSA" > /etc/ssh/bastion_rsa
             echo "$BASTION_SSH_RSA_PUB" > /etc/ssh/bastion_rsa.pub
             echo "$BASTION_SSH_CONFIG" >> /etc/ssh/ssh_config
             echo "$BASTION_SSH_KNOWN_HOSTS" >> /etc/ssh/known_hosts
+            chmod 700 /etc/ssh/bastion_rsa
           fi
-          chmod 700 /etc/ssh/bastion_rsa
 
       # Start VPN
       - name: Start VPN if BRANCH_OVPN_* or OVPN_* are configured
