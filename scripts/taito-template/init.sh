@@ -223,10 +223,10 @@ function prune () {
        ); then
       sed -i "/^    $terraform_name:\r*\$/,/^\r*$/d" ./scripts/terraform.yaml
 
-      # Leave the uptime path however
+      # Leave the uptime path and container type however
       if [[ "admin client server www" == *"$terraform_name"* ]]; then
         path_f="${path//\\/}"
-        echo -e "    $terraform_name:\n      uptimePath: ${path_f%/}/uptimez\n" >> scripts/terraform.yaml
+        echo -e "    $terraform_name:\n      type: container\n      uptimePath: ${path_f%/}/uptimez\n" >> scripts/terraform.yaml
       fi
     fi
 
