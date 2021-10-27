@@ -111,7 +111,7 @@ locals {
         : [],
 
       # Grant developer and common secrets access for CI/CD
-      var.create_cicd_service_account && false # TODO
+      var.create_cicd_service_account
         ? [
             {
               name = "taito-developer"
@@ -129,7 +129,7 @@ locals {
         : [],
 
         # Grant db-proxy access for CI/CD
-        var.create_cicd_service_account && var.kubernetes_db_proxy_enabled && false # TODO
+        var.create_cicd_service_account && var.kubernetes_db_proxy_enabled
           ? [
               {
                 name = "taito-proxyer"
@@ -145,10 +145,10 @@ locals {
 
 module "aws" {
   source  = "TaitoUnited/project-resources/aws"
-  version = "3.0.9"
+  version = "3.1.0"
 
   # Create flags
-  # TODO: create_cicd_service_account         = var.create_cicd_service_account
+  create_cicd_service_account         = var.create_cicd_service_account
   create_domain                       = true
   create_domain_certificate           = true
   create_storage_buckets              = true
@@ -161,25 +161,32 @@ module "aws" {
     var.taito_container_registry_provider == "aws" && var.taito_env == "dev"
   )
 
-  # Provider
+  # AWS provider
   account_id                  = var.taito_provider_org_id
   region                      = var.taito_provider_region
   user_profile                = coalesce(var.taito_provider_user_profile, var.taito_organization)
 
-  # Project
+  # Labels
   zone_name                   = var.taito_zone
   project                     = var.taito_project
   namespace                   = var.taito_namespace
   env                         = var.taito_env
 
   # Container images
-  container_image_repository_path     = var.taito_vc_repository
-  container_image_target_types        = [ "static", "container", "function" ]
-  additional_container_images         = (
-    var.taito_ci_cache_all_targets_with_docker
-    ? var.taito_targets
-    : var.taito_containers
-  )
+  container_image_repository_path      = var.taito_vc_repository
+  container_image_target_types         = [ "container" ]
+  container_image_builder_target_types = [ "static", "container", "function" ]
+
+  # Secrets
+  cicd_secrets_path           = var.taito_cicd_secrets_path
+
+  # Buckets
+  static_assets_bucket        = var.taito_static_assets_bucket
+  static_assets_path          = var.taito_static_assets_path
+  functions_bucket            = var.taito_functions_bucket
+  functions_path              = var.taito_functions_path
+  state_bucket                = var.taito_state_bucket
+  state_path                  = var.taito_state_path
 
   # Uptime
   uptime_channels                 = var.taito_uptime_channels

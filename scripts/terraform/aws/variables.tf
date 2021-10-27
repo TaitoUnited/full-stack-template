@@ -2,7 +2,7 @@
 
 variable "create_cicd_service_account" {
   type = bool
-  default = false # TODO: true
+  default = true
 }
 
 variable "create_kubernetes_service_account" {
@@ -109,12 +109,6 @@ variable "taito_container_registry_provider" {
   description = "Container registry provider (e.g. \"aws\")."
 }
 
-variable "taito_ci_cache_all_targets_with_docker" {
-  type = bool
-  default = false
-  description = "If true, docker is used to cache also non-docker build artifacts."
-}
-
 variable "taito_targets" {
   type = list(string)
   default = []
@@ -142,4 +136,43 @@ variable "kubernetes_db_proxy_enabled" {
 variable "kubernetes_service_account_role" {
   type = string
   default = "taito-restricted-pod"
+}
+
+# Secrets
+
+variable "taito_cicd_secrets_path" {
+  type    = string
+  default = ""
+}
+
+# Buckets
+
+variable "taito_static_assets_bucket" {
+  type    = string
+  description = "Storage bucket for static assets (html, css, js). Required if create_ingress is true."
+}
+
+variable "taito_static_assets_path" {
+  type    = string
+  description = "Storage bucket path for static assets (html, css, js). Required if create_ingress is true."
+}
+
+variable "taito_functions_bucket" {
+  type    = string
+  description = "Storage bucket for function zip-packages. Required if create_functions is true."
+}
+
+variable "taito_functions_path" {
+  type    = string
+  description = "Storage bucket path for function zip-packages. Required if create_functions is true."
+}
+
+variable "taito_state_bucket" {
+  type    = string
+  description = "Storage bucket for terraform state. Required if create_cicd_service_account is true."
+}
+
+variable "taito_state_path" {
+  type    = string
+  description = "Storage bucket path for terraform state. Required if create_cicd_service_account is true."
 }

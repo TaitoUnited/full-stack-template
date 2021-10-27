@@ -14,8 +14,8 @@ settings:
       roles: [] # -storage roles # For GCP
 
   ingress:
-    class: gateway
     enabled: true # ingress
+    class: cloudfront # For AWS
     createMainDomain: false
     domains:
       - name: ${taito_domain}
