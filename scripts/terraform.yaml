@@ -50,6 +50,8 @@ settings:
         SERVICE_ACCOUNT_KEY: ${taito_project}-${taito_env}-server-serviceaccount.key
         DATABASE_PASSWORD: ${db_database_app_secret}
         DATABASE_SSL_CA: ${db_database_ssl_ca_secret}
+        DATABASE_SSL_CERT: ${db_database_ssl_cert_secret}
+        DATABASE_SSL_KEY: ${db_database_ssl_key_secret}
         REDIS_PASSWORD: ${taito_project}-${taito_env}-redis.password
       env:
         # Paths and bind

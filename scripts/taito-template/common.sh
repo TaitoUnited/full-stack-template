@@ -214,6 +214,14 @@ echo "Pruning database SSL settings"
 # Remove database SSL keys if they are not required
 if [[ ${template_default_postgres_ssl_enabled} != "true" ]] ||
    [[ ${template_default_postgres_ssl_client_cert_enabled} != "true" ]]; then
+  if [[ -f scripts/helm.yaml ]]; then
+    sed -i '/DATABASE_SSL_KEY/d' scripts/helm.yaml
+    sed -i '/DATABASE_SSL_CERT/d' scripts/helm.yaml
+  fi
+  if [[ -f scripts/terraform.yaml ]]; then
+    sed -i '/DATABASE_SSL_KEY/d' scripts/terraform.yaml
+    sed -i '/DATABASE_SSL_CERT/d' scripts/terraform.yaml
+  fi
   if [[ -f docker-compose-cicd.yaml ]]; then
     sed -i '/DATABASE_SSL_KEY/d' docker-compose-cicd.yaml
     sed -i '/database_ssl_key/d' docker-compose-cicd.yaml
@@ -227,6 +235,12 @@ if [[ ${template_default_postgres_ssl_enabled} != "true" ]] ||
 fi
 if [[ ${template_default_postgres_ssl_enabled} != "true" ]] ||
    [[ ${template_default_postgres_ssl_server_cert_enabled} != "true" ]]; then
+  if [[ -f scripts/helm.yaml ]]; then
+    sed -i '/DATABASE_SSL_CA/d' scripts/helm.yaml
+  fi
+  if [[ -f scripts/terraform.yaml ]]; then
+    sed -i '/DATABASE_SSL_CA/d' scripts/terraform.yaml
+  fi
   if [[ -f docker-compose-cicd.yaml ]]; then
     sed -i '/DATABASE_SSL_CA/d' docker-compose-cicd.yaml
     sed -i '/database_ssl_ca/d' docker-compose-cicd.yaml
