@@ -44,7 +44,7 @@ settings:
       path: /api
       uptimePath: /api/uptimez
       timeout: 30
-      runtime: nodejs12.x
+      runtime: nodejs14.x
       memoryRequest: 256
       secrets:
         SERVICE_ACCOUNT_KEY: ${taito_project}-${taito_env}-server-serviceaccount.key
