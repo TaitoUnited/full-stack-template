@@ -31,8 +31,8 @@ settings:
 
     client:
       type: static
-      path: /
-      uptimePath: /
+      path: ""
+      uptimePath: ""
 
     www:
       type: static
