@@ -78,6 +78,7 @@ jobs:
           BRANCH_BASTION_SSH_CONFIG: ${{ secrets[format('{0}_BASTION_SSH_CONFIG', env.BRANCH)] }}
           BRANCH_BASTION_SSH_KNOWN_HOSTS: ${{ secrets[format('{0}_BASTION_SSH_KNOWN_HOSTS', env.BRANCH)] }}
         run: |
+          mkdir -p /etc/ssh
           if [ ! -z "${BRANCH_BASTION_SSH_RSA_PUB}" ]; then
             echo "Using BRANCH_BASTION_SSH_RSA"
             echo "$BRANCH_BASTION_SSH_RSA" > /etc/ssh/bastion_rsa
