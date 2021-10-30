@@ -80,9 +80,12 @@ settings:
           # Allow bucket access
           - Effect: Allow
             Action:
+              - s3:ListBucket
+            Resource: 'arn:aws:s3:::${st_bucket_name}'
+          - Effect: Allow
+            Action:
               - s3:GetObject
               - s3:PutObject
-              - s3:PutObjectAcl
             Resource: 'arn:aws:s3:::${st_bucket_name}/*'
 
     redis:
