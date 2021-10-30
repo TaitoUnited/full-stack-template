@@ -396,6 +396,7 @@ case $taito_env in
     ssh_db_proxy_host="${default_bastion_public_ip_prod}"
     if [[ $db_database_type == "pg" ]]; then
       db_database_real_host="${default_postgres_host_prod}"
+      db_database_real_port="${default_postgres_port_prod}"
       db_database_username_suffix=${default_postgres_username_suffix_prod}
       db_database_ssl_enabled="${default_postgres_ssl_enabled_prod:-true}"
       db_database_ssl_client_cert_enabled="${default_postgres_ssl_client_cert_enabled_prod:-false}"
@@ -403,6 +404,7 @@ case $taito_env in
       db_database_proxy_ssl_enabled="${default_postgres_proxy_ssl_enabled_prod:-true}"
     elif [[ $db_database_type == "mysql" ]]; then
       db_database_real_host="${default_mysql_host_prod}"
+      db_database_real_port="${default_mysql_port_prod}"
       db_database_username_suffix=${default_mysql_username_suffix_prod}
       db_database_ssl_enabled="${default_mysql_ssl_enabled_prod:-true}"
       db_database_ssl_client_cert_enabled="${default_mysql_ssl_client_cert_enabled_prod:-false}"
