@@ -145,7 +145,7 @@ locals {
 
 module "aws" {
   source  = "TaitoUnited/project-resources/aws"
-  version = "3.5.0"
+  version = "3.6.1"
 
   # Create flags
   create_cicd_service_account         = var.create_cicd_service_account
@@ -154,6 +154,7 @@ module "aws" {
   create_storage_buckets              = true
   create_databases                    = true
   create_in_memory_databases          = true
+  create_queues                       = true
   create_topics                       = true
   create_service_accounts             = true
   create_uptime_checks                = var.taito_uptime_provider == "aws"
