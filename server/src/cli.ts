@@ -14,7 +14,7 @@ import { CreatePostInput } from './core/types/post';
 // `scripts/helm/examples.yaml` for examples.
 // ------------------------------------------------------------------
 
-const createPost = async (
+export const createPost = async (
   subject?: string,
   author?: string,
   content?: string

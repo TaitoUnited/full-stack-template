@@ -1,5 +1,4 @@
 import 'reflect-metadata';
-import serverless from 'serverless-http';
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import patchKoaQs from 'koa-qs';
@@ -12,6 +11,7 @@ import initSentry from './infra/initSentry';
 import requestLoggerMiddleware from './infra/requestLoggerMiddleware';
 import restMiddlewares from './rest';
 import apollo from './graphql';
+import { initFunctionHandler } from './function';
 
 // Sentry
 initSentry();
@@ -44,8 +44,10 @@ apollo.applyMiddleware({ app: server, path: '/' });
 
 // Start the server or function handler
 let handler = null;
-handler = serverless(server, { basePath: config.BASE_PATH });
-if (!handler || config.COMMON_ENV === 'local') {
+if (config.RUN_AS_FUNCTION) {
+  handler = initFunctionHandler(server, config.BASE_PATH);
+  log.info('Function started');
+} else {
   server.listen(config.API_PORT, config.API_BINDADDR, () => {
     log.info(
       {
@@ -56,8 +58,6 @@ if (!handler || config.COMMON_ENV === 'local') {
       'Server started'
     );
   });
-} else {
-  log.info('Function started');
 }
 
 export { server, handler };

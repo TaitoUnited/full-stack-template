@@ -356,7 +356,7 @@ if [[ ${template_default_kubernetes} ]] || [[ ${kubernetes_name} ]]; then
   # Remove serverless-http adapter since Kubernetes is enabled
   if [[ -d ./server ]] && [[ -f ./server/src/server.ts ]]; then
     sed -i '/serverless/d' ./server/package.json
-    sed -i '/serverless/d' ./server/src/server.ts
+    sed -i '/serverless/d' ./server/src/function.ts
   fi
 
   # Remove server service account

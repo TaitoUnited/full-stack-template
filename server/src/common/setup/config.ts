@@ -56,6 +56,7 @@ const config = {
   COMMON_IMAGE_TAG: process.env.COMMON_IMAGE_TAG,
   COMMON_ENV: process.env.COMMON_ENV, // dev / test / stag / prod
   NODE_ENV: process.env.NODE_ENV, // development / production
+  RUN_AS_FUNCTION: process.env.RUN_AS_FUNCTION === 'true',
 
   // Basic
   ROOT_PATH: __dirname,

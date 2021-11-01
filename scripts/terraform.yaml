@@ -43,7 +43,7 @@ settings:
       type: function
       path: /api
       uptimePath: /api/uptimez
-      timeout: 30
+      timeout: 25
       runtime: nodejs14.x
       memoryRequest: 256
       secrets:
@@ -56,7 +56,9 @@ settings:
       env:
         # Paths and bind
         BASE_PATH: /api
+        RUN_AS_FUNCTION: 'true'
         SECRET_NAME_PATH: ${taito_secret_name_path}
+        SECRET_REGION: ${taito_provider_region}
         # Common variables
         COMMON_LOG_FORMAT: ${taito_logging_format}
         COMMON_LOG_LEVEL: info
