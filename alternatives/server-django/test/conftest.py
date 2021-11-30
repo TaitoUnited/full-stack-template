@@ -31,6 +31,8 @@ class BaseUrlSession(requests.Session):
 
     def create_url(self, url):
         """Create the URL based off this partial path."""
+        if url.startswith("http://") or url.startswith("https://"):
+            return url
         if url.startswith("/"):
             # urljoin is pretty exact about the slash use
             url = url[1:]
