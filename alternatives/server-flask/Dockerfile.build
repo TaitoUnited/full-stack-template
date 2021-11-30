@@ -11,8 +11,9 @@ RUN mkdir -p /develop
 WORKDIR /develop
 
 ARG SERVICE_DIR=.
-COPY ${SERVICE_DIR} /develop
+COPY ${SERVICE_DIR}/requirements* /develop/
 RUN pip3 install --upgrade pip && pip3 install -r requirements-dev.txt
+COPY ${SERVICE_DIR} /develop
 
 RUN flake8
 RUN mypy --ignore-missing-imports src
