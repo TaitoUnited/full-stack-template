@@ -1,4 +1,4 @@
-import { request, initGraphQL } from './common/test.utils';
+import { request, initGraphQL } from '../common/test.utils';
 const { sdk } = initGraphQL();
 
 describe('posts', () => {

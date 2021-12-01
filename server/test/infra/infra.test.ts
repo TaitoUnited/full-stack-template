@@ -1,5 +1,5 @@
 import axios from 'axios';
-import getTestDb from './common/test.db';
+import getTestDb from '../common/test.db';
 
 const request = axios.create({
   baseURL: `${process.env.TEST_API_URL}`,
