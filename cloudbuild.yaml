@@ -7,7 +7,7 @@ timeout: 3000s
 
 options:
   # You can give CI/CD more cpu/mem with machineType
-  # machineType: N1_HIGHCPU_8
+  # machineType: E2_HIGHCPU_8
 
 substitutions:
   _REPO_NAME: full-stack-template

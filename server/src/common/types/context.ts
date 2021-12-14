@@ -13,6 +13,7 @@ export interface User {
   email?: string;
   language?: string;
   role: UserRole;
+  sub: string;
 }
 
 // DAOs can work with raw database calls & transactions

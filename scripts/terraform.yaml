@@ -125,4 +125,65 @@ settings:
         - id: serviceAccount:${taito_project}-${taito_env}-server@${taito_resource_namespace_id}.iam.gserviceaccount.com # For GCP
       objectViewers: # For GCP
 
+  # ------------------------------------------------------------
+  # OAuth (using Auth0)
+  # ------------------------------------------------------------
+
+  auth:
+    tenant:
+      name: TODO
+      logoUrl: https://${taito_domain}/icon.png
+      supportEmail: TODO@mydomain.com
+      supportUrl:
+      defaultDirectory: auth0-database
+      members: # Configure manually in Settings -> Tenant Members
+
+    brand:
+      faviconUrl: https://${taito_domain}/icon.png
+      logoUrl: https://${taito_domain}/icon.png
+      # fontUrl:
+      primaryColor: '#009A48'
+      backgroundColor: '#F3F4F6'
+      # loginPageHtml:
+
+    apis:
+      - name: api
+        identifier: https://${taito_domain}/api
+        signingAlg: RS256
+        skipConsentForVerifiableFirstPartyClients: true
+
+    clients:
+      - id: client
+        name: TODO
+        type: spa
+        tokenEndpointAuthMethod: none
+        connections: [ 'auth0-database' ]
+        callbackUrls:
+          - https://${taito_domain}
+        logoutUrls:
+          - https://${taito_domain}
+        webOrigins:
+          - https://${taito_domain}
+
+      - id: server
+        name: TODO server
+        type: non_interactive
+        connections: [ 'auth0-database' ]
+        tokenEndpointAuthMethod: client_secret_post
+        grants:
+          - audience: https://${auth0_primary_domain}/api/v2/
+            scopes:
+              - create:users
+              - read:users
+              - update:users
+              - delete:users
+
+    connections:
+      - name: auth0-database
+        strategy: auth0
+        options:
+          passwordPolicy: good
+          bruteForceProtection: true
+          # disableSignup: true
+
 # END

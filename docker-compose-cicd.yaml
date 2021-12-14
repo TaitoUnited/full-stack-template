@@ -82,6 +82,8 @@ services:
       - DATABASE_SSL_CA
       - DATABASE_SSL_CERT
       - DATABASE_SSL_KEY
+      - AUTH0_TEST_CLIENT_SECRET
+      - TEST_USER1_PASSWORD
     environment:
       taito_running_tests: "true"
 
@@ -186,6 +188,10 @@ secrets:
     file: ${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_cert_secret}
   DATABASE_SSL_KEY:
     file: ${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_key_secret}
+  AUTH0_TEST_CLIENT_SECRET:
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-auth0-test.clientSecret
+  TEST_USER1_PASSWORD:
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-test-user1.password
 
 networks:
   cicd:

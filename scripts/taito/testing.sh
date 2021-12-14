@@ -71,3 +71,9 @@ if [[ $taito_target_env == "local" ]]; then
   test_all_DATABASE_HOST=$taito_project-database
   :
 fi
+
+# Auth for tests
+test_server_AUTH0_DOMAIN=${auth0_domain}
+test_server_AUTH0_AUDIENCE=https://${auth0_domain}/api
+test_server_AUTH0_TEST_CLIENT_ID=TODO
+test_server_TEST_USER1_USERNAME=TODO@mydomain.com

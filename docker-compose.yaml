@@ -101,6 +101,9 @@ services:
       - DATABASE_PASSWORD
       - REDIS_PASSWORD
       - EXAMPLE_SECRET
+      - AUTH0_SERVER_CLIENT_SECRET
+      - AUTH0_TEST_CLIENT_SECRET
+      - TEST_USER1_PASSWORD      
     environment:
       # Paths and bind
       BASE_PATH: /api
@@ -114,6 +117,12 @@ services:
       COMMON_LOG_FORMAT: text
       COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
       COMMON_ENV: local
+      # Auth
+      AUTH0_DOMAIN: ${auth0_domain}
+      AUTH0_AUDIENCE: https://${auth0_domain}/api
+      AUTH0_CLIENT_CLIENT_ID: TODO
+      AUTH0_SERVER_CLIENT_ID: TODO
+      AUTH0_TEST_CLIENT_ID: TODO
       # Services
       SENTRY_DSN: #sentryDSN
       DATABASE_HOST: full-stack-template-database
@@ -276,6 +285,12 @@ secrets:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-redis.password
   EXAMPLE_SECRET:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-example.secret
+  AUTH0_SERVER_CLIENT_SECRET:
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-auth0-server.clientSecret
+  AUTH0_TEST_CLIENT_SECRET:
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-auth0-test.clientSecret
+  TEST_USER1_PASSWORD:
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-test-user1.password
 
 networks:
   default:

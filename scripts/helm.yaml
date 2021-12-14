@@ -99,12 +99,17 @@ full-stack:
         REDIS_PASSWORD: ${taito_project}-${taito_env}-redis.password
         BUCKET_KEY_SECRET: ${taito_project}-${taito_env}-storage.secretKey
         EXAMPLE_SECRET: ${taito_project}-${taito_env}-example.secret
+        AUTH0_SERVER_CLIENT_SECRET: ${taito_project}-${taito_env}-auth0.serverClientSecret
       secretEnv:
         BUCKET_KEY_ID: ${taito_project}-${taito_env}-storage.accessKeyId
       env:
         BASE_PATH: /api
         API_PORT: '8080'
         API_BINDADDR: '0.0.0.0'
+        # Auth
+        AUTH0_DOMAIN: ${auth0_domain}
+        AUTH0_AUDIENCE: https://${auth0_domain}/api
+        # Services
         SENTRY_DSN: #sentryDSN
         DATABASE_HOST: '${db_database_real_host}'
         DATABASE_PORT: '${db_database_real_port}'

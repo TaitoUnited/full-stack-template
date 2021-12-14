@@ -12,3 +12,5 @@ full-stack:
     server:
       env:
         DATABASE_POOL_MIN: '1'
+        AUTH0_CLIENT_CLIENT_ID: TODO
+        AUTH0_SERVER_CLIENT_ID: TODO

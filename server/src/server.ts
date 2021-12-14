@@ -9,6 +9,7 @@ import dbTransactionMiddleware from './infra/dbTransactionMiddleware';
 import errorHandlerMiddleware from './infra/errorHandlerMiddleware';
 import initSentry from './infra/initSentry';
 import requestLoggerMiddleware from './infra/requestLoggerMiddleware';
+import applyAuthMiddleware from './infra/authMiddleware';
 import restMiddlewares from './rest';
 import apollo from './graphql';
 import { initFunctionHandler } from './function';
@@ -33,6 +34,7 @@ server.use(requestLoggerMiddleware); // Assume no errors in logging
 server.use(errorHandlerMiddleware);
 server.use(bodyParser()); // Required by dbTransactionMiddleware.isGraphQLQuery
 server.use(dbTransactionMiddleware);
+applyAuthMiddleware(server);
 
 // REST API routing
 restMiddlewares.forEach((middleware) => {

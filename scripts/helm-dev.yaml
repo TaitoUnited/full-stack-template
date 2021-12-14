@@ -1,0 +1,8 @@
+# Overrides for dev environment
+
+full-stack:
+  services:
+    server:
+      env:
+        AUTH0_CLIENT_CLIENT_ID: TODO
+        AUTH0_SERVER_CLIENT_ID: TODO

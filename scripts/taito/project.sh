@@ -20,6 +20,15 @@ taito_environments="${template_default_environments}"
 # environment only.
 # taito_basic_auth_enabled=false
 
+# ------ Auth ------
+
+taito_auth_provider=auth0
+auth0_primary_domain=${taito_namespace}.eu.auth0.com
+auth0_domain=${auth0_primary_domain}
+if [[ ${taito_env} == "prod" ]]; then
+  auth0_domain=auth.${taito_domain}
+fi
+
 # ------ Stack ------
 # Configuration instructions:
 # TODO
@@ -66,6 +75,7 @@ st_bucket_name="$taito_random_name-$taito_env"
 taito_secrets="
   $db_database_app_secret:random
   $taito_project-$taito_env-example.secret:manual
+  $taito_project-$taito_env-auth0-server.clientSecret:manual
   $taito_project-$taito_env-redis.password:random
   $taito_project-$taito_env-storage.accessKeyId:random
   $taito_project-$taito_env-storage.secretKey:random
@@ -87,6 +97,15 @@ taito_remote_secrets="
   cicd-proxy-serviceaccount.key:read/common
 "
 
+# Secrets for tests
+if [[ ${taito_env} == "local" ]] || [[ ${taito_env} == "dev" ]]; then
+  taito_secrets="
+    ${taito_secrets}
+    $taito_project-$taito_env-auth0-test.clientSecret:manual
+    $taito_project-$taito_env-test-user1.password:manual
+  "
+fi
+
 # Secrets required by CI/CD
 taito_cicd_secrets="
   cicd-proxy-serviceaccount.key
@@ -99,6 +118,8 @@ taito_cicd_secrets="
 # Secrets required by CI/CD tests
 taito_testing_secrets="
   $taito_project-$taito_env-basic-auth.auth
+  $taito_project-$taito_env-auth0-test.clientSecret
+  $taito_project-$taito_env-test-user1.password
 "
 
 # Secret hints and descriptions
@@ -120,6 +141,7 @@ link_urls="
   * graphql[:ENV]=$taito_app_url/api GraphQL Playground (:ENV)
   * www[:ENV]=$taito_app_url/docs Website (:ENV)
   * git=https://$taito_vc_repository_url Git repository
+  * auth0=https://manage.auth0.com/dashboard/eu/${taito_namespace}/
 "
 
 # TODO: Temporary hack for https://github.com/gatsbyjs/gatsby/issues/3721

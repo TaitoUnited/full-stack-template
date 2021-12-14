@@ -71,6 +71,12 @@ const config = {
   API_BINDADDR: process.env.API_BINDADDR || '127.0.0.1',
   BASE_PATH: process.env.BASE_PATH || '/api',
 
+  // AUTH
+  AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
+  AUTH0_AUDIENCE: process.env.AUTH0_AUDIENCE,
+  AUTH0_CLIENT_CLIENT_ID: process.env.AUTH0_CLIENT_CLIENT_ID,
+  AUTH0_SERVER_CLIENT_ID: process.env.AUTH0_SERVER_CLIENT_ID,
+
   // Cache
   CACHE_HOST: process.env.CACHE_HOST as string,
   CACHE_PORT: parseInt(process.env.CACHE_PORT as string, 10),
@@ -110,32 +116,48 @@ const config = {
   COMMON_LOG_FORMAT: process.env.COMMON_LOG_FORMAT as 'text' | 'stackdriver',
 };
 
-let secrets: any = null;
+/**
+ * Secrets defined here, `true` meaning "fetch a secret with this key" and
+ * "false" meaning, well, don't.
+ */
+const secretsDefinition = {
+  DATABASE_PASSWORD: true,
+  DATABASE_SSL_CA: useClientCert || useServerCert,
+  DATABASE_SSL_CERT: useClientCert,
+  DATABASE_SSL_KEY: useClientCert,
+  REDIS_PASSWORD: true,
+  BUCKET_KEY_SECRET: true,
+  AUTH0_SERVER_CLIENT_SECRET: true,
+};
 
-export const getSecrets = async () => {
+let secrets: Record<
+  keyof typeof secretsDefinition,
+  string | null | undefined
+> | null = null;
+
+export const getSecrets = async (): Promise<NonNullable<typeof secrets>> => {
   if (secrets) {
     return secrets;
   }
 
   // Secrets
-  const s = {
-    DATABASE_PASSWORD: await readSecret('DATABASE_PASSWORD'),
-    DATABASE_SSL_CA:
-      useClientCert || useServerCert
-        ? await readSecret('DATABASE_SSL_CA', true)
-        : undefined,
-    DATABASE_SSL_CERT: useClientCert
-      ? await readSecret('DATABASE_SSL_CERT', true)
-      : undefined,
-    DATABASE_SSL_KEY: useClientCert
-      ? await readSecret('DATABASE_SSL_KEY', true)
-      : undefined,
-    REDIS_PASSWORD: await readSecret('REDIS_PASSWORD'),
-    BUCKET_KEY_SECRET: await readSecret('BUCKET_KEY_SECRET'),
-  };
+  const s = await Promise.all(
+    Object.entries(secretsDefinition).map(async ([key, fetch]) => {
+      if (!fetch) {
+        return [key, undefined] as const;
+      }
+      return [key, await readSecret(key)] as const;
+    })
+  );
 
   if (!secrets) {
-    secrets = s;
+    secrets = s.reduce(
+      (obj, [key, val]) => ({
+        ...obj,
+        [key]: val,
+      }),
+      {} as Record<string, any>
+    );
   }
   return secrets;
 };
@@ -153,10 +175,10 @@ export const getDatabaseSSL = (config: any, secrets: any) => {
           ca: secrets.DATABASE_SSL_CA,
         }
       : config.DATABASE_SSL_ENABLED
-      ? { rejectUnauthorized: false } // TODO: remove once AWSCA check works
+      ? { rejectUnauthorized: false } // TODO: remove once works
       : false;
 
-  // Skip hostname check if SSL is enabled but HOST is IP or proxy
+  // Skip hostname check (allow IP address) if SSL is enabled but HOST is IP
   return ssl !== false &&
     (isIP(config.DATABASE_HOST) || config.DATABASE_HOST.indexOf('proxy') !== -1)
     ? {

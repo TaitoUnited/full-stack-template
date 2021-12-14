@@ -7,4 +7,41 @@ settings:
         - origin: https://${taito_domain}
         - origin: http://localhost:9999
 
+  auth:
+    clients:
+      - id: client
+        name: TODO
+        type: spa
+        tokenEndpointAuthMethod: none
+        connections: [ 'auth0-database' ]
+        callbackUrls:
+          - https://${taito_domain}
+          - http://localhost:9999
+        logoutUrls:
+          - https://${taito_domain}
+          - http://localhost:9999
+        webOrigins:
+          - https://${taito_domain}
+          - http://localhost:9999
+
+      - id: server
+        name: TODO server
+        type: non_interactive
+        tokenEndpointAuthMethod: client_secret_post
+        connections: [ 'auth0-database' ]
+        grants:
+          - audience: https://${auth0_domain}/api/v2/
+            scopes:
+              - create:users
+              - read:users
+              - update:users
+              - delete:users
+
+      - id: test
+        name: test
+        type: non_interactive
+        tokenEndpointAuthMethod: client_secret_post
+        connections: [ 'auth0-database' ]
+        grantTypes: [ 'password' ]
+
 # END

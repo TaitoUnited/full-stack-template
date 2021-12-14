@@ -4,4 +4,9 @@ settings:
   backupEnabled: true
   uptimeEnabled: true
 
+  auth:
+    tenant:
+      customDomains:
+        - domain: ${auth0_domain}
+
 # END

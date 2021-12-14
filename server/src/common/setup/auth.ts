@@ -1,9 +1,8 @@
 import { Context } from 'koa';
 import { UserRole } from '../types/context';
 
-const authChecker = (context: Context, roles: UserRole[]) => {
-  // TODO: Implement auth here
-  return true;
+const authChecker = (ctx: Context, roles: UserRole[]) => {
+  return !!ctx.state.appUser;
 };
 
 export default authChecker;

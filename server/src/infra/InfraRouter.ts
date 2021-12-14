@@ -27,6 +27,9 @@ class InfraRouter extends BaseRouter {
             body: this.Joi.object({
               data: this.Joi.object({
                 APP_VERSION: this.Joi.string().required(),
+                AUTH0_DOMAIN: this.Joi.string().required(),
+                AUTH0_AUDIENCE: this.Joi.string().required(),
+                AUTH0_CLIENT_CLIENT_ID: this.Joi.string().required(),
               }).required(),
             }),
           },
@@ -37,6 +40,9 @@ class InfraRouter extends BaseRouter {
         ctx.response.body = {
           data: {
             APP_VERSION: config.APP_VERSION,
+            AUTH0_DOMAIN: config.AUTH0_DOMAIN,
+            AUTH0_AUDIENCE: config.AUTH0_AUDIENCE,
+            AUTH0_CLIENT_CLIENT_ID: config.AUTH0_CLIENT_CLIENT_ID,
           },
         };
       },

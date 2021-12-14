@@ -1,5 +1,10 @@
-import { request, initGraphQL } from '../common/test.utils';
-const { sdk } = initGraphQL();
+import { initGraphQL, setUser, request } from '../common/test.utils';
+
+const { api, sdk } = initGraphQL();
+
+beforeAll(async () => {
+  await setUser(api);
+});
 
 describe('posts', () => {
   beforeAll(async () => {
