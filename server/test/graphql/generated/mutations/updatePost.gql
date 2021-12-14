@@ -4,6 +4,16 @@ mutation updatePost($input: UpdatePostInput!) {
         content
         createdAt
         id
+        moderator{
+            createdAt
+            email
+            firstName
+            id
+            language
+            lastName
+            updatedAt
+        }
+        moderatorId
         subject
         updatedAt
     }

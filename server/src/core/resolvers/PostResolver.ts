@@ -1,14 +1,26 @@
 import { Context } from 'koa';
 import Container, { Service } from 'typedi';
-import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
+import {
+  Arg,
+  Authorized,
+  Ctx,
+  Mutation,
+  Query,
+  Resolver,
+  FieldResolver,
+  Root,
+} from 'type-graphql';
+import { Relation } from '../../common/utils/graphql';
 import {
   Pagination,
   FilterGroup,
   Order,
   OrderDirection,
 } from '../../common/types/search';
+import { EntityId } from '../types/core';
 import {
   Post,
+  PostFilter,
   PaginatedPosts,
   CreatePostInput,
   UpdatePostInput,
@@ -16,13 +28,19 @@ import {
 } from '../types/post';
 import { PostService } from '../services/PostService';
 
+import { User } from '../types/user';
+import { UserService } from '../services/UserService';
+
 /**
  * GraphQL resolver for Posts
  */
 @Service()
 @Resolver(() => Post)
 class PostResolver {
-  constructor(private readonly postService = Container.get(PostService)) {}
+  constructor(
+    private readonly postService = Container.get(PostService),
+    private readonly userService = Container.get(UserService)
+  ) {}
 
   @Authorized()
   @Query(() => PaginatedPosts, { description: 'Searches posts.' })
@@ -35,7 +53,7 @@ class PostResolver {
     @Arg('filterGroups', () => [FilterGroup], {
       defaultValue: [],
     })
-    filterGroups: FilterGroup<Post>[],
+    filterGroups: FilterGroup<PostFilter>[],
     @Arg('order', () => Order, {
       defaultValue: new Order(OrderDirection.DESC, 'createdAt'),
     })
@@ -73,8 +91,21 @@ class PostResolver {
   }
 
   @Authorized()
-  @Mutation(() => String, { description: 'Deletes a post.' })
-  async deletePost(@Ctx() ctx: Context, @Arg('input') input: DeletePostInput) {
+  @Mutation(() => EntityId, { description: 'Deletes a post.' })
+  async deleteUser(@Ctx() ctx: Context, @Arg('input') input: DeletePostInput) {
     return await this.postService.delete(ctx.state, input);
+  }
+
+  // ------------------------------------------------------
+  // Field resolvers for other entities
+  // ------------------------------------------------------
+
+  @Authorized()
+  @FieldResolver(() => User, { nullable: true })
+  @Relation<Post>('moderatorId')
+  async moderator(@Ctx() ctx: Context, @Root() root: Post) {
+    return root.moderatorId
+      ? await this.userService.read(ctx.state, root.moderatorId)
+      : null;
   }
 }

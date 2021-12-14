@@ -1,3 +1,0 @@
-mutation deletePost($input: DeletePostInput!) {
-    deletePost(input: $input)
-}

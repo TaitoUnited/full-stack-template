@@ -1,0 +1,14 @@
+query users($filterGroups: [FilterGroup!], $order: Order, $pagination: Pagination, $search: String) {
+    users(filterGroups: $filterGroups, order: $order, pagination: $pagination, search: $search){
+        data{
+            createdAt
+            email
+            firstName
+            id
+            language
+            lastName
+            updatedAt
+        }
+        total
+    }
+}

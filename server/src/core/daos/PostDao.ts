@@ -6,10 +6,12 @@ import {
   getParameterNames,
   getParameterAssignments,
   getParameterValues,
-} from '../../common/utils/db';
+} from '../../common/utils/dao';
 import { Pagination, FilterGroup, Order } from '../../common/types/search';
+import { EntityId } from '../types/core';
 import {
   Post,
+  PostFilter,
   PaginatedPosts,
   CreatePostInput,
   UpdatePostInput,
@@ -29,9 +31,9 @@ export class PostDao {
   public async search(
     db: Db,
     search: string | null,
-    filterGroups: FilterGroup<Post>[],
+    filterGroups: FilterGroup<PostFilter>[],
     order: Order,
-    pagination: Pagination
+    pagination: Pagination | null
   ): Promise<PaginatedPosts> {
     const searchFragment = search
       ? `
@@ -98,8 +100,8 @@ export class PostDao {
     );
   }
 
-  public async delete(db: Db, post: DeletePostInput): Promise<string> {
-    await db.one(
+  public async delete(db: Db, post: DeletePostInput): Promise<EntityId> {
+    await db.none(
       `
         DELETE FROM ${tableName}
         WHERE id = $[id]
@@ -108,6 +110,6 @@ export class PostDao {
         id: post.id,
       }
     );
-    return post.id;
+    return post;
   }
 }

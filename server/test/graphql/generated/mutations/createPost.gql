@@ -4,6 +4,16 @@ mutation createPost($input: CreatePostInput!) {
         content
         createdAt
         id
+        moderator{
+            createdAt
+            email
+            firstName
+            id
+            language
+            lastName
+            updatedAt
+        }
+        moderatorId
         subject
         updatedAt
     }

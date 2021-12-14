@@ -24,9 +24,9 @@ export default function PostPage({ postQuery }: Props) {
       {post ? (
         <PostDetails
           createdAt={post.createdAt}
-          author={post.author}
-          subject={post.subject}
-          content={post.content}
+          author={post.author || ''}
+          subject={post.subject || ''}
+          content={post.content || ''}
         />
       ) : (
         <Text variant="body">

@@ -1,6 +1,28 @@
 import Boom from '@hapi/boom';
+import { ClassType } from 'type-graphql';
+import {
+  Filter,
+  FilterGroup,
+  FilterType,
+  FilterOperator,
+  ValueType,
+} from '../types/search';
 import { toSnakeCase } from './format';
-import { FilterGroup } from '../types/search';
+
+export function validateNotSet(name: string, value?: any) {
+  if (value) {
+    throw Boom.badRequest(`Value for ${name} should not be set`);
+  }
+}
+
+export function validateEqualIfBothSet(
+  str1?: string | null,
+  str2?: string | null
+) {
+  if (str1 && str2 && str1 !== str2) {
+    throw Boom.badRequest(`Values not equal: '${str1}' '${str2}'`);
+  }
+}
 
 export function validateColumnName(
   columnName: string,
@@ -31,4 +53,27 @@ export function validateFilterGroups(
       `Invalid filter fields: ${Array.from(invalids).sort().join(', ')}`
     );
   }
+}
+
+export function addFilter<Item extends Record<string, any>>(
+  origFilterGroups: FilterGroup<any>[],
+  itemType: ClassType<Item>,
+  field: string,
+  value: string,
+  filterType: FilterType = FilterType.EQ,
+  valueType: ValueType = ValueType.TEXT
+) {
+  const filter = new Filter<Item>(
+    itemType,
+    filterType,
+    field,
+    value as Item[keyof Item],
+    valueType
+  );
+
+  const filterGroups: FilterGroup<Item>[] = [
+    new FilterGroup<Item>(itemType, FilterOperator.AND, [filter]),
+  ];
+
+  return filterGroups.concat(origFilterGroups);
 }

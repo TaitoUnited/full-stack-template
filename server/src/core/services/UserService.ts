@@ -1,46 +1,50 @@
 import { Context } from 'koa';
 import { Service } from 'typedi';
+import Boom from '@hapi/boom';
 import {
   validateFilterGroups,
   validateColumnName,
+  validateNotSet,
 } from '../../common/utils/validate';
 import { keysAsSnakeCaseArray } from '../../common/utils/format';
 import { Pagination, FilterGroup, Order } from '../../common/types/search';
 import {
-  PostFilter,
-  CreatePostInput,
-  UpdatePostInput,
-  DeletePostInput,
-  postFilterExample,
-} from '../types/post';
-import { PostDao } from '../daos/PostDao';
+  UserFilter,
+  CreateUserInput,
+  UpdateUserInput,
+  DeleteUserInput,
+  userFilterExample,
+} from '../types/user';
+import { UserDao } from '../daos/UserDao';
 import { EntityType, Operation } from '../types/core';
 import { AuthService } from './AuthService';
 
-const filterableColumnNames = keysAsSnakeCaseArray(postFilterExample);
+const filterableColumnNames = keysAsSnakeCaseArray(userFilterExample);
 
 @Service()
-export class PostService {
-  constructor(private authService: AuthService, private postDao: PostDao) {}
+export class UserService {
+  constructor(private authService: AuthService, private userDao: UserDao) {}
 
   public async search(
     state: Context['state'],
     search: string | null,
-    filterGroups: FilterGroup<PostFilter>[],
+    filterGroups: FilterGroup<UserFilter>[],
     order: Order,
-    pagination: Pagination
+    pagination: Pagination | null
   ) {
+    // Validate input
     validateColumnName(order.field, filterableColumnNames);
     validateFilterGroups(filterGroups, filterableColumnNames);
 
     // Check permissions
     await this.authService.checkPermission(
       state,
-      EntityType.POST,
+      EntityType.USER,
       Operation.LIST
     );
 
-    return this.postDao.search(
+    // Fetch from db
+    return await this.userDao.search(
       state.tx,
       search,
       filterGroups,
@@ -50,53 +54,48 @@ export class PostService {
   }
 
   public async read(state: Context['state'], id: string) {
-    const post = await this.postDao.read(state.tx, id);
+    const user = await this.userDao.read(state.tx, id);
 
-    if (post) {
+    if (user) {
       // Check permissions
       await this.authService.checkPermission(
         state,
-        EntityType.POST,
+        EntityType.USER,
         Operation.VIEW,
-        post.id
+        user.id
       );
     }
 
-    return post;
+    return user;
   }
 
-  public async create(state: Context['state'], post: CreatePostInput) {
+  public async create(state: Context['state'], user: CreateUserInput) {
+    throw Boom.forbidden('Forbidden, at least for now');
+  }
+
+  public async update(state: Context['state'], user: UpdateUserInput) {
+    // Validate
+    validateNotSet('email', user.email);
+    validateNotSet('externalIds', user.externalIds);
+
     // Check permissions
     await this.authService.checkPermission(
       state,
-      EntityType.POST,
-      Operation.ADD
-    );
-
-    return this.postDao.create(state.tx, post);
-  }
-
-  public async update(state: Context['state'], post: UpdatePostInput) {
-    // Check permissions
-    await this.authService.checkPermission(
-      state,
-      EntityType.POST,
+      EntityType.USER,
       Operation.EDIT,
-      post.id
+      user.id
     );
 
-    return this.postDao.update(state.tx, post);
+    return this.userDao.update(state.tx, user);
   }
 
-  public async delete(state: Context['state'], post: DeletePostInput) {
-    // Check permissions
+  public async delete(state: Context['state'], user: DeleteUserInput) {
     await this.authService.checkPermission(
       state,
-      EntityType.POST,
+      EntityType.USER,
       Operation.DELETE,
-      post.id
+      user.id
     );
-
-    return this.postDao.delete(state.tx, post);
+    return this.userDao.delete(state.tx, user);
   }
 }

@@ -17,13 +17,31 @@ export type Scalars = {
 };
 
 export type CreatePostInput = {
-  author: Scalars['String'];
-  content: Scalars['String'];
-  subject: Scalars['String'];
+  author?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
+  moderatorId?: Maybe<Scalars['String']>;
+  subject?: Maybe<Scalars['String']>;
+};
+
+export type CreateUserInput = {
+  email: Scalars['String'];
+  externalIds?: Maybe<Array<Scalars['String']>>;
+  firstName: Scalars['String'];
+  language?: Maybe<Scalars['String']>;
+  lastName: Scalars['String'];
 };
 
 
 export type DeletePostInput = {
+  id: Scalars['String'];
+};
+
+export type DeleteUserInput = {
+  id: Scalars['String'];
+};
+
+export type EntityId = {
+  __typename?: 'EntityId';
   id: Scalars['String'];
 };
 
@@ -60,10 +78,14 @@ export type Mutation = {
   __typename?: 'Mutation';
   /** Creates a new post. */
   createPost: Post;
-  /** Deletes a post. */
-  deletePost: Scalars['String'];
+  /** Creates a new user. */
+  createUser: User;
+  /** Deletes a user. */
+  deleteUser: EntityId;
   /** Updates a post. */
   updatePost: Post;
+  /** Updates a user. */
+  updateUser: User;
 };
 
 
@@ -72,13 +94,23 @@ export type MutationCreatePostArgs = {
 };
 
 
-export type MutationDeletePostArgs = {
-  input: DeletePostInput;
+export type MutationCreateUserArgs = {
+  input: CreateUserInput;
+};
+
+
+export type MutationDeleteUserArgs = {
+  input: DeleteUserInput;
 };
 
 
 export type MutationUpdatePostArgs = {
   input: UpdatePostInput;
+};
+
+
+export type MutationUpdateUserArgs = {
+  input: UpdateUserInput;
 };
 
 export type Order = {
@@ -97,6 +129,12 @@ export type PaginatedPosts = {
   total: Scalars['Float'];
 };
 
+export type PaginatedUsers = {
+  __typename?: 'PaginatedUsers';
+  data: Array<User>;
+  total: Scalars['Float'];
+};
+
 export type Pagination = {
   limit: Scalars['Float'];
   offset: Scalars['Float'];
@@ -104,12 +142,19 @@ export type Pagination = {
 
 export type Post = {
   __typename?: 'Post';
-  author: Scalars['String'];
-  content: Scalars['String'];
+  author?: Maybe<Scalars['String']>;
+  content?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   id: Scalars['String'];
-  subject: Scalars['String'];
+  moderator?: Maybe<User>;
+  moderatorId?: Maybe<Scalars['String']>;
+  subject?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
+};
+
+export type PostFilter = {
+  author: Scalars['String'];
+  subject: Scalars['String'];
 };
 
 export type Query = {
@@ -118,6 +163,10 @@ export type Query = {
   post?: Maybe<Post>;
   /** Searches posts. */
   posts: PaginatedPosts;
+  /** Reads a user. */
+  user?: Maybe<User>;
+  /** Search users. */
+  users: PaginatedUsers;
 };
 
 
@@ -133,11 +182,51 @@ export type QueryPostsArgs = {
   search?: Maybe<Scalars['String']>;
 };
 
+
+export type QueryUserArgs = {
+  id: Scalars['String'];
+};
+
+
+export type QueryUsersArgs = {
+  filterGroups?: Maybe<Array<FilterGroup>>;
+  order?: Maybe<Order>;
+  pagination?: Maybe<Pagination>;
+  search?: Maybe<Scalars['String']>;
+};
+
 export type UpdatePostInput = {
   author?: Maybe<Scalars['String']>;
   content?: Maybe<Scalars['String']>;
   id: Scalars['String'];
+  moderatorId?: Maybe<Scalars['String']>;
   subject?: Maybe<Scalars['String']>;
+};
+
+export type UpdateUserInput = {
+  email?: Maybe<Scalars['String']>;
+  externalIds?: Maybe<Array<Scalars['String']>>;
+  firstName?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  language?: Maybe<Scalars['String']>;
+  lastName?: Maybe<Scalars['String']>;
+};
+
+export type User = {
+  __typename?: 'User';
+  createdAt: Scalars['DateTime'];
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  id: Scalars['String'];
+  language?: Maybe<Scalars['String']>;
+  lastName: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type UserFilter = {
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
 };
 
 export enum ValueType {
@@ -155,18 +244,38 @@ export type CreatePostMutation = (
   { __typename?: 'Mutation' }
   & { createPost: (
     { __typename?: 'Post' }
-    & Pick<Post, 'author' | 'content' | 'createdAt' | 'id' | 'subject' | 'updatedAt'>
+    & Pick<Post, 'author' | 'content' | 'createdAt' | 'id' | 'moderatorId' | 'subject' | 'updatedAt'>
+    & { moderator?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'createdAt' | 'email' | 'firstName' | 'id' | 'language' | 'lastName' | 'updatedAt'>
+    )> }
   ) }
 );
 
-export type DeletePostMutationVariables = Exact<{
-  input: DeletePostInput;
+export type CreateUserMutationVariables = Exact<{
+  input: CreateUserInput;
 }>;
 
 
-export type DeletePostMutation = (
+export type CreateUserMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'deletePost'>
+  & { createUser: (
+    { __typename?: 'User' }
+    & Pick<User, 'createdAt' | 'email' | 'firstName' | 'id' | 'language' | 'lastName' | 'updatedAt'>
+  ) }
+);
+
+export type DeleteUserMutationVariables = Exact<{
+  input: DeleteUserInput;
+}>;
+
+
+export type DeleteUserMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteUser: (
+    { __typename?: 'EntityId' }
+    & Pick<EntityId, 'id'>
+  ) }
 );
 
 export type UpdatePostMutationVariables = Exact<{
@@ -178,7 +287,24 @@ export type UpdatePostMutation = (
   { __typename?: 'Mutation' }
   & { updatePost: (
     { __typename?: 'Post' }
-    & Pick<Post, 'author' | 'content' | 'createdAt' | 'id' | 'subject' | 'updatedAt'>
+    & Pick<Post, 'author' | 'content' | 'createdAt' | 'id' | 'moderatorId' | 'subject' | 'updatedAt'>
+    & { moderator?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'createdAt' | 'email' | 'firstName' | 'id' | 'language' | 'lastName' | 'updatedAt'>
+    )> }
+  ) }
+);
+
+export type UpdateUserMutationVariables = Exact<{
+  input: UpdateUserInput;
+}>;
+
+
+export type UpdateUserMutation = (
+  { __typename?: 'Mutation' }
+  & { updateUser: (
+    { __typename?: 'User' }
+    & Pick<User, 'createdAt' | 'email' | 'firstName' | 'id' | 'language' | 'lastName' | 'updatedAt'>
   ) }
 );
 
@@ -191,7 +317,11 @@ export type PostQuery = (
   { __typename?: 'Query' }
   & { post?: Maybe<(
     { __typename?: 'Post' }
-    & Pick<Post, 'author' | 'content' | 'createdAt' | 'id' | 'subject' | 'updatedAt'>
+    & Pick<Post, 'author' | 'content' | 'createdAt' | 'id' | 'moderatorId' | 'subject' | 'updatedAt'>
+    & { moderator?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'createdAt' | 'email' | 'firstName' | 'id' | 'language' | 'lastName' | 'updatedAt'>
+    )> }
   )> }
 );
 
@@ -210,7 +340,44 @@ export type PostsQuery = (
     & Pick<PaginatedPosts, 'total'>
     & { data: Array<(
       { __typename?: 'Post' }
-      & Pick<Post, 'author' | 'content' | 'createdAt' | 'id' | 'subject' | 'updatedAt'>
+      & Pick<Post, 'author' | 'content' | 'createdAt' | 'id' | 'moderatorId' | 'subject' | 'updatedAt'>
+      & { moderator?: Maybe<(
+        { __typename?: 'User' }
+        & Pick<User, 'createdAt' | 'email' | 'firstName' | 'id' | 'language' | 'lastName' | 'updatedAt'>
+      )> }
+    )> }
+  ) }
+);
+
+export type UserQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type UserQuery = (
+  { __typename?: 'Query' }
+  & { user?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'createdAt' | 'email' | 'firstName' | 'id' | 'language' | 'lastName' | 'updatedAt'>
+  )> }
+);
+
+export type UsersQueryVariables = Exact<{
+  filterGroups?: Maybe<Array<FilterGroup> | FilterGroup>;
+  order?: Maybe<Order>;
+  pagination?: Maybe<Pagination>;
+  search?: Maybe<Scalars['String']>;
+}>;
+
+
+export type UsersQuery = (
+  { __typename?: 'Query' }
+  & { users: (
+    { __typename?: 'PaginatedUsers' }
+    & Pick<PaginatedUsers, 'total'>
+    & { data: Array<(
+      { __typename?: 'User' }
+      & Pick<User, 'createdAt' | 'email' | 'firstName' | 'id' | 'language' | 'lastName' | 'updatedAt'>
     )> }
   ) }
 );
@@ -223,14 +390,39 @@ export const CreatePostDocument = gql`
     content
     createdAt
     id
+    moderator {
+      createdAt
+      email
+      firstName
+      id
+      language
+      lastName
+      updatedAt
+    }
+    moderatorId
     subject
     updatedAt
   }
 }
     `;
-export const DeletePostDocument = gql`
-    mutation deletePost($input: DeletePostInput!) {
-  deletePost(input: $input)
+export const CreateUserDocument = gql`
+    mutation createUser($input: CreateUserInput!) {
+  createUser(input: $input) {
+    createdAt
+    email
+    firstName
+    id
+    language
+    lastName
+    updatedAt
+  }
+}
+    `;
+export const DeleteUserDocument = gql`
+    mutation deleteUser($input: DeleteUserInput!) {
+  deleteUser(input: $input) {
+    id
+  }
 }
     `;
 export const UpdatePostDocument = gql`
@@ -240,7 +432,30 @@ export const UpdatePostDocument = gql`
     content
     createdAt
     id
+    moderator {
+      createdAt
+      email
+      firstName
+      id
+      language
+      lastName
+      updatedAt
+    }
+    moderatorId
     subject
+    updatedAt
+  }
+}
+    `;
+export const UpdateUserDocument = gql`
+    mutation updateUser($input: UpdateUserInput!) {
+  updateUser(input: $input) {
+    createdAt
+    email
+    firstName
+    id
+    language
+    lastName
     updatedAt
   }
 }
@@ -252,6 +467,16 @@ export const PostDocument = gql`
     content
     createdAt
     id
+    moderator {
+      createdAt
+      email
+      firstName
+      id
+      language
+      lastName
+      updatedAt
+    }
+    moderatorId
     subject
     updatedAt
   }
@@ -270,7 +495,51 @@ export const PostsDocument = gql`
       content
       createdAt
       id
+      moderator {
+        createdAt
+        email
+        firstName
+        id
+        language
+        lastName
+        updatedAt
+      }
+      moderatorId
       subject
+      updatedAt
+    }
+    total
+  }
+}
+    `;
+export const UserDocument = gql`
+    query user($id: String!) {
+  user(id: $id) {
+    createdAt
+    email
+    firstName
+    id
+    language
+    lastName
+    updatedAt
+  }
+}
+    `;
+export const UsersDocument = gql`
+    query users($filterGroups: [FilterGroup!], $order: Order, $pagination: Pagination, $search: String) {
+  users(
+    filterGroups: $filterGroups
+    order: $order
+    pagination: $pagination
+    search: $search
+  ) {
+    data {
+      createdAt
+      email
+      firstName
+      id
+      language
+      lastName
       updatedAt
     }
     total
@@ -288,17 +557,29 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     createPost(variables: CreatePostMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreatePostMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreatePostMutation>(CreatePostDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createPost');
     },
-    deletePost(variables: DeletePostMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeletePostMutation> {
-      return withWrapper((wrappedRequestHeaders) => client.request<DeletePostMutation>(DeletePostDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deletePost');
+    createUser(variables: CreateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CreateUserMutation>(CreateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUser');
+    },
+    deleteUser(variables: DeleteUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteUserMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DeleteUserMutation>(DeleteUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteUser');
     },
     updatePost(variables: UpdatePostMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdatePostMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdatePostMutation>(UpdatePostDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updatePost');
+    },
+    updateUser(variables: UpdateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdateUserMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdateUserMutation>(UpdateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updateUser');
     },
     post(variables: PostQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PostQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<PostQuery>(PostDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'post');
     },
     posts(variables?: PostsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PostsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<PostsQuery>(PostsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'posts');
+    },
+    user(variables: UserQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UserQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UserQuery>(UserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'user');
+    },
+    users(variables?: UsersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UsersQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UsersQuery>(UsersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'users');
     }
   };
 }

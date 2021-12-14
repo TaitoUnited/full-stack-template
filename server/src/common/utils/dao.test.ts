@@ -16,7 +16,7 @@ import {
   getParameterAssignments,
   getParameterValues,
   searchFromTable,
-} from './db';
+} from './dao';
 
 const db = {
   one: jest.fn(),

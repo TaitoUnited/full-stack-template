@@ -236,26 +236,29 @@ export type searchFromTableParams = {
   search?: string | null;
   filterGroups: FilterGroup<any>[]; // TODO: should be FilterGroup<Record<string, any>>[],
   order: Order;
-  pagination: Pagination;
+  pagination: Pagination | null;
   searchFragment: string;
   selectColumnNames: string[];
   filterableColumnNames: string[];
-  noDeletedFragment?: string | null;
+  whereFragment?: string | null;
 };
 
 export async function searchFromTable(p: searchFromTableParams) {
-  const basicFragment = p.noDeletedFragment || 'WHERE 1 = 1';
+  const whereFragment = p.whereFragment || 'WHERE 1 = 1';
   const filterFragment = createFilterGroupFragment(
     p.filterGroups,
     p.filterableColumnNames,
     p.tableName
   );
   const orderFragment = createOrderFragment(p.order, p.tableName);
+  const paginationFragment = p.pagination
+    ? `OFFSET $[offset] LIMIT $[limit]`
+    : '';
 
   const count = await p.db.one(
     `
       SELECT count(id) FROM ${p.tableName}
-      ${basicFragment}
+      ${whereFragment}
       ${p.searchFragment}
       ${filterFragment}
     `,
@@ -267,10 +270,11 @@ export async function searchFromTable(p: searchFromTableParams) {
   const data = await p.db.any(
     `
       SELECT ${p.selectColumnNames.join(', ')} FROM ${p.tableName}
-      ${basicFragment}
+      ${whereFragment}
       ${p.searchFragment}
       ${filterFragment}
       ${orderFragment}
+      ${paginationFragment}
       OFFSET $[offset] LIMIT $[limit]
     `,
     {

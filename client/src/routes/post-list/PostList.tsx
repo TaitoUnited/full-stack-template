@@ -35,7 +35,7 @@ export default function PostListPage({ postListQuery }: Props) {
               <UnstyledLink to={post.id}>
                 <PostListCard
                   createdAt={post.createdAt}
-                  subject={post.subject}
+                  subject={post.subject || ''}
                 />
               </UnstyledLink>
             </li>
