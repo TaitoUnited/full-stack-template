@@ -154,7 +154,9 @@ export type Post = {
 
 export type PostFilter = {
   author: Scalars['String'];
+  createdAt: Scalars['DateTime'];
   subject: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
 };
 
 export type Query = {

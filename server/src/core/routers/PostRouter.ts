@@ -7,9 +7,10 @@ import { ItemSchema } from '../../common/types/rest';
 import { PostService } from '../services/PostService';
 
 const BasePostSchema = Joi.object({
-  subject: Joi.string().required(),
-  content: Joi.string().required(),
-  author: Joi.string().required(),
+  subject: Joi.string().allow(null),
+  content: Joi.string().allow(null),
+  author: Joi.string().allow(null),
+  moderatorId: Joi.string().allow(null),
 });
 
 const PostSchema = ItemSchema.concat(BasePostSchema);
@@ -37,8 +38,8 @@ export class PostRouter extends BaseRouter {
         output: {
           '200': {
             body: this.Joi.object({
-              data: this.Joi.array().items(PostSchema).required(),
               total: this.Joi.number().required(),
+              data: this.Joi.array().items(PostSchema).required(),
             }),
           },
         },

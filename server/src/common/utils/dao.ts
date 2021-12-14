@@ -275,7 +275,6 @@ export async function searchFromTable(p: searchFromTableParams) {
       ${filterFragment}
       ${orderFragment}
       ${paginationFragment}
-      OFFSET $[offset] LIMIT $[limit]
     `,
     {
       ...p.pagination,

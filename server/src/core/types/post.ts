@@ -14,6 +14,8 @@ export class Post {
 
 @InputType()
 export class PostFilter {
+  @Field() createdAt: Date;
+  @Field() updatedAt: Date;
   @Field() subject?: string;
   @Field() author?: string;
 }
@@ -61,6 +63,8 @@ export const postExample: Post = {
 };
 
 export const postFilterExample: PostFilter = {
+  createdAt: new Date(),
+  updatedAt: new Date(),
   subject: 'subject',
   author: 'author',
 };

@@ -120,7 +120,9 @@ type Post {
 
 input PostFilter {
   author: String!
+  createdAt: DateTime!
   subject: String!
+  updatedAt: DateTime!
 }
 
 type Query {
