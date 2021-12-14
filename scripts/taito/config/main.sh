@@ -491,6 +491,12 @@ case $taito_env in
       # shellcheck disable=SC1091
       if [[ -f scripts/taito/env-dev.sh ]]; then . scripts/taito/env-dev.sh; fi
     fi
+    # demo branch
+    if [[ $taito_env == "demo" ]]; then
+      ci_exec_build=true        # allow build of a new container
+      # shellcheck disable=SC1091
+      if [[ -f scripts/taito/env-demo.sh ]]; then . scripts/taito/env-demo.sh; fi
+    fi
     # hotfix branches
     if [[ $taito_env == "h-"* ]]; then
       ci_exec_build=true        # allow build of a new container
