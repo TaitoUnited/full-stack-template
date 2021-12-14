@@ -187,6 +187,7 @@ function prune () {
 
     if [[ $name == "storage" ]]; then
       # Remove storage from configs
+      sed -i "s/clean:storage //" package.json
       sed -i "s/ bucket / /" scripts/taito/project.sh
       sed -i '/storage/d' scripts/taito/project.sh
       sed -i '/st_bucket_name/d' scripts/taito/project.sh
