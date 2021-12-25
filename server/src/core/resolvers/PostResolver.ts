@@ -92,7 +92,7 @@ class PostResolver {
 
   @Authorized()
   @Mutation(() => EntityId, { description: 'Deletes a post.' })
-  async deleteUser(@Ctx() ctx: Context, @Arg('input') input: DeletePostInput) {
+  async deletePost(@Ctx() ctx: Context, @Arg('input') input: DeletePostInput) {
     return await this.postService.delete(ctx.state, input);
   }
 
