@@ -81,6 +81,14 @@ full-stack:
       paths:
         - path: /api
           clientMaxBodySize: 1m
+        # EXAMPLE: Rate limit for authentication
+        - path: /api/auth
+          rewriteTarget: /api/auth
+          limitRpm: 5
+        # EXAMPLE: Rate limit for login
+        - path: /api/login
+          rewriteTarget: /api/login
+          limitRpm: 5
       egress:
         - ip: '${db_database_real_host}/32'
         - fullname: ${taito_project}-${taito_env}-redis

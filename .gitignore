@@ -6,6 +6,7 @@ secrets
 mnt
 template-tmp
 tmp
+tmp2
 
 __pycache__
 .ipynb_checkpoints
