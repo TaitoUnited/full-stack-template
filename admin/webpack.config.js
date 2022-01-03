@@ -19,6 +19,7 @@ const BASE_PATH = process.env.BASE_PATH || '';
 const ASSETS_PATH = process.env.ASSETS_PATH || '';
 const ASSETS_DOMAIN = process.env.ASSETS_DOMAIN || '';
 const DEV_PORT = process.env.DEV_PORT || '3001';
+const COMPILE_PORT = process.env.COMPILE_PORT || '3001';
 const ASSETS_DIR = 'assets';
 const ICON_DIR = ASSETS_DIR + '/icon.png';
 

@@ -23,6 +23,7 @@ services:
       - default
     ports:
       - "8080"
+      - "127.0.0.1:9997:9997"     # For lazy compilation
     volumes:
       - "./admin:/develop:delegated"
       - "./shared:/develop/shared:delegated"
@@ -38,6 +39,7 @@ services:
       API_ROOT: ''
       API_URL: /api
       COMMON_PUBLIC_PORT: 9999
+      COMPILE_PORT: 9997          # For lazy compilation
       # Host specific variables
       DOCKER_HOST: ${DOCKER_HOST}
 
@@ -51,11 +53,7 @@ services:
       - default
     ports:
       - "8080"
-      - "127.0.0.1:9996:9996"
-      - "127.0.0.1:9997:9997"
-      - "127.0.0.1:9998:9998"
-    sysctls:
-      net.ipv4.ip_local_port_range: "9996 9998" # Enforce all random http ports to be 9996 9998 (used in webpack lazy compilation, etc.)
+      - "127.0.0.1:9998:9998"     # For lazy compilation
     volumes:
       - "./client:/develop:delegated"
       - "./shared:/develop/shared:delegated"
@@ -73,6 +71,7 @@ services:
       API_ROOT: ''
       API_URL: /api
       COMMON_PUBLIC_PORT: 9999
+      COMPILE_PORT: 9998          # For lazy compilation
       # Host specific variables
       DOCKER_HOST: ${DOCKER_HOST}
       # Services
