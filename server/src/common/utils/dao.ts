@@ -5,8 +5,8 @@ import { toSnakeCase } from './format';
 import {
   Filter,
   FilterGroup,
-  FilterType,
   FilterOperator,
+  FilterLogicalOperator,
   Order,
   OrderDirection,
   Pagination,
@@ -100,25 +100,25 @@ function generateFilterFragment<
   Item extends Record<string, any>,
   Key extends keyof Item
 >(filter: Filter<Item, Key>) {
-  if (filter.type === FilterType.EQ) {
+  if (filter.operator === FilterOperator.EQ) {
     return `= $(value)`;
-  } else if (filter.type === FilterType.NEQ) {
+  } else if (filter.operator === FilterOperator.NEQ) {
     return `!= $(value)`;
-  } else if (filter.type === FilterType.GT) {
+  } else if (filter.operator === FilterOperator.GT) {
     return `> $(value)`;
-  } else if (filter.type === FilterType.GTE) {
+  } else if (filter.operator === FilterOperator.GTE) {
     return `>= $(value)`;
-  } else if (filter.type === FilterType.LT) {
+  } else if (filter.operator === FilterOperator.LT) {
     return `< $(value)`;
-  } else if (filter.type === FilterType.LTE) {
+  } else if (filter.operator === FilterOperator.LTE) {
     return `<= $(value)`;
-  } else if (filter.type === FilterType.LIKE) {
+  } else if (filter.operator === FilterOperator.LIKE) {
     return `LIKE concat('%', $(value), '%')`;
-  } else if (filter.type === FilterType.ILIKE) {
+  } else if (filter.operator === FilterOperator.ILIKE) {
     return `ILIKE concat('%', $(value), '%')`;
   }
-  // makes typescript whine if a filterType is not being handled
-  never(filter.type);
+  // makes typescript whine if a filterOperator is not being handled
+  never(filter.operator);
 }
 
 /**
@@ -130,14 +130,14 @@ function generateFilterFragment<
  * // "id"::text ilike concat('%', '123', '%') and "name"::text = 'Jamppa'
  * createFilterFragment([
  *   {
- *     type: FilterType.LIKE,
  *     field: 'id',
+ *     operator: FilterOperator.LIKE,
  *     value: '123',
  *     valueType: ValueType.TEXT,
  *   },
  *   {
- *     type: FilterType.EXACT,
  *     field: 'name',
+ *     operator: FilterOperator.EXACT,
  *     value: 'John',
  *     valueType: ValueType.TEXT,
  *   },
@@ -146,7 +146,7 @@ function generateFilterFragment<
 function createFilterFragment(
   filters: Filter<Record<string, any>, string>[],
   filterableColumnNames: string[],
-  operator: FilterOperator,
+  operator: FilterLogicalOperator,
   table?: string
 ) {
   const fragment = filters.reduce((str, cur, i) => {

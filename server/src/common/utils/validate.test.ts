@@ -2,8 +2,8 @@ import 'reflect-metadata';
 import {
   FilterGroup,
   Filter,
-  FilterType,
   FilterOperator,
+  FilterLogicalOperator,
   ValueType,
 } from '../types/search';
 import { validateFilterGroups, validateColumnName } from './validate';
@@ -33,14 +33,14 @@ describe('common/utils/db', () => {
       const filters1: Filter<MyType>[] = [
         new Filter<MyType>(
           MyType,
-          FilterType.EQ,
+          FilterOperator.EQ,
           'title',
           'titlevalue',
           ValueType.TEXT
         ),
         new Filter<MyType>(
           MyType,
-          FilterType.ILIKE,
+          FilterOperator.ILIKE,
           'notesCol',
           'notesvalue',
           ValueType.TEXT
@@ -50,14 +50,14 @@ describe('common/utils/db', () => {
       const filters2: Filter<MyType>[] = [
         new Filter<MyType>(
           MyType,
-          FilterType.GT,
+          FilterOperator.GT,
           'title',
           'titlevalue',
           ValueType.TEXT
         ),
         new Filter<MyType>(
           MyType,
-          FilterType.NEQ,
+          FilterOperator.NEQ,
           'notesCol',
           'notesvalue',
           ValueType.TEXT
@@ -65,8 +65,8 @@ describe('common/utils/db', () => {
       ];
 
       const filterGroups: FilterGroup<MyType>[] = [
-        new FilterGroup<MyType>(MyType, FilterOperator.OR, filters1),
-        new FilterGroup<MyType>(MyType, FilterOperator.AND, filters2),
+        new FilterGroup<MyType>(MyType, FilterLogicalOperator.OR, filters1),
+        new FilterGroup<MyType>(MyType, FilterLogicalOperator.AND, filters2),
       ];
 
       validateFilterGroups(filterGroups, ['title', 'notes_col']);

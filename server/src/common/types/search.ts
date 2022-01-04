@@ -40,7 +40,7 @@ export function Paginated<T>(res: ClassType<T>) {
   return Paginated;
 }
 
-export enum FilterType {
+export enum FilterOperator {
   EQ = 'EQ',
   NEQ = 'NEQ',
   GT = 'GT',
@@ -51,7 +51,7 @@ export enum FilterType {
   ILIKE = 'ILIKE',
 }
 
-export enum FilterOperator {
+export enum FilterLogicalOperator {
   AND = 'AND',
   OR = 'OR',
 }
@@ -62,12 +62,12 @@ export enum ValueType {
   DATE = 'DATE',
 }
 
-registerEnumType(FilterType, {
-  name: 'FilterType',
-});
-
 registerEnumType(FilterOperator, {
   name: 'FilterOperator',
+});
+
+registerEnumType(FilterLogicalOperator, {
+  name: 'FilterLogicalOperator',
 });
 
 registerEnumType(ValueType, {
@@ -81,22 +81,22 @@ export class Filter<
 > {
   constructor(
     itemType: ClassType<Item>,
-    type: FilterType,
     field: Key,
+    operator: FilterOperator,
     value: Item[Key],
     valueType: ValueType
   ) {
-    this.type = type;
     this.field = field;
+    this.operator = operator;
     this.value = value;
     this.valueType = valueType;
   }
 
-  @Field(() => FilterType)
-  type: FilterType;
-
   @Field(() => String)
   field: Key;
+
+  @Field(() => FilterOperator)
+  operator: FilterOperator;
 
   /*
     This is a string since GraphQL doesn't allow for union type inputs
@@ -119,15 +119,15 @@ export class Filter<
 export class FilterGroup<Item extends Record<string, any>> {
   constructor(
     itemType: ClassType<Item>,
-    operator: FilterOperator,
+    operator: FilterLogicalOperator,
     filters: Filter<Item>[]
   ) {
     this.operator = operator;
     this.filters = filters;
   }
 
-  @Field(() => FilterOperator)
-  operator: FilterOperator;
+  @Field(() => FilterLogicalOperator)
+  operator: FilterLogicalOperator;
 
   @Field(() => [Filter])
   filters: Filter<Item>[];

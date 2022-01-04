@@ -3,8 +3,8 @@ import { ClassType } from 'type-graphql';
 import {
   Filter,
   FilterGroup,
-  FilterType,
   FilterOperator,
+  FilterLogicalOperator,
   ValueType,
 } from '../types/search';
 import { toSnakeCase } from './format';
@@ -60,19 +60,19 @@ export function addFilter<Item extends Record<string, any>>(
   itemType: ClassType<Item>,
   field: string,
   value: string,
-  filterType: FilterType = FilterType.EQ,
+  filterOperator: FilterOperator = FilterOperator.EQ,
   valueType: ValueType = ValueType.TEXT
 ) {
   const filter = new Filter<Item>(
     itemType,
-    filterType,
+    filterOperator,
     field,
     value as Item[keyof Item],
     valueType
   );
 
   const filterGroups: FilterGroup<Item>[] = [
-    new FilterGroup<Item>(itemType, FilterOperator.AND, [filter]),
+    new FilterGroup<Item>(itemType, FilterLogicalOperator.AND, [filter]),
   ];
 
   return filterGroups.concat(origFilterGroups);
