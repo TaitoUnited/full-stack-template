@@ -65,8 +65,8 @@ export function addFilter<Item extends Record<string, any>>(
 ) {
   const filter = new Filter<Item>(
     itemType,
-    filterOperator,
     field,
+    filterOperator,
     value as Item[keyof Item],
     valueType
   );
