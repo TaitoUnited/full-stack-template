@@ -33,15 +33,15 @@ describe('common/utils/db', () => {
       const filters1: Filter<MyType>[] = [
         new Filter<MyType>(
           MyType,
-          FilterOperator.EQ,
           'title',
+          FilterOperator.EQ,
           'titlevalue',
           ValueType.TEXT
         ),
         new Filter<MyType>(
           MyType,
-          FilterOperator.ILIKE,
           'notesCol',
+          FilterOperator.ILIKE,
           'notesvalue',
           ValueType.TEXT
         ),
@@ -50,15 +50,15 @@ describe('common/utils/db', () => {
       const filters2: Filter<MyType>[] = [
         new Filter<MyType>(
           MyType,
-          FilterOperator.GT,
           'title',
+          FilterOperator.GT,
           'titlevalue',
           ValueType.TEXT
         ),
         new Filter<MyType>(
           MyType,
-          FilterOperator.NEQ,
           'notesCol',
+          FilterOperator.NEQ,
           'notesvalue',
           ValueType.TEXT
         ),
