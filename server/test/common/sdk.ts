@@ -47,7 +47,7 @@ export type EntityId = {
 
 export type Filter = {
   field: Scalars['String'];
-  type: FilterType;
+  operator: FilterOperator;
   value: Scalars['String'];
   /** Determines how the value is treated */
   valueType?: Maybe<ValueType>;
@@ -55,15 +55,15 @@ export type Filter = {
 
 export type FilterGroup = {
   filters: Array<Filter>;
-  operator: FilterOperator;
+  operator: FilterLogicalOperator;
 };
 
-export enum FilterOperator {
+export enum FilterLogicalOperator {
   And = 'AND',
   Or = 'OR'
 }
 
-export enum FilterType {
+export enum FilterOperator {
   Eq = 'EQ',
   Gt = 'GT',
   Gte = 'GTE',
@@ -80,6 +80,8 @@ export type Mutation = {
   createPost: Post;
   /** Creates a new user. */
   createUser: User;
+  /** Deletes a post. */
+  deletePost: EntityId;
   /** Deletes a user. */
   deleteUser: EntityId;
   /** Updates a post. */
@@ -96,6 +98,11 @@ export type MutationCreatePostArgs = {
 
 export type MutationCreateUserArgs = {
   input: CreateUserInput;
+};
+
+
+export type MutationDeletePostArgs = {
+  input: DeletePostInput;
 };
 
 
@@ -267,6 +274,19 @@ export type CreateUserMutation = (
   ) }
 );
 
+export type DeletePostMutationVariables = Exact<{
+  input: DeletePostInput;
+}>;
+
+
+export type DeletePostMutation = (
+  { __typename?: 'Mutation' }
+  & { deletePost: (
+    { __typename?: 'EntityId' }
+    & Pick<EntityId, 'id'>
+  ) }
+);
+
 export type DeleteUserMutationVariables = Exact<{
   input: DeleteUserInput;
 }>;
@@ -420,6 +440,13 @@ export const CreateUserDocument = gql`
   }
 }
     `;
+export const DeletePostDocument = gql`
+    mutation deletePost($input: DeletePostInput!) {
+  deletePost(input: $input) {
+    id
+  }
+}
+    `;
 export const DeleteUserDocument = gql`
     mutation deleteUser($input: DeleteUserInput!) {
   deleteUser(input: $input) {
@@ -561,6 +588,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     createUser(variables: CreateUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CreateUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<CreateUserMutation>(CreateUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'createUser');
+    },
+    deletePost(variables: DeletePostMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeletePostMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<DeletePostMutation>(DeletePostDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deletePost');
     },
     deleteUser(variables: DeleteUserMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<DeleteUserMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<DeleteUserMutation>(DeleteUserDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'deleteUser');

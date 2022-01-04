@@ -37,7 +37,7 @@ type EntityId {
 
 input Filter {
   field: String!
-  type: FilterType!
+  operator: FilterOperator!
   value: String!
 
   """Determines how the value is treated"""
@@ -46,15 +46,15 @@ input Filter {
 
 input FilterGroup {
   filters: [Filter!]!
-  operator: FilterOperator!
+  operator: FilterLogicalOperator!
 }
 
-enum FilterOperator {
+enum FilterLogicalOperator {
   AND
   OR
 }
 
-enum FilterType {
+enum FilterOperator {
   EQ
   GT
   GTE
@@ -71,6 +71,9 @@ type Mutation {
 
   """Creates a new user."""
   createUser(input: CreateUserInput!): User!
+
+  """Deletes a post."""
+  deletePost(input: DeletePostInput!): EntityId!
 
   """Deletes a user."""
   deleteUser(input: DeleteUserInput!): EntityId!
