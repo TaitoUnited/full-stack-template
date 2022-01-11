@@ -16,7 +16,7 @@ import {
 } from '../types/entityName';
 import { EntityNameDao } from '../daos/EntityNameDao';
 import { EntityType, Operation } from '../types/core';
-import { CoreCoreAuthService } from './CoreCoreAuthService';
+import { CoreAuthService } from './CoreAuthService';
 
 const filterableFieldNames = Object.getOwnPropertyNames(
   entityNameFilterExample
@@ -25,7 +25,7 @@ const filterableFieldNames = Object.getOwnPropertyNames(
 @Service()
 export class EntityNameService {
   constructor(
-    private coreCoreAuthService: CoreCoreAuthService,
+    private coreAuthService: CoreAuthService,
     private entityNameDao: EntityNameDao
   ) {}
 
@@ -40,7 +40,7 @@ export class EntityNameService {
     validateFieldName(order.field, filterableFieldNames);
 
     // Check permissions
-    await this.coreCoreAuthService.checkPermission(
+    await this.coreAuthService.checkPermission(
       state,
       EntityType.ENTITY_NAME,
       Operation.LIST
@@ -71,7 +71,7 @@ export class EntityNameService {
 
     if (entityName) {
       // Check permissions
-      await this.coreCoreAuthService.checkPermission(
+      await this.coreAuthService.checkPermission(
         state,
         EntityType.ENTITY_NAME,
         Operation.VIEW,
@@ -87,7 +87,7 @@ export class EntityNameService {
     entityName: CreateEntityNameInput
   ) {
     // Check permissions
-    await this.coreCoreAuthService.checkPermission(
+    await this.coreAuthService.checkPermission(
       state,
       EntityType.ENTITY_NAME,
       Operation.ADD
@@ -101,7 +101,7 @@ export class EntityNameService {
     entityName: UpdateEntityNameInput
   ) {
     // Check permissions
-    await this.coreCoreAuthService.checkPermission(
+    await this.coreAuthService.checkPermission(
       state,
       EntityType.ENTITY_NAME,
       Operation.EDIT,
@@ -116,7 +116,7 @@ export class EntityNameService {
     entityName: DeleteEntityNameInput
   ) {
     // Check permissions
-    await this.coreCoreAuthService.checkPermission(
+    await this.coreAuthService.checkPermission(
       state,
       EntityType.ENTITY_NAME,
       Operation.DELETE,

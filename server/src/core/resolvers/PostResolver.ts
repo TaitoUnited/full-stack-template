@@ -10,6 +10,7 @@ import {
   FieldResolver,
   Root,
 } from 'type-graphql';
+import { addFilter } from '../../common/utils/validate';
 import { Relation } from '../../common/utils/graphql';
 import {
   Pagination,
@@ -28,9 +29,6 @@ import {
 } from '../types/post';
 import { PostService } from '../services/PostService';
 
-import { User } from '../types/user';
-import { UserService } from '../services/UserService';
-
 /**
  * GraphQL resolver for Posts
  */
@@ -38,8 +36,7 @@ import { UserService } from '../services/UserService';
 @Resolver(() => Post)
 class PostResolver {
   constructor(
-    private readonly postService = Container.get(PostService),
-    private readonly userService = Container.get(UserService)
+    private readonly postService = Container.get(PostService)
   ) {}
 
   @Authorized()
@@ -59,7 +56,7 @@ class PostResolver {
     })
     order: Order,
     @Arg('pagination', () => Pagination, {
-      defaultValue: new Pagination(0, 50),
+      defaultValue: new Pagination(0, 20),
     })
     pagination: Pagination
   ) {
@@ -73,26 +70,38 @@ class PostResolver {
   }
 
   @Authorized()
-  @Query(() => Post, { description: 'Reads a post.', nullable: true })
+  @Query(() => Post, {
+    description: 'Reads a post.',
+    nullable: true,
+  })
   async post(@Ctx() ctx: Context, @Arg('id', () => String) id: string) {
     return await this.postService.read(ctx.state, id);
   }
 
   @Authorized()
   @Mutation(() => Post, { description: 'Creates a new post.' })
-  async createPost(@Ctx() ctx: Context, @Arg('input') input: CreatePostInput) {
+  async createPost(
+    @Ctx() ctx: Context,
+    @Arg('input') input: CreatePostInput
+  ) {
     return await this.postService.create(ctx.state, input);
   }
 
   @Authorized()
   @Mutation(() => Post, { description: 'Updates a post.' })
-  async updatePost(@Ctx() ctx: Context, @Arg('input') input: UpdatePostInput) {
+  async updatePost(
+    @Ctx() ctx: Context,
+    @Arg('input') input: UpdatePostInput
+  ) {
     return await this.postService.update(ctx.state, input);
   }
 
   @Authorized()
   @Mutation(() => EntityId, { description: 'Deletes a post.' })
-  async deletePost(@Ctx() ctx: Context, @Arg('input') input: DeletePostInput) {
+  async deletePost(
+    @Ctx() ctx: Context,
+    @Arg('input') input: DeletePostInput
+  ) {
     return await this.postService.delete(ctx.state, input);
   }
 
@@ -100,12 +109,31 @@ class PostResolver {
   // Field resolvers for other entities
   // ------------------------------------------------------
 
-  @Authorized()
-  @FieldResolver(() => User, { nullable: true })
-  @Relation<Post>('moderatorId')
-  async moderator(@Ctx() ctx: Context, @Root() root: Post) {
-    return root.moderatorId
-      ? await this.userService.read(ctx.state, root.moderatorId)
-      : null;
-  }
+  // EXAMPLE: reference to an another entity
+  //
+  // @Authorized()
+  // @FieldResolver(() => AnotherEntity, { nullable: true })
+  // @Relation<Post>('anotherEntityId', 'anotherEntity')
+  // async anotherEntity(@Ctx() ctx: Context, @Root() root: Post) {
+  //   return root.anotherEntityId
+  //     ? await this.anotherEntityService.read(ctx.state, root.anotherEntityId)
+  //     : null;
+  // }
+
+  // EXAMPLE: reference to other entities
+  //
+  // @Authorized()
+  // @FieldResolver(() => PaginatedOtherEntities)
+  // async otherEntities(@Ctx() ctx: Context, @Root() root: Post) {
+  //   let filterGroups: FilterGroup<AnotherEntityFilter>[] = [];
+  //   filterGroups = addFilter(filterGroups, AnotherEntityFilter, 'postId', root.id);
+  //
+  //   return await this.otherEntityService.search(
+  //     ctx.state,
+  //     null,
+  //     filterGroups,
+  //     new Order(OrderDirection.ASC, 'createdAt'),
+  //     null
+  //   );
+  // }
 }

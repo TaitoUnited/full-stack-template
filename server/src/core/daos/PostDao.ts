@@ -17,14 +17,42 @@ import {
   UpdatePostInput,
   DeletePostInput,
   postExample,
+  postFilterExample,
   createPostExample,
+  updatePostExample,
 } from '../types/post';
 
 const tableName = 'post';
-const selectColumnNames = getColumnNames(postExample);
-const filterableColumnNames = selectColumnNames;
+const selectColumnNames = getColumnNames(postExample, false, tableName);
+const filterableColumnNames = getColumnNames(postFilterExample, true);
 const insertColumnNames = getColumnNames(createPostExample);
 const insertParameterNames = getParameterNames(createPostExample);
+
+// JOIN_FRAGMENT EXAMPLE:
+// `
+//   JOIN organization on (
+//     ${tableName}.organization_id = organization.id
+//   )
+//   LEFT JOIN user AS assigned_user on (
+//     ${tableName}.assigned_user_id = assigned_user.id
+//   )
+// `
+const JOIN_FRAGMENT = '';
+
+// WHERE_FRAGMENT EXAMPLE:
+// `
+//   WHERE ${tableName}.lifecycle_status != 'DELETED'
+// `
+const WHERE_FRAGMENT = 'WHERE 1 = 1';
+
+// SEARCH_FRAGMENT EXAMPLE:
+// `
+//   AND (
+//     name ILIKE concat('%', $[search], '%')
+//     OR description ILIKE concat('%', $[search], '%')
+//   )
+// `;
+const SEARCH_FRAGMENT = 'AND 1 = 0';
 
 @Service()
 export class PostDao {
@@ -35,16 +63,6 @@ export class PostDao {
     order: Order,
     pagination: Pagination | null
   ): Promise<PaginatedPosts> {
-    const searchFragment = search
-      ? `
-        AND (
-          subject ILIKE concat('%', $[search], '%')
-          OR content ILIKE concat('%', $[search], '%')
-          OR author ILIKE concat('%', $[search], '%')
-        )
-      `
-      : '';
-
     return searchFromTable({
       tableName,
       db,
@@ -52,9 +70,17 @@ export class PostDao {
       filterGroups,
       order,
       pagination,
-      searchFragment,
       selectColumnNames,
       filterableColumnNames,
+
+      // Custom fragments
+      joinFragment: JOIN_FRAGMENT,
+      whereFragment: WHERE_FRAGMENT,
+      searchFragment: SEARCH_FRAGMENT,
+
+      // Prefetch optimization (not supported yet)
+      // WARNING: Do not prefetch entities that user is not allowed to see!
+      // prefetchReferences: [{ name: 'assignedUser', userExample }],
     });
   }
 
@@ -70,20 +96,29 @@ export class PostDao {
     );
   }
 
-  public async create(db: Db, post: CreatePostInput): Promise<Post> {
+  public async create(
+    db: Db,
+    post: CreatePostInput
+  ): Promise<Post> {
     return await db.one(
       `
         INSERT INTO ${tableName} (${insertColumnNames.join(',')})
         VALUES (${insertParameterNames.join(',')})
         RETURNING ${selectColumnNames.join(',')}
       `,
-      getParameterValues({ allowedKeys: createPostExample, values: post })
+      getParameterValues({
+        allowedKeys: createPostExample,
+        values: post,
+      })
     );
   }
 
-  public async update(db: Db, post: UpdatePostInput): Promise<Post> {
+  public async update(
+    db: Db,
+    post: UpdatePostInput
+  ): Promise<Post> {
     const parameterAssignments = getParameterAssignments({
-      allowedKeys: createPostExample,
+      allowedKeys: updatePostExample,
       values: post,
     });
     return await db.one(
@@ -95,12 +130,18 @@ export class PostDao {
       `,
       {
         id: post.id,
-        ...getParameterValues({ allowedKeys: createPostExample, values: post }),
+        ...getParameterValues({
+          allowedKeys: updatePostExample,
+          values: post,
+        }),
       }
     );
   }
 
-  public async delete(db: Db, post: DeletePostInput): Promise<EntityId> {
+  public async delete(
+    db: Db,
+    post: DeletePostInput
+  ): Promise<EntityId> {
     await db.none(
       `
         DELETE FROM ${tableName}

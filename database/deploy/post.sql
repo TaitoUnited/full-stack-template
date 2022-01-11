@@ -9,9 +9,10 @@ CREATE TABLE post (
 
   subject text NOT NULL,
   content text NOT NULL,
-  author text NOT NULL,
+  author text NOT NULL
   
-  moderator_id uuid REFERENCES app_user (id)
+  -- EXAMPLE REFERENCE:
+  -- moderator_id uuid REFERENCES app_user (id)
 );
 
 CREATE TRIGGER post_updated_at

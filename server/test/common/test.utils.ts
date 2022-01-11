@@ -19,3 +19,10 @@ export function initGraphQL() {
 
   return { api, sdk };
 }
+
+export async function setUser(
+  client: GraphQLClient,
+  user: string | null = 'USER1'
+) {
+  // TODO
+}

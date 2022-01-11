@@ -24,18 +24,24 @@ export function validateEqualIfBothSet(
   }
 }
 
-export function validateColumnName(
-  columnName: string,
-  allowedColumnNames: string[]
+export function validateFieldName(
+  fieldName: string,
+  allowedFieldNames: string[],
+  convertDepth = true
 ) {
-  if (allowedColumnNames.indexOf(toSnakeCase(columnName)) === -1) {
-    throw Boom.badRequest(`Invalid column name: '${columnName}'`);
+  // converts entityName.column to entityName_column
+  const convertedName = convertDepth
+    ? fieldName.replace(/\./g, '_')
+    : fieldName;
+  if (allowedFieldNames.indexOf(convertedName) === -1) {
+    throw Boom.badRequest(`Invalid field name: '${fieldName}'`);
   }
 }
 
 export function validateFilterGroups(
   filterGroups: FilterGroup<any>[], // TODO: should be FilterGroup<Record<string, any>>[],
-  allowedColumnNames: string[]
+  allowedFieldNames: string[],
+  convertDepth = true
 ) {
   const invalids = new Set();
 
@@ -43,7 +49,12 @@ export function validateFilterGroups(
     .map((group) => group.filters)
     .flat()
     .forEach((f) => {
-      if (allowedColumnNames.indexOf(toSnakeCase(String(f.field))) === -1) {
+      // converts entityName.column to entityName_column
+      const convertedName = convertDepth
+        ? String(f.field).replace(/\./g, '_')
+        : String(f.field);
+
+      if (allowedFieldNames.indexOf(convertedName) === -1) {
         invalids.add(String(f.field));
       }
     });

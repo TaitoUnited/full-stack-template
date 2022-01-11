@@ -10,25 +10,41 @@ describe('format.ts', () => {
     it('works', async () => {
       expect(toSnakeCase('myKeyName')).toEqual('my_key_name');
       expect(toSnakeCase('name')).toEqual('name');
+    });
+
+    it('handles whitespace', async () => {
       expect(() => toSnakeCase('some whitespace')).toThrow(
-        'Invalid whitespace'
-      );
-      expect(toSnakeCase('myKeyName with some whiteSpace', true)).toEqual(
-        'my_key_name with some white_space'
+        'Whitespace not allowed'
       );
       expect(() =>
-        toSnakeCase('myKeyName with some whiteSpace', false)
-      ).toThrow('Invalid whitespace');
+        toSnakeCase('myKeyName with some whiteSpace', false, false)
+      ).toThrow('Whitespace not allowed');
+      expect(
+        toSnakeCase('myKeyName with some whiteSpace', false, true)
+      ).toEqual('my_key_name with some white_space');
+    });
+
+    it('handles depth', async () => {
+      expect(toSnakeCase('assignedUser.firstName', true)).toEqual(
+        'assigned_user.first_name'
+      );
+      expect(toSnakeCase('assignedUser_firstName', true)).toEqual(
+        'assigned_user.first_name'
+      );
+      expect(toSnakeCase('assignedUser.firstName')).toEqual(
+        'assigned_user.first_name'
+      );
+      expect(toSnakeCase('assignedUser_firstName')).toEqual(
+        'assigned_user_first_name'
+      );
     });
   });
 
   describe('#toSnakeCaseArray', () => {
     it('works', async () => {
-      expect(toSnakeCaseArray(['colName', 'col_name', 'colname'])).toEqual([
-        'col_name',
-        'col_name',
-        'colname',
-      ]);
+      expect(
+        toSnakeCaseArray(['colName', 'col_name', 'colname'], true)
+      ).toEqual(['col_name', 'col.name', 'colname']);
     });
   });
 
@@ -39,9 +55,9 @@ describe('format.ts', () => {
         col_name: 'wefef',
         colname: 'asdf',
       };
-      expect(keysAsSnakeCaseArray(obj)).toEqual([
+      expect(keysAsSnakeCaseArray(obj, true)).toEqual([
         'col_name',
-        'col_name',
+        'col.name',
         'colname',
       ]);
     });

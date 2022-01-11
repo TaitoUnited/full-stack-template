@@ -28,7 +28,15 @@ export const getTableColumnNames = (tableName: string, object: any) => {
 
 export const formatColumnNames = format.toSnakeCaseArray;
 
-export const getColumnNames = format.keysAsSnakeCaseArray;
+export const getColumnNames = (
+  object: any,
+  convertDepth = false,
+  tableName: string | null = null
+) => {
+  return format
+    .keysAsSnakeCaseArray(object, convertDepth)
+    .map((c) => (tableName ? `${tableName}.${c}` : c));
+};
 
 export const formatParameterNames = (columns: string[]) => {
   return columns.map((column) => `$[${toSnakeCase(column)}]`);
@@ -92,6 +100,46 @@ function parseValue(type: ValueType, value: string) {
   never(type);
 }
 
+function getFilterableColumnDefinition(
+  field: string,
+  filterableColumnNames: string[]
+) {
+  const columnDefinition = toSnakeCase(field, true);
+
+  // Allow filtering with specific columns only
+  if (filterableColumnNames.indexOf(columnDefinition) === -1) {
+    throw Boom.badImplementation(
+      `Filtering with column '${columnDefinition}' not allowed`
+    );
+  }
+
+  return columnDefinition;
+}
+
+function getColumnTable(
+  field: string,
+  filterableColumnNames: string[],
+  defaultTable?: string
+) {
+  const columnDefinition = getFilterableColumnDefinition(
+    field,
+    filterableColumnNames
+  );
+  return columnDefinition.indexOf('.') !== -1
+    ? columnDefinition.split('.')[0]
+    : defaultTable;
+}
+
+function getColumnName(field: string, filterableColumnNames: string[]) {
+  const columnDefinition = getFilterableColumnDefinition(
+    field,
+    filterableColumnNames
+  );
+  return columnDefinition.indexOf('.') !== -1
+    ? columnDefinition.split('.')[1]
+    : columnDefinition;
+}
+
 /**
  * Function for parsing and generating a sql fragment
  * from a single filter object
@@ -150,14 +198,8 @@ function createFilterFragment(
   table?: string
 ) {
   const fragment = filters.reduce((str, cur, i) => {
-    const columnName = toSnakeCase(cur.field);
-
-    // Allow filtering with specific columns only
-    if (filterableColumnNames.indexOf(columnName) === -1) {
-      throw Boom.badImplementation(
-        `Filtering with column '${columnName}' not allowed`
-      );
-    }
+    const columnTable = getColumnTable(cur.field, filterableColumnNames, table);
+    const columnName = getColumnName(cur.field, filterableColumnNames);
 
     // just in case since we are injecting the `i`
     // directly into the sql
@@ -180,14 +222,14 @@ function createFilterFragment(
     // TODO: even safer might be to collect field values to a separate
     // parameter list given for pg-promise as parameters.
     const currentFragment = pgp.as.format(
-      `${table ? `$(table~).` : ''}$(field~)${
+      `${columnTable ? `$(columnTable~).` : ''}$(field~)${
         type ? `::${type}` : ''
       } ${clause}`,
       {
         ...cur,
-        field: toSnakeCase(cur.field, false),
+        field: columnName,
         value: parseValue(cur.valueType, cur.value),
-        table,
+        columnTable,
       }
     );
     return `${str}${prefix} ${currentFragment} `;
@@ -214,15 +256,20 @@ function createFilterGroupFragment(
 
 function createOrderFragment(
   order: Order,
+  filterableColumnNames: string[],
   table: string,
   fallbackField = 'id'
 ) {
+  const columnTable = getColumnTable(order.field, filterableColumnNames, table);
+  const columnName = getColumnName(order.field, filterableColumnNames);
+
   return pgp.as.format(
     `
-    ORDER BY $(field~) $(dir^), $(table~).$(fallbackField~)
+    ORDER BY $(columnTable~).$(columnName~) $(dir^), $(table~).$(fallbackField~)
   `,
     {
-      field: toSnakeCase(order.field),
+      columnTable,
+      columnName,
       dir: order.dir === OrderDirection.ASC ? 'ASC' : 'DESC',
       fallbackField: toSnakeCase(fallbackField),
       table,
@@ -237,53 +284,69 @@ export type searchFromTableParams = {
   filterGroups: FilterGroup<any>[]; // TODO: should be FilterGroup<Record<string, any>>[],
   order: Order;
   pagination: Pagination | null;
-  searchFragment: string;
+
   selectColumnNames: string[];
   filterableColumnNames: string[];
+
+  joinFragment?: string;
   whereFragment?: string | null;
+  searchFragment?: string | null;
+  groupByFragment?: string;
 };
 
 export async function searchFromTable(p: searchFromTableParams) {
   const whereFragment = p.whereFragment || 'WHERE 1 = 1';
+  const searchFragment = p.search ? p.searchFragment || '' : '';
   const filterFragment = createFilterGroupFragment(
     p.filterGroups,
     p.filterableColumnNames,
     p.tableName
   );
-  const orderFragment = createOrderFragment(p.order, p.tableName);
+  const orderFragment = createOrderFragment(
+    p.order,
+    p.filterableColumnNames,
+    p.tableName
+  );
   const paginationFragment = p.pagination
     ? `OFFSET $[offset] LIMIT $[limit]`
     : '';
 
-  const count = await p.db.one(
-    `
-      SELECT count(id) FROM ${p.tableName}
-      ${whereFragment}
-      ${p.searchFragment}
-      ${filterFragment}
-    `,
-    {
-      search: p.search || undefined,
-    }
-  );
+  const countQuery = `
+    SELECT count(${p.tableName}.id)
+    FROM ${p.tableName}
+    ${p.joinFragment || ''}
+    ${whereFragment}
+    ${searchFragment}
+    ${filterFragment}
+  `;
 
-  const data = await p.db.any(
-    `
-      SELECT ${p.selectColumnNames.join(', ')} FROM ${p.tableName}
-      ${whereFragment}
-      ${p.searchFragment}
-      ${filterFragment}
-      ${orderFragment}
-      ${paginationFragment}
-    `,
-    {
-      ...p.pagination,
-      search: p.search || undefined,
-    }
-  );
+  const countQueryParams = {
+    search: p.search || undefined,
+  };
+
+  const countQueryData = await p.db.one(countQuery, countQueryParams);
+
+  const query = `
+    SELECT ${p.selectColumnNames.join(', ')}
+    FROM ${p.tableName}
+    ${p.joinFragment || ''}
+    ${whereFragment}
+    ${searchFragment}
+    ${filterFragment}
+    ${p.groupByFragment || ''}
+    ${orderFragment}
+    ${paginationFragment}
+  `;
+
+  const queryParams = {
+    ...p.pagination,
+    search: p.search || undefined,
+  };
+
+  const queryData = await p.db.any(query, queryParams);
 
   return {
-    total: Number(count.count),
-    data,
+    total: Number(countQueryData.count),
+    data: queryData,
   };
 }

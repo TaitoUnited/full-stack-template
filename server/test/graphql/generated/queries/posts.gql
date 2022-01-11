@@ -5,16 +5,6 @@ query posts($filterGroups: [FilterGroup!], $order: Order, $pagination: Paginatio
             content
             createdAt
             id
-            moderator{
-                createdAt
-                email
-                firstName
-                id
-                language
-                lastName
-                updatedAt
-            }
-            moderatorId
             subject
             updatedAt
         }

@@ -6,7 +6,7 @@ import {
   FilterLogicalOperator,
   ValueType,
 } from '../types/search';
-import { validateFilterGroups, validateColumnName } from './validate';
+import { validateFilterGroups, validateFieldName } from './validate';
 
 export class MyType {
   id: string;
@@ -14,16 +14,23 @@ export class MyType {
   title: string;
   keywords: string[];
   notesCol: string;
+  entityName_column: string;
 }
 
 describe('common/utils/db', () => {
-  describe('#validateColumnName', () => {
+  describe('#validateFieldName', () => {
     it('works ok', async () => {
-      validateColumnName('col_name', ['col_name', 'title']);
-      validateColumnName('colName', ['title', 'col_name']);
+      validateFieldName('title', ['title', 'colName']);
+      validateFieldName('colName', ['title', 'colName']);
+      validateFieldName('entityName.column', ['entityName_column']);
+      validateFieldName('entityName_column', ['entityName_column']);
 
-      expect(() => validateColumnName('column', ['title', 'col_name'])).toThrow(
-        "Invalid column name: 'column'"
+      expect(() =>
+        validateFieldName('entityName.column', ['entityName_column'], false)
+      ).toThrow("Invalid field name: 'entityName.column'");
+
+      expect(() => validateFieldName('column', ['title', 'col_name'])).toThrow(
+        "Invalid field name: 'column'"
       );
     });
   });
@@ -57,9 +64,9 @@ describe('common/utils/db', () => {
         ),
         new Filter<MyType>(
           MyType,
-          'notesCol',
+          'entityName_column',
           FilterOperator.NEQ,
-          'notesvalue',
+          'value',
           ValueType.TEXT
         ),
       ];
@@ -69,11 +76,15 @@ describe('common/utils/db', () => {
         new FilterGroup<MyType>(MyType, FilterLogicalOperator.AND, filters2),
       ];
 
-      validateFilterGroups(filterGroups, ['title', 'notes_col']);
+      validateFilterGroups(filterGroups, [
+        'title',
+        'notesCol',
+        'entityName_column',
+      ]);
 
       expect(() =>
         validateFilterGroups(filterGroups, ['desc', 'notes'])
-      ).toThrow('Invalid filter fields: notesCol, title');
+      ).toThrow('Invalid filter fields: entityName_column, notesCol, title');
     });
   });
 });

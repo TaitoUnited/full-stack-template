@@ -30,7 +30,10 @@ export class EntityNameFilter {
   // @Field() assignedUser_username: string;
 }
 
-export const entityNameFilterExample: EntityNameFilter = {};
+export const entityNameFilterExample: EntityNameFilter = {
+  createdAt: new Date(),
+  updatedAt: new Date(),
+};
 
 // Create
 

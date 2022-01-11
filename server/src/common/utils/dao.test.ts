@@ -119,7 +119,7 @@ describe('common/utils/db', () => {
         pagination: new Pagination(0, 10),
         searchFragment: '',
         selectColumnNames,
-        filterableColumnNames: [],
+        filterableColumnNames: ['title'],
       });
 
       expect(result).toEqual(expectedResult);
@@ -128,7 +128,7 @@ describe('common/utils/db', () => {
       expect(trimGaps(db.one.mock.calls[0][0])).toEqual(
         trimGaps(
           `
-          SELECT count(id) FROM my_table
+          SELECT count(my_table.id) FROM my_table
           WHERE 1 = 1
           `
         )
@@ -143,7 +143,7 @@ describe('common/utils/db', () => {
           `
           SELECT id, creation_date, title, keywords, notes FROM my_table
           WHERE 1 = 1
-          ORDER BY \"title\" ASC, \"my_table\".\"id\"
+          ORDER BY \"my_table\".\"title\" ASC, \"my_table\".\"id\"
           OFFSET $[offset] LIMIT $[limit]
           `
         )
@@ -173,7 +173,7 @@ describe('common/utils/db', () => {
         pagination: new Pagination(0, 10),
         searchFragment,
         selectColumnNames,
-        filterableColumnNames: [],
+        filterableColumnNames: ['title'],
       });
 
       expect(result).toEqual(expectedResult);
@@ -182,7 +182,7 @@ describe('common/utils/db', () => {
       expect(trimGaps(db.one.mock.calls[0][0])).toEqual(
         trimGaps(
           `
-          SELECT count(id) FROM my_table
+          SELECT count(my_table.id) FROM my_table
           WHERE 1 = 1
           ${searchFragment}
           `
@@ -199,7 +199,7 @@ describe('common/utils/db', () => {
           SELECT id, creation_date, title, keywords, notes FROM my_table
           WHERE 1 = 1
           ${searchFragment}
-          ORDER BY \"title\" ASC, \"my_table\".\"id\"
+          ORDER BY \"my_table\".\"title\" ASC, \"my_table\".\"id\"
           OFFSET $[offset] LIMIT $[limit]
           `
         )
@@ -221,7 +221,7 @@ describe('common/utils/db', () => {
         pagination: new Pagination(50, 1200),
         searchFragment: '',
         selectColumnNames,
-        filterableColumnNames: [],
+        filterableColumnNames: ['notes'],
       });
 
       expect(trimGaps(db.any.mock.calls[0][0])).toEqual(
@@ -229,7 +229,7 @@ describe('common/utils/db', () => {
           `
           SELECT id, creation_date, title, keywords, notes FROM my_table
           WHERE 1 = 1
-          ORDER BY \"notes\" DESC, \"my_table\".\"id\"
+          ORDER BY \"my_table\".\"notes\" DESC, \"my_table\".\"id\"
           OFFSET $[offset] LIMIT $[limit]
           `
         )
@@ -310,7 +310,7 @@ describe('common/utils/db', () => {
       expect(trimGaps(db.one.mock.calls[0][0])).toEqual(
         trimGaps(
           `
-          SELECT count(id) FROM my_table
+          SELECT count(my_table.id) FROM my_table
           WHERE 1 = 1
           ${expectedFilterFragment}
           `
@@ -329,7 +329,7 @@ describe('common/utils/db', () => {
           SELECT id, creation_date, title, keywords, notes FROM my_table
           WHERE 1 = 1
           ${expectedFilterFragment}
-          ORDER BY \"title\" ASC, \"my_table\".\"id\"
+          ORDER BY \"my_table\".\"title\" ASC, \"my_table\".\"id\"
           OFFSET $[offset] LIMIT $[limit]
           `
         )
@@ -432,7 +432,7 @@ describe('common/utils/db', () => {
       expect(trimGaps(db.one.mock.calls[0][0])).toEqual(
         trimGaps(
           `
-          SELECT count(id) FROM my_table
+          SELECT count(my_table.id) FROM my_table
           WHERE 1 = 1
           ${expectedFilterFragment}
           `
@@ -451,7 +451,7 @@ describe('common/utils/db', () => {
           SELECT id, creation_date, title, keywords, notes FROM my_table
           WHERE 1 = 1
           ${expectedFilterFragment}
-          ORDER BY \"title\" ASC, \"my_table\".\"id\"
+          ORDER BY \"my_table\".\"title\" ASC, \"my_table\".\"id\"
           OFFSET $[offset] LIMIT $[limit]
           `
         )

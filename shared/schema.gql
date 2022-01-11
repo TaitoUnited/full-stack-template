@@ -4,18 +4,9 @@
 # -----------------------------------------------
 
 input CreatePostInput {
-  author: String
-  content: String
-  moderatorId: String
-  subject: String
-}
-
-input CreateUserInput {
-  email: String!
-  externalIds: [String!] = []
-  firstName: String!
-  language: String
-  lastName: String!
+  author: String!
+  content: String!
+  subject: String!
 }
 
 """
@@ -24,10 +15,6 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 scalar DateTime
 
 input DeletePostInput {
-  id: String!
-}
-
-input DeleteUserInput {
   id: String!
 }
 
@@ -69,20 +56,11 @@ type Mutation {
   """Creates a new post."""
   createPost(input: CreatePostInput!): Post!
 
-  """Creates a new user."""
-  createUser(input: CreateUserInput!): User!
-
   """Deletes a post."""
   deletePost(input: DeletePostInput!): EntityId!
 
-  """Deletes a user."""
-  deleteUser(input: DeleteUserInput!): EntityId!
-
   """Updates a post."""
   updatePost(input: UpdatePostInput!): Post!
-
-  """Updates a user."""
-  updateUser(input: UpdateUserInput!): User!
 }
 
 input Order {
@@ -100,31 +78,22 @@ type PaginatedPosts {
   total: Float!
 }
 
-type PaginatedUsers {
-  data: [User!]!
-  total: Float!
-}
-
 input Pagination {
   limit: Float!
   offset: Float!
 }
 
 type Post {
-  author: String
-  content: String
+  author: String!
+  content: String!
   createdAt: DateTime!
-  id: String!
-  moderator: User
-  moderatorId: String
-  subject: String
+  id: ID!
+  subject: String!
   updatedAt: DateTime!
 }
 
 input PostFilter {
-  author: String!
   createdAt: DateTime!
-  subject: String!
   updatedAt: DateTime!
 }
 
@@ -133,46 +102,14 @@ type Query {
   post(id: String!): Post
 
   """Searches posts."""
-  posts(filterGroups: [FilterGroup!] = [], order: Order = {dir: DESC, field: "createdAt"}, pagination: Pagination = {limit: 50, offset: 0}, search: String = null): PaginatedPosts!
-
-  """Reads a user."""
-  user(id: String!): User
-
-  """Search users."""
-  users(filterGroups: [FilterGroup!] = [], order: Order = {dir: ASC, field: "lastName"}, pagination: Pagination = null, search: String = null): PaginatedUsers!
+  posts(filterGroups: [FilterGroup!] = [], order: Order = {dir: DESC, field: "createdAt"}, pagination: Pagination = {limit: 20, offset: 0}, search: String = null): PaginatedPosts!
 }
 
 input UpdatePostInput {
   author: String
   content: String
   id: String!
-  moderatorId: String
   subject: String
-}
-
-input UpdateUserInput {
-  email: String
-  externalIds: [String!]
-  firstName: String
-  id: String!
-  language: String
-  lastName: String
-}
-
-type User {
-  createdAt: DateTime!
-  email: String!
-  firstName: String!
-  id: String!
-  language: String
-  lastName: String!
-  updatedAt: DateTime!
-}
-
-input UserFilter {
-  email: String!
-  firstName: String!
-  lastName: String!
 }
 
 enum ValueType {

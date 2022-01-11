@@ -1,8 +1,27 @@
-export function toSnakeCase(str: string, whiteSpaceAllowed = false) {
+/**
+ * Converts camelCase to snake_case.
+ *
+ * If convertDepts is true, both 'assignedUser.firstName' and
+ * 'assignedUser_firstName' are converted to
+ * 'assigned_user.first_name'.
+ *
+ * @param str
+ * @param convertDepth
+ * @param whiteSpaceAllowed
+ * @returns
+ */
+export function toSnakeCase(
+  str: string,
+  convertDepth = false,
+  whiteSpaceAllowed = false
+) {
   if (!whiteSpaceAllowed && str && str.match(/\s+/)) {
-    throw new Error('Invalid whitespace');
+    throw new Error('Whitespace not allowed');
   }
-  return str.replace(/([A-Z])/g, '_$1').toLowerCase();
+  return str
+    .replace(/_/g, convertDepth ? '.' : '_')
+    .replace(/([A-Z])/g, '_$1')
+    .toLowerCase();
 }
 
 export function toCamelCase(str: string) {
@@ -12,12 +31,12 @@ export function toCamelCase(str: string) {
     .join('');
 }
 
-export const toSnakeCaseArray = (columns: string[]) => {
-  return columns.map((column) => `${toSnakeCase(column)}`);
+export const toSnakeCaseArray = (columns: string[], convertDepth = false) => {
+  return columns.map((column) => `${toSnakeCase(column, convertDepth)}`);
 };
 
-export const keysAsSnakeCaseArray = (object: any) => {
-  return toSnakeCaseArray(Object.getOwnPropertyNames(object));
+export const keysAsSnakeCaseArray = (object: any, convertDepth = false) => {
+  return toSnakeCaseArray(Object.getOwnPropertyNames(object), convertDepth);
 };
 
 export function trimGaps(str: string) {

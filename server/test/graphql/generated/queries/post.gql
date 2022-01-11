@@ -4,16 +4,6 @@ query post($id: String!) {
         content
         createdAt
         id
-        moderator{
-            createdAt
-            email
-            firstName
-            id
-            language
-            lastName
-            updatedAt
-        }
-        moderatorId
         subject
         updatedAt
     }

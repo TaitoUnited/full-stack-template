@@ -1,8 +1,9 @@
 import { Context } from 'koa';
 import { Service } from 'typedi';
 import {
+  addFilter,
   validateFilterGroups,
-  validateColumnName,
+  validateFieldName,
 } from '../../common/utils/validate';
 import { keysAsSnakeCaseArray } from '../../common/utils/format';
 import { Pagination, FilterGroup, Order } from '../../common/types/search';
@@ -17,7 +18,9 @@ import { PostDao } from '../daos/PostDao';
 import { EntityType, Operation } from '../types/core';
 import { CoreAuthService } from './CoreAuthService';
 
-const filterableColumnNames = keysAsSnakeCaseArray(postFilterExample);
+const filterableFieldNames = Object.getOwnPropertyNames(
+  postFilterExample
+);
 
 @Service()
 export class PostService {
@@ -29,12 +32,12 @@ export class PostService {
   public async search(
     state: Context['state'],
     search: string | null,
-    filterGroups: FilterGroup<PostFilter>[],
+    origFilterGroups: FilterGroup<PostFilter>[],
     order: Order,
-    pagination: Pagination
+    pagination: Pagination | null
   ) {
-    validateColumnName(order.field, filterableColumnNames);
-    validateFilterGroups(filterGroups, filterableColumnNames);
+    validateFilterGroups(origFilterGroups, filterableFieldNames);
+    validateFieldName(order.field, filterableFieldNames);
 
     // Check permissions
     await this.coreAuthService.checkPermission(
@@ -42,6 +45,17 @@ export class PostService {
       EntityType.POST,
       Operation.LIST
     );
+
+    // NOTE: Add additional filters according to user permissions
+
+    // Add additional filters
+    const filterGroups = origFilterGroups;
+    // const filterGroups = addFilter(
+    //   origFilterGroups,
+    //   PostFilter,
+    //   'someFilter',
+    //   someFilter
+    // );
 
     return this.postDao.search(
       state.tx,
@@ -68,7 +82,10 @@ export class PostService {
     return post;
   }
 
-  public async create(state: Context['state'], post: CreatePostInput) {
+  public async create(
+    state: Context['state'],
+    post: CreatePostInput
+  ) {
     // Check permissions
     await this.coreAuthService.checkPermission(
       state,
@@ -79,7 +96,10 @@ export class PostService {
     return this.postDao.create(state.tx, post);
   }
 
-  public async update(state: Context['state'], post: UpdatePostInput) {
+  public async update(
+    state: Context['state'],
+    post: UpdatePostInput
+  ) {
     // Check permissions
     await this.coreAuthService.checkPermission(
       state,
@@ -91,7 +111,10 @@ export class PostService {
     return this.postDao.update(state.tx, post);
   }
 
-  public async delete(state: Context['state'], post: DeletePostInput) {
+  public async delete(
+    state: Context['state'],
+    post: DeletePostInput
+  ) {
     // Check permissions
     await this.coreAuthService.checkPermission(
       state,

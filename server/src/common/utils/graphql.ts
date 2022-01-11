@@ -15,11 +15,12 @@ type IdGetter<T> = (obj: T) => string | null | undefined;
  * @param idGetter method that returns the relational id from the root-object, or just a property key
  * for the relational id. For example, if we have Space-object and we are decorating it's blueprint-field,
  * that should correspond to a blueprint with id space.blueprintId, we could pass in
- * `(space) => space.blueprintId` or just `'bllueprintId'`
+ * `(space) => space.blueprintId` or just `'blueprintId'`
  *
  * Should only be used on FieldResolvers
  */
 // TODO: could make more verbose and allow optimizing other fields as well
+// TODO: add support for returning prefetched entity -> @Relation<EntityName>('anotherEntityId', 'anotherEntity')
 export function Relation<T = any>(idGetter: IdGetter<T> | keyof T) {
   return createMethodDecorator(async ({ root, info }, next) => {
     /*
