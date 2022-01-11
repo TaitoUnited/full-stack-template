@@ -15,13 +15,16 @@ import {
 } from '../types/post';
 import { PostDao } from '../daos/PostDao';
 import { EntityType, Operation } from '../types/core';
-import { AuthService } from './AuthService';
+import { CoreAuthService } from './CoreAuthService';
 
 const filterableColumnNames = keysAsSnakeCaseArray(postFilterExample);
 
 @Service()
 export class PostService {
-  constructor(private authService: AuthService, private postDao: PostDao) {}
+  constructor(
+    private coreAuthService: CoreAuthService,
+    private postDao: PostDao
+  ) {}
 
   public async search(
     state: Context['state'],
@@ -34,7 +37,7 @@ export class PostService {
     validateFilterGroups(filterGroups, filterableColumnNames);
 
     // Check permissions
-    await this.authService.checkPermission(
+    await this.coreAuthService.checkPermission(
       state,
       EntityType.POST,
       Operation.LIST
@@ -54,7 +57,7 @@ export class PostService {
 
     if (post) {
       // Check permissions
-      await this.authService.checkPermission(
+      await this.coreAuthService.checkPermission(
         state,
         EntityType.POST,
         Operation.VIEW,
@@ -67,7 +70,7 @@ export class PostService {
 
   public async create(state: Context['state'], post: CreatePostInput) {
     // Check permissions
-    await this.authService.checkPermission(
+    await this.coreAuthService.checkPermission(
       state,
       EntityType.POST,
       Operation.ADD
@@ -78,7 +81,7 @@ export class PostService {
 
   public async update(state: Context['state'], post: UpdatePostInput) {
     // Check permissions
-    await this.authService.checkPermission(
+    await this.coreAuthService.checkPermission(
       state,
       EntityType.POST,
       Operation.EDIT,
@@ -90,7 +93,7 @@ export class PostService {
 
   public async delete(state: Context['state'], post: DeletePostInput) {
     // Check permissions
-    await this.authService.checkPermission(
+    await this.coreAuthService.checkPermission(
       state,
       EntityType.POST,
       Operation.DELETE,

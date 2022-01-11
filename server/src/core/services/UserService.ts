@@ -17,13 +17,16 @@ import {
 } from '../types/user';
 import { UserDao } from '../daos/UserDao';
 import { EntityType, Operation } from '../types/core';
-import { AuthService } from './AuthService';
+import { CoreAuthService } from './CoreAuthService';
 
 const filterableColumnNames = keysAsSnakeCaseArray(userFilterExample);
 
 @Service()
 export class UserService {
-  constructor(private authService: AuthService, private userDao: UserDao) {}
+  constructor(
+    private coreAuthService: CoreAuthService,
+    private userDao: UserDao
+  ) {}
 
   public async search(
     state: Context['state'],
@@ -37,7 +40,7 @@ export class UserService {
     validateFilterGroups(filterGroups, filterableColumnNames);
 
     // Check permissions
-    await this.authService.checkPermission(
+    await this.coreAuthService.checkPermission(
       state,
       EntityType.USER,
       Operation.LIST
@@ -58,7 +61,7 @@ export class UserService {
 
     if (user) {
       // Check permissions
-      await this.authService.checkPermission(
+      await this.coreAuthService.checkPermission(
         state,
         EntityType.USER,
         Operation.VIEW,
@@ -79,7 +82,7 @@ export class UserService {
     validateNotSet('externalIds', user.externalIds);
 
     // Check permissions
-    await this.authService.checkPermission(
+    await this.coreAuthService.checkPermission(
       state,
       EntityType.USER,
       Operation.EDIT,
@@ -90,7 +93,7 @@ export class UserService {
   }
 
   public async delete(state: Context['state'], user: DeleteUserInput) {
-    await this.authService.checkPermission(
+    await this.coreAuthService.checkPermission(
       state,
       EntityType.USER,
       Operation.DELETE,
