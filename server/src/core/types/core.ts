@@ -1,16 +1,20 @@
-import { Field, ObjectType } from 'type-graphql';
+import { Field, ObjectType, registerEnumType } from 'type-graphql';
 
 export enum EntityType {
-  POST = 'post',
-  USER = 'user',
+  POST = 'POST',
+  // TEMPLATE_GENERATE: Entity types
 }
 
+registerEnumType(EntityType, {
+  name: 'EntityType',
+});
+
 export enum Operation {
-  LIST = 'list',
-  ADD = 'add',
-  VIEW = 'view',
-  EDIT = 'edit',
-  DELETE = 'delete',
+  LIST = 'LIST',
+  ADD = 'ADD',
+  VIEW = 'VIEW',
+  EDIT = 'EDIT',
+  DELETE = 'DELETE',
 }
 
 @ObjectType()
