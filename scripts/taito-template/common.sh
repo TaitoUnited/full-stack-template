@@ -37,7 +37,7 @@ fi
 echo "Removing obsolete stuff"
 
 # Template note from README.md
-sed -i "/^.*(TEMPLATE NOTE START)$/,/^.*(TEMPLATE NOTE END)$/d" README.md
+sed -i "/^.*TEMPLATE NOTE START.*$/,/^.*TEMPLATE NOTE END.*$/d" README.md
 
 rm -f scripts/terraform/.gitignore
 
