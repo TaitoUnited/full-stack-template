@@ -48,8 +48,8 @@ const WHERE_FRAGMENT = 'WHERE 1 = 1';
 // SEARCH_FRAGMENT EXAMPLE:
 // `
 //   AND (
-//     name ILIKE concat('%', $[search], '%')
-//     OR description ILIKE concat('%', $[search], '%')
+//     ${tableName}.name ILIKE concat('%', $[search], '%')
+//     OR ${tableName}.description ILIKE concat('%', $[search], '%')
 //   )
 // `;
 const SEARCH_FRAGMENT = 'AND 1 = 0';

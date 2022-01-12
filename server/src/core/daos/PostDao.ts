@@ -48,8 +48,8 @@ const WHERE_FRAGMENT = 'WHERE 1 = 1';
 // SEARCH_FRAGMENT EXAMPLE:
 // `
 //   AND (
-//     name ILIKE concat('%', $[search], '%')
-//     OR description ILIKE concat('%', $[search], '%')
+//     ${tableName}.name ILIKE concat('%', $[search], '%')
+//     OR ${tableName}.description ILIKE concat('%', $[search], '%')
 //   )
 // `;
 const SEARCH_FRAGMENT = 'AND 1 = 0';
@@ -96,10 +96,7 @@ export class PostDao {
     );
   }
 
-  public async create(
-    db: Db,
-    post: CreatePostInput
-  ): Promise<Post> {
+  public async create(db: Db, post: CreatePostInput): Promise<Post> {
     return await db.one(
       `
         INSERT INTO ${tableName} (${insertColumnNames.join(',')})
@@ -113,10 +110,7 @@ export class PostDao {
     );
   }
 
-  public async update(
-    db: Db,
-    post: UpdatePostInput
-  ): Promise<Post> {
+  public async update(db: Db, post: UpdatePostInput): Promise<Post> {
     const parameterAssignments = getParameterAssignments({
       allowedKeys: updatePostExample,
       values: post,
@@ -138,10 +132,7 @@ export class PostDao {
     );
   }
 
-  public async delete(
-    db: Db,
-    post: DeletePostInput
-  ): Promise<EntityId> {
+  public async delete(db: Db, post: DeletePostInput): Promise<EntityId> {
     await db.none(
       `
         DELETE FROM ${tableName}
