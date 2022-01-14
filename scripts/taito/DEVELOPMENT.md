@@ -269,15 +269,14 @@ To provide extended filtering capabilities, you may also want to:
 - **Type:** Add more fields to the filter type.
 - **DAO:** Join additional tables in SQL query to support those filter fields.
 
-To implement proper business logic, you should at least review the following parts:
+To implement proper business logic, you should:
 
-- **Resolver/Service:** Review the generated mutations and modify them according your business logic. If your business logic is not based on creating, updating, and deleting entities, you need to replace them with something else.
+- **Resolver/Service:** Review the generated mutations, modify them according your business logic, and remove unnecessary operations. If your business logic is not based on creating, updating, and deleting entities, you need to replace them with something else.
+- **Type:** Remove fields that GraphQL API clients are not allowed view, create, or update.
 - **Service:** Implement your business logic in services.
 
-To achieve proper authorization, you should at least review the following parts:
+To implement proper authorization, you should:
 
-- **Resolver/Type:** Remove unnecessary operations/types.
-- **Type:** Remove fields that GraphQL API clients are not allowed view, create, or update.
 - **Auth Service:** Add some authorization rules/logic.
 
 Later, if you need to optimize slow GraphQL queries, you may also want to:
