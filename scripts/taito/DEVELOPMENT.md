@@ -258,22 +258,27 @@ The following chapters provide more tips on how you should most likely modify th
 
 ### GraphQL API generated from a database model
 
-> NOTE: Database model is an implementation, and GraphQL API is an abstraction on top of that implementation that should hide all implementation details and obscurity. Therefore the generated GraphQL API may require more modifications than presented below.
+> WARNING: Database model is an implementation, and GraphQL API is an abstraction on top of that implementation that should provide business logic and hide all implementation details and obscurity of the database model. Therefore the generated GraphQL API may require more modifications than presented below. The code generation is there only to save time and improve uniformity of the implementation as a whole.
 
 You need to modify the generated code at least for the following parts to make the GraphQL API complete:
 
 - **Resolver:** Add some field resolvers in the generated resolver implementation.
 
-To achieve proper authorization, you should at least review the following parts:
-
-- **Resolver/Type:** Remove unnecessary list, view, create, update, delete operations and types.
-- **Type:** Remove fields that clients are not allowed view, create, or update.
-- **Auth Service:** Add some authorization rules for the entity in question.
-
 To provide extended filtering capabilities, you may also want to:
 
 - **Type:** Add more fields to the filter type.
 - **DAO:** Join additional tables in SQL query to support those filter fields.
+
+To implement proper business logic, you should at least review the following parts:
+
+- **Resolver/Service:** Review the generated mutations and modify them according your business logic. If your business logic is not based on creating, updating, and deleting entities, you need to replace them with something else.
+- **Service:** Implement your business logic in services.
+
+To achieve proper authorization, you should at least review the following parts:
+
+- **Resolver/Type:** Remove unnecessary operations/types.
+- **Type:** Remove fields that GraphQL API clients are not allowed view, create, or update.
+- **Auth Service:** Add some authorization rules/logic.
 
 Later, if you need to optimize slow GraphQL queries, you may also want to:
 
