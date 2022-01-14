@@ -4,8 +4,8 @@ BEGIN;
 
 CREATE TABLE post (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  created_at timestamp with time zone NOT NULL DEFAULT current_timestamp,
-  updated_at timestamp with time zone NOT NULL DEFAULT current_timestamp,
+  created_at timestamptz NOT NULL DEFAULT current_timestamp,
+  updated_at timestamptz NOT NULL DEFAULT current_timestamp,
 
   subject text NOT NULL,
   content text NOT NULL,
