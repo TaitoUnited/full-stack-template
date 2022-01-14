@@ -109,10 +109,23 @@ as_field_type() {
   if [[ $language == "ts" ]]; then
     type=${type/uuid/string}
     type=${type/text/string}
+
     type=${type/smallint/number}
     type=${type/integer/number}
+    type=${type/bigint/number}
+    type=${type/smallserial/number}
+    type=${type/serial/number}
+    type=${type/bigserial/number}
+    type=${type/int/number}
+
     type=${type/decimal/number}
+    type=${type/numeric/number}
+    type=${type/real/number}
+    type=${type/double/number}
+    type=${type/float/number}
+
     type=${type/date/Date}
+    type=${type/timestampz/Date}
     type=${type/timestamp/Date}
     type=${type/boolean/boolean}
 
@@ -139,10 +152,22 @@ as_graphql_type() {
 
   type=${type/uuid/ID}
   type=${type/text/String}
+
   type=${type/smallint/Int}
   type=${type/integer/Int}
+  type=${type/bigint/Int}
+  type=${type/smallserial/Int}
+  type=${type/serial/Int}
+  type=${type/bigserial/Int}
+
   type=${type/decimal/Float}
+  type=${type/numeric/Float}
+  type=${type/real/Float}
+  type=${type/double/Float}
+  type=${type/float/Float}
+
   type=${type/date/Date}
+  type=${type/timestampz/Date}
   type=${type/timestamp/Date}
   type=${type/boolean/Boolean}
 
@@ -337,12 +362,12 @@ parse_sql_column_definitions() {
     local sql_name=${sql_column[0]}       # target_subscription_id
     local sql_type=${sql_column[1]}       # uuid
     local nullable=true                   # NOT NULL -> false
-    if [[ ${sql_column_definition} == *" NOT NULL"* ]] ||
-       [[ ${sql_column_definition} == *" PRIMARY KEY"* ]]; then
+    if [[ ${sql_column_definition} == *" not null"* ]] ||
+       [[ ${sql_column_definition} == *" primary key"* ]]; then
       nullable=false
     fi
     local sql_table_reference=$(          # subscription
-      find_next_to "REFERENCES" "${sql_column[@]}"
+      find_next_to "references" "${sql_column[@]}"
     )
 
     # Add entity field
@@ -356,9 +381,9 @@ parse_sql_column_definitions() {
       value="false"
     elif [[ $sql_type == "date" ]] || [[ $sql_type == "timestamp" ]]; then
       value="now()"
-    elif [[ $sql_type == "smallint" ]] || [[ $sql_type == "integer" ]]; then
+    elif [[ $(as_graphql_type "$sql_type") == "Int" ]]; then
       value="1"
-    elif [[ $sql_type == "decimal" ]]; then
+    elif [[ $(as_graphql_type "$sql_type") == "Float" ]]; then
       value="1.1"
     fi
     printf "$value, " >> $sql_generated_dataset
@@ -387,7 +412,8 @@ create_entity() {
   sql_column_definitions=$(
     grep "^[, ] [a-z]" "$sql_file" | \
       tr ',' ' ' | \
-      grep -v "^[ \t]\+CONSTRAINT"
+      grep -v "^[ \t]\+CONSTRAINT" | \
+      tr '[:upper:]' '[:lower:]'
   )
 
   # Generate sql data and entity fields based on sql column definitions
