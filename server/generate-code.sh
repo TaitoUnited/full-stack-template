@@ -125,7 +125,7 @@ as_field_type() {
     type=${type/float/number}
 
     type=${type/date/Date}
-    type=${type/timestampz/Date}
+    type=${type/timestamptz/Date}
     type=${type/timestamp/Date}
     type=${type/boolean/boolean}
 
@@ -167,7 +167,7 @@ as_graphql_type() {
   type=${type/float/Float}
 
   type=${type/date/Date}
-  type=${type/timestampz/Date}
+  type=${type/timestamptz/Date}
   type=${type/timestamp/Date}
   type=${type/boolean/Boolean}
 
@@ -379,7 +379,7 @@ parse_sql_column_definitions() {
       value="'00a67f95-5ea9-41b8-a4f8-110f53c54727'"
     elif [[ $sql_type == "boolean" ]]; then
       value="false"
-    elif [[ $sql_type == "date" ]] || [[ $sql_type == "timestamp" ]]; then
+    elif [[ $sql_type == "date" ]] || [[ $sql_type == "timestamp"* ]]; then
       value="now()"
     elif [[ $(as_graphql_type "$sql_type") == "Int" ]]; then
       value="1"
