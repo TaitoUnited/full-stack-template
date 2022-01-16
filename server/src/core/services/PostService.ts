@@ -4,6 +4,7 @@ import {
   addFilter,
   validateFilterGroups,
   validateFieldName,
+  validatePagination,
 } from '../../common/utils/validate';
 import { keysAsSnakeCaseArray } from '../../common/utils/format';
 import { Pagination, FilterGroup, Order } from '../../common/types/search';
@@ -18,9 +19,7 @@ import { PostDao } from '../daos/PostDao';
 import { EntityType, Operation } from '../types/core';
 import { CoreAuthService } from './CoreAuthService';
 
-const filterableFieldNames = Object.getOwnPropertyNames(
-  postFilterExample
-);
+const filterableFieldNames = Object.getOwnPropertyNames(postFilterExample);
 
 @Service()
 export class PostService {
@@ -38,6 +37,7 @@ export class PostService {
   ) {
     validateFilterGroups(origFilterGroups, filterableFieldNames);
     validateFieldName(order.field, filterableFieldNames);
+    validatePagination(pagination, true);
 
     // Check permissions
     await this.coreAuthService.checkPermission(
@@ -82,10 +82,7 @@ export class PostService {
     return post;
   }
 
-  public async create(
-    state: Context['state'],
-    post: CreatePostInput
-  ) {
+  public async create(state: Context['state'], post: CreatePostInput) {
     // Check permissions
     await this.coreAuthService.checkPermission(
       state,
@@ -96,10 +93,7 @@ export class PostService {
     return this.postDao.create(state.tx, post);
   }
 
-  public async update(
-    state: Context['state'],
-    post: UpdatePostInput
-  ) {
+  public async update(state: Context['state'], post: UpdatePostInput) {
     // Check permissions
     await this.coreAuthService.checkPermission(
       state,
@@ -111,10 +105,7 @@ export class PostService {
     return this.postDao.update(state.tx, post);
   }
 
-  public async delete(
-    state: Context['state'],
-    post: DeletePostInput
-  ) {
+  public async delete(state: Context['state'], post: DeletePostInput) {
     // Check permissions
     await this.coreAuthService.checkPermission(
       state,

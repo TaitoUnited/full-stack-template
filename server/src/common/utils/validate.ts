@@ -5,6 +5,7 @@ import {
   FilterGroup,
   FilterOperator,
   FilterLogicalOperator,
+  Pagination,
   ValueType,
 } from '../types/search';
 import { toSnakeCase } from './format';
@@ -87,4 +88,23 @@ export function addFilter<Item extends Record<string, any>>(
   ];
 
   return filterGroups.concat(origFilterGroups);
+}
+
+export function validatePagination(
+  pagination: Pagination | null,
+  allowNull = false,
+  limit = 1000
+) {
+  if (!pagination && allowNull) return;
+
+  if (!pagination && !allowNull) {
+    throw Boom.badRequest('Pagination not set.');
+    return;
+  }
+
+  if (pagination && pagination?.limit > limit) {
+    throw Boom.badRequest(
+      `The given pagination limit (${pagination?.limit}) exceeds allowed limit (${limit}).`
+    );
+  }
 }

@@ -4,6 +4,7 @@ import {
   addFilter,
   validateFilterGroups,
   validateFieldName,
+  validatePagination,
 } from '../../common/utils/validate';
 import { keysAsSnakeCaseArray } from '../../common/utils/format';
 import { Pagination, FilterGroup, Order } from '../../common/types/search';
@@ -38,6 +39,7 @@ export class EntityNameService {
   ) {
     validateFilterGroups(origFilterGroups, filterableFieldNames);
     validateFieldName(order.field, filterableFieldNames);
+    validatePagination(pagination, true);
 
     // Check permissions
     await this.coreAuthService.checkPermission(
