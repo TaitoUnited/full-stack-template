@@ -271,17 +271,19 @@ To provide extended filtering capabilities, you may also want to:
 
 To implement proper business logic, you should:
 
-- **Resolver/Service:** Review the generated mutations, modify them according your business logic, and remove unnecessary operations. If your business logic is not based on creating, updating, and deleting entities, you need to replace them with something else.
-- **Type:** Remove fields that GraphQL API clients are not allowed view, create, or update.
+- **Resolver/Service:** Review the generated mutations, modify them according your business logic, and remove unnecessary operations. If your business logic is not about creating, updating, and deleting entities, you need to replace the generated mutations with something else that describes your business logic better (for example **assignIssue(...)**). Sometimes you need to delete the generated resolver and service altogether and implement the logic elsewhere (for example, comment of an issue might be better handled in IssueResolver and IssueService). Think what's best solution to get a good descriptive GraphQL API, and an implementation that's easy to maintain in the long run.
+- **Type:** Remove fields that GraphQL API clients are not allowed view, create, or update. Add additional types if required.
 - **Service:** Implement your business logic in services.
 
 To implement proper authorization, you should:
 
-- **Auth Service:** Add some authorization rules/logic.
+- **AuthService/Service:** Add some authorization rules/logic. Remember to also validate input.
 
 Later, if you need to optimize slow GraphQL queries, you may also want to:
 
 - **DAO:** Prefetch some referenced entities.
+
+> TIP: You can customize code generation by modifying the template files in **server/templates**.
 
 ## Deployment
 

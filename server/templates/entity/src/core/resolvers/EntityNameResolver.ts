@@ -39,7 +39,8 @@ class EntityNameResolver {
     private readonly entityNameService = Container.get(EntityNameService)
   ) {}
 
-  // TODO: Remove this TODO once the generated implementation has been reviewed
+  // TODO: Remove this TODO once the generated implementation has been
+  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Query(() => PaginatedEntityNames, { description: 'Searches entityNames.' })
   async entityNames(
@@ -70,7 +71,8 @@ class EntityNameResolver {
     );
   }
 
-  // TODO: Remove this TODO once the generated implementation has been reviewed
+  // TODO: Remove this TODO once the generated implementation has been
+  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Query(() => EntityName, {
     description: 'Reads a entityName.',
@@ -80,7 +82,8 @@ class EntityNameResolver {
     return await this.entityNameService.read(ctx.state, id);
   }
 
-  // TODO: Remove this TODO once the generated implementation has been reviewed
+  // TODO: Remove this TODO once the generated implementation has been
+  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Mutation(() => EntityName, { description: 'Creates a new entityName.' })
   async createEntityName(
@@ -90,7 +93,8 @@ class EntityNameResolver {
     return await this.entityNameService.create(ctx.state, input);
   }
 
-  // TODO: Remove this TODO once the generated implementation has been reviewed
+  // TODO: Remove this TODO once the generated implementation has been
+  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Mutation(() => EntityName, { description: 'Updates a entityName.' })
   async updateEntityName(
@@ -100,7 +104,8 @@ class EntityNameResolver {
     return await this.entityNameService.update(ctx.state, input);
   }
 
-  // TODO: Remove this TODO once the generated implementation has been reviewed
+  // TODO: Remove this TODO once the generated implementation has been
+  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Mutation(() => EntityId, { description: 'Deletes a entityName.' })
   async deleteEntityName(
@@ -118,7 +123,7 @@ class EntityNameResolver {
   //
   // @Authorized()
   // @FieldResolver(() => AnotherEntity, { nullable: true })
-  // @Relation<EntityName>('anotherEntityId', 'anotherEntity')
+  // @Relation<EntityName>('anotherEntityId')
   // async anotherEntity(@Ctx() ctx: Context, @Root() root: EntityName) {
   //   return root.anotherEntityId
   //     ? await this.anotherEntityService.read(ctx.state, root.anotherEntityId)

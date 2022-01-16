@@ -106,6 +106,9 @@ as_field_type() {
   local type=$1
   local language=${2:-ts}
 
+  # Strip away precision/scale (e.g. "numeric(6,4)")
+  type=${type%\(*}
+
   if [[ $language == "ts" ]]; then
     type=${type/uuid/string}
     type=${type/text/string}
@@ -149,6 +152,9 @@ as_simple_type() {
 # Convert sql type to GraphQL type
 as_graphql_type() {
   local type=$1
+
+  # Strip away precision/scale (e.g. "numeric(6,4)")
+  type=${type%\(*}
 
   type=${type/uuid/ID}
   type=${type/text/String}
@@ -242,6 +248,8 @@ add_entity_field() {
   fi
 
   # Compose field definitions
+  # TODO: Define all these hardcoded fragments in templates files
+  # -> Easier to customize code generation and works for any language
   if [[ $nullable == true ]]; then
     if [[ $graphql_type != 'ID' ]] || [[ $sql_name == "id" ]]; then
       field_read="@Field(() => ${graphql_type}, { nullable: true }) ${field_name}: ${field_type} | null;"
@@ -265,7 +273,13 @@ add_entity_field() {
   fi
 
   # Compose field examples
-  if [[ ${field_type} == 'number' ]]; then
+  # TODO: Define all these hardcoded fragments in templates files
+  # -> Easier to customize code generation and works for any language
+  if [[ $graphql_type == 'Float' ]]; then
+    test_field_example1="${field_name}: 1.5,"
+    test_field_example2="${field_name}: 2.5,"
+    field_example=$test_field_example1
+  elif [[ ${field_type} == 'number' ]]; then
     test_field_example1="${field_name}: 1,"
     test_field_example2="${field_name}: 2,"
     field_example=$test_field_example1

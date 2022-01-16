@@ -20,7 +20,7 @@ type IdGetter<T> = (obj: T) => string | null | undefined;
  * Should only be used on FieldResolvers
  */
 // TODO: could make more verbose and allow optimizing other fields as well
-// TODO: add support for returning prefetched entity -> @Relation<EntityName>('anotherEntityId', 'anotherEntity')
+// TODO: add support for returning prefetched entity if it has been set (e.g. root.anotherEntity)
 export function Relation<T = any>(idGetter: IdGetter<T> | keyof T) {
   return createMethodDecorator(async ({ root, info }, next) => {
     /*

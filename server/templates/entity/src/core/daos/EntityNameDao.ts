@@ -80,7 +80,7 @@ export class EntityNameDao {
 
       // Prefetch optimization (not supported yet)
       // WARNING: Do not prefetch entities that user is not allowed to see!
-      // prefetchReferences: [{ name: 'assignedUser', userExample }],
+      // prefetchReferences: [{ name: 'assignedUser', userColumnNames }],
     });
   }
 
