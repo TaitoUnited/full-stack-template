@@ -230,6 +230,20 @@ as_reference_import() {
 
 # Add entity field to source code based on the given sql column definition
 add_entity_field() {
+  local sql_column=($1)
+
+  # Parse the given sql column definition, for example:
+  #   target_subscription_id uuid NOT NULL REFERENCES subscription (id),
+  local sql_name=${sql_column[0]}       # target_subscription_id
+  local sql_type=${sql_column[1]}       # uuid
+  local nullable=true                   # NOT NULL -> false
+  if [[ ${sql_column_definition} == *" not null"* ]] ||
+      [[ ${sql_column_definition} == *" primary key"* ]]; then
+    nullable=false
+  fi
+  local sql_table_reference=$(          # subscription
+    find_next_to "references" "${sql_column[@]}"
+  )
 
   # Determine programming language specific field names and types
   local field_name=$(as_field_name "$sql_name" "$language")
@@ -301,7 +315,7 @@ add_entity_field() {
     field_example=$test_field_example1
 
     if [[ $graphql_type == 'ID' ]]; then
-      test_field_example1="${field_name}: 'TODO: Add existing ${field_name} here',"
+      test_field_example1="${field_name}: defaultUuid,"
     fi
   fi
 
@@ -345,15 +359,18 @@ add_entity_field() {
   fi
 }
 
-parse_sql_column_definitions() {
-  local table_name=$1
-  local sql_column_definitions=$2
+generate_entity_fields() {
+  local sql_column_definitions=$1
 
-  # Add delete clause to the generated dataset
-  sed -i "1s/^/DELETE FROM $table_name;\n/" $sql_generated_dataset
+  # Loop through sql column defitions to add fields to entity
+  while IFS= read -r sql_column_definition; do
+    add_entity_field "$sql_column_definition"
+  done <<< "$sql_column_definitions"
+}
 
-  # Open insert clause
-  printf "\nINSERT INTO $table_name (" >> $sql_generated_dataset
+add_insert_column_names() {
+  local sql_column_definitions=$1
+  local sql_generated_dataset=$2
 
   # Add insert column names
   while IFS= read -r sql_column_definition; do
@@ -361,13 +378,18 @@ parse_sql_column_definitions() {
     local sql_name=${sql_column[0]}
     printf "$sql_name, " >> $sql_generated_dataset
   done <<< "$sql_column_definitions"
+}
 
-  # Close the insert column names section and open the values section
-  sed -i '$ s/, $//' $sql_generated_dataset
-  printf ")\nvalues (" >> $sql_generated_dataset
+add_insert_values() {
+  local sql_column_definitions=$1
+  local sql_generated_dataset=$2
+  local uuid=$3
+  local is_last=$4
 
-  # Loop through sql column defitions again to add fields in source code
-  # and values on generated dataset.
+  # Open data row
+  printf "(" >> $sql_generated_dataset
+
+  # Loop through sql column defitions to add values on generated dataset.
   while IFS= read -r sql_column_definition; do
     local sql_column=(${sql_column_definition})
 
@@ -384,13 +406,10 @@ parse_sql_column_definitions() {
       find_next_to "references" "${sql_column[@]}"
     )
 
-    # Add entity field
-    add_entity_field
-
     # Add values on the insert clause
     local value="'$sql_name'"
     if [[ $sql_type == "uuid" ]]; then    
-      value="'00a67f95-5ea9-41b8-a4f8-110f53c54727'"
+      value="'${uuid}'"
     elif [[ $sql_type == "boolean" ]]; then
       value="false"
     elif [[ $sql_type == "date" ]] || [[ $sql_type == "timestamp"* ]]; then
@@ -404,9 +423,37 @@ parse_sql_column_definitions() {
 
   done <<< "$sql_column_definitions"
 
-  # Close the insert clause
+  # Close data row
   sed -i '$ s/, $//' $sql_generated_dataset
-  printf ");\n" >> $sql_generated_dataset
+  if [[ ${is_last} == "true" ]]; then
+    printf ");\n" >> $sql_generated_dataset
+  else
+    printf "),\n" >> $sql_generated_dataset
+  fi
+}
+
+generate_example_data() {
+  local table_name=$1
+  local sql_column_definitions=$2
+  local sql_generated_dataset=$3
+
+  # Add delete clause to the generated dataset
+  sed -i "1s/^/DELETE FROM $table_name;\n/" $sql_generated_dataset
+
+  # Open insert clause
+  printf "\nINSERT INTO $table_name (" >> $sql_generated_dataset
+
+  # Add insert column names
+  add_insert_column_names "$sql_column_definitions" "$sql_generated_dataset"
+
+  # Close the insert column names section and open the values section
+  sed -i '$ s/, $//' $sql_generated_dataset
+  printf ") values\n" >> $sql_generated_dataset
+
+  # Add insert values
+  add_insert_values "$sql_column_definitions" "$sql_generated_dataset" 00a67f95-5ea9-41b8-a4f8-110f53c54727
+  add_insert_values "$sql_column_definitions" "$sql_generated_dataset" ade5ddaa-adcb-474e-83ff-e5bcd11b9122
+  add_insert_values "$sql_column_definitions" "$sql_generated_dataset" 9b549a9b-aa8d-45d5-9e57-abe7ae0fe05b true
 }
 
 # Create source files for entity based on the given sql file
@@ -430,8 +477,11 @@ create_entity() {
       tr '[:upper:]' '[:lower:]'
   )
 
-  # Generate sql data and entity fields based on sql column definitions
-  parse_sql_column_definitions "$table_name" "$sql_column_definitions"
+  # Generate example sql data based on sql column definitions
+  generate_example_data "$table_name" "$sql_column_definitions" "$sql_generated_dataset"
+
+  # Generate entity fields based on sql column definitions
+  generate_entity_fields "$sql_column_definitions"
 
   # Replace entity name in files
   find ${prepare_dir} -type f \

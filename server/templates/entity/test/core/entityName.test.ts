@@ -3,6 +3,8 @@ import { initGraphQL, setUser } from '../common/test.utils';
 
 const { api, sdk } = initGraphQL();
 
+const defaultUuid = '00a67f95-5ea9-41b8-a4f8-110f53c54727';
+
 beforeAll(async () => {
   await setUser(api);
 });
