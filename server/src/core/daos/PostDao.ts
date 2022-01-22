@@ -28,6 +28,17 @@ const filterableColumnNames = getColumnNames(postFilterExample, true);
 const insertColumnNames = getColumnNames(createPostExample);
 const insertParameterNames = getParameterNames(createPostExample);
 
+// SELECT_COLUMNS_FRAGMENT EXAMPLE:
+// const selectColumnNames = getColumnNames(postExample, false, tableName, ['coordinates']);
+//
+// `
+// , CASE
+//     WHEN geom is null then null
+//     ELSE json_build_object('latitude', ST_Y(geom), 'longitude', ST_X(geom))
+//   END AS coordinates
+// `
+const SELECT_COLUMNS_FRAGMENT = '';
+
 // JOIN_FRAGMENT EXAMPLE:
 // `
 //   JOIN organization on (
@@ -74,6 +85,7 @@ export class PostDao {
       filterableColumnNames,
 
       // Custom fragments
+      selectColumnsFragment: SELECT_COLUMNS_FRAGMENT,
       joinFragment: JOIN_FRAGMENT,
       whereFragment: WHERE_FRAGMENT,
       searchFragment: SEARCH_FRAGMENT,
@@ -87,7 +99,10 @@ export class PostDao {
   public async read(db: Db, id: string): Promise<Post | null> {
     return await db.oneOrNone(
       `
-        SELECT ${selectColumnNames.join(',')} FROM ${tableName}
+        SELECT
+          ${selectColumnNames.join(',')}
+          ${SELECT_COLUMNS_FRAGMENT}
+        FROM ${tableName}
         WHERE id = $[id]
       `,
       {
@@ -99,7 +114,8 @@ export class PostDao {
   public async create(db: Db, post: CreatePostInput): Promise<Post> {
     return await db.one(
       `
-        INSERT INTO ${tableName} (${insertColumnNames.join(',')})
+        INSERT INTO ${tableName}
+          (${insertColumnNames.join(',')})
         VALUES (${insertParameterNames.join(',')})
         RETURNING ${selectColumnNames.join(',')}
       `,
