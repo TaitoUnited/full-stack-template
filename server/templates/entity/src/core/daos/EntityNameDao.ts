@@ -28,6 +28,17 @@ const filterableColumnNames = getColumnNames(entityNameFilterExample, true);
 const insertColumnNames = getColumnNames(createEntityNameExample);
 const insertParameterNames = getParameterNames(createEntityNameExample);
 
+// SELECT_COLUMNS_FRAGMENT EXAMPLE:
+// const selectColumnNames = getColumnNames(entityNameExample, false, tableName, ['coordinates']);
+//
+// `
+// , CASE
+//     WHEN geom is null then null
+//     ELSE json_build_object('latitude', ST_Y(geom), 'longitude', ST_X(geom))
+//   END AS coordinates
+// `
+const SELECT_COLUMNS_FRAGMENT = '';
+
 // JOIN_FRAGMENT EXAMPLE:
 // `
 //   JOIN organization on (
@@ -74,6 +85,7 @@ export class EntityNameDao {
       filterableColumnNames,
 
       // Custom fragments
+      selectColumnsFragment: SELECT_COLUMNS_FRAGMENT,
       joinFragment: JOIN_FRAGMENT,
       whereFragment: WHERE_FRAGMENT,
       searchFragment: SEARCH_FRAGMENT,
@@ -87,7 +99,10 @@ export class EntityNameDao {
   public async read(db: Db, id: string): Promise<EntityName | null> {
     return await db.oneOrNone(
       `
-        SELECT ${selectColumnNames.join(',')} FROM ${tableName}
+        SELECT
+          ${selectColumnNames.join(',')}
+          ${SELECT_COLUMNS_FRAGMENT}
+        FROM ${tableName}
         WHERE id = $[id]
       `,
       {
@@ -102,7 +117,8 @@ export class EntityNameDao {
   ): Promise<EntityName> {
     return await db.one(
       `
-        INSERT INTO ${tableName} (${insertColumnNames.join(',')})
+        INSERT INTO ${tableName}
+          (${insertColumnNames.join(',')})
         VALUES (${insertParameterNames.join(',')})
         RETURNING ${selectColumnNames.join(',')}
       `,

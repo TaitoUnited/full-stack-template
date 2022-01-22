@@ -155,6 +155,55 @@ describe('common/utils/db', () => {
       });
     });
 
+    it('select columns fragment works', async () => {
+      const selectColumnsFragment = `
+        , json_build_object('latitude', ST_Y(geom), 'longitude', ST_X(geom)) coordinates
+      `;
+
+      const result = await searchFromTable({
+        tableName: 'my_table',
+        db,
+        filterGroups: [],
+        order: new Order(OrderDirection.ASC, 'title'),
+        pagination: new Pagination(0, 10),
+        selectColumnsFragment,
+        selectColumnNames,
+        filterableColumnNames: ['title'],
+      });
+
+      expect(result).toEqual(expectedResult);
+
+      // Check count query
+      expect(trimGaps(db.one.mock.calls[0][0])).toEqual(
+        trimGaps(
+          `
+          SELECT count(my_table.id) FROM my_table
+          WHERE 1 = 1
+          `
+        )
+      );
+      expect(db.one.mock.calls[0][1]).toEqual({});
+
+      // Check data query
+      expect(trimGaps(db.any.mock.calls[0][0])).toEqual(
+        trimGaps(
+          `
+          SELECT
+            id, creation_date, title, keywords, notes
+            ${selectColumnsFragment}
+          FROM my_table
+          WHERE 1 = 1
+          ORDER BY \"my_table\".\"title\" ASC, \"my_table\".\"id\"
+          OFFSET $[offset] LIMIT $[limit]
+          `
+        )
+      );
+      expect(db.any.mock.calls[0][1]).toEqual({
+        offset: 0,
+        limit: 10,
+      });
+    });
+
     it('search fragment works', async () => {
       const searchString = 'Searching for something';
       const searchFragment = `

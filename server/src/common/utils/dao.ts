@@ -31,10 +31,12 @@ export const formatColumnNames = format.toSnakeCaseArray;
 export const getColumnNames = (
   object: any,
   convertDepth = false,
-  tableName: string | null = null
+  tableName: string | null = null,
+  excludeColumns: string[] = []
 ) => {
   return format
     .keysAsSnakeCaseArray(object, convertDepth)
+    .filter((c) => !excludeColumns.includes(c))
     .map((c) => (tableName ? `${tableName}.${c}` : c));
 };
 
@@ -288,6 +290,7 @@ export type searchFromTableParams = {
   selectColumnNames: string[];
   filterableColumnNames: string[];
 
+  selectColumnsFragment?: string | null;
   joinFragment?: string;
   whereFragment?: string | null;
   searchFragment?: string | null;
@@ -312,12 +315,13 @@ export async function searchFromTable(p: searchFromTableParams) {
     : '';
 
   const countQuery = `
-    SELECT count(${p.tableName}.id)
+    SELECT
+      count(${p.tableName}.id)
     FROM ${p.tableName}
     ${p.joinFragment || ''}
     ${whereFragment}
-    ${searchFragment}
-    ${filterFragment}
+    ${searchFragment || ''}
+    ${filterFragment || ''}
   `;
 
   const countQueryParams = {
@@ -327,15 +331,17 @@ export async function searchFromTable(p: searchFromTableParams) {
   const countQueryData = await p.db.one(countQuery, countQueryParams);
 
   const query = `
-    SELECT ${p.selectColumnNames.join(', ')}
+    SELECT
+      ${p.selectColumnNames.join(', ')}
+      ${p.selectColumnsFragment || ''}
     FROM ${p.tableName}
     ${p.joinFragment || ''}
     ${whereFragment}
-    ${searchFragment}
-    ${filterFragment}
+    ${searchFragment || ''}
+    ${filterFragment || ''}
     ${p.groupByFragment || ''}
-    ${orderFragment}
-    ${paginationFragment}
+    ${orderFragment || ''}
+    ${paginationFragment || ''}
   `;
 
   const queryParams = {
