@@ -58,6 +58,11 @@ Show user accounts and other information that you can use to log in:
 
     taito info
 
+Start and open UI kit:
+
+    taito uikit
+    taito open uikit
+
 Access database:
 
     taito db connect                        # access using a command-line tool

@@ -15,6 +15,7 @@
     "taito-init:clean": "taito -z ${taito_options} init:${taito_env} --clean && npm-run-all import-db-data clean:storage generate",
     "import-db-data": "if [ -f ./database/data/${taito_env}.sql ]; then taito ${taito_options} db import:${taito_env} ./database/data/${taito_env}.sql; fi",
     "clean:storage": "if [ ${taito_env} = 'local' ] && [ -d storage ]; then echo Cleaning storage; rm -rf ./storage/bucket/*; rm -rf ./storage/.minio.sys/buckets/bucket/*/; fi",
+    "taito-host-uikit": "cd client && npm run uikit:preview",
     "code-generate": "npm-run-all code-generate:server",
     "code-generate:server": "cd server && ./generate-code.sh",
     "generate": "npm-run-all generate:server generate:client ",

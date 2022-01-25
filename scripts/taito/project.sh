@@ -120,6 +120,7 @@ link_urls="
   * graphql[:ENV]=$taito_app_url/api GraphQL Playground (:ENV)
   * www[:ENV]=$taito_app_url/docs Website (:ENV)
   * git=https://$taito_vc_repository_url Git repository
+  * uikit=http://localhost:6006 UI kit in Storybook
 "
 
 # TODO: Temporary hack for https://github.com/gatsbyjs/gatsby/issues/3721

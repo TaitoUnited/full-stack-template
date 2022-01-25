@@ -416,6 +416,9 @@ if [[ ! $www_port ]]; then www_port=$(shuf -i 5000-5999 -n 1); fi
 if [[ ! $server_debug_port ]]; then server_debug_port=$(shuf -i 4000-4999 -n 1); fi
 if [[ ! $client_free_port ]]; then client_free_port=$(shuf -i 3000-3990 -n 1); fi
 if [[ ! $storage_port ]]; then storage_port=$(shuf -i 2000-2999 -n 1); fi
+if [[ ! $uikit_port ]]; then uikit_port=$(shuf -i 1000-1999 -n 1); fi
+sed -i "s/6006/${uikit_port}/g" \
+  client/package.json &> /dev/null || :
 sed -i "s/8888/${storage_port}/g" \
   docker-compose.yaml \
   scripts/taito/env-local.sh \
