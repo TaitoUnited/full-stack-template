@@ -13,42 +13,43 @@ import {
   ValueType,
 } from '../types/search';
 
-export const formatTableColumnNames = (
-  tableName: string,
-  columns: string[]
-) => {
-  return columns.map(
-    (column) => `${toSnakeCase(tableName)}.${toSnakeCase(column)}`
-  );
-};
-
-export const getTableColumnNames = (tableName: string, object: any) => {
-  return formatTableColumnNames(tableName, Object.getOwnPropertyNames(object));
-};
-
-export const formatColumnNames = format.toSnakeCaseArray;
-
+/**
+ * Returns keys of an object as valid database table column names.
+ *
+ * @param object The object
+ * @param convertDepth If true, _ is converted to . ('eName_cName' -> 'e_name.c_name')
+ * @param tableName Table name to be added as column name prefix, or null.
+ * @param excludeColumns Optional list of column names to be excluded.
+ * @returns Each column as 'table_name.column_name'
+ */
 export const getColumnNames = (
-  object: any,
+  object: Record<string, any>,
   convertDepth = false,
   tableName: string | null = null,
   excludeColumns: string[] = []
-) => {
+): string[] => {
   return format
     .keysAsSnakeCaseArray(object, convertDepth)
     .filter((c) => !excludeColumns.includes(c))
     .map((c) => (tableName ? `${tableName}.${c}` : c));
 };
 
-export const formatParameterNames = (columns: string[]) => {
+const formatParameterNames = (columns: string[]) => {
   return columns.map((column) => `$[${toSnakeCase(column)}]`);
 };
 
-export const getParameterNames = (object: any) => {
+/**
+ * Returns keys of an object as arameter names to be added for example
+ * in an INSERT statement values section.
+ *
+ * @param object
+ * @returns Each column as '$[column_name]'
+ */
+export const getParameterNames = (object: Record<string, any>): string[] => {
   return formatParameterNames(Object.getOwnPropertyNames(object));
 };
 
-export const formatParameterValues = (names: string[], obj: any) => {
+const formatParameterValues = (names: string[], obj: any) => {
   const newObj: any = {};
   for (const name of names) {
     const val = obj[name];
@@ -57,17 +58,42 @@ export const formatParameterValues = (names: string[], obj: any) => {
   return newObj;
 };
 
-export const getParameterValues = (p: { allowedKeys: any; values: any }) => {
+/**
+ * Returns formatted values for an UPDATE statement.
+ *
+ * @returns Record with field name as key and field value as value.
+ */
+export const getParameterValues = (p: {
+  /**
+   * Array or object that specifies the allowed fields in camelCase.
+   */
+  allowedKeys: any[] | Record<string, any>;
+  /**
+   * Field values to be updated.
+   */
+  values: Record<string, any>;
+}): Record<string, any> => {
   const keys = Array.isArray(p.allowedKeys)
     ? p.allowedKeys
     : Object.getOwnPropertyNames(p.allowedKeys);
   return formatParameterValues(keys, p.values);
 };
 
+/**
+ * Returns parameter assigments to be added to an UPDATE statement.
+ *
+ * @returns Assignments, for example ['id = $[id]', 'creation_date = $[creation_date]']
+ */
 export const getParameterAssignments = (p: {
-  allowedKeys: any;
-  values?: any;
-}) => {
+  /**
+   * Array or object that specifies the allowed fields in camelCase.
+   */
+  allowedKeys: any[] | Record<string, any>;
+  /**
+   * Field values to be updated.
+   */
+  values?: Record<string, any>;
+}): string[] => {
   const assignments = [];
 
   const keys = Array.isArray(p.allowedKeys)
@@ -240,6 +266,14 @@ function createFilterFragment(
   return `( ${fragment} )`;
 }
 
+/**
+ * Returns filters to be added to a select statement.
+ *
+ * @param filterGroups
+ * @param filterableColumnNames
+ * @param table
+ * @returns
+ */
 function createFilterGroupFragment(
   filterGroups: FilterGroup<Record<string, any>>[],
   filterableColumnNames: string[],
@@ -256,6 +290,15 @@ function createFilterGroupFragment(
   }, '');
 }
 
+/**
+ * Returns order by statement that should be added to a select statement.
+ *
+ * @param order
+ * @param filterableColumnNames
+ * @param table
+ * @param fallbackField
+ * @returns
+ */
 function createOrderFragment(
   order: Order,
   filterableColumnNames: string[],
@@ -279,24 +322,75 @@ function createOrderFragment(
   );
 }
 
+/**
+ * Returns additional columns that should be added to a select statement
+ * to enable order by using the columns.
+ *
+ * @param order
+ * @param filterableColumnNames
+ * @param selectColumnNames
+ * @param table
+ * @returns
+ */
+function createOrderColumnsFragment(
+  order: Order,
+  filterableColumnNames: string[],
+  selectColumnNames: string[],
+  table: string
+) {
+  const columnTable = getColumnTable(order.field, filterableColumnNames, table);
+  const columnName = getColumnName(order.field, filterableColumnNames);
+  const name = `${columnTable}.${columnName}`;
+
+  return selectColumnNames.includes(name) ? '' : `, ${name}`;
+}
+
 export type searchFromTableParams = {
+  /** Database table name */
   tableName: string;
+  /** Database tool */
   db: any; // TODO: should be Db
+  /** Freely written search text */
   search?: string | null;
+  /** Filters */
   filterGroups: FilterGroup<any>[]; // TODO: should be FilterGroup<Record<string, any>>[],
+  /** Order */
   order: Order;
+  /** Pagination */
   pagination: Pagination | null;
 
+  /** columns added to the select statement */
   selectColumnNames: string[];
+  /** columns that can be used for filtering and ordering */
   filterableColumnNames: string[];
 
+  /** select columns fragment to be added to the select statement */
   selectColumnsFragment?: string | null;
+  /** JOIN fragment to be added to the select statement */
   joinFragment?: string;
+  /** WHERE fragment to be added to the select statement */
   whereFragment?: string | null;
+  /** search filters fragment to be added to the select statement */
   searchFragment?: string | null;
+  /** GROUP BY fragment to be added to the select statement */
   groupByFragment?: string;
+
+  /** Does not use DISTINCT in select statement if true */
+  disableDistinct?: boolean;
+  /** Does not add order by column to select statement if true */
+  disableOrderColumns?: boolean;
+  /** Does not return total count if true */
+  disableTotalCountResult?: boolean;
+  /** Does not return data if true */
+  disableDataResult?: boolean;
 };
 
+/**
+ * Searches data for a table based on given search parameters.
+ *
+ * @param p
+ * @returns
+ */
 export async function searchFromTable(p: searchFromTableParams) {
   const whereFragment = p.whereFragment || 'WHERE 1 = 1';
   const searchFragment = p.search ? p.searchFragment || '' : '';
@@ -310,6 +404,13 @@ export async function searchFromTable(p: searchFromTableParams) {
     p.filterableColumnNames,
     p.tableName
   );
+  const orderColumnsFragment = createOrderColumnsFragment(
+    p.order,
+    p.filterableColumnNames,
+    p.selectColumnNames,
+    p.tableName
+  );
+
   const paginationFragment = p.pagination
     ? `OFFSET $[offset] LIMIT $[limit]`
     : '';
@@ -328,12 +429,16 @@ export async function searchFromTable(p: searchFromTableParams) {
     search: p.search || undefined,
   };
 
-  const countQueryData = await p.db.one(countQuery, countQueryParams);
+  const countQueryData = p.disableTotalCountResult
+    ? { count: -1 }
+    : await p.db.one(countQuery, countQueryParams);
 
   const query = `
     SELECT
-      ${p.selectColumnNames.join(', ')}
+      ${p.disableDistinct ? '' : 'DISTINCT'}
       ${p.selectColumnsFragment || ''}
+      ${p.selectColumnNames.join(', ')}
+      ${p.disableOrderColumns ? '' : orderColumnsFragment}
     FROM ${p.tableName}
     ${p.joinFragment || ''}
     ${whereFragment}
@@ -349,7 +454,9 @@ export async function searchFromTable(p: searchFromTableParams) {
     search: p.search || undefined,
   };
 
-  const queryData = await p.db.any(query, queryParams);
+  const queryData = p.disableDataResult
+    ? []
+    : await p.db.any(query, queryParams);
 
   return {
     total: Number(countQueryData.count),

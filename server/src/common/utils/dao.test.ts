@@ -39,7 +39,7 @@ const exampleObject = {
   notes: 'Some notes',
 };
 
-const selectColumnNames = getColumnNames(exampleObject);
+const selectColumnNames = getColumnNames(exampleObject, false, 'my_table');
 
 const expectedResult = {
   total: 1,
@@ -141,7 +141,8 @@ describe('common/utils/db', () => {
       expect(trimGaps(db.any.mock.calls[0][0])).toEqual(
         trimGaps(
           `
-          SELECT id, creation_date, title, keywords, notes FROM my_table
+          SELECT DISTINCT
+            my_table.id, my_table.creation_date, my_table.title, my_table.keywords, my_table.notes FROM my_table
           WHERE 1 = 1
           ORDER BY \"my_table\".\"title\" ASC, \"my_table\".\"id\"
           OFFSET $[offset] LIMIT $[limit]
@@ -157,7 +158,7 @@ describe('common/utils/db', () => {
 
     it('select columns fragment works', async () => {
       const selectColumnsFragment = `
-        , json_build_object('latitude', ST_Y(geom), 'longitude', ST_X(geom)) coordinates
+        json_build_object('latitude', ST_Y(geom), 'longitude', ST_X(geom)) coordinates,
       `;
 
       const result = await searchFromTable({
@@ -188,9 +189,9 @@ describe('common/utils/db', () => {
       expect(trimGaps(db.any.mock.calls[0][0])).toEqual(
         trimGaps(
           `
-          SELECT
-            id, creation_date, title, keywords, notes
+          SELECT DISTINCT
             ${selectColumnsFragment}
+            my_table.id, my_table.creation_date, my_table.title, my_table.keywords, my_table.notes
           FROM my_table
           WHERE 1 = 1
           ORDER BY \"my_table\".\"title\" ASC, \"my_table\".\"id\"
@@ -245,7 +246,8 @@ describe('common/utils/db', () => {
       expect(trimGaps(db.any.mock.calls[0][0])).toEqual(
         trimGaps(
           `
-          SELECT id, creation_date, title, keywords, notes FROM my_table
+          SELECT DISTINCT
+            my_table.id, my_table.creation_date, my_table.title, my_table.keywords, my_table.notes FROM my_table
           WHERE 1 = 1
           ${searchFragment}
           ORDER BY \"my_table\".\"title\" ASC, \"my_table\".\"id\"
@@ -276,7 +278,8 @@ describe('common/utils/db', () => {
       expect(trimGaps(db.any.mock.calls[0][0])).toEqual(
         trimGaps(
           `
-          SELECT id, creation_date, title, keywords, notes FROM my_table
+          SELECT DISTINCT
+            my_table.id, my_table.creation_date, my_table.title, my_table.keywords, my_table.notes FROM my_table
           WHERE 1 = 1
           ORDER BY \"my_table\".\"notes\" DESC, \"my_table\".\"id\"
           OFFSET $[offset] LIMIT $[limit]
@@ -375,7 +378,8 @@ describe('common/utils/db', () => {
       expect(trimGaps(db.any.mock.calls[0][0])).toEqual(
         trimGaps(
           `
-          SELECT id, creation_date, title, keywords, notes FROM my_table
+          SELECT DISTINCT
+            my_table.id, my_table.creation_date, my_table.title, my_table.keywords, my_table.notes FROM my_table
           WHERE 1 = 1
           ${expectedFilterFragment}
           ORDER BY \"my_table\".\"title\" ASC, \"my_table\".\"id\"
@@ -497,7 +501,8 @@ describe('common/utils/db', () => {
       expect(trimGaps(db.any.mock.calls[0][0])).toEqual(
         trimGaps(
           `
-          SELECT id, creation_date, title, keywords, notes FROM my_table
+          SELECT DISTINCT
+            my_table.id, my_table.creation_date, my_table.title, my_table.keywords, my_table.notes FROM my_table
           WHERE 1 = 1
           ${expectedFilterFragment}
           ORDER BY \"my_table\".\"title\" ASC, \"my_table\".\"id\"
