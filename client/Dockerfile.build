@@ -1,15 +1,15 @@
 # Builder and tester container for production build
 # NOTE: Use the same cypress version both in Dockerfile and package.json to
 #       avoid unnecessary cypress download
-FROM ghcr.io/taitounited/cypress:8.7.0 as builder
+FROM ghcr.io/taitounited/cypress:9.3.1 as builder
 
 RUN mkdir -p /develop
 WORKDIR /develop
 
 ARG SERVICE_DIR=.
 COPY ${SERVICE_DIR}/package.json \
-     ${SERVICE_DIR}/package-lock.* \
-     /develop/
+    ${SERVICE_DIR}/package-lock.* \
+    /develop/
 
 ENV NODE_ENV development
 RUN npm ci --loglevel warn
@@ -30,9 +30,9 @@ RUN npm run build && cp -r ./assets/* /build/
 FROM nginx:stable-alpine
 ARG BUILD_VERSION
 LABEL version=${BUILD_VERSION} \
-      company=companyname \
-      project=full-stack-template \
-      role=client
+    company=companyname \
+    project=full-stack-template \
+    role=client
 RUN mkdir -p /service
 WORKDIR /service
 RUN chown -R nginx:nginx /service && \
