@@ -29,13 +29,13 @@ const insertColumnNames = getColumnNames(createPostExample);
 const insertParameterNames = getParameterNames(createPostExample);
 
 // SELECT_COLUMNS_FRAGMENT EXAMPLE:
-// const selectColumnNames = getColumnNames(postExample, false, tableName, ['coordinates']);
 //
+// const selectColumnNames = getColumnNames(entityNameExample, false, tableName, ['coordinates']);
 // `
-// , CASE
+//   CASE
 //     WHEN geom is null then null
 //     ELSE json_build_object('latitude', ST_Y(geom), 'longitude', ST_X(geom))
-//   END AS coordinates
+//   END AS coordinates,
 // `
 const SELECT_COLUMNS_FRAGMENT = '';
 
@@ -100,8 +100,8 @@ export class PostDao {
     return await db.oneOrNone(
       `
         SELECT
-          ${selectColumnNames.join(',')}
           ${SELECT_COLUMNS_FRAGMENT}
+          ${selectColumnNames.join(',')}
         FROM ${tableName}
         WHERE id = $[id]
       `,
