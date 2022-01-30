@@ -40,35 +40,37 @@ export default function AppRoutes() {
 
   return (
     <Routes>
-      <ProtectedRoute
-        path="/"
-        element={
-          <Suspense fallback={null}>
-            <Main />
-          </Suspense>
-        }
-      >
-        {routes.map(({ path, component: PageComponent }) => (
+      <Route path='/' element={<ProtectedRoute/>}>
+        <Route
+          path="/"
+          element={
+            <Suspense fallback={null}>
+              <Main />
+            </Suspense>
+          }
+        >
+          {routes.map(({ path, component: PageComponent }) => (
+            <Route
+              key={path}
+              path={path}
+              element={
+                <Page fallback={null}>
+                  <PageComponent />
+                </Page>
+              }
+            />
+          ))}
+
           <Route
-            key={path}
-            path={path}
+            path="*"
             element={
-              <Page fallback={null}>
-                <PageComponent />
+              <Page>
+                <NotFoundAuthenticated />
               </Page>
             }
           />
-        ))}
-
-        <Route
-          path="*"
-          element={
-            <Page>
-              <NotFoundAuthenticated />
-            </Page>
-          }
-        />
-      </ProtectedRoute>
+        </Route>
+      </Route>
 
       <Route
         path="login"
