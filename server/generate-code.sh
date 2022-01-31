@@ -228,15 +228,22 @@ as_reference_import() {
   fi
 }
 
+as_sql_type() {
+  type=$1
+  # Simplify type by removing array size
+  type=$(echo $type | sed 's/\[[[:digit:]]*\]/[]/g')
+  echo $type
+}
+
 # Add entity field to source code based on the given sql column definition
 add_entity_field() {
   local sql_column=($1)
 
   # Parse the given sql column definition, for example:
   #   target_subscription_id uuid NOT NULL REFERENCES subscription (id),
-  local sql_name=${sql_column[0]}       # target_subscription_id
-  local sql_type=${sql_column[1]}       # uuid
-  local nullable=true                   # NOT NULL -> false
+  local sql_name=${sql_column[0]}                 # target_subscription_id
+  local sql_type=$(as_sql_type ${sql_column[1]})  # uuid
+  local nullable=true                             # NOT NULL -> false
   if [[ ${sql_column_definition} == *" not null"* ]] ||
       [[ ${sql_column_definition} == *" primary key"* ]]; then
     nullable=false
@@ -293,15 +300,15 @@ add_entity_field() {
     test_field_example1="${field_name}: 1.5,"
     test_field_example2="${field_name}: 2.5,"
     field_example=$test_field_example1
-  elif [[ ${field_type} == 'number' ]]; then
+  elif [[ ${field_type} == 'number'* ]]; then
     test_field_example1="${field_name}: 1,"
     test_field_example2="${field_name}: 2,"
     field_example=$test_field_example1
-  elif [[ ${field_type} == 'Date' ]]; then
+  elif [[ ${field_type} == 'Date'* ]]; then
     test_field_example1="${field_name}: '2022-01-11T00:00:00.000Z',"
     test_field_example2="${field_name}: '2022-01-12T00:00:00.000Z',"
     field_example="${field_name}: new Date(),"
-  elif [[ ${field_type} == 'boolean' ]]; then
+  elif [[ ${field_type} == 'boolean'* ]]; then
     test_field_example1="${field_name}: false,"
     test_field_example2="${field_name}: true,"
     field_example=$test_field_example1
@@ -395,9 +402,9 @@ add_insert_values() {
 
     # Parse the given sql column definition, for example:
     #   target_subscription_id uuid NOT NULL REFERENCES subscription (id),
-    local sql_name=${sql_column[0]}       # target_subscription_id
-    local sql_type=${sql_column[1]}       # uuid
-    local nullable=true                   # NOT NULL -> false
+    local sql_name=${sql_column[0]}                 # target_subscription_id
+    local sql_type=$(as_sql_type ${sql_column[1]})  # uuid
+    local nullable=true                             # NOT NULL -> false
     if [[ ${sql_column_definition} == *" not null"* ]] ||
        [[ ${sql_column_definition} == *" primary key"* ]]; then
       nullable=false
@@ -408,17 +415,23 @@ add_insert_values() {
 
     # Add values on the insert clause
     local value="'$sql_name'"
-    if [[ $sql_type == "uuid" ]]; then    
+    if [[ $sql_type == "uuid"* ]]; then
       value="'${uuid}'"
-    elif [[ $sql_type == "boolean" ]]; then
+    elif [[ $sql_type == "boolean"* ]]; then
       value="false"
-    elif [[ $sql_type == "date" ]] || [[ $sql_type == "timestamp"* ]]; then
+    elif [[ $sql_type == "date"* ]] || [[ $sql_type == "timestamp"* ]]; then
       value="now()"
-    elif [[ $(as_graphql_type "$sql_type") == "Int" ]]; then
+    elif [[ $(as_graphql_type "$sql_type") == *"Int"* ]]; then
       value="1"
-    elif [[ $(as_graphql_type "$sql_type") == "Float" ]]; then
+    elif [[ $(as_graphql_type "$sql_type") == *"Float"* ]]; then
       value="1.1"
     fi
+
+    # Format value to array
+    if [[ ${sql_type} == *"[]" ]]; then
+      value="'{ ${value//\'/\"} }'"
+    fi
+
     printf "$value, " >> $sql_generated_dataset
 
   done <<< "$sql_column_definitions"
