@@ -31,6 +31,7 @@ locals {
 }
 
 module "auth" {
+  count         = try(local.settings.auth.enabled, true) == false ? 0 : 1
   source        = "TaitoUnited/auth/auth0"
   version       = "1.1.1"
   configuration = local.settings.auth
