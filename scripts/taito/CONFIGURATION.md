@@ -81,12 +81,6 @@ See [remote environments](https://taitounited.github.io/taito-cli/tutorial/05-re
 
 Operations on production and staging environments usually require admin rights. Please contact DevOps personnel if necessary.
 
-## Helm and Terraform
-
-The `scripts/heml.yaml` file contains default Kubernetes settings for all environments and the `scripts/helm-*.yaml` files contain environment specific overrides for them. Likewise, the `scripts/terraform.yaml` file contains default cloud settings for all environments and the `scripts/terraform-*.yaml` files contain environment specific overrides for them. By modifying these files you can easily configure environment variables, secrets, resource requirements, autoscaling, and cronjob scheduling for your containers. See `scripts/helm/examples.yaml` and `scripts/terraform/examples.yaml` for examples.
-
-Changes you have made to containers or functions will be deployed automatically by CI/CD, but some "more permanent" terraform changes (databases, buckets, queues) you need to deploy manually with `taito env apply:ENV`.
-
 ## Secrets
 
 You can add a new secret like this:
@@ -111,6 +105,12 @@ You can use the following methods in your secret definition:
 - `csrkey`: Secret key generated for certificate signing request (CSR).
 
 > See the [Environment variables and secrets](https://taitounited.github.io/taito-cli/tutorial/06-env-variables-and-secrets) chapter of Taito CLI tutorial for more instructions.
+
+## Kubernetes and cloud
+
+The `scripts/heml.yaml` file contains default Kubernetes settings for all environments and the `scripts/helm-*.yaml` files contain environment specific overrides for them. Likewise, the `scripts/terraform.yaml` file contains default cloud settings for all environments and the `scripts/terraform-*.yaml` files contain environment specific overrides for them. By modifying these files you can easily configure environment variables, secrets, resource requirements, autoscaling, and cronjob scheduling for your containers. See `scripts/helm/examples.yaml` and `scripts/terraform/examples.yaml` for examples.
+
+Changes you have made to containers or functions will be deployed automatically by CI/CD, but some "more permanent" terraform changes (databases, buckets, queues) you need to deploy manually with `taito env apply:ENV`.
 
 ## Scheduled jobs
 
@@ -168,7 +168,7 @@ Instead of having a separate worker implementation, you can also use the server 
         MODE: worker
 ```
 
-If you are using AWS Lambda instead of Kubernetes, define worker function on **scripts/terraform.yaml** and also replace Redis with AWS SQS queue:
+If you are using AWS Lambda instead of Kubernetes, define worker function on **scripts/terraform.yaml** and also use AWS SQS instead of Redis. Consider supporting both Redis and AWS SQS in your implementation, as it's only a few lines of extra code and this way your implementation will work ok also on local development.
 
 ```
     worker:
@@ -197,6 +197,91 @@ If you are using AWS Lambda instead of Kubernetes, define worker function on **s
       visibilityTimeout: 5400 # 6x function timeout
 ```
 
+## Object storage
+
+This template includes S3 compatible object storage. [Minio](https://min.io) is being used to provide S3 compatibility on non-AWS environments. You use it with **aws-sdk** library like this:
+
+```
+// Get s3 handle of the default bucket
+const storagesById = await getStoragesById();
+const { s3 } = storagesById.bucket;
+
+// Get object from the bucket
+const fileObject = await s3.getObject({ Key: 'folder/file.pdf' }).promise();
+```
+
+### Handling object storage files on API
+
+You have 3 options:
+
+- **Signed urls:** You can use signed urls (see the next chapter).
+- **REST:** You can provide a REST endpoint that handles your file contents (see the InfraRouter as an example). Do not forget authentication!
+- **GraphQL:** GraphQL APIs are not meant for handling files, but you can transmit a small file on a GraphQL field as a base64 encoded string (e.g. implement a field resolver that reads file contents from S3 and returns it as a base64 encoded string). Since this is not a standard way to handle files, it will require additional logic on the client.
+
+### Signed urls
+
+If your implementation handles large files, it's better to use signed urls for uploading and downloading files directly from object storage instead of client making uploads/downloads through server. Typically you would implement a field resolver on your GraphQL API that returns the signed url, for example:
+
+```
+@FieldResolver(() => String)
+async imageUrl(@Ctx() ctx: Context, @Root() root: Car) {
+  const { s3 } = ...
+  return s3.getSignedUrl('getObject', {
+    Key: root.imageFilePath,
+    Expires: 3600,
+  });
+}
+```
+
+Unfortunately, if some of your environments are located on Azure or Google Cloud Platform, you cannot use the **aws-sdk** library to sign your urls as Minio, that acts as a S3-compatibility layer, does not support it. In such case you need to sign your url with a cloud provider specific library instead. If you need also many other cloud provider specific object storage features, you should consider if you should just ditch the **aws-sdk** library and Minio container altogether.
+
+Here is a quick example on how to use **@google-cloud/storage'** library for signing urls but **aws-sdk** for everything else.
+
+**storage.ts**
+
+```
+import { Storage } from '@google-cloud/storage';
+    ...
+    storagesById = {
+      bucket: {
+        ...
+        s3: { ... }
+        gcs: config.GCP_PROJECT_ID
+          ? new Storage({
+              projectId: config.GCP_PROJECT_ID,
+              credentials: JSON.parse(secrets.SERVICE_ACCOUNT_KEY),
+            }).bucket(config.BUCKET_BUCKET)
+          : null
+      }
+    };
+```
+
+**sign url**
+
+```
+  const storagesById = await getStoragesById();
+  const { s3, gcs } = storagesById.bucket;
+
+  return gcs
+    ? gcs.file(path).getSignedUrl({
+        version: 'v4',
+        action: 'read',
+        expires: Date.now() + 3600,
+      })
+    : s3.getSignedUrl('getObject', {
+        Key: path,
+        Expires: 3600,
+      };
+```
+
+**helm.yaml**
+
+```
+    server:
+      serviceAccount:
+        secret: ${taito_project}-${taito_env}-server-serviceaccount.key
+```
+
 ## Stack
 
 **Additional microservices:** Add a new microservice with the following steps. You can skip the IMPLEMENTATION steps if you are using a prebuilt Docker image (e.g. Redis).
@@ -219,33 +304,36 @@ If you are using AWS Lambda instead of Kubernetes, define worker function on **s
 
 1. Add the storage bucket configuration to `scripts/taito/project.sh`. For example:
 
-   ```
-   taito_buckets="... archive ..."
-   st_archive_name="${taito_random_name}-archive-${taito_env}"
-   ```
+```
+
+taito_buckets="... archive ..."
+st_archive_name="${taito_random_name}-archive-${taito_env}"
+
+```
 
 2. Add the storage bucket configuration to `terraform.yaml`. For example:
 
-   ```
-   archive:
-     type: bucket
-     name: ${st_archive_name}
+```
+
+archive:
+type: bucket
+name: ${st_archive_name}
      location: ${taito_default_storage_location}
      storageClass: ${taito_default_storage_class}
      cors:
-       - domain: https://${taito_domain}
-     # Object lifecycle
-     versioning: true
-     versioningRetainDays: ${taito_default_storage_days}
+       - domain: https://${taito_domain} # Object lifecycle
+versioning: true
+versioningRetainDays: ${taito_default_storage_days}
      # Backup (TODO: implement)
      backupRetainDays: ${taito_default_storage_backup_days}
      backupLocation: ${taito_default_storage_backup_location}
      # User rights
      admins:
        - id: serviceAccount:${taito_project}-${taito_env}-server@${taito_resource_namespace_id}.iam.gserviceaccount.com
-     objectAdmins:
-     objectViewers:
-   ```
+objectAdmins:
+objectViewers:
+
+```
 
 3. Add the storage bucket to `storage/` and `storage/.minio.sys/buckets/`.
 4. Add the storage bucket environment variables in `docker-compose.yaml` and `helm.yaml`.
@@ -268,18 +356,22 @@ If you are using AWS Lambda instead of Kubernetes, define worker function on **s
 
 4. Add a new `taito-config.sh` to the project root dir that refers to the scripts located on the another repository:
 
-   ```
-   # Mount `scripts/` and `database/` from environment repository
-   taito_mounts="
-     ~/projects/my-project-env/database:/project/database
-     ~/projects/my-project-env/scripts:/project/scripts
-   "
+```
 
-   # Read Taito CLI configurations from the environment repository
-   if [[ -f scripts/taito/config/main.sh ]]; then
-     . scripts/taito/config/main.sh
-   fi
-   ```
+# Mount `scripts/` and `database/` from environment repository
+
+taito_mounts="
+~/projects/my-project-env/database:/project/database
+~/projects/my-project-env/scripts:/project/scripts
+"
+
+# Read Taito CLI configurations from the environment repository
+
+if [[-f scripts/taito/config/main.sh]]; then
+. scripts/taito/config/main.sh
+fi
+
+```
 
 ## Automated tests
 
@@ -294,3 +386,7 @@ All integration and end-to-end test suites are run automatically after applicati
 Tests are grouped in test suites (see the `test-suites` files). All test suites can be kept independent by cleaning up data before each test suite execution by running `taito init --clean`. You can enable data cleaning in `scripts/taito/testing.sh` with the `ci_exec_test_init` setting, but you should use it for dev environment only.
 
 You can run integration and end-to-end tests manually with the `taito test[:TARGET][:ENV] [SUITE] [TEST]` command, for example `taito test:server:dev`. When executing tests manually, the development container (`Dockerfile`) is used for executing the tests.
+
+```
+
+```
