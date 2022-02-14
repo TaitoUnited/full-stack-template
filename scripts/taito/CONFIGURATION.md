@@ -142,13 +142,11 @@ If you are using serverless functions instead of Kubernetes, add command handler
 
 ## Background jobs
 
-This template comes with Redis and worker. Use them to execute jobs in background by publishing message on Redis for each job and reading those messages in your worker implementation one by one. Note that in production environment you might have multiple worker containers running simultaneously.
-
-> If you need to execute resource intensive background jobs as fast as possible, then you should launch a separate container for each job, but there is no example for that yet.
+This template comes with Redis and worker. Publish a message to Redis for each job, and read and execute those messages one by one in your worker implementation. Note that in production environment you might have multiple worker containers running simultaneously. If you need to execute resource intensive background jobs as fast as possible, then you should launch a separate container for each job, but there is no example for that yet.
 
 ### Server as worker
 
-Instead of having a separate worker implementation, you can also use the server implementation as a worker by introducting MODE environment variable.
+Instead of having a separate worker implementation, you can also use the server implementation as a worker by introducting MODE environment variable. On server.ts you would start either api or worker implementation based the MODE variable. On yaml files you would configure worker like this:
 
 **docker-compose.yaml:**
 
@@ -170,7 +168,7 @@ Instead of having a separate worker implementation, you can also use the server 
         MODE: worker
 ```
 
-Or if you are using AWS Lambda instead of Kubernetes, define worker function on **scripts/terraform.yaml** and also replace Redis with AWS SQS queue:
+If you are using AWS Lambda instead of Kubernetes, define worker function on **scripts/terraform.yaml** and also replace Redis with AWS SQS queue:
 
 ```
     worker:
