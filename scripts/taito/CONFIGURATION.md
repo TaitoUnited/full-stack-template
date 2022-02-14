@@ -233,9 +233,7 @@ async imageUrl(@Ctx() ctx: Context, @Root() root: Car) {
 }
 ```
 
-Unfortunately, if some of your environments are located on Azure or Google Cloud Platform, you cannot use the **aws-sdk** library to sign your urls as Minio, that acts as a S3-compatibility layer, does not support it. In such case you need to sign your url with a cloud provider specific library instead. If you need also many other cloud provider specific object storage features, you should consider if you should just ditch the **aws-sdk** library and Minio container altogether.
-
-Here is a quick example on how to use **@google-cloud/storage'** library for signing urls but **aws-sdk** for everything else.
+Unfortunately, if some of your environments are located on Azure or Google Cloud Platform, you cannot use the **aws-sdk** library to sign your urls as Minio, that acts as a S3-compatibility layer, does not support it. In such case you need to sign your url with a cloud provider specific library instead. Here is a quick example on how to use **@google-cloud/storage'** library for signing urls but **aws-sdk** for everything else.
 
 **storage.ts**
 
@@ -280,6 +278,8 @@ import { Storage } from '@google-cloud/storage';
     server:
       serviceAccount:
         secret: ${taito_project}-${taito_env}-server-serviceaccount.key
+      env:
+        GCP_PROJECT_ID: my-google-project
 ```
 
 ## Stack
