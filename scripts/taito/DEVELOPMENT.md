@@ -243,6 +243,8 @@ Add a new migration:
 
 The CI/CD tool will deploy your database changes automatically to servers once you push your changes to git. Database migrations are executed using sqitch. More instructions on sqitch: [Sqitch tutorial](https://metacpan.org/pod/sqitchtutorial)
 
+See [software design](https://taitounited.github.io/taito-cli/tutorial/b-software-design/#relational-database-design) appendix of the [Taito CLI tutorial](https://taitounited.github.io/taito-cli/tutorial) for some tips on how to design your database.
+
 > If environments do not yet contain any permanent database data, you can just edit the existing deploy sql files directly and run `taito init:ENV --clean` before deploying the app to an environment. It is recommended to edit the files directly until the first production version has been released to keep migration files clean. However, if you delete some of the existing `deploy/*.sql` files, leave revert scripts in place. Otherwise `taito init:ENV --clean` will fail because changes cannot be reverted.
 
 > It is recommended that you put a table name at the beginning of your migration script name. This way the table creation script and all its alteration scripts remain close to each other in the file hierarchy.
