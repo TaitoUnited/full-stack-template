@@ -146,7 +146,7 @@ locals {
 
 module "gcp" {
   source  = "TaitoUnited/project-resources/google"
-  version = "3.1.0"
+  version = "3.2.1"
 
   # TODO: create_cicd_service_account    = var.create_cicd_service_account
   create_storage_buckets         = true
