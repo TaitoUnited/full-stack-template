@@ -6,5 +6,4 @@ settings:
       cors:
         - origin: https://${taito_domain}
         - origin: http://localhost:9999
-
 # END

@@ -11,4 +11,4 @@ full-stack:
   services:
     server:
       env:
-        DATABASE_POOL_MIN: '1'
+        DATABASE_POOL_MIN: "1"

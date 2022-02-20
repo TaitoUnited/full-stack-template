@@ -16,176 +16,175 @@ substitutions:
   _VC_TOKEN:
 
 steps:
+  # NOTE: This first step is an optimization. We execute CI/CD build cancel with
+  # the google provided gcloud container instead of Taito CLI, because it
+  # doesn't need to be pulled before execution -> cancel executes immediately.
+  - id: manual-cancel
+    name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: "bash"
+    env:
+      - build_id=$BUILD_ID
+      - repo_name=$_REPO_NAME
+      - branch_name=$BRANCH_NAME
+    args:
+      - "-c"
+      - |
+        export taito_target_env="$${branch_name//master/prod}"
+        source ./taito-config.sh
+        echo "- Cancel all previous ongoing builds targetting the same branch"
+        gcloud builds list \
+          --format="table[no-heading](id)" \
+          --ongoing \
+          --filter=" \
+            substitutions._REPO_NAME='$${repo_name}' AND \
+            substitutions.BRANCH_NAME='$${branch_name}'" | \
+          grep -v "$${build_id}" | \
+          xargs gcloud builds cancel 2> /dev/null || :
 
-# NOTE: This first step is an optimization. We execute CI/CD build cancel with
-# the google provided gcloud container instead of Taito CLI, because it
-# doesn't need to be pulled before execution -> cancel executes immediately.
-- id: manual-cancel
-  name: 'gcr.io/cloud-builders/gcloud'
-  entrypoint: 'bash'
-  env:
-    - build_id=$BUILD_ID
-    - repo_name=$_REPO_NAME
-    - branch_name=$BRANCH_NAME
-  args:
-  - '-c'
-  - |
-    export taito_target_env="$${branch_name//master/prod}"
-    source ./taito-config.sh
-    echo "- Cancel all previous ongoing builds targetting the same branch"
-    gcloud builds list \
-      --format="table[no-heading](id)" \
-      --ongoing \
-      --filter=" \
-        substitutions._REPO_NAME='$${repo_name}' AND \
-        substitutions.BRANCH_NAME='$${branch_name}'" | \
-      grep -v "$${build_id}" | \
-      xargs gcloud builds cancel 2> /dev/null || :
+  # ----------------------- Taito CLI ----------------------------------
 
-# ----------------------- Taito CLI ----------------------------------
+  # Prepare build
 
-# Prepare build
+  - id: build-prepare
+    waitFor: ["-"]
+    name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
+    args: ["build-prepare:$BRANCH_NAME", "$COMMIT_SHA"]
+    env:
+      - taito_mode=ci
+      - taito_ci_phases=${_TAITO_CI_PHASES}
+      - VC_TOKEN=${_VC_TOKEN}
 
-- id: build-prepare
-  waitFor: ['-']
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['build-prepare:$BRANCH_NAME', '$COMMIT_SHA']
-  env:
-    - taito_mode=ci
-    - taito_ci_phases=${_TAITO_CI_PHASES}
-    - VC_TOKEN=${_VC_TOKEN}
+  # Build artifacts in parallel
 
-# Build artifacts in parallel
+  - id: artifact-prepare-admin
+    waitFor: ["build-prepare"]
+    name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
+    args: ["artifact-prepare:admin:$BRANCH_NAME", "$COMMIT_SHA"]
+    env:
+      - taito_mode=ci
+      - taito_ci_phases=${_TAITO_CI_PHASES}
 
-- id: artifact-prepare-admin
-  waitFor: ['build-prepare']
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-prepare:admin:$BRANCH_NAME', '$COMMIT_SHA']
-  env:
-    - taito_mode=ci
-    - taito_ci_phases=${_TAITO_CI_PHASES}
+  - id: artifact-prepare-client
+    waitFor: ["build-prepare"]
+    name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
+    args: ["artifact-prepare:client:$BRANCH_NAME", "$COMMIT_SHA"]
+    env:
+      - taito_mode=ci
+      - taito_ci_phases=${_TAITO_CI_PHASES}
 
-- id: artifact-prepare-client
-  waitFor: ['build-prepare']
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-prepare:client:$BRANCH_NAME', '$COMMIT_SHA']
-  env:
-    - taito_mode=ci
-    - taito_ci_phases=${_TAITO_CI_PHASES}
+  - id: artifact-prepare-server
+    waitFor: ["build-prepare"]
+    name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
+    args: ["artifact-prepare:server:$BRANCH_NAME", "$COMMIT_SHA"]
+    env:
+      - taito_mode=ci
+      - taito_ci_phases=${_TAITO_CI_PHASES}
 
-- id: artifact-prepare-server
-  waitFor: ['build-prepare']
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-prepare:server:$BRANCH_NAME', '$COMMIT_SHA']
-  env:
-    - taito_mode=ci
-    - taito_ci_phases=${_TAITO_CI_PHASES}
+  - id: artifact-prepare-worker
+    waitFor: ["build-prepare"]
+    name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
+    args: ["artifact-prepare:worker:$BRANCH_NAME", "$COMMIT_SHA"]
+    env:
+      - taito_mode=ci
+      - taito_ci_phases=${_TAITO_CI_PHASES}
 
-- id: artifact-prepare-worker
-  waitFor: ['build-prepare']
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-prepare:worker:$BRANCH_NAME', '$COMMIT_SHA']
-  env:
-    - taito_mode=ci
-    - taito_ci_phases=${_TAITO_CI_PHASES}
+  - id: artifact-prepare-www
+    waitFor: ["build-prepare"]
+    name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
+    args: ["artifact-prepare:www:$BRANCH_NAME", "$COMMIT_SHA"]
+    env:
+      - taito_mode=ci
+      - taito_ci_phases=${_TAITO_CI_PHASES}
 
-- id: artifact-prepare-www
-  waitFor: ['build-prepare']
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-prepare:www:$BRANCH_NAME', '$COMMIT_SHA']
-  env:
-    - taito_mode=ci
-    - taito_ci_phases=${_TAITO_CI_PHASES}
+  # Deploy to target environment
 
-# Deploy to target environment
+  - id: db-deploy
+    name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
+    args: ["db-deploy:$BRANCH_NAME"]
+    env:
+      - taito_mode=ci
+      - taito_ci_phases=${_TAITO_CI_PHASES}
+      - taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
 
-- id: db-deploy
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['db-deploy:$BRANCH_NAME']
-  env:
-    - taito_mode=ci
-    - taito_ci_phases=${_TAITO_CI_PHASES}
-    - taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+  - id: deployment-deploy
+    name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
+    args: ["deployment-deploy:$BRANCH_NAME", "$COMMIT_SHA"]
+    env:
+      - taito_mode=ci
+      - taito_ci_phases=${_TAITO_CI_PHASES}
 
-- id: deployment-deploy
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['deployment-deploy:$BRANCH_NAME', '$COMMIT_SHA']
-  env:
-    - taito_mode=ci
-    - taito_ci_phases=${_TAITO_CI_PHASES}
+  # Test and verify deployment
 
-# Test and verify deployment
+  - id: deployment-wait
+    name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
+    args: ["deployment-wait:$BRANCH_NAME"]
+    env:
+      - taito_mode=ci
+      - taito_ci_phases=${_TAITO_CI_PHASES}
 
-- id: deployment-wait
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['deployment-wait:$BRANCH_NAME']
-  env:
-    - taito_mode=ci
-    - taito_ci_phases=${_TAITO_CI_PHASES}
+  - id: test
+    name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
+    args: ["test:$BRANCH_NAME"]
+    env:
+      - taito_mode=ci
+      - taito_ci_phases=${_TAITO_CI_PHASES}
+      - taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
 
-- id: test
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['test:$BRANCH_NAME']
-  env:
-    - taito_mode=ci
-    - taito_ci_phases=${_TAITO_CI_PHASES}
-    - taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+  - id: deployment-verify
+    name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
+    args: ["deployment-verify:$BRANCH_NAME"]
+    env:
+      - taito_mode=ci
+      - taito_ci_phases=${_TAITO_CI_PHASES}
 
-- id: deployment-verify
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['deployment-verify:$BRANCH_NAME']
-  env:
-    - taito_mode=ci
-    - taito_ci_phases=${_TAITO_CI_PHASES}
+  # Release artifacts in parallel
 
-# Release artifacts in parallel
+  - id: artifact-release-admin
+    waitFor: ["deployment-verify"]
+    name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
+    args: ["artifact-release:admin:$BRANCH_NAME", "$COMMIT_SHA"]
+    env:
+      - taito_mode=ci
+      - taito_ci_phases=${_TAITO_CI_PHASES}
 
-- id: artifact-release-admin
-  waitFor: ['deployment-verify']
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-release:admin:$BRANCH_NAME', '$COMMIT_SHA']
-  env:
-    - taito_mode=ci
-    - taito_ci_phases=${_TAITO_CI_PHASES}
+  - id: artifact-release-client
+    waitFor: ["deployment-verify"]
+    name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
+    args: ["artifact-release:client:$BRANCH_NAME", "$COMMIT_SHA"]
+    env:
+      - taito_mode=ci
+      - taito_ci_phases=${_TAITO_CI_PHASES}
 
-- id: artifact-release-client
-  waitFor: ['deployment-verify']
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-release:client:$BRANCH_NAME', '$COMMIT_SHA']
-  env:
-    - taito_mode=ci
-    - taito_ci_phases=${_TAITO_CI_PHASES}
+  - id: artifact-release-server
+    waitFor: ["deployment-verify"]
+    name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
+    args: ["artifact-release:server:$BRANCH_NAME", "$COMMIT_SHA"]
+    env:
+      - taito_mode=ci
+      - taito_ci_phases=${_TAITO_CI_PHASES}
 
-- id: artifact-release-server
-  waitFor: ['deployment-verify']
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-release:server:$BRANCH_NAME', '$COMMIT_SHA']
-  env:
-    - taito_mode=ci
-    - taito_ci_phases=${_TAITO_CI_PHASES}
+  - id: artifact-release-worker
+    waitFor: ["deployment-verify"]
+    name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
+    args: ["artifact-release:worker:$BRANCH_NAME", "$COMMIT_SHA"]
+    env:
+      - taito_mode=ci
+      - taito_ci_phases=${_TAITO_CI_PHASES}
 
-- id: artifact-release-worker
-  waitFor: ['deployment-verify']
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-release:worker:$BRANCH_NAME', '$COMMIT_SHA']
-  env:
-    - taito_mode=ci
-    - taito_ci_phases=${_TAITO_CI_PHASES}
+  - id: artifact-release-www
+    waitFor: ["deployment-verify"]
+    name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
+    args: ["artifact-release:www:$BRANCH_NAME", "$COMMIT_SHA"]
+    env:
+      - taito_mode=ci
+      - taito_ci_phases=${_TAITO_CI_PHASES}
 
-- id: artifact-release-www
-  waitFor: ['deployment-verify']
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['artifact-release:www:$BRANCH_NAME', '$COMMIT_SHA']
-  env:
-    - taito_mode=ci
-    - taito_ci_phases=${_TAITO_CI_PHASES}
+  # Release build
 
-# Release build
-
-- id: build-release
-  name: '${_TEMPLATE_DEFAULT_TAITO_IMAGE}'
-  args: ['build-release:$BRANCH_NAME']
-  env:
-    - taito_mode=ci
-    - taito_ci_phases=${_TAITO_CI_PHASES}
-    - VC_TOKEN=${_VC_TOKEN}
+  - id: build-release
+    name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
+    args: ["build-release:$BRANCH_NAME"]
+    env:
+      - taito_mode=ci
+      - taito_ci_phases=${_TAITO_CI_PHASES}
+      - VC_TOKEN=${_VC_TOKEN}
