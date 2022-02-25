@@ -103,7 +103,7 @@ export class PostDao {
           ${SELECT_COLUMNS_FRAGMENT}
           ${selectColumnNames.join(',')}
         FROM ${tableName}
-        WHERE id = $[id]
+        WHERE ${tableName}.id = $[id]
       `,
       {
         id,
@@ -135,7 +135,7 @@ export class PostDao {
       `
         UPDATE ${tableName}
         SET ${parameterAssignments.join(',')}
-        WHERE id = $[id]
+        WHERE ${tableName}.id = $[id]
         RETURNING ${selectColumnNames.join(',')}
       `,
       {
@@ -152,7 +152,7 @@ export class PostDao {
     await db.none(
       `
         DELETE FROM ${tableName}
-        WHERE id = $[id]
+        WHERE ${tableName}.id = $[id]
       `,
       {
         id: post.id,
