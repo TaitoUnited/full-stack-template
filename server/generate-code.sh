@@ -292,7 +292,7 @@ add_entity_field() {
   fi
 
   if [[ ${reference_type} ]]; then
-    field_read="// ${field_read}\n\ \ ${reference_name}?: ${reference_type}; // For prefetch optimization\n"
+    field_read="${field_read}\n\ \ // ${reference_name}?: ${reference_type}; // For prefetch optimization\n"
   fi
 
   # Compose field examples
