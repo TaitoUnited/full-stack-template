@@ -9,7 +9,9 @@ import { UserRole } from '../types/context';
  * state that it is intentional that the service method does not contain
  * any user specific authorization logic.
  */
-export async function checkSystemPermission(state: Context['state']) {}
+export async function checkSystemPermission(state: Context['state']) {
+  // No permissions to check
+}
 
 /**
  * Checks if user is allowed to execute public operation.
@@ -18,7 +20,9 @@ export async function checkSystemPermission(state: Context['state']) {}
  * state that it is intentional that the service method does not contain
  * any user specific authorization logic.
  */
-export async function checkPublicPermission(state: Context['state']) {}
+export async function checkPublicPermission(state: Context['state']) {
+  // No permissions to check
+}
 
 /**
  * @Authorized() implementation for GraphQL resolvers. This is just an
