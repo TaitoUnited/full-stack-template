@@ -5,7 +5,7 @@ import {
   keysAsSnakeCaseArray,
 } from './format';
 
-describe('format.ts', () => {
+describe('format', () => {
   describe('#toSnakeCase', () => {
     it('works', async () => {
       expect(toSnakeCase('myKeyName')).toEqual('my_key_name');

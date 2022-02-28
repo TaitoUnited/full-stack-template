@@ -21,7 +21,7 @@ export class MyType {
   entityName_column: string;
 }
 
-describe('common/utils/db', () => {
+describe('validate', () => {
   describe('#validateFieldName', () => {
     it('works ok', async () => {
       validateFieldName('title', ['title', 'colName']);

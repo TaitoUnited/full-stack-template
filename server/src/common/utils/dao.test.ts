@@ -46,7 +46,7 @@ const expectedResult = {
   data: [{ id: 'test' }],
 };
 
-describe('common/utils/db', () => {
+describe('dao', () => {
   beforeEach(() => {
     jest.resetModules();
     jest.resetAllMocks();

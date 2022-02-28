@@ -34,7 +34,7 @@ Start containers (add `--clean` to make a clean rebuild and to discard all data,
 
     taito start
 
-Make sure that everything has been initialized (e.g database) (add `--clean` to make a clean reinit):
+Make sure that everything has been initialized (e.g database, generated schemas) (add `--clean` to make a clean reinit):
 
     taito init
 
@@ -53,6 +53,10 @@ Open server API in browser:
 Open www site in browser:
 
     taito open www
+
+Open storage bucket in browser:
+
+    taito open bucket
 
 Show user accounts and other information that you can use to log in:
 
@@ -74,14 +78,16 @@ Run tests:
 
     taito unit                              # run all unit tests
     taito unit:server                       # run unit tests of server
-    taito unit:server formatters            # run the 'formatters' unit test of server
+    taito unit:server format                # run 'format' unit tests of server
 
     taito test                              # run all integration and end-to-end tests
-    taito test:server - posts               # run the 'posts' test of server default test suite
-    taito test:server jest cars             # run the 'cars' test of server jest test suite
+    taito test:server - post/queries        # run 'post/queries' tests of server default test suite
+    taito test:server jest post/mutations   # run the 'post/mutations' tests of server jest test suite
     taito test:client                       # run all integration and end-to-end tests of client
     taito test:client - posts               # run the 'posts' test of client default test suite
     taito test:client cypress 'car*'        # run all 'car*' tests of client cypress test suite
+
+> TIP: Use the already existing tests as an example.
 
 Open Cypress user interface:
 
@@ -107,6 +113,12 @@ List all project related links and open one of them in browser:
 
     taito open -h
     taito open NAME
+
+Generate definitions (e.g. GraphQL schemas):
+
+    taito generate                          # Generate for for all
+    taito generate:client                   # Generate for client
+    taito generate:server                   # Generate for server
 
 Generate code:
 

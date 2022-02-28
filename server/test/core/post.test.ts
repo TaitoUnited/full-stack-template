@@ -8,7 +8,7 @@ beforeAll(async () => {
   await setUser(api);
 });
 
-describe('post queries', () => {
+describe('post/queries', () => {
   it('query "posts" returns some posts', async () => {
     const { posts } = await sdk.posts({
       pagination: { offset: 0, limit: 10 },
@@ -34,7 +34,7 @@ const createPostParams = {
   ...postValues,
 };
 
-describe('post mutations', () => {
+describe('post/mutations', () => {
   beforeEach(async () => {
     const createResponse = await sdk.createPost({
       input: createPostParams,
