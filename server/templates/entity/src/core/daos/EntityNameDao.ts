@@ -18,21 +18,21 @@ import {
   DeleteEntityNameInput,
 } from '../types/entityName';
 
-// Types: dbInput, dbOutput
+// Types: DbInput, DbOutput
 
-type dbInput = CreateEntityNameInput & UpdateEntityNameInput;
-export const updateFields: Required<Omit<dbInput, 'id'>> = {
+type DbInput = CreateEntityNameInput & UpdateEntityNameInput;
+export const updateFields: Required<Omit<DbInput, 'id'>> = {
   // Fields that can be updated
   // TEMPLATE_GENERATE: Update entity field examples
 };
 
-type dbOutput = dbInput & {
+type DbOutput = DbInput & {
   // Read-only fields
   id: 'id';
   createdAt: Date;
   updatedAt: Date;
 };
-export const selectFields: Required<dbOutput> = {
+export const selectFields: Required<DbOutput> = {
   id: 'id',
   createdAt: new Date(),
   updatedAt: new Date(),

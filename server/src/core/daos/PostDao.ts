@@ -18,23 +18,23 @@ import {
   DeletePostInput,
 } from '../types/post';
 
-// Types: dbInput, dbOutput
+// Types: DbInput, DbOutput
 
-type dbInput = CreatePostInput & UpdatePostInput;
-export const updateFields: Required<Omit<dbInput, 'id'>> = {
+type DbInput = CreatePostInput & UpdatePostInput;
+export const updateFields: Required<Omit<DbInput, 'id'>> = {
   // Fields that can be updated
   subject: 'subject',
   content: 'content',
   author: 'author',
 };
 
-type dbOutput = dbInput & {
+type DbOutput = DbInput & {
   // Read-only fields
   id: 'id';
   createdAt: Date;
   updatedAt: Date;
 };
-export const selectFields: Required<dbOutput> = {
+export const selectFields: Required<DbOutput> = {
   id: 'id',
   createdAt: new Date(),
   updatedAt: new Date(),
