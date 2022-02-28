@@ -1,8 +1,38 @@
 /**
+ * Converts field names into a unified format whether
+ * it was read from Filter class property or given as parameter
+ * from the GraphQL API.
+ *
+ * Additional "ref_" prefix is removed if it exists, and '_' is
+ * converted into '.'. For example:
+ *
+ *   ref_product_brandName -> product.brandName
+ *   product_brandName     -> product.brandName
+ *   product.brandName     -> product.brandName
+ */
+export function formatFieldName(fieldName: string) {
+  return fieldName.replace(/^ref_/, '').replace(/_/g, '.');
+}
+
+/**
+ * Converts keys of an object into a unified field name format.
+ *
+ * Additional "ref_" prefix is removed if it exists, and '_' is
+ * converted into '.'. For example:
+ *
+ *   ref_product_brandName -> product.brandName
+ *   product_brandName     -> product.brandName
+ *   product.brandName     -> product.brandName
+ */
+export function getObjectKeysAsFieldNames(obj: any) {
+  return Object.getOwnPropertyNames(obj).map((f) => formatFieldName(f));
+}
+
+/**
  * Converts camelCase to snake_case.
  *
- * If convertDepts is true, both 'assignedUser.firstName' and
- * 'assignedUser_firstName' are converted to
+ * If convertDepth is true, both 'assignedUser.firstName' and
+ * 'ref_assignedUser_firstName' are converted to
  * 'assigned_user.first_name'.
  *
  * @param str
@@ -18,8 +48,7 @@ export function toSnakeCase(
   if (!whiteSpaceAllowed && str && str.match(/\s+/)) {
     throw new Error('Whitespace not allowed');
   }
-  return str
-    .replace(/_/g, convertDepth ? '.' : '_')
+  return (convertDepth ? formatFieldName(str) : str)
     .replace(/([A-Z])/g, '_$1')
     .toLowerCase();
 }

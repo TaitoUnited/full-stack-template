@@ -9,7 +9,7 @@ beforeAll(async () => {
   await setUser(api);
 });
 
-describe('entityName queries', () => {
+describe('entityName/queries', () => {
   it('query "entityNames" returns some entityNames', async () => {
     const { entityNames } = await sdk.entityNames({
       pagination: { offset: 0, limit: 10 },
@@ -34,7 +34,7 @@ const createEntityNameParams = {
   // TEMPLATE_GENERATE: Entity reference id values
 };
 
-describe('entityName mutations', () => {
+describe('entityName/mutations', () => {
   beforeEach(async () => {
     const createResponse = await sdk.createEntityName({
       input: createEntityNameParams,

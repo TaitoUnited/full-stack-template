@@ -8,7 +8,7 @@ import {
   getParameterValues,
 } from '../../common/utils/dao';
 import { Pagination, FilterGroup, Order } from '../../common/types/search';
-import { EntityId } from '../types/core';
+import { EntityId } from '../../common/types/entity';
 import {
   EntityName,
   EntityNameFilter,
@@ -16,21 +16,38 @@ import {
   CreateEntityNameInput,
   UpdateEntityNameInput,
   DeleteEntityNameInput,
-  entityNameExample,
-  entityNameFilterExample,
-  createEntityNameExample,
-  updateEntityNameExample,
 } from '../types/entityName';
 
+// Types: dbInput, dbOutput
+
+type dbInput = CreateEntityNameInput & UpdateEntityNameInput;
+export const updateFields: Required<Omit<dbInput, 'id'>> = {
+  // Fields that can be updated
+  // TEMPLATE_GENERATE: Update entity field examples
+};
+
+type dbOutput = dbInput & {
+  // Read-only fields
+  id: 'id';
+  createdAt: Date;
+  updatedAt: Date;
+};
+export const selectFields: Required<dbOutput> = {
+  id: 'id',
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  ...updateFields,
+};
+
+// Table and columns
 const tableName = 'entity_name';
-const selectColumnNames = getColumnNames(entityNameExample, false, tableName);
-const filterableColumnNames = getColumnNames(entityNameFilterExample, true);
-const insertColumnNames = getColumnNames(createEntityNameExample);
-const insertParameterNames = getParameterNames(createEntityNameExample);
+const selectColumnNames = getColumnNames(selectFields, false, tableName);
+const filterableColumnNames = getColumnNames(new EntityNameFilter(), true);
+const insertColumnNames = getColumnNames(updateFields);
+const insertParameterNames = getParameterNames(updateFields);
 
 // SELECT_COLUMNS_FRAGMENT EXAMPLE:
 //
-// const selectColumnNames = getColumnNames(entityNameExample, false, tableName, ['coordinates']);
 // `
 //   CASE
 //     WHEN geom is null then null
@@ -65,6 +82,12 @@ const WHERE_FRAGMENT = 'WHERE 1 = 1';
 // `;
 const SEARCH_FRAGMENT = 'AND 1 = 0';
 
+// GROUP_BY_FRAGMENT EXAMPLE:
+// `
+//   GROUP BY ${selectColumnNames.join(',')}
+// `;
+const GROUP_BY_FRAGMENT = ``;
+
 @Service()
 export class EntityNameDao {
   public async search(
@@ -89,6 +112,7 @@ export class EntityNameDao {
       joinFragment: JOIN_FRAGMENT,
       whereFragment: WHERE_FRAGMENT,
       searchFragment: SEARCH_FRAGMENT,
+      groupByFragment: GROUP_BY_FRAGMENT,
 
       // Prefetch optimization (not supported yet)
       // WARNING: Do not prefetch entities that user is not allowed to see!
@@ -103,7 +127,7 @@ export class EntityNameDao {
           ${SELECT_COLUMNS_FRAGMENT}
           ${selectColumnNames.join(',')}
         FROM ${tableName}
-        WHERE ${tableName}.id = $[id]
+        WHERE id = $[id]
       `,
       {
         id,
@@ -123,7 +147,7 @@ export class EntityNameDao {
         RETURNING ${selectColumnNames.join(',')}
       `,
       getParameterValues({
-        allowedKeys: createEntityNameExample,
+        allowedKeys: updateFields,
         values: entityName,
       })
     );
@@ -134,20 +158,20 @@ export class EntityNameDao {
     entityName: UpdateEntityNameInput
   ): Promise<EntityName> {
     const parameterAssignments = getParameterAssignments({
-      allowedKeys: updateEntityNameExample,
+      allowedKeys: updateFields,
       values: entityName,
     });
     return await db.one(
       `
         UPDATE ${tableName}
         SET ${parameterAssignments.join(',')}
-        WHERE ${tableName}.id = $[id]
+        WHERE id = $[id]
         RETURNING ${selectColumnNames.join(',')}
       `,
       {
         id: entityName.id,
         ...getParameterValues({
-          allowedKeys: updateEntityNameExample,
+          allowedKeys: updateFields,
           values: entityName,
         }),
       }
@@ -161,7 +185,7 @@ export class EntityNameDao {
     await db.none(
       `
         DELETE FROM ${tableName}
-        WHERE ${tableName}.id = $[id]
+        WHERE id = $[id]
       `,
       {
         id: entityName.id,

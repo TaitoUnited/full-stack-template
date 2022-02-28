@@ -225,6 +225,10 @@ function createFilterFragment(
   operator: FilterLogicalOperator,
   table?: string
 ) {
+  if (filters.length === 0) {
+    return undefined;
+  }
+
   const fragment = filters.reduce((str, cur, i) => {
     const columnTable = getColumnTable(cur.field, filterableColumnNames, table);
     const columnName = getColumnName(cur.field, filterableColumnNames);
@@ -274,7 +278,7 @@ function createFilterFragment(
  * @param table
  * @returns
  */
-function createFilterGroupFragment(
+export function createFilterGroupFragment(
   filterGroups: FilterGroup<Record<string, any>>[],
   filterableColumnNames: string[],
   table?: string
@@ -286,6 +290,9 @@ function createFilterGroupFragment(
       cur.operator,
       table
     );
+    if (!currentFragment) {
+      return str;
+    }
     return `${str} AND ${currentFragment} `;
   }, '');
 }
@@ -303,20 +310,37 @@ function createOrderFragment(
   order: Order,
   filterableColumnNames: string[],
   table: string,
-  fallbackField = 'id'
+  fallbackField: string | null,
+  disableTablePrefix = false
 ) {
   const columnTable = getColumnTable(order.field, filterableColumnNames, table);
   const columnName = getColumnName(order.field, filterableColumnNames);
 
+  const tablePrefixFragment = disableTablePrefix ? '' : '$(table~).';
+  const columnTablePrefixFragment = disableTablePrefix
+    ? ''
+    : '$(columnTable~).';
+  const fallbackFieldFrag = fallbackField
+    ? `, ${tablePrefixFragment}$(fallbackField~)`
+    : '';
+
+  let nullInvertFrag = '';
+  if (order.invertNullOrder) {
+    nullInvertFrag =
+      order.dir === OrderDirection.ASC ? ' NULLS FIRST' : ' NULLS LAST';
+  }
+
   return pgp.as.format(
     `
-    ORDER BY $(columnTable~).$(columnName~) $(dir^), $(table~).$(fallbackField~)
+    ORDER BY
+      ${columnTablePrefixFragment}$(columnName~)
+      $(dir^)${nullInvertFrag}${fallbackFieldFrag}
   `,
     {
       columnTable,
       columnName,
       dir: order.dir === OrderDirection.ASC ? 'ASC' : 'DESC',
-      fallbackField: toSnakeCase(fallbackField),
+      fallbackField: fallbackField ? toSnakeCase(fallbackField) : null,
       table,
     }
   );
@@ -342,7 +366,9 @@ function createOrderColumnsFragment(
   const columnName = getColumnName(order.field, filterableColumnNames);
   const name = `${columnTable}.${columnName}`;
 
-  return selectColumnNames.includes(name) ? '' : `, ${name}`;
+  return selectColumnNames.includes(name)
+    ? ''
+    : `, ${name} AS added_order_by_column`;
 }
 
 export type searchFromTableParams = {
@@ -368,6 +394,8 @@ export type searchFromTableParams = {
   selectColumnsFragment?: string | null;
   /** JOIN fragment to be added to the select statement */
   joinFragment?: string;
+  /** 1-N UNIONs to be added to the select statement */
+  unionsFragment?: string | null;
   /** WHERE fragment to be added to the select statement */
   whereFragment?: string | null;
   /** search filters fragment to be added to the select statement */
@@ -379,6 +407,10 @@ export type searchFromTableParams = {
   disableDistinct?: boolean;
   /** Does not add order by column to select statement if true */
   disableOrderColumns?: boolean;
+  /** Does not add table prefix on order by columns if true */
+  disableOrderColumnTablePrefix?: boolean;
+  /** Does not add order by fallback field if true */
+  disableOrderColumnFallback?: boolean;
   /** Does not return total count if true */
   disableTotalCountResult?: boolean;
   /** Does not return data if true */
@@ -386,10 +418,10 @@ export type searchFromTableParams = {
 };
 
 /**
- * Searches data for a table based on given search parameters.
+ * Searches data from a table based on given search parameters.
  *
- * @param p
- * @returns
+ * @param parameters
+ * @returns { total, data }
  */
 export async function searchFromTable(p: searchFromTableParams) {
   const whereFragment = p.whereFragment || 'WHERE 1 = 1';
@@ -402,7 +434,9 @@ export async function searchFromTable(p: searchFromTableParams) {
   const orderFragment = createOrderFragment(
     p.order,
     p.filterableColumnNames,
-    p.tableName
+    p.tableName,
+    p.disableOrderColumnFallback === true ? null : 'id',
+    p.disableOrderColumnTablePrefix
   );
   const orderColumnsFragment = createOrderColumnsFragment(
     p.order,
@@ -423,6 +457,7 @@ export async function searchFromTable(p: searchFromTableParams) {
     ${whereFragment}
     ${searchFragment || ''}
     ${filterFragment || ''}
+    ${p.unionsFragment || ''}
   `;
 
   const countQueryParams = {
@@ -444,6 +479,7 @@ export async function searchFromTable(p: searchFromTableParams) {
     ${whereFragment}
     ${searchFragment || ''}
     ${filterFragment || ''}
+    ${p.unionsFragment || ''}
     ${p.groupByFragment || ''}
     ${orderFragment || ''}
     ${paginationFragment || ''}

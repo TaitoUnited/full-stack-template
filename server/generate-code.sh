@@ -9,10 +9,12 @@ export sql_deploy_dir=../database/deploy
 export sql_generated_dataset=../database/data/datasets/generated.sql
 
 # Source file paths
+export src_common_types=src/common/types/entity.ts
 export src_core_types=src/core/types/core.ts
 
 # Entity template source file paths
 export entity_template=templates/entity
+export entity_template_dao=src/core/daos/EntityNameDao.ts
 export entity_template_service=src/core/services/EntityNameService.ts
 export entity_template_type=src/core/types/entityName.ts
 export entity_template_test=test/core/entityName.test.ts
@@ -290,7 +292,7 @@ add_entity_field() {
   fi
 
   if [[ ${reference_type} ]]; then
-    field_read="${field_read}\n\ \ ${reference_name}?: ${reference_type}; // For prefetch optimization\n"
+    field_read="// ${field_read}\n\ \ ${reference_name}?: ${reference_type}; // For prefetch optimization\n"
   fi
 
   # Compose field examples
@@ -343,19 +345,16 @@ add_entity_field() {
 
   # Add Entity import
   if [[ ${reference_type} ]]; then
-    sed -i "/.*TEMPLATE_GENERATE: Imports.*/i import { $reference_type } from './${reference_import}';" "${prepare_dir}/${entity_template_type}"
+    sed -i "/.*TEMPLATE_GENERATE: Imports.*/i // import { $reference_type } from './${reference_import}';" "${prepare_dir}/${entity_template_type}"
   fi
 
   # Add fields to source code
   sed -i "/.*TEMPLATE_GENERATE: Read entity fields.*/i\ \ $field_read" "${prepare_dir}/${entity_template_type}"
-  sed -i "/.*TEMPLATE_GENERATE: Read entity field examples.*/i\ \ $field_example" "${prepare_dir}/${entity_template_type}"
 
   if [[ $sql_name != "id" ]] && [[ $sql_name != "created_at" ]] && [[ $sql_name != "updated_at" ]]; then
     sed -i "/.*TEMPLATE_GENERATE: Create entity fields.*/i\ \ $field_create" "${prepare_dir}/${entity_template_type}"
-    sed -i "/.*TEMPLATE_GENERATE: Create entity field examples.*/i\ \ $field_example" "${prepare_dir}/${entity_template_type}"
-
     sed -i "/.*TEMPLATE_GENERATE: Update entity fields.*/i\ \ $field_update" "${prepare_dir}/${entity_template_type}"
-    sed -i "/.*TEMPLATE_GENERATE: Update entity field examples.*/i\ \ $field_example" "${prepare_dir}/${entity_template_type}"
+    sed -i "/.*TEMPLATE_GENERATE: Update entity field examples.*/i\ \ $field_example" "${prepare_dir}/${entity_template_dao}"
 
     if [[ $graphql_type == 'ID' ]]; then
       sed -i "/.*TEMPLATE_GENERATE: Entity reference id values.*/i\ \ $test_field_example1" "${prepare_dir}/${entity_template_test}"
@@ -512,7 +511,7 @@ create_entity() {
   cleanup
 
   # Add entity to core types
-  sed -i "/.*TEMPLATE_GENERATE: Entity types.*/i\ \ $upper_case = '$upper_case'," $src_core_types
+  sed -i "/.*TEMPLATE_GENERATE: Entity types.*/i\ \ $upper_case = '$upper_case'," $src_common_types
 }
 
 # Create source files for entities based on sql files located in

@@ -18,25 +18,12 @@ export type Scalars = {
 };
 
 export type CreatePostInput = {
-  author?: Maybe<Scalars['String']>;
-  content?: Maybe<Scalars['String']>;
-  moderatorId?: Maybe<Scalars['String']>;
-  subject?: Maybe<Scalars['String']>;
-};
-
-export type CreateUserInput = {
-  authIds?: Maybe<Array<Scalars['String']>>;
-  email: Scalars['String'];
-  firstName: Scalars['String'];
-  language?: Maybe<Scalars['String']>;
-  lastName: Scalars['String'];
+  author: Scalars['String'];
+  content: Scalars['String'];
+  subject: Scalars['String'];
 };
 
 export type DeletePostInput = {
-  id: Scalars['String'];
-};
-
-export type DeleteUserInput = {
   id: Scalars['String'];
 };
 
@@ -47,7 +34,7 @@ export type EntityId = {
 
 export type Filter = {
   field: Scalars['String'];
-  type: FilterType;
+  operator: FilterOperator;
   value: Scalars['String'];
   /** Determines how the value is treated */
   valueType?: Maybe<ValueType>;
@@ -55,15 +42,15 @@ export type Filter = {
 
 export type FilterGroup = {
   filters: Array<Filter>;
-  operator: FilterOperator;
+  operator: FilterLogicalOperator;
 };
 
-export enum FilterOperator {
+export enum FilterLogicalOperator {
   And = 'AND',
   Or = 'OR'
 }
 
-export enum FilterType {
+export enum FilterOperator {
   Eq = 'EQ',
   Gt = 'GT',
   Gte = 'GTE',
@@ -78,16 +65,10 @@ export type Mutation = {
   __typename?: 'Mutation';
   /** Creates a new post. */
   createPost: Post;
-  /** Creates a new user. */
-  createUser: User;
   /** Deletes a post. */
   deletePost: EntityId;
-  /** Deletes a user. */
-  deleteUser: EntityId;
   /** Updates a post. */
   updatePost: Post;
-  /** Updates a user. */
-  updateUser: User;
 };
 
 
@@ -96,18 +77,8 @@ export type MutationCreatePostArgs = {
 };
 
 
-export type MutationCreateUserArgs = {
-  input: CreateUserInput;
-};
-
-
 export type MutationDeletePostArgs = {
   input: DeletePostInput;
-};
-
-
-export type MutationDeleteUserArgs = {
-  input: DeleteUserInput;
 };
 
 
@@ -115,14 +86,12 @@ export type MutationUpdatePostArgs = {
   input: UpdatePostInput;
 };
 
-
-export type MutationUpdateUserArgs = {
-  input: UpdateUserInput;
-};
-
 export type Order = {
-  dir: OrderDirection;
+  /** Determines whether to sort ascending or descending. */
+  dir?: Maybe<OrderDirection>;
   field: Scalars['String'];
+  /** Determines whether NULL values are ordered first or last. */
+  invertNullOrder?: Maybe<Scalars['Boolean']>;
 };
 
 export enum OrderDirection {
@@ -136,12 +105,6 @@ export type PaginatedPosts = {
   total: Scalars['Float'];
 };
 
-export type PaginatedUsers = {
-  __typename?: 'PaginatedUsers';
-  data: Array<User>;
-  total: Scalars['Float'];
-};
-
 export type Pagination = {
   limit: Scalars['Float'];
   offset: Scalars['Float'];
@@ -149,20 +112,16 @@ export type Pagination = {
 
 export type Post = {
   __typename?: 'Post';
-  author?: Maybe<Scalars['String']>;
-  content?: Maybe<Scalars['String']>;
+  author: Scalars['String'];
+  content: Scalars['String'];
   createdAt: Scalars['DateTime'];
-  id: Scalars['String'];
-  moderator?: Maybe<User>;
-  moderatorId?: Maybe<Scalars['String']>;
-  subject?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  subject: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
 
 export type PostFilter = {
-  author: Scalars['String'];
   createdAt: Scalars['DateTime'];
-  subject: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
 
@@ -172,10 +131,6 @@ export type Query = {
   post?: Maybe<Post>;
   /** Searches posts. */
   posts: PaginatedPosts;
-  /** Reads a user. */
-  user?: Maybe<User>;
-  /** Search users. */
-  users: PaginatedUsers;
 };
 
 
@@ -191,49 +146,11 @@ export type QueryPostsArgs = {
   search?: Maybe<Scalars['String']>;
 };
 
-
-export type QueryUserArgs = {
-  id: Scalars['String'];
-};
-
-
-export type QueryUsersArgs = {
-  filterGroups?: Maybe<Array<FilterGroup>>;
-  order?: Maybe<Order>;
-  pagination?: Maybe<Pagination>;
-  search?: Maybe<Scalars['String']>;
-};
-
 export type UpdatePostInput = {
   author?: Maybe<Scalars['String']>;
   content?: Maybe<Scalars['String']>;
   id: Scalars['String'];
-  moderatorId?: Maybe<Scalars['String']>;
   subject?: Maybe<Scalars['String']>;
-};
-
-export type UpdateUserInput = {
-  firstName?: Maybe<Scalars['String']>;
-  id: Scalars['String'];
-  language?: Maybe<Scalars['String']>;
-  lastName?: Maybe<Scalars['String']>;
-};
-
-export type User = {
-  __typename?: 'User';
-  createdAt: Scalars['DateTime'];
-  email: Scalars['String'];
-  firstName: Scalars['String'];
-  id: Scalars['String'];
-  language?: Maybe<Scalars['String']>;
-  lastName: Scalars['String'];
-  updatedAt: Scalars['DateTime'];
-};
-
-export type UserFilter = {
-  email: Scalars['String'];
-  firstName: Scalars['String'];
-  lastName: Scalars['String'];
 };
 
 export enum ValueType {
@@ -254,14 +171,14 @@ export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __type
 export type PostListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PostListQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', total: number, data: Array<{ __typename?: 'Post', id: string, subject?: Maybe<string>, createdAt: any }> } };
+export type PostListQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', total: number, data: Array<{ __typename?: 'Post', id: string, subject: string, createdAt: any }> } };
 
 export type PostQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post?: Maybe<{ __typename?: 'Post', id: string, createdAt: any, author?: Maybe<string>, subject?: Maybe<string>, content?: Maybe<string> }> };
+export type PostQuery = { __typename?: 'Query', post?: Maybe<{ __typename?: 'Post', id: string, createdAt: any, author: string, subject: string, content: string }> };
 
 
 export const CreatePostDocument = gql`

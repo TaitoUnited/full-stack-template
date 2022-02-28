@@ -46,7 +46,7 @@ const expectedResult = {
   data: [{ id: 'test' }],
 };
 
-describe('dao', () => {
+describe('common/utils/db', () => {
   beforeEach(() => {
     jest.resetModules();
     jest.resetAllMocks();
@@ -115,7 +115,7 @@ describe('dao', () => {
         db,
         search: null,
         filterGroups: [],
-        order: new Order(OrderDirection.ASC, 'title'),
+        order: new Order('title', OrderDirection.ASC),
         pagination: new Pagination(0, 10),
         searchFragment: '',
         selectColumnNames,
@@ -144,7 +144,7 @@ describe('dao', () => {
           SELECT DISTINCT
             my_table.id, my_table.creation_date, my_table.title, my_table.keywords, my_table.notes FROM my_table
           WHERE 1 = 1
-          ORDER BY \"my_table\".\"title\" ASC, \"my_table\".\"id\"
+          ORDER BY "my_table"."title" ASC, "my_table"."id"
           OFFSET $[offset] LIMIT $[limit]
           `
         )
@@ -165,7 +165,7 @@ describe('dao', () => {
         tableName: 'my_table',
         db,
         filterGroups: [],
-        order: new Order(OrderDirection.ASC, 'title'),
+        order: new Order('title', OrderDirection.ASC),
         pagination: new Pagination(0, 10),
         selectColumnsFragment,
         selectColumnNames,
@@ -194,7 +194,7 @@ describe('dao', () => {
             my_table.id, my_table.creation_date, my_table.title, my_table.keywords, my_table.notes
           FROM my_table
           WHERE 1 = 1
-          ORDER BY \"my_table\".\"title\" ASC, \"my_table\".\"id\"
+          ORDER BY "my_table"."title" ASC, "my_table"."id"
           OFFSET $[offset] LIMIT $[limit]
           `
         )
@@ -219,7 +219,7 @@ describe('dao', () => {
         db,
         search: searchString,
         filterGroups: [],
-        order: new Order(OrderDirection.ASC, 'title'),
+        order: new Order('title', OrderDirection.ASC),
         pagination: new Pagination(0, 10),
         searchFragment,
         selectColumnNames,
@@ -250,7 +250,7 @@ describe('dao', () => {
             my_table.id, my_table.creation_date, my_table.title, my_table.keywords, my_table.notes FROM my_table
           WHERE 1 = 1
           ${searchFragment}
-          ORDER BY \"my_table\".\"title\" ASC, \"my_table\".\"id\"
+          ORDER BY "my_table"."title" ASC, "my_table"."id"
           OFFSET $[offset] LIMIT $[limit]
           `
         )
@@ -268,7 +268,7 @@ describe('dao', () => {
         db,
         search: null,
         filterGroups: [],
-        order: new Order(OrderDirection.DESC, 'notes'),
+        order: new Order('notes', OrderDirection.DESC, true),
         pagination: new Pagination(50, 1200),
         searchFragment: '',
         selectColumnNames,
@@ -281,7 +281,7 @@ describe('dao', () => {
           SELECT DISTINCT
             my_table.id, my_table.creation_date, my_table.title, my_table.keywords, my_table.notes FROM my_table
           WHERE 1 = 1
-          ORDER BY \"my_table\".\"notes\" DESC, \"my_table\".\"id\"
+          ORDER BY "my_table"."notes" DESC NULLS LAST, "my_table"."id"
           OFFSET $[offset] LIMIT $[limit]
           `
         )
@@ -338,7 +338,7 @@ describe('dao', () => {
         db,
         search: null,
         filterGroups,
-        order: new Order(OrderDirection.ASC, 'title'),
+        order: new Order('title', OrderDirection.ASC),
         pagination: new Pagination(0, 10),
         searchFragment: '',
         selectColumnNames,
@@ -349,12 +349,12 @@ describe('dao', () => {
 
       const expectedFilterFragment = `
         AND (
-          \"my_table\".\"title\"::TEXT = 'titlevalue'
-          OR \"my_table\".\"notes\"::TEXT ILIKE concat('%', 'notesvalue', '%')
+          "my_table"."title"::TEXT = 'titlevalue'
+          OR "my_table"."notes"::TEXT ILIKE concat('%', 'notesvalue', '%')
         )
         AND (
-          \"my_table\".\"title\"::TEXT > 'titlevalue'
-          AND \"my_table\".\"notes\"::TEXT != 'notesvalue'
+          "my_table"."title"::TEXT > 'titlevalue'
+          AND "my_table"."notes"::TEXT != 'notesvalue'
         )
       `;
 
@@ -382,7 +382,7 @@ describe('dao', () => {
             my_table.id, my_table.creation_date, my_table.title, my_table.keywords, my_table.notes FROM my_table
           WHERE 1 = 1
           ${expectedFilterFragment}
-          ORDER BY \"my_table\".\"title\" ASC, \"my_table\".\"id\"
+          ORDER BY "my_table"."title" ASC, "my_table"."id"
           OFFSET $[offset] LIMIT $[limit]
           `
         )
@@ -424,7 +424,7 @@ describe('dao', () => {
           db,
           search: null,
           filterGroups,
-          order: new Order(OrderDirection.ASC, 'title'),
+          order: new Order('title', OrderDirection.ASC),
           pagination: new Pagination(0, 10),
           searchFragment: '',
           selectColumnNames,
@@ -465,7 +465,7 @@ describe('dao', () => {
         db,
         search: null,
         filterGroups,
-        order: new Order(OrderDirection.ASC, 'title'),
+        order: new Order('title', OrderDirection.ASC),
         pagination: new Pagination(0, 10),
         searchFragment: '',
         selectColumnNames,
@@ -476,8 +476,8 @@ describe('dao', () => {
 
       const expectedFilterFragment = `
         AND (
-          \"my_table\".\"title\"::TEXT = ''' DELETE * FROM my_table'
-          OR \"my_table\".\"notes\"::TEXT ILIKE concat('%', ''' DELETE * FROM my_table', '%')
+          "my_table"."title"::TEXT = ''' DELETE * FROM my_table'
+          OR "my_table"."notes"::TEXT ILIKE concat('%', ''' DELETE * FROM my_table', '%')
         )
       `;
 
@@ -505,7 +505,7 @@ describe('dao', () => {
             my_table.id, my_table.creation_date, my_table.title, my_table.keywords, my_table.notes FROM my_table
           WHERE 1 = 1
           ${expectedFilterFragment}
-          ORDER BY \"my_table\".\"title\" ASC, \"my_table\".\"id\"
+          ORDER BY "my_table"."title" ASC, "my_table"."id"
           OFFSET $[offset] LIMIT $[limit]
           `
         )

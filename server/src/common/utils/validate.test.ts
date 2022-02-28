@@ -12,28 +12,25 @@ import {
   validatePagination,
 } from './validate';
 
+/* eslint-disable camelcase */
 export class MyType {
   id: string;
   creationDate: Date;
   title: string;
   keywords: string[];
   notesCol: string;
-  entityName_column: string;
+  ref_entityName_column: string;
 }
 
-describe('validate', () => {
+describe('common/utils/db', () => {
   describe('#validateFieldName', () => {
     it('works ok', async () => {
       validateFieldName('title', ['title', 'colName']);
       validateFieldName('colName', ['title', 'colName']);
-      validateFieldName('entityName.column', ['entityName_column']);
-      validateFieldName('entityName_column', ['entityName_column']);
+      validateFieldName('entityName.column', ['entityName.column']);
+      validateFieldName('ref_entityName_column', ['entityName.column']);
 
-      expect(() =>
-        validateFieldName('entityName.column', ['entityName_column'], false)
-      ).toThrow("Invalid field name: 'entityName.column'");
-
-      expect(() => validateFieldName('column', ['title', 'col_name'])).toThrow(
+      expect(() => validateFieldName('column', ['title', 'col.name'])).toThrow(
         "Invalid field name: 'column'"
       );
     });
@@ -68,7 +65,7 @@ describe('validate', () => {
         ),
         new Filter<MyType>(
           MyType,
-          'entityName_column',
+          'ref_entityName_column',
           FilterOperator.NEQ,
           'value',
           ValueType.TEXT
@@ -83,12 +80,14 @@ describe('validate', () => {
       validateFilterGroups(filterGroups, [
         'title',
         'notesCol',
-        'entityName_column',
+        'entityName.column',
       ]);
 
       expect(() =>
         validateFilterGroups(filterGroups, ['desc', 'notes'])
-      ).toThrow('Invalid filter fields: entityName_column, notesCol, title');
+      ).toThrow(
+        'Invalid filter fields: notesCol, ref_entityName_column, title'
+      );
     });
   });
 

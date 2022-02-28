@@ -1,32 +1,26 @@
 import { Context } from 'koa';
 import { Service } from 'typedi';
 import {
-  addFilter,
   validateFilterGroups,
   validateFieldName,
   validatePagination,
 } from '../../common/utils/validate';
-import { keysAsSnakeCaseArray } from '../../common/utils/format';
 import { Pagination, FilterGroup, Order } from '../../common/types/search';
+import { EntityType, Operation } from '../../common/types/entity';
 import {
   PostFilter,
   CreatePostInput,
   UpdatePostInput,
   DeletePostInput,
-  postFilterExample,
 } from '../types/post';
 import { PostDao } from '../daos/PostDao';
-import { EntityType, Operation } from '../types/core';
-import { CoreAuthService } from './CoreAuthService';
+import { AuthService } from './AuthService';
 
 const filterableFieldNames = Object.getOwnPropertyNames(postFilterExample);
 
 @Service()
 export class PostService {
-  constructor(
-    private coreAuthService: CoreAuthService,
-    private postDao: PostDao
-  ) {}
+  constructor(private authService: AuthService, private postDao: PostDao) {}
 
   public async search(
     state: Context['state'],
@@ -40,7 +34,7 @@ export class PostService {
     validatePagination(pagination, true);
 
     // Check permissions
-    await this.coreAuthService.checkPermission(
+    await this.authService.checkPermission(
       state,
       EntityType.POST,
       Operation.LIST
@@ -71,7 +65,7 @@ export class PostService {
 
     if (post) {
       // Check permissions
-      await this.coreAuthService.checkPermission(
+      await this.authService.checkPermission(
         state,
         EntityType.POST,
         Operation.VIEW,
@@ -84,7 +78,7 @@ export class PostService {
 
   public async create(state: Context['state'], post: CreatePostInput) {
     // Check permissions
-    await this.coreAuthService.checkPermission(
+    await this.authService.checkPermission(
       state,
       EntityType.POST,
       Operation.ADD
@@ -95,7 +89,7 @@ export class PostService {
 
   public async update(state: Context['state'], post: UpdatePostInput) {
     // Check permissions
-    await this.coreAuthService.checkPermission(
+    await this.authService.checkPermission(
       state,
       EntityType.POST,
       Operation.EDIT,
@@ -107,7 +101,7 @@ export class PostService {
 
   public async delete(state: Context['state'], post: DeletePostInput) {
     // Check permissions
-    await this.coreAuthService.checkPermission(
+    await this.authService.checkPermission(
       state,
       EntityType.POST,
       Operation.DELETE,

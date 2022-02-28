@@ -1,24 +1,13 @@
 import { Context } from 'koa';
 import Container, { Service } from 'typedi';
-import {
-  Arg,
-  Authorized,
-  Ctx,
-  Mutation,
-  Query,
-  Resolver,
-  FieldResolver,
-  Root,
-} from 'type-graphql';
-import { addFilter } from '../../common/utils/validate';
-import { Relation } from '../../common/utils/graphql';
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import {
   Pagination,
   FilterGroup,
   Order,
   OrderDirection,
 } from '../../common/types/search';
-import { EntityId } from '../types/core';
+import { EntityId } from '../../common/types/entity';
 import {
   EntityName,
   EntityNameFilter,
@@ -40,7 +29,7 @@ class EntityNameResolver {
   ) {}
 
   // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
+  // reviewed according to https://github.com/TaitoUnited/bronto-cloud/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Query(() => PaginatedEntityNames, { description: 'Searches entityNames.' })
   async entityNames(
@@ -54,7 +43,7 @@ class EntityNameResolver {
     })
     filterGroups: FilterGroup<EntityNameFilter>[],
     @Arg('order', () => Order, {
-      defaultValue: new Order(OrderDirection.DESC, 'createdAt'),
+      defaultValue: new Order('createdAt', OrderDirection.DESC),
     })
     order: Order,
     @Arg('pagination', () => Pagination, {
@@ -72,7 +61,7 @@ class EntityNameResolver {
   }
 
   // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
+  // reviewed according to https://github.com/TaitoUnited/bronto-cloud/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Query(() => EntityName, {
     description: 'Reads a entityName.',
@@ -83,7 +72,7 @@ class EntityNameResolver {
   }
 
   // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
+  // reviewed according to https://github.com/TaitoUnited/bronto-cloud/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Mutation(() => EntityName, { description: 'Creates a new entityName.' })
   async createEntityName(
@@ -94,7 +83,7 @@ class EntityNameResolver {
   }
 
   // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
+  // reviewed according to https://github.com/TaitoUnited/bronto-cloud/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Mutation(() => EntityName, { description: 'Updates a entityName.' })
   async updateEntityName(
@@ -105,7 +94,7 @@ class EntityNameResolver {
   }
 
   // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
+  // reviewed according to https://github.com/TaitoUnited/bronto-cloud/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Mutation(() => EntityId, { description: 'Deletes a entityName.' })
   async deleteEntityName(
@@ -142,7 +131,7 @@ class EntityNameResolver {
   //     ctx.state,
   //     null,
   //     filterGroups,
-  //     new Order(OrderDirection.ASC, 'createdAt'),
+  //     new Order('createdAt'),
   //     null
   //   );
   // }

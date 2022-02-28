@@ -8,7 +8,7 @@ import {
   getParameterValues,
 } from '../../common/utils/dao';
 import { Pagination, FilterGroup, Order } from '../../common/types/search';
-import { EntityId } from '../types/core';
+import { EntityId } from '../../common/types/entity';
 import {
   Post,
   PostFilter,

@@ -1,29 +1,34 @@
+import Boom from '@hapi/boom';
 import { Context } from 'koa';
 import { Service } from 'typedi';
-import Boom from '@hapi/boom';
-import { EntityType, Operation } from '../types/core';
+import { EntityType, Operation } from '../../common/types/entity';
+import {
+  checkSystemPermission,
+  checkPublicPermission,
+} from '../../common/utils/auth';
 
 @Service()
-export class CoreAuthService {
-  constructor() {}
-
+export class AuthService {
   /**
    * Checks if system-level operation is allowed.
+   *
+   * System-level operations are always allowed. This method is used just to
+   * state that it is intentional that the service method does not contain
+   * any user specific authorization logic.
    */
   public async checkSystemPermission(state: Context['state']) {
-    // At least one permissions check must have been run before a call is
-    // made to a system-level service.
-    if (!state.permissionsChecked) {
-      throw Boom.badImplementation('No user permissions have been checked!');
-    }
+    checkSystemPermission(state);
   }
 
   /**
-   * Checks if user is allowed to execute public operation (always allowed).
+   * Checks if user is allowed to execute public operation.
+   *
+   * Public operations are always allowed. This method is used to just
+   * state that it is intentional that the service method does not contain
+   * any user specific authorization logic.
    */
   public async checkPublicPermission(state: Context['state']) {
-    // No need to check any user permissions for public functionality
-    state.permissionsChecked = true;
+    checkPublicPermission(state);
   }
 
   /**

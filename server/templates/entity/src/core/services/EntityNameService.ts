@@ -1,32 +1,28 @@
 import { Context } from 'koa';
 import { Service } from 'typedi';
+import { getObjectKeysAsFieldNames } from '../../common/utils/format';
 import {
-  addFilter,
   validateFilterGroups,
   validateFieldName,
   validatePagination,
 } from '../../common/utils/validate';
-import { keysAsSnakeCaseArray } from '../../common/utils/format';
 import { Pagination, FilterGroup, Order } from '../../common/types/search';
+import { EntityType, Operation } from '../../common/types/entity';
 import {
   EntityNameFilter,
   CreateEntityNameInput,
   UpdateEntityNameInput,
   DeleteEntityNameInput,
-  entityNameFilterExample,
 } from '../types/entityName';
 import { EntityNameDao } from '../daos/EntityNameDao';
-import { EntityType, Operation } from '../types/core';
-import { CoreAuthService } from './CoreAuthService';
+import { AuthService } from './AuthService';
 
-const filterableFieldNames = Object.getOwnPropertyNames(
-  entityNameFilterExample
-);
+const filterableFieldNames = getObjectKeysAsFieldNames(new EntityNameFilter());
 
 @Service()
 export class EntityNameService {
   constructor(
-    private coreAuthService: CoreAuthService,
+    private authService: AuthService,
     private entityNameDao: EntityNameDao
   ) {}
 
@@ -42,7 +38,7 @@ export class EntityNameService {
     validatePagination(pagination, true);
 
     // Check permissions
-    await this.coreAuthService.checkPermission(
+    await this.authService.checkPermission(
       state,
       EntityType.ENTITY_NAME,
       Operation.LIST
@@ -73,7 +69,7 @@ export class EntityNameService {
 
     if (entityName) {
       // Check permissions
-      await this.coreAuthService.checkPermission(
+      await this.authService.checkPermission(
         state,
         EntityType.ENTITY_NAME,
         Operation.VIEW,
@@ -89,7 +85,7 @@ export class EntityNameService {
     entityName: CreateEntityNameInput
   ) {
     // Check permissions
-    await this.coreAuthService.checkPermission(
+    await this.authService.checkPermission(
       state,
       EntityType.ENTITY_NAME,
       Operation.ADD
@@ -103,7 +99,7 @@ export class EntityNameService {
     entityName: UpdateEntityNameInput
   ) {
     // Check permissions
-    await this.coreAuthService.checkPermission(
+    await this.authService.checkPermission(
       state,
       EntityType.ENTITY_NAME,
       Operation.EDIT,
@@ -118,7 +114,7 @@ export class EntityNameService {
     entityName: DeleteEntityNameInput
   ) {
     // Check permissions
-    await this.coreAuthService.checkPermission(
+    await this.authService.checkPermission(
       state,
       EntityType.ENTITY_NAME,
       Operation.DELETE,

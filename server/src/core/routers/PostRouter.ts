@@ -50,7 +50,7 @@ export class PostRouter extends BaseRouter {
           // TODO: search, filters, order, pagination
           '',
           [],
-          new Order(OrderDirection.DESC, 'createdAt'),
+          new Order('createdAt', OrderDirection.DESC),
           new Pagination(0, 50)
         );
 

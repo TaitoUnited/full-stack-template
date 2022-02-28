@@ -64,8 +64,12 @@ type Mutation {
 }
 
 input Order {
-  dir: OrderDirection!
+  """Determines whether to sort ascending or descending."""
+  dir: OrderDirection = ASC
   field: String!
+
+  """Determines whether NULL values are ordered first or last."""
+  invertNullOrder: Boolean = false
 }
 
 enum OrderDirection {
@@ -102,7 +106,7 @@ type Query {
   post(id: String!): Post
 
   """Searches posts."""
-  posts(filterGroups: [FilterGroup!] = [], order: Order = {dir: DESC, field: "createdAt"}, pagination: Pagination = {limit: 20, offset: 0}, search: String = null): PaginatedPosts!
+  posts(filterGroups: [FilterGroup!] = [], order: Order = {dir: DESC, field: "createdAt", invertNullOrder: false}, pagination: Pagination = {limit: 20, offset: 0}, search: String = null): PaginatedPosts!
 }
 
 input UpdatePostInput {

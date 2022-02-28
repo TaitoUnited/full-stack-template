@@ -87,8 +87,11 @@ export type MutationUpdatePostArgs = {
 };
 
 export type Order = {
-  dir: OrderDirection;
+  /** Determines whether to sort ascending or descending. */
+  dir?: Maybe<OrderDirection>;
   field: Scalars['String'];
+  /** Determines whether NULL values are ordered first or last. */
+  invertNullOrder?: Maybe<Scalars['Boolean']>;
 };
 
 export enum OrderDirection {

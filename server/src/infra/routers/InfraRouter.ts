@@ -1,9 +1,9 @@
 import { Context } from 'koa';
 import { Service } from 'typedi';
-import BaseRouter from '../common/setup/BaseRouter';
+import BaseRouter from '../../common/setup/BaseRouter';
 
-import config from '../common/setup/config';
-import getStoragesById from '../common/setup/storage';
+import config from '../../common/setup/config';
+import getStoragesById from '../../common/setup/storage';
 
 @Service()
 class InfraRouter extends BaseRouter {

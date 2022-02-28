@@ -5,7 +5,7 @@ import {
   keysAsSnakeCaseArray,
 } from './format';
 
-describe('format', () => {
+describe('format.ts', () => {
   describe('#toSnakeCase', () => {
     it('works', async () => {
       expect(toSnakeCase('myKeyName')).toEqual('my_key_name');
@@ -36,6 +36,12 @@ describe('format', () => {
       );
       expect(toSnakeCase('assignedUser_firstName')).toEqual(
         'assigned_user_first_name'
+      );
+    });
+
+    it('handles ref_ prefix', async () => {
+      expect(toSnakeCase('ref_assignedUser_firstName', true)).toEqual(
+        'assigned_user.first_name'
       );
     });
   });

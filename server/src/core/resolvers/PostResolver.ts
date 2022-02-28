@@ -1,24 +1,13 @@
 import { Context } from 'koa';
 import Container, { Service } from 'typedi';
-import {
-  Arg,
-  Authorized,
-  Ctx,
-  Mutation,
-  Query,
-  Resolver,
-  FieldResolver,
-  Root,
-} from 'type-graphql';
-import { addFilter } from '../../common/utils/validate';
-import { Relation } from '../../common/utils/graphql';
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import {
   Pagination,
   FilterGroup,
   Order,
   OrderDirection,
 } from '../../common/types/search';
-import { EntityId } from '../types/core';
+import { EntityId } from '../../common/types/entity';
 import {
   Post,
   PostFilter,
@@ -35,10 +24,12 @@ import { PostService } from '../services/PostService';
 @Service()
 @Resolver(() => Post)
 class PostResolver {
-  constructor(private readonly postService = Container.get(PostService)) {}
+  constructor(
+    private readonly postService = Container.get(PostService)
+  ) {}
 
   // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
+  // reviewed according to https://github.com/TaitoUnited/bronto-cloud/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Query(() => PaginatedPosts, { description: 'Searches posts.' })
   async posts(
@@ -52,7 +43,7 @@ class PostResolver {
     })
     filterGroups: FilterGroup<PostFilter>[],
     @Arg('order', () => Order, {
-      defaultValue: new Order(OrderDirection.DESC, 'createdAt'),
+      defaultValue: new Order('createdAt', OrderDirection.DESC),
     })
     order: Order,
     @Arg('pagination', () => Pagination, {
@@ -70,7 +61,7 @@ class PostResolver {
   }
 
   // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
+  // reviewed according to https://github.com/TaitoUnited/bronto-cloud/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Query(() => Post, {
     description: 'Reads a post.',
@@ -81,26 +72,35 @@ class PostResolver {
   }
 
   // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
+  // reviewed according to https://github.com/TaitoUnited/bronto-cloud/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Mutation(() => Post, { description: 'Creates a new post.' })
-  async createPost(@Ctx() ctx: Context, @Arg('input') input: CreatePostInput) {
+  async createPost(
+    @Ctx() ctx: Context,
+    @Arg('input') input: CreatePostInput
+  ) {
     return await this.postService.create(ctx.state, input);
   }
 
   // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
+  // reviewed according to https://github.com/TaitoUnited/bronto-cloud/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Mutation(() => Post, { description: 'Updates a post.' })
-  async updatePost(@Ctx() ctx: Context, @Arg('input') input: UpdatePostInput) {
+  async updatePost(
+    @Ctx() ctx: Context,
+    @Arg('input') input: UpdatePostInput
+  ) {
     return await this.postService.update(ctx.state, input);
   }
 
   // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
+  // reviewed according to https://github.com/TaitoUnited/bronto-cloud/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Mutation(() => EntityId, { description: 'Deletes a post.' })
-  async deletePost(@Ctx() ctx: Context, @Arg('input') input: DeletePostInput) {
+  async deletePost(
+    @Ctx() ctx: Context,
+    @Arg('input') input: DeletePostInput
+  ) {
     return await this.postService.delete(ctx.state, input);
   }
 
@@ -131,7 +131,7 @@ class PostResolver {
   //     ctx.state,
   //     null,
   //     filterGroups,
-  //     new Order(OrderDirection.ASC, 'createdAt'),
+  //     new Order('createdAt'),
   //     null
   //   );
   // }

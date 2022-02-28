@@ -144,14 +144,28 @@ registerEnumType(OrderDirection, {
 
 @InputType()
 export class Order {
-  constructor(dir: OrderDirection, field: string) {
-    this.dir = dir;
+  constructor(
+    field: string,
+    dir: OrderDirection = OrderDirection.ASC,
+    invertNullOrder = false
+  ) {
     this.field = field;
+    this.dir = dir;
+    this.invertNullOrder = invertNullOrder;
   }
-
-  @Field(() => OrderDirection)
-  dir: OrderDirection;
 
   @Field(() => String)
   field: string;
+
+  @Field(() => OrderDirection, {
+    description: `Determines whether to sort ascending or descending.`,
+    defaultValue: OrderDirection.ASC,
+  })
+  dir: OrderDirection;
+
+  @Field(() => Boolean, {
+    description: `Determines whether NULL values are ordered first or last.`,
+    defaultValue: false,
+  })
+  invertNullOrder: boolean;
 }
