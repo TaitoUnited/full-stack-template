@@ -16,21 +16,40 @@ import {
   CreatePostInput,
   UpdatePostInput,
   DeletePostInput,
-  postExample,
-  postFilterExample,
-  createPostExample,
-  updatePostExample,
 } from '../types/post';
 
+// Types: dbInput, dbOutput
+
+type dbInput = CreatePostInput & UpdatePostInput;
+export const updateFields: Required<Omit<dbInput, 'id'>> = {
+  // Fields that can be updated
+  subject: 'subject',
+  content: 'content',
+  author: 'author',
+};
+
+type dbOutput = dbInput & {
+  // Read-only fields
+  id: 'id';
+  createdAt: Date;
+  updatedAt: Date;
+};
+export const selectFields: Required<dbOutput> = {
+  id: 'id',
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  ...updateFields,
+};
+
+// Table and columns
 const tableName = 'post';
-const selectColumnNames = getColumnNames(postExample, false, tableName);
-const filterableColumnNames = getColumnNames(postFilterExample, true);
-const insertColumnNames = getColumnNames(createPostExample);
-const insertParameterNames = getParameterNames(createPostExample);
+const selectColumnNames = getColumnNames(selectFields, false, tableName);
+const filterableColumnNames = getColumnNames(new PostFilter(), true);
+const insertColumnNames = getColumnNames(updateFields);
+const insertParameterNames = getParameterNames(updateFields);
 
 // SELECT_COLUMNS_FRAGMENT EXAMPLE:
 //
-// const selectColumnNames = getColumnNames(entityNameExample, false, tableName, ['coordinates']);
 // `
 //   CASE
 //     WHEN geom is null then null
@@ -65,6 +84,12 @@ const WHERE_FRAGMENT = 'WHERE 1 = 1';
 // `;
 const SEARCH_FRAGMENT = 'AND 1 = 0';
 
+// GROUP_BY_FRAGMENT EXAMPLE:
+// `
+//   GROUP BY ${selectColumnNames.join(',')}
+// `;
+const GROUP_BY_FRAGMENT = ``;
+
 @Service()
 export class PostDao {
   public async search(
@@ -89,6 +114,7 @@ export class PostDao {
       joinFragment: JOIN_FRAGMENT,
       whereFragment: WHERE_FRAGMENT,
       searchFragment: SEARCH_FRAGMENT,
+      groupByFragment: GROUP_BY_FRAGMENT,
 
       // Prefetch optimization (not supported yet)
       // WARNING: Do not prefetch entities that user is not allowed to see!
@@ -103,7 +129,7 @@ export class PostDao {
           ${SELECT_COLUMNS_FRAGMENT}
           ${selectColumnNames.join(',')}
         FROM ${tableName}
-        WHERE ${tableName}.id = $[id]
+        WHERE id = $[id]
       `,
       {
         id,
@@ -120,7 +146,7 @@ export class PostDao {
         RETURNING ${selectColumnNames.join(',')}
       `,
       getParameterValues({
-        allowedKeys: createPostExample,
+        allowedKeys: updateFields,
         values: post,
       })
     );
@@ -128,20 +154,20 @@ export class PostDao {
 
   public async update(db: Db, post: UpdatePostInput): Promise<Post> {
     const parameterAssignments = getParameterAssignments({
-      allowedKeys: updatePostExample,
+      allowedKeys: updateFields,
       values: post,
     });
     return await db.one(
       `
         UPDATE ${tableName}
         SET ${parameterAssignments.join(',')}
-        WHERE ${tableName}.id = $[id]
+        WHERE id = $[id]
         RETURNING ${selectColumnNames.join(',')}
       `,
       {
         id: post.id,
         ...getParameterValues({
-          allowedKeys: updatePostExample,
+          allowedKeys: updateFields,
           values: post,
         }),
       }
@@ -152,7 +178,7 @@ export class PostDao {
     await db.none(
       `
         DELETE FROM ${tableName}
-        WHERE ${tableName}.id = $[id]
+        WHERE id = $[id]
       `,
       {
         id: post.id,

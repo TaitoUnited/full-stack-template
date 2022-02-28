@@ -1,5 +1,6 @@
 import { Context } from 'koa';
 import { Service } from 'typedi';
+import { getObjectKeysAsFieldNames } from '../../common/utils/format';
 import {
   validateFilterGroups,
   validateFieldName,
@@ -16,7 +17,7 @@ import {
 import { PostDao } from '../daos/PostDao';
 import { AuthService } from './AuthService';
 
-const filterableFieldNames = Object.getOwnPropertyNames(postFilterExample);
+const filterableFieldNames = getObjectKeysAsFieldNames(new PostFilter());
 
 @Service()
 export class PostService {

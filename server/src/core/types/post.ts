@@ -16,33 +16,20 @@ export class Post {
 @ObjectType()
 export class PaginatedPosts extends Paginated(Post) {}
 
-export const postExample: Post = {
-  id: 'id',
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  subject: 'subject',
-  content: 'content',
-  author: 'author',
-};
-
 // Filter
+/* eslint-disable camelcase */
 
 @InputType()
 export class PostFilter {
-  @Field() createdAt: Date;
-  @Field() updatedAt: Date;
+  @Field() createdAt?: Date = undefined;
+  @Field() updatedAt?: Date = undefined;
 
   // EXAMPLE: Filter by column of a referenced entity
-  // See also JOIN_FRAGMENT EXAMPLE on DAO. You must JOIN
+  // See also JOIN_FRAGMENT EXAMPLE on DAO as you must JOIN
   // user AS assigned_user.
   //
-  // @Field() assignedUser_username: string;
+  // @Field() ref_assignedUser_username?: string = undefined;
 }
-
-export const postFilterExample: PostFilter = {
-  createdAt: new Date(),
-  updatedAt: new Date(),
-};
 
 // Create
 
@@ -53,12 +40,6 @@ export class CreatePostInput {
   @Field(() => String) author: string;
 }
 
-export const createPostExample: CreatePostInput = {
-  subject: 'subject',
-  content: 'content',
-  author: 'author',
-};
-
 // Update
 
 @InputType()
@@ -68,11 +49,6 @@ export class UpdatePostInput {
   @Field(() => String, { nullable: true }) content?: string;
   @Field(() => String, { nullable: true }) author?: string;
 }
-export const updatePostExample: Omit<UpdatePostInput, 'id'> = {
-  subject: 'subject',
-  content: 'content',
-  author: 'author',
-};
 
 // Delete
 
