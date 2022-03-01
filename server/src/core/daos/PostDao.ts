@@ -22,22 +22,19 @@ import {
 
 type DbInput = CreatePostInput & UpdatePostInput;
 export const updateFields: Required<Omit<DbInput, 'id'>> = {
-  // Fields that can be updated
+  // Writable fields
   subject: 'subject',
   content: 'content',
   author: 'author',
 };
 
-type DbOutput = DbInput & {
-  // Read-only fields
-  id: 'id';
-  createdAt: Date;
-  updatedAt: Date;
-};
+type DbOutput = Post;
 export const selectFields: Required<DbOutput> = {
+  // Read-only fields
   id: 'id',
   createdAt: new Date(),
   updatedAt: new Date(),
+  // Writable fields
   ...updateFields,
 };
 
@@ -49,13 +46,16 @@ const insertColumnNames = getColumnNames(updateFields);
 const insertParameterNames = getParameterNames(updateFields);
 
 // SELECT_COLUMNS_FRAGMENT EXAMPLE:
-//
 // `
 //   CASE
 //     WHEN geom is null then null
 //     ELSE json_build_object('latitude', ST_Y(geom), 'longitude', ST_X(geom))
-//   END AS coordinates,
+//   END AS base_coordinates,
 // `
+// Notes:
+// - Add 'baseCoordinates' also to the list of read-only fields.
+// - Add also GROUP_BY_FRAGMENT if you use aggregate functions here.
+//
 const SELECT_COLUMNS_FRAGMENT = '';
 
 // JOIN_FRAGMENT EXAMPLE:
