@@ -4,7 +4,14 @@
 
 ### Business logic
 
-This template uses DAO pattern by default to give you all the power of PostgreSQL and to avoid monolithic ORM model. However, do not misuse it by implementing bloated DAOs. Implement reusable DAO logic and keep use case specific logic in services, if it's possible.
+Responsibilities:
+
+- Resolver: Maps GraphQL queries into service calls.
+- Router: Maps REST queries into service calls.
+- Service: Use case specific business logic.
+- DAO or Repository: Reusable data access logic.
+
+NOTE: This template uses DAO pattern by default to give you all the power of PostgreSQL and to avoid monolithic ORM model. However, do not misuse it by implementing bloated DAOs. Implement reusable DAO logic and keep use case specific logic in services, if it's possible.
 
 ### Modular implementation vs microservices
 
@@ -20,4 +27,4 @@ EXAMPLE: When a new product is created by a **catalog** module, it publishes a _
 
 ### Splitting into microservices
 
-Later if you choose to split your implementation into microservices, one of the microservices should act as a GraphQL Gateway (see [Apollo Federation](https://www.apollographql.com/docs/federation/)). You should also replace the messaging library with some message broker (e.g. Redis, RabbitMQ, or Kafka). Note that when split into microservices, you cannot rely solely on transactions anymore. You may need additional fault tolerance mechanisms like dead letter queues, circuit breakers, etc. based on your business requirements.
+Often there is no need to split a modular monolithic implementation into microservices. But if you choose to do so, one of the microservices should act as a GraphQL Gateway (see [Apollo Federation](https://www.apollographql.com/docs/federation/)). You should also replace the messaging library with some message broker (e.g. Redis, RabbitMQ, or Kafka). Note that when split into microservices, you cannot rely solely on transactions anymore. You may need additional fault tolerance mechanisms like dead letter queues, circuit breakers, etc. based on your business requirements.
