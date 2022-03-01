@@ -124,8 +124,12 @@ class EntityNameResolver {
   // @Authorized()
   // @FieldResolver(() => PaginatedOtherEntities)
   // async otherEntities(@Ctx() ctx: Context, @Root() root: EntityName) {
-  //   let filterGroups: FilterGroup<AnotherEntityFilter>[] = [];
-  //   filterGroups = addFilter(filterGroups, AnotherEntityFilter, 'entityNameId', root.id);
+  //   const filterGroups = addFilter(
+  //     [],
+  //     AnotherEntityFilter,
+  //     'entityNameId',
+  //     root.id
+  //   );
   //
   //   return await this.otherEntityService.search(
   //     ctx.state,
