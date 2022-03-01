@@ -2,16 +2,16 @@
 
 ## Structure recommendations
 
-### Business logic
+### Layers
 
 Responsibilities:
 
-- Resolver: Maps GraphQL queries into service calls.
-- Router: Maps REST queries into service calls.
-- Service: Use case specific business logic.
-- DAO or Repository: Reusable data access logic.
+- Resolvers: Map GraphQL queries into service calls.
+- Routers: Map REST queries into service calls.
+- Services: Provide use case specific business logic.
+- DAOs or Repositories: Provide reusable logic for data access and persistence.
 
-NOTE: This template uses DAO pattern by default to give you all the power of PostgreSQL and to avoid monolithic ORM model. However, do not misuse it by implementing bloated DAOs. Implement reusable DAO logic and keep use case specific logic in services, if it's possible.
+NOTE: This template uses DAO pattern by default to give you all the power of PostgreSQL and to avoid a monolithic ORM model. However, do not misuse it by implementing bloated DAOs. Implement reusable DAO logic and keep use case specific logic in services, if it's possible.
 
 ### Modular implementation vs microservices
 
