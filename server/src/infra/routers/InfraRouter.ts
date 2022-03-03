@@ -52,9 +52,9 @@ class InfraRouter extends BaseRouter {
       validate: {
         output: {
           '200': {
-            body: {
+            body: this.Joi.object({
               status: this.Joi.string().valid('OK').required(),
-            },
+            }),
           },
         },
       },
@@ -83,9 +83,9 @@ class InfraRouter extends BaseRouter {
       validate: {
         output: {
           '200': {
-            body: {
+            body: this.Joi.object({
               status: this.Joi.string().valid('OK').required(),
-            },
+            }),
           },
         },
       },
