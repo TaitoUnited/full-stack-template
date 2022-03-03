@@ -98,16 +98,18 @@ export class EntityNameDao {
     pagination: Pagination | null
   ): Promise<PaginatedEntityNames> {
     return searchFromTable({
-      tableName,
       db,
       search,
       filterGroups,
       order,
       pagination,
+
+      tableName,
       selectColumnNames,
       filterableColumnNames,
 
       // Custom fragments
+      debugSql: false,
       selectColumnsFragment: SELECT_COLUMNS_FRAGMENT,
       joinFragment: JOIN_FRAGMENT,
       whereFragment: WHERE_FRAGMENT,

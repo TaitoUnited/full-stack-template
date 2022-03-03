@@ -6,12 +6,12 @@
 
 Responsibilities:
 
-- Resolvers: Map GraphQL queries into service calls.
-- Routers: Map REST queries into service calls.
+- Resolvers: Map GraphQL requests into service calls.
+- Routers: Map REST requests into service calls.
 - Services: Provide use case specific business logic.
 - DAOs or Repositories: Provide reusable logic for data access and persistence.
 
-NOTE: This template uses DAO pattern by default to give you all the power of PostgreSQL and to avoid a monolithic ORM model. However, do not misuse it by implementing bloated DAOs. Implement reusable DAO logic and keep use case specific logic in services, if it's possible.
+NOTE: This template uses DAO pattern by default to give you all the power of PostgreSQL and to avoid monolithicness of a ORM model. However, do not misuse it by implementing bloated DAOs. Implement reusable DAO logic and keep use case specific logic in services, if it's possible.
 
 ### Modular implementation vs microservices
 

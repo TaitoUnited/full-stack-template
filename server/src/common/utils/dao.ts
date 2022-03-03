@@ -371,6 +371,31 @@ function createOrderColumnsFragment(
     : `, ${name} AS added_order_by_column`;
 }
 
+/**
+ * Returns additional group by columns that should be added to a select statement
+ * to enable order by using the columns.
+ *
+ * @param order
+ * @param filterableColumnNames
+ * @param selectColumnNames
+ * @param table
+ * @returns
+ */
+function createGroupByColumnsFragment(
+  order: Order,
+  filterableColumnNames: string[],
+  selectColumnNames: string[],
+  table: string
+) {
+  const added = createOrderColumnsFragment(
+    order,
+    filterableColumnNames,
+    selectColumnNames,
+    table
+  );
+  return added ? ', added_order_by_column' : '';
+}
+
 export type searchFromTableParams = {
   /** Database table name */
   tableName: string;
@@ -415,6 +440,9 @@ export type searchFromTableParams = {
   disableTotalCountResult?: boolean;
   /** Does not return data if true */
   disableDataResult?: boolean;
+
+  /** Logs sql queries to console.log() */
+  debugSql?: boolean;
 };
 
 /**
@@ -444,6 +472,12 @@ export async function searchFromTable(p: searchFromTableParams) {
     p.selectColumnNames,
     p.tableName
   );
+  const groupByColumnsFragment = createGroupByColumnsFragment(
+    p.order,
+    p.filterableColumnNames,
+    p.selectColumnNames,
+    p.tableName
+  );
 
   const paginationFragment = p.pagination
     ? `OFFSET $[offset] LIMIT $[limit]`
@@ -464,6 +498,10 @@ export async function searchFromTable(p: searchFromTableParams) {
     search: p.search || undefined,
   };
 
+  if (p.debugSql) {
+    console.log(countQuery);
+  }
+
   const countQueryData = p.disableTotalCountResult
     ? { count: -1 }
     : await p.db.one(countQuery, countQueryParams);
@@ -481,6 +519,7 @@ export async function searchFromTable(p: searchFromTableParams) {
     ${filterFragment || ''}
     ${p.unionsFragment || ''}
     ${p.groupByFragment || ''}
+    ${p.groupByFragment ? groupByColumnsFragment : ''}
     ${orderFragment || ''}
     ${paginationFragment || ''}
   `;
@@ -489,6 +528,10 @@ export async function searchFromTable(p: searchFromTableParams) {
     ...p.pagination,
     search: p.search || undefined,
   };
+
+  if (p.debugSql) {
+    console.log(query);
+  }
 
   const queryData = p.disableDataResult
     ? []
