@@ -303,9 +303,9 @@ interface ApiDocOptions {
 function schemaToObject(schema: any): any {
   switch (schema.type) {
     case 'object': {
-      if (schema.children) {
-        return Object.keys(schema.children).reduce((obj: any, key) => {
-          const subSchema = schema.children[key];
+      if (schema.keys) {
+        return Object.keys(schema.keys).reduce((obj: any, key) => {
+          const subSchema = schema.keys[key];
 
           if (subSchema.flags && subSchema.flags.strip) {
             return obj;
