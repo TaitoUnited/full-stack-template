@@ -5,6 +5,7 @@ import { EntityType, Operation } from '../../common/types/entity';
 import {
   checkSystemPermission,
   checkPublicPermission,
+  setPermissionsChecked,
 } from '../../common/utils/auth';
 
 @Service()
@@ -40,7 +41,7 @@ export class AuthService {
     operation: Operation,
     entityId?: string
   ) {
-    state.permissionsChecked = true;
+    setPermissionsChecked(state);
 
     // Check that entity id was given in case it's mandatory
     if (

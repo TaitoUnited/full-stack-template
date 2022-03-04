@@ -10,7 +10,12 @@ import { UserRole } from '../types/context';
  * any user specific authorization logic.
  */
 export async function checkSystemPermission(state: Context['state']) {
-  // No permissions to check
+  // At least one permissions check must have been run before a call is
+  // made to a system-level service.
+  // NOTE: This is here just in case to reveal programming errors.
+  if (!state.permissionsChecked) {
+    throw Boom.badImplementation('No user permissions have been checked!');
+  }
 }
 
 /**
@@ -21,7 +26,16 @@ export async function checkSystemPermission(state: Context['state']) {
  * any user specific authorization logic.
  */
 export async function checkPublicPermission(state: Context['state']) {
-  // No permissions to check
+  // No need to check any user permissions for public functionality
+  setPermissionsChecked(state);
+}
+
+/**
+ * Sets a mark on state that some kind of permission check has been executed.
+ * This is used in checkSystemPermission.
+ */
+export async function setPermissionsChecked(state: Context['state']) {
+  state.permissionsChecked = true;
 }
 
 /**
