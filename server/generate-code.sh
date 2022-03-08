@@ -471,11 +471,18 @@ generate_example_data() {
 # Create source files for entity based on the given sql file
 create_entity() {
   local table_name=$1
-  local snake_case="$table"
+  local sql_file="$sql_deploy_dir/$table_name.sql"
+
+  # Entity name
+  local singular_name=$table_name
+  if [[ ${singular_name} == *"s" ]]; then
+    echo "Give the ${singular_name} table name in singular form (e.g. ${singular_name::-1}):"
+    read singular_name
+  fi
+  local snake_case="$singular_name"
   local upper_case=$(as_upper_case $snake_case)
   local pascal_case=$(as_pascal_case $snake_case)
   local camel_case=$(as_camel_case $snake_case)
-  local sql_file="$sql_deploy_dir/$table_name.sql"
 
   # Copy entity template to prepare dir
   mkdir -p ${prepare_dir}
