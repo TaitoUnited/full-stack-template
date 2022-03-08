@@ -50,6 +50,12 @@ Open server API in browser:
 
     taito open server
 
+Open Graphql playground in browser:
+
+    taito open graphql
+
+> TIP: You might find example queries and additional instructions in `server/test/graphql`.
+
 Open www site in browser:
 
     taito open www
@@ -223,7 +229,7 @@ npm run start
 
 ## Code structure
 
-Project specific conventions are defined in [README.md](../../README.md#conventions). See [software design](https://taitounited.github.io/taito-cli/tutorial/b-software-design) appendix of the [Taito CLI tutorial](https://taitounited.github.io/taito-cli/tutorial) for some tips on how to design a modular directory structure.
+Project specific conventions are defined in [README.md](../../README.md#conventions). See [software design](https://taitounited.github.io/taito-cli/tutorial/b-software-design) appendix of the [Taito CLI tutorial](https://taitounited.github.io/taito-cli/tutorial) for some tips on how to design a modular directory structure. You may also find more specific instructions in `client/README.md` and `server/README.md`.
 
 ## Version control
 
@@ -290,7 +296,7 @@ To provide extended filtering capabilities, you may also want to:
 
 To implement proper business logic, you should:
 
-- **Resolver/Service:** Review the generated mutations, modify them according your business logic, and remove unnecessary operations. If your business logic is not about creating, updating, and deleting entities, you need to replace the generated mutations with something else that describes your business logic better (for example **assignIssue(...)**). Sometimes you need to delete the generated resolver and service altogether and implement the logic elsewhere (for example, comment of an issue might be better handled in IssueResolver and IssueService). Think what's best solution to get a good descriptive GraphQL API, and an implementation that's easy to maintain in the long run.
+- **Resolver/Service:** Review the generated mutations, modify them according your business logic, and remove unnecessary operations. If your business logic is not about creating, updating, and deleting entities, you need to replace the generated mutations with something else that describes your business logic better (for example **registerCarOwnership(...)**). Sometimes you need to delete the generated resolver and service altogether and implement the logic elsewhere (for example, comment of an issue might be better handled in IssueResolver/IssueService or IssueCommentResolver/IssueCommentService). Think what's best solution to get a good descriptive GraphQL API, and an implementation that's easy to maintain in the long run.
 - **Type:** Remove fields that GraphQL API clients are not allowed view, create, or update. Add additional types if required.
 - **Service:** Implement your business logic in services.
 

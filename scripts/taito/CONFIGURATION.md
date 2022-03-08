@@ -13,6 +13,8 @@ This file has been copied from [FULL-STACK-TEMPLATE](https://github.com/TaitoUni
 
 Start your local development environment by running `taito develop`. Once the command starts to install libraries, you can leave it on the background while you continue with configuration. Once the application has started, open the web application GUI with `taito open client`. NOTE: If your project includes a static website instead of web application GUI, you need to configure it first (see [/www/README.md](/www/README.md)), and then you can open it with `taito open www`.
 
+> HINT: You usually start your development with [Database migrations](DEVELOPMENT.md#database-migrations) and [Code generation](DEVELOPMENT.md#code-generation).
+
 > If the application fails to start, run `taito trouble` to see troubleshooting. More information on local development you can find from [DEVELOPMENT.md](DEVELOPMENT.md).
 
 ## Basic settings
