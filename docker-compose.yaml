@@ -18,6 +18,8 @@ services:
     build:
       context: ./admin
       dockerfile: ${dockerfile}
+      args:
+        USER_UID: ${taito_host_user_uid}
     restart: unless-stopped
     networks:
       - default
@@ -88,6 +90,8 @@ services:
     build:
       context: ./server
       dockerfile: ${dockerfile}
+      args:
+        USER_UID: ${taito_host_user_uid}
     restart: unless-stopped
     networks:
       - default
@@ -142,6 +146,8 @@ services:
     build:
       context: ./worker
       dockerfile: ${dockerfile}
+      args:
+        USER_UID: ${taito_host_user_uid}
     tty: true
     restart: unless-stopped
     networks:
@@ -196,6 +202,8 @@ services:
     build:
       context: ./www
       dockerfile: ${dockerfile}
+      args:
+        USER_UID: ${taito_host_user_uid}
     restart: unless-stopped
     networks:
       - default
@@ -257,6 +265,8 @@ services:
     build:
       context: ./storage
       dockerfile: ${dockerfile}
+      args:
+        USER_UID: ${taito_host_user_uid}
     restart: unless-stopped
     command: server /develop --console-address ":8888"
     networks:

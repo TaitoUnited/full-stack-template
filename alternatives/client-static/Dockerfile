@@ -1,8 +1,13 @@
 # Local development runtime
 FROM nginx:stable-alpine
 
-RUN mkdir -p /develop
+# Init /develop for user USER_UID
+ARG USER_UID=1001
+RUN adduser -u "${USER_UID}" -G root -S developer 
+RUN mkdir -p /develop && \
+    chown "${USER_UID}:0" /develop
 WORKDIR /develop
+USER "${USER_UID}"
 
 RUN chown -R nginx:nginx /develop && \
     mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig

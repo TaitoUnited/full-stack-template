@@ -2,11 +2,17 @@
 # NOTE: npm libraries are installed inside container to speed up build
 FROM node:lts-alpine
 
-RUN mkdir -p /develop
+# Init /develop for user USER_UID
+ARG USER_UID=1001
+RUN adduser -u "${USER_UID}" -G root -S developer 
+RUN mkdir -p /develop && \
+     chown "${USER_UID}:0" /develop
 WORKDIR /develop
+USER "${USER_UID}"
 
 ARG SERVICE_DIR=.
-COPY ${SERVICE_DIR}/package.json \
+COPY --chown="${USER_UID}:0" \
+     ${SERVICE_DIR}/package.json \
      ${SERVICE_DIR}/package-lock.* \
      /develop/
 

@@ -3,11 +3,17 @@
 #       avoid unnecessary cypress download
 FROM ghcr.io/taitounited/cypress:9.3.1
 
-RUN mkdir -p /develop
+# Init /develop for user USER_UID
+ARG USER_UID=1001
+RUN useradd --system --uid "${USER_UID}" --gid 0 -m developer
+RUN mkdir -p /develop && \
+     chown "${USER_UID}:0" /develop
 WORKDIR /develop
+USER "${USER_UID}"
 
 ARG SERVICE_DIR=.
-COPY ${SERVICE_DIR}/package.json \
+COPY --chown="${USER_UID}:0" \
+     ${SERVICE_DIR}/package.json \
      ${SERVICE_DIR}/package-lock.* \
      /develop/
 
