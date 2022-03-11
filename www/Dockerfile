@@ -5,7 +5,7 @@ ENV NODE_ENV development
 
 # Init /develop for user USER_UID
 ARG USER_UID=1001
-RUN useradd --system --uid "${USER_UID}" --gid 0 -m developer
+RUN useradd --system --uid "${USER_UID}" --gid 0 -m developer || :
 RUN mkdir -p /develop && \
      chown "${USER_UID}:0" /develop
 WORKDIR /develop
