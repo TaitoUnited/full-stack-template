@@ -128,7 +128,7 @@ describe('common/utils/db', () => {
       expect(trimGaps(db.one.mock.calls[0][0])).toEqual(
         trimGaps(
           `
-          SELECT count(my_table.id) FROM my_table
+          SELECT count(DISTINCT my_table.id) FROM my_table
           WHERE 1 = 1
           `
         )
@@ -178,7 +178,7 @@ describe('common/utils/db', () => {
       expect(trimGaps(db.one.mock.calls[0][0])).toEqual(
         trimGaps(
           `
-          SELECT count(my_table.id) FROM my_table
+          SELECT count(DISTINCT my_table.id) FROM my_table
           WHERE 1 = 1
           `
         )
@@ -232,7 +232,7 @@ describe('common/utils/db', () => {
       expect(trimGaps(db.one.mock.calls[0][0])).toEqual(
         trimGaps(
           `
-          SELECT count(my_table.id) FROM my_table
+          SELECT count(DISTINCT my_table.id) FROM my_table
           WHERE 1 = 1
           ${searchFragment}
           `
@@ -362,7 +362,7 @@ describe('common/utils/db', () => {
       expect(trimGaps(db.one.mock.calls[0][0])).toEqual(
         trimGaps(
           `
-          SELECT count(my_table.id) FROM my_table
+          SELECT count(DISTINCT my_table.id) FROM my_table
           WHERE 1 = 1
           ${expectedFilterFragment}
           `
@@ -485,7 +485,7 @@ describe('common/utils/db', () => {
       expect(trimGaps(db.one.mock.calls[0][0])).toEqual(
         trimGaps(
           `
-          SELECT count(my_table.id) FROM my_table
+          SELECT count(DISTINCT my_table.id) FROM my_table
           WHERE 1 = 1
           ${expectedFilterFragment}
           `

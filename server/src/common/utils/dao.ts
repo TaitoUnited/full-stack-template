@@ -485,7 +485,7 @@ export async function searchFromTable(p: searchFromTableParams) {
 
   const countQuery = `
     SELECT
-      count(${p.tableName}.id)
+      count(DISTINCT ${p.tableName}.id)
     FROM ${p.tableName}
     ${p.joinFragment || ''}
     ${whereFragment}
