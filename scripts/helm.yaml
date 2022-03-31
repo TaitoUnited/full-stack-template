@@ -54,7 +54,7 @@ full-stack:
 
     client:
       paths:
-        - path:
+        - path: /
       cpuRequest: 2m
       memoryRequest: 2Mi
       env:
