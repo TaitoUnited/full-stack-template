@@ -4,7 +4,7 @@
   "scripts": {
     "install:clean": "rm -rf node_modules && npm install",
     "pretty-quick": "pretty-quick",
-    "lint": "tsc --noEmit && eslint ./src/**/*.{ts,tsx} --ignore-path .eslintignore --quiet",
+    "lint": "tsc --noEmit && eslint './src/**/*.{ts,tsx}' --ignore-path .eslintignore --quiet",
     "unit": "BABEL_ENV=test jest src/ --passWithNoTests -t",
     "test": "echo TODO run tests but not cypress",
     "cypress:run": "cypress run -s test/integration/**/${test_name}.spec.js",

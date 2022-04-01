@@ -3,7 +3,7 @@
   "main": "index.js",
   "scripts": {
     "install:clean": "rm -rf node_modules && npm install",
-    "lint": "tsc -p . --noEmit && eslint ./src/**/*.{ts,tsx} --ignore-path .eslintignore --quiet",
+    "lint": "tsc -p . --noEmit && eslint './src/**/*.{ts,tsx}' --ignore-path .eslintignore --quiet",
     "unit": "BABEL_ENV=test jest src/ --passWithNoTests -t",
     "test": "echo TODO run tests but not cypress",
     "cypress:run": "echo NOTE: Cypress disabled for admin by default. Add cypress to dockerfiles and run \\'cypress run\\' here. See client as an example.",
