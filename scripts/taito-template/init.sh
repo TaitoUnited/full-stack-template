@@ -300,18 +300,14 @@ function prune () {
       fi
     fi
 
-    if [[ $name == "storage" ]] && [[ ${taito_provider} == "aws" ]]; then
+    if [[ $name == "storage" ]] && [[ ${taito_provider} != "azure" ]]; then
       # Remove minio proxy
       sed -i "/^    storage:\r*\$/,/^\r*$/d" ./scripts/helm.yaml
-      sed -i '/BUCKET_URL/d' ./scripts/helm.yaml
+    fi
 
-      # Define access key and secret key for AWS (not using minio as proxy)
-      sed -i '/storage.accessKeyId/d' scripts/taito/project.sh
-      sed -i '/storage.secretKey/d' scripts/taito/project.sh
-      sed -i '/^taito_remote_secrets=/a\  $taito_project-$taito_env-storage.secretKey:manual' scripts/taito/project.sh
-      sed -i '/^taito_remote_secrets=/a\  $taito_project-$taito_env-storage.accessKeyId:manual' scripts/taito/project.sh
-      sed -i '/^taito_local_secrets=/a\  $taito_project-$taito_env-storage.secretKey:random' scripts/taito/project.sh
-      sed -i '/^taito_local_secrets=/a\  $taito_project-$taito_env-storage.accessKeyId:random' scripts/taito/project.sh
+    if [[ $name == "storage" ]] && [[ ${taito_provider} == "aws" ]]; then
+      # Remove S3 endpoint
+      sed -i '/BUCKET_ENDPOINT/d' ./scripts/helm.yaml
     fi
 
     # For Django

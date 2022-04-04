@@ -10,10 +10,10 @@ global:
   publicPort: 443
   logProvider: ${taito_logging_provider}
   logFormat: ${taito_logging_format}
-  logLevel: info    # trace, debug, info, warn, error, fatal
+  logLevel: info # trace, debug, info, warn, error, fatal
   registry: ${taito_container_registry}
-  imagePullPolicy: ''
-  debug: 'false'
+  imagePullPolicy: ""
+  debug: "false"
 
 full-stack:
   networkPolicyEnabled: true
@@ -41,7 +41,6 @@ full-stack:
       COMMON_ENV: ${taito_env}
 
   services:
-
     admin:
       paths:
         - path: /admin
@@ -74,8 +73,8 @@ full-stack:
       secrets:
         REDIS_PASSWORD: ${taito_project}-${taito_env}-redis.password
       env:
-        REDIS_PASSWORD_FILE: '/run/secrets/REDIS_PASSWORD'
-        REDIS_AOF_ENABLED: 'no'
+        REDIS_PASSWORD_FILE: "/run/secrets/REDIS_PASSWORD"
+        REDIS_AOF_ENABLED: "no"
 
     server:
       paths:
@@ -90,15 +89,15 @@ full-stack:
           rewriteTarget: /api/login
           limitRpm: 5
       egress:
-        - ip: '${db_database_real_host}/32'
+        - ip: "${db_database_real_host}/32"
         - fullname: ${taito_project}-${taito_env}-redis
         - fullname: ${taito_project}-${taito_env}-storage
       livenessInitialDelay: 120
       db: # For old gcp environments
-         useProxy: ${gcp_db_proxy_enabled} # For old gcp environments
-         instance: ${taito_zone}:${taito_provider_region}:${db_database_instance} # For old gcp environments
-         port: ${db_database_real_port} # For old gcp environments
-         proxySecret: ${taito_provider_db_proxy_secret} # For old gcp environments
+        useProxy: ${gcp_db_proxy_enabled} # For old gcp environments
+        instance: ${taito_zone}:${taito_provider_region}:${db_database_instance} # For old gcp environments
+        port: ${db_database_real_port} # For old gcp environments
+        proxySecret: ${taito_provider_db_proxy_secret} # For old gcp environments
       secrets:
         DATABASE_SSL_CA: ${db_database_ssl_ca_secret}
         DATABASE_SSL_CERT: ${db_database_ssl_cert_secret}
@@ -111,38 +110,38 @@ full-stack:
         BUCKET_KEY_ID: ${taito_project}-${taito_env}-storage.accessKeyId
       env:
         BASE_PATH: /api
-        API_PORT: '8080'
-        API_BINDADDR: '0.0.0.0'
+        API_PORT: "8080"
+        API_BINDADDR: "0.0.0.0"
         SENTRY_DSN: #sentryDSN
-        DATABASE_HOST: '${db_database_real_host}'
-        DATABASE_PORT: '${db_database_real_port}'
+        DATABASE_HOST: "${db_database_real_host}"
+        DATABASE_PORT: "${db_database_real_port}"
         DATABASE_SSL_ENABLED: "${db_database_ssl_enabled}"
         DATABASE_SSL_CLIENT_CERT_ENABLED: "${db_database_ssl_client_cert_enabled}"
         DATABASE_SSL_SERVER_CERT_ENABLED: "${db_database_ssl_server_cert_enabled}"
         DATABASE_NAME: ${db_database_name}
         DATABASE_USER: ${db_database_app_username}
-        DATABASE_POOL_MIN: '0'
-        DATABASE_POOL_MAX: '5'
+        DATABASE_POOL_MIN: "0"
+        DATABASE_POOL_MAX: "5"
         REDIS_HOST: ${taito_project}-${taito_env}-redis
         REDIS_PORT: 6379
-        BUCKET_URL: http://${taito_project}-${taito_env}-storage:9000/
+        BUCKET_ENDPOINT: http://${taito_project}-${taito_env}-storage:9000/
         BUCKET_REGION: ${taito_provider_region}
         BUCKET_BUCKET: ${st_bucket_name}
         BUCKET_BROWSE_URL: https://console.cloud.google.com/storage/browser/${st_bucket_name}
         BUCKET_DOWNLOAD_URL: https://storage.cloud.google.com/${st_bucket_name}
-        BUCKET_FORCE_PATH_STYLE: 'true'
+        BUCKET_FORCE_PATH_STYLE: "true"
 
     worker:
       egress:
-        - ip: '${db_database_real_host}/32'
+        - ip: "${db_database_real_host}/32"
         - fullname: ${taito_project}-${taito_env}-redis
         - fullname: ${taito_project}-${taito_env}-storage
       livenessInitialDelay: 120
       db: # For old gcp environments
-         useProxy: ${gcp_db_proxy_enabled} # For old gcp environments
-         instance: ${taito_zone}:${taito_provider_region}:${db_database_instance} # For old gcp environments
-         port: ${db_database_real_port} # For old gcp environments
-         proxySecret: ${taito_provider_db_proxy_secret} # For old gcp environments
+        useProxy: ${gcp_db_proxy_enabled} # For old gcp environments
+        instance: ${taito_zone}:${taito_provider_region}:${db_database_instance} # For old gcp environments
+        port: ${db_database_real_port} # For old gcp environments
+        proxySecret: ${taito_provider_db_proxy_secret} # For old gcp environments
       secrets:
         DATABASE_SSL_CA: ${db_database_ssl_ca_secret}
         DATABASE_SSL_CERT: ${db_database_ssl_cert_secret}
@@ -153,55 +152,35 @@ full-stack:
         EXAMPLE_SECRET: ${taito_project}-${taito_env}-example.secret
       secretEnv:
         BUCKET_KEY_ID: ${taito_project}-${taito_env}-storage.accessKeyId
+      serviceAccount: # For GCP
+        secret: ${taito_project}-${taito_env}-server-serviceaccount.key # For GCP
       env:
-        API_PORT: '8080'
-        API_BINDADDR: '0.0.0.0'
+        API_PORT: "8080"
+        API_BINDADDR: "0.0.0.0"
         SENTRY_DSN: #sentryDSN
-        DATABASE_HOST: '${db_database_real_host}'
-        DATABASE_PORT: '${db_database_real_port}'
+        DATABASE_HOST: "${db_database_real_host}"
+        DATABASE_PORT: "${db_database_real_port}"
         DATABASE_SSL_ENABLED: "${db_database_ssl_enabled}"
         DATABASE_SSL_CLIENT_CERT_ENABLED: "${db_database_ssl_client_cert_enabled}"
         DATABASE_SSL_SERVER_CERT_ENABLED: "${db_database_ssl_server_cert_enabled}"
         DATABASE_NAME: ${db_database_name}
         DATABASE_USER: ${db_database_app_username}
-        DATABASE_POOL_MIN: '0'
-        DATABASE_POOL_MAX: '5'
+        DATABASE_POOL_MIN: "0"
+        DATABASE_POOL_MAX: "5"
         REDIS_HOST: ${taito_project}-${taito_env}-redis
         REDIS_PORT: 6379
-        BUCKET_URL: http://${taito_project}-${taito_env}-storage:9000/
-        BUCKET_REGION: ${taito_provider_region}
         BUCKET_BUCKET: ${st_bucket_name}
-        BUCKET_BROWSE_URL: https://console.cloud.google.com/storage/browser/${st_bucket_name}
-        BUCKET_DOWNLOAD_URL: https://storage.cloud.google.com/${st_bucket_name}
-        BUCKET_FORCE_PATH_STYLE: 'true'
+        BUCKET_REGION: ${taito_provider_region}
+        BUCKET_GCP_PROJECT_ID: ${taito_resource_namespace} # For GCP
+        BUCKET_ENDPOINT: https://storage.googleapis.com # For GCP
+        BUCKET_ENDPOINT: http://${taito_project}-${taito_env}-storage:9000/ # For Azure
+        BUCKET_FORCE_PATH_STYLE: "true"
 
     storage:
       egress:
         - ip: public
-      image: minio/minio
-      port: 9000
-      livenessPath: /minio/health/ready
-      memoryRequest: 20Mi
-      runAsUser: 2
-      runAsGroup: 2
-      command:
-        - minio
-        - gateway
-        - azure # For Azure
-        - gcs # For GCP
-        - ${taito_resource_namespace} # For GCP
-      serviceAccount: # For GCP
-        secret: ${taito_project}-${taito_env}-storage-serviceaccount.key # For GCP
-      secretEnv: # For GCP
-        MINIO_ROOT_USER: ${taito_project}-${taito_env}-storage.accessKeyId # For GCP
-        MINIO_ROOT_PASSWORD: ${taito_project}-${taito_env}-storage.secretKey # For GCP
-      secretEnv: # For Azure
-        MINIO_ROOT_USER: ${taito_project}-${taito_env}-storage.accessKeyId # For Azure
-        MINIO_ROOT_PASSWORD: ${taito_project}-${taito_env}-storage.secretKey # For Azure
-        AZURE_STORAGE_KEY: ${taito_project}-${taito_env}-storage.accessKey1 # For Azure
-      env:
-        AZURE_STORAGE_ACCOUNT: acmeazureware${taito_env} # For Azure
-        MINIO_CONFIG_DIR: /tmp
+      image: andrewgaul/s3proxy
+      # TODO: Setup s3proxy for Azure
 
     www:
       paths:

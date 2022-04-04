@@ -1,42 +1,54 @@
 import { promises as fsPromises } from 'fs';
 import { isIP } from 'net';
-import aws from 'aws-sdk';
+// prettier-ignore
+import { // aws
+  SecretsManagerClient, // aws
+  GetSecretValueCommand, // aws
+} from '@aws-sdk/client-secrets-manager'; // aws
 
 // prettier-ignore
-const secretManagerClient = new aws.SecretsManager({ // aws
+const secretManagerClient: SecretsManagerClient = new SecretsManagerClient({ // aws
   region: process.env.SECRET_REGION, // aws
 }); // aws
 
 // prettier-ignore
-export const readAwsSecret = async (secretId: string) => { // aws
-  const data = await secretManagerClient // aws
-    .getSecretValue({ SecretId: secretId }) // aws
-    .promise(); // aws
-  return data ? data.SecretString : null; // aws
+export const readAwsSecret = async (secretId: string, isBase64Encoded = false) => { // aws
+  try { // aws
+    const data = await secretManagerClient.send( // aws
+      new GetSecretValueCommand({ SecretId: secretId }) // aws
+    ); // aws
+    return data && data.SecretString // aws
+      ? isBase64Encoded // aws
+        ? Buffer.from(data.SecretString, 'base64').toString('ascii') // aws
+        : data.SecretString // aws
+      : null; // aws
+  } catch (err) {} // aws
+  return null; // aws
 }; // aws
 
-export const readFile = async (path: string) => {
-  const buf = await fsPromises.readFile(path);
-  return buf.toString();
+export const readFile = async (path?: string | null) => {
+  try {
+    return path ? (await fsPromises.readFile(path)).toString() : null;
+  } catch (err) {}
+  return null;
 };
 
 // prettier-ignore
-export const readSecret = async (secret: string, isFileSecret = false) => {
-  let value = null;
-  try {
-    if (process.env[secret]) {
-      value = process.env[secret];
-    } else if (process.env[`${secret}_SECRETID`]) { // aws
-      value = await readAwsSecret(process.env[`${secret}_SECRETID`] as string); // aws
-      if (value && isFileSecret) { // aws
-        value = Buffer.from(value, 'base64').toString('ascii'); // aws
-      } // aws
-    } else {
-      value = await readFile(`/run/secrets/${secret}`);
-    }
-  } catch (err) {
-    console.log(err);
-  }
+export const readSecret = async (
+  secret: string,
+  isFileSecret = false,
+  altFilePath?: string | null
+) => {
+  const value =
+    process.env[secret] ||
+    (process.env[`${secret}_SECRETID`] && // aws
+      (await readAwsSecret( // aws
+        process.env[`${secret}_SECRETID`] as string, // aws
+        isFileSecret // aws
+      ))) || // aws
+    (await readFile(`/run/secrets/${secret}`)) ||
+    (await readFile(altFilePath));
+
   // tslint:disable-next-line
   if (!value) console.warn(`WARNING: Failed to read secret ${secret}`);
   return value;
@@ -55,6 +67,9 @@ const config = {
   COMMON_DOMAIN: process.env.COMMON_DOMAIN,
   COMMON_IMAGE_TAG: process.env.COMMON_IMAGE_TAG,
   COMMON_ENV: process.env.COMMON_ENV, // dev / test / stag / prod
+  COMMON_PUBLIC_PORT: process.env.COMMON_PUBLIC_PORT
+    ? parseInt(process.env.COMMON_PUBLIC_PORT as string, 10)
+    : null,
   NODE_ENV: process.env.NODE_ENV, // development / production
   RUN_AS_FUNCTION: process.env.RUN_AS_FUNCTION === 'true',
 
@@ -97,9 +112,10 @@ const config = {
     ? parseInt(process.env.REDIS_PORT, 10)
     : 6379,
   // Storage
-  BUCKET_URL: process.env.BUCKET_URL || undefined,
+  BUCKET_ENDPOINT: process.env.BUCKET_ENDPOINT || undefined,
   BUCKET_REGION: process.env.BUCKET_REGION,
   BUCKET_BUCKET: process.env.BUCKET_BUCKET as string,
+  BUCKET_GCP_PROJECT_ID: process.env.BUCKET_GCP_PROJECT_ID as string,
   BUCKET_BROWSE_URL: process.env.BUCKET_BROWSE_URL as string,
   BUCKET_DOWNLOAD_URL: process.env.BUCKET_DOWNLOAD_URL as string,
   BUCKET_KEY_ID: process.env.BUCKET_KEY_ID,
@@ -119,6 +135,11 @@ export const getSecrets = async () => {
 
   // Secrets
   const s = {
+    SERVICE_ACCOUNT_KEY: await readSecret(
+      'SERVICE_ACCOUNT_KEY',
+      true,
+      '/serviceaccount/key'
+    ),
     DATABASE_PASSWORD: await readSecret('DATABASE_PASSWORD'),
     DATABASE_SSL_CA:
       useClientCert || useServerCert

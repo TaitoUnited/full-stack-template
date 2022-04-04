@@ -23,7 +23,7 @@ def connect(app: flask.Flask) -> None:
                 "signature_version": "s3v4",
             }
         ),
-        endpoint_url=app.config["BUCKET_URL"],
+        endpoint_endpoint=app.config["BUCKET_ENDPOINT"],
         region_name=app.config["BUCKET_REGION"],
     )
     app.logger.info("Storage connected.")

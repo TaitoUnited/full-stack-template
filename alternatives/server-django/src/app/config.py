@@ -64,7 +64,7 @@ class Config:
     DATABASE_MAX_RETRIES = int(_config.get("DATABASE_MAX_RETRIES", 5))
 
     # Storage
-    BUCKET_URL = _config["BUCKET_URL"]
+    BUCKET_ENDPOINT = _config["BUCKET_ENDPOINT"]
     BUCKET_REGION = _config["BUCKET_REGION"]
     BUCKET_BUCKET = _config["BUCKET_BUCKET"]
     BUCKET_KEY_ID = _config["BUCKET_KEY_ID"]

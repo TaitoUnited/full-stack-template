@@ -19,10 +19,12 @@
   "_comment3": "Required by REST API docs only: mustache, showdown",
   "_comment4": "Required by GraphQL API only: apollo-server-koa, graphql, type-graphql",
   "dependencies": {
+    "@aws-sdk/client-s3": "~3.58.0",
+    "@aws-sdk/client-secrets-manager": "~3.58.0",
+    "@aws-sdk/s3-request-presigner": "~3.58.0",
     "@hapi/boom": "~9.1.4",
     "@sentry/node": "~6.17.3",
     "apollo-server-koa": "~2.25.1",
-    "aws-sdk": "~2.1066.0",
     "axios": "0.25.0",
     "bunyan": "~1.8.15",
     "class-validator": "~0.13.2",

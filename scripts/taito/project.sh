@@ -67,8 +67,6 @@ taito_secrets="
   $db_database_app_secret:random
   $taito_project-$taito_env-example.secret:manual
   $taito_project-$taito_env-redis.password:random
-  $taito_project-$taito_env-storage.accessKeyId:random
-  $taito_project-$taito_env-storage.secretKey:random
 "
 
 # Secrets for local environment only
@@ -80,8 +78,8 @@ taito_remote_secrets="
   $taito_project-$taito_env-basic-auth.auth:htpasswd-plain
   $taito_project-$taito_env-scheduler.secret:random
   $taito_project-$taito_env-server-serviceaccount.key:file
-  $taito_project-$taito_env-storage-serviceaccount.key:file
-  $taito_project-$taito_env-storage.accessKey1:manual
+  $taito_project-$taito_env-storage.accessKeyId:manual
+  $taito_project-$taito_env-storage.secretKey:manual
   $db_database_viewer_secret:random
   ${db_database_mgr_secret}${taito_cicd_secrets_path}:random
   cicd-proxy-serviceaccount.key:read/common

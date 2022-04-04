@@ -106,11 +106,9 @@ services:
       DATABASE_POOL_MAX: '10'
       REDIS_HOST: full-stack-template-${taito_env}-redis
       REDIS_PORT: 6379
-      BUCKET_URL: http://full-stack-template-${taito_env}-storage:9000/
+      BUCKET_ENDPOINT: http://full-stack-template-${taito_env}-storage:9000/
       BUCKET_REGION: milkyway
       BUCKET_BUCKET: bucket
-      BUCKET_BROWSE_URL: http://localhost:_PORT_/bucket   # TODO
-      BUCKET_DOWNLOAD_URL: http://localhost:_PORT_/bucket # TODO
       BUCKET_KEY_ID: minio
       BUCKET_FORCE_PATH_STYLE: 'true'
 
