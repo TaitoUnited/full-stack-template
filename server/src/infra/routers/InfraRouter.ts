@@ -1,5 +1,6 @@
 import { Context } from 'koa';
 import { Service } from 'typedi';
+import { HeadBucketCommand } from '@aws-sdk/client-s3';
 import BaseRouter from '../../common/setup/BaseRouter';
 
 import config from '../../common/setup/config';
@@ -63,9 +64,8 @@ class InfraRouter extends BaseRouter {
         await ctx.state.tx.any('SELECT 1');
         // Check storage buckets
         const storagesById = await getStoragesById();
-        await storagesById.bucket.s3
-          .headBucket({ Bucket: storagesById.bucket.bucket })
-          .promise(); // storage
+        const { bucketName, s3 } = storagesById.bucket;
+        await s3.send(new HeadBucketCommand({ Bucket: bucketName }));
 
         ctx.response.body = {
           status: 'OK',
