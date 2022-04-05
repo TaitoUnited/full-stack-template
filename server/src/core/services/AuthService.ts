@@ -8,6 +8,9 @@ import {
   setPermissionsChecked,
 } from '../../common/utils/auth';
 
+/**
+ * Common service for authorization
+ */
 @Service()
 export class AuthService {
   /**

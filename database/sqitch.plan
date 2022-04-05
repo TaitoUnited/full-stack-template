@@ -3,4 +3,8 @@
 %uri=https://github.com/TaitoUnited/full-stack-template/
 
 updated_at_trigger 2019-04-09T15:16:52Z taito <taito@a8158c667797> # Function for updated_at update trigger.
+lifecycle_status_enum 2019-04-09T15:17:35Z taito <taito@e84f94821d69>
+attachment_type_enum 2019-04-09T15:17:35Z taito <taito@e84f94821d69>
+
 post 2019-04-09T15:17:35Z taito <taito@e84f94821d69> # post table
+attachment 2019-04-09T15:17:35Z taito <taito@e84f94821d69> # attachment table
