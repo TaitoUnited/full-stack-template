@@ -1,3 +1,4 @@
+import { promises as fs } from 'fs';
 import axios from 'axios';
 import { GraphQLClient } from 'graphql-request';
 import { getSdk } from './sdk';
@@ -26,3 +27,33 @@ export async function setUser(
 ) {
   // TODO
 }
+
+export const upload = async (
+  url: string,
+  headers: { key: string; value: string }[],
+  filePath: string
+) => {
+  // When running tests locally on Docker Compose, we need to
+  // replace the localhost on upload url.
+  if (process.env.TEST_ENV_REMOTE === 'false') {
+    url = url.replace(
+      'http://localhost:9999/',
+      'http://full-stack-template-ingress:80/'
+    );
+    headers.push({
+      key: 'Host',
+      value: 'localhost:9999',
+    });
+  }
+
+  const data = await fs.readFile(filePath);
+  return await request({
+    url,
+    method: 'put',
+    data,
+    headers: headers.reduce((headers, header) => {
+      headers[header.key] = header.value;
+      return headers;
+    }, {} as Record<string, string>),
+  });
+};
