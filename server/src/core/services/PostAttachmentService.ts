@@ -6,6 +6,7 @@ import {
   ReadPostAttachmentInput,
   CreatePostAttachmentInput,
   FinalizePostAttachmentInput,
+  UpdatePostAttachmentInput,
   DeletePostAttachmentInput,
 } from '../types/postAttachment';
 import { AttachmentType, AttachmentFilter } from '../types/attachment';
@@ -96,6 +97,21 @@ export class PostAttachmentService {
 
     await this.attachmentService.finalize(state, attachment);
     return await this.read(state, attachment);
+  }
+
+  public async update(
+    state: Context['state'],
+    attachment: UpdatePostAttachmentInput
+  ) {
+    // Check permissions
+    await this.authService.checkPermission(
+      state,
+      EntityType.POST,
+      Operation.EDIT,
+      attachment.postId
+    );
+
+    return this.attachmentService.update(state, attachment);
   }
 
   public async delete(

@@ -1,14 +1,19 @@
 import { Field, InputType } from 'type-graphql';
-import { AttachmentType, CreateAttachmentInputBase } from './attachment';
+import {
+  AttachmentType,
+  CreateAttachmentInput,
+  UpdateAttachmentInput,
+} from './attachment';
 
+@InputType()
 export class ReadPostAttachmentInput {
-  id: string;
-  postId: string;
+  @Field() id: string;
+  @Field() postId: string;
   attachmentType: AttachmentType = AttachmentType.ATTACHMENT;
 }
 
 @InputType()
-export class CreatePostAttachmentInput extends CreateAttachmentInputBase {
+export class CreatePostAttachmentInput extends CreateAttachmentInput {
   @Field() postId: string;
   attachmentType: AttachmentType = AttachmentType.ATTACHMENT;
 }
@@ -16,6 +21,12 @@ export class CreatePostAttachmentInput extends CreateAttachmentInputBase {
 @InputType()
 export class FinalizePostAttachmentInput {
   @Field() id: string;
+  @Field() postId: string;
+  attachmentType: AttachmentType = AttachmentType.ATTACHMENT;
+}
+
+@InputType()
+export class UpdatePostAttachmentInput extends UpdateAttachmentInput {
   @Field() postId: string;
   attachmentType: AttachmentType = AttachmentType.ATTACHMENT;
 }

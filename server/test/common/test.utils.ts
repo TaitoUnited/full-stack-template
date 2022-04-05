@@ -28,10 +28,9 @@ export async function setUser(
   // TODO
 }
 
-export const upload = async (
+const axiosStorageParams = (
   url: string,
-  headers: { key: string; value: string }[],
-  filePath: string
+  headers: { key: string; value: string }[]
 ) => {
   // When running tests locally on Docker Compose, we need to
   // replace the localhost on upload url.
@@ -40,20 +39,37 @@ export const upload = async (
       'http://localhost:9999/',
       'http://full-stack-template-ingress:80/'
     );
-    headers.push({
+    headers = headers.concat({
       key: 'Host',
       value: 'localhost:9999',
     });
   }
 
-  const data = await fs.readFile(filePath);
-  return await request({
+  return {
     url,
-    method: 'put',
-    data,
     headers: headers.reduce((headers, header) => {
       headers[header.key] = header.value;
       return headers;
     }, {} as Record<string, string>),
+  };
+};
+
+export const downloadFromStorage = async (url: string) => {
+  return await request({
+    method: 'get',
+    ...axiosStorageParams(url, []),
+  });
+};
+
+export const uploadToStorage = async (
+  url: string,
+  headers: { key: string; value: string }[],
+  filePath: string
+) => {
+  const data = await fs.readFile(filePath);
+  return await request({
+    method: 'put',
+    data,
+    ...axiosStorageParams(url, headers),
   });
 };

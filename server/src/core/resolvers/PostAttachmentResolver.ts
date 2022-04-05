@@ -15,8 +15,10 @@ import { Order, OrderDirection } from '../../common/types/search';
 
 import { AttachmentType } from '../types/attachment';
 import {
+  ReadPostAttachmentInput,
   CreatePostAttachmentInput,
   FinalizePostAttachmentInput,
+  UpdatePostAttachmentInput,
   DeletePostAttachmentInput,
 } from '../types/postAttachment';
 
@@ -49,6 +51,18 @@ class PostAttachmentResolver {
   }
 
   @Authorized()
+  @Query(() => Attachment, {
+    description: 'Reads a post attachment.',
+    nullable: true,
+  })
+  async postAttachment(
+    @Ctx() ctx: Context,
+    @Arg('input') input: ReadPostAttachmentInput
+  ) {
+    return await this.postAttachmentService.read(ctx.state, input);
+  }
+
+  @Authorized()
   @Mutation(() => AttachmentUploadRequestDetails, {
     description: `
       Creates a new attachment for post.
@@ -72,6 +86,17 @@ class PostAttachmentResolver {
     @Arg('input') input: FinalizePostAttachmentInput
   ) {
     return await this.postAttachmentService.finalize(ctx.state, input);
+  }
+
+  @Authorized()
+  @Mutation(() => Attachment, {
+    description: 'Updates post attachment.',
+  })
+  async updatePostAttachment(
+    @Ctx() ctx: Context,
+    @Arg('input') input: UpdatePostAttachmentInput
+  ) {
+    return await this.postAttachmentService.update(ctx.state, input);
   }
 
   @Authorized()

@@ -83,8 +83,12 @@ export class CreateAttachmentInputInternal extends CreateAttachmentInput {
 // --- Update ---
 
 @InputType()
-export class UpdateAttachmentInput {
+export class UpdateAttachmentInputBase {
   @Field() id: string;
+}
+
+@InputType()
+export class UpdateAttachmentInput extends UpdateAttachmentInputBase {
   @Field(() => String, { nullable: true }) title?: string | null;
   @Field(() => String, { nullable: true }) description?: string | null;
 }
