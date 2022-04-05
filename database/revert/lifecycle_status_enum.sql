@@ -1,4 +1,4 @@
--- Revert bronto-cloud:lifecycle_status_enum from pg
+-- Revert full-stack-template:lifecycle_status_enum from pg
 
 BEGIN;
 

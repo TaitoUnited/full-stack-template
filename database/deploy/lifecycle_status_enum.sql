@@ -1,4 +1,4 @@
--- Deploy bronto-cloud:lifecycle_status_enum to pg
+-- Deploy full-stack-template:lifecycle_status_enum to pg
 
 BEGIN;
 

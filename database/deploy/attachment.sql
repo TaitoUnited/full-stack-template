@@ -1,4 +1,4 @@
--- Deploy bronto-cloud:attachment to pg
+-- Deploy full-stack-template:attachment to pg
 
 BEGIN;
 

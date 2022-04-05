@@ -1,4 +1,4 @@
--- Deploy bronto-cloud:attachment_type_enum to pg
+-- Deploy full-stack-template:attachment_type_enum to pg
 
 BEGIN;
 

@@ -27,7 +27,7 @@ class PostResolver {
   constructor(private readonly postService = Container.get(PostService)) {}
 
   // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/bronto-cloud/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
+  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Query(() => PaginatedPosts, { description: 'Searches posts.' })
   async posts(
@@ -59,7 +59,7 @@ class PostResolver {
   }
 
   // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/bronto-cloud/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
+  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Query(() => Post, {
     description: 'Reads a post.',
@@ -70,7 +70,7 @@ class PostResolver {
   }
 
   // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/bronto-cloud/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
+  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Mutation(() => Post, { description: 'Creates a new post.' })
   async createPost(@Ctx() ctx: Context, @Arg('input') input: CreatePostInput) {
@@ -78,7 +78,7 @@ class PostResolver {
   }
 
   // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/bronto-cloud/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
+  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Mutation(() => Post, { description: 'Updates a post.' })
   async updatePost(@Ctx() ctx: Context, @Arg('input') input: UpdatePostInput) {
@@ -86,7 +86,7 @@ class PostResolver {
   }
 
   // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/bronto-cloud/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
+  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Mutation(() => EntityId, { description: 'Deletes a post.' })
   async deletePost(@Ctx() ctx: Context, @Arg('input') input: DeletePostInput) {

@@ -1,4 +1,4 @@
--- Verify bronto-cloud:lifecycle_status_enum on pg
+-- Verify full-stack-template:lifecycle_status_enum on pg
 
 BEGIN;
 

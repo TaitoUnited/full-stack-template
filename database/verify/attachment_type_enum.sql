@@ -1,4 +1,4 @@
--- Verify bronto-cloud:attachment_type_enum on pg
+-- Verify full-stack-template:attachment_type_enum on pg
 
 BEGIN;
 

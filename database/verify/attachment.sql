@@ -1,4 +1,4 @@
--- Verify bronto-cloud:attachment on pg
+-- Verify full-stack-template:attachment on pg
 
 BEGIN;
 

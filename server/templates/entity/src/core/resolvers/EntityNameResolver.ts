@@ -29,7 +29,7 @@ class EntityNameResolver {
   ) {}
 
   // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/bronto-cloud/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
+  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Query(() => PaginatedEntityNames, { description: 'Searches entityNames.' })
   async entityNames(
@@ -61,7 +61,7 @@ class EntityNameResolver {
   }
 
   // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/bronto-cloud/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
+  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Query(() => EntityName, {
     description: 'Reads a entityName.',
@@ -72,7 +72,7 @@ class EntityNameResolver {
   }
 
   // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/bronto-cloud/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
+  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Mutation(() => EntityName, { description: 'Creates a new entityName.' })
   async createEntityName(
@@ -83,7 +83,7 @@ class EntityNameResolver {
   }
 
   // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/bronto-cloud/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
+  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Mutation(() => EntityName, { description: 'Updates a entityName.' })
   async updateEntityName(
@@ -94,7 +94,7 @@ class EntityNameResolver {
   }
 
   // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/bronto-cloud/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
+  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Mutation(() => EntityId, { description: 'Deletes a entityName.' })
   async deleteEntityName(

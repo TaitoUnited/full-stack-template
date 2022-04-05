@@ -1,4 +1,4 @@
--- Revert bronto-cloud:attachment from pg
+-- Revert full-stack-template:attachment from pg
 
 BEGIN;
 
