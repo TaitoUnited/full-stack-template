@@ -1,5 +1,5 @@
-mutation deletePostAttachment($input: DeletePostAttachmentInput!) {
-    deletePostAttachment(input: $input){
+query postAttachment($input: ReadPostAttachmentInput!) {
+    postAttachment(input: $input){
         contentType
         createdAt
         description

@@ -3,6 +3,7 @@ mutation finalizePostAttachment($input: FinalizePostAttachmentInput!) {
         contentType
         createdAt
         description
+        fileUrl
         filename
         id
         title

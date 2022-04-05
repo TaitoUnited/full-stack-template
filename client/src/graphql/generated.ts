@@ -22,6 +22,7 @@ export type Attachment = {
   contentType: Scalars['String'];
   createdAt: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
+  fileUrl?: Maybe<Scalars['String']>;
   filename?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   title?: Maybe<Scalars['String']>;
@@ -60,8 +61,10 @@ export type CreateAttachmentInputBase = {
 
 export type CreatePostAttachmentInput = {
   contentType: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
   filename?: Maybe<Scalars['String']>;
   postId: Scalars['String'];
+  title?: Maybe<Scalars['String']>;
 };
 
 export type CreatePostInput = {
@@ -145,6 +148,8 @@ export type Mutation = {
   finalizePostAttachment: Attachment;
   /** Updates a post. */
   updatePost: Post;
+  /** Updates post attachment. */
+  updatePostAttachment: Attachment;
 };
 
 
@@ -175,6 +180,11 @@ export type MutationFinalizePostAttachmentArgs = {
 
 export type MutationUpdatePostArgs = {
   input: UpdatePostInput;
+};
+
+
+export type MutationUpdatePostAttachmentArgs = {
+  input: UpdatePostAttachmentInput;
 };
 
 export type Order = {
@@ -234,6 +244,8 @@ export type Query = {
   allowedPostAttachmentMimeTypes: Array<Scalars['String']>;
   /** Reads a post. */
   post?: Maybe<Post>;
+  /** Reads a post attachment. */
+  postAttachment?: Maybe<Attachment>;
   /** Searches posts. */
   posts: PaginatedPosts;
 };
@@ -244,11 +256,21 @@ export type QueryPostArgs = {
 };
 
 
+export type QueryPostAttachmentArgs = {
+  input: ReadPostAttachmentInput;
+};
+
+
 export type QueryPostsArgs = {
   filterGroups?: Maybe<Array<FilterGroup>>;
   order?: Maybe<Order>;
   pagination?: Maybe<Pagination>;
   search?: Maybe<Scalars['String']>;
+};
+
+export type ReadPostAttachmentInput = {
+  id: Scalars['String'];
+  postId: Scalars['String'];
 };
 
 export type RequestDetails = {
@@ -260,6 +282,17 @@ export type RequestDetails = {
 export type UpdateAttachmentInput = {
   description?: Maybe<Scalars['String']>;
   id: Scalars['String'];
+  title?: Maybe<Scalars['String']>;
+};
+
+export type UpdateAttachmentInputBase = {
+  id: Scalars['String'];
+};
+
+export type UpdatePostAttachmentInput = {
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  postId: Scalars['String'];
   title?: Maybe<Scalars['String']>;
 };
 

@@ -7,6 +7,7 @@ type Attachment {
   contentType: String!
   createdAt: DateTime!
   description: String
+  fileUrl: String
   filename: String
   id: ID!
   title: String
@@ -44,8 +45,10 @@ input CreateAttachmentInputBase {
 
 input CreatePostAttachmentInput {
   contentType: String!
+  description: String
   filename: String
   postId: String!
+  title: String
 }
 
 input CreatePostInput {
@@ -141,6 +144,9 @@ type Mutation {
 
   """Updates a post."""
   updatePost(input: UpdatePostInput!): Post!
+
+  """Updates post attachment."""
+  updatePostAttachment(input: UpdatePostAttachmentInput!): Attachment!
 }
 
 input Order {
@@ -194,8 +200,16 @@ type Query {
   """Reads a post."""
   post(id: String!): Post
 
+  """Reads a post attachment."""
+  postAttachment(input: ReadPostAttachmentInput!): Attachment
+
   """Searches posts."""
   posts(filterGroups: [FilterGroup!] = [], order: Order = {dir: DESC, field: "createdAt", invertNullOrder: false}, pagination: Pagination = {limit: 20, offset: 0}, search: String = null): PaginatedPosts!
+}
+
+input ReadPostAttachmentInput {
+  id: String!
+  postId: String!
 }
 
 type RequestDetails {
@@ -206,6 +220,17 @@ type RequestDetails {
 input UpdateAttachmentInput {
   description: String
   id: String!
+  title: String
+}
+
+input UpdateAttachmentInputBase {
+  id: String!
+}
+
+input UpdatePostAttachmentInput {
+  description: String
+  id: String!
+  postId: String!
   title: String
 }
 

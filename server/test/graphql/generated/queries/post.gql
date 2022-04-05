@@ -5,6 +5,7 @@ query post($id: String!, $attachmentOrder: Order) {
                 contentType
                 createdAt
                 description
+                fileUrl
                 filename
                 id
                 title

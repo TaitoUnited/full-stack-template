@@ -22,6 +22,7 @@ export type Attachment = {
   contentType: Scalars['String'];
   createdAt: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
+  fileUrl?: Maybe<Scalars['String']>;
   filename?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
   title?: Maybe<Scalars['String']>;
@@ -60,8 +61,10 @@ export type CreateAttachmentInputBase = {
 
 export type CreatePostAttachmentInput = {
   contentType: Scalars['String'];
+  description?: InputMaybe<Scalars['String']>;
   filename?: InputMaybe<Scalars['String']>;
   postId: Scalars['String'];
+  title?: InputMaybe<Scalars['String']>;
 };
 
 export type CreatePostInput = {
@@ -145,6 +148,8 @@ export type Mutation = {
   finalizePostAttachment: Attachment;
   /** Updates a post. */
   updatePost: Post;
+  /** Updates post attachment. */
+  updatePostAttachment: Attachment;
 };
 
 
@@ -175,6 +180,11 @@ export type MutationFinalizePostAttachmentArgs = {
 
 export type MutationUpdatePostArgs = {
   input: UpdatePostInput;
+};
+
+
+export type MutationUpdatePostAttachmentArgs = {
+  input: UpdatePostAttachmentInput;
 };
 
 export type Order = {
@@ -234,6 +244,8 @@ export type Query = {
   allowedPostAttachmentMimeTypes: Array<Scalars['String']>;
   /** Reads a post. */
   post?: Maybe<Post>;
+  /** Reads a post attachment. */
+  postAttachment?: Maybe<Attachment>;
   /** Searches posts. */
   posts: PaginatedPosts;
 };
@@ -244,11 +256,21 @@ export type QueryPostArgs = {
 };
 
 
+export type QueryPostAttachmentArgs = {
+  input: ReadPostAttachmentInput;
+};
+
+
 export type QueryPostsArgs = {
   filterGroups?: InputMaybe<Array<FilterGroup>>;
   order?: InputMaybe<Order>;
   pagination?: InputMaybe<Pagination>;
   search?: InputMaybe<Scalars['String']>;
+};
+
+export type ReadPostAttachmentInput = {
+  id: Scalars['String'];
+  postId: Scalars['String'];
 };
 
 export type RequestDetails = {
@@ -260,6 +282,17 @@ export type RequestDetails = {
 export type UpdateAttachmentInput = {
   description?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
+  title?: InputMaybe<Scalars['String']>;
+};
+
+export type UpdateAttachmentInputBase = {
+  id: Scalars['String'];
+};
+
+export type UpdatePostAttachmentInput = {
+  description?: InputMaybe<Scalars['String']>;
+  id: Scalars['String'];
+  postId: Scalars['String'];
   title?: InputMaybe<Scalars['String']>;
 };
 
@@ -282,7 +315,7 @@ export type CreatePostMutationVariables = Exact<{
 }>;
 
 
-export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', author: string, content: string, createdAt: any, id: string, subject: string, updatedAt: any, attachments: { __typename?: 'PaginatedAttachments', total: number, data: Array<{ __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any }> } } };
+export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', author: string, content: string, createdAt: any, id: string, subject: string, updatedAt: any, attachments: { __typename?: 'PaginatedAttachments', total: number, data: Array<{ __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, fileUrl?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any }> } } };
 
 export type CreatePostAttachmentMutationVariables = Exact<{
   input: CreatePostAttachmentInput;
@@ -303,14 +336,14 @@ export type DeletePostAttachmentMutationVariables = Exact<{
 }>;
 
 
-export type DeletePostAttachmentMutation = { __typename?: 'Mutation', deletePostAttachment: { __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any } };
+export type DeletePostAttachmentMutation = { __typename?: 'Mutation', deletePostAttachment: { __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, fileUrl?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any } };
 
 export type FinalizePostAttachmentMutationVariables = Exact<{
   input: FinalizePostAttachmentInput;
 }>;
 
 
-export type FinalizePostAttachmentMutation = { __typename?: 'Mutation', finalizePostAttachment: { __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any } };
+export type FinalizePostAttachmentMutation = { __typename?: 'Mutation', finalizePostAttachment: { __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, fileUrl?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any } };
 
 export type UpdatePostMutationVariables = Exact<{
   input: UpdatePostInput;
@@ -318,7 +351,14 @@ export type UpdatePostMutationVariables = Exact<{
 }>;
 
 
-export type UpdatePostMutation = { __typename?: 'Mutation', updatePost: { __typename?: 'Post', author: string, content: string, createdAt: any, id: string, subject: string, updatedAt: any, attachments: { __typename?: 'PaginatedAttachments', total: number, data: Array<{ __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any }> } } };
+export type UpdatePostMutation = { __typename?: 'Mutation', updatePost: { __typename?: 'Post', author: string, content: string, createdAt: any, id: string, subject: string, updatedAt: any, attachments: { __typename?: 'PaginatedAttachments', total: number, data: Array<{ __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, fileUrl?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any }> } } };
+
+export type UpdatePostAttachmentMutationVariables = Exact<{
+  input: UpdatePostAttachmentInput;
+}>;
+
+
+export type UpdatePostAttachmentMutation = { __typename?: 'Mutation', updatePostAttachment: { __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, fileUrl?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any } };
 
 export type AllowedPostAttachmentMimeTypesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -331,7 +371,14 @@ export type PostQueryVariables = Exact<{
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', author: string, content: string, createdAt: any, id: string, subject: string, updatedAt: any, attachments: { __typename?: 'PaginatedAttachments', total: number, data: Array<{ __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any }> } } | null | undefined };
+export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', author: string, content: string, createdAt: any, id: string, subject: string, updatedAt: any, attachments: { __typename?: 'PaginatedAttachments', total: number, data: Array<{ __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, fileUrl?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any }> } } | null | undefined };
+
+export type PostAttachmentQueryVariables = Exact<{
+  input: ReadPostAttachmentInput;
+}>;
+
+
+export type PostAttachmentQuery = { __typename?: 'Query', postAttachment?: { __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, fileUrl?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any } | null | undefined };
 
 export type PostsQueryVariables = Exact<{
   filterGroups?: InputMaybe<Array<FilterGroup> | FilterGroup>;
@@ -342,7 +389,7 @@ export type PostsQueryVariables = Exact<{
 }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', total: number, data: Array<{ __typename?: 'Post', author: string, content: string, createdAt: any, id: string, subject: string, updatedAt: any, attachments: { __typename?: 'PaginatedAttachments', total: number, data: Array<{ __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any }> } }> } };
+export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', total: number, data: Array<{ __typename?: 'Post', author: string, content: string, createdAt: any, id: string, subject: string, updatedAt: any, attachments: { __typename?: 'PaginatedAttachments', total: number, data: Array<{ __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, fileUrl?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any }> } }> } };
 
 
 export const CreatePostDocument = gql`
@@ -353,6 +400,7 @@ export const CreatePostDocument = gql`
         contentType
         createdAt
         description
+        fileUrl
         filename
         id
         title
@@ -394,6 +442,7 @@ export const DeletePostAttachmentDocument = gql`
     contentType
     createdAt
     description
+    fileUrl
     filename
     id
     title
@@ -407,6 +456,7 @@ export const FinalizePostAttachmentDocument = gql`
     contentType
     createdAt
     description
+    fileUrl
     filename
     id
     title
@@ -422,6 +472,7 @@ export const UpdatePostDocument = gql`
         contentType
         createdAt
         description
+        fileUrl
         filename
         id
         title
@@ -434,6 +485,20 @@ export const UpdatePostDocument = gql`
     createdAt
     id
     subject
+    updatedAt
+  }
+}
+    `;
+export const UpdatePostAttachmentDocument = gql`
+    mutation updatePostAttachment($input: UpdatePostAttachmentInput!) {
+  updatePostAttachment(input: $input) {
+    contentType
+    createdAt
+    description
+    fileUrl
+    filename
+    id
+    title
     updatedAt
   }
 }
@@ -451,6 +516,7 @@ export const PostDocument = gql`
         contentType
         createdAt
         description
+        fileUrl
         filename
         id
         title
@@ -463,6 +529,20 @@ export const PostDocument = gql`
     createdAt
     id
     subject
+    updatedAt
+  }
+}
+    `;
+export const PostAttachmentDocument = gql`
+    query postAttachment($input: ReadPostAttachmentInput!) {
+  postAttachment(input: $input) {
+    contentType
+    createdAt
+    description
+    fileUrl
+    filename
+    id
+    title
     updatedAt
   }
 }
@@ -481,6 +561,7 @@ export const PostsDocument = gql`
           contentType
           createdAt
           description
+          fileUrl
           filename
           id
           title
@@ -525,11 +606,17 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     updatePost(variables: UpdatePostMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdatePostMutation> {
       return withWrapper((wrappedRequestHeaders) => client.request<UpdatePostMutation>(UpdatePostDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updatePost');
     },
+    updatePostAttachment(variables: UpdatePostAttachmentMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<UpdatePostAttachmentMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<UpdatePostAttachmentMutation>(UpdatePostAttachmentDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'updatePostAttachment');
+    },
     allowedPostAttachmentMimeTypes(variables?: AllowedPostAttachmentMimeTypesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<AllowedPostAttachmentMimeTypesQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<AllowedPostAttachmentMimeTypesQuery>(AllowedPostAttachmentMimeTypesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'allowedPostAttachmentMimeTypes');
     },
     post(variables: PostQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PostQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<PostQuery>(PostDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'post');
+    },
+    postAttachment(variables: PostAttachmentQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PostAttachmentQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<PostAttachmentQuery>(PostAttachmentDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'postAttachment');
     },
     posts(variables?: PostsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PostsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<PostsQuery>(PostsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'posts');

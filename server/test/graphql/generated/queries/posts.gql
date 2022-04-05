@@ -6,6 +6,7 @@ query posts($filterGroups: [FilterGroup!], $order: Order, $pagination: Paginatio
                     contentType
                     createdAt
                     description
+                    fileUrl
                     filename
                     id
                     title
