@@ -1,5 +1,17 @@
-mutation createPost($input: CreatePostInput!) {
+mutation createPost($input: CreatePostInput!, $attachmentOrder: Order) {
     createPost(input: $input){
+        attachments(attachmentOrder: $attachmentOrder){
+            data{
+                contentType
+                createdAt
+                description
+                filename
+                id
+                title
+                updatedAt
+            }
+            total
+        }
         author
         content
         createdAt

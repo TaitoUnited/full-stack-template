@@ -1,0 +1,10 @@
+mutation createPostAttachment($input: CreatePostAttachmentInput!) {
+    createPostAttachment(input: $input){
+        headers{
+            key
+            value
+        }
+        id
+        url
+    }
+}

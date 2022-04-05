@@ -1,5 +1,17 @@
-query post($id: String!) {
+query post($id: String!, $attachmentOrder: Order) {
     post(id: $id){
+        attachments(attachmentOrder: $attachmentOrder){
+            data{
+                contentType
+                createdAt
+                description
+                filename
+                id
+                title
+                updatedAt
+            }
+            total
+        }
         author
         content
         createdAt

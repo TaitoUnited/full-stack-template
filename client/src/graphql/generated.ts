@@ -17,10 +17,66 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type Attachment = {
+  __typename?: 'Attachment';
+  contentType: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  description?: Maybe<Scalars['String']>;
+  filename?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  title?: Maybe<Scalars['String']>;
+  updatedAt: Scalars['DateTime'];
+};
+
+export type AttachmentFilter = {
+  attachmentType: Scalars['String'];
+  contentType: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  description: Scalars['String'];
+  filename: Scalars['String'];
+  postId: Scalars['String'];
+  title: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type AttachmentUploadRequestDetails = {
+  __typename?: 'AttachmentUploadRequestDetails';
+  headers: Array<KeyValue>;
+  id: Scalars['String'];
+  url: Scalars['String'];
+};
+
+export type CreateAttachmentInput = {
+  contentType: Scalars['String'];
+  description?: Maybe<Scalars['String']>;
+  filename?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+};
+
+export type CreateAttachmentInputBase = {
+  contentType: Scalars['String'];
+  filename?: Maybe<Scalars['String']>;
+};
+
+export type CreatePostAttachmentInput = {
+  contentType: Scalars['String'];
+  filename?: Maybe<Scalars['String']>;
+  postId: Scalars['String'];
+};
+
 export type CreatePostInput = {
   author: Scalars['String'];
   content: Scalars['String'];
   subject: Scalars['String'];
+};
+
+export type DeleteAttachmentInput = {
+  id: Scalars['String'];
+};
+
+export type DeletePostAttachmentInput = {
+  id: Scalars['String'];
+  postId: Scalars['String'];
 };
 
 export type DeletePostInput = {
@@ -61,12 +117,32 @@ export enum FilterOperator {
   Neq = 'NEQ'
 }
 
+export type FinalizePostAttachmentInput = {
+  id: Scalars['String'];
+  postId: Scalars['String'];
+};
+
+export type KeyValue = {
+  __typename?: 'KeyValue';
+  key: Scalars['String'];
+  value: Scalars['String'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   /** Creates a new post. */
   createPost: Post;
+  /**
+   * Creates a new attachment for post.
+   * Returns URL and HTTP headers that should be used to upload the file using HTTP PUT.
+   */
+  createPostAttachment: AttachmentUploadRequestDetails;
   /** Deletes a post. */
   deletePost: EntityId;
+  /** Deletes post attachment. Returns attachment that was deleted. */
+  deletePostAttachment: Attachment;
+  /** Finalizes uploaded post attachment. Call this after successful HTTP PUT upload. */
+  finalizePostAttachment: Attachment;
   /** Updates a post. */
   updatePost: Post;
 };
@@ -77,8 +153,23 @@ export type MutationCreatePostArgs = {
 };
 
 
+export type MutationCreatePostAttachmentArgs = {
+  input: CreatePostAttachmentInput;
+};
+
+
 export type MutationDeletePostArgs = {
   input: DeletePostInput;
+};
+
+
+export type MutationDeletePostAttachmentArgs = {
+  input: DeletePostAttachmentInput;
+};
+
+
+export type MutationFinalizePostAttachmentArgs = {
+  input: FinalizePostAttachmentInput;
 };
 
 
@@ -99,6 +190,12 @@ export enum OrderDirection {
   Desc = 'DESC'
 }
 
+export type PaginatedAttachments = {
+  __typename?: 'PaginatedAttachments';
+  data: Array<Attachment>;
+  total: Scalars['Float'];
+};
+
 export type PaginatedPosts = {
   __typename?: 'PaginatedPosts';
   data: Array<Post>;
@@ -112,12 +209,18 @@ export type Pagination = {
 
 export type Post = {
   __typename?: 'Post';
+  attachments: PaginatedAttachments;
   author: Scalars['String'];
   content: Scalars['String'];
   createdAt: Scalars['DateTime'];
   id: Scalars['ID'];
   subject: Scalars['String'];
   updatedAt: Scalars['DateTime'];
+};
+
+
+export type PostAttachmentsArgs = {
+  attachmentOrder?: Maybe<Order>;
 };
 
 export type PostFilter = {
@@ -127,6 +230,8 @@ export type PostFilter = {
 
 export type Query = {
   __typename?: 'Query';
+  /** Returns all MIME types allowed for post attachments. */
+  allowedPostAttachmentMimeTypes: Array<Scalars['String']>;
   /** Reads a post. */
   post?: Maybe<Post>;
   /** Searches posts. */
@@ -144,6 +249,18 @@ export type QueryPostsArgs = {
   order?: Maybe<Order>;
   pagination?: Maybe<Pagination>;
   search?: Maybe<Scalars['String']>;
+};
+
+export type RequestDetails = {
+  __typename?: 'RequestDetails';
+  headers: Array<KeyValue>;
+  url: Scalars['String'];
+};
+
+export type UpdateAttachmentInput = {
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  title?: Maybe<Scalars['String']>;
 };
 
 export type UpdatePostInput = {

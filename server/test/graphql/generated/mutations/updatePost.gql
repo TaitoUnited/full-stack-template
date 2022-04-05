@@ -1,5 +1,17 @@
-mutation updatePost($input: UpdatePostInput!) {
+mutation updatePost($input: UpdatePostInput!, $attachmentOrder: Order) {
     updatePost(input: $input){
+        attachments(attachmentOrder: $attachmentOrder){
+            data{
+                contentType
+                createdAt
+                description
+                filename
+                id
+                title
+                updatedAt
+            }
+            total
+        }
         author
         content
         createdAt

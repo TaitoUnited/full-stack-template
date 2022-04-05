@@ -3,6 +3,51 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Attachment {
+  contentType: String!
+  createdAt: DateTime!
+  description: String
+  filename: String
+  id: ID!
+  title: String
+  updatedAt: DateTime!
+}
+
+input AttachmentFilter {
+  attachmentType: String!
+  contentType: String!
+  createdAt: DateTime!
+  description: String!
+  filename: String!
+  postId: String!
+  title: String!
+  updatedAt: DateTime!
+}
+
+type AttachmentUploadRequestDetails {
+  headers: [KeyValue!]!
+  id: String!
+  url: String!
+}
+
+input CreateAttachmentInput {
+  contentType: String!
+  description: String
+  filename: String
+  title: String
+}
+
+input CreateAttachmentInputBase {
+  contentType: String!
+  filename: String
+}
+
+input CreatePostAttachmentInput {
+  contentType: String!
+  filename: String
+  postId: String!
+}
+
 input CreatePostInput {
   author: String!
   content: String!
@@ -13,6 +58,15 @@ input CreatePostInput {
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
 scalar DateTime
+
+input DeleteAttachmentInput {
+  id: String!
+}
+
+input DeletePostAttachmentInput {
+  id: String!
+  postId: String!
+}
 
 input DeletePostInput {
   id: String!
@@ -52,12 +106,38 @@ enum FilterOperator {
   NEQ
 }
 
+input FinalizePostAttachmentInput {
+  id: String!
+  postId: String!
+}
+
+type KeyValue {
+  key: String!
+  value: String!
+}
+
 type Mutation {
   """Creates a new post."""
   createPost(input: CreatePostInput!): Post!
 
+  """
+  
+        Creates a new attachment for post.
+        Returns URL and HTTP headers that should be used to upload the file using HTTP PUT.
+      
+  """
+  createPostAttachment(input: CreatePostAttachmentInput!): AttachmentUploadRequestDetails!
+
   """Deletes a post."""
   deletePost(input: DeletePostInput!): EntityId!
+
+  """Deletes post attachment. Returns attachment that was deleted."""
+  deletePostAttachment(input: DeletePostAttachmentInput!): Attachment!
+
+  """
+  Finalizes uploaded post attachment. Call this after successful HTTP PUT upload.
+  """
+  finalizePostAttachment(input: FinalizePostAttachmentInput!): Attachment!
 
   """Updates a post."""
   updatePost(input: UpdatePostInput!): Post!
@@ -77,6 +157,11 @@ enum OrderDirection {
   DESC
 }
 
+type PaginatedAttachments {
+  data: [Attachment!]!
+  total: Float!
+}
+
 type PaginatedPosts {
   data: [Post!]!
   total: Float!
@@ -88,6 +173,7 @@ input Pagination {
 }
 
 type Post {
+  attachments(attachmentOrder: Order = {dir: ASC, field: "createdAt", invertNullOrder: false}): PaginatedAttachments!
   author: String!
   content: String!
   createdAt: DateTime!
@@ -102,11 +188,25 @@ input PostFilter {
 }
 
 type Query {
+  """Returns all MIME types allowed for post attachments."""
+  allowedPostAttachmentMimeTypes: [String!]!
+
   """Reads a post."""
   post(id: String!): Post
 
   """Searches posts."""
   posts(filterGroups: [FilterGroup!] = [], order: Order = {dir: DESC, field: "createdAt", invertNullOrder: false}, pagination: Pagination = {limit: 20, offset: 0}, search: String = null): PaginatedPosts!
+}
+
+type RequestDetails {
+  headers: [KeyValue!]!
+  url: String!
+}
+
+input UpdateAttachmentInput {
+  description: String
+  id: String!
+  title: String
 }
 
 input UpdatePostInput {
