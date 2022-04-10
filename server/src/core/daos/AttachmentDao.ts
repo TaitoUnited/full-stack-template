@@ -44,20 +44,28 @@ export const selectFields: Required<DbOutput> = {
 
 // Table and columns
 const tableName = 'attachment';
-const selectColumnNames = getColumnNames(selectFields, false, tableName);
+const customSelectColumnNames: string[] = [];
+const selectColumnNames = getColumnNames(
+  selectFields,
+  false,
+  tableName,
+  customSelectColumnNames
+);
 const filterableColumnNames = getColumnNames(new AttachmentFilter(), true);
 const insertColumnNames = getColumnNames(updateFields);
 const insertParameterNames = getParameterNames(updateFields);
 
 // SELECT_COLUMNS_FRAGMENT EXAMPLE:
-//
-// const selectColumnNames = getColumnNames(entityNameExample, false, tableName, ['coordinates']);
 // `
 //   CASE
 //     WHEN geom is null then null
 //     ELSE json_build_object('latitude', ST_Y(geom), 'longitude', ST_X(geom))
-//   END AS coordinates,
+//   END AS base_coordinates,
 // `
+// Notes:
+// - Add 'base_coordinates' also to customSelectColumnNames.
+// - Add also GROUP_BY_FRAGMENT if you use aggregate functions here.
+//
 const SELECT_COLUMNS_FRAGMENT = '';
 
 // JOIN_FRAGMENT EXAMPLE:
@@ -86,6 +94,12 @@ const WHERE_FRAGMENT = `WHERE ${tableName}.lifecycle_status != 'DELETED'`;
 // `;
 const SEARCH_FRAGMENT = 'AND 1 = 0';
 
+// GROUP_BY_FRAGMENT EXAMPLE:
+// `
+//   GROUP BY ${selectColumnNames.join(',')}
+// `;
+const GROUP_BY_FRAGMENT = ``;
+
 @Service()
 export class AttachmentDao {
   public async search(
@@ -96,20 +110,24 @@ export class AttachmentDao {
     pagination: Pagination | null
   ): Promise<PaginatedAttachments> {
     return searchFromTable({
-      tableName,
       db,
       search,
       filterGroups,
       order,
       pagination,
+
+      tableName,
       selectColumnNames,
+      customSelectColumnNames,
       filterableColumnNames,
 
       // Custom fragments
+      debugSql: false,
       selectColumnsFragment: SELECT_COLUMNS_FRAGMENT,
       joinFragment: JOIN_FRAGMENT,
       whereFragment: WHERE_FRAGMENT,
       searchFragment: SEARCH_FRAGMENT,
+      groupByFragment: GROUP_BY_FRAGMENT,
 
       // Prefetch optimization (not supported yet)
       // WARNING: Do not prefetch entities that user is not allowed to see!

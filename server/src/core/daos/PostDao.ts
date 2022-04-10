@@ -40,7 +40,13 @@ export const selectFields: Required<DbOutput> = {
 
 // Table and columns
 const tableName = 'post';
-const selectColumnNames = getColumnNames(selectFields, false, tableName);
+const customSelectColumnNames: string[] = [];
+const selectColumnNames = getColumnNames(
+  selectFields,
+  false,
+  tableName,
+  customSelectColumnNames
+);
 const filterableColumnNames = getColumnNames(new PostFilter(), true);
 const insertColumnNames = getColumnNames(updateFields);
 const insertParameterNames = getParameterNames(updateFields);
@@ -53,7 +59,7 @@ const insertParameterNames = getParameterNames(updateFields);
 //   END AS base_coordinates,
 // `
 // Notes:
-// - Add 'baseCoordinates' also to the list of read-only fields.
+// - Add 'base_coordinates' also to customSelectColumnNames.
 // - Add also GROUP_BY_FRAGMENT if you use aggregate functions here.
 //
 const SELECT_COLUMNS_FRAGMENT = '';
@@ -108,6 +114,7 @@ export class PostDao {
 
       tableName,
       selectColumnNames,
+      customSelectColumnNames,
       filterableColumnNames,
 
       // Custom fragments

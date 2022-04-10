@@ -30,7 +30,7 @@ export const getColumnNames = (
 ): string[] => {
   return format
     .keysAsSnakeCaseArray(object, convertDepth)
-    .filter((c) => !excludeColumns.includes(c))
+    .filter((c) => !excludeColumns.map((c) => toSnakeCase(c)).includes(c))
     .map((c) => (tableName ? `${tableName}.${c}` : c));
 };
 
@@ -356,17 +356,18 @@ function createOrderFragment(
  * @param table
  * @returns
  */
-function createOrderColumnsFragment(
+function createOrderAddedColumnFragment(
   order: Order,
   filterableColumnNames: string[],
   selectColumnNames: string[],
-  table: string
+  table: string,
+  disableAddedOrderColumn?: boolean
 ) {
   const columnTable = getColumnTable(order.field, filterableColumnNames, table);
   const columnName = getColumnName(order.field, filterableColumnNames);
   const name = `${columnTable}.${columnName}`;
 
-  return selectColumnNames.includes(name)
+  return disableAddedOrderColumn || selectColumnNames.includes(name)
     ? ''
     : `, ${name} AS added_order_by_column`;
 }
@@ -385,13 +386,15 @@ function createGroupByColumnsFragment(
   order: Order,
   filterableColumnNames: string[],
   selectColumnNames: string[],
-  table: string
+  table: string,
+  disableAddedOrderColumn?: boolean
 ) {
-  const added = createOrderColumnsFragment(
+  const added = createOrderAddedColumnFragment(
     order,
     filterableColumnNames,
     selectColumnNames,
-    table
+    table,
+    disableAddedOrderColumn
   );
   return added ? ', added_order_by_column' : '';
 }
@@ -412,6 +415,8 @@ export type searchFromTableParams = {
 
   /** columns added to the select statement */
   selectColumnNames: string[];
+  /** custom columns added manually to the select fragment */
+  customSelectColumnNames?: string[];
   /** columns that can be used for filtering and ordering */
   filterableColumnNames: string[];
 
@@ -430,9 +435,9 @@ export type searchFromTableParams = {
 
   /** Does not use DISTINCT in select statement if true */
   disableDistinct?: boolean;
-  /** Does not add order by column to select statement if true */
-  disableOrderColumns?: boolean;
-  /** Does not add table prefix on order by columns if true */
+  /** Does not add additional order by column to select statement if true */
+  disableAddedOrderColumn?: boolean;
+  /** Does not add table prefix on ORDER BY statement if true */
   disableOrderColumnTablePrefix?: boolean;
   /** Does not add order by fallback field if true */
   disableOrderColumnFallback?: boolean;
@@ -452,6 +457,16 @@ export type searchFromTableParams = {
  * @returns { total, data }
  */
 export async function searchFromTable(p: searchFromTableParams) {
+  // When ordering be custom select column, we cannot add table prefix
+  // to the field.
+  if (
+    p.customSelectColumnNames &&
+    p.customSelectColumnNames.includes(toSnakeCase(p.order.field))
+  ) {
+    p.disableAddedOrderColumn = true;
+    p.disableOrderColumnTablePrefix = true;
+  }
+
   const whereFragment = p.whereFragment || 'WHERE 1 = 1';
   const searchFragment = p.search ? p.searchFragment || '' : '';
   const filterFragment = createFilterGroupFragment(
@@ -466,17 +481,19 @@ export async function searchFromTable(p: searchFromTableParams) {
     p.disableOrderColumnFallback === true ? null : 'id',
     p.disableOrderColumnTablePrefix
   );
-  const orderColumnsFragment = createOrderColumnsFragment(
+  const orderAddedColumnFragment = createOrderAddedColumnFragment(
     p.order,
     p.filterableColumnNames,
     p.selectColumnNames,
-    p.tableName
+    p.tableName,
+    p.disableAddedOrderColumn
   );
   const groupByColumnsFragment = createGroupByColumnsFragment(
     p.order,
     p.filterableColumnNames,
     p.selectColumnNames,
-    p.tableName
+    p.tableName,
+    p.disableAddedOrderColumn
   );
 
   const paginationFragment = p.pagination
@@ -511,7 +528,7 @@ export async function searchFromTable(p: searchFromTableParams) {
       ${p.disableDistinct ? '' : 'DISTINCT'}
       ${p.selectColumnsFragment || ''}
       ${p.selectColumnNames.join(', ')}
-      ${p.disableOrderColumns ? '' : orderColumnsFragment}
+      ${orderAddedColumnFragment}
     FROM ${p.tableName}
     ${p.joinFragment || ''}
     ${whereFragment}
