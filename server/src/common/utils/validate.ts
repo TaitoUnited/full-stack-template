@@ -131,6 +131,29 @@ export function addFilter<Item extends Record<string, any>>(
 }
 
 /**
+ * Returns the given filter groups with given filters added as a new
+ * filter group.
+ *
+ * @param origFilterGroups
+ * @param itemType
+ * @param filterLogicalOperator
+ * @param filters
+ * @returns
+ */
+export function addFilters<Item extends Record<string, any>>(
+  origFilterGroups: FilterGroup<any>[],
+  itemType: ClassType<Item>,
+  filterLogicalOperator: FilterLogicalOperator = FilterLogicalOperator.AND,
+  filters: Filter<Item>[] = []
+) {
+  const filterGroups: FilterGroup<Item>[] = [
+    new FilterGroup<Item>(itemType, filterLogicalOperator, filters),
+  ];
+
+  return filterGroups.concat(origFilterGroups);
+}
+
+/**
  * Throws validation error if the given pagination limit exceeds
  * the allowed limit.
  *
