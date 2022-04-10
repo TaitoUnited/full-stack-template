@@ -58,5 +58,9 @@ export class AuthService {
     // TODO: Check that authentication credentials are present
 
     // TODO: Check user permissions and throw Boom.forbidden() if forbidden
+
+    // NOTE: You should cache checked user permissions during serving a single
+    // http request so that you don't need to check the same permission from
+    // database over and over again in case of a deep GraphQL query.
   }
 }
