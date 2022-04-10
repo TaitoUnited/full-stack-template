@@ -21,6 +21,7 @@ export class PaginatedPosts extends Paginated(Post) {}
 
 @InputType()
 export class PostFilter {
+  @Field() id?: string = undefined;
   @Field() createdAt?: Date = undefined;
   @Field() updatedAt?: Date = undefined;
 

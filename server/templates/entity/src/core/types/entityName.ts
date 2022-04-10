@@ -17,6 +17,7 @@ export class PaginatedEntityNames extends Paginated(EntityName) {}
 
 @InputType()
 export class EntityNameFilter {
+  @Field() id?: string = undefined;
   @Field() createdAt?: Date = undefined;
   @Field() updatedAt?: Date = undefined;
 

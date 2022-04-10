@@ -11,7 +11,6 @@ export enum AttachmentType {
 
 export class AttachmentId {
   id: string;
-  // attachmentType: AttachmentType = AttachmentType.ATTACHMENT;
   postId?: string | null;
 }
 
@@ -43,6 +42,7 @@ export class PaginatedAttachments extends Paginated(Attachment) {}
 
 @InputType()
 export class AttachmentFilter {
+  @Field() id?: string = undefined;
   @Field() createdAt?: Date = undefined;
   @Field() updatedAt?: Date = undefined;
   @Field() attachmentType?: AttachmentType = undefined;
