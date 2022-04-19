@@ -31,7 +31,6 @@ full-stack:
     # Auth and security
     basicAuthEnabled: ${taito_basic_auth_enabled}
     basicAuthHtpasswdSecret: ${taito_project}-${taito_env}-basic-auth
-    modsecurityEnabled: true
     serviceAccountName: ${taito_project}-${taito_env}
     # Horizontal scaling
     replicas: ${kubernetes_replicas}
