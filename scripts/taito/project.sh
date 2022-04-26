@@ -26,7 +26,7 @@ taito_environments="${template_default_environments}"
 
 if [[ ${taito_deployment_platforms} == *"docker"* ]] ||
    [[ ${taito_deployment_platforms} == *"kubernetes"* ]]; then
-  taito_containers=" admin client redis server storage worker www "
+  taito_containers=" admin client redis server storage worker www pgweb "
   if [[ ${taito_env} == "local" ]]; then
     taito_containers="${taito_containers} database "
   fi

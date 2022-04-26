@@ -276,6 +276,16 @@ services:
       # Subpath not yet supported: https://github.com/minio/minio/issues/12727
       # MINIO_BROWSER_REDIRECT_URL: http://localhost:9999/minio
 
+  # "TOOLS"
+
+  # full-stack-template-pgweb:
+  #   container_name: full-stack-template-pgweb
+  #   image: sosedoff/pgweb
+  #   restart: unless-stopped
+  #   ports: 
+  #     - "8081:8081" 
+  #   command: pgweb --bind=0.0.0.0 --listen=8080 --prefix pgweb --url postgres://${db_database_app_username}:${taito_default_password}@full-stack-template-database:${db_database_port}/${db_database_name}?sslmode=disable
+
 secrets:
   DATABASE_PASSWORD:
     file: ./secrets/${taito_env}/${db_database_app_secret}
