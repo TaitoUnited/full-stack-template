@@ -60,9 +60,9 @@ Open www site in browser:
 
     taito open www
 
-Open storage bucket in browser:
+Open storage bucket named 'bucket' in browser:
 
-    taito open bucket
+    taito open bucket   # Log in with minio / secret1234
 
 Show user accounts and other information that you can use to log in:
 
@@ -176,7 +176,7 @@ The commands mentioned above work also for server environments (`f-NAME`, `dev`,
     taito status:dev                        # Show status of dev environment
     taito logs:server:dev                   # Tail logs of server container
     taito open logs:dev                     # Open logs on browser
-    taito open storage:dev                  # Open storage bucket on browser
+    taito open bucket:dev                   # Open storage bucket named 'bucket' on browser
     taito shell:server:dev                  # Start a shell on server container
     taito test:dev                          # Run integration and e2e tests
     taito cypress:client:dev                # Open cypress for client
