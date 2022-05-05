@@ -136,7 +136,7 @@ export class EntityNameDao {
           ${SELECT_COLUMNS_FRAGMENT}
           ${selectColumnNames.join(',')}
         FROM ${tableName}
-        WHERE id = $[id]
+        WHERE ${tableName}.id = $[id]
       `,
       {
         id,
@@ -174,7 +174,7 @@ export class EntityNameDao {
       `
         UPDATE ${tableName}
         SET ${parameterAssignments.join(',')}
-        WHERE id = $[id]
+        WHERE ${tableName}.id = $[id]
         RETURNING ${selectColumnNames.join(',')}
       `,
       {
@@ -194,7 +194,7 @@ export class EntityNameDao {
     await db.none(
       `
         DELETE FROM ${tableName}
-        WHERE id = $[id]
+        WHERE ${tableName}.id = $[id]
       `,
       {
         id: entityName.id,

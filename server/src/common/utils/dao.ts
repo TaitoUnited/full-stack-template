@@ -412,6 +412,8 @@ export type searchFromTableParams = {
   order: Order;
   /** Pagination */
   pagination: Pagination | null;
+  /** Additional parameters for query */
+  queryParams?: Record<string, string | null | undefined> | null;
 
   /** columns added to the select statement */
   selectColumnNames: string[];
@@ -513,6 +515,7 @@ export async function searchFromTable(p: searchFromTableParams) {
 
   const countQueryParams = {
     search: p.search || undefined,
+    ...p.queryParams,
   };
 
   if (p.debugSql) {
@@ -544,6 +547,7 @@ export async function searchFromTable(p: searchFromTableParams) {
   const queryParams = {
     ...p.pagination,
     search: p.search || undefined,
+    ...p.queryParams,
   };
 
   if (p.debugSql) {
