@@ -153,9 +153,12 @@ function getColumnTable(
     field,
     filterableColumnNames
   );
-  return columnDefinition.indexOf('.') !== -1
-    ? columnDefinition.split('.')[0]
-    : defaultTable;
+  const table =
+    columnDefinition.indexOf('.') !== -1
+      ? columnDefinition.split('.')[0]
+      : defaultTable;
+  // TODO: define these mappings somewhere else.
+  return table === 'user' ? 'app_user' : table;
 }
 
 function getColumnName(field: string, filterableColumnNames: string[]) {
