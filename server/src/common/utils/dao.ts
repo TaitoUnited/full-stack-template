@@ -105,7 +105,9 @@ export const getParameterAssignments = (p: {
     }
   }
 
-  return assignments;
+  // In case there are no assignments, we return dummy id=id assignment to make sure
+  // SQL statement is valid
+  return assignments.length ? assignments : ['id=id'];
 };
 
 function never(arg: never): never {
