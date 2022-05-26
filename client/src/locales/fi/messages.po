@@ -33,13 +33,13 @@ msgstr "Saavutettvasuus"
 msgid "Authentication"
 msgstr "Autentikaatio"
 
-#: src/routes/post-create/PostCreate.tsx:65
+#: src/routes/post-create/PostCreate.tsx:67
 msgid "Author"
 msgstr "Kirjoittaja"
 
-#: src/components/navigation/Sidebar.tsx:15
+#: src/components/navigation/Sidebar.tsx:16
 #: src/routes/post-list/PostList.tsx:28
-#: src/routes/post-list/index.tsx:17
+#: src/routes/post-list/index.tsx:18
 msgid "Blog"
 msgstr "Blogi"
 
@@ -55,7 +55,7 @@ msgstr "Vaihda tummaan teemaan"
 msgid "Change theme to light mode"
 msgstr "Vaihda vaaleaan teemaan"
 
-#: src/routes/post-create/PostCreate.tsx:72
+#: src/routes/post-create/PostCreate.tsx:75
 msgid "Content"
 msgstr "Sisältö"
 
@@ -63,11 +63,11 @@ msgstr "Sisältö"
 msgid "Could not find post."
 msgstr "Artikkelia ei löytynyt"
 
-#: src/routes/post-create/PostCreate.tsx:90
+#: src/routes/post-create/PostCreate.tsx:95
 msgid "Create"
 msgstr "Luo"
 
-#: src/routes/post-create/PostCreate.tsx:88
+#: src/routes/post-create/PostCreate.tsx:93
 msgid "Creating"
 msgstr "Luodaan"
 
@@ -87,7 +87,7 @@ msgstr "Sähköposti"
 msgid "Examples"
 msgstr "Esimerkit"
 
-#: src/routes/post-create/PostCreate.tsx:44
+#: src/routes/post-create/PostCreate.tsx:45
 msgid "Failed to add new blog post"
 msgstr "Blogikirjoituksen luominen epäonnistui"
 
@@ -109,7 +109,7 @@ msgstr "Nykyaikana monet käyttäjät odottavat sovelluksen tukevan tummaa tilaa
 
 #: src/components/navigation/Sidebar.tsx:14
 #: src/routes/home/Home.tsx:64
-#: src/routes/home/index.tsx:10
+#: src/routes/home/index.tsx:11
 msgid "Home"
 msgstr "Koti"
 
@@ -121,11 +121,11 @@ msgstr "Sivuvalikosta voit selata erinäisiä esimerkkisivuja läpi. (TODO: lis�
 msgid "Internationalization"
 msgstr "Kielistys"
 
-#: src/routes/login/index.tsx:56
+#: src/routes/login/index.tsx:57
 msgid "Logging in"
 msgstr "Kirjaudutaan sisään"
 
-#: src/components/navigation/Sidebar.tsx:43
+#: src/components/navigation/Sidebar.tsx:53
 msgid "Logging out"
 msgstr "Kirjaudutaan ulos"
 
@@ -134,7 +134,7 @@ msgstr "Kirjaudutaan ulos"
 msgid "Login"
 msgstr "Kirjaudu sisään"
 
-#: src/components/navigation/Sidebar.tsx:45
+#: src/components/navigation/Sidebar.tsx:55
 msgid "Logout"
 msgstr "Kirjaudu ulos"
 
@@ -142,12 +142,12 @@ msgstr "Kirjaudu ulos"
 msgid "Most apps will require internationalization at some point in their lifetime. This template the necessary setup for multiple languages that are loaded lazily once selected. Try changing the language in the top right corner."
 msgstr "Useimmat sovellukset tarvitsevat kielistystä jossain vaiheessa elinkaartaan. Tämä template tarjoaa tarvittavan perustan laiskasti ladattaville kielistysmääritelmille. Yritä vaihtaa kieltä oikeasta yläkulmasta."
 
-#: src/routes/post-create/PostCreate.tsx:52
+#: src/routes/post-create/PostCreate.tsx:53
 #: src/routes/post-create/index.tsx:13
 msgid "New blog post"
 msgstr "Uusi blogikirjoitus"
 
-#: src/routes/post-create/PostCreate.tsx:41
+#: src/routes/post-create/PostCreate.tsx:42
 msgid "New blog post added"
 msgstr "Uusi blogikirjoitus lisätty"
 
@@ -187,17 +187,17 @@ msgstr "Spinnereitä, spinnereitä kaikkialla. Perinteiset Single-Page-Applicati
 msgid "Splash Screen"
 msgstr "Aloitusruutu"
 
-#: src/routes/post-create/PostCreate.tsx:58
+#: src/routes/post-create/PostCreate.tsx:59
 msgid "Subject"
 msgstr "Otsikko"
 
-#: src/routes/login/index.tsx:58
+#: src/routes/login/index.tsx:59
 msgid "Submit"
 msgstr "Lähetä"
 
-#: src/components/navigation/Sidebar.tsx:16
+#: src/components/navigation/Sidebar.tsx:22
 #: src/routes/theming/Theming.tsx:12
-#: src/routes/theming/index.tsx:13
+#: src/routes/theming/index.tsx:14
 msgid "Theming"
 msgstr "Teemoitus"
 
