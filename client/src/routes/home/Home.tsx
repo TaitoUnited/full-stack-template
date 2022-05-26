@@ -64,7 +64,7 @@ export default function Home() {
           <Trans>Home</Trans>
         </Text>
 
-        <Text variant="subtitle" color="textMuted" lineHeight={1.5}>
+        <Text variant="title3" color="textMuted" lineHeight={1.5}>
           <Trans>Welcome to Taito Fullstack Template!</Trans>
         </Text>
 
