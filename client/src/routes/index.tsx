@@ -38,7 +38,7 @@ export default function AppRoutes() {
 
   return (
     <Routes>
-      <Route path='/' element={<ProtectedRoute/>}>
+      <Route path="/" element={<ProtectedRoute />}>
         <Route
           path="/"
           element={

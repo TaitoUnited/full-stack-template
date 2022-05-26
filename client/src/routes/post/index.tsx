@@ -15,7 +15,7 @@ const Post = loadableWithFallback<PostProps>(
 
 const PostPageEntry: PageEntry = () => {
   const { id } = useParams();
-  const postQuery = usePostQuery({ variables: { id: id || '' } });
+  const postQuery = usePostQuery({ variables: { id: id || '' } });
   const postSubject = postQuery.data?.post?.subject ?? '';
 
   useDocumentTitle(postSubject);
