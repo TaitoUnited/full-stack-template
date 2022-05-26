@@ -9,11 +9,10 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:lodash/recommended',
-    'prettier',
     'plugin:prettier/recommended',
   ],
 
-  plugins: ['@typescript-eslint', 'import', 'lodash', 'prettier'],
+  plugins: ['@typescript-eslint', 'import', 'lodash'],
 
   parserOptions: {
     ecmaVersion: 2018,

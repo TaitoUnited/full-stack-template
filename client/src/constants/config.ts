@@ -10,7 +10,7 @@ type APP_ENV =
   | 'cana'
   | 'prod';
 
-const envs = [
+const environments = [
   'localhost',
   'feat',
   'dev',
@@ -25,16 +25,16 @@ const envs = [
 
 const subdomainSplit = window.location.hostname.split('.')[0].split('-');
 const envSuffix = subdomainSplit[subdomainSplit.length - 1];
-const currentEnv = envs.includes(envSuffix) ? envSuffix : 'prod';
+const currentEnv = environments.includes(envSuffix) ? envSuffix : 'prod';
 
 const config = {
   ENV: currentEnv as APP_ENV,
-  IS_DEV: process.env.NODE_ENV !== 'production',
-  API_URL: process.env.API_URL as string,
-  SENTRY_PUBLIC_DSN: process.env.SENTRY_PUBLIC_DSN as string,
+  IS_DEV: import.meta.env.DEV,
+  API_URL: process.env.API_URL,
+  SENTRY_PUBLIC_DSN: process.env.SENTRY_PUBLIC_DSN,
   ERROR_REPORTING_ENABLED:
     currentEnv === 'prod' &&
-    process.env.NODE_ENV === 'production' &&
+    import.meta.env.PROD &&
     !!process.env.SENTRY_PUBLIC_DSN &&
     process.env.SENTRY_PUBLIC_DSN.startsWith('https'),
 };

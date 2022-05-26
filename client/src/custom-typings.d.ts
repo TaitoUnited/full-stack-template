@@ -30,6 +30,3 @@ declare module '*.png' {
   export default src;
 }
 
-declare module 'workbox-window' {
-  export const Workbox: any;
-}

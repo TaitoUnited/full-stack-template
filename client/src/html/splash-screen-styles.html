@@ -1,0 +1,75 @@
+<style>
+  #splash-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    background-color: var(--background-color);
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    bottom: 0;
+    z-index: 99999;
+    opacity: 1;
+    transition: opacity 200ms linear;
+  }
+
+  #splash-screen.splash-screen-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  #splash-screen .infinite-loader {
+    position: relative;
+    overflow: hidden;
+    width: 100px;
+    height: 4px;
+    border-radius: 2px;
+    margin-top: 16px;
+    background-color: rgba(150, 150, 150, 0.5);
+  }
+
+  #splash-screen .infinite-loader .line {
+    position: absolute;
+    background: rgba(150, 150, 150, 0.5);
+    width: 150%;
+    height: 4px;
+  }
+
+  #splash-screen .infinite-loader .subline {
+    position: absolute;
+    background: #009a48;
+    height: 4px;
+  }
+
+  #splash-screen .infinite-loader .inc {
+    animation: increase 1.5s infinite;
+  }
+
+  #splash-screen .infinite-loader .dec {
+    animation: decrease 1.5s 0.5s infinite;
+  }
+
+  @keyframes increase {
+    from {
+      left: -5%;
+      width: 5%;
+    }
+    to {
+      left: 130%;
+      width: 100%;
+    }
+  }
+
+  @keyframes decrease {
+    from {
+      left: -80%;
+      width: 80%;
+    }
+    to {
+      left: 110%;
+      width: 10%;
+    }
+  }
+</style>
