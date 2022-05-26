@@ -31,6 +31,7 @@
 
     const root = document.documentElement;
 
+    root.style.setProperty('color-scheme', initialTheme);
     root.style.setProperty(
       '--background-color',
       initialTheme === 'light' ? '#FFFFFF' : '#111111'
