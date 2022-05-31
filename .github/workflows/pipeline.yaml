@@ -24,7 +24,7 @@ jobs:
         taito_image: ${_TEMPLATE_DEFAULT_TAITO_IMAGE}
         taito_ci_phases:
         IMAGE_TAG: ${{ github.sha }}
-        DOCKER_HOST_PATH: /__w/full-stack-template/full-stack-template
+        DOCKER_HOST_PATH: /home/runner/work/full-stack-template/full-stack-template
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} # For AWS
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # For AWS
         AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }} # For Azure
