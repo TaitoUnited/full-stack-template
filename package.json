@@ -1,7 +1,7 @@
 {
   "name": "full-stack-template",
   "scripts": {
-    "prepare": "husky install",
+    "prepare": "if [ \"$taito_mode\" != 'ci' ]; then husky install; fi",
     "install-clean": "echo '# Nothing to cleanup'",
     "install-ci": "npm-run-all install-all:shared",
     "install-dev": "echo '# Installing all libraries on host for code editor support. TODO how to minimize as --only=dev affects devDepencies also?' && npm-run-all install-all",
