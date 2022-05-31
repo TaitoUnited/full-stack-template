@@ -145,7 +145,7 @@ locals {
 
 module "azure" {
   source  = "TaitoUnited/project-resources/azurerm"
-  version = "3.11.0"
+  version = "3.12.0"
 
   # Create flags
   create_cicd_service_account         = var.create_cicd_service_account
