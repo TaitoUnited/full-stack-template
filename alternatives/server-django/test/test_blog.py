@@ -1,5 +1,5 @@
 def test_get_posts(client):
-    response = client.get("/posts")
+    response = client.get("/posts/")
     assert response.status_code == 200
     assert response.headers["Content-Type"] == "application/json"
     data = response.json()
