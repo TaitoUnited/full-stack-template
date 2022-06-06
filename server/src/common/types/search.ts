@@ -105,8 +105,8 @@ export class Filter<
 
     hence the valueType -field
   */
-  @Field(() => String)
-  value: string;
+  @Field(() => String, { nullable: true })
+  value: string | null;
 
   @Field(() => ValueType, {
     description: `Determines how the value is treated`,

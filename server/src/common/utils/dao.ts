@@ -117,15 +117,15 @@ function never(arg: never): never {
 /**
  * Parse `value` as per the supplied `ValueType`
  */
-function parseValue(type: ValueType, value: string) {
+function parseValue(type: ValueType, value: string | null) {
   if (type === ValueType.TEXT) {
     return value;
   }
   if (type === ValueType.DATE) {
-    return new Date(value);
+    return value != null ? new Date(value) : null;
   }
   if (type === ValueType.NUMBER) {
-    return Number(value);
+    return value != null ? Number(value) : null;
   }
   never(type);
 }
@@ -181,7 +181,11 @@ function generateFilterFragment<
   Item extends Record<string, any>,
   Key extends keyof Item
 >(filter: Filter<Item, Key>) {
-  if (filter.operator === FilterOperator.EQ) {
+  if (filter.operator === FilterOperator.EQ && filter.value === null) {
+    return `IS NULL`;
+  } else if (filter.operator === FilterOperator.NEQ && filter.value === null) {
+    return `IS NOT NULL`;
+  } else if (filter.operator === FilterOperator.EQ) {
     return `= $(value)`;
   } else if (filter.operator === FilterOperator.NEQ) {
     return `!= $(value)`;
@@ -302,6 +306,25 @@ export function createFilterGroupFragment(
   }, '');
 }
 
+function disableOrderColumnTablePrefix(
+  orderField: string,
+  customSelectColumnNames?: string[],
+  disableOrderColumnTablePrefix?: boolean
+) {
+  if (disableOrderColumnTablePrefix) return true;
+
+  // When ordering be custom select column, we cannot add table prefix
+  // to the field.
+  if (
+    customSelectColumnNames &&
+    customSelectColumnNames.includes(toSnakeCase(orderField))
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
 /**
  * Returns order by statement that should be added to a select statement.
  *
@@ -311,13 +334,18 @@ export function createFilterGroupFragment(
  * @param fallbackField
  * @returns
  */
-function createOrderFragment(
+function createOrderFragmentImpl(
   order: Order,
   filterableColumnNames: string[],
+  customSelectColumnNames: string[],
   table: string,
   fallbackField: string | null,
   disableTablePrefix = false
 ) {
+  if (disableOrderColumnTablePrefix(order.field, customSelectColumnNames)) {
+    disableTablePrefix = true;
+  }
+
   const columnTable = getColumnTable(order.field, filterableColumnNames, table);
   const columnName = getColumnName(order.field, filterableColumnNames);
 
@@ -335,20 +363,51 @@ function createOrderFragment(
       order.dir === OrderDirection.ASC ? ' NULLS FIRST' : ' NULLS LAST';
   }
 
-  return pgp.as.format(
-    `
-    ORDER BY
+  return pgp.as
+    .format(
+      `
       ${columnTablePrefixFragment}$(columnName~)
       $(dir^)${nullInvertFrag}${fallbackFieldFrag}
   `,
-    {
-      columnTable,
-      columnName,
-      dir: order.dir === OrderDirection.ASC ? 'ASC' : 'DESC',
-      fallbackField: fallbackField ? toSnakeCase(fallbackField) : null,
+      {
+        columnTable,
+        columnName,
+        dir: order.dir === OrderDirection.ASC ? 'ASC' : 'DESC',
+        fallbackField: fallbackField ? toSnakeCase(fallbackField) : null,
+        table,
+      }
+    )
+    .trim();
+}
+
+/**
+ * Returns order by statement that should be added to a select statement.
+ *
+ * @param order
+ * @param filterableColumnNames
+ * @param table
+ * @param fallbackField
+ * @returns
+ */
+function createOrderFragment(
+  orders: Order[],
+  filterableColumnNames: string[],
+  customSelectColumnNames: string[],
+  table: string,
+  fallbackField: string | null,
+  disableTablePrefix = false
+) {
+  const fragments = orders.map((order) =>
+    createOrderFragmentImpl(
+      order,
+      filterableColumnNames,
+      customSelectColumnNames,
       table,
-    }
+      null,
+      disableTablePrefix
+    )
   );
+  return `ORDER BY ${fragments.join(', ')}`;
 }
 
 /**
@@ -362,19 +421,38 @@ function createOrderFragment(
  * @returns
  */
 function createOrderAddedColumnFragment(
-  order: Order,
+  orders: Order[],
   filterableColumnNames: string[],
   selectColumnNames: string[],
+  customSelectColumnNames: string[],
   table: string,
   disableAddedOrderColumn?: boolean
 ) {
-  const columnTable = getColumnTable(order.field, filterableColumnNames, table);
-  const columnName = getColumnName(order.field, filterableColumnNames);
-  const name = `${columnTable}.${columnName}`;
+  const fragments = orders.map((order) => {
+    const columnTable = getColumnTable(
+      order.field,
+      filterableColumnNames,
+      table
+    );
+    const columnName = getColumnName(order.field, filterableColumnNames);
+    const name = `${columnTable}.${columnName}`;
 
-  return disableAddedOrderColumn || selectColumnNames.includes(name)
-    ? ''
-    : `, ${name} AS added_order_by_column`;
+    const disable = disableOrderColumnTablePrefix(
+      order.field,
+      customSelectColumnNames,
+      disableAddedOrderColumn
+    );
+
+    return disable || selectColumnNames.includes(name)
+      ? ''
+      : `${name} AS added_order_by_column`;
+  });
+
+  const addedColumns = fragments
+    .filter((f) => !!f.trim())
+    .join(', ')
+    .trim();
+  return addedColumns ? `, ${addedColumns}` : '';
 }
 
 /**
@@ -388,16 +466,18 @@ function createOrderAddedColumnFragment(
  * @returns
  */
 function createGroupByColumnsFragment(
-  order: Order,
+  orders: Order[],
   filterableColumnNames: string[],
   selectColumnNames: string[],
+  customSelectColumnNames: string[],
   table: string,
   disableAddedOrderColumn?: boolean
 ) {
   const added = createOrderAddedColumnFragment(
-    order,
+    orders,
     filterableColumnNames,
     selectColumnNames,
+    customSelectColumnNames,
     table,
     disableAddedOrderColumn
   );
@@ -414,7 +494,7 @@ export type searchFromTableParams = {
   /** Filters */
   filterGroups: FilterGroup<any>[]; // TODO: should be FilterGroup<Record<string, any>>[],
   /** Order */
-  order: Order;
+  order: Order | Order[];
   /** Pagination */
   pagination: Pagination | null;
   /** Additional parameters for query */
@@ -464,15 +544,7 @@ export type searchFromTableParams = {
  * @returns { total, data }
  */
 export async function searchFromTable(p: searchFromTableParams) {
-  // When ordering be custom select column, we cannot add table prefix
-  // to the field.
-  if (
-    p.customSelectColumnNames &&
-    p.customSelectColumnNames.includes(toSnakeCase(p.order.field))
-  ) {
-    p.disableAddedOrderColumn = true;
-    p.disableOrderColumnTablePrefix = true;
-  }
+  const order = Array.isArray(p.order) ? p.order : [p.order];
 
   const whereFragment = p.whereFragment || 'WHERE 1 = 1';
   const searchFragment = p.search ? p.searchFragment || '' : '';
@@ -482,23 +554,26 @@ export async function searchFromTable(p: searchFromTableParams) {
     p.tableName
   );
   const orderFragment = createOrderFragment(
-    p.order,
+    order,
     p.filterableColumnNames,
+    p.customSelectColumnNames || [],
     p.tableName,
     p.disableOrderColumnFallback === true ? null : 'id',
     p.disableOrderColumnTablePrefix
   );
   const orderAddedColumnFragment = createOrderAddedColumnFragment(
-    p.order,
+    order,
     p.filterableColumnNames,
     p.selectColumnNames,
+    p.customSelectColumnNames || [],
     p.tableName,
     p.disableAddedOrderColumn
   );
   const groupByColumnsFragment = createGroupByColumnsFragment(
-    p.order,
+    order,
     p.filterableColumnNames,
     p.selectColumnNames,
+    p.customSelectColumnNames || [],
     p.tableName,
     p.disableAddedOrderColumn
   );

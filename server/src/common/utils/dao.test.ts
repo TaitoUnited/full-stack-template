@@ -144,7 +144,7 @@ describe('common/utils/db', () => {
           SELECT DISTINCT
             my_table.id, my_table.creation_date, my_table.title, my_table.keywords, my_table.notes FROM my_table
           WHERE 1 = 1
-          ORDER BY "my_table"."title" ASC, "my_table"."id"
+          ORDER BY "my_table"."title" ASC
           OFFSET $[offset] LIMIT $[limit]
           `
         )
@@ -194,7 +194,7 @@ describe('common/utils/db', () => {
             my_table.id, my_table.creation_date, my_table.title, my_table.keywords, my_table.notes
           FROM my_table
           WHERE 1 = 1
-          ORDER BY "my_table"."title" ASC, "my_table"."id"
+          ORDER BY "my_table"."title" ASC
           OFFSET $[offset] LIMIT $[limit]
           `
         )
@@ -250,7 +250,7 @@ describe('common/utils/db', () => {
             my_table.id, my_table.creation_date, my_table.title, my_table.keywords, my_table.notes FROM my_table
           WHERE 1 = 1
           ${searchFragment}
-          ORDER BY "my_table"."title" ASC, "my_table"."id"
+          ORDER BY "my_table"."title" ASC
           OFFSET $[offset] LIMIT $[limit]
           `
         )
@@ -268,11 +268,14 @@ describe('common/utils/db', () => {
         db,
         search: null,
         filterGroups: [],
-        order: new Order('notes', OrderDirection.DESC, true),
+        order: [
+          new Order('notes', OrderDirection.DESC, true),
+          new Order('title', OrderDirection.ASC),
+        ],
         pagination: new Pagination(50, 1200),
         searchFragment: '',
         selectColumnNames,
-        filterableColumnNames: ['notes'],
+        filterableColumnNames: ['notes', 'title'],
       });
 
       expect(trimGaps(db.any.mock.calls[0][0])).toEqual(
@@ -281,7 +284,7 @@ describe('common/utils/db', () => {
           SELECT DISTINCT
             my_table.id, my_table.creation_date, my_table.title, my_table.keywords, my_table.notes FROM my_table
           WHERE 1 = 1
-          ORDER BY "my_table"."notes" DESC NULLS LAST, "my_table"."id"
+          ORDER BY "my_table"."notes" DESC NULLS LAST, "my_table"."title" ASC
           OFFSET $[offset] LIMIT $[limit]
           `
         )
@@ -382,7 +385,7 @@ describe('common/utils/db', () => {
             my_table.id, my_table.creation_date, my_table.title, my_table.keywords, my_table.notes FROM my_table
           WHERE 1 = 1
           ${expectedFilterFragment}
-          ORDER BY "my_table"."title" ASC, "my_table"."id"
+          ORDER BY "my_table"."title" ASC
           OFFSET $[offset] LIMIT $[limit]
           `
         )
@@ -505,7 +508,7 @@ describe('common/utils/db', () => {
             my_table.id, my_table.creation_date, my_table.title, my_table.keywords, my_table.notes FROM my_table
           WHERE 1 = 1
           ${expectedFilterFragment}
-          ORDER BY "my_table"."title" ASC, "my_table"."id"
+          ORDER BY "my_table"."title" ASC
           OFFSET $[offset] LIMIT $[limit]
           `
         )
