@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { Trans } from '@lingui/macro';
 
-import PostPlaceholder from './PostPlaceholder';
 import PostDetails from '~components/post/PostDetails';
 import Breadcrumbs from '~components/navigation/Breadcrumbs';
 import { useDocumentTitle } from '~utils/routing';
@@ -11,15 +10,11 @@ import { Text } from '~uikit';
 
 export default function PostPage() {
   const { id = '' } = useParams();
-  const { data, loading, error } = usePostQuery({ variables: { id } });
+  const { data, error } = usePostQuery({ variables: { id } });
   const post = data?.post;
   const postSubject = post?.subject ?? '';
 
   useDocumentTitle(postSubject);
-
-  if (loading) {
-    return <PostPlaceholder />;
-  }
 
   return (
     <Wrapper>

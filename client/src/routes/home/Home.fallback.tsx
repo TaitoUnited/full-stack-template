@@ -3,7 +3,7 @@ import { range } from 'lodash';
 
 import { Stack, SkeletonPlaceholder } from '~uikit';
 
-export default function HomePlaceholder() {
+export default function HomeFallback() {
   return (
     <Stack axis="y" spacing="xlarge">
       <Stack axis="y" spacing="normal">

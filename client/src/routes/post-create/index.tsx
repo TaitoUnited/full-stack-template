@@ -1,7 +1,7 @@
-import Fallback from './PostCreatePlaceholder';
+import Fallback from './PostCreate.fallback';
 import { routeEntry } from '../route-utils';
 
 export default routeEntry({
   fallback: <Fallback />,
-  component: () => import('./PostCreate'),
+  component: () => import('./PostCreate.page'),
 });

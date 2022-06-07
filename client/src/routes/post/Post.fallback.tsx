@@ -12,7 +12,7 @@ const rows = range(20).map(i => (
   />
 ));
 
-export default function PostPlaceholder() {
+export default function PostFallback() {
   return (
     <Stack axis="y" spacing="medium">
       <SkeletonPlaceholder width={400} height={48} borderRadius="normal" />
