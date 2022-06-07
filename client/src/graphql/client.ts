@@ -54,7 +54,7 @@ type ClientQueryParams = Parameters<
   ApolloClient<NormalizedCacheObject>['query']
 >[0];
 
-export function preloadQuery(
+export function query(
   query: ClientQueryParams['query'],
   variables?: ClientQueryParams['variables']
 ) {
