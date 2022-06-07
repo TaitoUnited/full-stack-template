@@ -1,5 +1,5 @@
 import { forwardRef, useMemo, ReactNode } from 'react';
-import { FocusRing } from 'react-aria';
+import { FocusRing, mergeProps } from 'react-aria';
 import styled, { css } from 'styled-components';
 
 import {
@@ -10,20 +10,28 @@ import {
 } from 'react-router-dom';
 
 import { useStaleReload } from '../../utils/routing';
-import { routes } from '../../routes';
+import { useRouteEntries } from '../../routes/route-utils';
+
+type LoaderTrigger = 'hover' | 'click' | 'focus';
 
 type Props = LinkProps & {
   children: ReactNode;
   testId?: string;
+  loaderTrigger?: LoaderTrigger;
 };
 
 export const Link = forwardRef<any, Props>(
-  ({ children, to, testId, ...props }, ref: any) => {
-    const p = useLinkProps(to);
+  ({ children, to, testId, loaderTrigger = 'click', ...props }, ref: any) => {
+    const p = useLinkProps({ to, loaderTrigger });
 
     return (
       <FocusRing focusRingClass="link-focus">
-        <LinkWrapper {...props} {...p} to={to} ref={ref} data-test-id={testId}>
+        <LinkWrapper
+          {...mergeProps(props, p)}
+          to={to}
+          ref={ref}
+          data-test-id={testId}
+        >
           {children}
         </LinkWrapper>
       </FocusRing>
@@ -34,13 +42,12 @@ export const Link = forwardRef<any, Props>(
 Link.displayName = 'Link';
 
 export const UnstyledLink = forwardRef<any, Props>(
-  ({ children, to, testId, ...props }, ref: any) => {
-    const p = useLinkProps(to);
+  ({ children, to, testId, loaderTrigger = 'click', ...props }, ref: any) => {
+    const p = useLinkProps({ to, loaderTrigger });
 
     return (
       <UnstyledLinkWrapper
-        {...props}
-        {...p}
+        {...mergeProps(props, p)}
         to={to}
         ref={ref}
         data-test-id={testId}
@@ -55,14 +62,13 @@ UnstyledLink.displayName = 'UnstyledLink';
 
 // Nav link knows whether it is active or not based on the current url
 export const NavLink = forwardRef<any, Props>(
-  ({ children, to, testId, ...props }, ref: any) => {
-    const p = useLinkProps(to);
+  ({ children, to, testId, loaderTrigger = 'click', ...props }, ref: any) => {
+    const p = useLinkProps({ to, loaderTrigger });
 
     return (
       <FocusRing focusRingClass="link-focus">
         <NavLinkWrapper
-          {...props}
-          {...p}
+          {...mergeProps(props, p)}
           to={to}
           ref={ref}
           data-test-id={testId}
@@ -76,8 +82,15 @@ export const NavLink = forwardRef<any, Props>(
 
 NavLink.displayName = 'NavLink';
 
-function useLinkProps(to: Props['to']) {
+function useLinkProps({
+  to,
+  loaderTrigger,
+}: {
+  to: Props['to'];
+  loaderTrigger: LoaderTrigger;
+}) {
   const isStale = useStaleReload();
+  const routes = useRouteEntries();
 
   function handleStaleNavigation() {
     // Auto-reload the app if enough time has passed from last navigation
@@ -85,8 +98,8 @@ function useLinkProps(to: Props['to']) {
   }
 
   // Preload route code for faster page load experience
-  async function handlePreload(trigger: 'click' | 'hover') {
-    const match = ({ path }: any) => {
+  async function handlePreload() {
+    const match = (path: string) => {
       // Remove search params
       const [_to] = to.toString().split('?');
 
@@ -99,25 +112,30 @@ function useLinkProps(to: Props['to']) {
       return matchPath(path, `${location.pathname}/${_to}`);
     };
 
-    const route = routes.find(match);
+    const route = routes.find(r => match(r.path));
 
-    if (route?.component && route.component.preload) {
+    if (route?.entry && route.entry.load) {
       try {
-        await route.component.preload(match(route)?.params || null, trigger);
+        await route.entry.load(match(route.path)?.params || {});
       } catch (error) {
         console.log('> Failed to preload route', error);
       }
     }
   }
 
-  return useMemo(
-    () => ({
-      onClick: handleStaleNavigation,
-      onMouseEnter: () => handlePreload('hover'),
-      onMouseDown: () => handlePreload('click'),
-    }),
-    [to] // eslint-disable-line
-  );
+  return useMemo(() => {
+    const props: any = { onClick: handleStaleNavigation };
+
+    if (loaderTrigger === 'click') {
+      props.onMouseDown = handlePreload;
+    } else if (loaderTrigger === 'hover') {
+      props.onMouseEnter = handlePreload;
+    } else if (loaderTrigger === 'focus') {
+      props.onFocus = handlePreload;
+    }
+
+    return props;
+  }, [to, loaderTrigger, isStale]); // eslint-disable-line react-hooks/exhaustive-deps
 }
 
 const linkStyles = css`
