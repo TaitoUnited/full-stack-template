@@ -1,10 +1,13 @@
 import styled from 'styled-components';
-import { Trans } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 
 import AlertMessage from '~components/common/AlertMessage';
 import { Stack, Text } from '~uikit';
+import { useDocumentTitle } from '~utils/routing';
 
-export default function SettingsPage() {
+export default function ThemingPage() {
+  useDocumentTitle(t`Theming`);
+
   return (
     <Wrapper>
       <Stack axis="y" spacing="large">

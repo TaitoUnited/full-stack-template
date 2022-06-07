@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import styled from 'styled-components';
+import { orderBy, random, range } from 'lodash';
 import { t, Trans } from '@lingui/macro';
 import { MdAccessibility } from 'react-icons/md';
 import { FaLanguage } from 'react-icons/fa';
@@ -11,9 +13,12 @@ import {
   HiLockOpen,
 } from 'react-icons/hi';
 
-import { Text, Stack, Icon } from '~uikit';
+import { Text, Stack, Icon, SortDescriptor, Table } from '~uikit';
+import { useDocumentTitle } from '~utils/routing';
 
 export default function Home() {
+  useDocumentTitle(t`Home`);
+
   const features = [
     {
       icon: MdAccessibility,
@@ -112,7 +117,67 @@ export default function Home() {
           ))}
         </Cards>
       </Stack>
+
+      <Card>
+        <SortableTable />
+      </Card>
     </Stack>
+  );
+}
+
+const SORT_DIRECTION = {
+  ascending: 'asc' as const,
+  descending: 'desc' as const,
+};
+
+const data = range(100).map(i => ({
+  id: i,
+  name: `Name ${i + 1}`,
+  age: random(10, 60),
+  location: `Address ${i + 1}, Espoo`,
+}));
+
+function SortableTable() {
+  const [sort, setSort] = useState<SortDescriptor>({
+    column: 'name',
+    direction: 'ascending',
+  });
+
+  const sorted = orderBy(
+    data,
+    sort?.column || 'name',
+    sort?.direction ? SORT_DIRECTION[sort.direction] : 'asc'
+  );
+
+  return (
+    <Table
+      label="Test table"
+      rowStyle="striped"
+      sortDescriptor={sort}
+      onSortChange={setSort}
+    >
+      <Table.Header>
+        <Table.Column key="name" allowsSorting>
+          Name
+        </Table.Column>
+        <Table.Column key="age" allowsSorting>
+          Age
+        </Table.Column>
+        <Table.Column key="location" allowsSorting>
+          Location
+        </Table.Column>
+      </Table.Header>
+
+      <Table.Body>
+        {sorted.map(d => (
+          <Table.Row key={d.id}>
+            <Table.Cell key="name">{d.name}</Table.Cell>
+            <Table.Cell key="age">{d.age}</Table.Cell>
+            <Table.Cell key="location">{d.location}</Table.Cell>
+          </Table.Row>
+        ))}
+      </Table.Body>
+    </Table>
   );
 }
 

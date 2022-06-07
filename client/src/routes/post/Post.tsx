@@ -1,26 +1,33 @@
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
 import { Trans } from '@lingui/macro';
 
 import PostPlaceholder from './PostPlaceholder';
 import PostDetails from '~components/post/PostDetails';
+import Breadcrumbs from '~components/navigation/Breadcrumbs';
+import { useDocumentTitle } from '~utils/routing';
+import { usePostQuery } from '~graphql';
 import { Text } from '~uikit';
-import type { PostQueryHookResult } from '~graphql';
 
-export type Props = {
-  postQuery: PostQueryHookResult;
-};
+export default function PostPage() {
+  const { id = '' } = useParams();
+  const { data, loading, error } = usePostQuery({ variables: { id } });
+  const post = data?.post;
+  const postSubject = post?.subject ?? '';
 
-export default function PostPage({ postQuery }: Props) {
-  const { data, loading, error } = postQuery;
+  useDocumentTitle(postSubject);
 
   if (loading) {
     return <PostPlaceholder />;
   }
 
-  const post = data?.post;
-
   return (
     <Wrapper>
+      <Breadcrumbs>
+        <Breadcrumbs.Link to={`/blog`}>Blog</Breadcrumbs.Link>
+        <Breadcrumbs.Link>{postSubject}</Breadcrumbs.Link>
+      </Breadcrumbs>
+
       {post ? (
         <PostDetails
           createdAt={post.createdAt}

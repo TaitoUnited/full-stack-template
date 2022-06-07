@@ -85,7 +85,7 @@ export function renderRouteEntries(entries: RouteEntry[]) {
 
 const RouteEntriesContext = createContext<RouteEntry[]>([]);
 
-export function RouteLoaderProvider({
+export function RouteEntryProvider({
   routes,
   children,
 }: {

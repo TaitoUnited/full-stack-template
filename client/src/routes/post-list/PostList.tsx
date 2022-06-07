@@ -1,26 +1,19 @@
 import styled from 'styled-components';
 import { HiPencil } from 'react-icons/hi';
-import { Trans } from '@lingui/macro';
+import { t, Trans } from '@lingui/macro';
 import { orderBy } from 'lodash';
 
-import PostListPlaceholder from './PostListPlaceholder';
 import PostListCard from '~components/post/PostListCard';
 import { UnstyledLink } from '~components/navigation/Link';
+import { useDocumentTitle } from '~utils/routing';
 import { Text, Stack, FloatingButton } from '~uikit';
-import type { PostListQueryHookResult } from '~graphql';
+import { usePostListQuery } from '~graphql';
 
-export type Props = {
-  postListQuery: PostListQueryHookResult;
-};
-
-export default function PostListPage({ postListQuery }: Props) {
-  const { data, loading, error } = postListQuery;
-
-  if (loading) {
-    return <PostListPlaceholder />;
-  }
-
+export default function PostListPage() {
+  const { data, error } = usePostListQuery();
   const posts = orderBy(data?.posts.data ?? [], o => o.createdAt, 'desc');
+
+  useDocumentTitle(t`Blog`);
 
   return (
     <Stack axis="y" spacing="large">

@@ -1,96 +1,88 @@
-import { Suspense } from 'react';
 import loadable from '@loadable/component';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 
-// Don't code-split container pages since they load code and data in parallel
-import Home from './home';
-import PostList from './post-list';
-import Post from './post';
-import PostCreate from './post-create';
-import Theming from './theming';
+import {
+  RouteEntry,
+  RouteEntryProvider,
+  renderRouteEntries,
+} from './route-utils';
+
+// Don't code-split route entries since they load code and data in parallel
+import homeEntry from './home';
+import postListEntry from './post-list';
+import postEntry from './post';
+import postCreateEntry from './post-create';
+import themingEntry from './theming';
+
 import Page from '~components/navigation/Page';
 import ProtectedRoute from '~components/navigation/ProtectedRoute';
 import { useAuthCheck } from '~services/auth';
-import type { PageEntry } from '~types/navigation';
+import PageLayout from '~components/navigation/PageLayout';
 
-const Main = loadable(() => import('./Main'));
 const Login = loadable(() => import('./login'));
 const NotFound = loadable(() => import('./not-found'));
 const NotFoundAuthenticated = loadable(
   () => import('./not-found/index.authenticated')
 );
 
-type Route = {
-  path: string;
-  component: PageEntry;
-};
-
-export const routes: Route[] = [
-  { path: '/', component: Home },
-  { path: '/blog', component: PostList },
-  { path: '/blog/create', component: PostCreate },
-  { path: '/blog/:id', component: Post },
-  { path: '/theming', component: Theming },
+const routes: RouteEntry[] = [
+  { path: '/', entry: homeEntry },
+  { path: '/blog', entry: postListEntry },
+  { path: '/blog/create', entry: postCreateEntry },
+  { path: '/blog/:id', entry: postEntry },
+  { path: '/theming', entry: themingEntry },
 ];
 
 export default function AppRoutes() {
   const authStatus = useAuthCheck();
 
   return (
-    <Routes>
-      <Route path="/" element={<ProtectedRoute />}>
-        <Route
-          path="/"
-          element={
-            <Suspense fallback={null}>
-              <Main />
-            </Suspense>
-          }
-        >
-          {routes.map(({ path, component: PageComponent }) => (
+    <RouteEntryProvider routes={routes}>
+      <Routes>
+        <Route path="/" element={<ProtectedRoute />}>
+          <Route
+            path="/"
+            element={
+              <PageLayout>
+                <Outlet />
+              </PageLayout>
+            }
+          >
+            {renderRouteEntries(routes)}
+
             <Route
-              key={path}
-              path={path}
+              path="*"
               element={
-                <Page fallback={null}>
-                  <PageComponent />
+                <Page>
+                  <NotFoundAuthenticated />
                 </Page>
               }
             />
-          ))}
-
-          <Route
-            path="*"
-            element={
-              <Page>
-                <NotFoundAuthenticated />
-              </Page>
-            }
-          />
+          </Route>
         </Route>
-      </Route>
 
-      <Route
-        path="login"
-        element={
-          authStatus === 'authenticated' ? (
-            <Navigate to="/" replace />
-          ) : (
+        <Route
+          path="login"
+          element={
+            authStatus === 'authenticated' ? (
+              <Navigate to="/" replace />
+            ) : (
+              <Page>
+                <Login />
+              </Page>
+            )
+          }
+        />
+
+        <Route
+          path="*"
+          element={
             <Page>
-              <Login />
+              <NotFound />
             </Page>
-          )
-        }
-      />
-
-      <Route
-        path="*"
-        element={
-          <Page>
-            <NotFound />
-          </Page>
-        }
-      />
-    </Routes>
+          }
+        />
+      </Routes>
+    </RouteEntryProvider>
   );
 }
