@@ -12,17 +12,17 @@ import {
 import { useStaleReload } from '../../utils/routing';
 import { useRouteEntries } from '../../routes/route-utils';
 
-type LoaderTrigger = 'hover' | 'click' | 'focus';
+type PreloadTrigger = 'hover' | 'click' | 'focus';
 
 type Props = LinkProps & {
   children: ReactNode;
   testId?: string;
-  loaderTrigger?: LoaderTrigger;
+  preloadOn?: PreloadTrigger;
 };
 
 export const Link = forwardRef<any, Props>(
-  ({ children, to, testId, loaderTrigger = 'click', ...props }, ref: any) => {
-    const p = useLinkProps({ to, loaderTrigger });
+  ({ children, to, testId, preloadOn = 'click', ...props }, ref: any) => {
+    const p = useLinkProps({ to, preloadOn });
 
     return (
       <FocusRing focusRingClass="link-focus">
@@ -42,8 +42,8 @@ export const Link = forwardRef<any, Props>(
 Link.displayName = 'Link';
 
 export const UnstyledLink = forwardRef<any, Props>(
-  ({ children, to, testId, loaderTrigger = 'click', ...props }, ref: any) => {
-    const p = useLinkProps({ to, loaderTrigger });
+  ({ children, to, testId, preloadOn = 'click', ...props }, ref: any) => {
+    const p = useLinkProps({ to, preloadOn });
 
     return (
       <UnstyledLinkWrapper
@@ -62,8 +62,8 @@ UnstyledLink.displayName = 'UnstyledLink';
 
 // Nav link knows whether it is active or not based on the current url
 export const NavLink = forwardRef<any, Props>(
-  ({ children, to, testId, loaderTrigger = 'click', ...props }, ref: any) => {
-    const p = useLinkProps({ to, loaderTrigger });
+  ({ children, to, testId, preloadOn = 'click', ...props }, ref: any) => {
+    const p = useLinkProps({ to, preloadOn });
 
     return (
       <FocusRing focusRingClass="link-focus">
@@ -84,10 +84,10 @@ NavLink.displayName = 'NavLink';
 
 function useLinkProps({
   to,
-  loaderTrigger,
+  preloadOn,
 }: {
   to: Props['to'];
-  loaderTrigger: LoaderTrigger;
+  preloadOn: PreloadTrigger;
 }) {
   const isStale = useStaleReload();
   const routes = useRouteEntries();
@@ -126,16 +126,16 @@ function useLinkProps({
   return useMemo(() => {
     const props: any = { onClick: handleStaleNavigation };
 
-    if (loaderTrigger === 'click') {
+    if (preloadOn === 'click') {
       props.onMouseDown = handlePreload;
-    } else if (loaderTrigger === 'hover') {
+    } else if (preloadOn === 'hover') {
       props.onMouseEnter = handlePreload;
-    } else if (loaderTrigger === 'focus') {
+    } else if (preloadOn === 'focus') {
       props.onFocus = handlePreload;
     }
 
     return props;
-  }, [to, loaderTrigger, isStale]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [to, preloadOn, isStale]); // eslint-disable-line react-hooks/exhaustive-deps
 }
 
 const linkStyles = css`

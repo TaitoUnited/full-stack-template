@@ -32,7 +32,7 @@ export default function Sidebar() {
         <NavList>
           {items.map(({ label, icon, to, testId }) => (
             <li key={label}>
-              <NavItemLink to={to} testId={testId}>
+              <NavItemLink to={to} testId={testId} preloadOn="hover">
                 <Icon icon={icon} size={24} color="text" />
                 <Spacer axis="x" size="normal" />
                 <Text variant="body">{label}</Text>
