@@ -17,13 +17,13 @@ export function routeEntry<Data>({
   debug = true,
   component,
   loader,
-}: RouteEntryOptions<Data>): RouteEntryConfig {
+}: RouteEntryOptions<Data>): RouteEntryConfig<Data> {
   const Component = loadable(component);
 
-  const cache: LoaderCache<Data | null> = {};
+  const dataCache: LoaderDataCache<Data | null> = {};
+  const loaderCache: LoaderCache<Data> = {};
   const entryKey = genId();
 
-  let pendingLoader: Promise<Data | null> | undefined;
   let componentLoaded = false;
 
   async function performLoad(params: LoaderParams) {
@@ -43,7 +43,7 @@ export function routeEntry<Data>({
       promises.push(
         loader(params)
           .then(result => {
-            cache[cacheKey] = result;
+            dataCache[cacheKey] = result;
             if (debug) prettyLog('Loader data loaded!', result);
           })
           .catch(error => console.log('Loader error', error))
@@ -56,13 +56,13 @@ export function routeEntry<Data>({
     await Promise.all(promises).then(() => {
       // NOTE: set cache data to null only after all promises have resolved
       // so that the deduping logic works correctly (does not do early return)
-      if (cache[cacheKey] === undefined) {
-        cache[cacheKey] = null;
+      if (dataCache[cacheKey] === undefined) {
+        dataCache[cacheKey] = null;
         if (debug) prettyLog('No loader data, defaulting cache to null');
       }
     });
 
-    return cache[cacheKey];
+    return dataCache[cacheKey];
   }
 
   async function load(params: LoaderParams) {
@@ -71,15 +71,15 @@ export function routeEntry<Data>({
     // specific method like apollo's `pollInterval` or react-query's `staleTime` etc.
     const cacheKey = getCacheKey(params, entryKey);
 
-    if (cache[cacheKey] !== undefined) {
-      if (debug) prettyLog('Loader data cached!', cache[cacheKey]);
-      return cache[cacheKey];
+    if (dataCache[cacheKey] !== undefined) {
+      if (debug) prettyLog('Loader data cached!', dataCache[cacheKey]);
+      return dataCache[cacheKey];
     }
 
     // Dedupe loaders so that we don't initialize multiple loaders if a pending
     // loading is still in progress.
-    if (!pendingLoader) {
-      pendingLoader = performLoad(params);
+    if (!loaderCache[cacheKey]) {
+      loaderCache[cacheKey] = performLoad(params);
 
       if (debug) {
         const hasParams = Object.keys(params).length > 0;
@@ -92,8 +92,8 @@ export function routeEntry<Data>({
       prettyLog('Loader already in progress, deduping...');
     }
 
-    return pendingLoader.finally(() => {
-      pendingLoader = undefined;
+    return loaderCache[cacheKey].finally(() => {
+      delete loaderCache[cacheKey];
     });
   }
 
@@ -101,7 +101,7 @@ export function routeEntry<Data>({
     const params = useParams();
     const [state, setState] = useState<LoaderState<Data>>(() => {
       const cacheKey = getCacheKey(params, entryKey);
-      const data = cache[cacheKey];
+      const data = dataCache[cacheKey];
 
       let status: LoaderStatus = 'pending';
 
@@ -137,7 +137,7 @@ export function routeEntry<Data>({
 
 // Render utils ----------------------------------------------------------------
 
-export function renderRouteEntries(entries: RouteEntry[]) {
+export function renderRouteEntries(entries: RouteEntry<any>[]) {
   return entries.map(({ path, entry }) => {
     const Element = entry.element;
     return <Route key={path} path={path} element={<Element />} />;
@@ -146,13 +146,13 @@ export function renderRouteEntries(entries: RouteEntry[]) {
 
 // Context ---------------------------------------------------------------------
 // Provide route entries via context to avoid cyclical import issues with Link
-const RouteEntriesContext = createContext<RouteEntry[]>([]);
+const RouteEntriesContext = createContext<RouteEntry<any>[]>([]);
 
 export function RouteEntryProvider({
   routes,
   children,
 }: {
-  routes: RouteEntry[];
+  routes: RouteEntry<any>[];
   children: ReactNode;
 }) {
   return (
@@ -172,7 +172,9 @@ type LoaderParams = Record<string, unknown>;
 
 type LoaderStatus = 'pending' | 'skipped' | 'loaded';
 
-type LoaderCache<Data> = Record<string, Data>;
+type LoaderDataCache<Data> = Record<string, Data>;
+
+type LoaderCache<Data> = Record<string, Promise<Data | null>>;
 
 type LoaderState<Data> = {
   status: LoaderStatus;
@@ -187,15 +189,21 @@ export type RouteEntryOptions<Data> = {
   loader?: (params: LoaderParams) => Promise<Data>;
 };
 
-export type RouteEntryConfig = {
-  load: (params: LoaderParams) => Promise<any>;
+export type RouteEntryConfig<Data> = {
+  load: (params: LoaderParams) => Promise<Data | null>;
   element: () => JSX.Element | null;
 };
 
-export type RouteEntry = {
+export type RouteEntryLoaderData<T extends RouteEntryConfig<any>> = NonNullable<
+  Awaited<ReturnType<T['load']>>
+>;
+
+export type RouteEntry<Data> = {
   path: string;
-  entry: RouteEntryConfig;
+  entry: RouteEntryConfig<Data>;
 };
+
+export type RouteEntries = RouteEntry<any>[];
 
 // Random helpers -------------------------------------------------------------
 

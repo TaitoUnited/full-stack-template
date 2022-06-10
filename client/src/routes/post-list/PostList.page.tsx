@@ -3,14 +3,19 @@ import { HiPencil } from 'react-icons/hi';
 import { t, Trans } from '@lingui/macro';
 import { orderBy } from 'lodash';
 
-import PostListCard from '~components/post/PostListCard';
+import type { LoaderData } from '.';
 import { UnstyledLink } from '~components/navigation/Link';
 import { useDocumentTitle } from '~utils/routing';
 import { Text, Stack, FloatingButton } from '~uikit';
 import { usePostListQuery } from '~graphql';
+import PostListCard from '~components/post/PostListCard';
 
-export default function PostListPage() {
-  const { data, error } = usePostListQuery();
+type Props = {
+  loaderData: LoaderData;
+};
+
+export default function PostListPage({ loaderData }: Props) {
+  const { data = loaderData, error } = usePostListQuery();
   const posts = orderBy(data?.posts.data ?? [], o => o.createdAt, 'desc');
 
   useDocumentTitle(t`Blog`);

@@ -1,22 +1,11 @@
 import loadable from '@loadable/component';
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 
-import {
-  RouteEntry,
-  RouteEntryProvider,
-  renderRouteEntries,
-} from './route-utils';
-
-// Don't code-split route entries since they load code and data in parallel
-import homeEntry from './home';
-import postListEntry from './post-list';
-import postEntry from './post';
-import postCreateEntry from './post-create';
-import themingEntry from './theming';
-
+import { routes } from './route-entries';
+import { RouteEntryProvider, renderRouteEntries } from './route-utils';
+import { useAuthCheck } from '~services/auth';
 import Page from '~components/navigation/Page';
 import ProtectedRoute from '~components/navigation/ProtectedRoute';
-import { useAuthCheck } from '~services/auth';
 import PageLayout from '~components/navigation/PageLayout';
 
 const Login = loadable(() => import('./login'));
@@ -25,15 +14,7 @@ const NotFoundAuthenticated = loadable(
   () => import('./not-found/index.authenticated')
 );
 
-const routes: RouteEntry[] = [
-  { path: '/', entry: homeEntry },
-  { path: '/blog', entry: postListEntry },
-  { path: '/blog/create', entry: postCreateEntry },
-  { path: '/blog/:id', entry: postEntry },
-  { path: '/theming', entry: themingEntry },
-];
-
-export default function AppRoutes() {
+export default function Router() {
   const authStatus = useAuthCheck();
 
   return (

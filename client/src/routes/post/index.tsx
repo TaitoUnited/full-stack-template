@@ -5,5 +5,5 @@ import { query, PostDocument } from '~graphql';
 export default routeEntry({
   fallback: <Fallback />,
   component: () => import('./Post.page'),
-  loader: ({ id = '' }) => query(PostDocument, { id }).then(res => res.data),
+  loader: ({ id }) => query(PostDocument, { id }).then(res => res.data),
 });

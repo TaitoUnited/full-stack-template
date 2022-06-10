@@ -1,9 +1,14 @@
 import Fallback from './PostList.fallback';
-import { routeEntry } from '../route-utils';
-import { query, PostListDocument } from '~graphql';
+import { routeEntry, RouteEntryLoaderData } from '../route-utils';
+import { query, PostListDocument, PostListQueryResult } from '~graphql';
 
-export default routeEntry({
+const entry = routeEntry({
   fallback: <Fallback />,
   component: () => import('./PostList.page'),
-  loader: () => query(PostListDocument).then(res => res.data),
+  loader: () =>
+    query<PostListQueryResult>(PostListDocument).then(res => res.data),
 });
+
+export type LoaderData = RouteEntryLoaderData<typeof entry>;
+
+export default entry;
