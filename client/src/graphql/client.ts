@@ -54,11 +54,15 @@ type ClientQueryParams = Parameters<
   ApolloClient<NormalizedCacheObject>['query']
 >[0];
 
-export function query(
+export function query<Result extends { data: any }>(
   query: ClientQueryParams['query'],
   variables?: ClientQueryParams['variables']
 ) {
-  return __client__.query({ query, variables, fetchPolicy: 'network-only' });
+  return __client__.query<Result['data'], any>({
+    query,
+    variables,
+    fetchPolicy: 'network-only',
+  });
 }
 
 export type PreloadHandler = (
