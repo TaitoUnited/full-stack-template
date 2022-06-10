@@ -21,7 +21,7 @@ type Props = LinkProps & {
 };
 
 export const Link = forwardRef<any, Props>(
-  ({ children, to, testId, preloadOn = 'click', ...props }, ref: any) => {
+  ({ children, to, testId, preloadOn, ...props }, ref: any) => {
     const p = useLinkProps({ to, preloadOn });
 
     return (
@@ -42,7 +42,7 @@ export const Link = forwardRef<any, Props>(
 Link.displayName = 'Link';
 
 export const UnstyledLink = forwardRef<any, Props>(
-  ({ children, to, testId, preloadOn = 'click', ...props }, ref: any) => {
+  ({ children, to, testId, preloadOn, ...props }, ref: any) => {
     const p = useLinkProps({ to, preloadOn });
 
     return (
@@ -62,7 +62,7 @@ UnstyledLink.displayName = 'UnstyledLink';
 
 // Nav link knows whether it is active or not based on the current url
 export const NavLink = forwardRef<any, Props>(
-  ({ children, to, testId, preloadOn = 'click', ...props }, ref: any) => {
+  ({ children, to, testId, preloadOn, ...props }, ref: any) => {
     const p = useLinkProps({ to, preloadOn });
 
     return (
@@ -84,10 +84,10 @@ NavLink.displayName = 'NavLink';
 
 function useLinkProps({
   to,
-  preloadOn,
+  preloadOn = 'click',
 }: {
   to: Props['to'];
-  preloadOn: PreloadTrigger;
+  preloadOn?: PreloadTrigger;
 }) {
   const isStale = useStaleReload();
   const routes = useRouteEntries();

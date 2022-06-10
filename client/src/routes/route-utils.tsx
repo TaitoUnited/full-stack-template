@@ -1,3 +1,6 @@
+import loadable from '@loadable/component';
+import { useParams, Route } from 'react-router-dom';
+
 import {
   createContext,
   ReactNode,
@@ -6,61 +9,121 @@ import {
   useState,
 } from 'react';
 
-import loadable from '@loadable/component';
-import { useParams, Route } from 'react-router-dom';
 import Page from '~components/navigation/Page';
 
 export function routeEntry<Data>({
   fallback,
   awaitLoader = true,
+  debug = true,
   component,
   loader,
 }: RouteEntryOptions<Data>): RouteEntryConfig {
-  const Component = loadable(component, { fallback });
+  const Component = loadable(component);
 
-  let loaderData: Data;
+  const cache: LoaderCache<Data | null> = {};
+  const entryKey = genId();
 
-  async function load(params: LoaderParams) {
-    const promises: Promise<any>[] = [Component.load()];
+  let pendingLoader: Promise<Data | null> | undefined;
+  let componentLoaded = false;
 
-    if (!loaderData && loader) {
+  async function performLoad(params: LoaderParams) {
+    const cacheKey = getCacheKey(params, entryKey);
+    const promises: Promise<any>[] = [];
+
+    if (!componentLoaded) {
       promises.push(
-        loader(params)
-          .then(result => (loaderData = result))
-          .catch(error => console.log('> Loader error', error))
+        Component.load().then(() => {
+          componentLoaded = true;
+          if (debug) prettyLog('Component loaded!');
+        })
       );
     }
 
-    // Load code and data in parallel
-    await Promise.all(promises);
+    if (loader) {
+      promises.push(
+        loader(params)
+          .then(result => {
+            cache[cacheKey] = result;
+            if (debug) prettyLog('Loader data loaded!', result);
+          })
+          .catch(error => console.log('Loader error', error))
+      );
+    } else if (debug) {
+      prettyLog('Loader not defined');
+    }
 
-    return loaderData;
+    // Load code and data in parallel
+    await Promise.all(promises).then(() => {
+      // NOTE: set cache data to null only after all promises have resolved
+      // so that the deduping logic works correctly (does not do early return)
+      if (cache[cacheKey] === undefined) {
+        cache[cacheKey] = null;
+        if (debug) prettyLog('No loader data, defaulting cache to null');
+      }
+    });
+
+    return cache[cacheKey];
+  }
+
+  async function load(params: LoaderParams) {
+    // Loader should be used for the initial loading of data only so keep returning
+    // the same data for all subsequent calls. Data should be refreshed with a lib
+    // specific method like apollo's `pollInterval` or react-query's `staleTime` etc.
+    const cacheKey = getCacheKey(params, entryKey);
+
+    if (cache[cacheKey] !== undefined) {
+      if (debug) prettyLog('Loader data cached!', cache[cacheKey]);
+      return cache[cacheKey];
+    }
+
+    // Dedupe loaders so that we don't initialize multiple loaders if a pending
+    // loading is still in progress.
+    if (!pendingLoader) {
+      pendingLoader = performLoad(params);
+
+      if (debug) {
+        const hasParams = Object.keys(params).length > 0;
+        prettyLog(
+          hasParams ? 'Calling loader with params' : 'Calling loader',
+          hasParams ? params : undefined
+        );
+      }
+    } else if (debug) {
+      prettyLog('Loader already in progress, deduping...');
+    }
+
+    return pendingLoader.finally(() => {
+      pendingLoader = undefined;
+    });
   }
 
   function Entry() {
     const params = useParams();
+    const [state, setState] = useState<LoaderState<Data>>(() => {
+      const cacheKey = getCacheKey(params, entryKey);
+      const data = cache[cacheKey];
 
-    let initialStatus: LoaderStatus = 'pending';
+      let status: LoaderStatus = 'pending';
 
-    if (loaderData) {
-      initialStatus = 'loaded';
-    } else if (!awaitLoader) {
-      initialStatus = 'skipped';
-    }
+      if (data !== undefined && componentLoaded) {
+        status = 'loaded';
+      } else if (!awaitLoader) {
+        status = 'skipped';
+      }
 
-    const [state, setState] = useState<LoaderState<Data>>({
-      status: initialStatus,
-      data: loaderData,
+      return { status, data };
     });
 
     // Only do the load initially but not on subsequent route entry visits
     useEffect(() => {
-      if (initialStatus === 'pending') {
+      if (state.status === 'pending') {
         load(params).then(data => setState({ data, status: 'loaded' }));
       }
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-    if (state.status === 'pending') return fallback || null;
+    if (state.status === 'pending') {
+      return fallback || null;
+    }
 
     return (
       <Page>
@@ -82,7 +145,7 @@ export function renderRouteEntries(entries: RouteEntry[]) {
 }
 
 // Context ---------------------------------------------------------------------
-
+// Provide route entries via context to avoid cyclical import issues with Link
 const RouteEntriesContext = createContext<RouteEntry[]>([]);
 
 export function RouteEntryProvider({
@@ -109,12 +172,15 @@ type LoaderParams = Record<string, unknown>;
 
 type LoaderStatus = 'pending' | 'skipped' | 'loaded';
 
+type LoaderCache<Data> = Record<string, Data>;
+
 type LoaderState<Data> = {
   status: LoaderStatus;
-  data?: Data;
+  data?: Data | null;
 };
 
 export type RouteEntryOptions<Data> = {
+  debug?: boolean;
   fallback?: JSX.Element;
   awaitLoader?: boolean;
   component: () => Promise<any>;
@@ -130,3 +196,39 @@ export type RouteEntry = {
   path: string;
   entry: RouteEntryConfig;
 };
+
+// Random helpers -------------------------------------------------------------
+
+function prettyLog(msg: string, data?: any) {
+  console.log(
+    `%c${msg}`,
+    `
+      background: #cbeccb;
+      color: #084922;
+      border-radius: 99px;
+      padding-left: 4px;
+      padding-right: 4px;
+      padding-top: 1px;
+      padding-bottom: 1px;
+    `
+  );
+  if (data) console.log(data);
+}
+
+function genId() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
+}
+
+function getCacheKey(obj: object, entryKey: string) {
+  const paramsKey = Object.entries(obj)
+    .map(([key, value]) => `${key}=${value}`)
+    .sort()
+    .join(',');
+  const key = `${entryKey}:${paramsKey}`;
+  return key;
+}
