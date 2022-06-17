@@ -1,6 +1,7 @@
 import path from 'path';
 import react from '@vitejs/plugin-react';
 import strip from '@rollup/plugin-strip';
+import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vite';
 import { ViteFaviconsPlugin } from 'vite-plugin-favicon2';
 import { optimizeLodashImports } from '@optimize-lodash/rollup-plugin';
@@ -68,6 +69,7 @@ export default defineConfig(({ mode }) => ({
           },
         },
       }),
+    tsconfigPaths(),
     htmlFragmentsPlugin(),
     react({
       exclude: /\.stories\.(t|j)sx?$/, // Exclude Storybook stories
@@ -82,18 +84,6 @@ export default defineConfig(({ mode }) => ({
     hmr: {
       host: PUBLIC_HOST,
       clientPort: PUBLIC_PORT,
-    },
-  },
-  resolve: {
-    alias: {
-      '~constants': path.resolve(__dirname, 'src/constants'),
-      '~services': path.resolve(__dirname, 'src/services'),
-      '~shared': path.resolve(__dirname, 'shared'),
-      '~graphql': path.resolve(__dirname, 'src/graphql/index'),
-      '~uikit': path.resolve(__dirname, 'src/components/uikit/index'),
-      '~components': path.resolve(__dirname, 'src/components'),
-      '~utils': path.resolve(__dirname, 'src/utils'),
-      '~types': path.resolve(__dirname, 'src/types'),
     },
   },
 }));
