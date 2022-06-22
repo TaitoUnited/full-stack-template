@@ -321,7 +321,10 @@ export type CreatePostMutationVariables = Exact<{
 
 export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', id: string } };
 
-export type PostListQueryVariables = Exact<{ [key: string]: never; }>;
+export type PostListQueryVariables = Exact<{
+  order?: InputMaybe<Order>;
+  pagination?: InputMaybe<Pagination>;
+}>;
 
 
 export type PostListQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', total: number, data: Array<{ __typename?: 'Post', id: string, subject: string, createdAt: any }> } };
@@ -370,8 +373,8 @@ export type CreatePostMutationHookResult = ReturnType<typeof useCreatePostMutati
 export type CreatePostMutationResult = Apollo.MutationResult<CreatePostMutation>;
 export type CreatePostMutationOptions = Apollo.BaseMutationOptions<CreatePostMutation, CreatePostMutationVariables>;
 export const PostListDocument = gql`
-    query PostList {
-  posts {
+    query PostList($order: Order, $pagination: Pagination) {
+  posts(order: $order, pagination: $pagination) {
     total
     data {
       id
@@ -394,6 +397,8 @@ export const PostListDocument = gql`
  * @example
  * const { data, loading, error } = usePostListQuery({
  *   variables: {
+ *      order: // value for 'order'
+ *      pagination: // value for 'pagination'
  *   },
  * });
  */

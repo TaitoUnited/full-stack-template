@@ -1,13 +1,12 @@
 import styled from 'styled-components';
 import { HiPencil } from 'react-icons/hi';
 import { t, Trans } from '@lingui/macro';
-import { orderBy } from 'lodash';
 
 import type { LoaderData } from '.';
 import { UnstyledLink } from '~components/navigation/Link';
 import { useDocumentTitle } from '~utils/routing';
 import { Text, Stack, FloatingButton } from '~uikit';
-import { usePostListQuery } from '~graphql';
+import { OrderDirection, usePostListQuery } from '~graphql';
 import PostListCard from '~components/post/PostListCard';
 
 type Props = {
@@ -15,8 +14,13 @@ type Props = {
 };
 
 export default function PostListPage({ loaderData }: Props) {
-  const { data = loaderData, error } = usePostListQuery();
-  const posts = orderBy(data?.posts.data ?? [], o => o.createdAt, 'desc');
+  const { data = loaderData, error } = usePostListQuery({
+    variables: {
+      order: { field: 'createdAt', dir: OrderDirection.Desc },
+    },
+  });
+
+  const posts = data?.posts.data ?? [];
 
   useDocumentTitle(t`Blog`);
 
