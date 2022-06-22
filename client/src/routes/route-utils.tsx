@@ -14,7 +14,7 @@ import Page from '~components/navigation/Page';
 export function routeEntry<Data>({
   fallback,
   awaitLoader = true,
-  debug = true,
+  debug = false,
   component,
   loader,
 }: RouteEntryOptions<Data>): RouteEntryConfig<Data> {
