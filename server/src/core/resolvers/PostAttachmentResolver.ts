@@ -12,8 +12,12 @@ import {
 } from 'type-graphql';
 import { Post } from '../types/post';
 import { Order, OrderDirection } from '../../common/types/search';
-
-import { AttachmentType } from '../types/attachment';
+import {
+  Attachment,
+  AttachmentType,
+  PaginatedAttachments,
+  AttachmentUploadRequestDetails,
+} from '../types/attachment';
 import {
   ReadPostAttachmentInput,
   CreatePostAttachmentInput,
@@ -21,14 +25,7 @@ import {
   UpdatePostAttachmentInput,
   DeletePostAttachmentInput,
 } from '../types/postAttachment';
-
 import { PostAttachmentService } from '../services/PostAttachmentService';
-
-import {
-  Attachment,
-  PaginatedAttachments,
-  AttachmentUploadRequestDetails,
-} from '../types/attachment';
 
 /**
  * GraphQL resolver for Post Attachments
