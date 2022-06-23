@@ -20,6 +20,7 @@ input AttachmentFilter {
   createdAt: DateTime!
   description: String!
   filename: String!
+  id: String!
   postId: String!
   title: String!
   updatedAt: DateTime!
@@ -82,7 +83,7 @@ type EntityId {
 input Filter {
   field: String!
   operator: FilterOperator!
-  value: String!
+  value: String
 
   """Determines how the value is treated"""
   valueType: ValueType = TEXT
@@ -190,6 +191,7 @@ type Post {
 
 input PostFilter {
   createdAt: DateTime!
+  id: String!
   updatedAt: DateTime!
 }
 
