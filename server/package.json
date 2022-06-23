@@ -2,7 +2,6 @@
   "name": "full-stack-template-server",
   "private": true,
   "scripts": {
-    "preinstall": "if [ -f package-lock.json ]; then npx npm-force-resolutions; fi",
     "unit": "jest --rootDir=src --passWithNoTests -t",
     "test": "jest --rootDir=test --passWithNoTests -t",
     "start": "npm run start:dev",
@@ -41,9 +40,6 @@
     "type-graphql": "~1.1.1",
     "typedi": "0.10.0",
     "uuid": "~8.3.2"
-  },
-  "resolutions": {
-    "qs": "~6.3.2"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "~2.4.0",
