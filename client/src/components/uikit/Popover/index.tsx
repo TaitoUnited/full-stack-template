@@ -68,6 +68,8 @@ const Popover = forwardRef<any, Props>(
   }
 );
 
+Popover.displayName = 'Popover';
+
 const Wrapper = styled.div<{ focused: boolean }>`
   outline: none;
   z-index: 1;

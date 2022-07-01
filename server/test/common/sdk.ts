@@ -35,6 +35,7 @@ export type AttachmentFilter = {
   createdAt: Scalars['DateTime'];
   description: Scalars['String'];
   filename: Scalars['String'];
+  id: Scalars['String'];
   postId: Scalars['String'];
   title: Scalars['String'];
   updatedAt: Scalars['DateTime'];
@@ -235,6 +236,7 @@ export type PostAttachmentsArgs = {
 
 export type PostFilter = {
   createdAt: Scalars['DateTime'];
+  id: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
 

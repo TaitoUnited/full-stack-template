@@ -2,10 +2,11 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 import * as ApolloReactHooks from './hooks';
 export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions =  {}
+const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -35,6 +36,7 @@ export type AttachmentFilter = {
   createdAt: Scalars['DateTime'];
   description: Scalars['String'];
   filename: Scalars['String'];
+  id: Scalars['String'];
   postId: Scalars['String'];
   title: Scalars['String'];
   updatedAt: Scalars['DateTime'];
@@ -49,22 +51,22 @@ export type AttachmentUploadRequestDetails = {
 
 export type CreateAttachmentInput = {
   contentType: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  filename?: Maybe<Scalars['String']>;
-  title?: Maybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  filename?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 export type CreateAttachmentInputBase = {
   contentType: Scalars['String'];
-  filename?: Maybe<Scalars['String']>;
+  filename?: InputMaybe<Scalars['String']>;
 };
 
 export type CreatePostAttachmentInput = {
   contentType: Scalars['String'];
-  description?: Maybe<Scalars['String']>;
-  filename?: Maybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
+  filename?: InputMaybe<Scalars['String']>;
   postId: Scalars['String'];
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 export type CreatePostInput = {
@@ -96,7 +98,7 @@ export type Filter = {
   operator: FilterOperator;
   value: Scalars['String'];
   /** Determines how the value is treated */
-  valueType?: Maybe<ValueType>;
+  valueType?: InputMaybe<ValueType>;
 };
 
 export type FilterGroup = {
@@ -189,10 +191,10 @@ export type MutationUpdatePostAttachmentArgs = {
 
 export type Order = {
   /** Determines whether to sort ascending or descending. */
-  dir?: Maybe<OrderDirection>;
+  dir?: InputMaybe<OrderDirection>;
   field: Scalars['String'];
   /** Determines whether NULL values are ordered first or last. */
-  invertNullOrder?: Maybe<Scalars['Boolean']>;
+  invertNullOrder?: InputMaybe<Scalars['Boolean']>;
 };
 
 export enum OrderDirection {
@@ -230,11 +232,12 @@ export type Post = {
 
 
 export type PostAttachmentsArgs = {
-  attachmentOrder?: Maybe<Order>;
+  attachmentOrder?: InputMaybe<Order>;
 };
 
 export type PostFilter = {
   createdAt: Scalars['DateTime'];
+  id: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
 
@@ -262,10 +265,10 @@ export type QueryPostAttachmentArgs = {
 
 
 export type QueryPostsArgs = {
-  filterGroups?: Maybe<Array<FilterGroup>>;
-  order?: Maybe<Order>;
-  pagination?: Maybe<Pagination>;
-  search?: Maybe<Scalars['String']>;
+  filterGroups?: InputMaybe<Array<FilterGroup>>;
+  order?: InputMaybe<Order>;
+  pagination?: InputMaybe<Pagination>;
+  search?: InputMaybe<Scalars['String']>;
 };
 
 export type ReadPostAttachmentInput = {
@@ -280,9 +283,9 @@ export type RequestDetails = {
 };
 
 export type UpdateAttachmentInput = {
-  description?: Maybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdateAttachmentInputBase = {
@@ -290,17 +293,17 @@ export type UpdateAttachmentInputBase = {
 };
 
 export type UpdatePostAttachmentInput = {
-  description?: Maybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
   postId: Scalars['String'];
-  title?: Maybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
 };
 
 export type UpdatePostInput = {
-  author?: Maybe<Scalars['String']>;
-  content?: Maybe<Scalars['String']>;
+  author?: InputMaybe<Scalars['String']>;
+  content?: InputMaybe<Scalars['String']>;
   id: Scalars['String'];
-  subject?: Maybe<Scalars['String']>;
+  subject?: InputMaybe<Scalars['String']>;
 };
 
 export enum ValueType {
@@ -328,7 +331,7 @@ export type PostQueryVariables = Exact<{
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post?: Maybe<{ __typename?: 'Post', id: string, createdAt: any, author: string, subject: string, content: string }> };
+export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', id: string, createdAt: any, author: string, subject: string, content: string } | null };
 
 
 export const CreatePostDocument = gql`

@@ -1,0 +1,40 @@
+<script>
+  (function () {
+    function getInitialTheme() {
+      try {
+        var persistedTheme = JSON.parse(
+          window.localStorage.getItem('@app/theme')
+        );
+
+        var hasPersistedPreference =
+          typeof persistedTheme === 'string' &&
+          ['light', 'dark'].indexOf(persistedTheme) !== -1;
+
+        if (hasPersistedPreference) {
+          return persistedTheme;
+        }
+
+        var mql = window.matchMedia('(prefers-color-scheme: dark)');
+        var hasMediaQueryPreference = typeof mql.matches === 'boolean';
+
+        if (hasMediaQueryPreference) {
+          return mql.matches ? 'dark' : 'light';
+        }
+      } catch (error) {
+        return 'light';
+      }
+    }
+
+    var initialTheme = getInitialTheme();
+
+    window.CURRENT_THEME = initialTheme;
+
+    const root = document.documentElement;
+
+    root.style.setProperty('color-scheme', initialTheme);
+    root.style.setProperty(
+      '--background-color',
+      initialTheme === 'light' ? '#FFFFFF' : '#111111'
+    );
+  })();
+</script>

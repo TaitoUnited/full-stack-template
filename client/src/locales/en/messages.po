@@ -33,13 +33,13 @@ msgstr ""
 msgid "Authentication"
 msgstr ""
 
-#: src/routes/post-create/PostCreate.tsx:65
+#: src/routes/post-create/PostCreate.tsx:67
 msgid "Author"
 msgstr ""
 
-#: src/components/navigation/Sidebar.tsx:15
+#: src/components/navigation/Sidebar.tsx:16
 #: src/routes/post-list/PostList.tsx:28
-#: src/routes/post-list/index.tsx:17
+#: src/routes/post-list/index.tsx:18
 msgid "Blog"
 msgstr ""
 
@@ -55,7 +55,7 @@ msgstr ""
 msgid "Change theme to light mode"
 msgstr ""
 
-#: src/routes/post-create/PostCreate.tsx:72
+#: src/routes/post-create/PostCreate.tsx:75
 msgid "Content"
 msgstr ""
 
@@ -63,17 +63,13 @@ msgstr ""
 msgid "Could not find post."
 msgstr ""
 
-#: src/routes/post-create/PostCreate.tsx:90
+#: src/routes/post-create/PostCreate.tsx:95
 msgid "Create"
 msgstr ""
 
-#: src/routes/post-create/PostCreate.tsx:88
+#: src/routes/post-create/PostCreate.tsx:93
 msgid "Creating"
 msgstr ""
-
-#: src/routes/post-create/PostCreate.tsx:88
-#~ msgid "Creating..."
-#~ msgstr ""
 
 #: src/routes/home/Home.tsx:30
 msgid "Dark Mode"
@@ -91,7 +87,7 @@ msgstr ""
 msgid "Examples"
 msgstr ""
 
-#: src/routes/post-create/PostCreate.tsx:44
+#: src/routes/post-create/PostCreate.tsx:45
 msgid "Failed to add new blog post"
 msgstr ""
 
@@ -113,7 +109,7 @@ msgstr ""
 
 #: src/components/navigation/Sidebar.tsx:14
 #: src/routes/home/Home.tsx:64
-#: src/routes/home/index.tsx:10
+#: src/routes/home/index.tsx:11
 msgid "Home"
 msgstr ""
 
@@ -125,15 +121,11 @@ msgstr ""
 msgid "Internationalization"
 msgstr ""
 
-#: src/routes/home/Home.tsx:27
-#~ msgid "Latest blog posts"
-#~ msgstr ""
-
-#: src/routes/login/index.tsx:56
+#: src/routes/login/index.tsx:57
 msgid "Logging in"
 msgstr ""
 
-#: src/components/navigation/Sidebar.tsx:43
+#: src/components/navigation/Sidebar.tsx:53
 msgid "Logging out"
 msgstr ""
 
@@ -142,7 +134,7 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
-#: src/components/navigation/Sidebar.tsx:45
+#: src/components/navigation/Sidebar.tsx:55
 msgid "Logout"
 msgstr ""
 
@@ -150,12 +142,12 @@ msgstr ""
 msgid "Most apps will require internationalization at some point in their lifetime. This template the necessary setup for multiple languages that are loaded lazily once selected. Try changing the language in the top right corner."
 msgstr ""
 
-#: src/routes/post-create/PostCreate.tsx:52
+#: src/routes/post-create/PostCreate.tsx:53
 #: src/routes/post-create/index.tsx:13
 msgid "New blog post"
 msgstr ""
 
-#: src/routes/post-create/PostCreate.tsx:41
+#: src/routes/post-create/PostCreate.tsx:42
 msgid "New blog post added"
 msgstr ""
 
@@ -179,20 +171,9 @@ msgstr ""
 msgid "Route Preloading"
 msgstr ""
 
-#: src/components/navigation/Sidebar.tsx:13
-#: src/routes/settings/Settings.tsx:14
-#: src/routes/settings/index.tsx:13
-#~ msgid "Settings"
-#~ msgstr ""
-
 #: src/routes/home/Home.tsx:50
 msgid "Skeleton Placeholders"
 msgstr ""
-
-#: src/routes/home/Home.tsx:33
-#: src/routes/home/Home.tsx:39
-#~ msgid "Some card"
-#~ msgstr ""
 
 #: src/routes/home/Home.tsx:46
 msgid "Speed is one of the most important aspects of a good UX. This template introduces a pattern for preloading route's data and code-split code in order to make page transitions feel instant."
@@ -206,35 +187,19 @@ msgstr ""
 msgid "Splash Screen"
 msgstr ""
 
-#: src/routes/post-create/PostCreate.tsx:58
+#: src/routes/post-create/PostCreate.tsx:59
 msgid "Subject"
 msgstr ""
 
-#: src/routes/login/index.tsx:58
+#: src/routes/login/index.tsx:59
 msgid "Submit"
 msgstr ""
 
-#: src/routes/home/Home.tsx:21
-#~ msgid "The building blocks for creating accessible components are provided by React Aria. This template has pre-built UI kit components, such as Button, Text, TextInput, etc., that have accessibility baked into them. You can use and extend this UI kit to fit your needs."
-#~ msgstr ""
-
-#: src/routes/home/Home.tsx:79
-#~ msgid "The template works as a starting point for the development of your app. You can freely alter any aspect of the template to fit your needs better."
-#~ msgstr ""
-
-#: src/components/navigation/Sidebar.tsx:16
+#: src/components/navigation/Sidebar.tsx:22
 #: src/routes/theming/Theming.tsx:12
-#: src/routes/theming/index.tsx:13
+#: src/routes/theming/index.tsx:14
 msgid "Theming"
 msgstr ""
-
-#: src/routes/home/Home.tsx:18
-#~ msgid "This React app contains the necessary building blocks that you need to get your project started 🏗"
-#~ msgstr ""
-
-#: src/routes/home/Home.tsx:72
-#~ msgid "This React app contains the necessary building blocks that you need to get your project started."
-#~ msgstr ""
 
 #: src/routes/home/Home.tsx:72
 msgid "This React app contains the necessary building blocks that you need to get your project started. You can freely alter any aspect of the template to fit your needs better."
@@ -243,7 +208,3 @@ msgstr ""
 #: src/routes/home/Home.tsx:68
 msgid "Welcome to Taito Fullstack Template!"
 msgstr ""
-
-#: src/routes/home/Home.tsx:112
-#~ msgid "{0}"
-#~ msgstr ""

@@ -2,5 +2,5 @@ assets/
 shared/
 __mocks__/
 src/graphql/generated.ts
-webpack.*.js
+src/locales/
 jest.config.js

@@ -16,7 +16,7 @@ const ThemingContext = createContext<undefined | AuthContextValue>(undefined);
 
 export function ThemingProvider({ children }: { children: ReactNode }) {
   const [persistedTheme, setCurrentTheme] = usePersistedState<CurrentTheme>('@app/theme'); // prettier-ignore
-  const currentTheme = persistedTheme || (window as any).CURRENT_THEME || 'light'; // prettier-ignore
+  const currentTheme = persistedTheme || (window as any).CURRENT_THEME || 'light' as CurrentTheme; // prettier-ignore
   const theme = currentTheme === 'light' ? lightTheme : darkTheme;
 
   function toggleTheme() {
@@ -25,6 +25,7 @@ export function ThemingProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const root = document.documentElement;
+    root.style.setProperty('color-scheme', currentTheme);
     root.style.setProperty('--background-color', theme.colors.background);
   }, [currentTheme]); // eslint-disable-line
 

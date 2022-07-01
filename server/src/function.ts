@@ -14,7 +14,6 @@ export const initFunctionHandler = (server: Koa, basePath: string) => {
       } else {
         throw new Error(`Unknown event: ${event.resources[0]}`);
       }
-      return;
     } else {
       // Http request
       return await serverlessHandler(event, context);
