@@ -1,6 +1,6 @@
 import { SkeletonPlaceholder, Stack } from '~uikit';
 
-export default function PostCreatePlaceholder() {
+export default function PostCreateFallback() {
   return (
     <Stack
       axis="y"

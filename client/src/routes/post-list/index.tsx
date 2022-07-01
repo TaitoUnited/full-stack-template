@@ -1,31 +1,22 @@
-import { t } from '@lingui/macro';
+import Fallback from './PostList.fallback';
+import { routeEntry, RouteEntryLoaderData } from '../route-utils';
 
-import type { Props as PostListProps } from './PostList';
-import PostListPlaceholder from './PostListPlaceholder';
-import { loadableWithFallback } from '~utils/promise';
-import { useDocumentTitle } from '~utils/routing';
-import { preloadQuery, PostListDocument, usePostListQuery } from '~graphql';
-import type { PageEntry } from '~types/navigation';
+import {
+  query,
+  PostListDocument,
+  PostListQueryResult,
+  OrderDirection,
+} from '~graphql';
 
-const PostList = loadableWithFallback<PostListProps>(
-  () => import('./PostList'),
-  <PostListPlaceholder />
-);
+const entry = routeEntry({
+  fallback: <Fallback />,
+  component: () => import('./PostList.page'),
+  loader: () =>
+    query<PostListQueryResult>(PostListDocument, {
+      order: { field: 'createdAt', dir: OrderDirection.Desc },
+    }).then(res => res.data),
+});
 
-const PostListPageEntry: PageEntry = () => {
-  const postListQuery = usePostListQuery();
+export type LoaderData = RouteEntryLoaderData<typeof entry>;
 
-  useDocumentTitle(t`Blog`);
-
-  return <PostList postListQuery={postListQuery} />;
-};
-
-PostListPageEntry.preload = async (_, trigger) => {
-  PostList.preload();
-
-  if (trigger === 'click') {
-    await preloadQuery(PostListDocument);
-  }
-};
-
-export default PostListPageEntry;
+export default entry;

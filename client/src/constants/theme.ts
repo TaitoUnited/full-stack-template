@@ -112,46 +112,26 @@ export const theme = {
   media,
   colors: lightColors,
   typography: {
-    title1: {
-      fontSize: rem(48),
-      fontWeight: 700,
-    } as CSSObject,
-    title2: {
-      fontSize: rem(32),
-      fontWeight: 700,
-    } as CSSObject,
-    title3: {
-      fontSize: rem(24),
-      fontWeight: 700,
-    } as CSSObject,
-    subtitle: {
-      fontSize: rem(16),
-      fontWeight: 700,
-    } as CSSObject,
-    body: {
-      fontSize: rem(16),
-      fontWeight: 400,
-    } as CSSObject,
-    bodyLarge: {
-      fontSize: rem(18),
-      fontWeight: 400,
-    } as CSSObject,
-    bodySmall: {
-      fontSize: rem(12),
-      fontWeight: 400,
-    } as CSSObject,
+    title1: { fontSize: rem(48), fontWeight: 800 } as CSSObject,
+    title2: { fontSize: rem(32), fontWeight: 800 } as CSSObject,
+    title3: { fontSize: rem(24), fontWeight: 800 } as CSSObject,
+    title4: { fontSize: rem(18), fontWeight: 800 } as CSSObject,
+    bodyLarge: { fontSize: rem(18), fontWeight: 400 } as CSSObject,
+    bodyLargeStrong: { fontSize: rem(18), fontWeight: 600 } as CSSObject,
+    body: { fontSize: rem(16), fontWeight: 400 } as CSSObject,
+    bodyStrong: { fontSize: rem(16), fontWeight: 600 } as CSSObject,
+    bodySmall: { fontSize: rem(12), fontWeight: 400 } as CSSObject,
+    bodySmallStrong: { fontSize: rem(12), fontWeight: 600 } as CSSObject,
+    caption: { fontSize: rem(10), fontWeight: 400 } as CSSObject,
     overline: {
       fontSize: rem(10),
       textTransform: 'uppercase',
-      fontWeight: 500,
-      letterSpacing: 0.8,
-    } as CSSObject,
-    caption: {
-      fontSize: rem(10),
-      fontWeight: 400,
+      fontWeight: 600,
+      letterSpacing: 1.2,
     } as CSSObject,
   },
   spacing: {
+    none: 0,
     xxsmall: 4,
     xsmall: 8,
     small: 12,

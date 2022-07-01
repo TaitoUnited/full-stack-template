@@ -1,11 +1,12 @@
 import path from 'path';
 import react from '@vitejs/plugin-react';
 import strip from '@rollup/plugin-strip';
-import minifyTemplateLiterals from 'rollup-plugin-minify-html-literals';
+import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vite';
 import { ViteFaviconsPlugin } from 'vite-plugin-favicon2';
 import { optimizeLodashImports } from '@optimize-lodash/rollup-plugin';
-import { taitoHtmlPlugin } from './src/html/html-plugin';
+import { htmlFragmentsPlugin } from './plugins/html-fragments-plugin';
+import { minifyTemplateLiteralsPlugin } from './plugins/minify-template-literals-plugin';
 
 const ANALYZE = !!process.env.ANALYZE;
 const OUT_DIR = path.resolve(__dirname, ANALYZE ? 'build' : '../../build');
@@ -33,14 +34,7 @@ export default defineConfig(({ mode }) => ({
       },
       plugins: [
         // Minify CSS-in-JS styles and GraphQL queries
-        minifyTemplateLiterals({
-          options: {
-            shouldMinifyCSS: () => false,
-            shouldMinify({ tag = '' }) {
-              return tag === 'gql' || tag === 'css' || tag.includes('styled');
-            },
-          },
-        }),
+        minifyTemplateLiteralsPlugin(),
         optimizeLodashImports(),
         strip({ functions: ['console.log', 'console.warn'] }),
       ],
@@ -75,7 +69,8 @@ export default defineConfig(({ mode }) => ({
           },
         },
       }),
-    taitoHtmlPlugin(),
+    tsconfigPaths(),
+    htmlFragmentsPlugin(),
     react({
       exclude: /\.stories\.(t|j)sx?$/, // Exclude Storybook stories
       babel: { plugins: ['macros'] },
@@ -89,18 +84,6 @@ export default defineConfig(({ mode }) => ({
     hmr: {
       host: PUBLIC_HOST,
       clientPort: PUBLIC_PORT,
-    },
-  },
-  resolve: {
-    alias: {
-      '~constants': path.resolve(__dirname, 'src/constants'),
-      '~services': path.resolve(__dirname, 'src/services'),
-      '~shared': path.resolve(__dirname, 'shared'),
-      '~graphql': path.resolve(__dirname, 'src/graphql/index'),
-      '~uikit': path.resolve(__dirname, 'src/components/uikit/index'),
-      '~components': path.resolve(__dirname, 'src/components'),
-      '~utils': path.resolve(__dirname, 'src/utils'),
-      '~types': path.resolve(__dirname, 'src/types')
     },
   },
 }));

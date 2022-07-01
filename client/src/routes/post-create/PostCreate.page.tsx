@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { t, Trans } from '@lingui/macro';
 
+import { useDocumentTitle } from '~utils/routing';
 import { Text, TextInput, Stack, FillButton } from '~uikit';
 import { PostListDocument, useCreatePostMutation } from '~graphql';
 
@@ -45,6 +46,8 @@ export default function PostCreatePage() {
       toast.error(t`Failed to add new blog post`);
     }
   }
+
+  useDocumentTitle(t`New blog post`);
 
   return (
     <Wrapper>

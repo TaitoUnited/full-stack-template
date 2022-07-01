@@ -48,12 +48,15 @@ const variantToTag: { [key in Typography]: Partial<Tags> } = {
   title1: 'h1',
   title2: 'h2',
   title3: 'h3',
-  subtitle: 'strong',
+  title4: 'h4',
   overline: 'span',
   caption: 'span',
   body: 'span',
+  bodyStrong: 'strong',
   bodySmall: 'span',
+  bodySmallStrong: 'strong',
   bodyLarge: 'span',
+  bodyLargeStrong: 'strong',
 };
 
 const TextBase = styled.span<TransientProps>`

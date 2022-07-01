@@ -2,7 +2,7 @@ import { range } from 'lodash';
 
 import { SkeletonPlaceholder, Stack } from '~uikit';
 
-export default function PostListPlaceholder() {
+export default function PostListFallback() {
   return (
     <Stack axis="y" spacing="large">
       <SkeletonPlaceholder width={130} height={48} borderRadius="small" />

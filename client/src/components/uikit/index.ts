@@ -18,3 +18,5 @@ export { default as Icon } from './Icon';
 export { default as FillButton } from './Buttons/FillButton';
 export { default as OutlineButton } from './Buttons/OutlineButton';
 export { default as FloatingButton } from './Buttons/FloatingButton';
+export { default as Table } from './Table';
+export type { SortDescriptor } from './Table';

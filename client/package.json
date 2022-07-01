@@ -20,8 +20,8 @@
   },
   "dependencies": {
     "@apollo/client": "3.6.5",
-    "@lingui/macro": "3.13.3",
-    "@lingui/react": "3.13.3",
+    "@lingui/macro": "3.14.0",
+    "@lingui/react": "3.14.0",
     "@loadable/component": "5.15.2",
     "@sentry/browser": "6.19.7",
     "apollo3-cache-persist": "0.14.0",
@@ -53,7 +53,7 @@
     "@graphql-codegen/typescript": "2.4.11",
     "@graphql-codegen/typescript-operations": "2.4.0",
     "@graphql-codegen/typescript-react-apollo": "3.2.14",
-    "@lingui/cli": "3.13.3",
+    "@lingui/cli": "3.14.0",
     "@optimize-lodash/rollup-plugin": "3.0.0",
     "@rollup/plugin-strip": "2.1.0",
     "@storybook/addon-actions": "6.5.5",
@@ -97,11 +97,12 @@
     "pg-promise": "10.11.1",
     "prettier": "2.6.2",
     "rollup-plugin-minify-html-literals": "1.2.6",
-    "source-map-loader": "3.0.1",
+    "source-map-explorer": "2.5.2",
     "storybook-dark-mode": "1.1.0",
     "typescript": "4.7.2",
     "vite": "2.9.9",
-    "vite-plugin-favicon2": "1.1.4"
+    "vite-plugin-favicon2": "1.1.4",
+    "vite-tsconfig-paths": "3.5.0"
   },
   "babel_comment": "Babel is only needed for LinguiJS message extraction and testing with Jest",
   "babel": {
