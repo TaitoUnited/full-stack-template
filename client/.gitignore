@@ -11,3 +11,4 @@ _build_git
 build
 *.swp
 .vscode
+.vite
