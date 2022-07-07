@@ -48,13 +48,14 @@ On helm.yaml:
     livenessCommand:
       - docker-healthcheck
     sidecar:
-        name: nginx
-        image: ${taito_container_registry}/nginx:${taito_build_image_tag}
-        paths:
-        - path: /api
-        cpuRequest: 2m
-        memoryRequest: 2Mi
-        sharedVolume:
+      enabled: true
+      name: nginx
+      image: ${taito_container_registry}/nginx:${taito_build_image_tag}
+      paths:
+      - path: /api
+      cpuRequest: 10m
+      memoryRequest: 10Mi
+      sharedVolume:
         mountPath: /var/run/php
         sidecarMountPath: /var/run/php
 ```
