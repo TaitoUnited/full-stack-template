@@ -2,7 +2,7 @@
 
 This template is work in progress. At least the following need to be configured manually:
 
-1. Add nginx as sidecar:
+1. Add nginx as server sidecar:
 
 On docker-nginx.conf:
 
@@ -18,6 +18,13 @@ On docker-nginx.conf:
 On docker-compose.yaml:
 
 ```
+  full-stack-template-server:
+    container_name: full-stack-template-server
+    build:
+      context: ./server
+      dockerfile: ${dockerfile}
+      target: builder
+  ...
   full-stack-template-nginx:
     container_name: full-stack-template-nginx
     build:
