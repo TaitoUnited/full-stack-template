@@ -101,6 +101,7 @@ services:
       - "./server:/develop:delegated"
       - "./shared:/develop/shared:delegated"
       - "/develop/node_modules"
+      - "/develop/vendor"
     secrets:
       - DATABASE_PASSWORD
       - REDIS_PASSWORD
