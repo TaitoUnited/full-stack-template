@@ -1,5 +1,5 @@
 import { Service } from 'typedi';
-import { Db } from '../../common/types/context';
+
 import {
   searchFromTable,
   getColumnNames,
@@ -7,8 +7,7 @@ import {
   getParameterAssignments,
   getParameterValues,
 } from '../../common/utils/dao';
-import { Pagination, FilterGroup, Order } from '../../common/types/search';
-import { EntityId } from '../../common/types/entity';
+
 import {
   Post,
   PostFilter,
@@ -17,6 +16,10 @@ import {
   UpdatePostInput,
   DeletePostInput,
 } from '../types/post';
+
+import { Db } from '../../common/types/context';
+import { Pagination, FilterGroup, Order } from '../../common/types/search';
+import { EntityId } from '../../common/types/entity';
 
 // Types: DbInput, DbOutput
 
@@ -40,16 +43,13 @@ export const selectFields: Required<DbOutput> = {
 
 // Table and columns
 const tableName = 'post';
-const customSelectColumnNames: string[] = [];
-const selectColumnNames = getColumnNames(
-  selectFields,
-  false,
-  tableName,
-  customSelectColumnNames
-);
-const filterableColumnNames = getColumnNames(new PostFilter(), true);
-const insertColumnNames = getColumnNames(updateFields);
-const insertParameterNames = getParameterNames(updateFields);
+const selectColumnNames = getColumnNames({ schema: selectFields, tableName });
+const filterableColumnNames = getColumnNames({
+  schema: new PostFilter(),
+  convertDepth: true,
+});
+const insertColumnNames = getColumnNames({ schema: updateFields });
+const insertParameterNames = getParameterNames({ schema: updateFields });
 
 // SELECT_COLUMNS_FRAGMENT EXAMPLE:
 // `
@@ -103,7 +103,7 @@ export class PostDao {
     search: string | null,
     filterGroups: FilterGroup<PostFilter>[],
     order: Order,
-    pagination: Pagination | null
+    pagination?: Pagination
   ): Promise<PaginatedPosts> {
     return searchFromTable({
       db,
@@ -111,14 +111,10 @@ export class PostDao {
       filterGroups,
       order,
       pagination,
-
       tableName,
       selectColumnNames,
-      customSelectColumnNames,
       filterableColumnNames,
-
       // Custom fragments
-      debugSql: false,
       selectColumnsFragment: SELECT_COLUMNS_FRAGMENT,
       joinFragment: JOIN_FRAGMENT,
       whereFragment: WHERE_FRAGMENT,

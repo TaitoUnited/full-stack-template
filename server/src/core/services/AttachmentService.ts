@@ -41,7 +41,7 @@ export class AttachmentService {
     search: string | null,
     origFilterGroups: FilterGroup<AttachmentFilter>[],
     order: Order,
-    pagination: Pagination | null
+    pagination?: Pagination
   ) {
     checkSystemPermission(state);
 

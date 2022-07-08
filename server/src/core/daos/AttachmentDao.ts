@@ -1,5 +1,5 @@
 import { Service } from 'typedi';
-import { Db } from '../../common/types/context';
+
 import {
   searchFromTable,
   getColumnNames,
@@ -7,7 +7,7 @@ import {
   getParameterAssignments,
   getParameterValues,
 } from '../../common/utils/dao';
-import { Pagination, FilterGroup, Order } from '../../common/types/search';
+
 import {
   AttachmentId,
   Attachment,
@@ -18,6 +18,9 @@ import {
   UpdateAttachmentInputInternal,
   DeleteAttachmentInputInternal,
 } from '../types/attachment';
+
+import { Db } from '../../common/types/context';
+import { Pagination, FilterGroup, Order } from '../../common/types/search';
 
 // Types: DbInput, DbOutput
 
@@ -44,16 +47,13 @@ export const selectFields: Required<DbOutput> = {
 
 // Table and columns
 const tableName = 'attachment';
-const customSelectColumnNames: string[] = [];
-const selectColumnNames = getColumnNames(
-  selectFields,
-  false,
-  tableName,
-  customSelectColumnNames
-);
-const filterableColumnNames = getColumnNames(new AttachmentFilter(), true);
-const insertColumnNames = getColumnNames(updateFields);
-const insertParameterNames = getParameterNames(updateFields);
+const selectColumnNames = getColumnNames({ schema: selectFields, tableName });
+const filterableColumnNames = getColumnNames({
+  schema: new AttachmentFilter(),
+  convertDepth: true,
+});
+const insertColumnNames = getColumnNames({ schema: updateFields });
+const insertParameterNames = getParameterNames({ schema: updateFields });
 
 // SELECT_COLUMNS_FRAGMENT EXAMPLE:
 // `
@@ -107,7 +107,7 @@ export class AttachmentDao {
     search: string | null,
     filterGroups: FilterGroup<AttachmentFilter>[],
     order: Order,
-    pagination: Pagination | null
+    pagination?: Pagination
   ): Promise<PaginatedAttachments> {
     return searchFromTable({
       db,
@@ -115,14 +115,10 @@ export class AttachmentDao {
       filterGroups,
       order,
       pagination,
-
       tableName,
       selectColumnNames,
-      customSelectColumnNames,
       filterableColumnNames,
-
       // Custom fragments
-      debugSql: false,
       selectColumnsFragment: SELECT_COLUMNS_FRAGMENT,
       joinFragment: JOIN_FRAGMENT,
       whereFragment: WHERE_FRAGMENT,

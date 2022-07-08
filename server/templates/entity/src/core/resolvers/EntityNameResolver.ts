@@ -1,13 +1,14 @@
 import { Context } from 'koa';
 import Container, { Service } from 'typedi';
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
+
 import {
   Pagination,
   FilterGroup,
   Order,
   OrderDirection,
 } from '../../common/types/search';
-import { EntityId } from '../../common/types/entity';
+
 import {
   EntityName,
   EntityNameFilter,
@@ -16,6 +17,8 @@ import {
   UpdateEntityNameInput,
   DeleteEntityNameInput,
 } from '../types/entityName';
+
+import { EntityId } from '../../common/types/entity';
 import { EntityNameService } from '../services/EntityNameService';
 
 /**
@@ -124,12 +127,10 @@ class EntityNameResolver {
   // @Authorized()
   // @FieldResolver(() => PaginatedOtherEntities)
   // async otherEntities(@Ctx() ctx: Context, @Root() root: EntityName) {
-  //   const filterGroups = addFilter(
-  //     [],
-  //     AnotherEntityFilter,
-  //     'entityNameId',
-  //     root.id
-  //   );
+  //    const filterGroups = addFilter({
+  //      field: 'entityNameId',
+  //      value: root.id,
+  //    });
   //
   //   return await this.otherEntityService.search(
   //     ctx.state,

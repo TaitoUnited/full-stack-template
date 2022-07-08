@@ -1,12 +1,14 @@
 import Boom from '@hapi/boom';
 import { Context } from 'koa';
 import { Service } from 'typedi';
-import { EntityType, Operation } from '../../common/types/entity';
+
 import {
   checkSystemPermission,
   checkPublicPermission,
   setPermissionsChecked,
 } from '../../common/utils/auth';
+
+import { EntityType, Operation } from '../../common/types/entity';
 
 /**
  * Common service for authorization
@@ -38,6 +40,7 @@ export class AuthService {
   /**
    * Checks if user is allowed to execute operation
    */
+  // TODO: make args into one object instead of passing them as separate args
   public async checkPermission(
     state: Context['state'],
     entityType: EntityType,

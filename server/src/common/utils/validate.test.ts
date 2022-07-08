@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+
 import {
   FilterGroup,
   Filter,
@@ -6,6 +7,7 @@ import {
   FilterLogicalOperator,
   ValueType,
 } from '../types/search';
+
 import {
   validateFilterGroups,
   validateFieldName,
@@ -40,14 +42,12 @@ describe('common/utils/db', () => {
     it('works ok', async () => {
       const filters1: Filter<MyType>[] = [
         new Filter<MyType>(
-          MyType,
           'title',
           FilterOperator.EQ,
           'titlevalue',
           ValueType.TEXT
         ),
         new Filter<MyType>(
-          MyType,
           'notesCol',
           FilterOperator.ILIKE,
           'notesvalue',
@@ -57,14 +57,12 @@ describe('common/utils/db', () => {
 
       const filters2: Filter<MyType>[] = [
         new Filter<MyType>(
-          MyType,
           'title',
           FilterOperator.GT,
           'titlevalue',
           ValueType.TEXT
         ),
         new Filter<MyType>(
-          MyType,
           'ref_entityName_column',
           FilterOperator.NEQ,
           'value',
@@ -73,8 +71,8 @@ describe('common/utils/db', () => {
       ];
 
       const filterGroups: FilterGroup<MyType>[] = [
-        new FilterGroup<MyType>(MyType, FilterLogicalOperator.OR, filters1),
-        new FilterGroup<MyType>(MyType, FilterLogicalOperator.AND, filters2),
+        new FilterGroup<MyType>(FilterLogicalOperator.OR, filters1),
+        new FilterGroup<MyType>(FilterLogicalOperator.AND, filters2),
       ];
 
       validateFilterGroups(filterGroups, [
@@ -93,8 +91,10 @@ describe('common/utils/db', () => {
 
   describe('#validatePagination', () => {
     it('checks null', async () => {
-      expect(() => validatePagination(null)).toThrow('Pagination not set.');
-      validatePagination(null, true);
+      expect(() => validatePagination(undefined)).toThrow(
+        'Pagination not set.'
+      );
+      validatePagination(undefined, true);
     });
 
     it('checks limit', async () => {
@@ -109,8 +109,10 @@ describe('common/utils/db', () => {
         'The given pagination limit (3000) exceeds allowed limit (2000).'
       );
 
-      expect(() => validatePagination(null)).toThrow('Pagination not set.');
-      validatePagination(null, true);
+      expect(() => validatePagination(undefined)).toThrow(
+        'Pagination not set.'
+      );
+      validatePagination(undefined, true);
     });
   });
 });

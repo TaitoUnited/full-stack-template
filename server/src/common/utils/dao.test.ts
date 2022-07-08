@@ -1,6 +1,5 @@
 import 'reflect-metadata';
-// import { Db } from '../types/context';
-import { trimGaps } from '../utils/format';
+
 import {
   Pagination,
   Order,
@@ -11,12 +10,15 @@ import {
   FilterLogicalOperator,
   ValueType,
 } from '../types/search';
+
 import {
   getColumnNames,
   getParameterAssignments,
   getParameterValues,
   searchFromTable,
 } from './dao';
+
+import { trimGaps } from '../utils/format';
 
 const db = {
   one: jest.fn(),
@@ -39,7 +41,10 @@ const exampleObject = {
   notes: 'Some notes',
 };
 
-const selectColumnNames = getColumnNames(exampleObject, false, 'my_table');
+const selectColumnNames = getColumnNames({
+  schema: exampleObject,
+  tableName: 'my_table',
+});
 
 const expectedResult = {
   total: 1,
@@ -299,14 +304,12 @@ describe('common/utils/db', () => {
     it('filter groups work', async () => {
       const filters1: Filter<MyType>[] = [
         new Filter<MyType>(
-          MyType,
           'title',
           FilterOperator.EQ,
           'titlevalue',
           ValueType.TEXT
         ),
         new Filter<MyType>(
-          MyType,
           'notes',
           FilterOperator.ILIKE,
           'notesvalue',
@@ -316,14 +319,12 @@ describe('common/utils/db', () => {
 
       const filters2: Filter<MyType>[] = [
         new Filter<MyType>(
-          MyType,
           'title',
           FilterOperator.GT,
           'titlevalue',
           ValueType.TEXT
         ),
         new Filter<MyType>(
-          MyType,
           'notes',
           FilterOperator.NEQ,
           'notesvalue',
@@ -332,8 +333,8 @@ describe('common/utils/db', () => {
       ];
 
       const filterGroups: FilterGroup<MyType>[] = [
-        new FilterGroup<MyType>(MyType, FilterLogicalOperator.OR, filters1),
-        new FilterGroup<MyType>(MyType, FilterLogicalOperator.AND, filters2),
+        new FilterGroup<MyType>(FilterLogicalOperator.OR, filters1),
+        new FilterGroup<MyType>(FilterLogicalOperator.AND, filters2),
       ];
 
       const result = await searchFromTable({
@@ -402,14 +403,12 @@ describe('common/utils/db', () => {
     it('only allowed columns can be filtered', async () => {
       const filters1: Filter<MyType>[] = [
         new Filter<MyType>(
-          MyType,
           'title',
           FilterOperator.EQ,
           "' DELETE * FROM my_table",
           ValueType.TEXT
         ),
         new Filter<MyType>(
-          MyType,
           'notes',
           FilterOperator.ILIKE,
           "' DELETE * FROM my_table",
@@ -418,7 +417,7 @@ describe('common/utils/db', () => {
       ];
 
       const filterGroups: FilterGroup<MyType>[] = [
-        new FilterGroup<MyType>(MyType, FilterLogicalOperator.OR, filters1),
+        new FilterGroup<MyType>(FilterLogicalOperator.OR, filters1),
       ];
 
       try {
@@ -444,14 +443,12 @@ describe('common/utils/db', () => {
     it('filter groups do not contain sql injection', async () => {
       const filters1: Filter<MyType>[] = [
         new Filter<MyType>(
-          MyType,
           'title',
           FilterOperator.EQ,
           "' DELETE * FROM my_table",
           ValueType.TEXT
         ),
         new Filter<MyType>(
-          MyType,
           'notes',
           FilterOperator.ILIKE,
           "' DELETE * FROM my_table",
@@ -460,7 +457,7 @@ describe('common/utils/db', () => {
       ];
 
       const filterGroups: FilterGroup<MyType>[] = [
-        new FilterGroup<MyType>(MyType, FilterLogicalOperator.OR, filters1),
+        new FilterGroup<MyType>(FilterLogicalOperator.OR, filters1),
       ];
 
       const result = await searchFromTable({
