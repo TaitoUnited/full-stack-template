@@ -417,7 +417,7 @@ function createOrderFragment(
   filterableColumnNames: string[],
   customSelectColumnNames: string[],
   table: string,
-  fallbackField: string | null,
+  fallbackField: string | null, // TODO: can we remove this?
   disableTablePrefix = false
 ) {
   const fragments = orders.map((order) =>

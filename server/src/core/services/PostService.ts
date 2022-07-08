@@ -37,12 +37,11 @@ export class PostService {
     validateFieldName(order.field, filterableFieldNames);
     validatePagination(pagination, true);
 
-    // Check permissions
-    await this.authService.checkPermission(
+    await this.authService.checkPermission({
       state,
-      EntityType.POST,
-      Operation.LIST
-    );
+      entityType: EntityType.POST,
+      operation: Operation.LIST,
+    });
 
     // NOTE: Add additional filters according to user permissions
 
@@ -68,49 +67,45 @@ export class PostService {
     const post = await this.postDao.read(state.tx, id);
 
     if (post) {
-      // Check permissions
-      await this.authService.checkPermission(
+      await this.authService.checkPermission({
         state,
-        EntityType.POST,
-        Operation.VIEW,
-        post.id
-      );
+        entityType: EntityType.POST,
+        operation: Operation.VIEW,
+        entityId: post.id,
+      });
     }
 
     return post;
   }
 
   public async create(state: Context['state'], post: CreatePostInput) {
-    // Check permissions
-    await this.authService.checkPermission(
+    await this.authService.checkPermission({
       state,
-      EntityType.POST,
-      Operation.ADD
-    );
+      entityType: EntityType.POST,
+      operation: Operation.ADD,
+    });
 
     return this.postDao.create(state.tx, post);
   }
 
   public async update(state: Context['state'], post: UpdatePostInput) {
-    // Check permissions
-    await this.authService.checkPermission(
+    await this.authService.checkPermission({
       state,
-      EntityType.POST,
-      Operation.EDIT,
-      post.id
-    );
+      entityType: EntityType.POST,
+      operation: Operation.EDIT,
+      entityId: post.id,
+    });
 
     return this.postDao.update(state.tx, post);
   }
 
   public async delete(state: Context['state'], post: DeletePostInput) {
-    // Check permissions
-    await this.authService.checkPermission(
+    await this.authService.checkPermission({
       state,
-      EntityType.POST,
-      Operation.DELETE,
-      post.id
-    );
+      entityType: EntityType.POST,
+      operation: Operation.DELETE,
+      entityId: post.id,
+    });
 
     return this.postDao.delete(state.tx, post);
   }

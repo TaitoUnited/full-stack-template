@@ -41,16 +41,16 @@ export class EntityNameService {
     validatePagination(pagination, true);
 
     // Check permissions
-    await this.authService.checkPermission(
+    await this.authService.checkPermission({
       state,
-      EntityType.ENTITY_NAME,
-      Operation.LIST
-    );
+      entityType: EntityType.ENTITY_NAME,
+      operation: Operation.LIST,
+    });
 
     // NOTE: Add additional filters according to user permissions
 
     // Add additional filters
-    let filterGroups = origFilterGroups;
+    const filterGroups = origFilterGroups;
 
     // filterGroups = addFilter({
     //   filterGroups,
@@ -72,12 +72,12 @@ export class EntityNameService {
 
     if (entityName) {
       // Check permissions
-      await this.authService.checkPermission(
+      await this.authService.checkPermission({
         state,
-        EntityType.ENTITY_NAME,
-        Operation.VIEW,
-        entityName.id
-      );
+        entityType: EntityType.ENTITY_NAME,
+        operation: Operation.VIEW,
+        entityId: entityName.id,
+      });
     }
 
     return entityName;
@@ -88,11 +88,11 @@ export class EntityNameService {
     entityName: CreateEntityNameInput
   ) {
     // Check permissions
-    await this.authService.checkPermission(
+    await this.authService.checkPermission({
       state,
-      EntityType.ENTITY_NAME,
-      Operation.ADD
-    );
+      entityType: EntityType.ENTITY_NAME,
+      operation: Operation.ADD,
+    });
 
     return this.entityNameDao.create(state.tx, entityName);
   }
@@ -102,12 +102,12 @@ export class EntityNameService {
     entityName: UpdateEntityNameInput
   ) {
     // Check permissions
-    await this.authService.checkPermission(
+    await this.authService.checkPermission({
       state,
-      EntityType.ENTITY_NAME,
-      Operation.EDIT,
-      entityName.id
-    );
+      entityType: EntityType.ENTITY_NAME,
+      operation: Operation.EDIT,
+      entityId: entityName.id,
+    });
 
     return this.entityNameDao.update(state.tx, entityName);
   }
@@ -117,12 +117,12 @@ export class EntityNameService {
     entityName: DeleteEntityNameInput
   ) {
     // Check permissions
-    await this.authService.checkPermission(
+    await this.authService.checkPermission({
       state,
-      EntityType.ENTITY_NAME,
-      Operation.DELETE,
-      entityName.id
-    );
+      entityType: EntityType.ENTITY_NAME,
+      operation: Operation.DELETE,
+      entityId: entityName.id,
+    });
 
     return this.entityNameDao.delete(state.tx, entityName);
   }
