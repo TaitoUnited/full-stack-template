@@ -40,13 +40,17 @@ export class AuthService {
   /**
    * Checks if user is allowed to execute operation
    */
-  // TODO: make args into one object instead of passing them as separate args
-  public async checkPermission(
-    state: Context['state'],
-    entityType: EntityType,
-    operation: Operation,
-    entityId?: string
-  ) {
+  public async checkPermission({
+    state,
+    entityType,
+    operation,
+    entityId,
+  }: {
+    state: Context['state'];
+    entityType: EntityType;
+    operation: Operation;
+    entityId?: string;
+  }) {
     setPermissionsChecked(state);
 
     // Check that entity id was given in case it's mandatory

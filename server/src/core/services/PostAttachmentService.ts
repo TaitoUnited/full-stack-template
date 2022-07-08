@@ -33,13 +33,12 @@ export class PostAttachmentService {
     attachmentType: AttachmentType,
     order: Order
   ) {
-    // Check permissions
-    await this.authService.checkPermission(
+    await this.authService.checkPermission({
       state,
-      EntityType.POST,
-      Operation.VIEW,
-      postId
-    );
+      entityType: EntityType.POST,
+      operation: Operation.VIEW,
+      entityId: postId,
+    });
 
     let filterGroups = addFilter({ field: 'postId', value: postId });
 
@@ -58,13 +57,12 @@ export class PostAttachmentService {
   }
 
   public async read(state: Context['state'], input: ReadPostAttachmentInput) {
-    // Check permissions
-    await this.authService.checkPermission(
+    await this.authService.checkPermission({
       state,
-      EntityType.POST,
-      Operation.VIEW,
-      input.postId
-    );
+      entityType: EntityType.POST,
+      operation: Operation.VIEW,
+      entityId: input.postId,
+    });
 
     return await this.attachmentService.read(state, input);
   }
@@ -73,13 +71,12 @@ export class PostAttachmentService {
     state: Context['state'],
     attachment: CreatePostAttachmentInput
   ) {
-    // Check permissions
-    await this.authService.checkPermission(
+    await this.authService.checkPermission({
       state,
-      EntityType.POST,
-      Operation.EDIT,
-      attachment.postId
-    );
+      entityType: EntityType.POST,
+      operation: Operation.EDIT,
+      entityId: attachment.postId,
+    });
 
     return this.attachmentService.create(state, attachment);
   }
@@ -88,13 +85,12 @@ export class PostAttachmentService {
     state: Context['state'],
     attachment: FinalizePostAttachmentInput
   ) {
-    // Check permissions
-    await this.authService.checkPermission(
+    await this.authService.checkPermission({
       state,
-      EntityType.POST,
-      Operation.EDIT,
-      attachment.postId
-    );
+      entityType: EntityType.POST,
+      operation: Operation.EDIT,
+      entityId: attachment.postId,
+    });
 
     await this.attachmentService.finalize(state, attachment);
     return await this.read(state, attachment);
@@ -104,13 +100,12 @@ export class PostAttachmentService {
     state: Context['state'],
     attachment: UpdatePostAttachmentInput
   ) {
-    // Check permissions
-    await this.authService.checkPermission(
+    await this.authService.checkPermission({
       state,
-      EntityType.POST,
-      Operation.EDIT,
-      attachment.postId
-    );
+      entityType: EntityType.POST,
+      operation: Operation.EDIT,
+      entityId: attachment.postId,
+    });
 
     return this.attachmentService.update(state, attachment);
   }
@@ -119,15 +114,13 @@ export class PostAttachmentService {
     state: Context['state'],
     attachment: DeletePostAttachmentInput
   ) {
-    // Check permissions
-    await this.authService.checkPermission(
+    await this.authService.checkPermission({
       state,
-      EntityType.POST,
-      Operation.EDIT,
-      attachment.postId
-    );
+      entityType: EntityType.POST,
+      operation: Operation.EDIT,
+      entityId: attachment.postId,
+    });
 
-    // Delete attachment
     return await this.attachmentService.delete(state, attachment);
   }
 }
