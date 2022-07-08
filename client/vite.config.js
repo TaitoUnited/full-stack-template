@@ -40,9 +40,6 @@ export default defineConfig(({ mode }) => ({
         strip({ functions: ['console.log', 'console.warn'] }),
       ],
     },
-    terserOptions: {
-      format: { comments: false }, // Remove all comments
-    },
   },
   plugins: [
     // Generate favicons only on production since it slows down the dev build
