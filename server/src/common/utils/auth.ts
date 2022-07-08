@@ -1,5 +1,7 @@
 import Boom from '@hapi/boom';
+import { AuthenticationError } from 'apollo-server-koa';
 import { Context } from 'koa';
+import { Authorized } from 'type-graphql';
 import { UserRole } from '../types/context';
 
 /**
@@ -44,8 +46,14 @@ export async function setPermissionsChecked(state: Context['state']) {
  * is done in services.
  */
 export const authChecker = (context: Context, roles: UserRole[]) => {
-  // TODO: Implement auth here
+  const { user } = context.state;
+
+  if (!(user?.role && roles.includes(user.role))) {
+    throw new AuthenticationError('invalid session');
+  }
   return true;
 };
+
+export const Authorize = (...roles: UserRole[]) => Authorized(roles);
 
 export default authChecker;

@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
 import patchKoaQs from 'koa-qs';
+
 import config from './common/setup/config';
 import getDb from './common/setup/db';
 import log from './common/setup/log';
@@ -9,6 +10,7 @@ import dbTransactionMiddleware from './infra/middlewares/dbTransactionMiddleware
 import errorHandlerMiddleware from './infra/middlewares/errorHandlerMiddleware';
 import initSentry from './infra/middlewares/initSentry';
 import requestLoggerMiddleware from './infra/middlewares/requestLoggerMiddleware';
+import jwtMiddleware from './infra/middlewares/jwtMiddleware';
 import restMiddlewares from './rest';
 import apollo from './graphql';
 import { initFunctionHandler } from './function';
@@ -33,6 +35,7 @@ server.use(requestLoggerMiddleware); // Assume no errors in logging
 server.use(errorHandlerMiddleware);
 server.use(bodyParser()); // Required by dbTransactionMiddleware.isGraphQLQuery
 server.use(dbTransactionMiddleware);
+server.use(jwtMiddleware);
 
 // REST API routing
 restMiddlewares.forEach((middleware) => {
