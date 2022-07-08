@@ -80,7 +80,6 @@ export class Filter<
   Key extends keyof Item = keyof Item
 > {
   constructor(
-    itemType: ClassType<Item>,
     field: Key,
     operator: FilterOperator,
     value: Item[Key],
@@ -101,9 +100,7 @@ export class Filter<
   /*
     This is a string since GraphQL doesn't allow for union type inputs
     in an ideal world we would have this be String | Number | Date | ... but
-    this will have to do.
-
-    hence the valueType -field
+    this will have to do, hence the valueType -field
   */
   @Field(() => String, { nullable: true })
   value: string | null;
@@ -117,11 +114,7 @@ export class Filter<
 
 @InputType()
 export class FilterGroup<Item extends Record<string, any>> {
-  constructor(
-    itemType: ClassType<Item>,
-    operator: FilterLogicalOperator,
-    filters: Filter<Item>[]
-  ) {
+  constructor(operator: FilterLogicalOperator, filters: Filter<Item>[]) {
     this.operator = operator;
     this.filters = filters;
   }

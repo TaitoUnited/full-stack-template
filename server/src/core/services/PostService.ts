@@ -1,19 +1,22 @@
 import { Context } from 'koa';
 import { Service } from 'typedi';
-import { getObjectKeysAsFieldNames } from '../../common/utils/format';
+
 import {
   validateFilterGroups,
   validateFieldName,
   validatePagination,
 } from '../../common/utils/validate';
-import { Pagination, FilterGroup, Order } from '../../common/types/search';
-import { EntityType, Operation } from '../../common/types/entity';
+
 import {
   PostFilter,
   CreatePostInput,
   UpdatePostInput,
   DeletePostInput,
 } from '../types/post';
+
+import { getObjectKeysAsFieldNames } from '../../common/utils/format';
+import { Pagination, FilterGroup, Order } from '../../common/types/search';
+import { EntityType, Operation } from '../../common/types/entity';
 import { PostDao } from '../daos/PostDao';
 import { AuthService } from './AuthService';
 
@@ -28,7 +31,7 @@ export class PostService {
     search: string | null,
     origFilterGroups: FilterGroup<PostFilter>[],
     order: Order,
-    pagination: Pagination | null
+    pagination?: Pagination
   ) {
     validateFilterGroups(origFilterGroups, filterableFieldNames);
     validateFieldName(order.field, filterableFieldNames);
@@ -45,12 +48,12 @@ export class PostService {
 
     // Add additional filters
     const filterGroups = origFilterGroups;
-    // const filterGroups = addFilter(
-    //   origFilterGroups,
-    //   PostFilter,
-    //   'someFilter',
-    //   someFilter
-    // );
+
+    // filterGroups = addFilter({
+    //   filterGroups,
+    //   field: 'someFilter',
+    //   value: someFilter,
+    // });
 
     return this.postDao.search(
       state.tx,

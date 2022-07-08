@@ -38,16 +38,13 @@ export const selectFields: Required<DbOutput> = {
 
 // Table and columns
 const tableName = 'entity_name';
-const customSelectColumnNames: string[] = [];
-const selectColumnNames = getColumnNames(
-  selectFields,
-  false,
-  tableName,
-  customSelectColumnNames
-);
-const filterableColumnNames = getColumnNames(new EntityNameFilter(), true);
-const insertColumnNames = getColumnNames(updateFields);
-const insertParameterNames = getParameterNames(updateFields);
+const selectColumnNames = getColumnNames({ schema: selectFields, tableName });
+const filterableColumnNames = getColumnNames({
+  schema: new EntityNameFilter(),
+  convertDepth: true,
+});
+const insertColumnNames = getColumnNames({ schema: updateFields });
+const insertParameterNames = getParameterNames({ schema: updateFields });
 
 // SELECT_COLUMNS_FRAGMENT EXAMPLE:
 // `
@@ -101,7 +98,7 @@ export class EntityNameDao {
     search: string | null,
     filterGroups: FilterGroup<EntityNameFilter>[],
     order: Order,
-    pagination: Pagination | null
+    pagination?: Pagination
   ): Promise<PaginatedEntityNames> {
     return searchFromTable({
       db,
@@ -109,14 +106,10 @@ export class EntityNameDao {
       filterGroups,
       order,
       pagination,
-
       tableName,
       selectColumnNames,
-      customSelectColumnNames,
       filterableColumnNames,
-
       // Custom fragments
-      debugSql: false,
       selectColumnsFragment: SELECT_COLUMNS_FRAGMENT,
       joinFragment: JOIN_FRAGMENT,
       whereFragment: WHERE_FRAGMENT,

@@ -1,7 +1,5 @@
 import Boom from '@hapi/boom';
-import { pgp } from '../setup/db';
-import * as format from './format';
-import { toSnakeCase } from './format';
+
 import {
   Filter,
   FilterGroup,
@@ -13,41 +11,60 @@ import {
   ValueType,
 } from '../types/search';
 
+import * as format from './format';
+import { pgp } from '../setup/db';
+import { toSnakeCase, toCamelCase } from './format';
+
 /**
  * Returns keys of an object as valid database table column names.
  *
- * @param object The object
- * @param convertDepth If true, _ is converted to . ('eName_cName' -> 'e_name.c_name')
- * @param tableName Table name to be added as column name prefix, or null.
- * @param excludeColumns Optional list of column names to be excluded.
+ * @param options.schema The object schema
+ * @param options.convertDepth If true, _ is converted to . ('eName_cName' -> 'e_name.c_name')
+ * @param options.tableName Table name to be added as column name prefix, or null.
+ * @param options.excludeColumns Optional list of column names to be excluded.
+ * @param options.casts Map of column names to their respective cast types.
  * @returns Each column as 'table_name.column_name'
  */
-export const getColumnNames = (
-  object: Record<string, any>,
-  convertDepth = false,
-  tableName: string | null = null,
-  excludeColumns: string[] = []
-): string[] => {
+export function getColumnNames<T extends Record<string, any>>({
+  schema,
+  tableName,
+  convertDepth,
+  excludeColumns = [],
+  casts = {},
+}: {
+  schema: T;
+  tableName?: string;
+  convertDepth?: boolean;
+  excludeColumns?: Array<keyof T>;
+  casts?: Partial<Record<keyof T, string>>;
+}) {
   return format
-    .keysAsSnakeCaseArray(object, convertDepth)
-    .filter((c) => !excludeColumns.map((c) => toSnakeCase(c)).includes(c))
-    .map((c) => (tableName ? `${tableName}.${c}` : c));
-};
-
-const formatParameterNames = (columns: string[]) => {
-  return columns.map((column) => `$[${toSnakeCase(column)}]`);
-};
+    .keysAsSnakeCaseArray(schema, convertDepth)
+    .filter((col) => !excludeColumns.includes(col))
+    .map((col) => `${col}${casts[toCamelCase(col)] || ''}`)
+    .map((col) => (tableName ? `${tableName}.${col}` : col));
+}
 
 /**
  * Returns keys of an object as arameter names to be added for example
  * in an INSERT statement values section.
  *
- * @param object
+ * @param options.schema The object schema
+ * @param options.casts Map of column names to their respective cast types.
  * @returns Each column as '$[column_name]'
  */
-export const getParameterNames = (object: Record<string, any>): string[] => {
-  return formatParameterNames(Object.getOwnPropertyNames(object));
-};
+export function getParameterNames<T extends Record<string, any>>({
+  schema,
+  casts = {},
+}: {
+  schema: T;
+  casts?: Partial<Record<keyof T, string>>;
+}) {
+  const columns = Object.getOwnPropertyNames(schema);
+  return columns
+    .map((col) => `$[${toSnakeCase(col)}]`)
+    .map((col, i) => `${col}${casts[columns[i]] || ''}`);
+}
 
 const formatParameterValues = (names: string[], obj: any) => {
   const newObj: any = {};
@@ -82,33 +99,39 @@ export const getParameterValues = (p: {
 /**
  * Returns parameter assigments to be added to an UPDATE statement.
  *
+ * @param options.values Field values to be updated.
+ * @param options.allowedKeys Array or object that specifies the allowed fields in camelCase.
+ * @param options.casts Map of column names to their respective cast types.
  * @returns Assignments, for example ['id = $[id]', 'creation_date = $[creation_date]']
  */
-export const getParameterAssignments = (p: {
-  /**
-   * Array or object that specifies the allowed fields in camelCase.
-   */
-  allowedKeys: any[] | Record<string, any>;
-  /**
-   * Field values to be updated.
-   */
-  values?: Record<string, any>;
-}): string[] => {
+export function getParameterAssignments<T extends Record<string, any>>({
+  values,
+  allowedKeys,
+  casts = {},
+}: {
+  values: T;
+  allowedKeys: Array<keyof T> | Partial<T>;
+  casts?: Partial<Record<keyof T, string>>;
+}) {
   const assignments = [];
 
-  const keys = Array.isArray(p.allowedKeys)
-    ? p.allowedKeys
-    : Object.getOwnPropertyNames(p.allowedKeys);
+  const keys = Array.isArray(allowedKeys)
+    ? allowedKeys
+    : Object.getOwnPropertyNames(allowedKeys);
+
   for (const key of keys) {
-    if (!p.values || p.values[key] !== undefined) {
-      assignments.push(`${toSnakeCase(key)} = $[${toSnakeCase(key)}]`);
+    if (!values || values[key] !== undefined) {
+      const cast = casts[key] || '';
+      const col = toSnakeCase(key as string);
+      const assignment = `${col} = $[${col}]${cast}`;
+      assignments.push(assignment);
     }
   }
 
   // In case there are no assignments, we return dummy id=id assignment to make sure
   // SQL statement is valid
-  return assignments.length ? assignments : ['id=id'];
-};
+  return assignments.length > 0 ? assignments : ['id=id'];
+}
 
 function never(arg: never): never {
   throw new Error();
@@ -452,6 +475,7 @@ function createOrderAddedColumnFragment(
     .filter((f) => !!f.trim())
     .join(', ')
     .trim();
+
   return addedColumns ? `, ${addedColumns}` : '';
 }
 
@@ -484,7 +508,7 @@ function createGroupByColumnsFragment(
   return added ? ', added_order_by_column' : '';
 }
 
-export type searchFromTableParams = {
+export type SearchFromTableParams = {
   /** Database table name */
   tableName: string;
   /** Database tool */
@@ -496,7 +520,7 @@ export type searchFromTableParams = {
   /** Order */
   order: Order | Order[];
   /** Pagination */
-  pagination: Pagination | null;
+  pagination?: Pagination;
   /** Additional parameters for query */
   queryParams?: Record<string, string | null | undefined> | null;
 
@@ -543,7 +567,7 @@ export type searchFromTableParams = {
  * @param parameters
  * @returns { total, data }
  */
-export async function searchFromTable(p: searchFromTableParams) {
+export async function searchFromTable(p: SearchFromTableParams) {
   const order = Array.isArray(p.order) ? p.order : [p.order];
 
   const whereFragment = p.whereFragment || 'WHERE 1 = 1';

@@ -1,19 +1,22 @@
 import { Context } from 'koa';
 import { Service } from 'typedi';
-import { getObjectKeysAsFieldNames } from '../../common/utils/format';
+
 import {
   validateFilterGroups,
   validateFieldName,
   validatePagination,
 } from '../../common/utils/validate';
-import { Pagination, FilterGroup, Order } from '../../common/types/search';
-import { EntityType, Operation } from '../../common/types/entity';
+
 import {
   EntityNameFilter,
   CreateEntityNameInput,
   UpdateEntityNameInput,
   DeleteEntityNameInput,
 } from '../types/entityName';
+
+import { getObjectKeysAsFieldNames } from '../../common/utils/format';
+import { Pagination, FilterGroup, Order } from '../../common/types/search';
+import { EntityType, Operation } from '../../common/types/entity';
 import { EntityNameDao } from '../daos/EntityNameDao';
 import { AuthService } from './AuthService';
 
@@ -31,7 +34,7 @@ export class EntityNameService {
     search: string | null,
     origFilterGroups: FilterGroup<EntityNameFilter>[],
     order: Order,
-    pagination: Pagination | null
+    pagination?: Pagination
   ) {
     validateFilterGroups(origFilterGroups, filterableFieldNames);
     validateFieldName(order.field, filterableFieldNames);
@@ -47,13 +50,13 @@ export class EntityNameService {
     // NOTE: Add additional filters according to user permissions
 
     // Add additional filters
-    const filterGroups = origFilterGroups;
-    // const filterGroups = addFilter(
-    //   origFilterGroups,
-    //   EntityNameFilter,
-    //   'someFilter',
-    //   someFilter
-    // );
+    let filterGroups = origFilterGroups;
+
+    // filterGroups = addFilter({
+    //   filterGroups,
+    //   field: 'someFilter',
+    //   value: someFilter,
+    // });
 
     return this.entityNameDao.search(
       state.tx,

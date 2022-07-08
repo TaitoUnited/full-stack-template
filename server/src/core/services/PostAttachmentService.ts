@@ -1,7 +1,6 @@
 import { Context } from 'koa';
 import { Service } from 'typedi';
-import { addFilter } from '../../common/utils/validate';
-import { Order } from '../../common/types/search';
+
 import {
   ReadPostAttachmentInput,
   CreatePostAttachmentInput,
@@ -9,7 +8,10 @@ import {
   UpdatePostAttachmentInput,
   DeletePostAttachmentInput,
 } from '../types/postAttachment';
-import { AttachmentType, AttachmentFilter } from '../types/attachment';
+
+import { addFilter } from '../../common/utils/validate';
+import { Order } from '../../common/types/search';
+import { AttachmentType } from '../types/attachment';
 import { AttachmentService } from '../services/AttachmentService';
 import { EntityType, Operation } from '../../common/types/entity';
 import { AuthService } from '../services/AuthService';
@@ -39,20 +41,19 @@ export class PostAttachmentService {
       postId
     );
 
-    let filterGroups = addFilter([], AttachmentFilter, 'postId', postId);
-    filterGroups = addFilter(
+    let filterGroups = addFilter({ field: 'postId', value: postId });
+
+    filterGroups = addFilter({
       filterGroups,
-      AttachmentFilter,
-      'attachmentType',
-      attachmentType
-    );
+      field: 'attachmentType',
+      value: attachmentType,
+    });
 
     return await this.attachmentService.search(
       state,
       null,
       filterGroups,
-      order,
-      null
+      order
     );
   }
 

@@ -1,5 +1,5 @@
 import Boom from '@hapi/boom';
-import { ClassType } from 'type-graphql';
+
 import {
   Filter,
   FilterGroup,
@@ -8,10 +8,23 @@ import {
   Pagination,
   ValueType,
 } from '../types/search';
+
 import { formatFieldName } from './format';
 
 function isSet(value?: any) {
-  return value !== null && value !== undefined;
+  return value !== null && value !== undefined && ('' + value).trim() !== '';
+}
+
+/**
+ * Throws validation error if value is not set.
+ *
+ * @param name
+ * @param value
+ */
+export function validateIsSet(name: string, value?: any) {
+  if (!isSet(value)) {
+    throw Boom.badRequest(`Value for ${name} should not be empty`);
+  }
 }
 
 /**
@@ -89,81 +102,35 @@ export function validateFilterGroups(
   }
 }
 
-/**
- * Returns the given filter groups with one filter added as a new
- * filter group.
- *
- * @param origFilterGroups
- * @param itemType
- * @param field
- * @param value
- * @param filterOperator
- * @param valueType
- * @returns
- */
-export function addFilter<Item extends Record<string, any>>(
-  origFilterGroups: FilterGroup<any>[],
-  itemType: ClassType<Item>,
-  field: string,
-  value: string,
-  filterOperator: FilterOperator = FilterOperator.EQ,
-  valueType: ValueType = ValueType.TEXT,
-  filterLogicalOperator: FilterLogicalOperator = FilterLogicalOperator.AND,
-  additionalFilters: Filter<Item>[] = []
-) {
+export function addFilter<Item extends Record<string, any>>({
+  filterGroups = [],
+  field,
+  value,
+  filterOperator = FilterOperator.EQ,
+  valueType = ValueType.TEXT,
+}: {
+  filterGroups?: FilterGroup<any>[];
+  field: string;
+  value: string;
+  filterOperator?: FilterOperator;
+  valueType?: ValueType;
+}) {
   const filter = new Filter<Item>(
-    itemType,
     field,
     filterOperator,
     value as Item[keyof Item],
     valueType
   );
 
-  const filterGroups: FilterGroup<Item>[] = [
-    new FilterGroup<Item>(
-      itemType,
-      filterLogicalOperator,
-      [filter].concat(additionalFilters)
-    ),
+  const newGroups: FilterGroup<Item>[] = [
+    new FilterGroup<Item>(FilterLogicalOperator.AND, [filter]),
   ];
 
-  return filterGroups.concat(origFilterGroups);
+  return newGroups.concat(filterGroups);
 }
 
-/**
- * Returns the given filter groups with given filters added as a new
- * filter group.
- *
- * @param origFilterGroups
- * @param itemType
- * @param filterLogicalOperator
- * @param filters
- * @returns
- */
-export function addFilters<Item extends Record<string, any>>(
-  origFilterGroups: FilterGroup<any>[],
-  itemType: ClassType<Item>,
-  filterLogicalOperator: FilterLogicalOperator = FilterLogicalOperator.AND,
-  filters: Filter<Item>[] = []
-) {
-  const filterGroups: FilterGroup<Item>[] = [
-    new FilterGroup<Item>(itemType, filterLogicalOperator, filters),
-  ];
-
-  return filterGroups.concat(origFilterGroups);
-}
-
-/**
- * Throws validation error if the given pagination limit exceeds
- * the allowed limit.
- *
- * @param pagination
- * @param allowNull
- * @param limit
- * @returns
- */
 export function validatePagination(
-  pagination: Pagination | null,
+  pagination?: Pagination,
   allowNull = false,
   limit = 1000
 ) {
@@ -171,7 +138,6 @@ export function validatePagination(
 
   if (!pagination && !allowNull) {
     throw Boom.badRequest('Pagination not set.');
-    return;
   }
 
   if (pagination && pagination?.limit > limit) {

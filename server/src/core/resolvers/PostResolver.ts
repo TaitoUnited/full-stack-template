@@ -1,13 +1,14 @@
 import { Context } from 'koa';
 import Container, { Service } from 'typedi';
 import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
+
 import {
   Pagination,
   FilterGroup,
   Order,
   OrderDirection,
 } from '../../common/types/search';
-import { EntityId } from '../../common/types/entity';
+
 import {
   Post,
   PostFilter,
@@ -16,6 +17,8 @@ import {
   UpdatePostInput,
   DeletePostInput,
 } from '../types/post';
+
+import { EntityId } from '../../common/types/entity';
 import { PostService } from '../services/PostService';
 
 /**
@@ -113,12 +116,10 @@ class PostResolver {
   // @Authorized()
   // @FieldResolver(() => PaginatedOtherEntities)
   // async otherEntities(@Ctx() ctx: Context, @Root() root: Post) {
-  //   const filterGroups = addFilter(
-  //     [],
-  //     AnotherEntityFilter,
-  //     'postId',
-  //     root.id
-  //   );
+  //    const filterGroups = addFilter({
+  //      field: 'postId',
+  //      value: root.id,
+  //    });
   //
   //   return await this.otherEntityService.search(
   //     ctx.state,
