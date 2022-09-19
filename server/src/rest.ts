@@ -6,26 +6,23 @@ import config from './common/setup/config';
 import createApiDocumentation from './infra/middlewares/createApiDocumentation';
 import InfraRouter from './infra/routers/InfraRouter';
 import { PostRouter } from './core/routers/PostRouter';
+import { OpenApi } from './infra/middlewares/openapi';
+import { openApiSpec } from './docs';
 
 // REST API routers
 const postRouter = Container.get(PostRouter);
 const infraRouter = Container.get(InfraRouter);
-const apiDocRouter = router();
 
-apiDocRouter.route({
-  method: 'get',
-  path: '/docs',
-  handler: async (ctx: Context) => {
-    ctx.response.body = createApiDocumentation({
-      title: config.APP_NAME,
-      groups: [postRouter, infraRouter].map((r) => ({
-        name: r.group,
-        routes: r.routes,
-        prefix: r.prefix,
-      })),
-    });
-  },
-});
+const openApi = new OpenApi(openApiSpec);
+
+const routers = [postRouter, infraRouter];
+
+// add routers one by one to openApi -spec-generator
+for (const router of routers) {
+  openApi.addRouter(router);
+}
+
+const apiDocRouter = openApi.createRouter('/docs');
 
 const restMiddlewares = [postRouter.middleware(), infraRouter.middleware()];
 
