@@ -25,6 +25,21 @@ const apollo = new ApolloServer({
     }
     return connection.context;
   },
+  plugins: [
+    {
+      requestDidStart(requestContext) {
+        return {
+          async didEncounterErrors(requestContext) {
+            // QUICK HACK: Apollo catches all exceptions before
+            // they end up to transactionMiddleware so we need
+            // to rollback transaction here.
+            // TODO: Implement a custom transaction/error handler for Apollo?
+            requestContext.context.state.tx.any('ROLLBACK');
+          },
+        };
+      },
+    },
+  ],
   introspection: ['local', 'dev', 'test'].includes(config.COMMON_ENV || ''),
   playground: ['local', 'dev', 'test'].includes(config.COMMON_ENV || '')
     ? {
