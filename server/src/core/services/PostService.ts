@@ -1,6 +1,7 @@
 import { Context } from 'koa';
 import { Service } from 'typedi';
 
+import { memoizeAsync } from '../../common/utils/cache';
 import {
   validateFilterGroups,
   validateFieldName,
@@ -8,6 +9,7 @@ import {
 } from '../../common/utils/validate';
 
 import {
+  Post,
   PostFilter,
   CreatePostInput,
   UpdatePostInput,
@@ -63,7 +65,9 @@ export class PostService {
     );
   }
 
-  public async read(state: Context['state'], id: string) {
+  public read = memoizeAsync<Post | null>(this.readImpl, this);
+
+  private async readImpl(state: Context['state'], id: string) {
     const post = await this.postDao.read(state.tx, id);
 
     if (post) {

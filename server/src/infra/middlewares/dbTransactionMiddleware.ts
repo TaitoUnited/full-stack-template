@@ -1,5 +1,6 @@
 import { Context, Request } from 'koa';
 import { txMode } from 'pg-promise';
+import { Cache } from '../../common/types/cache';
 
 const noTransactionPaths = ['/healthz'];
 
@@ -29,7 +30,14 @@ export default async function dbTransactionMiddleware(
   ctx: Context,
   next: () => Promise<void>
 ) {
-  const mode = requiresWriteMode(ctx.request) ? readWriteMode : readOnlyMode;
+  const writeModeEnabled = requiresWriteMode(ctx.request);
+  const mode = writeModeEnabled ? readWriteMode : readOnlyMode;
+
+  // Init caching based on transaction mode
+  ctx.state.cache = {
+    enabled: !writeModeEnabled,
+    data: {},
+  } as Cache;
 
   if (noTransactionPaths.includes(ctx.request.path)) {
     await next();
