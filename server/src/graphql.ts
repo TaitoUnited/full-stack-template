@@ -34,7 +34,8 @@ const apollo = new ApolloServer({
             // they end up to transactionMiddleware so we need
             // to rollback transaction here.
             // TODO: Implement a custom transaction/error handler for Apollo?
-            requestContext.context.state.tx?.any('ROLLBACK');
+            const { tx } = requestContext.context.state.tx;
+            if (tx) tx.any('ROLLBACK');
           },
         };
       },
