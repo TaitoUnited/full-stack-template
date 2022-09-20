@@ -27,7 +27,7 @@ const apollo = new ApolloServer({
   },
   plugins: [
     {
-      requestDidStart(requestContext) {
+      requestDidStart() {
         return {
           async didEncounterErrors(requestContext) {
             // QUICK HACK: Apollo catches all exceptions before
