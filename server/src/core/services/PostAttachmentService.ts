@@ -59,7 +59,19 @@ export class PostAttachmentService {
     );
   }
 
-  public async read(state: Context['state'], input: ReadPostAttachmentInput) {
+  public read = memoizeAsync<Attachment>(this.readImpl, this);
+
+  private async readImpl(
+    state: Context['state'],
+    input: ReadPostAttachmentInput
+  ) {
+    const attachment = await this.attachmentService.read(state, input);
+    if (!attachment) {
+      throw Boom.notFound(
+        `Attachment not found with '${JSON.stringify(input)}'`
+      );
+    }
+
     await this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
@@ -67,7 +79,7 @@ export class PostAttachmentService {
       entityId: input.postId,
     });
 
-    return await this.attachmentService.read(state, input);
+    return attachment;
   }
 
   public async create(

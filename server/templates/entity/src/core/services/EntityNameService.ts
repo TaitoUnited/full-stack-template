@@ -70,20 +70,20 @@ export class EntityNameService {
     );
   }
 
-  public read = memoizeAsync<EntityName | null>(this.readImpl, this);
+  public read = memoizeAsync<EntityName>(this.readImpl, this);
 
   private async readImpl(state: Context['state'], id: string) {
     const entityName = await this.entityNameDao.read(state.tx, id);
-
-    if (entityName) {
-      // Check permissions
-      await this.authService.checkPermission({
-        state,
-        entityType: EntityType.ENTITY_NAME,
-        operation: Operation.VIEW,
-        entityId: entityName.id,
-      });
+    if (!entityName) {
+      throw Boom.notFound(`EntityName not found with id ${id}`);
     }
+
+    await this.authService.checkPermission({
+      state,
+      entityType: EntityType.ENTITY_NAME,
+      operation: Operation.VIEW,
+      entityId: entityName.id,
+    });
 
     return entityName;
   }
@@ -92,7 +92,6 @@ export class EntityNameService {
     state: Context['state'],
     entityName: CreateEntityNameInput
   ) {
-    // Check permissions
     await this.authService.checkPermission({
       state,
       entityType: EntityType.ENTITY_NAME,
@@ -106,7 +105,6 @@ export class EntityNameService {
     state: Context['state'],
     entityName: UpdateEntityNameInput
   ) {
-    // Check permissions
     await this.authService.checkPermission({
       state,
       entityType: EntityType.ENTITY_NAME,
@@ -121,7 +119,6 @@ export class EntityNameService {
     state: Context['state'],
     entityName: DeleteEntityNameInput
   ) {
-    // Check permissions
     await this.authService.checkPermission({
       state,
       entityType: EntityType.ENTITY_NAME,

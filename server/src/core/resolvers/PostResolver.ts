@@ -66,7 +66,6 @@ class PostResolver {
   @Authorized()
   @Query(() => Post, {
     description: 'Reads a post.',
-    nullable: true,
   })
   async post(@Ctx() ctx: Context, @Arg('id', () => String) id: string) {
     return await this.postService.read(ctx.state, id);

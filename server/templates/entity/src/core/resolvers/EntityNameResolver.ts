@@ -68,7 +68,6 @@ class EntityNameResolver {
   @Authorized()
   @Query(() => EntityName, {
     description: 'Reads a entityName.',
-    nullable: true,
   })
   async entityName(@Ctx() ctx: Context, @Arg('id', () => String) id: string) {
     return await this.entityNameService.read(ctx.state, id);

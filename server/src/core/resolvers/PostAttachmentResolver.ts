@@ -51,7 +51,6 @@ class PostAttachmentResolver {
   @Authorized()
   @Query(() => Attachment, {
     description: 'Reads a post attachment.',
-    nullable: true,
   })
   async postAttachment(
     @Ctx() ctx: Context,

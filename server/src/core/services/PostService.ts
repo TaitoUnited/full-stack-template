@@ -66,19 +66,20 @@ export class PostService {
     );
   }
 
-  public read = memoizeAsync<Post | null>(this.readImpl, this);
+  public read = memoizeAsync<Post>(this.readImpl, this);
 
   private async readImpl(state: Context['state'], id: string) {
     const post = await this.postDao.read(state.tx, id);
-
-    if (post) {
-      await this.authService.checkPermission({
-        state,
-        entityType: EntityType.POST,
-        operation: Operation.VIEW,
-        entityId: post.id,
-      });
+    if (!post) {
+      throw Boom.notFound(`Post not found with id ${id}`);
     }
+
+    await this.authService.checkPermission({
+      state,
+      entityType: EntityType.POST,
+      operation: Operation.VIEW,
+      entityId: post.id,
+    });
 
     return post;
   }
