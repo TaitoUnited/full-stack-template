@@ -6,3 +6,8 @@ export type Cache = {
 export interface CacheContainer {
   cache: Cache;
 }
+
+export type CacheableFunction<T> = (
+  container: CacheContainer,
+  ...args: any[]
+) => Promise<T>;

@@ -1,4 +1,4 @@
-import { Cache, CacheContainer } from '../types/cache';
+import { CacheContainer, CacheableFunction } from '../types/cache';
 
 /**
  * Returns a new function that caches return value of
@@ -15,9 +15,9 @@ import { Cache, CacheContainer } from '../types/cache';
  * @returns A new function with memoize capability.
  */
 export function memoizeAsync<T>(
-  fn: (container: CacheContainer, ...args: any[]) => Promise<T>,
+  fn: CacheableFunction<T>,
   instance: any
-): (container: CacheContainer, ...args: any[]) => Promise<T> {
+): CacheableFunction<T> {
   // Return a new function with memoize capability.
   return async function (container: CacheContainer, ...args: any[]) {
     const { cache } = container;
