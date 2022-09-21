@@ -45,14 +45,14 @@ export class PostRouter extends BaseRouter {
         },
       },
       handler: async (ctx: Context) => {
-        const data = await this.postService.search(
-          ctx.state,
+        const data = await this.postService.search({
+          state: ctx.state,
           // TODO: search, filters, order, pagination
-          '',
-          [],
-          new Order('createdAt', OrderDirection.DESC),
-          new Pagination(0, 50)
-        );
+          search: '',
+          filterGroups: [],
+          order: new Order('createdAt', OrderDirection.DESC),
+          pagination: new Pagination(0, 50),
+        });
 
         ctx.response.body = {
           total: data.total,

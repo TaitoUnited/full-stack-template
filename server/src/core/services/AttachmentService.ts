@@ -36,26 +36,26 @@ const filterableFieldNames = getObjectKeysAsFieldNames(new AttachmentFilter());
 export class AttachmentService {
   constructor(private attachmentDao: AttachmentDao) {}
 
-  public async search(
-    state: Context['state'],
-    search: string | null,
-    origFilterGroups: FilterGroup<AttachmentFilter>[],
-    order: Order,
-    pagination?: Pagination
-  ) {
-    checkSystemPermission(state);
+  public async search(input: {
+    state: Context['state'];
+    search: string | null;
+    filterGroups: FilterGroup<AttachmentFilter>[];
+    order: Order;
+    pagination?: Pagination;
+  }) {
+    checkSystemPermission(input.state);
 
-    validateFilterGroups(origFilterGroups, filterableFieldNames);
-    validateFieldName(order.field, filterableFieldNames);
-    validatePagination(pagination, true);
+    validateFilterGroups(input.filterGroups, filterableFieldNames);
+    validateFieldName(input.order.field, filterableFieldNames);
+    validatePagination(input.pagination, true);
 
-    return this.attachmentDao.search(
-      state.tx,
-      search,
-      origFilterGroups,
-      order,
-      pagination
-    );
+    return this.attachmentDao.search({
+      db: input.state.tx,
+      search: input.search,
+      filterGroups: input.filterGroups,
+      order: input.order,
+      pagination: input.pagination,
+    });
   }
 
   public async read(state: Context['state'], attachment: AttachmentId) {
@@ -65,23 +65,24 @@ export class AttachmentService {
 
   public async create(
     state: Context['state'],
-    attachment: CreateAttachmentInput
+    input: CreateAttachmentInput
   ): Promise<AttachmentUploadRequestDetails> {
     checkSystemPermission(state);
 
     // Validate content type
-    this.validateContentType(attachment.contentType);
+    this.validateContentType(input.contentType);
 
     // Add the attachment in database
-    const newAttachment = await this.attachmentDao.create(state.tx, attachment);
+    const newAttachment = await this.attachmentDao.create(state.tx, input);
 
     // Create signed upload url
-    const uploadDetails = await this.getFileUploadDetails(
-      state,
-      this.getAttachmentPath(newAttachment),
-      attachment.contentType,
-      `attachment; filename="${attachment.filename}"`
-    );
+    const uploadDetails = await this.getFileUploadDetails({
+      state: state,
+      path: this.getAttachmentPath(newAttachment),
+      contentType: input.contentType,
+      contentDisposition: `attachment; filename="${input.filename}"`,
+      allowOnlyImages: false,
+    });
 
     return {
       id: newAttachment.id,
@@ -89,37 +90,31 @@ export class AttachmentService {
     };
   }
 
-  public async finalize(state: Context['state'], attachment: AttachmentId) {
+  public async finalize(state: Context['state'], input: AttachmentId) {
     // Check user permissions have been previously checked
     checkSystemPermission(state);
 
     // Finalize attachment in database
-    return await this.attachmentDao.finalize(state.tx, attachment);
+    return await this.attachmentDao.finalize(state.tx, input);
   }
 
-  public async update(
-    state: Context['state'],
-    attachment: UpdateAttachmentInput
-  ) {
+  public async update(state: Context['state'], input: UpdateAttachmentInput) {
     checkSystemPermission(state);
 
     // Update attachment
-    return this.attachmentDao.update(state.tx, attachment);
+    return this.attachmentDao.update(state.tx, input);
   }
 
-  public async delete(state: Context['state'], attachment: AttachmentId) {
+  public async delete(state: Context['state'], input: AttachmentId) {
     // Check user permissions have been previously checked
     checkSystemPermission(state);
 
     // Delete attachment from database
-    const deletedAttachment = await this.attachmentDao.delete(
-      state.tx,
-      attachment
-    );
+    const deletedAttachment = await this.attachmentDao.delete(state.tx, input);
 
     // Attachment not found
     if (!deletedAttachment) {
-      throw Boom.notFound(`Article not found with id ${attachment.id}`);
+      throw Boom.notFound(`Article not found with id ${input.id}`);
     }
 
     // Delete the file from S3
@@ -140,11 +135,11 @@ export class AttachmentService {
    */
   public async getDownloadUrl(
     state: Context['state'],
-    attachment: AttachmentIdAndType
+    input: AttachmentIdAndType
   ) {
     checkSystemPermission(state);
 
-    const path = this.getAttachmentPath(attachment);
+    const path = this.getAttachmentPath(input);
 
     // Use signed storage bucket url
     const storagesById = await getStoragesById();
@@ -170,13 +165,19 @@ export class AttachmentService {
    * @param allowOnlyImages
    * @returns
    */
-  private async getFileUploadDetails(
-    state: Context['state'],
-    path: string,
-    contentType: string,
-    contentDisposition: string,
-    allowOnlyImages = false
-  ): Promise<RequestDetails> {
+  private async getFileUploadDetails({
+    state,
+    path,
+    contentType,
+    contentDisposition,
+    allowOnlyImages,
+  }: {
+    state: Context['state'];
+    path: string;
+    contentType: string;
+    contentDisposition: string;
+    allowOnlyImages: boolean;
+  }): Promise<RequestDetails> {
     checkSystemPermission(state);
 
     // Validate content type

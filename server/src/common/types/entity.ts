@@ -12,13 +12,8 @@ registerEnumType(EntityType, {
 
 export enum Operation {
   LIST = 'LIST',
-  ADD = 'ADD',
-  VIEW = 'VIEW',
-  EDIT = 'EDIT',
+  CREATE = 'CREATE',
+  READ = 'READ',
+  UPDATE = 'UPDATE',
   DELETE = 'DELETE',
-}
-
-@ObjectType()
-export class EntityId {
-  @Field() id: string;
 }

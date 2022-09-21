@@ -28,8 +28,6 @@ import { PostService } from '../services/PostService';
 class PostResolver {
   constructor(private readonly postService = Container.get(PostService)) {}
 
-  // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Query(() => PaginatedPosts, { description: 'Searches posts.' })
   async posts(
@@ -51,17 +49,15 @@ class PostResolver {
     })
     pagination: Pagination
   ) {
-    return await this.postService.search(
-      ctx.state,
+    return await this.postService.search({
+      state: ctx.state,
       search,
       filterGroups,
       order,
-      pagination
-    );
+      pagination,
+    });
   }
 
-  // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Query(() => Post, {
     description: 'Reads a post.',
@@ -70,24 +66,18 @@ class PostResolver {
     return await this.postService.read(ctx.state, id);
   }
 
-  // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Mutation(() => Post, { description: 'Creates a new post.' })
   async createPost(@Ctx() ctx: Context, @Arg('input') input: CreatePostInput) {
     return await this.postService.create(ctx.state, input);
   }
 
-  // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Mutation(() => Post, { description: 'Updates a post.' })
   async updatePost(@Ctx() ctx: Context, @Arg('input') input: UpdatePostInput) {
     return await this.postService.update(ctx.state, input);
   }
 
-  // TODO: Remove this TODO once the generated implementation has been
-  // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
   @Mutation(() => Post, { description: 'Deletes a post.' })
   async deletePost(@Ctx() ctx: Context, @Arg('input') input: DeletePostInput) {

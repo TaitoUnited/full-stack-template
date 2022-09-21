@@ -40,7 +40,7 @@ export class PostAttachmentService {
     this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
-      operation: Operation.VIEW,
+      operation: Operation.READ,
     });
 
     let filterGroups = addFilter({ field: 'postId', value: postId });
@@ -51,12 +51,12 @@ export class PostAttachmentService {
       value: attachmentType,
     });
 
-    return await this.attachmentService.search(
+    return await this.attachmentService.search({
       state,
-      null,
+      search: null,
       filterGroups,
-      order
-    );
+      order,
+    });
   }
 
   public read = memoizeAsync<Attachment>(this.readImpl, this);
@@ -75,7 +75,7 @@ export class PostAttachmentService {
     this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
-      operation: Operation.VIEW,
+      operation: Operation.READ,
     });
 
     return attachment;
@@ -88,7 +88,7 @@ export class PostAttachmentService {
     this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
-      operation: Operation.EDIT,
+      operation: Operation.UPDATE,
     });
 
     return this.attachmentService.create(state, input);
@@ -101,7 +101,7 @@ export class PostAttachmentService {
     this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
-      operation: Operation.EDIT,
+      operation: Operation.UPDATE,
     });
 
     await this.attachmentService.finalize(state, input);
@@ -115,7 +115,7 @@ export class PostAttachmentService {
     this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
-      operation: Operation.EDIT,
+      operation: Operation.UPDATE,
     });
 
     return this.attachmentService.update(state, input);
@@ -128,7 +128,7 @@ export class PostAttachmentService {
     this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
-      operation: Operation.EDIT,
+      operation: Operation.UPDATE,
     });
 
     const attachment = await this.read(state, input.id);
