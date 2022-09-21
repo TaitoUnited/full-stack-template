@@ -44,7 +44,7 @@ export class EntityNameService {
     validatePagination(pagination, true);
 
     // Check permissions
-    await this.authService.checkPermission({
+    this.authService.checkPermission({
       state,
       entityType: EntityType.ENTITY_NAME,
       operation: Operation.LIST,
@@ -78,7 +78,7 @@ export class EntityNameService {
       throw Boom.notFound(`EntityName not found with id ${id}`);
     }
 
-    await this.authService.checkPermission({
+    this.authService.checkPermission({
       state,
       entityType: EntityType.ENTITY_NAME,
       operation: Operation.VIEW,
@@ -89,7 +89,7 @@ export class EntityNameService {
   }
 
   public async create(state: Context['state'], input: CreateEntityNameInput) {
-    await this.authService.checkPermission({
+    this.authService.checkPermission({
       state,
       entityType: EntityType.ENTITY_NAME,
       operation: Operation.ADD,
@@ -99,7 +99,7 @@ export class EntityNameService {
   }
 
   public async update(state: Context['state'], input: UpdateEntityNameInput) {
-    await this.authService.checkPermission({
+    this.authService.checkPermission({
       state,
       entityType: EntityType.ENTITY_NAME,
       operation: Operation.EDIT,
@@ -110,7 +110,7 @@ export class EntityNameService {
   }
 
   public async delete(state: Context['state'], input: DeleteEntityNameInput) {
-    await this.authService.checkPermission({
+    this.authService.checkPermission({
       state,
       entityType: EntityType.ENTITY_NAME,
       operation: Operation.DELETE,

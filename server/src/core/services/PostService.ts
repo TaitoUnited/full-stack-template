@@ -40,7 +40,7 @@ export class PostService {
     validateFieldName(order.field, filterableFieldNames);
     validatePagination(pagination, true);
 
-    await this.authService.checkPermission({
+    this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.LIST,
@@ -74,7 +74,7 @@ export class PostService {
       throw Boom.notFound(`Post not found with id ${id}`);
     }
 
-    await this.authService.checkPermission({
+    this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.VIEW,
@@ -85,7 +85,7 @@ export class PostService {
   }
 
   public async create(state: Context['state'], input: CreatePostInput) {
-    await this.authService.checkPermission({
+    this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.ADD,
@@ -95,7 +95,7 @@ export class PostService {
   }
 
   public async update(state: Context['state'], input: UpdatePostInput) {
-    await this.authService.checkPermission({
+    this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.EDIT,
@@ -106,7 +106,7 @@ export class PostService {
   }
 
   public async delete(state: Context['state'], input: DeletePostInput) {
-    await this.authService.checkPermission({
+    this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.DELETE,

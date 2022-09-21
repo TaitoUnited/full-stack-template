@@ -9,7 +9,7 @@ import { UserRole } from '../types/context';
  * state that it is intentional that the service method does not contain
  * any user specific authorization logic.
  */
-export async function checkSystemPermission(state: Context['state']) {
+export function checkSystemPermission(state: Context['state']) {
   // At least one permissions check must have been run before a call is
   // made to a system-level service.
   // NOTE: This is here just in case to reveal programming errors.
@@ -25,7 +25,7 @@ export async function checkSystemPermission(state: Context['state']) {
  * state that it is intentional that the service method does not contain
  * any user specific authorization logic.
  */
-export async function checkPublicPermission(state: Context['state']) {
+export function checkPublicPermission(state: Context['state']) {
   // No need to check any user permissions for public functionality
   setPermissionsChecked(state);
 }
@@ -34,7 +34,7 @@ export async function checkPublicPermission(state: Context['state']) {
  * Sets a mark on state that some kind of permission check has been executed.
  * This is used in checkSystemPermission.
  */
-export async function setPermissionsChecked(state: Context['state']) {
+export function setPermissionsChecked(state: Context['state']) {
   state.permissionsChecked = true;
 }
 

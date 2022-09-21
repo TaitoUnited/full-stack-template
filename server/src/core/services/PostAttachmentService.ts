@@ -36,7 +36,7 @@ export class PostAttachmentService {
     attachmentType: AttachmentType,
     order: Order
   ) {
-    await this.authService.checkPermission({
+    this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.VIEW,
@@ -72,7 +72,7 @@ export class PostAttachmentService {
       );
     }
 
-    await this.authService.checkPermission({
+    this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.VIEW,
@@ -86,7 +86,7 @@ export class PostAttachmentService {
     state: Context['state'],
     input: CreatePostAttachmentInput
   ) {
-    await this.authService.checkPermission({
+    this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.EDIT,
@@ -100,7 +100,7 @@ export class PostAttachmentService {
     state: Context['state'],
     input: FinalizePostAttachmentInput
   ) {
-    await this.authService.checkPermission({
+    this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.EDIT,
@@ -115,7 +115,7 @@ export class PostAttachmentService {
     state: Context['state'],
     input: UpdatePostAttachmentInput
   ) {
-    await this.authService.checkPermission({
+    this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.EDIT,
@@ -129,7 +129,7 @@ export class PostAttachmentService {
     state: Context['state'],
     input: DeletePostAttachmentInput
   ) {
-    await this.authService.checkPermission({
+    this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.EDIT,

@@ -10,6 +10,14 @@ import {
 
 import { EntityType, Operation } from '../../common/types/entity';
 
+type HasPermissionInput = {
+  state: Context['state'];
+  entityType: EntityType;
+  operation: Operation;
+  // TODO: additional parameters
+};
+type CheckPermissionInput = HasPermissionInput;
+
 /**
  * Common service for authorization
  */
@@ -22,7 +30,7 @@ export class AuthService {
    * state that it is intentional that the service method does not contain
    * any user specific authorization logic.
    */
-  public async checkSystemPermission(state: Context['state']) {
+  public checkSystemPermission(state: Context['state']) {
     checkSystemPermission(state);
   }
 
@@ -33,41 +41,45 @@ export class AuthService {
    * state that it is intentional that the service method does not contain
    * any user specific authorization logic.
    */
-  public async checkPublicPermission(state: Context['state']) {
+  public checkPublicPermission(state: Context['state']) {
     checkPublicPermission(state);
   }
 
   /**
-   * Checks if user is allowed to execute operation
+   * Throws Boom.forbidden if user is not allowed to execute
+   * the operation.
    */
-  public async checkPermission({
-    state,
-    entityType,
-    operation,
-    entityId,
-  }: {
-    state: Context['state'];
-    entityType: EntityType;
-    operation: Operation;
-    entityId?: string;
-  }) {
-    setPermissionsChecked(state);
+  public checkPermission(input: CheckPermissionInput) {
+    setPermissionsChecked(input.state);
 
-    // Check that entity id was given in case it's mandatory
-    if (
-      !entityId &&
-      operation !== Operation.LIST &&
-      operation !== Operation.ADD
-    ) {
-      throw Boom.badImplementation('Entity id must be given.');
+    if (!this.hasPermission(input)) {
+      throw Boom.forbidden(
+        `Operation ${input.operation} on entity ${input.entityType} not allowed.`
+      );
     }
+  }
+
+  /**
+   * Returns false if user is not allowed to execute the operation.
+   */
+  public hasPermission(input: HasPermissionInput) {
+    setPermissionsChecked(input.state);
 
     // TODO: Check that authentication credentials are present
+    // and user has permissions for the operation.
 
-    // TODO: Check user permissions and throw Boom.forbidden() if forbidden
+    // NOTE: You should aim for non-async implementation by reading user
+    // permissions to state on authMiddleware and passing additional info
+    // about the entity in question for the hasPermission/checkPermission
+    // method (by reading it from database before the call). This way
+    // the AuthService serves as a pure permission rule engine with no
+    // dependencies to services and daos of the app.
+    //
+    // However, if non-async implementation doesn't suit you, you can
+    // change this into a async implementation and cache permission checks
+    // on http request state. But beware! Use extra care that you don't
+    // forget that `await` before each checkPermission call!
 
-    // NOTE: You should cache checked user permissions during serving a single
-    // http request so that you don't need to check the same permission from
-    // database over and over again in case of a deep GraphQL query.
+    return true;
   }
 }
