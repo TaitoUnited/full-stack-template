@@ -76,7 +76,7 @@ export class UserService {
     this.authService.checkPermission({
       state,
       entityType: EntityType.USER,
-      operation: Operation.VIEW,
+      operation: Operation.READ,
     });
 
     return user;
@@ -86,7 +86,7 @@ export class UserService {
     this.authService.checkPermission({
       state,
       entityType: EntityType.USER,
-      operation: Operation.ADD,
+      operation: Operation.CREATE,
     });
 
     return this.userDao.create(state.tx, input);
@@ -96,7 +96,7 @@ export class UserService {
     this.authService.checkPermission({
       state,
       entityType: EntityType.USER,
-      operation: Operation.EDIT,
+      operation: Operation.UPDATE,
     });
 
     return this.userDao.update(state.tx, input);
