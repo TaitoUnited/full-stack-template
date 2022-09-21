@@ -95,3 +95,10 @@ export const createUserSchema: Omit<User, 'id'> = {
   phoneNumber: 'phoneNumber',
   passHash: 'passHash',
 };
+
+// Delete
+
+@InputType()
+export class DeleteUserInput {
+  @Field() id: string;
+}

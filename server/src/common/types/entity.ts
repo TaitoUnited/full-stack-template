@@ -2,6 +2,7 @@ import { Field, ObjectType, registerEnumType } from 'type-graphql';
 
 export enum EntityType {
   POST = 'POST',
+  USER = 'USER',
   // TEMPLATE_GENERATE: Entity types
 }
 

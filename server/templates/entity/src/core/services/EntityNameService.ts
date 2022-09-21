@@ -83,7 +83,6 @@ export class EntityNameService {
       state,
       entityType: EntityType.ENTITY_NAME,
       operation: Operation.VIEW,
-      entityId: entityName.id,
     });
 
     return entityName;
@@ -104,7 +103,6 @@ export class EntityNameService {
       state,
       entityType: EntityType.ENTITY_NAME,
       operation: Operation.EDIT,
-      entityId: input.id,
     });
 
     return this.entityNameDao.update(state.tx, input);
@@ -115,7 +113,6 @@ export class EntityNameService {
       state,
       entityType: EntityType.ENTITY_NAME,
       operation: Operation.DELETE,
-      entityId: input.id,
     });
 
     const entityName = await this.read(state, input.id);

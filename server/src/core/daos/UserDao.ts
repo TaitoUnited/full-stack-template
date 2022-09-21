@@ -19,6 +19,7 @@ import {
   createUserSchema,
   UpdateUserInput,
   updateUserSchema,
+  DeleteUserInput,
 } from '../types/user';
 
 import { Db } from '../../common/types/context';
@@ -106,14 +107,14 @@ export class UserDao {
     );
   }
 
-  public async delete(db: Db, id: string): Promise<string> {
+  public async delete(db: Db, input: DeleteUserInput): Promise<string> {
     await db.none(
       `
         DELETE FROM ${tableName}
         WHERE id = $[id]
       `,
-      { id }
+      { id: input.id }
     );
-    return id;
+    return input.id;
   }
 }

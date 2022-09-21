@@ -3,14 +3,30 @@ import { Context } from 'koa';
 import { AuthenticationError, UserInputError } from 'apollo-server-koa';
 import { Ctx, Arg, Query, Resolver, Mutation, ID } from 'type-graphql';
 
-import { User, UpdateUserInput } from '../types/user';
 import { Authorize } from '../../common/utils/auth';
+
+import { User, UpdateUserInput, DeleteUserInput } from '../types/user';
 import { UserService } from '../services/UserService';
 
 @Service()
 @Resolver(() => User)
 export default class UserResolver {
   constructor(private readonly userService: UserService) {}
+
+  @Query(() => User)
+  @Authorize('user')
+  async currentUser(@Ctx() ctx: Context): Promise<User> {
+    const user = await this.userService.read(
+      ctx.state,
+      ctx.state.user?.id ?? ''
+    );
+
+    if (!user) {
+      throw new UserInputError('No user found');
+    }
+
+    return user;
+  }
 
   @Mutation(() => User)
   @Authorize('user')
@@ -36,12 +52,12 @@ export default class UserResolver {
     return updatedUser;
   }
 
-  @Mutation(() => ID)
+  @Mutation(() => User)
   @Authorize('user')
   async deleteUser(
     @Ctx() ctx: Context,
-    @Arg('id', () => ID) id: string
-  ): Promise<string> {
+    @Arg('input', () => ID) input: DeleteUserInput
+  ): Promise<User> {
     const user = await this.userService.read(
       ctx.state,
       ctx.state.user?.id ?? ''
@@ -51,25 +67,10 @@ export default class UserResolver {
       throw new UserInputError('No user found');
     }
 
-    if (user.id !== id) {
+    if (user.id !== input.id) {
       throw new AuthenticationError('Not authorized');
     }
 
-    return this.userService.delete(ctx, id);
-  }
-
-  @Query(() => User)
-  @Authorize('user')
-  async currentUser(@Ctx() ctx: Context): Promise<User> {
-    const user = await this.userService.read(
-      ctx.state,
-      ctx.state.user?.id ?? ''
-    );
-
-    if (!user) {
-      throw new UserInputError('No user found');
-    }
-
-    return user;
+    return this.userService.delete(ctx, input);
   }
 }
