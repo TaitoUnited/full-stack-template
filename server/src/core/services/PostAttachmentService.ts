@@ -40,7 +40,6 @@ export class PostAttachmentService {
       state,
       entityType: EntityType.POST,
       operation: Operation.VIEW,
-      entityId: postId,
     });
 
     let filterGroups = addFilter({ field: 'postId', value: postId });
@@ -76,7 +75,6 @@ export class PostAttachmentService {
       state,
       entityType: EntityType.POST,
       operation: Operation.VIEW,
-      entityId: input.postId,
     });
 
     return attachment;
@@ -90,7 +88,6 @@ export class PostAttachmentService {
       state,
       entityType: EntityType.POST,
       operation: Operation.EDIT,
-      entityId: input.postId,
     });
 
     return this.attachmentService.create(state, input);
@@ -104,7 +101,6 @@ export class PostAttachmentService {
       state,
       entityType: EntityType.POST,
       operation: Operation.EDIT,
-      entityId: input.postId,
     });
 
     await this.attachmentService.finalize(state, input);
@@ -119,7 +115,6 @@ export class PostAttachmentService {
       state,
       entityType: EntityType.POST,
       operation: Operation.EDIT,
-      entityId: input.postId,
     });
 
     return this.attachmentService.update(state, input);
@@ -133,7 +128,6 @@ export class PostAttachmentService {
       state,
       entityType: EntityType.POST,
       operation: Operation.EDIT,
-      entityId: input.postId,
     });
 
     const attachment = await this.read(state, input.id);

@@ -78,7 +78,6 @@ export class PostService {
       state,
       entityType: EntityType.POST,
       operation: Operation.VIEW,
-      entityId: post.id,
     });
 
     return post;
@@ -99,7 +98,6 @@ export class PostService {
       state,
       entityType: EntityType.POST,
       operation: Operation.EDIT,
-      entityId: input.id,
     });
 
     return this.postDao.update(state.tx, input);
@@ -110,7 +108,6 @@ export class PostService {
       state,
       entityType: EntityType.POST,
       operation: Operation.DELETE,
-      entityId: input.id,
     });
 
     const post = await this.read(state, input.id);
