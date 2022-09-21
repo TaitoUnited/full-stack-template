@@ -1,7 +1,11 @@
+import Boom from '@hapi/boom';
 import { Context } from 'koa';
 import { Service } from 'typedi';
 
 import { memoizeAsync } from '../../common/utils/cache';
+import { EntityType, Operation } from '../../common/types/entity';
+import { getObjectKeysAsFieldNames } from '../../common/utils/format';
+import { Pagination, FilterGroup, Order } from '../../common/types/search';
 import {
   validateFilterGroups,
   validateFieldName,
@@ -16,9 +20,6 @@ import {
   DeleteEntityNameInput,
 } from '../types/entityName';
 
-import { getObjectKeysAsFieldNames } from '../../common/utils/format';
-import { Pagination, FilterGroup, Order } from '../../common/types/search';
-import { EntityType, Operation } from '../../common/types/entity';
 import { EntityNameDao } from '../daos/EntityNameDao';
 import { AuthService } from './AuthService';
 
