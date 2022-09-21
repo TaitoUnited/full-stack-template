@@ -88,44 +88,37 @@ export class EntityNameService {
     return entityName;
   }
 
-  public async create(
-    state: Context['state'],
-    entityName: CreateEntityNameInput
-  ) {
+  public async create(state: Context['state'], input: CreateEntityNameInput) {
     await this.authService.checkPermission({
       state,
       entityType: EntityType.ENTITY_NAME,
       operation: Operation.ADD,
     });
 
-    return this.entityNameDao.create(state.tx, entityName);
+    return this.entityNameDao.create(state.tx, input);
   }
 
-  public async update(
-    state: Context['state'],
-    entityName: UpdateEntityNameInput
-  ) {
+  public async update(state: Context['state'], input: UpdateEntityNameInput) {
     await this.authService.checkPermission({
       state,
       entityType: EntityType.ENTITY_NAME,
       operation: Operation.EDIT,
-      entityId: entityName.id,
+      entityId: input.id,
     });
 
-    return this.entityNameDao.update(state.tx, entityName);
+    return this.entityNameDao.update(state.tx, input);
   }
 
-  public async delete(
-    state: Context['state'],
-    entityName: DeleteEntityNameInput
-  ) {
+  public async delete(state: Context['state'], input: DeleteEntityNameInput) {
     await this.authService.checkPermission({
       state,
       entityType: EntityType.ENTITY_NAME,
       operation: Operation.DELETE,
-      entityId: entityName.id,
+      entityId: input.id,
     });
 
-    return this.entityNameDao.delete(state.tx, entityName);
+    const entityName = await this.read(state, input.id);
+    await this.entityNameDao.delete(state.tx, input);
+    return entityName;
   }
 }

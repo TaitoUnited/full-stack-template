@@ -84,35 +84,37 @@ export class PostService {
     return post;
   }
 
-  public async create(state: Context['state'], post: CreatePostInput) {
+  public async create(state: Context['state'], input: CreatePostInput) {
     await this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.ADD,
     });
 
-    return this.postDao.create(state.tx, post);
+    return this.postDao.create(state.tx, input);
   }
 
-  public async update(state: Context['state'], post: UpdatePostInput) {
+  public async update(state: Context['state'], input: UpdatePostInput) {
     await this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.EDIT,
-      entityId: post.id,
+      entityId: input.id,
     });
 
-    return this.postDao.update(state.tx, post);
+    return this.postDao.update(state.tx, input);
   }
 
-  public async delete(state: Context['state'], post: DeletePostInput) {
+  public async delete(state: Context['state'], input: DeletePostInput) {
     await this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.DELETE,
-      entityId: post.id,
+      entityId: input.id,
     });
 
-    return this.postDao.delete(state.tx, post);
+    const post = await this.read(state, input.id);
+    await this.postDao.delete(state.tx, input);
+    return post;
   }
 }

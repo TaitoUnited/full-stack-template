@@ -81,10 +81,10 @@ describe('post/mutations', () => {
     });
     expect(deletePost.id).toEqual(id);
 
-    const { post } = await sdk.post({
-      id,
-    });
-    expect(post).toBeNull();
+    expect(async () => {
+      await sdk.post({ id });
+    }).toThrowError(`Post not found with id ${id}`);
+
     id = '';
   });
 });
