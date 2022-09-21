@@ -1,6 +1,7 @@
 import { Context } from 'koa';
 import { Service } from 'typedi';
 
+import { memoizeAsync } from '../../common/utils/cache';
 import {
   validateFilterGroups,
   validateFieldName,
@@ -67,7 +68,9 @@ export class EntityNameService {
     );
   }
 
-  public async read(state: Context['state'], id: string) {
+  public read = memoizeAsync<Post | null>(this.readImpl, this);
+
+  private async readImpl(state: Context['state'], id: string) {
     const entityName = await this.entityNameDao.read(state.tx, id);
 
     if (entityName) {
