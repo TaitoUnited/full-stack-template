@@ -124,10 +124,6 @@ export class AttachmentDao {
       whereFragment: WHERE_FRAGMENT,
       searchFragment: SEARCH_FRAGMENT,
       groupByFragment: GROUP_BY_FRAGMENT,
-
-      // Prefetch optimization (not supported yet)
-      // WARNING: Do not prefetch entities that user is not allowed to see!
-      // prefetchReferences: [{ name: 'assignedUser', userColumnNames }],
     });
   }
 

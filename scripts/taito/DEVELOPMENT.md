@@ -304,10 +304,6 @@ To implement proper authorization, you should:
 
 - **AuthService/Service:** Add some authorization rules/logic. Remember to also validate input.
 
-Later, if you need to optimize slow GraphQL queries, you may also want to:
-
-- **DAO:** Prefetch some referenced entities.
-
 > TIP: You can customize code generation by modifying the template files in **server/templates**.
 
 ## Deployment
