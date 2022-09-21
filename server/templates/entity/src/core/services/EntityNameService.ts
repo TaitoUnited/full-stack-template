@@ -9,6 +9,7 @@ import {
 } from '../../common/utils/validate';
 
 import {
+  EntityName,
   EntityNameFilter,
   CreateEntityNameInput,
   UpdateEntityNameInput,
@@ -68,7 +69,7 @@ export class EntityNameService {
     );
   }
 
-  public read = memoizeAsync<Post | null>(this.readImpl, this);
+  public read = memoizeAsync<EntityName | null>(this.readImpl, this);
 
   private async readImpl(state: Context['state'], id: string) {
     const entityName = await this.entityNameDao.read(state.tx, id);
