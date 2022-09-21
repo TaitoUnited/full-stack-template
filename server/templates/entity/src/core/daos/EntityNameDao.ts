@@ -96,19 +96,19 @@ const GROUP_BY_FRAGMENT = ``;
 
 @Service()
 export class EntityNameDao {
-  public async search(
-    db: Db,
-    search: string | null,
-    filterGroups: FilterGroup<EntityNameFilter>[],
-    order: Order,
-    pagination?: Pagination
-  ): Promise<PaginatedEntityNames> {
+  public async search(input: {
+    db: Db;
+    search: string | null;
+    filterGroups: FilterGroup<EntityNameFilter>[];
+    order: Order;
+    pagination?: Pagination;
+  }): Promise<PaginatedEntityNames> {
     return searchFromTable({
-      db,
-      search,
-      filterGroups,
-      order,
-      pagination,
+      db: input.db,
+      search: input.search,
+      filterGroups: input.filterGroups,
+      order: input.order,
+      pagination: input.pagination,
       tableName,
       selectColumnNames,
       filterableColumnNames,
@@ -138,7 +138,7 @@ export class EntityNameDao {
 
   public async create(
     db: Db,
-    entityName: CreateEntityNameInput
+    input: CreateEntityNameInput
   ): Promise<EntityName> {
     return await db.one(
       `
@@ -149,18 +149,18 @@ export class EntityNameDao {
       `,
       getParameterValues({
         allowedKeys: updateFields,
-        values: entityName,
+        values: input,
       })
     );
   }
 
   public async update(
     db: Db,
-    entityName: UpdateEntityNameInput
+    input: UpdateEntityNameInput
   ): Promise<EntityName> {
     const parameterAssignments = getParameterAssignments({
       allowedKeys: updateFields,
-      values: entityName,
+      values: input,
     });
     return await db.one(
       `
@@ -170,28 +170,25 @@ export class EntityNameDao {
         RETURNING ${selectColumnNames.join(',')}
       `,
       {
-        id: entityName.id,
+        id: input.id,
         ...getParameterValues({
           allowedKeys: updateFields,
-          values: entityName,
+          values: input,
         }),
       }
     );
   }
 
-  public async delete(
-    db: Db,
-    entityName: DeleteEntityNameInput
-  ): Promise<EntityId> {
+  public async delete(db: Db, input: DeleteEntityNameInput): Promise<string> {
     await db.none(
       `
         DELETE FROM ${tableName}
         WHERE ${tableName}.id = $[id]
       `,
       {
-        id: entityName.id,
+        id: input.id,
       }
     );
-    return entityName;
+    return input.id;
   }
 }

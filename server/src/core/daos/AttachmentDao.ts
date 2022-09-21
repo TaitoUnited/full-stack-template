@@ -102,19 +102,19 @@ const GROUP_BY_FRAGMENT = ``;
 
 @Service()
 export class AttachmentDao {
-  public async search(
-    db: Db,
-    search: string | null,
-    filterGroups: FilterGroup<AttachmentFilter>[],
-    order: Order,
-    pagination?: Pagination
-  ): Promise<PaginatedAttachments> {
+  public async search(input: {
+    db: Db;
+    search: string | null;
+    filterGroups: FilterGroup<AttachmentFilter>[];
+    order: Order;
+    pagination?: Pagination;
+  }): Promise<PaginatedAttachments> {
     return searchFromTable({
-      db,
-      search,
-      filterGroups,
-      order,
-      pagination,
+      db: input.db,
+      search: input.search,
+      filterGroups: input.filterGroups,
+      order: input.order,
+      pagination: input.pagination,
       tableName,
       selectColumnNames,
       filterableColumnNames,
@@ -127,12 +127,9 @@ export class AttachmentDao {
     });
   }
 
-  public async read(
-    db: Db,
-    attachmentId: AttachmentId
-  ): Promise<Attachment | null> {
-    const referenceFragment = this.getEntityReferenceFragment(attachmentId);
-    const referenceParams = this.getEntityReferenceParams(attachmentId);
+  public async read(db: Db, input: AttachmentId): Promise<Attachment | null> {
+    const referenceFragment = this.getEntityReferenceFragment(input);
+    const referenceParams = this.getEntityReferenceParams(input);
 
     return await db.oneOrNone(
       `
@@ -145,7 +142,7 @@ export class AttachmentDao {
         ${referenceFragment}
       `,
       {
-        id: attachmentId.id,
+        id: input.id,
         ...referenceParams,
       }
     );
@@ -153,7 +150,7 @@ export class AttachmentDao {
 
   public async create(
     db: Db,
-    attachment: CreateAttachmentInputInternal
+    input: CreateAttachmentInputInternal
   ): Promise<Attachment> {
     return await db.one(
       `
@@ -164,17 +161,14 @@ export class AttachmentDao {
       `,
       getParameterValues({
         allowedKeys: updateFields,
-        values: attachment,
+        values: input,
       })
     );
   }
 
-  public async finalize(
-    db: Db,
-    attachmentId: AttachmentId
-  ): Promise<Attachment> {
-    const referenceFragment = this.getEntityReferenceFragment(attachmentId);
-    const referenceParams = this.getEntityReferenceParams(attachmentId);
+  public async finalize(db: Db, input: AttachmentId): Promise<Attachment> {
+    const referenceFragment = this.getEntityReferenceFragment(input);
+    const referenceParams = this.getEntityReferenceParams(input);
 
     return await db.one(
       `
@@ -185,7 +179,7 @@ export class AttachmentDao {
         RETURNING ${selectColumnNames.join(',')}
       `,
       {
-        id: attachmentId.id,
+        id: input.id,
         ...referenceParams,
       }
     );
@@ -193,14 +187,14 @@ export class AttachmentDao {
 
   public async update(
     db: Db,
-    attachment: UpdateAttachmentInputInternal
+    input: UpdateAttachmentInputInternal
   ): Promise<Attachment> {
-    const referenceFragment = this.getEntityReferenceFragment(attachment);
-    const referenceParams = this.getEntityReferenceParams(attachment);
+    const referenceFragment = this.getEntityReferenceFragment(input);
+    const referenceParams = this.getEntityReferenceParams(input);
 
     const parameterAssignments = getParameterAssignments({
       allowedKeys: updateFields,
-      values: attachment,
+      values: input,
     });
     return await db.one(
       `
@@ -211,11 +205,11 @@ export class AttachmentDao {
         RETURNING ${selectColumnNames.join(',')}
       `,
       {
-        id: attachment.id,
+        id: input.id,
         ...referenceParams,
         ...getParameterValues({
           allowedKeys: updateFields,
-          values: attachment,
+          values: input,
         }),
       }
     );
@@ -223,10 +217,10 @@ export class AttachmentDao {
 
   public async delete(
     db: Db,
-    attachment: DeleteAttachmentInputInternal
+    input: DeleteAttachmentInputInternal
   ): Promise<Attachment | null> {
-    const referenceFragment = this.getEntityReferenceFragment(attachment);
-    const referenceParams = this.getEntityReferenceParams(attachment);
+    const referenceFragment = this.getEntityReferenceFragment(input);
+    const referenceParams = this.getEntityReferenceParams(input);
 
     return await db.oneOrNone(
       `
@@ -236,19 +230,19 @@ export class AttachmentDao {
         RETURNING ${selectColumnNames.join(',')}
       `,
       {
-        id: attachment.id,
+        id: input.id,
         ...referenceParams,
       }
     );
   }
 
-  private getEntityReferenceFragment(id: AttachmentId) {
-    if (id.postId) return 'AND post_id = $[postId]';
+  private getEntityReferenceFragment(input: AttachmentId) {
+    if (input.postId) return 'AND post_id = $[postId]';
     throw Error('Unknown entity reference on attachment');
   }
 
-  private getEntityReferenceParams(id: AttachmentId) {
-    if (id.postId) return { postId: id.postId };
+  private getEntityReferenceParams(input: AttachmentId) {
+    if (input.postId) return { postId: input.postId };
     throw Error('Unknown entity reference on attachment');
   }
 }

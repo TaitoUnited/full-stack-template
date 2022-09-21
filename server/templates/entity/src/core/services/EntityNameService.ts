@@ -32,42 +32,40 @@ export class EntityNameService {
     private entityNameDao: EntityNameDao
   ) {}
 
-  public async search(
-    state: Context['state'],
-    search: string | null,
-    origFilterGroups: FilterGroup<EntityNameFilter>[],
-    order: Order,
-    pagination?: Pagination
-  ) {
-    validateFilterGroups(origFilterGroups, filterableFieldNames);
-    validateFieldName(order.field, filterableFieldNames);
-    validatePagination(pagination, true);
+  public async search(input: {
+    state: Context['state'];
+    search: string | null;
+    filterGroups: FilterGroup<EntityNameFilter>[];
+    order: Order;
+    pagination?: Pagination;
+  }) {
+    validateFilterGroups(input.filterGroups, filterableFieldNames);
+    validateFieldName(input.order.field, filterableFieldNames);
+    validatePagination(input.pagination, true);
 
     // Check permissions
     this.authService.checkPermission({
-      state,
+      state: input.state,
       entityType: EntityType.ENTITY_NAME,
       operation: Operation.LIST,
     });
 
-    // NOTE: Add additional filters according to user permissions
-
     // Add additional filters
-    const filterGroups = origFilterGroups;
-
+    // NOTE: Add additional filters according to user permissions
+    const filterGroups = input.filterGroups;
     // filterGroups = addFilter({
     //   filterGroups,
     //   field: 'someFilter',
     //   value: someFilter,
     // });
 
-    return this.entityNameDao.search(
-      state.tx,
-      search,
+    return this.entityNameDao.search({
+      db: state.tx,
+      search: input.search,
       filterGroups,
-      order,
-      pagination
-    );
+      order: input.order,
+      pagination: input.pagination,
+    });
   }
 
   public read = memoizeAsync<EntityName>(this.readImpl, this);
@@ -81,7 +79,7 @@ export class EntityNameService {
     this.authService.checkPermission({
       state,
       entityType: EntityType.ENTITY_NAME,
-      operation: Operation.VIEW,
+      operation: Operation.READ,
     });
 
     return entityName;
@@ -91,7 +89,7 @@ export class EntityNameService {
     this.authService.checkPermission({
       state,
       entityType: EntityType.ENTITY_NAME,
-      operation: Operation.ADD,
+      operation: Operation.CREATE,
     });
 
     return this.entityNameDao.create(state.tx, input);
@@ -101,7 +99,7 @@ export class EntityNameService {
     this.authService.checkPermission({
       state,
       entityType: EntityType.ENTITY_NAME,
-      operation: Operation.EDIT,
+      operation: Operation.UPDATE,
     });
 
     return this.entityNameDao.update(state.tx, input);

@@ -53,13 +53,13 @@ class EntityNameResolver {
     })
     pagination: Pagination
   ) {
-    return await this.entityNameService.search(
-      ctx.state,
+    return await this.entityNameService.search({
+      state: ctx.state,
       search,
       filterGroups,
       order,
-      pagination
-    );
+      pagination,
+    });
   }
 
   // TODO: Remove this TODO once the generated implementation has been

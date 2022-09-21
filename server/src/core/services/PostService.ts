@@ -29,41 +29,39 @@ const filterableFieldNames = getObjectKeysAsFieldNames(new PostFilter());
 export class PostService {
   constructor(private authService: AuthService, private postDao: PostDao) {}
 
-  public async search(
-    state: Context['state'],
-    search: string | null,
-    origFilterGroups: FilterGroup<PostFilter>[],
-    order: Order,
-    pagination?: Pagination
-  ) {
-    validateFilterGroups(origFilterGroups, filterableFieldNames);
-    validateFieldName(order.field, filterableFieldNames);
-    validatePagination(pagination, true);
+  public async search(input: {
+    state: Context['state'];
+    search: string | null;
+    filterGroups: FilterGroup<PostFilter>[];
+    order: Order;
+    pagination?: Pagination;
+  }) {
+    validateFilterGroups(input.filterGroups, filterableFieldNames);
+    validateFieldName(input.order.field, filterableFieldNames);
+    validatePagination(input.pagination, true);
 
     this.authService.checkPermission({
-      state,
+      state: input.state,
       entityType: EntityType.POST,
       operation: Operation.LIST,
     });
 
-    // NOTE: Add additional filters according to user permissions
-
     // Add additional filters
-    const filterGroups = origFilterGroups;
-
+    // NOTE: Add additional filters according to user permissions
+    const filterGroups = input.filterGroups;
     // filterGroups = addFilter({
     //   filterGroups,
     //   field: 'someFilter',
     //   value: someFilter,
     // });
 
-    return this.postDao.search(
-      state.tx,
-      search,
+    return this.postDao.search({
+      db: input.state.tx,
+      search: input.search,
       filterGroups,
-      order,
-      pagination
-    );
+      order: input.order,
+      pagination: input.pagination,
+    });
   }
 
   public read = memoizeAsync<Post>(this.readImpl, this);
@@ -77,7 +75,7 @@ export class PostService {
     this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
-      operation: Operation.VIEW,
+      operation: Operation.READ,
     });
 
     return post;
@@ -87,7 +85,7 @@ export class PostService {
     this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
-      operation: Operation.ADD,
+      operation: Operation.CREATE,
     });
 
     return this.postDao.create(state.tx, input);
@@ -97,7 +95,7 @@ export class PostService {
     this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
-      operation: Operation.EDIT,
+      operation: Operation.UPDATE,
     });
 
     return this.postDao.update(state.tx, input);

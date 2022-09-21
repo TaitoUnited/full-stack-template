@@ -9,7 +9,6 @@ import {
 } from '../../common/utils/dao';
 
 import { Db } from '../../common/types/context';
-import { EntityId } from '../../common/types/entity';
 import { Pagination, FilterGroup, Order } from '../../common/types/search';
 
 import {
@@ -98,19 +97,19 @@ const GROUP_BY_FRAGMENT = ``;
 
 @Service()
 export class PostDao {
-  public async search(
-    db: Db,
-    search: string | null,
-    filterGroups: FilterGroup<PostFilter>[],
-    order: Order,
-    pagination?: Pagination
-  ): Promise<PaginatedPosts> {
+  public async search(input: {
+    db: Db;
+    search: string | null;
+    filterGroups: FilterGroup<PostFilter>[];
+    order: Order;
+    pagination?: Pagination;
+  }): Promise<PaginatedPosts> {
     return searchFromTable({
-      db,
-      search,
-      filterGroups,
-      order,
-      pagination,
+      db: input.db,
+      search: input.search,
+      filterGroups: input.filterGroups,
+      order: input.order,
+      pagination: input.pagination,
       tableName,
       selectColumnNames,
       filterableColumnNames,
@@ -138,7 +137,7 @@ export class PostDao {
     );
   }
 
-  public async create(db: Db, post: CreatePostInput): Promise<Post> {
+  public async create(db: Db, input: CreatePostInput): Promise<Post> {
     return await db.one(
       `
         INSERT INTO ${tableName}
@@ -148,15 +147,15 @@ export class PostDao {
       `,
       getParameterValues({
         allowedKeys: updateFields,
-        values: post,
+        values: input,
       })
     );
   }
 
-  public async update(db: Db, post: UpdatePostInput): Promise<Post> {
+  public async update(db: Db, input: UpdatePostInput): Promise<Post> {
     const parameterAssignments = getParameterAssignments({
       allowedKeys: updateFields,
-      values: post,
+      values: input,
     });
     return await db.one(
       `
@@ -166,25 +165,25 @@ export class PostDao {
         RETURNING ${selectColumnNames.join(',')}
       `,
       {
-        id: post.id,
+        id: input.id,
         ...getParameterValues({
           allowedKeys: updateFields,
-          values: post,
+          values: input,
         }),
       }
     );
   }
 
-  public async delete(db: Db, post: DeletePostInput): Promise<EntityId> {
+  public async delete(db: Db, input: DeletePostInput): Promise<string> {
     await db.none(
       `
         DELETE FROM ${tableName}
         WHERE id = $[id]
       `,
       {
-        id: post.id,
+        id: input.id,
       }
     );
-    return post;
+    return input.id;
   }
 }
