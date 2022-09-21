@@ -18,7 +18,6 @@ import {
   DeleteEntityNameInput,
 } from '../types/entityName';
 
-import { EntityId } from '../../common/types/entity';
 import { EntityNameService } from '../services/EntityNameService';
 
 /**
@@ -68,7 +67,6 @@ class EntityNameResolver {
   @Authorized()
   @Query(() => EntityName, {
     description: 'Reads a entityName.',
-    nullable: true,
   })
   async entityName(@Ctx() ctx: Context, @Arg('id', () => String) id: string) {
     return await this.entityNameService.read(ctx.state, id);
@@ -99,7 +97,7 @@ class EntityNameResolver {
   // TODO: Remove this TODO once the generated implementation has been
   // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
-  @Mutation(() => EntityId, { description: 'Deletes a entityName.' })
+  @Mutation(() => EntityName, { description: 'Deletes a entityName.' })
   async deleteEntityName(
     @Ctx() ctx: Context,
     @Arg('input') input: DeleteEntityNameInput

@@ -1,5 +1,5 @@
 import { Service } from 'typedi';
-import { Db } from '../../common/types/context';
+
 import {
   searchFromTable,
   getColumnNames,
@@ -7,8 +7,11 @@ import {
   getParameterAssignments,
   getParameterValues,
 } from '../../common/utils/dao';
-import { Pagination, FilterGroup, Order } from '../../common/types/search';
+
+import { Db } from '../../common/types/context';
 import { EntityId } from '../../common/types/entity';
+import { Pagination, FilterGroup, Order } from '../../common/types/search';
+
 import {
   EntityName,
   EntityNameFilter,
@@ -115,10 +118,6 @@ export class EntityNameDao {
       whereFragment: WHERE_FRAGMENT,
       searchFragment: SEARCH_FRAGMENT,
       groupByFragment: GROUP_BY_FRAGMENT,
-
-      // Prefetch optimization (not supported yet)
-      // WARNING: Do not prefetch entities that user is not allowed to see!
-      // prefetchReferences: [{ name: 'assignedUser', userColumnNames }],
     });
   }
 

@@ -3,7 +3,7 @@
 BEGIN;
 
 CREATE TABLE attachment (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  id uuid PRIMARY KEY DEFAULT public.gen_random_uuid(),
   created_at timestamptz NOT NULL DEFAULT current_timestamp,
   updated_at timestamptz NOT NULL DEFAULT current_timestamp,
   -- attachments are kept in DELETED status until upload has finished
@@ -24,6 +24,6 @@ CREATE TABLE attachment (
 
 CREATE TRIGGER attachment_updated_at
 BEFORE UPDATE ON attachment
-FOR EACH ROW EXECUTE PROCEDURE trigger_set_updated_at();
+FOR EACH ROW EXECUTE PROCEDURE public.trigger_set_updated_at();
 
 COMMIT;

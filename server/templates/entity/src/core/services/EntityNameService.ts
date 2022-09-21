@@ -1,5 +1,11 @@
+import Boom from '@hapi/boom';
 import { Context } from 'koa';
 import { Service } from 'typedi';
+
+import { memoizeAsync } from '../../common/utils/cache';
+import { EntityType, Operation } from '../../common/types/entity';
+import { getObjectKeysAsFieldNames } from '../../common/utils/format';
+import { Pagination, FilterGroup, Order } from '../../common/types/search';
 
 import {
   validateFilterGroups,
@@ -8,15 +14,13 @@ import {
 } from '../../common/utils/validate';
 
 import {
+  EntityName,
   EntityNameFilter,
   CreateEntityNameInput,
   UpdateEntityNameInput,
   DeleteEntityNameInput,
 } from '../types/entityName';
 
-import { getObjectKeysAsFieldNames } from '../../common/utils/format';
-import { Pagination, FilterGroup, Order } from '../../common/types/search';
-import { EntityType, Operation } from '../../common/types/entity';
 import { EntityNameDao } from '../daos/EntityNameDao';
 import { AuthService } from './AuthService';
 
@@ -41,7 +45,7 @@ export class EntityNameService {
     validatePagination(pagination, true);
 
     // Check permissions
-    await this.authService.checkPermission({
+    this.authService.checkPermission({
       state,
       entityType: EntityType.ENTITY_NAME,
       operation: Operation.LIST,
@@ -67,63 +71,55 @@ export class EntityNameService {
     );
   }
 
-  public async read(state: Context['state'], id: string) {
-    const entityName = await this.entityNameDao.read(state.tx, id);
+  public read = memoizeAsync<EntityName>(this.readImpl, this);
 
-    if (entityName) {
-      // Check permissions
-      await this.authService.checkPermission({
-        state,
-        entityType: EntityType.ENTITY_NAME,
-        operation: Operation.VIEW,
-        entityId: entityName.id,
-      });
+  private async readImpl(state: Context['state'], id: string) {
+    const entityName = await this.entityNameDao.read(state.tx, id);
+    if (!entityName) {
+      throw Boom.notFound(`EntityName not found with id ${id}`);
     }
+
+    this.authService.checkPermission({
+      state,
+      entityType: EntityType.ENTITY_NAME,
+      operation: Operation.VIEW,
+      entityId: entityName.id,
+    });
 
     return entityName;
   }
 
-  public async create(
-    state: Context['state'],
-    entityName: CreateEntityNameInput
-  ) {
-    // Check permissions
-    await this.authService.checkPermission({
+  public async create(state: Context['state'], input: CreateEntityNameInput) {
+    this.authService.checkPermission({
       state,
       entityType: EntityType.ENTITY_NAME,
       operation: Operation.ADD,
     });
 
-    return this.entityNameDao.create(state.tx, entityName);
+    return this.entityNameDao.create(state.tx, input);
   }
 
-  public async update(
-    state: Context['state'],
-    entityName: UpdateEntityNameInput
-  ) {
-    // Check permissions
-    await this.authService.checkPermission({
+  public async update(state: Context['state'], input: UpdateEntityNameInput) {
+    this.authService.checkPermission({
       state,
       entityType: EntityType.ENTITY_NAME,
       operation: Operation.EDIT,
-      entityId: entityName.id,
+      entityId: input.id,
     });
 
-    return this.entityNameDao.update(state.tx, entityName);
+    return this.entityNameDao.update(state.tx, input);
   }
 
-  public async delete(
-    state: Context['state'],
-    entityName: DeleteEntityNameInput
-  ) {
-    // Check permissions
-    await this.authService.checkPermission({
+  public async delete(state: Context['state'], input: DeleteEntityNameInput) {
+    this.authService.checkPermission({
       state,
       entityType: EntityType.ENTITY_NAME,
       operation: Operation.DELETE,
-      entityId: entityName.id,
+      entityId: input.id,
     });
 
-    return this.entityNameDao.delete(state.tx, entityName);
+    const entityName = await this.read(state, input.id);
+    await this.entityNameDao.delete(state.tx, input);
+    return entityName;
   }
 }

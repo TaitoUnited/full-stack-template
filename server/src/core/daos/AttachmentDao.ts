@@ -8,6 +8,9 @@ import {
   getParameterValues,
 } from '../../common/utils/dao';
 
+import { Db } from '../../common/types/context';
+import { Pagination, FilterGroup, Order } from '../../common/types/search';
+
 import {
   AttachmentId,
   Attachment,
@@ -18,9 +21,6 @@ import {
   UpdateAttachmentInputInternal,
   DeleteAttachmentInputInternal,
 } from '../types/attachment';
-
-import { Db } from '../../common/types/context';
-import { Pagination, FilterGroup, Order } from '../../common/types/search';
 
 // Types: DbInput, DbOutput
 
@@ -124,10 +124,6 @@ export class AttachmentDao {
       whereFragment: WHERE_FRAGMENT,
       searchFragment: SEARCH_FRAGMENT,
       groupByFragment: GROUP_BY_FRAGMENT,
-
-      // Prefetch optimization (not supported yet)
-      // WARNING: Do not prefetch entities that user is not allowed to see!
-      // prefetchReferences: [{ name: 'assignedUser', userColumnNames }],
     });
   }
 

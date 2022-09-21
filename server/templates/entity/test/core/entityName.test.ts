@@ -79,10 +79,10 @@ describe('entityName/mutations', () => {
     });
     expect(deleteEntityName.id).toEqual(id);
 
-    const { entityName } = await sdk.entityName({
-      id,
-    });
-    expect(entityName).toBeNull();
+    expect(async () => {
+      await sdk.entityName({ id });
+    }).toThrowError(`EntityName not found with id ${id}`);
+
     id = '';
   });
 });

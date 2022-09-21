@@ -1,5 +1,13 @@
+import Boom from '@hapi/boom';
 import { Context } from 'koa';
 import { Service } from 'typedi';
+
+import { memoizeAsync } from '../../common/utils/cache';
+import { EntityType, Operation } from '../../common/types/entity';
+import { Order } from '../../common/types/search';
+import { addFilter } from '../../common/utils/validate';
+
+import { Attachment, AttachmentType } from '../types/attachment';
 
 import {
   ReadPostAttachmentInput,
@@ -9,12 +17,8 @@ import {
   DeletePostAttachmentInput,
 } from '../types/postAttachment';
 
-import { addFilter } from '../../common/utils/validate';
-import { Order } from '../../common/types/search';
-import { AttachmentType } from '../types/attachment';
-import { AttachmentService } from '../services/AttachmentService';
-import { EntityType, Operation } from '../../common/types/entity';
 import { AuthService } from '../services/AuthService';
+import { AttachmentService } from '../services/AttachmentService';
 
 @Service()
 export class PostAttachmentService {
@@ -33,7 +37,7 @@ export class PostAttachmentService {
     attachmentType: AttachmentType,
     order: Order
   ) {
-    await this.authService.checkPermission({
+    this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.VIEW,
@@ -56,71 +60,85 @@ export class PostAttachmentService {
     );
   }
 
-  public async read(state: Context['state'], input: ReadPostAttachmentInput) {
-    await this.authService.checkPermission({
+  public read = memoizeAsync<Attachment>(this.readImpl, this);
+
+  private async readImpl(
+    state: Context['state'],
+    input: ReadPostAttachmentInput
+  ) {
+    const attachment = await this.attachmentService.read(state, input);
+    if (!attachment) {
+      throw Boom.notFound(
+        `Attachment not found with '${JSON.stringify(input)}'`
+      );
+    }
+
+    this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.VIEW,
       entityId: input.postId,
     });
 
-    return await this.attachmentService.read(state, input);
+    return attachment;
   }
 
   public async create(
     state: Context['state'],
-    attachment: CreatePostAttachmentInput
+    input: CreatePostAttachmentInput
   ) {
-    await this.authService.checkPermission({
+    this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.EDIT,
-      entityId: attachment.postId,
+      entityId: input.postId,
     });
 
-    return this.attachmentService.create(state, attachment);
+    return this.attachmentService.create(state, input);
   }
 
   public async finalize(
     state: Context['state'],
-    attachment: FinalizePostAttachmentInput
+    input: FinalizePostAttachmentInput
   ) {
-    await this.authService.checkPermission({
+    this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.EDIT,
-      entityId: attachment.postId,
+      entityId: input.postId,
     });
 
-    await this.attachmentService.finalize(state, attachment);
-    return await this.read(state, attachment);
+    await this.attachmentService.finalize(state, input);
+    return await this.read(state, input);
   }
 
   public async update(
     state: Context['state'],
-    attachment: UpdatePostAttachmentInput
+    input: UpdatePostAttachmentInput
   ) {
-    await this.authService.checkPermission({
+    this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.EDIT,
-      entityId: attachment.postId,
+      entityId: input.postId,
     });
 
-    return this.attachmentService.update(state, attachment);
+    return this.attachmentService.update(state, input);
   }
 
   public async delete(
     state: Context['state'],
-    attachment: DeletePostAttachmentInput
+    input: DeletePostAttachmentInput
   ) {
-    await this.authService.checkPermission({
+    this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.EDIT,
-      entityId: attachment.postId,
+      entityId: input.postId,
     });
 
-    return await this.attachmentService.delete(state, attachment);
+    const attachment = await this.read(state, input.id);
+    await this.attachmentService.delete(state, input);
+    return attachment;
   }
 }

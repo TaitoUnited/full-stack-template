@@ -18,7 +18,6 @@ import {
   DeletePostInput,
 } from '../types/post';
 
-import { EntityId } from '../../common/types/entity';
 import { PostService } from '../services/PostService';
 
 /**
@@ -66,7 +65,6 @@ class PostResolver {
   @Authorized()
   @Query(() => Post, {
     description: 'Reads a post.',
-    nullable: true,
   })
   async post(@Ctx() ctx: Context, @Arg('id', () => String) id: string) {
     return await this.postService.read(ctx.state, id);
@@ -91,7 +89,7 @@ class PostResolver {
   // TODO: Remove this TODO once the generated implementation has been
   // reviewed according to https://github.com/TaitoUnited/full-stack-template/blob/dev/scripts/taito/DEVELOPMENT.md#code-generation
   @Authorized()
-  @Mutation(() => EntityId, { description: 'Deletes a post.' })
+  @Mutation(() => Post, { description: 'Deletes a post.' })
   async deletePost(@Ctx() ctx: Context, @Arg('input') input: DeletePostInput) {
     return await this.postService.delete(ctx.state, input);
   }

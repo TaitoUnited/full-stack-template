@@ -1,6 +1,5 @@
 import { Context } from 'koa';
 import Container, { Service } from 'typedi';
-
 import {
   Arg,
   Authorized,
@@ -11,7 +10,7 @@ import {
   Query,
   Root,
 } from 'type-graphql';
-import { Post } from '../types/post';
+
 import { Order, OrderDirection } from '../../common/types/search';
 import {
   Attachment,
@@ -26,6 +25,8 @@ import {
   UpdatePostAttachmentInput,
   DeletePostAttachmentInput,
 } from '../types/postAttachment';
+import { Post } from '../types/post';
+
 import { PostAttachmentService } from '../services/PostAttachmentService';
 
 /**
@@ -51,7 +52,6 @@ class PostAttachmentResolver {
   @Authorized()
   @Query(() => Attachment, {
     description: 'Reads a post attachment.',
-    nullable: true,
   })
   async postAttachment(
     @Ctx() ctx: Context,

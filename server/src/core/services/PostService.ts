@@ -1,5 +1,11 @@
+import Boom from '@hapi/boom';
 import { Context } from 'koa';
 import { Service } from 'typedi';
+
+import { memoizeAsync } from '../../common/utils/cache';
+import { EntityType, Operation } from '../../common/types/entity';
+import { getObjectKeysAsFieldNames } from '../../common/utils/format';
+import { Pagination, FilterGroup, Order } from '../../common/types/search';
 
 import {
   validateFilterGroups,
@@ -8,17 +14,15 @@ import {
 } from '../../common/utils/validate';
 
 import {
+  Post,
   PostFilter,
   CreatePostInput,
   UpdatePostInput,
   DeletePostInput,
 } from '../types/post';
 
-import { getObjectKeysAsFieldNames } from '../../common/utils/format';
-import { Pagination, FilterGroup, Order } from '../../common/types/search';
-import { EntityType, Operation } from '../../common/types/entity';
-import { PostDao } from '../daos/PostDao';
 import { AuthService } from './AuthService';
+import { PostDao } from '../daos/PostDao';
 
 const filterableFieldNames = getObjectKeysAsFieldNames(new PostFilter());
 
@@ -37,7 +41,7 @@ export class PostService {
     validateFieldName(order.field, filterableFieldNames);
     validatePagination(pagination, true);
 
-    await this.authService.checkPermission({
+    this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.LIST,
@@ -63,50 +67,55 @@ export class PostService {
     );
   }
 
-  public async read(state: Context['state'], id: string) {
-    const post = await this.postDao.read(state.tx, id);
+  public read = memoizeAsync<Post>(this.readImpl, this);
 
-    if (post) {
-      await this.authService.checkPermission({
-        state,
-        entityType: EntityType.POST,
-        operation: Operation.VIEW,
-        entityId: post.id,
-      });
+  private async readImpl(state: Context['state'], id: string) {
+    const post = await this.postDao.read(state.tx, id);
+    if (!post) {
+      throw Boom.notFound(`Post not found with id ${id}`);
     }
+
+    this.authService.checkPermission({
+      state,
+      entityType: EntityType.POST,
+      operation: Operation.VIEW,
+      entityId: post.id,
+    });
 
     return post;
   }
 
-  public async create(state: Context['state'], post: CreatePostInput) {
-    await this.authService.checkPermission({
+  public async create(state: Context['state'], input: CreatePostInput) {
+    this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.ADD,
     });
 
-    return this.postDao.create(state.tx, post);
+    return this.postDao.create(state.tx, input);
   }
 
-  public async update(state: Context['state'], post: UpdatePostInput) {
-    await this.authService.checkPermission({
+  public async update(state: Context['state'], input: UpdatePostInput) {
+    this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.EDIT,
-      entityId: post.id,
+      entityId: input.id,
     });
 
-    return this.postDao.update(state.tx, post);
+    return this.postDao.update(state.tx, input);
   }
 
-  public async delete(state: Context['state'], post: DeletePostInput) {
-    await this.authService.checkPermission({
+  public async delete(state: Context['state'], input: DeletePostInput) {
+    this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.DELETE,
-      entityId: post.id,
+      entityId: input.id,
     });
 
-    return this.postDao.delete(state.tx, post);
+    const post = await this.read(state, input.id);
+    await this.postDao.delete(state.tx, input);
+    return post;
   }
 }

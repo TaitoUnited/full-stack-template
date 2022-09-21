@@ -3,7 +3,7 @@
 BEGIN;
 
 CREATE TABLE post (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+  id uuid PRIMARY KEY DEFAULT public.gen_random_uuid(),
   created_at timestamptz NOT NULL DEFAULT current_timestamp,
   updated_at timestamptz NOT NULL DEFAULT current_timestamp,
 
@@ -17,6 +17,6 @@ CREATE TABLE post (
 
 CREATE TRIGGER post_updated_at
 BEFORE UPDATE ON post
-FOR EACH ROW EXECUTE PROCEDURE trigger_set_updated_at();
+FOR EACH ROW EXECUTE PROCEDURE public.trigger_set_updated_at();
 
 COMMIT;
