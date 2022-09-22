@@ -106,8 +106,7 @@ export class PostService {
       // account: post.accountId
     });
 
-    await this.postDao.update(state.tx, input);
-    return post;
+    return this.postDao.update(state.tx, input);
   }
 
   public async delete(state: Context['state'], input: DeletePostInput) {
@@ -121,7 +120,6 @@ export class PostService {
       // account: post.accountId
     });
 
-    await this.postDao.delete(state.tx, input);
-    return post;
+    return this.postDao.delete(state.tx, input);
   }
 }

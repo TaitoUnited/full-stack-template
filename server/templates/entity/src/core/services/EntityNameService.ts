@@ -109,8 +109,7 @@ export class EntityNameService {
       // account: entityName.accountId
     });
 
-    await this.entityNameDao.update(state.tx, input);
-    return entityName;
+    return this.entityNameDao.update(state.tx, input);
   }
 
   public async delete(state: Context['state'], input: DeleteEntityNameInput) {
@@ -124,7 +123,6 @@ export class EntityNameService {
       // account: entityName.accountId
     });
 
-    await this.entityNameDao.delete(state.tx, input);
-    return entityName;
+    return this.entityNameDao.delete(state.tx, input);
   }
 }
