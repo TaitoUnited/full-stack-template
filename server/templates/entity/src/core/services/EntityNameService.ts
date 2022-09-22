@@ -20,8 +20,8 @@ import {
   DeleteEntityNameInput,
 } from '../types/entityName';
 
-import { EntityNameDao } from '../daos/EntityNameDao';
 import { AuthService } from './AuthService';
+import { EntityNameDao } from '../daos/EntityNameDao';
 
 const filterableFieldNames = getObjectKeysAsFieldNames(new EntityNameFilter());
 
@@ -43,7 +43,6 @@ export class EntityNameService {
     validateFieldName(input.order.field, filterableFieldNames);
     validatePagination(input.pagination, true);
 
-    // Check permissions
     this.authService.checkPermission({
       state: input.state,
       entityType: EntityType.ENTITY_NAME,
@@ -60,7 +59,7 @@ export class EntityNameService {
     // });
 
     return this.entityNameDao.search({
-      db: state.tx,
+      db: input.state.tx,
       search: input.search,
       filterGroups,
       order: input.order,
@@ -80,6 +79,8 @@ export class EntityNameService {
       state,
       entityType: EntityType.ENTITY_NAME,
       operation: Operation.READ,
+      // Additional details for permission check:
+      // account: entityName.accountId
     });
 
     return entityName;
@@ -90,29 +91,39 @@ export class EntityNameService {
       state,
       entityType: EntityType.ENTITY_NAME,
       operation: Operation.CREATE,
+      // Additional details for permission check:
+      // account: input.accountId
     });
 
     return this.entityNameDao.create(state.tx, input);
   }
 
   public async update(state: Context['state'], input: UpdateEntityNameInput) {
+    const entityName = await this.read(state, input.id);
+
     this.authService.checkPermission({
       state,
       entityType: EntityType.ENTITY_NAME,
       operation: Operation.UPDATE,
+      // Additional details for permission check:
+      // account: entityName.accountId
     });
 
-    return this.entityNameDao.update(state.tx, input);
+    await this.entityNameDao.update(state.tx, input);
+    return entityName;
   }
 
   public async delete(state: Context['state'], input: DeleteEntityNameInput) {
+    const entityName = await this.read(state, input.id);
+
     this.authService.checkPermission({
       state,
       entityType: EntityType.ENTITY_NAME,
       operation: Operation.DELETE,
+      // Additional details for permission check:
+      // account: entityName.accountId
     });
 
-    const entityName = await this.read(state, input.id);
     await this.entityNameDao.delete(state.tx, input);
     return entityName;
   }

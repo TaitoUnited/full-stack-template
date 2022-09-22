@@ -14,7 +14,8 @@ type HasPermissionInput = {
   state: Context['state'];
   entityType: EntityType;
   operation: Operation;
-  // TODO: additional parameters
+  // Additional parameters for permission check:
+  // accountId: string
 };
 type CheckPermissionInput = HasPermissionInput;
 
@@ -68,10 +69,11 @@ export class AuthService {
     // TODO: Check that authentication credentials are present
     // and user has permissions for the operation.
 
-    // NOTE: You should aim for non-async implementation by reading user
-    // permissions to state on authMiddleware and passing additional info
+    // NOTE: You should aim for non-async implementation by storing user
+    // permissions to state on authMiddleware (e.g. users role for each
+    // account, or something like that) and passing additional info
     // about the entity in question for the hasPermission/checkPermission
-    // method (by reading it from database before the call). This way
+    // method (by reading them from database before the call). This way
     // the AuthService serves as a pure permission rule engine with no
     // dependencies to services and daos of the app.
     //

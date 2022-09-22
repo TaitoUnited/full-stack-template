@@ -9,7 +9,6 @@ import {
 } from '../../common/utils/dao';
 
 import { Db } from '../../common/types/context';
-import { EntityId } from '../../common/types/entity';
 import { Pagination, FilterGroup, Order } from '../../common/types/search';
 
 import {
@@ -179,16 +178,19 @@ export class EntityNameDao {
     );
   }
 
-  public async delete(db: Db, input: DeleteEntityNameInput): Promise<string> {
-    await db.none(
+  public async delete(
+    db: Db,
+    input: DeleteEntityNameInput
+  ): Promise<EntityName> {
+    return await db.one(
       `
         DELETE FROM ${tableName}
         WHERE ${tableName}.id = $[id]
+        RETURNING ${selectColumnNames.join(',')}
       `,
       {
         id: input.id,
       }
     );
-    return input.id;
   }
 }

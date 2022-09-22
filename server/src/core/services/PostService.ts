@@ -76,6 +76,8 @@ export class PostService {
       state,
       entityType: EntityType.POST,
       operation: Operation.READ,
+      // Additional details for permission check:
+      // account: post.accountId
     });
 
     return post;
@@ -86,29 +88,39 @@ export class PostService {
       state,
       entityType: EntityType.POST,
       operation: Operation.CREATE,
+      // Additional details for permission check:
+      // account: input.accountId
     });
 
     return this.postDao.create(state.tx, input);
   }
 
   public async update(state: Context['state'], input: UpdatePostInput) {
+    const post = await this.read(state, input.id);
+
     this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.UPDATE,
+      // Additional details for permission check:
+      // account: post.accountId
     });
 
-    return this.postDao.update(state.tx, input);
+    await this.postDao.update(state.tx, input);
+    return post;
   }
 
   public async delete(state: Context['state'], input: DeletePostInput) {
+    const post = await this.read(state, input.id);
+
     this.authService.checkPermission({
       state,
       entityType: EntityType.POST,
       operation: Operation.DELETE,
+      // Additional details for permission check:
+      // account: post.accountId
     });
 
-    const post = await this.read(state, input.id);
     await this.postDao.delete(state.tx, input);
     return post;
   }

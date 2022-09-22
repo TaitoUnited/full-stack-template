@@ -129,7 +129,7 @@ export class PostDao {
           ${SELECT_COLUMNS_FRAGMENT}
           ${selectColumnNames.join(',')}
         FROM ${tableName}
-        WHERE id = $[id]
+        WHERE ${tableName}.id = $[id]
       `,
       {
         id,
@@ -161,7 +161,7 @@ export class PostDao {
       `
         UPDATE ${tableName}
         SET ${parameterAssignments.join(',')}
-        WHERE id = $[id]
+        WHERE ${tableName}.id = $[id]
         RETURNING ${selectColumnNames.join(',')}
       `,
       {
@@ -174,16 +174,16 @@ export class PostDao {
     );
   }
 
-  public async delete(db: Db, input: DeletePostInput): Promise<string> {
-    await db.none(
+  public async delete(db: Db, input: DeletePostInput): Promise<Post> {
+    return await db.one(
       `
         DELETE FROM ${tableName}
-        WHERE id = $[id]
+        WHERE ${tableName}.id = $[id]
+        RETURNING ${selectColumnNames.join(',')}
       `,
       {
         id: input.id,
       }
     );
-    return input.id;
   }
 }
