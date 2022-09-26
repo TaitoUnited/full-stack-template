@@ -146,6 +146,8 @@ if [[ $db_database_type == "pg" ]]; then
   if [[ ${taito_default_db_shared:-false} == true ]]; then
     db_database_name=${taito_random_name//-/_}_${taito_env}
   fi
+  db_database_master_username=${default_postgres_master_username}
+  db_database_master_password_hint=${default_postgres_master_password_hint}
   db_database_username_suffix=${default_postgres_username_suffix}
   db_database_host="127.0.0.1"
   db_database_port=5001
@@ -159,6 +161,8 @@ if [[ $db_database_type == "pg" ]]; then
 elif [[ $db_database_type == "mysql" ]]; then
   db_database_instance=${default_mysql}
   db_database_name=${taito_project_short}${taito_env}
+  db_database_master_username=${default_mysql_master_username}
+  db_database_master_password_hint=${default_mysql_master_password_hint}
   db_database_username_suffix=${default_mysql_username_suffix}
   db_database_host="127.0.0.1"
   db_database_port=5001
@@ -286,6 +290,8 @@ case $taito_env in
     if [[ $db_database_type == "pg" ]]; then
       db_database_real_host="${default_postgres_host_prod}"
       db_database_real_port="${default_postgres_port_prod}"
+      db_database_master_username=${default_postgres_master_username_prod}
+      db_database_master_password_hint=${default_postgres_master_password_hint_prod}
       db_database_username_suffix=${default_postgres_username_suffix_prod}
       db_database_ssl_enabled="${default_postgres_ssl_enabled_prod:-true}"
       db_database_ssl_client_cert_enabled="${default_postgres_ssl_client_cert_enabled_prod:-false}"
@@ -294,6 +300,8 @@ case $taito_env in
     elif [[ $db_database_type == "mysql" ]]; then
       db_database_real_host="${default_mysql_host_prod}"
       db_database_real_port="${default_mysql_port_prod}"
+      db_database_master_username=${default_mysql_master_username_prod}
+      db_database_master_password_hint=${default_mysql_master_password_hint_prod}
       db_database_username_suffix=${default_mysql_username_suffix_prod}
       db_database_ssl_enabled="${default_mysql_ssl_enabled_prod:-true}"
       db_database_ssl_client_cert_enabled="${default_mysql_ssl_client_cert_enabled_prod:-false}"
@@ -405,6 +413,8 @@ case $taito_env in
     if [[ $db_database_type == "pg" ]]; then
       db_database_real_host="${default_postgres_host_prod}"
       db_database_real_port="${default_postgres_port_prod}"
+      db_database_master_username=${default_postgres_master_username_prod}
+      db_database_master_password_hint=${default_postgres_master_password_hint_prod}
       db_database_username_suffix=${default_postgres_username_suffix_prod}
       db_database_ssl_enabled="${default_postgres_ssl_enabled_prod:-true}"
       db_database_ssl_client_cert_enabled="${default_postgres_ssl_client_cert_enabled_prod:-false}"
@@ -413,6 +423,8 @@ case $taito_env in
     elif [[ $db_database_type == "mysql" ]]; then
       db_database_real_host="${default_mysql_host_prod}"
       db_database_real_port="${default_mysql_port_prod}"
+      db_database_master_username=${default_mysql_master_username_prod}
+      db_database_master_password_hint=${default_mysql_master_password_hint_prod}
       db_database_username_suffix=${default_mysql_username_suffix_prod}
       db_database_ssl_enabled="${default_mysql_ssl_enabled_prod:-true}"
       db_database_ssl_client_cert_enabled="${default_mysql_ssl_client_cert_enabled_prod:-false}"
@@ -568,17 +580,14 @@ fi
 
 db_database_app_user_suffix="_app"
 db_database_viewer_user_suffix="_viewer"
-
-# master user for creating and destroying databases
-if [[ $db_database_type == "pg" ]]; then
-  db_database_master_username="${default_postgres_master_username}${db_database_username_suffix}"
-  db_database_master_password_hint="${default_postgres_master_password_hint}"
-elif [[ $db_database_type == "mysql" ]]; then
+if [[ $db_database_type == "mysql" ]]; then
   db_database_app_user_suffix="a"
   db_database_viewer_user_suffix="v"
-  db_database_master_username="${default_mysql_master_username}${db_database_username_suffix}"
-  db_database_master_password_hint="${default_mysql_master_password_hint}"
 fi
+
+# master user for creating and destroying databases
+db_database_master_username="${db_database_master_username}${db_database_username_suffix}"
+db_database_master_password_hint="${db_database_master_password_hint}"
 
 # app user for application
 db_database_app_username="${db_database_name}${db_database_app_user_suffix}${db_database_username_suffix}"
