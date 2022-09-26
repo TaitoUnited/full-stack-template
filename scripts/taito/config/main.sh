@@ -231,6 +231,10 @@ dockerfile=${dockerfile:-Dockerfile}
 
 case $taito_env in
   prod)
+    # Project labeling
+    taito_organization=${default_organization_prod}
+    taito_organization_abbr=${default_organization_abbr_prod}
+
     # Provider and namespaces
     taito_zone=${default_zone_prod}
     taito_zone_multi_tenant=${default_zone_multi_tenant_prod}
@@ -344,6 +348,10 @@ case $taito_env in
     if [[ -f scripts/taito/env-prod.sh ]]; then . scripts/taito/env-prod.sh; fi
     ;;
   stag)
+    # Project labeling
+    taito_organization=${default_organization_prod}
+    taito_organization_abbr=${default_organization_abbr_prod}
+
     # Provider and namespaces
     taito_zone=${default_zone_prod}
     taito_zone_multi_tenant=${default_zone_multi_tenant_prod}
