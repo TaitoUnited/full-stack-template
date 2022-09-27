@@ -79,12 +79,14 @@ jobs:
           BRANCH_BASTION_SSH_KNOWN_HOSTS: ${{ secrets[format('{0}_BASTION_SSH_KNOWN_HOSTS', env.BRANCH)] }}
         run: |
           mkdir -p /etc/ssh
+          mkdir -p /root/.ssh
           if [ ! -z "${BRANCH_BASTION_SSH_RSA_PUB}" ]; then
             echo "Using BRANCH_BASTION_SSH_RSA"
             echo "$BRANCH_BASTION_SSH_RSA" > /etc/ssh/bastion_rsa
             echo "$BRANCH_BASTION_SSH_RSA_PUB" > /etc/ssh/bastion_rsa.pub
             echo "$BRANCH_BASTION_SSH_CONFIG" >> /etc/ssh/ssh_config
             echo "$BRANCH_BASTION_SSH_KNOWN_HOSTS" >> /etc/ssh/known_hosts
+            echo "$BRANCH_BASTION_SSH_KNOWN_HOSTS" >> /root/.ssh/known_hosts
             chmod 700 /etc/ssh/bastion_rsa
           elif [ ! -z "${BASTION_SSH_RSA_PUB}" ]; then
             echo "Using BASTION_SSH_RSA"
@@ -92,6 +94,7 @@ jobs:
             echo "$BASTION_SSH_RSA_PUB" > /etc/ssh/bastion_rsa.pub
             echo "$BASTION_SSH_CONFIG" >> /etc/ssh/ssh_config
             echo "$BASTION_SSH_KNOWN_HOSTS" >> /etc/ssh/known_hosts
+            echo "$BASTION_SSH_KNOWN_HOSTS" >> /root/.ssh/known_hosts
             chmod 700 /etc/ssh/bastion_rsa
           fi
 
