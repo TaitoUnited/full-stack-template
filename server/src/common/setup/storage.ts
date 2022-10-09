@@ -66,10 +66,13 @@ export const getStoragesById = async () => {
           forcePathStyle: config.BUCKET_FORCE_PATH_STYLE,
           endpoint: config.BUCKET_ENDPOINT,
           region: config.BUCKET_REGION,
-          credentials: {
-            accessKeyId: config.BUCKET_KEY_ID!,
-            secretAccessKey: secrets.BUCKET_KEY_SECRET,
-          },
+          credentials:
+            config.BUCKET_KEY_ID && secrets.BUCKET_KEY_SECRET
+              ? {
+                  accessKeyId: config.BUCKET_KEY_ID,
+                  secretAccessKey: secrets.BUCKET_KEY_SECRET,
+                }
+              : undefined,
         }
       ),
       // NOTE: Add additional storage buckets here
