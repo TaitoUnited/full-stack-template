@@ -23,6 +23,7 @@ ENV API_ROOT ''
 ENV API_URL /api
 ENV APP_SENTRY_PUBLIC_DSN #sentryPublicDSN
 
+RUN npm run lint
 RUN npm run unit
 RUN npm run lang:compile
 RUN npm run build
