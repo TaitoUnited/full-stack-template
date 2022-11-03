@@ -133,7 +133,7 @@ export class AttachmentDao {
 
     return await db.oneOrNone(
       `
-        SELECT
+        SELECT DISTINCT
           ${SELECT_COLUMNS_FRAGMENT}
           ${selectColumnNames.join(',')}
         FROM ${tableName}

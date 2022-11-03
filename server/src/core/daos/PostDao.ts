@@ -125,7 +125,7 @@ export class PostDao {
   public async read(db: Db, id: string): Promise<Post | null> {
     return await db.oneOrNone(
       `
-        SELECT
+        SELECT DISTINCT
           ${SELECT_COLUMNS_FRAGMENT}
           ${selectColumnNames.join(',')}
         FROM ${tableName}
