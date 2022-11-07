@@ -62,3 +62,13 @@ variable "taito_uptime_channels" {
   type = string  # whitespace delimited strings
   default = ""
 }
+
+/* SENDGRID
+# Sendgrid
+
+variable "sendgrid_api_key" {
+  type = string
+  sensitive = true
+  description = "Sendgrid API KEY for Terraform (1password)."
+}
+*/

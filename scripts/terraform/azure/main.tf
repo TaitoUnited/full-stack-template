@@ -183,3 +183,19 @@ resource "helm_release" "namespace" {
     jsonencode(local.namespace)
   ]
 }
+
+/* SENDGRID
+provider "sendgrid" {
+  api_key    = var.sendgrid_api_key 
+}
+
+module "sendgrid" {
+  source  = "TaitoUnited/email/sendgrid"
+  version = "0.0.1"
+
+  create_api_keys                = true
+  create_webhooks                = true
+
+  resources                      = local.resources
+}
+*/
