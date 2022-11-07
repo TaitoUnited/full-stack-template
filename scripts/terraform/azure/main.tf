@@ -191,7 +191,7 @@ provider "sendgrid" {
 
 module "sendgrid" {
   source  = "TaitoUnited/email/sendgrid"
-  version = "0.0.1"
+  version = "1.0.1"
 
   create_api_keys                = true
   create_webhooks                = true
