@@ -1,5 +1,5 @@
 # ----------------------------------------------------------
-# Permisisions
+# Permissions
 # ----------------------------------------------------------
 
 # NOTE: On Azure use object id: user:2222222b-123b-123c-123d-1e2345a6c7e8
@@ -15,19 +15,24 @@ settings:
           - user:james.toe@mydomain.com
 
 # ----------------------------------------------------------
-# API keys
+# Service accounts and API keys
 # ----------------------------------------------------------
 
 settings:
+  serviceAccounts:
+    # Google service account for server (storage)
+    - id: ${taito_project_short}-${taito_env}-server
+      roles: []
   apiKeys:
-    # Client API key for accessing Google Maps
+    # Google API key for client (maps)
     - name: ${taito_project}-${taito_env}-client
       origins:
         - ${taito_domain}
       services:
         - name: maps.googleapis.com
           methods: ["GET*"]
-    # Server API key for sending email
+    # Sendgrid API key for server (email send)
+    # TIP: Run 'taito env output:ENV sendgrid_api_keys' to see the keys
     - provider: sendgrid
       name: ${taito_project}-${taito_env}-server
       services:
@@ -39,7 +44,7 @@ settings:
 
 settings:
   webhooks:
-    # Webhook for receiving email
+    # Sendgrid webhook for server (email receive)
     - provider: sendgrid
       name: ${taito_project}-${taito_env}-email
       url: https://${taito_domain}/api/email
