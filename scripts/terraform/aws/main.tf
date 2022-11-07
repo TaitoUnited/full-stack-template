@@ -145,7 +145,7 @@ locals {
 
 module "aws" {
   source  = "TaitoUnited/project-resources/aws"
-  version = "3.16.0"
+  version = "3.17.0"
 
   # Create flags
   create_cicd_service_account         = var.create_cicd_service_account
@@ -225,7 +225,7 @@ provider "sendgrid" {
 
 module "sendgrid" {
   source  = "TaitoUnited/email/sendgrid"
-  version = "1.0.1"
+  version = "1.1.0"
 
   create_api_keys                = true
   create_webhooks                = true

@@ -7,9 +7,10 @@ settings:
   backupEnabled: false
   uptimeEnabled: false
 
-  serviceAccounts: # For GCP
-    - id: ${taito_project}-${taito_env}-server # For GCP
-      roles: [] # -server roles # For GCP
+  auth:
+    serviceAccounts: # For GCP
+      - name: ${taito_project}-${taito_env}-server # For GCP
+        roles: [] # -server roles # For GCP
 
   ingress:
     enabled: true # ingress
@@ -119,6 +120,7 @@ settings:
       # User rights # For GCP
       admins: # For GCP
       objectAdmins: # For GCP
+        # TODO: this got removed?
         - id: serviceAccount:${taito_project}-${taito_env}-server@${taito_resource_namespace_id}.iam.gserviceaccount.com # For GCP
       objectViewers: # For GCP
 

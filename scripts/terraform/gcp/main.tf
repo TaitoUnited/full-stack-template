@@ -146,7 +146,7 @@ locals {
 
 module "gcp" {
   source  = "TaitoUnited/project-resources/google"
-  version = "3.3.0"
+  version = "3.5.0"
 
   # TODO: create_cicd_service_account    = var.create_cicd_service_account
   create_storage_buckets         = true
@@ -211,7 +211,7 @@ provider "sendgrid" {
 
 module "sendgrid" {
   source  = "TaitoUnited/email/sendgrid"
-  version = "1.0.1"
+  version = "1.1.0"
 
   create_api_keys                = true
   create_webhooks                = true

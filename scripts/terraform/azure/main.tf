@@ -145,7 +145,7 @@ locals {
 
 module "azure" {
   source  = "TaitoUnited/project-resources/azurerm"
-  version = "3.14.0"
+  version = "3.15.0"
 
   # Create flags
   create_cicd_service_account         = var.create_cicd_service_account
@@ -191,7 +191,7 @@ provider "sendgrid" {
 
 module "sendgrid" {
   source  = "TaitoUnited/email/sendgrid"
-  version = "1.0.1"
+  version = "1.1.0"
 
   create_api_keys                = true
   create_webhooks                = true

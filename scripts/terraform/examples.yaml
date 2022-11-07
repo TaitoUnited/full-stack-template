@@ -15,43 +15,46 @@ settings:
           - user:james.toe@mydomain.com
 
 # ----------------------------------------------------------
-# Service accounts and API keys
+# Auth: Service accounts, API keys, and OAUTH clients
 # ----------------------------------------------------------
 
 settings:
-  serviceAccounts:
-    # Google service account for server (storage)
-    - id: ${taito_project_short}-${taito_env}-server
-      roles: []
-  apiKeys:
-    # Google API key for client (maps)
-    - name: ${taito_project}-${taito_env}-client
-      origins:
-        - ${taito_domain}
-      services:
-        - name: maps.googleapis.com
-          methods: ["GET*"]
-    # Sendgrid API key for server (email send)
-    # TIP: Run 'taito env output:ENV sendgrid_api_keys' to see the keys
-    - provider: sendgrid
-      name: ${taito_project}-${taito_env}-server
-      services:
-        - name: mail.send
+  auth:
+    serviceAccounts:
+      # Google service account for server (storage)
+      - name: ${taito_project_short}-${taito_env}-server
+        roles: []
+
+    apiKeys:
+      # Google API key for client (maps)
+      - name: ${taito_project}-${taito_env}-client
+        origins:
+          - ${taito_domain}
+        services:
+          - name: maps.googleapis.com
+            methods: ["GET*"]
+      # Sendgrid API key for server (email send)
+      # TIP: Run 'taito env output:ENV sendgrid_api_keys' to see the keys
+      - provider: sendgrid
+        name: ${taito_project}-${taito_env}-server
+        services:
+          - name: mail.send
 
 # ----------------------------------------------------------
-# Webhooks (e.g. inbound email)
+# Integration: Webhooks
 # ----------------------------------------------------------
 
 settings:
-  webhooks:
-    # Sendgrid webhook for server (email receive)
-    - provider: sendgrid
-      name: ${taito_project}-${taito_env}-email
-      url: https://${taito_domain}/api/email
-      options:
-        hostname: ${taito_project}-${taito_env}.mydomain.com
-        spamCheck: false
-        sendRaw: false
+  integration:
+    webhooks:
+      # Sendgrid webhook for server (email receive)
+      - provider: sendgrid
+        name: ${taito_project}-${taito_env}-email
+        url: https://${taito_domain}/api/email
+        options:
+          hostname: ${taito_project}-${taito_env}.mydomain.com
+          spamCheck: false
+          sendRaw: false
 
 # ----------------------------------------------------------
 # Log alerts
