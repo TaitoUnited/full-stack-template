@@ -15,6 +15,40 @@ settings:
           - user:james.toe@mydomain.com
 
 # ----------------------------------------------------------
+# API keys
+# ----------------------------------------------------------
+
+settings:
+  apiKeys:
+    # Client API key for accessing Google Maps
+    - name: ${taito_project}-${taito_env}-client
+      origins:
+        - ${taito_domain}
+      services:
+        - name: maps.googleapis.com
+          methods: ["GET*"]
+    # Server API key for sending email
+    - provider: sendgrid
+      name: ${taito_project}-${taito_env}-server
+      services:
+        - name: mail.send
+
+# ----------------------------------------------------------
+# Webhooks (e.g. inbound email)
+# ----------------------------------------------------------
+
+settings:
+  webhooks:
+    # Webhook for receiving email
+    - provider: sendgrid
+      name: ${taito_project}-${taito_env}-email
+      url: https://${taito_domain}/api/email
+      options:
+        hostname: ${taito_project}-${taito_env}.mydomain.com
+        spamCheck: false
+        sendRaw: false
+
+# ----------------------------------------------------------
 # Log alerts
 # ----------------------------------------------------------
 
