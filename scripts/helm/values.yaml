@@ -42,8 +42,6 @@ full-stack:
   ingress:
     tls: true
     certManagerEnabled: true
-    oldAcmeCertificate: false
-    oldRewritePolicy: false
 
   serviceDefaults:
     # Basics
