@@ -26,7 +26,7 @@ const restMiddlewares = [postRouter, infraRouter].map((router) =>
   router.middleware()
 );
 
-if (config.COMMON_ENV !== 'local') {
+if (config.COMMON_ENV !== 'prod') {
   restMiddlewares.push(apiDocRouter.middleware());
 }
 
