@@ -41,8 +41,8 @@ const apollo = new ApolloServer({
       },
     },
   ],
-  introspection: ['local', 'dev', 'test'].includes(config.COMMON_ENV || ''),
-  playground: ['local', 'dev', 'test'].includes(config.COMMON_ENV || '')
+  introspection: config.API_PLAYGROUND_ENABLED,
+  playground: config.API_PLAYGROUND_ENABLED
     ? {
         endpoint: config.BASE_PATH,
         settings: {

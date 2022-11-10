@@ -26,7 +26,7 @@ const restMiddlewares = [postRouter, infraRouter].map((router) =>
   router.middleware()
 );
 
-if (config.COMMON_ENV !== 'prod') {
+if (config.API_DOCS_ENABLED) {
   restMiddlewares.push(apiDocRouter.middleware());
 }
 
