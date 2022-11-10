@@ -40,7 +40,7 @@ export default class OpenApi {
     };
   }
 
-  createRouter(prefix?: string) {
+  createRouter(prefix?: string, swaggerEnabled = false) {
     const docRouter = router();
 
     if (prefix) {
@@ -51,11 +51,13 @@ export default class OpenApi {
       ctx.response.body = this.generate();
     });
 
-    docRouter.get('/', (ctx) => {
-      ctx.response.body = generateSwaggerHtml(
-        path.join(config.BASE_PATH, prefix ?? '/', '_api.json')
-      );
-    });
+    if (swaggerEnabled) {
+      docRouter.get('/', (ctx) => {
+        ctx.response.body = generateSwaggerHtml(
+          path.join(config.BASE_PATH, prefix ?? '/', '_api.json')
+        );
+      });
+    }
 
     return docRouter;
   }

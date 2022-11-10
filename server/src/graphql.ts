@@ -41,7 +41,7 @@ const apollo = new ApolloServer({
       },
     },
   ],
-  introspection: config.API_PLAYGROUND_ENABLED,
+  introspection: config.API_DOCS_ENABLED || config.API_PLAYGROUND_ENABLED,
   playground: config.API_PLAYGROUND_ENABLED
     ? {
         endpoint: config.BASE_PATH,

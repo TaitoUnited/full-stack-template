@@ -20,13 +20,16 @@ for (const router of documentedRouters) {
   openApi.addRouter(router);
 }
 
-const apiDocRouter = openApi.createRouter('/docs');
-
 const restMiddlewares = [postRouter, infraRouter].map((router) =>
   router.middleware()
 );
 
-if (config.API_DOCS_ENABLED) {
+if (config.API_DOCS_ENABLED || config.API_PLAYGROUND_ENABLED) {
+  const apiDocRouter = openApi.createRouter(
+    '/docs',
+    config.API_PLAYGROUND_ENABLED
+  );
+
   restMiddlewares.push(apiDocRouter.middleware());
 }
 
