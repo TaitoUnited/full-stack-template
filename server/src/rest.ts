@@ -1,9 +1,6 @@
-import { Context } from 'koa';
-import router from 'koa-joi-router';
 import { Container } from 'typedi';
 
 import config from './common/setup/config';
-import createApiDocumentation from './infra/middlewares/createApiDocumentation';
 import InfraRouter from './infra/routers/InfraRouter';
 import { PostRouter } from './core/routers/PostRouter';
 import { OpenApi } from './infra/middlewares/openapi';
