@@ -12,18 +12,21 @@ const infraRouter = Container.get(InfraRouter);
 
 const openApi = new OpenApi(openApiSpec);
 
-const routers = [postRouter, infraRouter];
+// these routers will have openApi -compatible documentation generated
+const documentedRouters = [postRouter, infraRouter];
 
 // add routers one by one to openApi -spec-generator
-for (const router of routers) {
+for (const router of documentedRouters) {
   openApi.addRouter(router);
 }
 
 const apiDocRouter = openApi.createRouter('/docs');
 
-const restMiddlewares = [postRouter.middleware(), infraRouter.middleware()];
+const restMiddlewares = [postRouter, infraRouter].map((router) =>
+  router.middleware()
+);
 
-if (config.COMMON_ENV === 'local') {
+if (config.COMMON_ENV !== 'local') {
   restMiddlewares.push(apiDocRouter.middleware());
 }
 
