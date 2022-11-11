@@ -1,0 +1,9 @@
+# Overrides for dev environment
+
+full-stack:
+  services:
+    server:
+      env:
+        # Uncomment to enable API docs and GraphQL/Swagger playground on dev
+        # API_DOCS_ENABLED: true
+        # API_PLAYGROUND_ENABLED: true

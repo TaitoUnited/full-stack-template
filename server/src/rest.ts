@@ -1,35 +1,35 @@
-import { Context } from 'koa';
-import router from 'koa-joi-router';
 import { Container } from 'typedi';
 
 import config from './common/setup/config';
-import createApiDocumentation from './infra/middlewares/createApiDocumentation';
 import InfraRouter from './infra/routers/InfraRouter';
 import { PostRouter } from './core/routers/PostRouter';
+import { OpenApi } from './infra/middlewares/openapi';
+import { openApiSpec } from './docs';
 
 // REST API routers
 const postRouter = Container.get(PostRouter);
 const infraRouter = Container.get(InfraRouter);
-const apiDocRouter = router();
 
-apiDocRouter.route({
-  method: 'get',
-  path: '/docs',
-  handler: async (ctx: Context) => {
-    ctx.response.body = createApiDocumentation({
-      title: config.APP_NAME,
-      groups: [postRouter, infraRouter].map((r) => ({
-        name: r.group,
-        routes: r.routes,
-        prefix: r.prefix,
-      })),
-    });
-  },
-});
+const openApi = new OpenApi(openApiSpec);
 
-const restMiddlewares = [postRouter.middleware(), infraRouter.middleware()];
+// these routers will have openApi -compatible documentation generated
+const documentedRouters = [postRouter, infraRouter];
 
-if (config.COMMON_ENV === 'local') {
+// add routers one by one to openApi -spec-generator
+for (const router of documentedRouters) {
+  openApi.addRouter(router);
+}
+
+const restMiddlewares = [postRouter, infraRouter].map((router) =>
+  router.middleware()
+);
+
+if (config.API_DOCS_ENABLED || config.API_PLAYGROUND_ENABLED) {
+  const apiDocRouter = openApi.createRouter(
+    '/docs',
+    config.API_PLAYGROUND_ENABLED
+  );
+
   restMiddlewares.push(apiDocRouter.middleware());
 }
 

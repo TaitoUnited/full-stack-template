@@ -138,6 +138,9 @@ services:
       BUCKET_FORCE_PATH_STYLE: 'true'
       BUCKET_KEY_ID: minio
       BUCKET_KEY_SECRET: ${taito_default_password}
+      # Enable api docs and GraphQL/Swagger playground in local environment
+      API_DOCS_ENABLED: true
+      API_PLAYGROUND_ENABLED: true
 
   full-stack-template-worker:
     container_name: full-stack-template-worker

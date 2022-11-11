@@ -85,6 +85,9 @@ const config = {
     : 4000,
   API_BINDADDR: process.env.API_BINDADDR || '127.0.0.1',
   BASE_PATH: process.env.BASE_PATH || '/api',
+  API_DOCS_ENABLED: process.env.API_DOCS_ENABLED?.toString() === 'true',
+  API_PLAYGROUND_ENABLED:
+    process.env.API_PLAYGROUND_ENABLED?.toString() === 'true',
 
   // Cache
   CACHE_HOST: process.env.CACHE_HOST as string,

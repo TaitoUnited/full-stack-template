@@ -1,6 +1,16 @@
 import router, { FullHandler, Joi } from 'koa-joi-router';
 import stackTrace from 'stack-trace';
 
+interface RouteDocumentation {
+  description?: string;
+  query?: Record<string, string>;
+  body?: string;
+}
+
+export type RouteSpec = router.Spec & {
+  documentation?: RouteDocumentation & { [key: string]: any };
+};
+
 /**
  * REST API base router
  */
@@ -25,7 +35,7 @@ export default class BaseRouter {
     this.router.use(...middleware);
   }
 
-  public route(route: any) {
+  public route(route: RouteSpec) {
     if (route.documentation) {
       const caller = stackTrace.get()[1];
       const callerString = `${caller.getFileName()}:${caller.getFunctionName()}:${caller.getLineNumber()}`;
@@ -35,7 +45,7 @@ export default class BaseRouter {
   }
 
   public get routes() {
-    return this.router.routes;
+    return this.router.routes as RouteSpec[];
   }
 
   public set prefix(prefix: string) {
