@@ -111,7 +111,7 @@ export function addFilter<Item extends Record<string, any>>({
 }: {
   filterGroups?: FilterGroup<any>[];
   field: string;
-  value: string;
+  value: string | null;
   filterOperator?: FilterOperator;
   valueType?: ValueType;
 }) {
