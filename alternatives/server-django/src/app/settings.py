@@ -18,7 +18,9 @@ from .log import CustomisedJSONFormatter
 
 
 def exclude_paths(record):
-    if any(map(record.args[0].lower().__contains__, ["uptimez", "healthz"])):
+    if type(record.args[0]) == "str" and any(
+        map(record.args[0].lower().__contains__, ["uptimez", "healthz"])
+    ):
         return False
     return True
 
