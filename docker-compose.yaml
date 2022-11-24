@@ -30,6 +30,7 @@ services:
       - "./admin:/develop:delegated"
       - "./shared:/develop/shared:delegated"
       - "/develop/node_modules"
+      - "/develop/.vite"
     environment:
       # Paths
       BASE_PATH: /admin
@@ -61,6 +62,7 @@ services:
       - "./client:/develop:delegated"
       - "./shared:/develop/shared:delegated"
       - "/develop/node_modules"
+      - "/develop/.vite"
     secrets:
       - DATABASE_PASSWORD
     environment:
