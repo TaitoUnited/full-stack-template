@@ -19,6 +19,7 @@ COPY --chown="${USER_UID}:0" \
 
 ENV NODE_ENV development
 RUN npm install --loglevel warn
+RUN mkdir -p .vite
 
 ENV DEV_PORT 8080
 ENV DEV_BINDADDR 0.0.0.0
