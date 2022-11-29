@@ -34,7 +34,7 @@ class Config:
     # Basic
     ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
     APP_NAME = "full-stack-template-server"
-    DEBUG = bool(_config["COMMON_DEBUG"])
+    DEBUG = _config["COMMON_DEBUG"] == "true"
     APP_VERSION = (
         f"{_config['BUILD_VERSION']}+local"
         if not _config["BUILD_IMAGE_TAG"]
@@ -66,7 +66,7 @@ class Config:
     BUCKET_BUCKET = _config["BUCKET_BUCKET"]
     BUCKET_KEY_ID = _config["BUCKET_KEY_ID"]
     BUCKET_KEY_SECRET = read_secret("BUCKET_KEY_SECRET")
-    BUCKET_FORCE_PATH_STYLE = bool(_config["BUCKET_FORCE_PATH_STYLE"])
+    BUCKET_FORCE_PATH_STYLE = _config["BUCKET_FORCE_PATH_STYLE"] == "true"
 
     # Logging
     COMMON_LOG_LEVEL = _config["COMMON_LOG_LEVEL"]
