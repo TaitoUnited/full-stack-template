@@ -283,6 +283,16 @@ services:
 
   # "TOOLS"
 
+  # full-stack-template-pgadmin:
+  #   container_name: full-stack-template-pgadmin
+  #   image: dpage/pgadmin4
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8081:80"
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: admin@admin.com
+  #     PGADMIN_DEFAULT_PASSWORD: root
+
   # full-stack-template-pgweb:
   #   container_name: full-stack-template-pgweb
   #   image: sosedoff/pgweb
