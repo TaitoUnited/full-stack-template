@@ -233,7 +233,7 @@ full-stack:
       cronJobs:
         - name: examplejob
           schedule: "30 2 * * *"
-          concurrencyPolicy: Forbid # Forbid, Replace, or Allow
+          concurrencyPolicy: Replace # Forbid, Replace, or Allow
           args:
             - ./cli.sh
             - createPost
@@ -256,7 +256,7 @@ full-stack:
       cronJobs:
         - name: schedulerjob
           schedule: "0 2 * * *"
-          concurrencyPolicy: Forbid # Forbid, Replace, or Allow
+          concurrencyPolicy: Replace # Forbid, Replace, or Allow
           args:
             - /bin/sh
             - -c
