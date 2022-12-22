@@ -166,6 +166,23 @@
 full-stack:
   networkPolicyEnabled: false
 
+
+# ----------------------------------------------------------
+# External TCP/UDP ports
+# ----------------------------------------------------------
+
+    server:
+      port: 8080
+      external:
+        ip: 123.123.123.123
+        ports:
+          - port: 15000
+            targetPort: 5000
+            protocol: TCP
+          - port: 15001
+            targetPort: 8081
+            protocol: UDP
+
 # ----------------------------------------------------------
 # CPU/MEM resources
 # ----------------------------------------------------------
