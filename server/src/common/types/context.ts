@@ -24,7 +24,7 @@ export type Db =
 export type NonPromise<T> = T extends Promise<any> ? never : T;
 
 export interface State extends CacheContainer {
-  db: IDatabase<Record<string, unknown>>;
+  _db: IDatabase<Record<string, unknown>>;
   tx: ITask<Record<string, unknown>>;
   log: Bunyan;
   user?: User;

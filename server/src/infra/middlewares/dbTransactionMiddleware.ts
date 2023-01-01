@@ -42,7 +42,7 @@ export default async function dbTransactionMiddleware(
   if (noTransactionPaths.includes(ctx.request.path)) {
     await next();
   } else {
-    await ctx.state.db.tx({ mode }, async (tx: any) => {
+    await ctx.state._db.tx({ mode }, async (tx: any) => {
       ctx.state.tx = tx;
       await next();
     });

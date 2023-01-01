@@ -24,7 +24,7 @@ patchKoaQs(server); // Adds support for query parameter nesting
 server.use(async (ctx, next) => {
   ctx.state = ctx.state || {};
   ctx.state.log = log;
-  ctx.state.db = await getDb();
+  ctx.state._db = await getDb();
   await next();
 });
 
