@@ -153,3 +153,14 @@ jobs:
 
       # Release build
       - run: taito build release:$BRANCH
+
+      # Notify
+      - name: Notify slack fail
+        if: failure()
+        uses: voxmedia/github-action-slack-notify-build@v1
+        with:
+          channel_id: TODO_CHANNEL_ID # CHANNEL_NAME
+          status: FAILED
+          color: danger
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
