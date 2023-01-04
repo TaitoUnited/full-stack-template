@@ -10,7 +10,7 @@
     "build:test": "tsc --build tsconfig.test.json",
     "build:prod": "NODE_ENV=production tsc --build tsconfig.json",
     "start:prod": "NODE_ENV=production npm run build:prod && node build/index.js",
-    "generate:test-gql": "rm -rf ./test/graphql/generated/* && gqlg --schemaFilePath ./shared/schema.gql --destDirPath ./test/graphql/generated --depthLimit 8",
+    "generate:test-gql": "rm -rf ./test/graphql/generated/* && mkdir -p ./test/graphql/generated/_deep && mkdir -p ./test/graphql/generated/_shallow && gqlg --schemaFilePath ./shared/schema.gql --destDirPath ./test/graphql/generated/_deep --depthLimit 8 && gqlg --schemaFilePath ./shared/schema.gql --destDirPath ./test/graphql/generated/_shallow --depthLimit 3 && mv ./test/graphql/generated/_deep/queries ./test/graphql/generated && mv ./test/graphql/generated/_shallow/mutations ./test/graphql/generated && rm -rf ./test/graphql/generated/_deep && rm -rf ./test/graphql/generated/_shallow",
     "generate:test-sdk": "graphql-codegen --config codegen.yml"
   },
   "_comment1": "You may want to remove @sentry/node if you don't use Sentry",
