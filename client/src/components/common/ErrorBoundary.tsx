@@ -21,6 +21,15 @@ export default class ErrorBoundary extends Component<Props, State> {
   };
 
   componentDidCatch(error: any, errorInfo: any) {
+    // Automatically reload page when loading a loadable component fails
+    // TODO: might cause infinite reload
+    if (
+      error?.message?.indexOf('Importing a module script failed') !== -1 ||
+      error?.message?.indexOf('is not a valid JavaScript MIME type') !== -1
+    ) {
+      this.tryReload();
+    }
+
     this.setState({ error });
 
     if (config.ERROR_REPORTING_ENABLED) {
@@ -44,6 +53,10 @@ export default class ErrorBoundary extends Component<Props, State> {
     }
   };
 
+  tryReload = () => {
+    window.location.reload();
+  };
+
   render() {
     const { error } = this.state;
     const { children } = this.props;
@@ -51,13 +64,20 @@ export default class ErrorBoundary extends Component<Props, State> {
     if (error) {
       return (
         <Wrapper>
-          <FillButton
-            variant="error"
-            icon={IoIosBug}
-            onClick={this.handleErrorReport}
-          >
-            <Trans>Report an error</Trans>
-          </FillButton>
+          {config.ERROR_REPORTING_ENABLED && (
+            <FillButton
+              variant="error"
+              icon={IoIosBug}
+              onClick={this.handleErrorReport}
+            >
+              <Trans>Report an error</Trans>
+            </FillButton>
+          )}
+          <div>
+            <FillButton variant="info" icon={IoIosBug} onClick={this.tryReload}>
+              <Trans>Reload Page</Trans>
+            </FillButton>
+          </div>
         </Wrapper>
       );
     }
