@@ -35,24 +35,18 @@ const ownProps = ['axis', 'spacing', 'fluid', 'align', 'justify'];
 
 const vstack = (p: ThemedProps) => css`
   flex-direction: column;
-  & > *:not([data-spacer]) + *:not([data-spacer]) {
-    margin: ${getSpacing(p)} 0 0 0;
-  }
+  gap: ${getSpacing(p)};
 `;
 
 const fluid = (p: ThemedProps) => css`
   flex-wrap: wrap;
+  gap: ${getSpacing(p)};
   margin: calc(${getSpacing(p)} / 2 * -1);
-  & > * {
-    margin: calc(${getSpacing(p)} / 2) !important;
-  }
 `;
 
 const hstack = (p: ThemedProps) => css`
   flex-direction: row;
-  & > *:not([data-spacer]) + *:not([data-spacer]) {
-    margin: 0 0 0 ${getSpacing(p)};
-  }
+  gap: ${getSpacing(p)};
   ${p.$fluid && fluid(p)}
 `;
 
