@@ -33,31 +33,13 @@ type ThemedProps = TransientProps & { theme: StyledTheme };
 
 const ownProps = ['axis', 'spacing', 'fluid', 'align', 'justify'];
 
-const vstack = (p: ThemedProps) => css`
-  flex-direction: column;
-  gap: ${getSpacing(p)};
+const getCSS = (p: ThemedProps) => css`
+  flex-direction: ${p.$axis === 'x' ? 'row' : 'column'};
+  flex-wrap: ${p.$fluid ? 'wrap' : 'nowrap'};
+  gap: ${p.theme.spacing[p.$spacing]}px;
+  ${p.$align && `align-items: ${p.$align};`}
+  ${p.$justify && `justify-content: ${p.$justify};`}
 `;
-
-const fluid = (p: ThemedProps) => css`
-  flex-wrap: wrap;
-  gap: ${getSpacing(p)};
-  margin: calc(${getSpacing(p)} / 2 * -1);
-`;
-
-const hstack = (p: ThemedProps) => css`
-  flex-direction: row;
-  gap: ${getSpacing(p)};
-  ${p.$fluid && fluid(p)}
-`;
-
-const getSpacing = (p: ThemedProps) => `${p.theme.spacing[p.$spacing]}px`;
-
-const getCSS = (p: ThemedProps) => [
-  p.$align && `align-items: ${p.$align};`,
-  p.$justify && `justify-content: ${p.$justify};`,
-  p.$axis === 'x' && hstack(p),
-  (!p.$axis || p.$axis === 'y') && vstack(p),
-];
 
 const StackBase = styled.div<TransientProps>`
   display: flex;
