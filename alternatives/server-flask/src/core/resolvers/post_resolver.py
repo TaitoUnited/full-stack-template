@@ -1,1 +1,0 @@
-# TODO: GraphQL resolver example

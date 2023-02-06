@@ -1,33 +1,57 @@
-# Builder, tester and runtime container for local development
-FROM python:3.9-alpine3.13
-ENV NODE_ENV development
-ENV FLASK_ENV development
-ENV FLASK_APP src
+FROM python:3.10-slim AS base
 
-RUN apk add --update-cache \
-  g++ \
-  libffi-dev \
-  postgresql-dev \
-  python3-dev
+# version is useful for e.g. Sentry release
+ARG CI_PIPELINE_ID \
+    USER_ID
+ENV CI_PIPELINE_ID="${CI_PIPELINE_ID}" \
+    USER_ID="${USER_UID}" \
+    PROJECT_PATH="/develop" \
+    PYSETUP_PATH="/opt/pysetup" \
+    VENV_PATH="/opt/venv" \
+    POETRY_HOME="/opt/poetry" \
+    POETRY_NO_INTERACTION=1
 
-# Init /develop for user USER_UID
-ARG USER_UID=1001
-RUN adduser -u "${USER_UID}" -G root -S developer || : 
-RUN mkdir -p /develop && \
-  chown "${USER_UID}:0" /develop
-WORKDIR /develop
-USER "${USER_UID}"
+ENV PATH="$VENV_PATH/bin:$POETRY_HOME/bin:$PATH"
 
-ARG SERVICE_DIR=.
+RUN apt-get update && apt-get upgrade -y \
+    && apt-get install curl -y \
+    && curl -sSL https://install.python-poetry.org | python - \
+    && poetry --version
 
-COPY --chown="${USER_UID}:0" \
-  ${SERVICE_DIR}/requirements-dev.txt /develop/
-RUN pip3 install --upgrade pip pip-tools debugpy
-RUN pip3 install -r requirements-dev.txt
+FROM base AS builder
 
-EXPOSE 8080
-CMD pip-compile requirements-dev.in; \
-  pip-compile requirements-prod.in; \
-  pip3 install -r requirements-dev.txt; \
-  python -m debugpy --listen 0.0.0.0:9229 -m \
-  flask run --host $API_BINDADDR --port $API_PORT --no-debugger
+# libssl-dev is required to build uWSGI with SSL-support
+# to handle websocket handshakes correctly.
+# PCRE is required for configuring uWSGI internal logging
+# to disable health check request logs.
+RUN apt-get update && apt-get upgrade -y \
+    && apt-get install gcc git libssl-dev libpcre3 libpcre3-dev -y
+
+RUN python -m venv $VENV_PATH
+
+WORKDIR $PYSETUP_PATH
+
+COPY ./poetry.lock ./pyproject.toml $PYSETUP_PATH/
+
+RUN . $VENV_PATH/bin/activate && poetry install
+
+FROM base
+
+COPY --from=builder $VENV_PATH $VENV_PATH
+COPY --from=builder $PYSETUP_PATH $PYSETUP_PATH
+
+WORKDIR $PROJECT_PATH
+COPY . $PROJECT_PATH
+
+ARG USER_UID
+ENV USER_UID="${USER_UID}"
+
+# RUN chown -R ${USER_UID}:${USER_UID} $PROJECT_PATH/src
+
+CMD ["watchmedo", "auto-restart", \
+        "--directory=/develop", \
+        "--recursive", \
+        "--pattern=*.py", \
+        "--", \
+        "uwsgi", "--ini", "uwsgi.ini" \
+    ]
