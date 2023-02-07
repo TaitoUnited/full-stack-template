@@ -123,11 +123,10 @@ full-stack:
         DATABASE_POOL_MAX: "5"
         REDIS_HOST: ${taito_project}-${taito_env}-redis
         REDIS_PORT: 6379
-        BUCKET_ENDPOINT: http://${taito_project}-${taito_env}-storage:9000/
-        BUCKET_REGION: ${taito_provider_region}
         BUCKET_BUCKET: ${st_bucket_name}
-        BUCKET_BROWSE_URL: https://console.cloud.google.com/storage/browser/${st_bucket_name}
-        BUCKET_DOWNLOAD_URL: https://storage.cloud.google.com/${st_bucket_name}
+        BUCKET_REGION: ${taito_provider_region}
+        BUCKET_GCP_PROJECT_ID: ${taito_resource_namespace} # For GCP
+        BUCKET_ENDPOINT: https://storage.googleapis.com # For GCP
         BUCKET_FORCE_PATH_STYLE: "true"
 
     worker:
@@ -172,7 +171,6 @@ full-stack:
         BUCKET_REGION: ${taito_provider_region}
         BUCKET_GCP_PROJECT_ID: ${taito_resource_namespace} # For GCP
         BUCKET_ENDPOINT: https://storage.googleapis.com # For GCP
-        BUCKET_ENDPOINT: http://${taito_project}-${taito_env}-storage:9000/ # For Azure
         BUCKET_FORCE_PATH_STYLE: "true"
 
     storage:
