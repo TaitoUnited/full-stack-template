@@ -3,7 +3,7 @@ import { ApolloServer } from 'apollo-server-koa';
 import { Container } from 'typedi';
 import config from './common/setup/config';
 import log from './common/setup/log';
-import authChecker from './common/setup/auth';
+import authChecker from './common/utils/auth';
 
 // GraphQL schema
 const schema = buildSchemaSync({

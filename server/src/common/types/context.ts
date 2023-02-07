@@ -2,10 +2,7 @@ import { IDatabase, ITask } from 'pg-promise';
 import Bunyan from 'bunyan';
 import { CacheContainer } from './cache';
 
-export enum UserRole {
-  ADMIN = 'admin',
-  GUEST = 'guest',
-}
+export type UserRole = 'admin' | 'user';
 
 export interface User {
   username: string;

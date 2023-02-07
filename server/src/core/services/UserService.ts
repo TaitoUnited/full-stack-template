@@ -14,27 +14,27 @@ import {
 } from '../../common/utils/validate';
 
 import {
-  Post,
-  PostFilter,
-  CreatePostInput,
-  UpdatePostInput,
-  DeletePostInput,
-} from '../types/post';
+  User,
+  UserFilter,
+  RegisterUserInput,
+  UpdateUserInput,
+  DeleteUserInput,
+} from '../types/user';
 
+import { UserDao } from '../daos/UserDao';
 import { AuthService } from './AuthService';
-import { PostDao } from '../daos/PostDao';
 
-const filterableFieldNames = getObjectKeysAsFieldNames(new PostFilter());
+const filterableFieldNames = getObjectKeysAsFieldNames(new UserFilter());
 
 @Service()
-export class PostService {
-  constructor(private authService: AuthService, private postDao: PostDao) {}
+export class UserService {
+  constructor(private authService: AuthService, private userDao: UserDao) {}
 
   public async search(input: {
     state: Context['state'];
-    search: string | null;
-    filterGroups: FilterGroup<PostFilter>[];
+    filterGroups: FilterGroup<UserFilter>[];
     order: Order;
+    search?: string;
     pagination?: Pagination;
   }) {
     validateFilterGroups(input.filterGroups, filterableFieldNames);
@@ -43,7 +43,7 @@ export class PostService {
 
     this.authService.checkPermission({
       state: input.state,
-      entityType: EntityType.POST,
+      entityType: EntityType.USER,
       operation: Operation.LIST,
     });
 
@@ -56,7 +56,7 @@ export class PostService {
     //   value: someFilter,
     // });
 
-    return this.postDao.search({
+    return this.userDao.search({
       db: input.state.tx,
       search: input.search,
       filterGroups,
@@ -65,62 +65,52 @@ export class PostService {
     });
   }
 
-  public read = memoizeAsync<Post>(this.readImpl, this);
+  public read = memoizeAsync<User>(this.readImpl, this);
 
   private async readImpl(state: Context['state'], id: string) {
-    const post = await this.postDao.read(state.tx, id);
-    if (!post) {
-      throw Boom.notFound(`Post not found with id ${id}`);
+    const user = await this.userDao.read(state.tx, id);
+    if (!user) {
+      throw Boom.notFound(`User not found with id ${id}`);
     }
 
     this.authService.checkPermission({
       state,
-      entityType: EntityType.POST,
+      entityType: EntityType.USER,
       operation: Operation.READ,
-      // Additional details for permission check:
-      // account: post.accountId
     });
 
-    return post;
+    return user;
   }
 
-  public async create(state: Context['state'], input: CreatePostInput) {
+  public async create(state: Context['state'], input: RegisterUserInput) {
     this.authService.checkPermission({
       state,
-      entityType: EntityType.POST,
+      entityType: EntityType.USER,
       operation: Operation.CREATE,
-      // Additional details for permission check:
-      // account: input.accountId
     });
 
-    return this.postDao.create(state.tx, input);
+    return this.userDao.create(state.tx, input);
   }
 
-  public async update(state: Context['state'], input: UpdatePostInput) {
-    const post = await this.read(state, input.id);
-
+  public async update(state: Context['state'], input: UpdateUserInput) {
     this.authService.checkPermission({
       state,
-      entityType: EntityType.POST,
+      entityType: EntityType.USER,
       operation: Operation.UPDATE,
-      // Additional details for permission check:
-      // account: post.accountId
     });
 
-    return this.postDao.update(state.tx, input);
+    return this.userDao.update(state.tx, input);
   }
 
-  public async delete(state: Context['state'], input: DeletePostInput) {
-    const post = await this.read(state, input.id);
-
+  public async delete(state: Context['state'], input: DeleteUserInput) {
     this.authService.checkPermission({
       state,
-      entityType: EntityType.POST,
+      entityType: EntityType.USER,
       operation: Operation.DELETE,
-      // Additional details for permission check:
-      // account: post.accountId
     });
 
-    return this.postDao.delete(state.tx, input);
+    const user = await this.read(state, input.id);
+    await this.userDao.delete(state.tx, input);
+    return user;
   }
 }
