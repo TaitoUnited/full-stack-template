@@ -36,7 +36,7 @@
     "taito-host-unit:server": "cd server && npm-run-all 'unit {@}' --",
     "taito-host-unit:worker": "cd worker && npm-run-all 'unit {@}' --",
     "taito-host-unit:www": "cd www && npm-run-all 'unit {@}' --",
-    "test": "npm-run-all test:admin test:client test:server test:worker test:www ",
+    "test": "npm-run-all test:server test:worker test:admin test:client test:www ",
     "test:admin": "taito ${taito_options} util test:admin:${taito_env}",
     "test:client": "taito ${taito_options} util test:client:${taito_env}",
     "test:server": "taito ${taito_options} util test:server:${taito_env}",
