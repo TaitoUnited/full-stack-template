@@ -41,6 +41,7 @@ const getDb = async () => {
       password: secrets.DATABASE_PASSWORD,
       poolSize: config.DATABASE_POOL_MAX,
       ssl: getDatabaseSSL(config, secrets),
+      statement_timeout: config.DATABASE_STATEMENT_TIMEOUT,
     };
 
     db = pgp(cn);

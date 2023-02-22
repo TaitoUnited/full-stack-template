@@ -24,6 +24,7 @@ const getTestDb = async () => {
       password: testConfig.DATABASE_PASSWORD,
       poolSize: testConfig.DATABASE_POOL_MAX,
       ssl: getDatabaseSSL(testConfig, testConfig),
+      statement_timeout: testConfig.DATABASE_STATEMENT_TIMEOUT,
     };
 
     testDb = pgp(cn);

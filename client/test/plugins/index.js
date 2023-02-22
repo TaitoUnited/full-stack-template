@@ -76,6 +76,7 @@ module.exports = (on, config) => {
         ? { rejectUnauthorized: false }
         : false,
     poolSize: 2,
+    statement_timeout: 1 * 60 * 1000, // 1 min
   };
   console.log(`URL: ${config.baseUrl}`);
   console.log(

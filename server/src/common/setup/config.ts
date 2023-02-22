@@ -106,6 +106,9 @@ const config = {
   DATABASE_POOL_MAX: process.env.DATABASE_POOL_MAX
     ? parseInt(process.env.DATABASE_POOL_MAX, 10)
     : 10,
+  DATABASE_STATEMENT_TIMEOUT: process.env.DATABASE_STATEMENT_TIMEOUT
+    ? parseInt(process.env.DATABASE_STATEMENT_TIMEOUT, 10)
+    : 1 * 60 * 1000, // 1 min by default
   DATABASE_SSL_ENABLED: process.env.DATABASE_SSL_ENABLED !== 'false',
   DATABASE_SSL_CLIENT_CERT_ENABLED: useClientCert,
   DATABASE_SSL_SERVER_CERT_ENABLED: useServerCert,
