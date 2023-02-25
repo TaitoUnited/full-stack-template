@@ -424,10 +424,9 @@ if [[ ${taito_vpn_enabled} != "true" ]] &&
   "
 
   # TODO: export_database_config does not work on taitoless
-  taito_ssh_username="${ssh_db_proxy_username:?}"
   ssh_db_proxy=$(
     taito::export_database_config "${taito_target:-}" &> /dev/null || :
-    echo "-L 0.0.0.0:${database_port}:${database_real_host:-}:${database_real_port:-} ${ssh_db_proxy_username}@${ssh_db_proxy_host}"
+    echo "-L 0.0.0.0:${database_port}:${database_real_host:-}:${database_real_port:-} ${ssh_db_proxy_username:-$taito_ssh_username}@${ssh_db_proxy_host}"
   )
   ssh_forward_for_db="${ssh_db_proxy}"
 
