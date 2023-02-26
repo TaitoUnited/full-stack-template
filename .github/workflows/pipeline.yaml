@@ -52,6 +52,14 @@ jobs:
             echo "AZURE_CLIENT_SECRET=${{ secrets[format('{0}_AZURE_CLIENT_SECRET', env.BRANCH)] }}" >> $GITHUB_ENV # For Azure
           fi # For Azure
 
+      # GitHub Container Registry login
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       # Configure Kubernetes API
       - name: Set Kubernetes API host if BRANCH_KUBE_API_* or KUBE_API_* are configured
         env:
