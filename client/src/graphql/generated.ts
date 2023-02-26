@@ -88,15 +88,10 @@ export type DeletePostInput = {
   id: Scalars['String'];
 };
 
-export type EntityId = {
-  __typename?: 'EntityId';
-  id: Scalars['String'];
-};
-
 export type Filter = {
   field: Scalars['String'];
   operator: FilterOperator;
-  value: Scalars['String'];
+  value?: InputMaybe<Scalars['String']>;
   /** Determines how the value is treated */
   valueType?: InputMaybe<ValueType>;
 };
@@ -143,7 +138,7 @@ export type Mutation = {
    */
   createPostAttachment: AttachmentUploadRequestDetails;
   /** Deletes a post. */
-  deletePost: EntityId;
+  deletePost: Post;
   /** Deletes post attachment. Returns attachment that was deleted. */
   deletePostAttachment: Attachment;
   /** Finalizes uploaded post attachment. Call this after successful HTTP PUT upload. */
@@ -246,9 +241,9 @@ export type Query = {
   /** Returns all MIME types allowed for post attachments. */
   allowedPostAttachmentMimeTypes: Array<Scalars['String']>;
   /** Reads a post. */
-  post?: Maybe<Post>;
+  post: Post;
   /** Reads a post attachment. */
-  postAttachment?: Maybe<Attachment>;
+  postAttachment: Attachment;
   /** Searches posts. */
   posts: PaginatedPosts;
 };
@@ -334,7 +329,7 @@ export type PostQueryVariables = Exact<{
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', id: string, createdAt: any, author: string, subject: string, content: string } | null };
+export type PostQuery = { __typename?: 'Query', post: { __typename?: 'Post', id: string, createdAt: any, author: string, subject: string, content: string } };
 
 
 export const CreatePostDocument = gql`

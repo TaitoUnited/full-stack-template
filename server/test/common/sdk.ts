@@ -87,15 +87,10 @@ export type DeletePostInput = {
   id: Scalars['String'];
 };
 
-export type EntityId = {
-  __typename?: 'EntityId';
-  id: Scalars['String'];
-};
-
 export type Filter = {
   field: Scalars['String'];
   operator: FilterOperator;
-  value: Scalars['String'];
+  value?: InputMaybe<Scalars['String']>;
   /** Determines how the value is treated */
   valueType?: InputMaybe<ValueType>;
 };
@@ -142,7 +137,7 @@ export type Mutation = {
    */
   createPostAttachment: AttachmentUploadRequestDetails;
   /** Deletes a post. */
-  deletePost: EntityId;
+  deletePost: Post;
   /** Deletes post attachment. Returns attachment that was deleted. */
   deletePostAttachment: Attachment;
   /** Finalizes uploaded post attachment. Call this after successful HTTP PUT upload. */
@@ -245,9 +240,9 @@ export type Query = {
   /** Returns all MIME types allowed for post attachments. */
   allowedPostAttachmentMimeTypes: Array<Scalars['String']>;
   /** Reads a post. */
-  post?: Maybe<Post>;
+  post: Post;
   /** Reads a post attachment. */
-  postAttachment?: Maybe<Attachment>;
+  postAttachment: Attachment;
   /** Searches posts. */
   posts: PaginatedPosts;
 };
@@ -317,7 +312,7 @@ export type CreatePostMutationVariables = Exact<{
 }>;
 
 
-export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', author: string, content: string, createdAt: any, id: string, subject: string, updatedAt: any, attachments: { __typename?: 'PaginatedAttachments', total: number, data: Array<{ __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, fileUrl?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any }> } } };
+export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', author: string, content: string, createdAt: any, id: string, subject: string, updatedAt: any, attachments: { __typename?: 'PaginatedAttachments', total: number } } };
 
 export type CreatePostAttachmentMutationVariables = Exact<{
   input: CreatePostAttachmentInput;
@@ -328,24 +323,25 @@ export type CreatePostAttachmentMutation = { __typename?: 'Mutation', createPost
 
 export type DeletePostMutationVariables = Exact<{
   input: DeletePostInput;
+  attachmentOrder?: InputMaybe<Order>;
 }>;
 
 
-export type DeletePostMutation = { __typename?: 'Mutation', deletePost: { __typename?: 'EntityId', id: string } };
+export type DeletePostMutation = { __typename?: 'Mutation', deletePost: { __typename?: 'Post', author: string, content: string, createdAt: any, id: string, subject: string, updatedAt: any, attachments: { __typename?: 'PaginatedAttachments', total: number } } };
 
 export type DeletePostAttachmentMutationVariables = Exact<{
   input: DeletePostAttachmentInput;
 }>;
 
 
-export type DeletePostAttachmentMutation = { __typename?: 'Mutation', deletePostAttachment: { __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, fileUrl?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any } };
+export type DeletePostAttachmentMutation = { __typename?: 'Mutation', deletePostAttachment: { __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null, fileUrl?: string | null, filename?: string | null, id: string, title?: string | null, updatedAt: any } };
 
 export type FinalizePostAttachmentMutationVariables = Exact<{
   input: FinalizePostAttachmentInput;
 }>;
 
 
-export type FinalizePostAttachmentMutation = { __typename?: 'Mutation', finalizePostAttachment: { __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, fileUrl?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any } };
+export type FinalizePostAttachmentMutation = { __typename?: 'Mutation', finalizePostAttachment: { __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null, fileUrl?: string | null, filename?: string | null, id: string, title?: string | null, updatedAt: any } };
 
 export type UpdatePostMutationVariables = Exact<{
   input: UpdatePostInput;
@@ -353,14 +349,14 @@ export type UpdatePostMutationVariables = Exact<{
 }>;
 
 
-export type UpdatePostMutation = { __typename?: 'Mutation', updatePost: { __typename?: 'Post', author: string, content: string, createdAt: any, id: string, subject: string, updatedAt: any, attachments: { __typename?: 'PaginatedAttachments', total: number, data: Array<{ __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, fileUrl?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any }> } } };
+export type UpdatePostMutation = { __typename?: 'Mutation', updatePost: { __typename?: 'Post', author: string, content: string, createdAt: any, id: string, subject: string, updatedAt: any, attachments: { __typename?: 'PaginatedAttachments', total: number } } };
 
 export type UpdatePostAttachmentMutationVariables = Exact<{
   input: UpdatePostAttachmentInput;
 }>;
 
 
-export type UpdatePostAttachmentMutation = { __typename?: 'Mutation', updatePostAttachment: { __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, fileUrl?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any } };
+export type UpdatePostAttachmentMutation = { __typename?: 'Mutation', updatePostAttachment: { __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null, fileUrl?: string | null, filename?: string | null, id: string, title?: string | null, updatedAt: any } };
 
 export type AllowedPostAttachmentMimeTypesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -373,14 +369,14 @@ export type PostQueryVariables = Exact<{
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', author: string, content: string, createdAt: any, id: string, subject: string, updatedAt: any, attachments: { __typename?: 'PaginatedAttachments', total: number, data: Array<{ __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, fileUrl?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any }> } } | null | undefined };
+export type PostQuery = { __typename?: 'Query', post: { __typename?: 'Post', author: string, content: string, createdAt: any, id: string, subject: string, updatedAt: any, attachments: { __typename?: 'PaginatedAttachments', total: number, data: Array<{ __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null, fileUrl?: string | null, filename?: string | null, id: string, title?: string | null, updatedAt: any }> } } };
 
 export type PostAttachmentQueryVariables = Exact<{
   input: ReadPostAttachmentInput;
 }>;
 
 
-export type PostAttachmentQuery = { __typename?: 'Query', postAttachment?: { __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, fileUrl?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any } | null | undefined };
+export type PostAttachmentQuery = { __typename?: 'Query', postAttachment: { __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null, fileUrl?: string | null, filename?: string | null, id: string, title?: string | null, updatedAt: any } };
 
 export type PostsQueryVariables = Exact<{
   filterGroups?: InputMaybe<Array<FilterGroup> | FilterGroup>;
@@ -391,23 +387,13 @@ export type PostsQueryVariables = Exact<{
 }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', total: number, data: Array<{ __typename?: 'Post', author: string, content: string, createdAt: any, id: string, subject: string, updatedAt: any, attachments: { __typename?: 'PaginatedAttachments', total: number, data: Array<{ __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, fileUrl?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any }> } }> } };
+export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', total: number, data: Array<{ __typename?: 'Post', author: string, content: string, createdAt: any, id: string, subject: string, updatedAt: any, attachments: { __typename?: 'PaginatedAttachments', total: number, data: Array<{ __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null, fileUrl?: string | null, filename?: string | null, id: string, title?: string | null, updatedAt: any }> } }> } };
 
 
 export const CreatePostDocument = gql`
     mutation createPost($input: CreatePostInput!, $attachmentOrder: Order) {
   createPost(input: $input) {
     attachments(attachmentOrder: $attachmentOrder) {
-      data {
-        contentType
-        createdAt
-        description
-        fileUrl
-        filename
-        id
-        title
-        updatedAt
-      }
       total
     }
     author
@@ -432,9 +418,17 @@ export const CreatePostAttachmentDocument = gql`
 }
     `;
 export const DeletePostDocument = gql`
-    mutation deletePost($input: DeletePostInput!) {
+    mutation deletePost($input: DeletePostInput!, $attachmentOrder: Order) {
   deletePost(input: $input) {
+    attachments(attachmentOrder: $attachmentOrder) {
+      total
+    }
+    author
+    content
+    createdAt
     id
+    subject
+    updatedAt
   }
 }
     `;
@@ -470,16 +464,6 @@ export const UpdatePostDocument = gql`
     mutation updatePost($input: UpdatePostInput!, $attachmentOrder: Order) {
   updatePost(input: $input) {
     attachments(attachmentOrder: $attachmentOrder) {
-      data {
-        contentType
-        createdAt
-        description
-        fileUrl
-        filename
-        id
-        title
-        updatedAt
-      }
       total
     }
     author

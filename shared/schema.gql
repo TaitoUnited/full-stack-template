@@ -76,10 +76,6 @@ input DeletePostInput {
   id: String!
 }
 
-type EntityId {
-  id: String!
-}
-
 input Filter {
   field: String!
   operator: FilterOperator!
@@ -133,7 +129,7 @@ type Mutation {
   createPostAttachment(input: CreatePostAttachmentInput!): AttachmentUploadRequestDetails!
 
   """Deletes a post."""
-  deletePost(input: DeletePostInput!): EntityId!
+  deletePost(input: DeletePostInput!): Post!
 
   """Deletes post attachment. Returns attachment that was deleted."""
   deletePostAttachment(input: DeletePostAttachmentInput!): Attachment!
@@ -200,10 +196,10 @@ type Query {
   allowedPostAttachmentMimeTypes: [String!]!
 
   """Reads a post."""
-  post(id: String!): Post
+  post(id: String!): Post!
 
   """Reads a post attachment."""
-  postAttachment(input: ReadPostAttachmentInput!): Attachment
+  postAttachment(input: ReadPostAttachmentInput!): Attachment!
 
   """Searches posts."""
   posts(filterGroups: [FilterGroup!] = [], order: Order = {dir: DESC, field: "createdAt", invertNullOrder: false}, pagination: Pagination = {limit: 20, offset: 0}, search: String = null): PaginatedPosts!
