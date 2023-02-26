@@ -41,7 +41,7 @@ services:
 
   full-stack-template-${taito_env}-admin:
     container_name: full-stack-template-${taito_env}-admin
-    image: local/full-stack-template/admin:_IMAGE_TAG_
+    image: _IMAGE_REGISTRY_/full-stack-template/admin:_IMAGE_TAG_
     deploy:
        replicas: 1    
     restart: unless-stopped
@@ -62,7 +62,7 @@ services:
 
   full-stack-template-${taito_env}-client:
     container_name: full-stack-template-${taito_env}-client
-    image: local/full-stack-template/client:_IMAGE_TAG_
+    image: _IMAGE_REGISTRY_/full-stack-template/client:_IMAGE_TAG_
     deploy:
        replicas: 1    
     restart: unless-stopped
@@ -87,7 +87,7 @@ services:
 
   full-stack-template-${taito_env}-server:
     container_name: full-stack-template-${taito_env}-server
-    image: local/full-stack-template/server:_IMAGE_TAG_
+    image: _IMAGE_REGISTRY_/full-stack-template/server:_IMAGE_TAG_
     deploy:
        replicas: 1    
     restart: unless-stopped
@@ -131,7 +131,7 @@ services:
 
   full-stack-template-${taito_env}-www:
     container_name: full-stack-template-${taito_env}-www
-    image: local/full-stack-template/www:_IMAGE_TAG_
+    image: _IMAGE_REGISTRY_/full-stack-template/www:_IMAGE_TAG_
     deploy:
        replicas: 1    
     restart: unless-stopped

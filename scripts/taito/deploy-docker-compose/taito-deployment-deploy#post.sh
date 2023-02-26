@@ -113,6 +113,7 @@ ssh ${ssh_opts} "${taito_host}" "
     fi
     sed -i \"s/_PORT_/\${PORT}/g\" docker-compose-remote.yaml
     sed -i \"s/_IMAGE_TAG_/${image_tag}/g\" docker-compose-remote.yaml
+    sed -i \"s/_IMAGE_REGISTRY_/${taito_container_registry}/g\" docker-compose-remote.yaml
     if [[ -f docker-nginx.conf ]]; then
       sed -i \"s/_TAITO_ENV_/${taito_env}/g\" docker-nginx.conf
     fi
