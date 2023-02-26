@@ -90,8 +90,8 @@ taito_host="${default_host}"
 taito_host_dir="/projects/$taito_namespace"
 
 # SSH bastion host
-ssh_db_proxy_host="${default_bastion_public_ip}"
-ssh_db_proxy_username="ubuntu"
+ssh_db_proxy_host="${default_bastion_public_ip:-$taito_host}"
+ssh_db_proxy_username=
 
 # Version control provider
 taito_vc_provider=${default_vc_provider}
@@ -201,7 +201,7 @@ ci_exec_revert=false       # revert deployment automatically on fail
 
 # ------ Plugin and provider specific settings ------
 
-taito_deployment_platforms=
+taito_deployment_platforms="${default_deployment_platforms}"
 
 # Kubernetes plugin
 kubernetes_name=${default_kubernetes}
@@ -528,9 +528,11 @@ esac
 
 # ------ Derived values after environment specific settings ------
 
-# Platforms
+# Determine platforms if not already set
 if [[ ${kubernetes_name} ]]; then
   taito_deployment_platforms="${taito_deployment_platforms:-kubernetes}"
+elif [[ ${taito_provider} == "linux" ]] || [[ ${taito_env} == "local" ]]; then
+  taito_deployment_platforms="${taito_deployment_platforms:-docker-compose}"
 else
   taito_deployment_platforms="${taito_deployment_platforms:-terraform}"
 fi

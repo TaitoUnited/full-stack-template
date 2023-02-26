@@ -248,3 +248,6 @@ default_binauthz_public_key_id=${template_default_binauthz_public_key_id}
 default_binauthz_attestor_prod=${template_default_binauthz_attestor_prod}
 default_binauthz_secret_name_prod=${template_default_binauthz_secret_name_prod}
 default_binauthz_public_key_id_prod=${template_default_binauthz_public_key_id_prod}
+
+# Platforms
+default_deployment_platforms= # TODO

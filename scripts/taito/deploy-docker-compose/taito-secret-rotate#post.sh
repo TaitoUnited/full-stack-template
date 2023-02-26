@@ -7,7 +7,6 @@
 
 set -e
 
-. "${taito_project_path}/scripts/taito/deploy-docker-compose/_config.sh"
 taito::expose_ssh_opts
 
 # TODO: some duplicate code with taito-env-apply#post.sh
@@ -25,11 +24,10 @@ echo
 
 echo "[Execute on ${taito_host}]"
 ssh ${ssh_opts} "${taito_host}" "
-  ${LINUX_SUDO} bash -c '
+  bash -c '
     set -e
     ${taito_setv:-}
     echo [Extract /tmp/${taito_namespace}-secrets.tar]
-    mkdir -p ${taito_host_dir}/secrets/${taito_env}
     tar -xf /tmp/${taito_namespace}-secrets.tar -C ${taito_host_dir}/secrets/${taito_env}
     rm -f /tmp/${taito_namespace}-secrets.tar
     echo

@@ -11,7 +11,6 @@
 
 set -e
 
-. "${taito_project_path}/scripts/taito/deploy-docker-compose/_config.sh"
 taito::expose_ssh_opts
 
 image_tag=$1
@@ -42,9 +41,13 @@ echo "[Copy files in ${deploy_temp_dir}]"
   mkdir -p "${deploy_temp_dir}"
   echo docker-compose-remote.yaml
   cp docker-compose-remote.yaml "${deploy_temp_dir}"
-  if [[ -f docker-nginx.conf ]]; then
+  if [[ -f docker-nginx-remote.conf ]]; then
+    echo docker-nginx-remote.conf
+    cp docker-nginx-remote.conf "${deploy_temp_dir}/docker-nginx.conf"
+  elif [[ -f docker-nginx.conf ]]; then
     echo docker-nginx.conf
     cp docker-nginx.conf "${deploy_temp_dir}"
+    sed -i "s/http:\/\/${taito_project}/http:\/\/${taito_namespace}/g" "${deploy_temp_dir}/docker-nginx.conf"
   fi
   if [[ -f database/db.sql ]]; then
     echo database/db.sql
@@ -77,17 +80,18 @@ echo
 
 echo "[Deploy on host ${taito_host}]"
 ssh ${ssh_opts} "${taito_host}" "
-  ${LINUX_SUDO} bash -c '
+  bash -c '
     set -e
     ${taito_setv:-}
     cd ${taito_host_dir}
-    echo
-    echo [Check that Docker images exist]
-    if ! docker images | grep ${taito_container_registry} | grep ${image_tag} &> /dev/null; then
-      echo Latest images on remote host:
-      docker images | grep ${taito_container_registry}
+    if [[ ${taito_container_registry} == "local/*" ]] &&
+       ! docker images | grep ${taito_container_registry} | grep ${image_tag} &> /dev/null; then
       echo
-      echo ERROR: No image with tag ${image_tag}
+      echo [Check that Docker images exist local registry of remote host]
+      echo Latest images on remote host:
+      docker images | grep ${taito_container_registry} || :
+      echo
+      echo ERROR: No image with tag ${image_tag} found on remote host
       exit 1
     fi
     echo
@@ -109,6 +113,9 @@ ssh ${ssh_opts} "${taito_host}" "
     fi
     sed -i \"s/_PORT_/\${PORT}/g\" docker-compose-remote.yaml
     sed -i \"s/_IMAGE_TAG_/${image_tag}/g\" docker-compose-remote.yaml
+    if [[ -f docker-nginx.conf ]]; then
+      sed -i \"s/_TAITO_ENV_/${taito_env}/g\" docker-nginx.conf
+    fi
     echo
     if [[ ${taito_basic_auth_enabled} != false ]]; then
       echo [Enable basic auth]

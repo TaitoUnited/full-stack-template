@@ -135,9 +135,15 @@ case $taito_provider in
     "
     ;;
   linux)
-    # shellcheck disable=SC1091
-    # TODO: include based on taito_deployment_platforms instead
-    . scripts/taito/deploy-docker-compose/taito-provider-config.sh
+    taito_plugins="
+      ssh:-local
+      run:-local
+      ${taito_plugins}
+    "
+    run_scripts_location="scripts/taito/deploy-docker-compose"
+    
+    # Set some configuration parameters for scripts/taito/deploy-docker-compose scripts
+    LINUX_CLIENT_MAX_BODY_SIZE=1m
     ;;
   custom)
     # shellcheck disable=SC1091

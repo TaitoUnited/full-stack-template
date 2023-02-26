@@ -8,7 +8,6 @@
 
 set -e
 
-. "${taito_project_path}/scripts/taito/deploy-docker-compose/_config.sh"
 taito::expose_ssh_opts
 
 echo "[Copy changed secrets to ${taito_host}:/tmp]"
@@ -24,12 +23,17 @@ echo
 
 echo "[Execute on ${taito_host}]"
 ssh ${ssh_opts} "${taito_host}" "
-  ${LINUX_SUDO} bash -c '
+  sudo bash -c '
     set -e
     ${taito_setv:-}
     echo [Extract /tmp/${taito_namespace}-secrets.tar]
-    mkdir -p ${taito_host_dir}/secrets/${taito_env}
-    tar -xf /tmp/${taito_namespace}-secrets.tar -C ${taito_host_dir}/secrets/${taito_env}
+    secret_dir=\"${taito_host_dir}/secrets/${taito_env}\"
+    echo \"Making sure directory ${taito_host_dir} exists. If this fails, you may need to\"
+    echo \"create the projects directory manually and give proper permissions for users group.\"
+    mkdir -p ${taito_host_dir}
+    mkdir -p \${secret_dir}
+    chmod -R g+w ${taito_host_dir}
+    tar -xf /tmp/${taito_namespace}-secrets.tar -C \${secret_dir}
     rm -f /tmp/${taito_namespace}-secrets.tar
     echo
 

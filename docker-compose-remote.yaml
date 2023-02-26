@@ -11,6 +11,13 @@ x-logging:
     max-size: '100m'
     max-file: '10'
   driver: json-file
+x-healthcheck:
+   &default-healthcheck
+   test: wget --no-verbose --tries=1 --spider http://localhost:8080/healthz
+   interval: 60s
+   retries: 5
+   start_period: 30s
+   timeout: 10s
 
 services:
   full-stack-template-${taito_env}-ingress:
@@ -18,6 +25,7 @@ services:
     image: nginx:stable-alpine
     restart: unless-stopped
     logging: *default-logging
+    healthcheck: *default-healthcheck
     networks:
       - default
     ports:
@@ -34,8 +42,11 @@ services:
   full-stack-template-${taito_env}-admin:
     container_name: full-stack-template-${taito_env}-admin
     image: local/full-stack-template/admin:_IMAGE_TAG_
+    deploy:
+       replicas: 1    
     restart: unless-stopped
     logging: *default-logging
+    healthcheck: *default-healthcheck
     networks:
       - default
     ports:
@@ -52,8 +63,11 @@ services:
   full-stack-template-${taito_env}-client:
     container_name: full-stack-template-${taito_env}-client
     image: local/full-stack-template/client:_IMAGE_TAG_
+    deploy:
+       replicas: 1    
     restart: unless-stopped
     logging: *default-logging
+    healthcheck: *default-healthcheck
     networks:
       - default
     ports:
@@ -74,8 +88,11 @@ services:
   full-stack-template-${taito_env}-server:
     container_name: full-stack-template-${taito_env}-server
     image: local/full-stack-template/server:_IMAGE_TAG_
+    deploy:
+       replicas: 1    
     restart: unless-stopped
     logging: *default-logging
+    healthcheck: *default-healthcheck
     networks:
       - default
     ports:
@@ -115,8 +132,11 @@ services:
   full-stack-template-${taito_env}-www:
     container_name: full-stack-template-${taito_env}-www
     image: local/full-stack-template/www:_IMAGE_TAG_
+    deploy:
+       replicas: 1    
     restart: unless-stopped
     logging: *default-logging
+    healthcheck: *default-healthcheck
     networks:
       - default
     ports:
@@ -132,6 +152,7 @@ services:
     image: bitnami/redis:6.0
     restart: unless-stopped
     logging: *default-logging
+    # TODO healthcheck
     networks:
       - default
     ports:
@@ -161,6 +182,7 @@ services:
   #   image: postgres:12
   #   restart: unless-stopped
   #   logging: *default-logging
+  #   # TODO healthcheck
   #   networks:
   #     - default
   #   ports:
