@@ -19,5 +19,5 @@ taito_plugins="${taito_plugins/helm:-local/}"
 
 # Use SSH plugin as database proxy
 export ssh_db_proxy="\
-  -L 0.0.0.0:\${database_port}:\${database_host}:\${database_real_port} \${taito_ssh_username}@\${database_real_host}"
+  -L 0.0.0.0:\${database_port}:\${database_host}:\${database_real_port} \${database_real_host}"
 export ssh_forward_for_db="${ssh_db_proxy}"

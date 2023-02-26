@@ -71,12 +71,12 @@ echo "[Copy ${deploy_temp_dir} to temporary location ${taito_host}:/tmp]"
   ${taito_setv:-}
   cd "${deploy_temp_dir}"
   tar -cf "${taito_namespace}.tar" *
-  scp ${ssh_opts} "${taito_namespace}.tar" "${taito_ssh_username}@${taito_host}:/tmp"
+  scp ${ssh_opts} "${taito_namespace}.tar" "${taito_host}:/tmp"
 )
 echo
 
 echo "[Deploy on host ${taito_host}]"
-ssh ${ssh_opts} "${taito_ssh_username}@${taito_host}" "
+ssh ${ssh_opts} "${taito_host}" "
   ${LINUX_SUDO} bash -c '
     set -e
     ${taito_setv:-}
