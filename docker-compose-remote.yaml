@@ -40,7 +40,7 @@ services:
     container_name: full-stack-template-${taito_env}-admin
     labels:
       full-stack-template-${taito_env}-autoheal: "true"
-    image: _IMAGE_REGISTRY_/admin:_IMAGE_TAG_
+    image: ${taito_container_registry}/admin:${taito_build_image_tag}
     deploy:
        replicas: 1    
     restart: unless-stopped
@@ -53,7 +53,7 @@ services:
     environment:
       # Paths
       REPLACE_BASE_PATH: /admin
-      REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/_IMAGE_TAG_/admin
+      REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/${taito_build_image_tag}/admin
       REPLACE_ASSETS_DOMAIN: '${taito_cdn_domain}'
       # Common variables
       COMMON_COMPANY: companyname
@@ -63,7 +63,7 @@ services:
     container_name: full-stack-template-${taito_env}-client
     labels:
       full-stack-template-${taito_env}-autoheal: "true"
-    image: _IMAGE_REGISTRY_/client:_IMAGE_TAG_
+    image: ${taito_container_registry}/client:${taito_build_image_tag}
     deploy:
        replicas: 1    
     restart: unless-stopped
@@ -80,7 +80,7 @@ services:
     environment:
       # Paths
       REPLACE_BASE_PATH: ''
-      REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/_IMAGE_TAG_/client
+      REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/${taito_build_image_tag}/client
       REPLACE_ASSETS_DOMAIN: '${taito_cdn_domain}'
       # Common variables
       COMMON_COMPANY: companyname
@@ -90,7 +90,7 @@ services:
     container_name: full-stack-template-${taito_env}-server
     labels:
       full-stack-template-${taito_env}-autoheal: "true"
-    image: _IMAGE_REGISTRY_/server:_IMAGE_TAG_
+    image: ${taito_container_registry}/server:${taito_build_image_tag}
     deploy:
        replicas: 1    
     restart: unless-stopped
@@ -136,7 +136,7 @@ services:
     container_name: full-stack-template-${taito_env}-www
     labels:
       full-stack-template-${taito_env}-autoheal: "true"
-    image: _IMAGE_REGISTRY_/www:_IMAGE_TAG_
+    image: ${taito_container_registry}/www:${taito_build_image_tag}
     deploy:
        replicas: 1    
     restart: unless-stopped
@@ -149,7 +149,7 @@ services:
     environment:
       # Paths
       REPLACE_BASE_PATH: /docs
-      REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/_IMAGE_TAG_/www
+      REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/${taito_build_image_tag}/www
       REPLACE_ASSETS_DOMAIN: '${taito_cdn_domain}'
 
   full-stack-template-${taito_env}-redis:

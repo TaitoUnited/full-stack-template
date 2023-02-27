@@ -13,23 +13,23 @@ set -e
 
 taito::expose_ssh_opts
 
-image_tag=$1
-if [[ ! $image_tag ]]; then
+export taito_build_image_tag=${1:-$taito_build_image_tag}
+if [[ ! $taito_build_image_tag ]]; then
   echo "[Getting commit sha of the latest commit on branch ${taito_branch}]"
-  image_tag=$(git rev-parse "${taito_branch}")
-  echo "Commit SHA: ${image_tag}"
+  taito_build_image_tag=$(git rev-parse "${taito_branch}")
+  echo "Commit SHA: ${taito_build_image_tag}"
   echo
 fi
 
 # Add untested prefix
-if [[ "${ci_exec_build:-}" == "true" ]] && [[ ${image_tag} != *"-untested" ]]; then
-  image_tag="${image_tag}-untested"
-  echo "[Using image $image_tag]"
+if [[ "${ci_exec_build:-}" == "true" ]] && [[ ${taito_build_image_tag} != *"-untested" ]]; then
+  taito_build_image_tag="${taito_build_image_tag}-untested"
+  echo "[Using image $taito_build_image_tag]"
   echo "Deploying untested image because ci_exec_build=true"
   echo
 fi
 
-echo "[Starting deployment of image $image_tag]"
+echo "[Starting deployment of image $taito_build_image_tag]"
 echo
 
 deploy_temp_dir="tmp/deploy/${taito_env}"
@@ -80,13 +80,13 @@ ssh ${ssh_opts} "${taito_host}" "
     ${taito_setv:-}
     cd ${taito_host_dir}
     if [[ ${taito_container_registry} == "local/*" ]] &&
-       ! docker images | grep ${taito_container_registry} | grep ${image_tag} &> /dev/null; then
+       ! docker images | grep ${taito_container_registry} | grep ${taito_build_image_tag} &> /dev/null; then
       echo
       echo [Check that Docker images exist local registry of remote host]
       echo Latest images on remote host:
       docker images | grep ${taito_container_registry} || :
       echo
-      echo ERROR: No image with tag ${image_tag} found on remote host
+      echo ERROR: No image with tag ${taito_build_image_tag} found on remote host
       exit 1
     fi
     echo
@@ -107,8 +107,6 @@ ssh ${ssh_opts} "${taito_host}" "
       printf \"%s\" \$PORT > PORT
     fi
     sed -i \"s/_PORT_/\${PORT}/g\" docker-compose-remote.yaml
-    sed -i \"s/_IMAGE_TAG_/${image_tag}/g\" docker-compose-remote.yaml
-    sed -i \"s/_IMAGE_REGISTRY_/${taito_container_registry//\//\\/}/g\" docker-compose-remote.yaml
     if [[ -f docker-nginx.conf ]]; then
       sed -i \"s/_TAITO_ENV_/${taito_env}/g\" docker-nginx.conf
     fi
@@ -123,7 +121,7 @@ ssh ${ssh_opts} "${taito_host}" "
       echo
     fi
     echo [Prune old unused ${taito_project} docker images]
-    echo TODO: do not prune images with the given tag ${image_tag}
+    echo TODO: do not prune images with the given tag ${taito_build_image_tag}
     docker image prune --force --all \
       --filter \"label=company=${taito_project}\" --filter until=24h
     echo
