@@ -9,6 +9,7 @@ services:
     networks:
       - default
     ports:
+      # WARNING: Do not ever remove the 127.0.0.1 as on some systems Docker host ports are exposed outside the Firewall!
       - "127.0.0.1:9999:80"
     volumes:
       - "./docker-nginx.conf:/etc/nginx/nginx.conf:delegated"
@@ -25,6 +26,7 @@ services:
       - default
     ports:
       - "8080"
+      # WARNING: Do not ever remove the 127.0.0.1 as on some systems Docker host ports are exposed outside the Firewall!
       - "127.0.0.1:9997:9997"     # For lazy compilation
     volumes:
       - "./admin:/develop:delegated"
@@ -98,6 +100,7 @@ services:
       - default
     ports:
       - "8080"
+      # WARNING: Do not ever remove the 127.0.0.1 as on some systems Docker host ports are exposed outside the Firewall!
       - "127.0.0.1:4229:9229"
     volumes:
       - "./server:/develop:delegated"
@@ -157,6 +160,7 @@ services:
       - default
     ports:
       - "8080"
+      # WARNING: Do not ever remove the 127.0.0.1 as on some systems Docker host ports are exposed outside the Firewall!
       - "127.0.0.1:5229:9229"
     volumes:
       - "./worker:/develop:delegated"
@@ -210,6 +214,7 @@ services:
       - default
     ports:
       # TODO: Temporary hack for https://github.com/gatsbyjs/gatsby/issues/3721
+      # WARNING: Do not ever remove the 127.0.0.1 as on some systems Docker host ports are exposed outside the Firewall!
       - "127.0.0.1:7463:8080"
     volumes:
       - "./www:/develop:delegated"
@@ -250,6 +255,7 @@ services:
     networks:
       - default
     ports:
+      # WARNING: Do not ever remove the 127.0.0.1 as on some systems Docker host ports are exposed outside the Firewall!
       - "127.0.0.1:6000:5432"
     secrets:
       - DATABASE_PASSWORD

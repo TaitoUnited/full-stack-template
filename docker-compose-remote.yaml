@@ -29,6 +29,7 @@ services:
     networks:
       - default
     ports:
+      # WARNING: Do not ever remove the 127.0.0.1 as on some systems Docker host ports are exposed outside the Firewall!
       - "127.0.0.1:_PORT_:80"
     secrets:
       - BASIC_AUTH_HTPASSWD
@@ -196,7 +197,8 @@ services:
   #   networks:
   #     - default
   #   ports:
-  #     - "5432:5432"
+  #     # WARNING: Do not ever remove the 127.0.0.1 as on some systems Docker host ports are exposed outside the Firewall!
+  #     - "127.0.0.1:5432:5432"
   #   secrets:
   #     - DATABASE_PASSWORD
   #     - DATABASE_MGR_PASSWORD
