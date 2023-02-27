@@ -29,11 +29,7 @@ services:
     networks:
       - default
     ports:
-      - "_PORT_:80"
-      # If you want to directly expose this ingress to browser, use the
-      # following settings and configure SSL in docker-nginx.conf.
-      # - "80:80"
-      # - "443:443"
+      - "127.0.0.1:_PORT_:80"
     secrets:
       - BASIC_AUTH_HTPASSWD
     volumes:
