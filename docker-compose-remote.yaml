@@ -18,12 +18,14 @@ x-healthcheck: &default-healthcheck
 services:
   full-stack-template-${taito_env}-ingress:
     container_name: full-stack-template-${taito_env}-ingress
+    labels:
+      full-stack-template-${taito_env}-autoheal: "true"
     image: nginx:stable-alpine
     restart: unless-stopped
-    logging: *default-logging
     healthcheck:
       << : *default-healthcheck
       test: wget -O/dev/null --tries=1 --server-response http://localhost:80 2>&1 | grep "401 Unauthorized\|200 OK"
+    logging: *default-logging
     networks:
       - default
     ports:
@@ -39,12 +41,14 @@ services:
 
   full-stack-template-${taito_env}-admin:
     container_name: full-stack-template-${taito_env}-admin
+    labels:
+      full-stack-template-${taito_env}-autoheal: "true"
     image: _IMAGE_REGISTRY_/admin:_IMAGE_TAG_
     deploy:
        replicas: 1    
     restart: unless-stopped
-    logging: *default-logging
     healthcheck: *default-healthcheck
+    logging: *default-logging
     networks:
       - default
     ports:
@@ -60,12 +64,14 @@ services:
 
   full-stack-template-${taito_env}-client:
     container_name: full-stack-template-${taito_env}-client
+    labels:
+      full-stack-template-${taito_env}-autoheal: "true"
     image: _IMAGE_REGISTRY_/client:_IMAGE_TAG_
     deploy:
        replicas: 1    
     restart: unless-stopped
-    logging: *default-logging
     healthcheck: *default-healthcheck
+    logging: *default-logging
     networks:
       - default
     ports:
@@ -85,12 +91,14 @@ services:
 
   full-stack-template-${taito_env}-server:
     container_name: full-stack-template-${taito_env}-server
+    labels:
+      full-stack-template-${taito_env}-autoheal: "true"
     image: _IMAGE_REGISTRY_/server:_IMAGE_TAG_
     deploy:
        replicas: 1    
     restart: unless-stopped
-    logging: *default-logging
     healthcheck: *default-healthcheck
+    logging: *default-logging
     networks:
       - default
     ports:
@@ -129,12 +137,14 @@ services:
 
   full-stack-template-${taito_env}-www:
     container_name: full-stack-template-${taito_env}-www
+    labels:
+      full-stack-template-${taito_env}-autoheal: "true"
     image: _IMAGE_REGISTRY_/www:_IMAGE_TAG_
     deploy:
        replicas: 1    
     restart: unless-stopped
-    logging: *default-logging
     healthcheck: *default-healthcheck
+    logging: *default-logging
     networks:
       - default
     ports:
@@ -147,12 +157,14 @@ services:
 
   full-stack-template-${taito_env}-redis:
     container_name: full-stack-template-${taito_env}-redis
+    labels:
+      full-stack-template-${taito_env}-autoheal: "true"
     image: bitnami/redis:6.0
     restart: unless-stopped
-    logging: *default-logging
     healthcheck:
       << : *default-healthcheck
       test: redis-cli ping
+    logging: *default-logging
     networks:
       - default
     ports:
@@ -179,10 +191,12 @@ services:
 
   # full-stack-template-${taito_env}-database:
   #   container_name: full-stack-template-${taito_env}-database
+  #   labels:
+  #     full-stack-template-${taito_env}-autoheal: "true"
   #   image: postgres:12
   #   restart: unless-stopped
-  #   logging: *default-logging
   #   # TODO healthcheck
+  #   logging: *default-logging
   #   networks:
   #     - default
   #   ports:
@@ -209,6 +223,16 @@ services:
   #     - /var/run/docker.sock:/var/run/docker.sock
   #     - ./watchtower-config.json:/config.json
   #   command: --interval 60
+
+  full-stack-template-${taito_env}-autoheal:
+    container_name: full-stack-template-${taito_env}-autoheal
+    image: willfarrell/autoheal:latest
+    restart: always
+    tty: true
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock'
+    environment:
+      AUTOHEAL_CONTAINER_LABEL: full-stack-template-${taito_env}-autoheal
 
 secrets:
   DATABASE_PASSWORD:
