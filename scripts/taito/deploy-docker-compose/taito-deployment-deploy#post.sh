@@ -49,11 +49,6 @@ echo "[Copy files in ${deploy_temp_dir}]"
     cp docker-nginx.conf "${deploy_temp_dir}"
     sed -i "s/http:\/\/${taito_project}/http:\/\/${taito_namespace}/g" "${deploy_temp_dir}/docker-nginx.conf"
   fi
-  if [[ -f database/db.sql ]]; then
-    echo database/db.sql
-    mkdir -p "${deploy_temp_dir}/database"
-    cp database/db.sql "${deploy_temp_dir}/database"
-  fi
 )
 echo
 
