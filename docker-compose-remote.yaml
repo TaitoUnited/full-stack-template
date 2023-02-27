@@ -226,7 +226,7 @@ services:
 
   full-stack-template-${taito_env}-autoheal:
     container_name: full-stack-template-${taito_env}-autoheal
-    image: willfarrell/autoheal:latest
+    image: ghcr.io/taitounited/autoheal:20230227
     restart: always
     tty: true
     volumes:
