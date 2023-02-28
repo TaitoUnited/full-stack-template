@@ -41,6 +41,7 @@ echo "[Copy files in ${deploy_temp_dir}]"
   mkdir -p "${deploy_temp_dir}"
   echo docker-compose-remote.yaml
   cp docker-compose-remote.yaml "${deploy_temp_dir}"
+  cp docker-crontab "${deploy_temp_dir}" 2> /dev/null
   if [[ -f docker-nginx-remote.conf ]]; then
     echo docker-nginx-remote.conf
     cp docker-nginx-remote.conf "${deploy_temp_dir}/docker-nginx.conf"
@@ -52,14 +53,24 @@ echo "[Copy files in ${deploy_temp_dir}]"
 )
 echo
 
+function envsubst_file () {
+  file=$1
+  file_tmp="${1}.tmp"
+
+  if [[ -f ${file} ]]; then
+    mv "${file}" "${file_tmp}"
+    envsubst < "${file_tmp}" > "${file}"
+    rm "${file_tmp}"
+  fi
+}
+
 echo "[Substitute environment variables in ${deploy_temp_dir}]"
 (
   set -e
   ${taito_setv:-}
   cd "${deploy_temp_dir}"
-  mv docker-compose-remote.yaml docker-compose-tmp.yaml
-  envsubst < docker-compose-tmp.yaml > docker-compose-remote.yaml
-  rm docker-compose-tmp.yaml
+  envsubst_file docker-compose-remote.yaml
+  envsubst_file docker-crontab
 )
 echo
 
@@ -73,11 +84,14 @@ echo "[Copy ${deploy_temp_dir} to temporary location ${taito_host}:/tmp]"
 )
 echo
 
+# TODO: set DOCKER_CONFIG on bashrc instead
+
 echo "[Deploy on host ${taito_host}]"
 ssh ${ssh_opts} "${taito_host}" "
   bash -c '
     set -e
     ${taito_setv:-}
+    export DOCKER_CONFIG=/projects/docker
     cd ${taito_host_dir}
     if [[ ${taito_container_registry} == "local/*" ]] &&
        ! docker images | grep ${taito_container_registry} | grep ${taito_build_image_tag} &> /dev/null; then
@@ -90,10 +104,12 @@ ssh ${ssh_opts} "${taito_host}" "
       exit 1
     fi
     echo
+
     echo [Extract configuration files from /tmp/${taito_namespace}.tar]
     tar -xf /tmp/${taito_namespace}.tar -C .
     rm -f /tmp/${taito_namespace}.tar
     echo
+
     echo [Replace port and image tag in docker-compose-remote.yaml]
     PORT=\$(gettaitositeport ${taito_namespace} 2> /dev/null || :)
     if [[ ! \${PORT} ]]; then
@@ -107,9 +123,6 @@ ssh ${ssh_opts} "${taito_host}" "
       printf \"%s\" \$PORT > PORT
     fi
     sed -i \"s/_PORT_/\${PORT}/g\" docker-compose-remote.yaml
-    if [[ -f docker-nginx.conf ]]; then
-      sed -i \"s/_TAITO_ENV_/${taito_env}/g\" docker-nginx.conf
-    fi
     echo
     if [[ ${taito_basic_auth_enabled} != false ]]; then
       echo [Enable basic auth]
@@ -120,15 +133,18 @@ ssh ${ssh_opts} "${taito_host}" "
       fi
       echo
     fi
+
     echo [Prune old unused ${taito_project} docker images]
     echo TODO: do not prune images with the given tag ${taito_build_image_tag}
     docker image prune --force --all \
       --filter \"label=company=${taito_project}\" --filter until=24h
     echo
+
     echo [Pull container images using the new configuration]
     echo NOTE: Pulling of local-only images will print an error! This is OK.
     docker-compose -f docker-compose-remote.yaml pull || :
     echo
+
     if [[ -f docker-compose.yaml ]]; then
       echo [Stop docker-compose using the old configuration]
       echo NOTE: Pulling of local-only images will print an error! This is OK.
@@ -136,9 +152,22 @@ ssh ${ssh_opts} "${taito_host}" "
       mv -f docker-compose.yaml docker-compose-previous.yaml
       echo
     fi
+
     echo [Start docker-compose using the new configuration]
     mv -f docker-compose-remote.yaml docker-compose.yaml
     docker-compose up -d
+    echo
+
+    echo [Update docker-crontab if it has changed]
+    cronfile=/etc/cron.d/${taito_project}-${taito_env}
+    if [[ -f docker-crontab ]] && ! cmp --silent docker-crontab \${cronfile}; then
+      echo Updating...
+      sudo mv \${PWD}/docker-crontab \${cronfile}
+      sudo chown root:root \${cronfile}
+    else
+      echo Unchanged
+      rm -f docker-crontab
+    fi
   '
 " || (
   echo "Recent commits in ${taito_branch} branch:"

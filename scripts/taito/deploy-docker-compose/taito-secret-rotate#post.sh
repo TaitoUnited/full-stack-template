@@ -22,11 +22,14 @@ echo "[Copy changed secrets to ${taito_host}:/tmp]"
 )
 echo
 
+# TODO: set DOCKER_CONFIG on bashrc instead
+
 echo "[Execute on ${taito_host}]"
 ssh ${ssh_opts} "${taito_host}" "
   bash -c '
     set -e
     ${taito_setv:-}
+    export DOCKER_CONFIG=/projects/docker
     echo [Extract /tmp/${taito_namespace}-secrets.tar]
     tar -xf /tmp/${taito_namespace}-secrets.tar -C ${taito_host_dir}/secrets/${taito_env}
     rm -f /tmp/${taito_namespace}-secrets.tar
