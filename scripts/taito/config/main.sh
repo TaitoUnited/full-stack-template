@@ -142,7 +142,7 @@ taito_messaging_monitoring_channel=monitoring
 db_database_type=${taito_default_db_type:-pg}
 if [[ $db_database_type == "pg" ]]; then
   db_database_instance=${default_postgres}
-  db_database_name=${taito_project//-/_}_${taito_env}
+  db_database_name=${taito_project//-/_}_${taito_env//-/_}
   if [[ ${taito_default_db_shared:-false} == true ]]; then
     db_database_name=${taito_random_name//-/_}_${taito_env}
   fi
@@ -160,7 +160,7 @@ if [[ $db_database_type == "pg" ]]; then
   db_database_create=true
 elif [[ $db_database_type == "mysql" ]]; then
   db_database_instance=${default_mysql}
-  db_database_name=${taito_project_short}${taito_env}
+  db_database_name=${taito_project_short}${taito_env//-/}
   db_database_master_username=${default_mysql_master_username}
   db_database_master_password_hint=${default_mysql_master_password_hint}
   db_database_username_suffix=${default_mysql_username_suffix}
