@@ -24,7 +24,7 @@ services:
     restart: unless-stopped
     healthcheck:
       << : *default-healthcheck
-      test: wget -O/dev/null --tries=1 --server-response http://localhost:80 2>&1 | grep "401 Unauthorized\|200 OK"
+      test: wget -O/dev/null --tries=1 --server-response http://localhost:80/ingress-healthz 2>&1 | grep "401 Unauthorized\|200 OK"
     logging: *default-logging
     networks:
       - default
