@@ -2,7 +2,6 @@
   "name": "full-stack-template-worker",
   "private": true,
   "scripts": {
-    "preinstall": "if [ -f package-lock.json ]; then npx npm-force-resolutions; fi",
     "unit": "jest src/ --passWithNoTests -t",
     "test": "jest test/ --passWithNoTests -t",
     "start": "npm run start:dev",
@@ -28,9 +27,6 @@
     "showdown": "^1.9.1",
     "stack-trace": "0.0.10",
     "uuid": "^8.3.2"
-  },
-  "resolutions": {
-    "qs": "~6.3.2"
   },
   "devDependencies": {
     "@types/bunyan": "1.8.6",
