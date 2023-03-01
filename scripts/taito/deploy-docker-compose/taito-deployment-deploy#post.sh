@@ -84,14 +84,11 @@ echo "[Copy ${deploy_temp_dir} to temporary location ${taito_host}:/tmp]"
 )
 echo
 
-# TODO: set DOCKER_CONFIG on bashrc instead
-
 echo "[Deploy on host ${taito_host}]"
 ssh ${ssh_opts} "${taito_host}" "
   bash -c '
     set -e
     ${taito_setv:-}
-    export DOCKER_CONFIG=/projects/docker
     cd ${taito_host_dir}
     if [[ ${taito_container_registry} == "local/*" ]] &&
        ! docker images | grep ${taito_container_registry} | grep ${taito_build_image_tag} &> /dev/null; then
@@ -137,17 +134,15 @@ ssh ${ssh_opts} "${taito_host}" "
     echo [Prune old unused ${taito_project} docker images]
     echo TODO: do not prune images with the given tag ${taito_build_image_tag}
     docker image prune --force --all \
-      --filter \"label=company=${taito_project}\" --filter until=24h
+      --filter \"label=company=${taito_project}\" --filter until=336h
     echo
 
     echo [Pull container images using the new configuration]
-    echo NOTE: Pulling of local-only images will print an error! This is OK.
     docker-compose -f docker-compose-remote.yaml pull || :
     echo
 
     if [[ -f docker-compose.yaml ]]; then
       echo [Stop docker-compose using the old configuration]
-      echo NOTE: Pulling of local-only images will print an error! This is OK.
       docker-compose stop || :
       mv -f docker-compose.yaml docker-compose-previous.yaml
       echo

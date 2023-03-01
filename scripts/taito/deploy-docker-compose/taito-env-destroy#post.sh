@@ -8,14 +8,11 @@ set -e
 
 taito::expose_ssh_opts
 
-# TODO: set DOCKER_CONFIG on bashrc instead
-
 echo "[Execute on ${taito_host}]"
 ssh ${ssh_opts} "${taito_host}" "
   sudo bash -c '
     set -e
     ${taito_setv:-}
-    export DOCKER_CONFIG=/projects/docker
     if which deletetaitosite &> /dev/null; then
       deletetaitosite ${taito_namespace}
     else
