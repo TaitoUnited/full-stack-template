@@ -17,6 +17,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',
+    project: './tsconfig.json',
     ecmaFeatures: {
       jsx: true,
     },
@@ -33,6 +34,7 @@ module.exports = {
     'no-var': 'error',
 
     'eslint-comments/no-unlimited-disable': 'off',
+    '@typescript-eslint/no-misused-promises': 'error',
 
     // Turn of unuseful TS specific rules
     '@typescript-eslint/explicit-function-return-type': 'off',

@@ -18,8 +18,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',
-    // TODO: vscode's eslint extension borks with the following option :(
-    // project: './tsconfig.json',
+    project: './tsconfig.json',
   },
 
   env: {
@@ -31,6 +30,7 @@ module.exports = {
     // ESLint standard has confilicts with typescript
     'no-useless-constructor': 'off',
     '@typescript-eslint/no-useless-constructor': 'error',
+    '@typescript-eslint/no-misused-promises': 'error',
 
     // Turn of stupid TS specific rules
     '@typescript-eslint/explicit-module-boundary-types': 'off',
