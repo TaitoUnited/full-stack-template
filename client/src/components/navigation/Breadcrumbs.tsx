@@ -13,7 +13,7 @@ type Props = {
 };
 
 export default function Breadcrumbs({ children }: Props) {
-  const { navProps } = useBreadcrumbs({ children });
+  const { navProps } = useBreadcrumbs({});
   const [breadcrumbsElement, setBreadcrumbsElement] = React.useState<HTMLElement | null>(null); // prettier-ignore
   const childrenArray = React.Children.toArray(children);
 

@@ -123,7 +123,7 @@ function MenuPopup({
   const onClose = () => menuState.close();
 
   const { menuProps } = useMenu(
-    { autoFocus: menuState.focusStrategy, children, 'aria-label': label },
+    { autoFocus: menuState.focusStrategy, 'aria-label': label },
     state,
     ref
   );

@@ -34,7 +34,6 @@ module.exports = {
     'no-var': 'error',
 
     'eslint-comments/no-unlimited-disable': 'off',
-    '@typescript-eslint/no-misused-promises': 'error',
 
     // Turn of unuseful TS specific rules
     '@typescript-eslint/explicit-function-return-type': 'off',
