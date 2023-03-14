@@ -20,7 +20,7 @@ export default defineConfig(({ mode }) => ({
   cacheDir: '.vite',
   define: {
     'process.env.API_URL': JSON.stringify(process.env.API_URL || '/api'),
-    'process.env.SENTRY_PUBLIC_DSN': JSON.stringify(process.env.SENTRY_PUBLIC_DSN), // prettier-ignore
+    'process.env.SENTRY_DSN': JSON.stringify(process.env.SENTRY_DSN), // prettier-ignore
     'process.env.GA_TRACKING_ID': JSON.stringify(process.env.GA_TRACKING_ID),
   },
   build: {

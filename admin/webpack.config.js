@@ -147,8 +147,8 @@ module.exports = function (env, options) {
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
         'process.env.API_URL': JSON.stringify(process.env.API_URL || '/api'),
-        'process.env.SENTRY_PUBLIC_DSN': JSON.stringify(
-          process.env.SENTRY_PUBLIC_DSN
+        'process.env.SENTRY_DSN': JSON.stringify(
+          process.env.SENTRY_DSN
         ),
         'process.env.GA_TRACKING_ID': JSON.stringify(
           process.env.GA_TRACKING_ID

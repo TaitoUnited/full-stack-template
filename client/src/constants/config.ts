@@ -31,12 +31,12 @@ const config = {
   ENV: currentEnv as APP_ENV,
   IS_DEV: import.meta.env.DEV,
   API_URL: process.env.API_URL,
-  SENTRY_PUBLIC_DSN: process.env.SENTRY_PUBLIC_DSN,
+  SENTRY_DSN: process.env.SENTRY_DSN,
   ERROR_REPORTING_ENABLED:
     currentEnv === 'prod' &&
     import.meta.env.PROD &&
-    !!process.env.SENTRY_PUBLIC_DSN &&
-    process.env.SENTRY_PUBLIC_DSN.startsWith('https'),
+    !!process.env.SENTRY_DSN &&
+    process.env.SENTRY_DSN.startsWith('https'),
 };
 
 export default config;
