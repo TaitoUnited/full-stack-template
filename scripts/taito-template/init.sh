@@ -291,7 +291,7 @@ function prune () {
         sed -i "/CREATE EXTENSION/d" database/db.sql
         sed -i "s/5432/3306/g" database/sqitch.conf
         sed -i "s/5432/3306/g" *.yaml
-        sed -i "s/postgres:12/mysql:5.7/g" docker-*.yaml
+        sed -i 's/image: postgres:.*/image: mysql:8/g' docker-*.yaml
         sed -i "s/POSTGRES_DB/MYSQL_DATABASE/g" docker-*.yaml
         sed -i "s/POSTGRES_USER/MYSQL_USER/g" docker-*.yaml
         sed -i "s/POSTGRES_PASSWORD_FILE/MYSQL_PASSWORD_FILE/g" docker-*.yaml

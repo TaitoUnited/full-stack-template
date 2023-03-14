@@ -190,7 +190,7 @@ services:
   #   container_name: full-stack-template-${taito_env}-database
   #   labels:
   #     full-stack-template-${taito_env}-autoheal: "true"
-  #   image: postgres:12
+  #   image: postgres:14
   #   restart: unless-stopped
   #   # TODO healthcheck
   #   logging: *default-logging
