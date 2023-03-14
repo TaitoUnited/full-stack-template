@@ -118,8 +118,8 @@ function prune () {
     sed -i "/- step: # $name release/,/taito artifact release:$name/d" bitbucket-pipelines.yml
     sed -i "/taito artifact prepare:$name/d" buildspec.yml
     sed -i "/taito artifact release:$name/d" buildspec.yml
-    sed -i "/^- id: artifact-prepare-$name\r*\$/,/^\r*$/d" cloudbuild.yaml
-    sed -i "/^- id: artifact-release-$name\r*\$/,/^\r*$/d" cloudbuild.yaml
+    sed -i "/^\s*- id: artifact-prepare-$name\r*\$/,/^\r*$/d" cloudbuild.yaml
+    sed -i "/^\s*- id: artifact-release-$name\r*\$/,/^\r*$/d" cloudbuild.yaml
     sed -i "/REPO_NAME\\/$name:/d" cloudbuild.yaml
     # TODO PRUNE .gitlab-ci.yml
     # TODO PRUNE Jenkinsfile
