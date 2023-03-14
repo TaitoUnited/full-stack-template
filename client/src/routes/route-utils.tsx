@@ -78,7 +78,7 @@ export function routeEntry<Data>({
 
     // Dedupe loaders so that we don't initialize multiple loaders if a pending
     // loading is still in progress.
-    if (!loaderCache[cacheKey]) {
+    if (!(await loaderCache[cacheKey])) {
       loaderCache[cacheKey] = performLoad(params);
 
       if (debug) {
