@@ -22,7 +22,7 @@
     "@aws-sdk/client-secrets-manager": "~3.58.0",
     "@aws-sdk/s3-request-presigner": "~3.58.0",
     "@hapi/boom": "~9.1.4",
-    "@sentry/node": "~6.17.3",
+    "@sentry/node": "~7.43.0",
     "apollo-server-koa": "~2.25.1",
     "axios": "0.25.0",
     "bunyan": "~1.8.15",

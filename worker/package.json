@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@hapi/boom": "^9.1.0",
-    "@sentry/node": "^5.29.0",
+    "@sentry/node": "~7.43.0",
     "aws-sdk": "^2.807.0",
     "axios": "^0.21.0",
     "bunyan": "^1.8.14",

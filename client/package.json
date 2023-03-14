@@ -23,7 +23,7 @@
     "@lingui/macro": "3.14.0",
     "@lingui/react": "3.14.0",
     "@loadable/component": "5.15.2",
-    "@sentry/browser": "6.19.7",
+    "@sentry/browser": "7.43.0",
     "apollo3-cache-persist": "0.14.0",
     "date-fns": "2.28.0",
     "framer-motion": "6.3.4",
