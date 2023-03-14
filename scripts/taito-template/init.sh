@@ -359,11 +359,6 @@ if [[ ${template_default_kubernetes} ]] || [[ ${kubernetes_name} ]]; then
     sed -i '/serverless/d' ./server/src/function.ts
   fi
 
-  # Remove server service account
-  # (most likely not required for storage access with kubernetes)
-  sed -i '/$taito_project-$taito_env-server/d' ./scripts/taito/project.sh
-  sed -i '/-server/d' ./scripts/terraform.yaml
-
 else
   # Remove helm.yaml since kubernetes is disabled
   rm -f ./scripts/helm*.yaml
