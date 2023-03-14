@@ -94,7 +94,7 @@ const config = {
   CACHE_PORT: parseInt(process.env.CACHE_PORT as string, 10),
 
   // Sentry
-  APP_SENTRY_DSN: process.env.APP_SENTRY_DSN,
+  SENTRY_DSN: process.env.SENTRY_DSN,
 
   // Database
   DATABASE_HOST: process.env.DATABASE_HOST,

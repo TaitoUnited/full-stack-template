@@ -51,7 +51,7 @@ class Config:
     CACHE_PORT = int(_config.get("CACHE_PORT", -1))
 
     # Sentry
-    # APP_SENTRY_DSN = _config.get('APP_SENTRY_DSN', '')
+    # SENTRY_DSN = _config.get('SENTRY_DSN', '')
 
     # Database
     DATABASE_HOST = _config["DATABASE_HOST"]

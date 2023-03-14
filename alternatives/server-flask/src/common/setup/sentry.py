@@ -7,7 +7,7 @@ def connect(app: flask.Flask) -> None:
         app.logger.info("Skipping sentry init in development build.")
         return None
 
-    sentry_dsn = app.config["APP_SENTRY_DSN"]
+    sentry_dsn = app.config["SENTRY_DSN"]
     if not sentry_dsn or not sentry_dsn.startswith("https"):
         app.logger.warning(
             f"Skipping sentry init (DSN not set up): {sentry_dsn}"
