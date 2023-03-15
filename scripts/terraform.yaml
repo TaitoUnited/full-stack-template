@@ -118,6 +118,7 @@ settings:
       # Cors
       corsRules:
         - allowedOrigins: ["https://${taito_domain}"]
+          allowedMethods: ["HEAD", "GET"]
       # User rights # For GCP
       admins: # For GCP
       objectAdmins: # For GCP
