@@ -298,6 +298,16 @@ full-stack:
 # ----------------------------------------------------------
 
   services:
+    tempo:
+      paths:
+        - path: /tempo
+          port: 8080
+        - path: /otlp
+          port: 4318
+      port: 8080
+      ports:
+        - port: 4318
+
     mail:
       ports:
        - port: 110
