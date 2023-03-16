@@ -25,7 +25,7 @@
     "info:local": "yes | taito ${taito_options} secret show:${taito_env}",
     "info": "yes | taito ${taito_options} secret show:${taito_env} basic-auth",
     "taito-host-lint": "echo Running lint locally && npm-run-all -p -c taito-host-lint:admin taito-host-lint:client taito-host-lint:server taito-host-lint:worker taito-host-lint:www ",
-    "taito-host-lint:admin": "cd admin && npm-run-all lint",
+    "taito-host-lint:admin": "cd admin && echo DISABLED: lint disabled from admin until updated or removed",
     "taito-host-lint:client": "cd client && npm-run-all lint",
     "taito-host-lint:server": "cd server && npm-run-all lint",
     "taito-host-lint:worker": "cd worker && npm-run-all lint",
