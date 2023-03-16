@@ -27,7 +27,7 @@ export const createPost = async (
     author: author || 'example author,',
     content: content || 'example content',
   };
-  postDao.create(db, post);
+  await postDao.create(db, post);
   console.log('New post created.');
 };
 
