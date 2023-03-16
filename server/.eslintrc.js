@@ -31,6 +31,7 @@ module.exports = {
     'no-useless-constructor': 'off',
     '@typescript-eslint/no-useless-constructor': 'error',
     '@typescript-eslint/no-misused-promises': 'error',
+    '@typescript-eslint/no-floating-promises': 'error',
 
     // Turn of stupid TS specific rules
     '@typescript-eslint/explicit-module-boundary-types': 'off',
