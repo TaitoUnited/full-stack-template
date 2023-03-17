@@ -1,5 +1,5 @@
 type APP_ENV =
-  | 'local'
+  | 'localhost'
   | 'feat'
   | 'dev'
   | 'test'
