@@ -1,3 +1,4 @@
+import { MaxLength, MinLength } from 'class-validator';
 import { Field, InputType, ObjectType, Float, Int, ID } from 'type-graphql';
 import { Paginated } from '../../common/types/search';
 
@@ -36,9 +37,18 @@ export class PostFilter {
 
 @InputType()
 export class CreatePostInput {
-  @Field(() => String) subject: string;
-  @Field(() => String) content: string;
-  @Field(() => String) author: string;
+  @Field(() => String)
+  @MinLength(5)
+  @MaxLength(500)
+  subject: string;
+
+  @Field(() => String)
+  content: string;
+
+  @Field(() => String)
+  @MinLength(2)
+  @MaxLength(100)
+  author: string;
 }
 
 // Update
@@ -46,9 +56,18 @@ export class CreatePostInput {
 @InputType()
 export class UpdatePostInput {
   @Field() id: string;
-  @Field(() => String, { nullable: true }) subject?: string;
-  @Field(() => String, { nullable: true }) content?: string;
-  @Field(() => String, { nullable: true }) author?: string;
+  @Field(() => String, { nullable: true })
+  @MinLength(5)
+  @MaxLength(500)
+  subject?: string;
+
+  @Field(() => String, { nullable: true })
+  content?: string;
+
+  @Field(() => String, { nullable: true })
+  @MinLength(2)
+  @MaxLength(100)
+  author?: string;
 }
 
 // Delete
