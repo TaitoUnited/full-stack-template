@@ -3,6 +3,7 @@ taito-run-env.sh
 taito-user-config.sh
 taitoflag_*
 secrets
+secret.json
 mnt
 template-tmp
 tmp
