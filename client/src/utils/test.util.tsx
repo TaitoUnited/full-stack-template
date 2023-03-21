@@ -4,8 +4,8 @@ import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { ThemeProvider } from 'styled-components';
 
-import { theme } from '~constants/theme';
 import storage from './storage';
+import { theme } from '~constants/theme';
 
 const locale = storage.get('@app/locale') || 'en';
 i18n.loadLocaleData({ fi: { plurals: fi }, en: { plurals: en } });

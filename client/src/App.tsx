@@ -1,7 +1,7 @@
+import { useEffect, useState } from 'react';
 import Providers from './Providers';
 import Routes from './routes';
 import { initMessages } from '~services/i18n';
-import { useEffect, useState } from 'react';
 
 export default function App() {
   const ready = useAppReady();

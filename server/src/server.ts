@@ -83,14 +83,12 @@ async function setupServer() {
   }
 }
 
-async function startServer() {
-  try {
-    await setupServer();
-  } catch (error) {
-    console.error('Error starting server:', error);
-  }
-}
-
-startServer();
+setupServer()
+  .then(() => {
+    log.info('Server setup complete');
+  })
+  .catch((err) => {
+    log.error(err, 'Server setup failed');
+  });
 
 export { server, handler };
