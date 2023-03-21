@@ -81,9 +81,16 @@ async function setupServer() {
       );
     });
   }
-  // apollo.installSubscriptionHandlers(httpServer);
 }
 
-setupServer();
+async function startServer() {
+  try {
+    await setupServer();
+  } catch (error) {
+    console.error('Error starting server:', error);
+  }
+}
+
+startServer();
 
 export { server, handler };
