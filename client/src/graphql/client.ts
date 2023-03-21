@@ -16,7 +16,7 @@ import {
 
 import config from '~constants/config';
 import storage from '~utils/storage';
-import { defaultLocale, LOCALES } from '~services/i18n';
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '~services/i18n';
 
 const cache = new InMemoryCache();
 
@@ -38,12 +38,12 @@ export async function setupApolloClient() {
   // );
 
   const headersLink = new ApolloLink((operation, forward) => {
-    const locales = LOCALES;
+    const locales = SUPPORTED_LOCALES;
     const locale = storage.get('@app/locale');
 
     operation.setContext((context: any) => ({
       headers: {
-        'Accept-Language': locales.includes(locale) ? locale : defaultLocale,
+        'Accept-Language': locales.includes(locale) ? locale : DEFAULT_LOCALE,
         ...context.headers,
       },
     }));
