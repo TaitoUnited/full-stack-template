@@ -1,9 +1,9 @@
-import { useInitMessages } from '~services/i18n';
+import { initiatingMessages } from '~services/i18n';
 import Providers from './Providers';
 import Routes from './routes';
 
 export default function App() {
-  useInitMessages();
+  initiatingMessages();
 
   return (
     <Providers>

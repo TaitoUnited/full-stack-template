@@ -6,9 +6,9 @@ import storage from '~utils/storage';
 
 export type Locale = 'fi' | 'en';
 
-const defaultLocale: Locale = 'en';
+export const LOCALES = ['fi', 'en'];
 
-const LOCALES = ['fi', 'en'];
+export const defaultLocale: Locale = 'en';
 
 export async function initMessages() {
   const persistedLocale = await storage.get('@app/locale');
@@ -64,7 +64,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   return <LinguiProvider i18n={i18n}>{children}</LinguiProvider>;
 }
 
-export const useInitMessages = () => {
+export const initiatingMessages = () => {
   useEffect(() => {
     const getMessages = async () => {
       await initMessages();

@@ -2,12 +2,14 @@ import { buildSchemaSync } from 'type-graphql';
 import { ApolloServer } from '@apollo/server';
 import { Container } from 'typedi';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
-// import { useServer } from 'graphql-ws/lib/use/ws';
+import { unwrapResolverError } from '@apollo/server/errors';
+// import { useServer } from 'graphql-ws/lib/use/ws'; <-- Uncomment this if you need subscriptions
 import depthLimit from 'graphql-depth-limit';
 
 import { httpServer } from './http';
 import config from './common/setup/config';
 import authChecker from './common/setup/auth';
+import { CustomValidationError } from './graphqlErrors';
 
 // GraphQL schema
 const schema = buildSchemaSync({
@@ -53,9 +55,30 @@ const apollo = new ApolloServer({
             // to rollback transaction here.
             // TODO: Implement a custom transaction/error handler for Apollo?
             // Note: The V4 version of Apollo Server has a new error handling and logging the whole request context is spammy.
-            console.log({
-              operationName: requestContext.operationName,
-              errors: requestContext.errors,
+
+            // Go through all errors and log them:
+            requestContext.errors.forEach((error) => {
+              if (error.message === 'Argument Validation Error') {
+                // Forcing the error to show the validation errors
+                // @ts-ignore
+                const originalError: ArgumentValidationError =
+                  unwrapResolverError(error);
+
+                throw new CustomValidationError(originalError.validationErrors);
+              }
+
+              console.log({
+                operationName: requestContext.operationName,
+                errors: {
+                  message: error.message,
+                  code: error.extensions?.code,
+                  validationErrors: JSON.stringify(
+                    error.extensions?.validationErrors
+                  ),
+                  path: error.path,
+                  locations: JSON.stringify(error.locations),
+                },
+              });
             });
           },
         };
