@@ -127,6 +127,9 @@ const config = {
   BUCKET_KEY_ID: process.env.BUCKET_KEY_ID,
   BUCKET_FORCE_PATH_STYLE: Boolean(process.env.BUCKET_FORCE_PATH_STYLE),
 
+  // Locale
+  DEFAULT_LOCALE: process.env.DEFAULT_LOCALE || 'fi',
+
   // Logging
   COMMON_LOG_LEVEL: process.env.COMMON_LOG_LEVEL,
   COMMON_LOG_FORMAT: process.env.COMMON_LOG_FORMAT as 'text' | 'stackdriver',
@@ -159,6 +162,7 @@ export const getSecrets = async () => {
       : undefined,
     REDIS_PASSWORD: await readSecret('REDIS_PASSWORD'),
     BUCKET_KEY_SECRET: await readSecret('BUCKET_KEY_SECRET'),
+    SESSION: await readSecret('SESSION'),
   };
 
   if (!secrets) {

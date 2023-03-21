@@ -64,6 +64,8 @@ export default function PostCreatePage() {
               data-test-id="subject-field"
               value={formValues.subject}
               onChange={handleChange}
+              minLength={5}
+              maxLength={500}
             />
 
             <TextInput
@@ -72,6 +74,8 @@ export default function PostCreatePage() {
               data-test-id="author-field"
               value={formValues.author}
               onChange={handleChange}
+              minLength={2}
+              maxLength={100}
             />
 
             <TextInput

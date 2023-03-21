@@ -14,13 +14,13 @@ type Props = {
 };
 
 export default function PostListPage({ loaderData }: Props) {
-  const { data = loaderData, error } = usePostListQuery({
+  const { data, error } = usePostListQuery({
     variables: {
       order: { field: 'createdAt', dir: OrderDirection.Desc },
     },
   });
 
-  const posts = data?.posts.data ?? [];
+  const posts = data?.posts.data ?? loaderData.data?.posts.data ?? [];
 
   useDocumentTitle(t`Blog`);
 

@@ -2,42 +2,57 @@ import { ReactNode } from 'react';
 import { en, fi } from 'make-plural';
 import { i18n } from '@lingui/core';
 import { I18nProvider as LinguiProvider, useLingui } from '@lingui/react';
-
-import { messages } from '../locales/en/messages';
+import storage from '~utils/storage';
 
 export type Locale = 'fi' | 'en';
 
-const defaultLocale: Locale = 'en';
-
-i18n.loadLocaleData({ fi: { plurals: fi }, en: { plurals: en } });
-i18n.load(defaultLocale, messages);
-i18n.activate(defaultLocale);
+export const SUPPORTED_LOCALES: Locale[] = ['fi', 'en'];
+export const DEFAULT_LOCALE: Locale = 'en';
+export const LOCALE_LABEL: { [locale in Locale]: string } = {
+  en: 'English',
+  fi: 'Suomi',
+};
 
 async function loadMessages(locale: Locale) {
-  switch (locale) {
-    case 'en':
-      return messages;
-    case 'fi':
-      return (await import('../locales/fi/messages')).messages;
-    default:
-      throw Error(`Unkown locale: ${locale}`);
-  }
+  // @vite-ignore
+  const { messages } = await import(`../locales/${locale}/messages`); // Vite cannot analyze dynamic imports
+  return messages;
+}
+
+export async function initMessages() {
+  const persistedLocale = storage.get('@app/locale');
+
+  const locale: Locale = SUPPORTED_LOCALES.includes(persistedLocale)
+    ? persistedLocale
+    : DEFAULT_LOCALE;
+
+  const messages = await loadMessages(locale);
+
+  i18n.loadLocaleData({ en: { plurals: en }, fi: { plurals: fi } });
+  i18n.load(locale, messages);
+  i18n.activate(locale);
 }
 
 export function useI18n() {
   const lingui = useLingui();
+  const currentLocale = lingui.i18n.locale as Locale;
 
   async function changeLocale(locale: Locale) {
     try {
       const newMessages = await loadMessages(locale);
       lingui.i18n.load(locale, newMessages);
       lingui.i18n.activate(locale);
+      storage.set('@app/locale', locale);
     } catch (error) {
       console.log(`> Failed to load messages for locale: ${locale}`, error);
     }
   }
 
-  return { i18n: lingui.i18n, changeLocale };
+  return {
+    i18n: lingui.i18n,
+    locale: currentLocale,
+    changeLocale,
+  };
 }
 
 export function I18nProvider({ children }: { children: ReactNode }) {

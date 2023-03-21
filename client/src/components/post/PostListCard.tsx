@@ -13,13 +13,13 @@ export default function PostListCard({ createdAt, subject }: Props) {
   return (
     <Wrapper>
       <Stack axis="x" spacing="normal" justify="space-between" align="center">
-        <Stack axis="y" spacing="xsmall">
-          <Text variant="body">{subject}</Text>
+        <PostInfo axis="y" spacing="xsmall">
+          <Subject variant="body">{subject}</Subject>
 
           <Text variant="bodySmall" color="muted1">
             {format(new Date(createdAt), 'MMM d, yyyy')}
           </Text>
-        </Stack>
+        </PostInfo>
 
         <Icon icon={HiChevronRight} size="normal" color="muted4" />
       </Stack>
@@ -32,4 +32,16 @@ const Wrapper = styled.div`
   border-radius: ${p => p.theme.radii.normal}px;
   background-color: ${p => p.theme.colors.surface};
   box-shadow: ${p => p.theme.shadows.small};
+`;
+
+const PostInfo = styled(Stack)`
+  width: 90%;
+`;
+const Subject = styled(Text)`
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+  z-index: 1;
+  line-height: 1.2; // to prevent text from overlapping, caused by the overflow
 `;

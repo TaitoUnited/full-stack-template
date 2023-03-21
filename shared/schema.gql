@@ -82,7 +82,7 @@ input Filter {
   value: String
 
   """Determines how the value is treated"""
-  valueType: ValueType = TEXT
+  valueType: ValueType! = TEXT
 }
 
 input FilterGroup {
@@ -120,12 +120,7 @@ type Mutation {
   """Creates a new post."""
   createPost(input: CreatePostInput!): Post!
 
-  """
-  
-        Creates a new attachment for post.
-        Returns URL and HTTP headers that should be used to upload the file using HTTP PUT.
-      
-  """
+  "\n      Creates a new attachment for post.\n      Returns URL and HTTP headers that should be used to upload the file using HTTP PUT.\n    "
   createPostAttachment(input: CreatePostAttachmentInput!): AttachmentUploadRequestDetails!
 
   """Deletes a post."""
@@ -148,11 +143,11 @@ type Mutation {
 
 input Order {
   """Determines whether to sort ascending or descending."""
-  dir: OrderDirection = ASC
+  dir: OrderDirection! = ASC
   field: String!
 
   """Determines whether NULL values are ordered first or last."""
-  invertNullOrder: Boolean = false
+  invertNullOrder: Boolean! = false
 }
 
 enum OrderDirection {
@@ -176,7 +171,7 @@ input Pagination {
 }
 
 type Post {
-  attachments(attachmentOrder: Order = {dir: ASC, field: "createdAt", invertNullOrder: false}): PaginatedAttachments!
+  attachments(attachmentOrder: Order! = {dir: ASC, field: "createdAt", invertNullOrder: false}): PaginatedAttachments!
   author: String!
   content: String!
   createdAt: DateTime!
@@ -202,7 +197,7 @@ type Query {
   postAttachment(input: ReadPostAttachmentInput!): Attachment!
 
   """Searches posts."""
-  posts(filterGroups: [FilterGroup!] = [], order: Order = {dir: DESC, field: "createdAt", invertNullOrder: false}, pagination: Pagination = {limit: 20, offset: 0}, search: String = null): PaginatedPosts!
+  posts(filterGroups: [FilterGroup!]! = [], order: Order! = {dir: DESC, field: "createdAt", invertNullOrder: false}, pagination: Pagination! = {limit: 20, offset: 0}, search: String!): PaginatedPosts!
 }
 
 input ReadPostAttachmentInput {
