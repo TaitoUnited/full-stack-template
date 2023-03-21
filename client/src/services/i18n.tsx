@@ -4,25 +4,25 @@ import { i18n } from '@lingui/core';
 import { I18nProvider as LinguiProvider, useLingui } from '@lingui/react';
 import storage from '~utils/storage';
 
-export type SupportedLocale = 'fi' | 'en';
+export type Locale = 'fi' | 'en';
 
-export const SUPPORTED_LOCALES: SupportedLocale[] = ['fi', 'en'];
-export const DEFAULT_LOCALE: SupportedLocale = 'en';
-export const LOCALE_LABEL: { [locale in SupportedLocale]: string } = {
+export const SUPPORTED_LOCALES: Locale[] = ['fi', 'en'];
+export const DEFAULT_LOCALE: Locale = 'en';
+export const LOCALE_LABEL: { [locale in Locale]: string } = {
   en: 'English',
   fi: 'Suomi',
 };
 
-async function loadMessages(locale: SupportedLocale) {
+async function loadMessages(locale: Locale) {
   // @vite-ignore
   const { messages } = await import(`../locales/${locale}/messages`); // Vite cannot analyze dynamic imports
   return messages;
 }
 
 export async function initMessages() {
-  const persistedLocale = await storage.get('@app/locale');
+  const persistedLocale = storage.get('@app/locale');
 
-  const locale: SupportedLocale = SUPPORTED_LOCALES.includes(persistedLocale)
+  const locale: Locale = SUPPORTED_LOCALES.includes(persistedLocale)
     ? persistedLocale
     : DEFAULT_LOCALE;
 
@@ -35,9 +35,9 @@ export async function initMessages() {
 
 export function useI18n() {
   const lingui = useLingui();
-  const currentLocale = lingui.i18n.locale as SupportedLocale;
+  const currentLocale = lingui.i18n.locale as Locale;
 
-  async function changeLocale(locale: SupportedLocale) {
+  async function changeLocale(locale: Locale) {
     try {
       const newMessages = await loadMessages(locale);
       lingui.i18n.load(locale, newMessages);

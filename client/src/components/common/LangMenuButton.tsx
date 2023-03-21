@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { t } from '@lingui/macro';
 import { HiOutlineGlobe } from 'react-icons/hi';
 
-import { useI18n, SupportedLocale, LOCALE_LABEL } from '~services/i18n';
+import { useI18n, Locale, LOCALE_LABEL } from '~services/i18n';
 import { MenuButton, Stack, Text, Icon } from '~uikit';
 
 export default function LangMenuButton() {
@@ -11,8 +11,8 @@ export default function LangMenuButton() {
   return (
     <Wrapper
       label={t`Change locale`}
-      onAction={(locale: SupportedLocale) => changeLocale(locale)}
-      actions={Object.keys(LOCALE_LABEL).map((locale: SupportedLocale) => ({
+      onAction={(locale: Locale) => changeLocale(locale)}
+      actions={Object.keys(LOCALE_LABEL).map((locale: Locale) => ({
         action: locale,
         label: LOCALE_LABEL[locale],
       }))}
