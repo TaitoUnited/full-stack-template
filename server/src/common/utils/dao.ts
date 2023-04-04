@@ -543,6 +543,8 @@ export type SearchFromTableParams = {
   searchFragment?: string | null;
   /** GROUP BY fragment to be added to the select statement */
   groupByFragment?: string;
+  /** HAVING fragment to be added to the select statement */
+  havingFragment?: string;
 
   /** Does not use DISTINCT in select statement if true */
   disableDistinct?: boolean;
@@ -606,9 +608,7 @@ export async function searchFromTable(p: SearchFromTableParams) {
     ? `OFFSET $[offset] LIMIT $[limit]`
     : '';
 
-  const countQuery = `
-    SELECT
-      count(DISTINCT ${p.tableName}.id)
+  const countQueryFilters = `
     FROM ${p.tableName}
     ${p.joinFragment || ''}
     ${whereFragment}
@@ -616,6 +616,23 @@ export async function searchFromTable(p: SearchFromTableParams) {
     ${filterFragment || ''}
     ${p.unionsFragment || ''}
   `;
+
+  const countQuery = p.havingFragment
+    ? `
+      SELECT count(${p.tableName}.id) FROM (
+        SELECT 
+          ${p.selectColumnsFragment || ''}
+          ${p.tableName}.id
+        ${countQueryFilters}
+        GROUP BY ${p.tableName}.id
+        ${p.havingFragment}
+      ) ${p.tableName}
+    `
+    : `
+      SELECT
+        count(DISTINCT ${p.tableName}.id)
+      ${countQueryFilters}
+    `;
 
   const countQueryParams = {
     search: p.search || undefined,
@@ -644,6 +661,7 @@ export async function searchFromTable(p: SearchFromTableParams) {
     ${p.unionsFragment || ''}
     ${p.groupByFragment || ''}
     ${p.groupByFragment ? groupByColumnsFragment : ''}
+    ${p.havingFragment || ''}
     ${orderFragment || ''}
     ${paginationFragment || ''}
   `;
