@@ -135,6 +135,25 @@
 
         # TODO: More examples
 
+
+# ----------------------------------------------------------
+# Redirect to another domain
+# ----------------------------------------------------------
+
+  # Redirect all paths
+  ingress:
+    annotations:
+      nginx.ingress.kubernetes.io/permanent-redirect: "https://www.anotherdomain.com$$request_uri"
+
+  # Redirect specific path
+  services:
+    server:
+      paths:
+        - path: /api/v1/cars
+          annotations:
+            nginx.ingress.kubernetes.io/permanent-redirect: "https://www.anotherdomain.com$$request_uri"
+
+
 # ----------------------------------------------------------
 # Networking rules
 # ----------------------------------------------------------
