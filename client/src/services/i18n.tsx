@@ -15,7 +15,7 @@ export const LOCALE_LABEL: { [locale in Locale]: string } = {
 
 async function loadMessages(locale: Locale) {
   // @vite-ignore
-  const { messages } = await import(`../locales/${locale}/messages`); // Vite cannot analyze dynamic imports
+  const { messages } = await import(`../locales/${locale}/messages.ts`); // Vite cannot analyze dynamic imports
   return messages;
 }
 
