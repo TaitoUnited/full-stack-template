@@ -17,13 +17,17 @@ export * from '@apollo/client'; // eslint-disable-line import/export
 // Add `revalidating` field to query result so that we are able to distinguish
 // between initial data loading and subsequent data revalidating that happens
 // in the background as part of Stale-While-Revalidate pattern
-interface QueryResult<D, V> extends ApolloQueryResult<D, V> {
+interface QueryResult<D, V extends OperationVariables>
+  extends ApolloQueryResult<D, V> {
   revalidating: boolean;
 }
 
 // Enhance `useQuery` hook to add better support for Stale-While-Revalidate and Window-Focus-Refetching
 // eslint-disable-next-line import/export
-export function useQuery<TData = any, TVariables = OperationVariables>(
+export function useQuery<
+  TData = any,
+  TVariables extends OperationVariables = OperationVariables
+>(
   query: DocumentNode | TypedDocumentNode<TData, TVariables>,
   options?: QueryHookOptions<TData, TVariables> | undefined
 ): QueryResult<TData, TVariables> {

@@ -7,6 +7,7 @@ import {
   HttpLink,
   InMemoryCache,
   NormalizedCacheObject,
+  OperationVariables,
   // split,
 } from '@apollo/client';
 // import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
@@ -106,10 +107,10 @@ type ClientQueryParams = Parameters<
   ApolloClient<NormalizedCacheObject>['query']
 >[0];
 
-export function query<Data = any, Variables = ClientQueryParams['variables']>(
-  query: ClientQueryParams['query'],
-  variables?: Variables
-) {
+export function query<
+  Data = any,
+  Variables extends OperationVariables = OperationVariables
+>(query: ClientQueryParams['query'], variables?: Variables) {
   return __client__.query<Data, Variables>({
     query,
     variables,
