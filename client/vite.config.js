@@ -1,7 +1,8 @@
 import path from 'path';
-import react from '@vitejs/plugin-react';
+import react from '@vitejs/plugin-react-swc';
 import strip from '@rollup/plugin-strip';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import { lingui } from '@lingui/vite-plugin';
 import { defineConfig } from 'vite';
 import { ViteFaviconsPlugin } from 'vite-plugin-favicon2';
 import { optimizeLodashImports } from '@optimize-lodash/rollup-plugin';
@@ -69,11 +70,8 @@ export default defineConfig(({ mode }) => ({
       }),
     tsconfigPaths(),
     htmlFragmentsPlugin(),
-    react({
-      exclude: /\.stories\.(t|j)sx?$/, // Exclude Storybook stories
-      babel: { plugins: ['macros'] },
-      jsxRuntime: mode === 'development' ? 'automatic' : 'classic',
-    }),
+    react({ plugins: [['@lingui/swc-plugin', {}]] }),
+    lingui(),
   ].filter(Boolean),
   server: {
     host: DEV_HOST,

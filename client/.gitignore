@@ -12,3 +12,4 @@ build
 *.swp
 .vscode
 .vite
+.swc

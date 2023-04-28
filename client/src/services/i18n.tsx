@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import { en, fi } from 'make-plural';
 import { i18n } from '@lingui/core';
 import { I18nProvider as LinguiProvider, useLingui } from '@lingui/react';
 import storage from '~utils/storage';
@@ -28,7 +27,6 @@ export async function initMessages() {
 
   const messages = await loadMessages(locale);
 
-  i18n.loadLocaleData({ en: { plurals: en }, fi: { plurals: fi } });
   i18n.load(locale, messages);
   i18n.activate(locale);
 }
