@@ -10,6 +10,7 @@ import {
 } from 'react';
 
 import Page from '~components/navigation/Page';
+import { useFallbackDelay } from '~utils/promise';
 
 export function routeEntry<Data>({
   fallback,
@@ -99,6 +100,7 @@ export function routeEntry<Data>({
 
   function Entry() {
     const params = useParams();
+
     const [state, setState] = useState<LoaderState<Data>>(() => {
       const cacheKey = getCacheKey(params, entryKey);
       const data = dataCache[cacheKey];
@@ -114,6 +116,11 @@ export function routeEntry<Data>({
       return { status, data };
     });
 
+    // By defaul we delay showing the fallback by 500ms in case the data loads
+    // quickly. If the data takes longer than 500ms to load, we show the fallback
+    // at least for 200ms to avoid a flash of skeleton placeholders.
+    const showFallback = useFallbackDelay(state.status === 'pending');
+
     // Only do the load initially but not on subsequent route entry visits
     useEffect(() => {
       if (state.status === 'pending') {
@@ -122,7 +129,7 @@ export function routeEntry<Data>({
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     if (state.status === 'pending') {
-      return fallback || null;
+      return showFallback ? fallback || null : null;
     }
 
     return (
