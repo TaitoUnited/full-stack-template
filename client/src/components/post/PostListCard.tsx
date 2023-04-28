@@ -43,5 +43,5 @@ const Subject = styled(Text)`
   overflow: hidden;
   width: 100%;
   z-index: 1;
-  line-height: 1.2; // to prevent text from overlapping, caused by the overflow
+  line-height: 1.2; /* to prevent text from overlapping, caused by the overflow */
 `;
