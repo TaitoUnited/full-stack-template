@@ -14,7 +14,7 @@ const splashScreenStylesHTML = fs.readFileSync(
   'utf8'
 );
 
-export const htmlFragmentsPlugin = () => {
+export const taitoHtmlFragmentsPlugin = () => {
   return {
     name: 'taito-html-fragments-plugin',
     transformIndexHtml(html) {

@@ -6,7 +6,7 @@ import { lingui } from '@lingui/vite-plugin';
 import { defineConfig } from 'vite';
 import { ViteFaviconsPlugin } from 'vite-plugin-favicon2';
 import { optimizeLodashImports } from '@optimize-lodash/rollup-plugin';
-import { htmlFragmentsPlugin } from './plugins/html-fragments-plugin';
+import { taitoHtmlFragmentsPlugin } from './plugins/html-fragments-plugin';
 import { minifyTemplateLiteralsPlugin } from './plugins/minify-template-literals-plugin';
 
 const ANALYZE = !!process.env.ANALYZE;
@@ -69,8 +69,12 @@ export default defineConfig(({ mode }) => ({
         },
       }),
     tsconfigPaths(),
-    htmlFragmentsPlugin(),
-    react({ plugins: [['@lingui/swc-plugin', {}]] }),
+    taitoHtmlFragmentsPlugin(),
+    react({
+      exclude: /\.stories\.(t|j)sx?$/, // Exclude Storybook stories
+      plugins: [['@lingui/swc-plugin', {}]],
+      jsxRuntime: mode === 'development' ? 'automatic' : 'classic',
+    }),
     lingui(),
   ].filter(Boolean),
   server: {
