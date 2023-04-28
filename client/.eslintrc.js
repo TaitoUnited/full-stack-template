@@ -9,7 +9,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:lodash/recommended',
-    'plugin:prettier/recommended',
+    'prettier',
   ],
 
   plugins: ['@typescript-eslint', 'import', 'lodash'],
@@ -17,7 +17,6 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',
-    project: './tsconfig.json',
     ecmaFeatures: {
       jsx: true,
     },
