@@ -94,7 +94,7 @@ const Select = forwardRef(
 
         {/* TODO: figure out the a11y part of this message... */}
         {!!message && (
-          <Message variant="bodySmall" color={isValid ? 'text' : 'warn'}>
+          <Message variant="bodySmall" color={isValid ? 'text' : 'warnText'}>
             {message}
           </Message>
         )}

@@ -13,6 +13,10 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+body {
+  transition: background-color 0.1s ease-in-out;
+}
+
 button,
 input,
 textarea,
