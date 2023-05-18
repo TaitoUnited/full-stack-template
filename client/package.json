@@ -4,7 +4,7 @@
     "install:clean": "rm -rf node_modules && npm install",
     "pretty-quick": "pretty-quick",
     "lint": "tsc --noEmit && eslint './src/**/*.{ts,tsx}' --ignore-path .eslintignore --quiet",
-    "unit": "vitest ./src/**/*.test.{ts,tsx}",
+    "unit": "vitest run ./src/**/*.test.{ts,tsx}",
     "unit:coverage": "vitest run ./src/**/*.test.{ts,tsx} --coverage",
     "test": "echo TODO run tests but not cypress",
     "cypress:run": "cypress run -s test/integration/**/${test_name}.spec.js",
