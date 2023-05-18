@@ -21,6 +21,7 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": false,
     "target": "ESNext",
+    "types": ["vitest/globals"],
     "paths": {
       "~constants/*": ["src/constants/*"],
       "~services/*": ["src/services/*"],
@@ -29,7 +30,8 @@
       "~uikit": ["src/components/uikit/index.ts"],
       "~components/*": ["src/components/*"],
       "~utils/*": ["src/utils/*"],
-      "~types/*": ["src/types/*"]
+      "~types/*": ["src/types/*"],
+      "~test/*": ["src/test/*"]
     }
   },
   "include": ["shared", "src"],

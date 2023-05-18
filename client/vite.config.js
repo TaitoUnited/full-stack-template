@@ -86,4 +86,10 @@ export default defineConfig(({ mode }) => ({
       clientPort: PUBLIC_PORT,
     },
   },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/test/setup.tsx',
+    css: false,
+  },
 }));

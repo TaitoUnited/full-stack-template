@@ -4,7 +4,8 @@
     "install:clean": "rm -rf node_modules && npm install",
     "pretty-quick": "pretty-quick",
     "lint": "tsc --noEmit && eslint './src/**/*.{ts,tsx}' --ignore-path .eslintignore --quiet",
-    "unit": "BABEL_ENV=test jest src/ --passWithNoTests -t",
+    "unit": "vitest ./src/**/*.test.{ts,tsx}",
+    "unit:coverage": "vitest run ./src/**/*.test.{ts,tsx} --coverage",
     "test": "echo TODO run tests but not cypress",
     "cypress:run": "cypress run -s test/integration/**/${test_name}.spec.js",
     "cypress:open": "cypress open",
@@ -63,7 +64,6 @@
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "14.0.0",
     "@testing-library/user-event": "14.4.3",
-    "@types/jest": "29.5.1",
     "@types/loadable__component": "5.13.4",
     "@types/lodash": "4.14.194",
     "@types/node": "18.16.2",
@@ -75,6 +75,7 @@
     "@typescript-eslint/parser": "5.59.1",
     "@vitejs/plugin-react": "4.0.0",
     "@vitejs/plugin-react-swc": "3.3.0",
+    "@vitest/coverage-c8": "0.31.1",
     "core-js": "3.30.1",
     "cypress": "9.3.1",
     "eslint": "8.39.0",
@@ -87,7 +88,7 @@
     "eslint-plugin-promise": "6.1.1",
     "eslint-plugin-react": "7.32.2",
     "eslint-plugin-react-hooks": "4.6.0",
-    "jest": "29.5.0",
+    "jsdom": "22.0.0",
     "pg-promise": "10.11.1",
     "prettier": "2.8.8",
     "rollup-plugin-minify-html-literals": "1.2.6",
@@ -97,7 +98,8 @@
     "typescript": "5.0.4",
     "vite": "4.3.3",
     "vite-plugin-favicon2": "1.1.5",
-    "vite-tsconfig-paths": "4.2.0"
+    "vite-tsconfig-paths": "4.2.0",
+    "vitest": "0.31.1"
   },
   "lingui": {
     "locales": [
@@ -114,34 +116,6 @@
     ],
     "format": "po",
     "compileNamespace": "ts"
-  },
-  "jest": {
-    "roots": [
-      "<rootDir>/src"
-    ],
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest",
-      "^.+\\.tsx?$": "babel-jest"
-    },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json"
-    ],
-    "moduleNameMapper": {
-      "\\.(css|less)$": "<rootDir>/__mocks__/fileMock.js",
-      "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
-      "^~constants(.*)$": "<rootDir>/src/constants$1",
-      "^~services(.*)$": "<rootDir>/src/services$1",
-      "^~shared(.*)$": "<rootDir>/shared$1",
-      "^~graphql(.*)$": "<rootDir>/src/graphql$1",
-      "^~uikit(.*)$": "<rootDir>/src/components/uikit$1",
-      "^~components(.*)$": "<rootDir>/src/components$1",
-      "^~utils(.*)$": "<rootDir>/src/utils$1"
-    }
   },
   "prettier": {
     "bracketSpacing": true,
