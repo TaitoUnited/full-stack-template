@@ -77,33 +77,33 @@ jobs:
       # Configure bastion host
       - name: Set bastion host ssh if BRANCH_BASTION_SSH_* or BASTION_SSH_* are configured
         env:
-          BASTION_SSH_RSA: ${{ secrets['BASTION_SSH_RSA'] }}
-          BASTION_SSH_RSA_PUB: ${{ secrets['BASTION_SSH_RSA_PUB'] }}
+          BASTION_SSH_KEY: ${{ secrets['BASTION_SSH_KEY'] }}
+          BASTION_SSH_KEY_PUB: ${{ secrets['BASTION_SSH_KEY_PUB'] }}
           BASTION_SSH_CONFIG: ${{ secrets['BASTION_SSH_CONFIG'] }}
           BASTION_SSH_KNOWN_HOSTS: ${{ secrets['BASTION_SSH_KNOWN_HOSTS'] }}
-          BRANCH_BASTION_SSH_RSA: ${{ secrets[format('{0}_BASTION_SSH_RSA', env.BRANCH)] }}
-          BRANCH_BASTION_SSH_RSA_PUB: ${{ secrets[format('{0}_BASTION_SSH_RSA_PUB', env.BRANCH)] }}
+          BRANCH_BASTION_SSH_KEY: ${{ secrets[format('{0}_BASTION_SSH_KEY', env.BRANCH)] }}
+          BRANCH_BASTION_SSH_KEY_PUB: ${{ secrets[format('{0}_BASTION_SSH_KEY_PUB', env.BRANCH)] }}
           BRANCH_BASTION_SSH_CONFIG: ${{ secrets[format('{0}_BASTION_SSH_CONFIG', env.BRANCH)] }}
           BRANCH_BASTION_SSH_KNOWN_HOSTS: ${{ secrets[format('{0}_BASTION_SSH_KNOWN_HOSTS', env.BRANCH)] }}
         run: |
           mkdir -p /etc/ssh
           mkdir -p /root/.ssh
-          if [ ! -z "${BRANCH_BASTION_SSH_RSA_PUB}" ]; then
-            echo "Using BRANCH_BASTION_SSH_RSA"
-            echo "$BRANCH_BASTION_SSH_RSA" > /etc/ssh/bastion_rsa
-            echo "$BRANCH_BASTION_SSH_RSA_PUB" > /etc/ssh/bastion_rsa.pub
+          if [ ! -z "${BRANCH_BASTION_SSH_KEY_PUB}" ]; then
+            echo "Using BRANCH_BASTION_SSH_KEY"
+            echo "$BRANCH_BASTION_SSH_KEY" > /etc/ssh/bastion_key
+            echo "$BRANCH_BASTION_SSH_KEY_PUB" > /etc/ssh/bastion_key.pub
             echo "$BRANCH_BASTION_SSH_CONFIG" >> /etc/ssh/ssh_config
             echo "$BRANCH_BASTION_SSH_KNOWN_HOSTS" >> /etc/ssh/known_hosts
             echo "$BRANCH_BASTION_SSH_KNOWN_HOSTS" >> /root/.ssh/known_hosts
-            chmod 700 /etc/ssh/bastion_rsa
-          elif [ ! -z "${BASTION_SSH_RSA_PUB}" ]; then
-            echo "Using BASTION_SSH_RSA"
-            echo "$BASTION_SSH_RSA" > /etc/ssh/bastion_rsa
-            echo "$BASTION_SSH_RSA_PUB" > /etc/ssh/bastion_rsa.pub
+            chmod 700 /etc/ssh/bastion_key
+          elif [ ! -z "${BASTION_SSH_KEY_PUB}" ]; then
+            echo "Using BASTION_SSH_KEY"
+            echo "$BASTION_SSH_KEY" > /etc/ssh/bastion_key
+            echo "$BASTION_SSH_KEY_PUB" > /etc/ssh/bastion_key.pub
             echo "$BASTION_SSH_CONFIG" >> /etc/ssh/ssh_config
             echo "$BASTION_SSH_KNOWN_HOSTS" >> /etc/ssh/known_hosts
             echo "$BASTION_SSH_KNOWN_HOSTS" >> /root/.ssh/known_hosts
-            chmod 700 /etc/ssh/bastion_rsa
+            chmod 700 /etc/ssh/bastion_key
           fi
 
       # Start VPN
