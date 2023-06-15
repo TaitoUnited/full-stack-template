@@ -24,7 +24,7 @@ ssh ${ssh_opts} "${taito_host}" "
 
     echo [Stop docker-compose]
     if cd ${taito_host_dir} &> /dev/null; then
-      docker-compose stop
+      docker compose stop
     else
       echo "Directory ${taito_host_dir} has already been deleted."
     fi

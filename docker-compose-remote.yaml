@@ -73,10 +73,6 @@ services:
       - default
     ports:
       - "8080"
-    secrets:
-      # NOTE: Database connection is for tests only
-      - DATABASE_PASSWORD
-      - EXAMPLE_SECRET
     environment:
       # Paths
       REPLACE_BASE_PATH: ''

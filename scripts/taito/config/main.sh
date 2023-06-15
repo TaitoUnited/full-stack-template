@@ -286,7 +286,7 @@ case $taito_env in
     binauthz_public_key_id=${default_binauthz_public_key_id_prod}
 
     # Databases
-    ssh_db_proxy_host="${default_bastion_public_ip_prod}"
+    ssh_db_proxy_host="${default_bastion_public_ip_prod:-$taito_host}"
     if [[ $db_database_type == "pg" ]]; then
       db_database_real_host="${default_postgres_host_prod}"
       db_database_real_port="${default_postgres_port_prod}"
@@ -409,7 +409,7 @@ case $taito_env in
     binauthz_public_key_id=${default_binauthz_public_key_id_prod}
 
     # Databases
-    ssh_db_proxy_host="${default_bastion_public_ip_prod}"
+    ssh_db_proxy_host="${default_bastion_public_ip_prod:-$taito_host}"
     if [[ $db_database_type == "pg" ]]; then
       db_database_real_host="${default_postgres_host_prod}"
       db_database_real_port="${default_postgres_port_prod}"

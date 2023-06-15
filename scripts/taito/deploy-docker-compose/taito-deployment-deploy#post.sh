@@ -41,7 +41,9 @@ echo "[Copy files in ${deploy_temp_dir}]"
   mkdir -p "${deploy_temp_dir}"
   echo docker-compose-remote.yaml
   cp docker-compose-remote.yaml "${deploy_temp_dir}"
-  cp docker-crontab "${deploy_temp_dir}" 2> /dev/null
+  if [[ -f docker-crontab ]]; then
+    cp docker-crontab "${deploy_temp_dir}" 2> /dev/null
+  fi
   if [[ -f docker-nginx-remote.conf ]]; then
     echo docker-nginx-remote.conf
     cp docker-nginx-remote.conf "${deploy_temp_dir}/docker-nginx.conf"
@@ -70,7 +72,9 @@ echo "[Substitute environment variables in ${deploy_temp_dir}]"
   ${taito_setv:-}
   cd "${deploy_temp_dir}"
   envsubst_file docker-compose-remote.yaml
-  envsubst_file docker-crontab
+  if [[ -f docker-crontab ]]; then
+    envsubst_file docker-crontab
+  fi
 )
 echo
 
@@ -138,19 +142,19 @@ ssh ${ssh_opts} "${taito_host}" "
     echo
 
     echo [Pull container images using the new configuration]
-    docker-compose -f docker-compose-remote.yaml pull || :
+    docker compose -f docker-compose-remote.yaml pull || :
     echo
 
     if [[ -f docker-compose.yaml ]]; then
-      echo [Stop docker-compose using the old configuration]
-      docker-compose stop || :
+      echo [Stop docker compose using the old configuration]
+      docker compose stop || :
       mv -f docker-compose.yaml docker-compose-previous.yaml
       echo
     fi
 
-    echo [Start docker-compose using the new configuration]
+    echo [Start docker compose using the new configuration]
     mv -f docker-compose-remote.yaml docker-compose.yaml
-    docker-compose up -d
+    docker compose up -d
     echo
 
     echo [Update docker-crontab if it has changed]
