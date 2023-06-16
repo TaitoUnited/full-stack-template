@@ -24,7 +24,7 @@ echo
 
 echo "[Execute on ${taito_host}]"
 ssh ${ssh_opts} "${taito_host}" "
-  bash -c '
+  sudo bash -c '
     set -e
     ${taito_setv:-}
     echo [Extract /tmp/${taito_namespace}-secrets.tar]
