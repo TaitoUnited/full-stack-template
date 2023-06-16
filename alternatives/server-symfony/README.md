@@ -124,5 +124,5 @@ On root package.json:
 ```
     "taito-host-init": "taito -z ${taito_options} init:${taito_env} && npm run taito-host-db-deploy && npm-run-all import-db-data generate",
     "taito-host-init:clean": "taito -z ${taito_options} init:${taito_env} --clean && npm run taito-host-db-deploy && npm-run-all import-db-data clean:storage generate",
-    "taito-host-db-deploy": "if [ ${taito_env} = 'local' ]; then docker exec ${taito_project}-server bin/console doctrine:migrations:migrate --no-interaction; else docker-compose -f docker-compose-cicd.yaml run --rm ${taito_project}-server-cicd sh -c 'echo Sleeping... && sleep 30 && echo Done sleeping && bin/console doctrine:migrations:migrate --no-interaction'; fi",
+    "taito-host-db-deploy": "if [ ${taito_env} = 'local' ]; then docker exec ${taito_project}-server bin/console doctrine:migrations:migrate --no-interaction; else docker compose -f docker-compose-cicd.yaml run --rm ${taito_project}-server-cicd sh -c 'echo Sleeping... && sleep 30 && echo Done sleeping && bin/console doctrine:migrations:migrate --no-interaction'; fi",
 ```

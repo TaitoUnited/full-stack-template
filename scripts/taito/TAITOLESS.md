@@ -37,7 +37,7 @@ Setup secrets required by `docker-compose.yaml`:
 
 Start containers defined in `docker-compose.yaml`:
 
-    docker-compose up
+    docker compose up
 
 Deploy database migrations with Sqitch:
 
