@@ -34,7 +34,7 @@
       "~test/*": ["src/test/*"]
     }
   },
-  "include": ["shared", "src"],
+  "include": ["shared", "src", "plugins"],
   "exclude": [
     "node_modules",
     "assets",
