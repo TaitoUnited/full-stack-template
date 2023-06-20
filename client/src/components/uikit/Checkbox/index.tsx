@@ -1,76 +1,90 @@
-import React from 'react';
-import styled, { css } from 'styled-components';
+import React, { forwardRef } from 'react';
+import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { useToggleState } from 'react-stately';
-import { useCheckbox, useFocusRing } from 'react-aria';
-import { HiCheck } from 'react-icons/hi';
+import { Checkbox as AriaCheckbox } from 'react-aria-components';
+import { HiCheck, HiMinusSm } from 'react-icons/hi';
 
 import Icon from '../Icon';
 
-type CheckboxProps = NonNullable<Parameters<typeof useCheckbox>[0]>;
+type CommonProps = React.ComponentProps<typeof AriaCheckbox>;
 
-type Props = {
-  label?: string;
-  labelledby?: string;
-  isChecked: boolean;
-  onChange: NonNullable<CheckboxProps['onChange']>;
+type PropsWithLabel = CommonProps & {
+  /** Text string to be displayed next to the checkbox */
+  label: React.ReactNode;
+  labelledby?: undefined;
 };
 
-export default function Checkbox({
-  label,
-  labelledby,
-  isChecked,
-  onChange,
-}: Props) {
-  const state = useToggleState({ isSelected: isChecked, onChange });
-  const ref = React.useRef<HTMLInputElement>(null);
+type PropsWithLabelledBy = CommonProps & {
+  /** ID of an element that contains text naming this checkbox */
+  labelledby: string;
+  label?: undefined;
+};
 
-  const { inputProps } = useCheckbox(
-    {
-      'aria-label': label,
-      'aria-labelledby': labelledby,
-      isSelected: isChecked,
-      onChange,
-    },
-    state,
-    ref
-  );
+type Props = PropsWithLabel | PropsWithLabelledBy;
 
-  const { isFocusVisible, focusProps } = useFocusRing();
+/**
+ * For accessibility reasons, you need to provide either `label` or `labelledby` as a prop
+ *
+ * Ref: https://react-spectrum.adobe.com/react-aria/Checkbox.html
+ */
+const Checkbox = forwardRef<HTMLInputElement, Props>(
+  ({ label, labelledby, ...rest }, ref) => (
+    <AriaCheckboxWrapper aria-labelledby={labelledby} {...rest} ref={ref}>
+      {({ isSelected, isIndeterminate }) => (
+        <>
+          <div className="checkbox">
+            {(isSelected || isIndeterminate) && (
+              <IconWrapper
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                aria-hidden
+              >
+                {isIndeterminate ? (
+                  <Icon icon={HiMinusSm} size={14} color="currentColor" />
+                ) : (
+                  <Icon icon={HiCheck} size={14} color="currentColor" />
+                )}
+              </IconWrapper>
+            )}
+          </div>
 
-  return (
-    <Wrapper isChecked={isChecked} isFocused={isFocusVisible}>
-      <CheckboxBase {...inputProps} {...focusProps} ref={ref} />
-
-      {isChecked && (
-        <IconWrapper
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          aria-hidden
-        >
-          <Icon icon={HiCheck} size={14} color="currentColor" />
-        </IconWrapper>
+          {label}
+        </>
       )}
-    </Wrapper>
-  );
-}
+    </AriaCheckboxWrapper>
+  )
+);
 
-const Wrapper = styled.div<{ isChecked: boolean; isFocused: boolean }>`
-  position: relative;
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-  background-color: ${p => (p.isChecked ? p.theme.colors.primary : 'white')};
-  color: ${p => p.theme.colors.onPrimary};
-  border-radius: ${p => p.theme.radii.small}px;
-  border: 1px solid ${p => p.theme.colors[p.isChecked ? 'primary' : 'muted3']};
+const AriaCheckboxWrapper = styled(AriaCheckbox)`
+  display: flex;
+  align-items: center;
+  gap: ${p => p.theme.spacing.small}px;
 
-  ${p =>
-    p.isFocused &&
-    css`
-      outline: 2px solid ${p.theme.colors.primary};
-      outline-offset: 1px;
-    `}
+  & .checkbox {
+    position: relative;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    background-color: 'white';
+    color: ${p => p.theme.colors.onPrimary};
+    border-radius: ${p => p.theme.radii.small}px;
+    border: 1px solid ${p => p.theme.colors.muted3};
+  }
+
+  &[data-selected] > .checkbox,
+  &[data-indeterminate] > .checkbox {
+    background-color: ${p => p.theme.colors.primary};
+    border-color: ${p => p.theme.colors.primary};
+  }
+
+  &[data-disabled] > .checkbox {
+    background-color: ${p => p.theme.colors.muted5};
+  }
+
+  &[data-focus-visible] > .checkbox {
+    outline: 2px solid ${p => p.theme.colors.primary};
+    outline-offset: 1px;
+  }
 `;
 
 const IconWrapper = styled(motion.div)`
@@ -85,10 +99,5 @@ const IconWrapper = styled(motion.div)`
   pointer-events: none;
 `;
 
-const CheckboxBase = styled.input`
-  display: block;
-  opacity: 0;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-`;
+Checkbox.displayName = 'Checkbox';
+export default Checkbox;
