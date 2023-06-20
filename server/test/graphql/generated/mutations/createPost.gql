@@ -1,4 +1,4 @@
-mutation createPost($input: CreatePostInput!, $attachmentOrder: Order) {
+mutation createPost($input: CreatePostInput!, $attachmentOrder: Order!) {
     createPost(input: $input){
         attachments(attachmentOrder: $attachmentOrder){
             total

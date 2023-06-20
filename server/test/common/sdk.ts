@@ -92,7 +92,7 @@ export type Filter = {
   operator: FilterOperator;
   value?: InputMaybe<Scalars['String']>;
   /** Determines how the value is treated */
-  valueType?: InputMaybe<ValueType>;
+  valueType?: ValueType;
 };
 
 export type FilterGroup = {
@@ -132,8 +132,10 @@ export type Mutation = {
   /** Creates a new post. */
   createPost: Post;
   /**
-   * Creates a new attachment for post.
-   * Returns URL and HTTP headers that should be used to upload the file using HTTP PUT.
+   *
+   *       Creates a new attachment for post.
+   *       Returns URL and HTTP headers that should be used to upload the file using HTTP PUT.
+   *
    */
   createPostAttachment: AttachmentUploadRequestDetails;
   /** Deletes a post. */
@@ -185,10 +187,10 @@ export type MutationUpdatePostAttachmentArgs = {
 
 export type Order = {
   /** Determines whether to sort ascending or descending. */
-  dir?: InputMaybe<OrderDirection>;
+  dir?: OrderDirection;
   field: Scalars['String'];
   /** Determines whether NULL values are ordered first or last. */
-  invertNullOrder?: InputMaybe<Scalars['Boolean']>;
+  invertNullOrder?: Scalars['Boolean'];
 };
 
 export enum OrderDirection {
@@ -226,7 +228,7 @@ export type Post = {
 
 
 export type PostAttachmentsArgs = {
-  attachmentOrder?: InputMaybe<Order>;
+  attachmentOrder?: Order;
 };
 
 export type PostFilter = {
@@ -259,10 +261,10 @@ export type QueryPostAttachmentArgs = {
 
 
 export type QueryPostsArgs = {
-  filterGroups?: InputMaybe<Array<FilterGroup>>;
-  order?: InputMaybe<Order>;
-  pagination?: InputMaybe<Pagination>;
-  search?: InputMaybe<Scalars['String']>;
+  filterGroups?: Array<FilterGroup>;
+  order?: Order;
+  pagination?: Pagination;
+  search: Scalars['String'];
 };
 
 export type ReadPostAttachmentInput = {
@@ -308,7 +310,7 @@ export enum ValueType {
 
 export type CreatePostMutationVariables = Exact<{
   input: CreatePostInput;
-  attachmentOrder?: InputMaybe<Order>;
+  attachmentOrder: Order;
 }>;
 
 
@@ -323,7 +325,7 @@ export type CreatePostAttachmentMutation = { __typename?: 'Mutation', createPost
 
 export type DeletePostMutationVariables = Exact<{
   input: DeletePostInput;
-  attachmentOrder?: InputMaybe<Order>;
+  attachmentOrder: Order;
 }>;
 
 
@@ -345,7 +347,7 @@ export type FinalizePostAttachmentMutation = { __typename?: 'Mutation', finalize
 
 export type UpdatePostMutationVariables = Exact<{
   input: UpdatePostInput;
-  attachmentOrder?: InputMaybe<Order>;
+  attachmentOrder: Order;
 }>;
 
 
@@ -365,7 +367,7 @@ export type AllowedPostAttachmentMimeTypesQuery = { __typename?: 'Query', allowe
 
 export type PostQueryVariables = Exact<{
   id: Scalars['String'];
-  attachmentOrder?: InputMaybe<Order>;
+  attachmentOrder: Order;
 }>;
 
 
@@ -379,11 +381,11 @@ export type PostAttachmentQueryVariables = Exact<{
 export type PostAttachmentQuery = { __typename?: 'Query', postAttachment: { __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null, fileUrl?: string | null, filename?: string | null, id: string, title?: string | null, updatedAt: any } };
 
 export type PostsQueryVariables = Exact<{
-  filterGroups?: InputMaybe<Array<FilterGroup> | FilterGroup>;
-  order?: InputMaybe<Order>;
-  pagination?: InputMaybe<Pagination>;
-  search?: InputMaybe<Scalars['String']>;
-  attachmentOrder?: InputMaybe<Order>;
+  filterGroups: Array<FilterGroup> | FilterGroup;
+  order: Order;
+  pagination: Pagination;
+  search: Scalars['String'];
+  attachmentOrder: Order;
 }>;
 
 
@@ -391,7 +393,7 @@ export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'Paginate
 
 
 export const CreatePostDocument = gql`
-    mutation createPost($input: CreatePostInput!, $attachmentOrder: Order) {
+    mutation createPost($input: CreatePostInput!, $attachmentOrder: Order!) {
   createPost(input: $input) {
     attachments(attachmentOrder: $attachmentOrder) {
       total
@@ -418,7 +420,7 @@ export const CreatePostAttachmentDocument = gql`
 }
     `;
 export const DeletePostDocument = gql`
-    mutation deletePost($input: DeletePostInput!, $attachmentOrder: Order) {
+    mutation deletePost($input: DeletePostInput!, $attachmentOrder: Order!) {
   deletePost(input: $input) {
     attachments(attachmentOrder: $attachmentOrder) {
       total
@@ -461,7 +463,7 @@ export const FinalizePostAttachmentDocument = gql`
 }
     `;
 export const UpdatePostDocument = gql`
-    mutation updatePost($input: UpdatePostInput!, $attachmentOrder: Order) {
+    mutation updatePost($input: UpdatePostInput!, $attachmentOrder: Order!) {
   updatePost(input: $input) {
     attachments(attachmentOrder: $attachmentOrder) {
       total
@@ -495,7 +497,7 @@ export const AllowedPostAttachmentMimeTypesDocument = gql`
 }
     `;
 export const PostDocument = gql`
-    query post($id: String!, $attachmentOrder: Order) {
+    query post($id: String!, $attachmentOrder: Order!) {
   post(id: $id) {
     attachments(attachmentOrder: $attachmentOrder) {
       data {
@@ -534,7 +536,7 @@ export const PostAttachmentDocument = gql`
 }
     `;
 export const PostsDocument = gql`
-    query posts($filterGroups: [FilterGroup!], $order: Order, $pagination: Pagination, $search: String, $attachmentOrder: Order) {
+    query posts($filterGroups: [FilterGroup!]!, $order: Order!, $pagination: Pagination!, $search: String!, $attachmentOrder: Order!) {
   posts(
     filterGroups: $filterGroups
     order: $order
@@ -604,7 +606,7 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     postAttachment(variables: PostAttachmentQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PostAttachmentQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<PostAttachmentQuery>(PostAttachmentDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'postAttachment');
     },
-    posts(variables?: PostsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PostsQuery> {
+    posts(variables: PostsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<PostsQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<PostsQuery>(PostsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'posts');
     }
   };
