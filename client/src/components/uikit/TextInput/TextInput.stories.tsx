@@ -1,5 +1,4 @@
-import { useState, ComponentProps } from 'react';
-import { FaAddressBook, FaUser, FaMailBulk } from 'react-icons/fa';
+import { FaMailBulk } from 'react-icons/fa';
 
 import Stack from '../Stack';
 import TextInput from './index';
@@ -12,37 +11,24 @@ export default {
 export function Example() {
   return (
     <Stack axis="y" spacing="large" style={{ maxWidth: 400 }}>
-      <TextInputExample label="Default input" />
-      <TextInputExample label="Input with an icon" icon={FaAddressBook} />
+      <TextInput label="Test input" />
 
-      <TextInputExample label="Required input" icon={FaUser} isRequired />
+      <TextInput label="Disabled input" isDisabled />
 
-      <TextInputExample
-        label="Input with info message"
-        message="This is an info message"
+      <TextInput label="Placeholder input" placeholder="Tell me why" />
+
+      <TextInput label="Required input" isRequired />
+
+      <TextInput
+        label="Input with description"
+        description="You should fill this one"
       />
 
-      <TextInputExample
-        label="Input with placeholder and validation"
-        placeholder="john@doe.com"
-        icon={FaMailBulk}
-        isValid={false}
-        message="Incorrect email address"
-      />
+      <TextInput label="Erroring input" errorMessage="Please don't do this" />
+
+      <TextInput label="Icon input" icon={FaMailBulk} />
+
+      <TextInput label="Password input" type="password" />
     </Stack>
-  );
-}
-
-function TextInputExample(
-  props: Omit<ComponentProps<typeof TextInput>, 'value' | 'onChange'>
-) {
-  const [value, setValue] = useState('');
-
-  return (
-    <TextInput
-      {...props}
-      value={value}
-      onChange={(e: any) => setValue(e.currentTarget.value)}
-    />
   );
 }
