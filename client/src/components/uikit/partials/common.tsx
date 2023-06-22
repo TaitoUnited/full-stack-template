@@ -73,9 +73,13 @@ export const InputIconRight = styled(Icon)`
   pointer-events: none;
 `;
 
-export const DescriptionText = styled(Text).attrs({ slot: 'description' })`
+const DescriptionTextWrapper = styled(Text).attrs({ slot: 'description' })`
   ${p => p.theme.typography.bodySmall};
 `;
+
+export const DescriptionText = (
+  props: Omit<ComponentProps<typeof Text>, 'slot'>
+) => <DescriptionTextWrapper {...props} slot="description" />;
 
 const ErrorTextWrapper = styled(Text)`
   ${p => p.theme.typography.bodySmall};
