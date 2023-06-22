@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, ComponentProps } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Checkbox as AriaCheckbox } from 'react-aria-components';
@@ -6,7 +6,7 @@ import { HiCheck, HiMinusSm } from 'react-icons/hi';
 
 import Icon from '../Icon';
 
-type CommonProps = React.ComponentProps<typeof AriaCheckbox>;
+type CommonProps = ComponentProps<typeof AriaCheckbox>;
 
 type PropsWithLabel = CommonProps & {
   /** Text string to be displayed next to the checkbox */

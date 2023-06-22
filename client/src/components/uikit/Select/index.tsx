@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, ComponentProps } from 'react';
 import styled from 'styled-components';
 import {
   Button,
@@ -26,7 +26,7 @@ type Option = {
   label: string;
 };
 
-type Props = React.ComponentProps<typeof AriaSelect<Option>> & {
+type Props = ComponentProps<typeof AriaSelect<Option>> & {
   label: string;
   description?: string;
   /** Passing an `errorMessage` as prop toggles the input as invalid. */

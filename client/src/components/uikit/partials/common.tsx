@@ -1,3 +1,4 @@
+import { ComponentProps } from 'react';
 import { Label as AriaLabel, Text } from 'react-aria-components';
 import styled, { css } from 'styled-components';
 import { HiExclamation } from 'react-icons/hi';
@@ -90,7 +91,7 @@ const ErrorTextWrapper = styled(Text)`
 export const ErrorText = ({
   children,
   ...rest
-}: Omit<React.ComponentProps<typeof Text>, 'slot'>) => (
+}: Omit<ComponentProps<typeof Text>, 'slot'>) => (
   <ErrorTextWrapper {...rest} slot="errorMessage">
     <Icon icon={HiExclamation} size={14} color="error" />
     {children}

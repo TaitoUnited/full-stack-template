@@ -1,4 +1,4 @@
-import { useState, forwardRef } from 'react';
+import { useState, forwardRef, ComponentProps } from 'react';
 import styled from 'styled-components';
 import {
   TextField,
@@ -19,7 +19,7 @@ import {
   ErrorText,
 } from '~components/uikit/partials/common';
 
-type Props = React.ComponentProps<typeof TextField> & {
+type Props = ComponentProps<typeof TextField> & {
   label: string;
   icon?: IconType;
   description?: string;
