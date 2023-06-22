@@ -1,5 +1,6 @@
 import { forwardRef, useRef } from 'react';
-import { useButton, useFocusRing } from 'react-aria';
+import { mergeProps, useButton, useFocusRing } from 'react-aria';
+import { Link } from 'react-router-dom';
 import mergeRefs from 'react-merge-refs';
 import styled from 'styled-components';
 
@@ -9,6 +10,7 @@ import Spinner from '../Spinner';
 import type { ButtonProps, ButtonSize, ButtonVariant } from './types';
 import type { Theme, Typography } from '~constants/theme';
 import { hoverHighlight } from '~utils/styled';
+import { useLinkProps } from '~components/navigation/Link';
 
 type Props = ButtonProps & {
   // NOTE: we need to get the custom styles via a prop instead of extending since that will break stuff
@@ -18,7 +20,7 @@ type Props = ButtonProps & {
 const ButtonContent = forwardRef<HTMLButtonElement, Props>(
   (
     {
-      as: asTag,
+      asLink,
       children,
       customStyles,
       disabled = false,
@@ -43,7 +45,7 @@ const ButtonContent = forwardRef<HTMLButtonElement, Props>(
         id,
         type,
         children,
-        elementType: asTag,
+        elementType: asLink ? 'a' : 'button',
         isDisabled: disabled || loading,
         onPress: onClick,
       },
@@ -68,9 +70,10 @@ const ButtonContent = forwardRef<HTMLButtonElement, Props>(
         {...rest}
         {...buttonProps}
         {...focusProps}
-        testId={testId}
-        as={asTag}
         ref={mergeRefs([localRef, ref])}
+        as={asLink ? ButtonLink : undefined}
+        linkProps={asLink}
+        data-test-id={testId}
         $size={size}
         $variant={variant}
         $customStyles={customStyles}
@@ -87,6 +90,12 @@ const ButtonContent = forwardRef<HTMLButtonElement, Props>(
     );
   }
 );
+
+// TODO: how do we type the props here?
+function ButtonLink({ linkProps, ...rest }: any) {
+  const extraProps = useLinkProps(linkProps);
+  return <Link to={linkProps.to} {...mergeProps(extraProps, rest)} />;
+}
 
 const buttonSizeToIconSize: { [size in ButtonSize]: number } = {
   small: 12,
@@ -121,12 +130,9 @@ type WrapperProps = {
   $isPressed: boolean;
   $size: ButtonSize;
   $variant: ButtonVariant;
-  testId?: string;
 };
 
-const Wrapper = styled.button.attrs<WrapperProps>(({ testId }) => ({
-  'data-test-id': testId,
-}))<WrapperProps>`
+const Wrapper = styled.button<WrapperProps>`
   position: relative;
   display: inline-flex;
   flex-direction: row;
@@ -140,25 +146,12 @@ const Wrapper = styled.button.attrs<WrapperProps>(({ testId }) => ({
   padding-right: ${p => p.theme.spacing[horizontalPadding[p.$size]]}px;
   cursor: ${p => (p.disabled ? 'not-allowed' : 'pointer')};
   text-decoration: none;
+  outline-offset: 2px;
+  outline: ${p =>
+    p.$isFocusVisible ? `2px solid ${p.theme.colors[p.$variant]}` : 'none'};
 
   &:active {
     opacity: ${p => (p.disabled && !p.$isLoading ? 0.5 : 0.8)};
-  }
-
-  /* Focus ring */
-  &:before {
-    content: '';
-    pointer-events: none;
-    opacity: ${p => (p.$isFocusVisible ? 1 : 0)};
-    position: absolute;
-    top: -4px;
-    right: -4px;
-    bottom: -4px;
-    left: -4px;
-    background: transparent;
-    transition: opacity 50ms ease-in;
-    border-radius: ${p => p.theme.radii.normal + 2}px;
-    border: 2px solid ${p => p.theme.colors[p.$variant]};
   }
 
   ${hoverHighlight}
