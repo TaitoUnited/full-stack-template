@@ -47,7 +47,7 @@ export const baseInputStyles = css`
  * Add a `data-required` attribute to render an `*` after the label
  */
 export const Label = styled(AriaLabel)`
-  color: ${p => p.theme.colors.primaryText};
+  color: ${p => p.theme.colors.text};
   ${p => p.theme.typography.body}
 
   &[data-required="true"]:after {
