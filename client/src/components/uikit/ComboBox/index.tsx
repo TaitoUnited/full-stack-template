@@ -7,7 +7,7 @@ import {
   Item,
   Input as AriaInput,
 } from 'react-aria-components';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaChevronDown } from 'react-icons/fa';
 import type { IconType } from 'react-icons';
 
 import {

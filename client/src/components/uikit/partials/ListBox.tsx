@@ -1,5 +1,5 @@
 import { ListBox as AriaListBox } from 'react-aria-components';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const ListBox = styled(AriaListBox)`
   width: var(--trigger-width); /* magical var from react-aria */
