@@ -2,9 +2,7 @@ import { useState, forwardRef } from 'react';
 import styled from 'styled-components';
 import {
   TextField,
-  Label as AriaLabel,
   Input as AriaInput,
-  Text as AriaText,
   ToggleButton,
 } from 'react-aria-components';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
@@ -12,7 +10,14 @@ import type { IconType } from 'react-icons';
 
 import Icon from '../Icon';
 import { focusRing } from '~utils/styled';
-import { HiExclamation } from 'react-icons/hi';
+import {
+  inputWrapperStyles,
+  InputIconLeft,
+  Label,
+  baseInputStyles,
+  DescriptionText,
+  ErrorText,
+} from '~components/uikit/partials/common';
 
 type Props = React.ComponentProps<typeof TextField> & {
   label: string;
@@ -32,21 +37,20 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
     const isPassword = rest.type === 'password';
 
     return (
-      <Wrapper
-        {...rest}
-        validationState={errorMessage ? 'invalid' : 'valid'}
-        data-password={isPassword || undefined}
-        type={isPassword ? (passwordVisible ? 'text' : 'password') : rest.type}
-      >
-        <Label>
-          {label}
-          {rest.isRequired && <span aria-hidden="true"> *</span>}
-        </Label>
+      <Wrapper {...rest} validationState={errorMessage ? 'invalid' : 'valid'}>
+        <Label data-required={rest.isRequired}>{label}</Label>
 
         <InputWrapper>
-          {icon && <InputIcon icon={icon} size={20} color="muted1" />}
+          {icon && <InputIconLeft icon={icon} size={20} color="muted1" />}
 
-          <Input ref={ref} placeholder={placeholder} />
+          <Input
+            ref={ref}
+            placeholder={placeholder}
+            data-password={isPassword || undefined}
+            type={
+              isPassword ? (passwordVisible ? 'text' : 'password') : rest.type
+            }
+          />
 
           {isPassword && (
             <PasswordToggleButton
@@ -63,29 +67,15 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
           )}
         </InputWrapper>
 
-        {description && (
-          <DescriptionText slot="description">{description}</DescriptionText>
-        )}
-        {errorMessage && (
-          <ErrorText slot="errorMessage">
-            <Icon icon={HiExclamation} size={14} color="error" />
-            {errorMessage}
-          </ErrorText>
-        )}
+        {description && <DescriptionText>{description}</DescriptionText>}
+        {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
       </Wrapper>
     );
   }
 );
 
 const Wrapper = styled(TextField)`
-  display: flex;
-  flex-direction: column;
-  gap: ${p => p.theme.spacing.xxsmall}px;
-`;
-
-const Label = styled(AriaLabel)`
-  color: ${p => p.theme.colors.primaryText};
-  ${p => p.theme.typography.body}
+  ${inputWrapperStyles}
 `;
 
 const InputWrapper = styled.div`
@@ -98,14 +88,6 @@ const InputWrapper = styled.div`
   & > input[data-password] {
     padding-right: ${p => p.theme.spacing.xlarge}px;
   }
-`;
-
-const InputIcon = styled(Icon)`
-  position: absolute;
-  margin-left: ${p => p.theme.spacing.normal}px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
 `;
 
 const PasswordToggleButton = styled(ToggleButton)`
@@ -125,49 +107,7 @@ const PasswordToggleButton = styled(ToggleButton)`
 `;
 
 const Input = styled(AriaInput)`
-  padding: ${p => p.theme.spacing.small}px;
-
-  width: 100%;
-
-  ${p => p.theme.typography.body};
-  color: ${p => p.theme.colors.text};
-
-  border-radius: ${p => p.theme.radii.normal}px;
-  border: 1px solid ${p => p.theme.colors.border};
-
-  --outline-width: 1px;
-  outline-offset: calc(0px - var(--outline-width));
-
-  &:focus {
-    border-color: transparent;
-    outline: var(--outline-width) solid ${p => p.theme.colors.primary};
-
-    --outline-width: 3px;
-  }
-
-  &[aria-invalid] {
-    border-color: transparent;
-    outline: var(--outline-width) solid ${p => p.theme.colors.error};
-  }
-
-  &[disabled] {
-    background-color: ${p => p.theme.colors.muted5};
-  }
-`;
-
-const DescriptionText = styled(AriaText)`
-  ${p => p.theme.typography.bodySmall};
-`;
-
-const ErrorText = styled(AriaText)`
-  ${p => p.theme.typography.bodySmall};
-  color: ${p => p.theme.colors.errorText};
-  display: flex;
-  align-items: center;
-
-  & > svg {
-    margin-right: ${p => p.theme.spacing.xxsmall}px;
-  }
+  ${baseInputStyles}
 `;
 
 TextInput.displayName = 'TextInput';
