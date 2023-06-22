@@ -6,10 +6,8 @@ export const ListBox = styled(AriaListBox)`
   padding: ${p => p.theme.spacing.xsmall}px;
   border: 1px solid ${p => p.theme.colors.border};
   border-radius: ${p => p.theme.radii.normal}px;
-
   background-color: ${p => p.theme.colors.elevated};
   box-shadow: ${p => p.theme.shadows.normal};
-
   outline: none;
 
   /* The 'Item' component isn't the actual thing that gets rendered, so we need
