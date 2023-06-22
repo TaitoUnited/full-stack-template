@@ -145,9 +145,13 @@ export function routeEntry<Data>({
 // Render utils ----------------------------------------------------------------
 
 export function renderRouteEntries(entries: RouteEntry<any>[]) {
-  return entries.map(({ path, entry }) => {
+  return entries.map(({ path, entry, children = [] }) => {
     const Element = entry.element;
-    return <Route key={path} path={path} element={<Element />} />;
+    return (
+      <Route key={path} path={path} element={<Element />}>
+        {renderRouteEntries(children)}
+      </Route>
+    );
   });
 }
 
@@ -208,6 +212,7 @@ export type RouteEntryLoaderData<T extends RouteEntryConfig<any>> = NonNullable<
 export type RouteEntry<Data> = {
   path: string;
   entry: RouteEntryConfig<Data>;
+  children?: RouteEntry<any>[];
 };
 
 export type RouteEntries = RouteEntry<any>[];

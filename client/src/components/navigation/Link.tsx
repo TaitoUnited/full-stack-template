@@ -10,7 +10,7 @@ import {
 } from 'react-router-dom';
 
 import { useStaleReload } from '../../utils/routing';
-import { useRouteEntries } from '../../routes/route-utils';
+import { RouteEntry, useRouteEntries } from '../../routes/route-utils';
 
 type PreloadTrigger = 'hover' | 'click' | 'focus';
 
@@ -82,7 +82,7 @@ export const NavLink = forwardRef<any, Props>(
 
 NavLink.displayName = 'NavLink';
 
-function useLinkProps({
+export function useLinkProps({
   to,
   preloadOn = 'click',
 }: {
@@ -112,7 +112,7 @@ function useLinkProps({
       return matchPath(path, `${location.pathname}/${_to}`);
     };
 
-    const route = routes.find(r => match(r.path));
+    const route = flattenRoutes(routes).find(r => match(r.path));
 
     if (route?.entry && route.entry.load) {
       try {
@@ -136,6 +136,25 @@ function useLinkProps({
 
     return props;
   }, [to, preloadOn, isStale]); // eslint-disable-line react-hooks/exhaustive-deps
+}
+
+// Flatten the route tree into a list of routes so that we can match the current
+// url to a route and preload it
+function flattenRoutes(routes: RouteEntry<any>[]) {
+  const flattened: RouteEntry<any>[] = [];
+
+  routes.forEach(r => {
+    flattened.push(r);
+
+    const nested = flattenRoutes(r.children || []).map(n => ({
+      ...n,
+      path: `${r.path}/${n.path}`,
+    }));
+
+    flattened.push(...nested);
+  });
+
+  return flattened;
 }
 
 const linkStyles = css`
