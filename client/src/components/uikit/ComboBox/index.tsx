@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import {
   Button,
   Popover,
-  Select as AriaSelect,
-  SelectValue,
+  ComboBox as AriaComboBox,
   Item,
+  Input as AriaInput,
 } from 'react-aria-components';
 import { FaChevronDown } from 'react-icons/fa';
 import type { IconType } from 'react-icons';
@@ -15,32 +15,33 @@ import {
   DescriptionText,
   ErrorText,
   InputIconLeft,
-  InputIconRight,
   inputWrapperStyles,
   Label,
 } from '~components/uikit/partials/common';
 import { ListBox } from '~components/uikit/partials/ListBox';
+import Icon from '~components/uikit/Icon';
 
 type Option = {
   value: string;
   label: string;
 };
 
-type Props = ComponentProps<typeof AriaSelect<Option>> & {
+type Props = ComponentProps<typeof AriaComboBox<Option>> & {
   label: string;
   description?: string;
   /** Passing an `errorMessage` as prop toggles the input as invalid. */
   errorMessage?: string;
+  placeholder?: string;
   icon?: IconType;
 };
 
 /**
  * The `value`s of each option MUST be unique, otherwise render bugs will occur.
  *
- * Ref: https://react-spectrum.adobe.com/react-aria/Select.html
+ * Ref: https://react-spectrum.adobe.com/react-aria/ComboBox.html
  */
-const Select = forwardRef<HTMLDivElement, Props>(
-  ({ label, description, errorMessage, icon, ...rest }, ref) => (
+const ComboBox = forwardRef<HTMLInputElement, Props>(
+  ({ label, description, errorMessage, placeholder, icon, ...rest }, ref) => (
     <Wrapper
       {...rest}
       ref={ref}
@@ -50,11 +51,11 @@ const Select = forwardRef<HTMLDivElement, Props>(
       <InputWrapper>
         {icon && <InputIconLeft icon={icon} size={20} color="muted1" />}
 
-        <Input data-invalid={!!errorMessage}>
-          <SelectValue />
-        </Input>
+        <Input placeholder={placeholder} />
 
-        <InputIconRight icon={FaChevronDown} size={12} color="muted1" />
+        <InputButton>
+          <Icon icon={FaChevronDown} size={12} color="muted1" />
+        </InputButton>
       </InputWrapper>
 
       {description && <DescriptionText>{description}</DescriptionText>}
@@ -72,28 +73,35 @@ const Select = forwardRef<HTMLDivElement, Props>(
   )
 );
 
-const Wrapper = styled(AriaSelect)`
+const Wrapper = styled(AriaComboBox)`
   ${inputWrapperStyles}
 `;
 
 const InputWrapper = styled.div`
   position: relative;
 
-  & > svg + button {
+  & > svg + input {
     padding-left: ${p => p.theme.spacing.xlarge}px;
   }
 `;
 
-const Input = styled(Button)`
+const Input = styled(AriaInput)`
   ${baseInputStyles}
 
-  padding-right: ${p => p.theme.spacing.xlarge}px;
-  text-align: inherit;
-
-  & > *[data-placeholder] {
-    color: ${p => p.theme.colors.muted1};
-  }
+  padding-right: ${p => p.theme.spacing.large}px;
 `;
 
-Select.displayName = 'Select';
-export default Select;
+const InputButton = styled(Button)`
+  position: absolute;
+  height: 100%;
+  top: 0;
+  right: 0;
+  padding-right: ${p => p.theme.spacing.small}px;
+  padding-left: ${p => p.theme.spacing.small}px;
+
+  display: flex;
+  align-items: center;
+`;
+
+ComboBox.displayName = 'ComboBox';
+export default ComboBox;

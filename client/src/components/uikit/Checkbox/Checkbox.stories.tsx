@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Stack from '../Stack';
 import Text from '../Text';
 import Checkbox from './index';
+import Stack from '~components/uikit/Stack';
 
 export default {
   title: 'Checkbox',
@@ -14,16 +14,18 @@ export const Example = () => {
 
   return (
     <div style={{ padding: 32 }}>
-      <Stack as="label" axis="x" spacing="small" align="center">
+      <Stack axis="y" spacing="large">
         <Checkbox
-          isChecked={isChecked}
+          isSelected={isChecked}
           onChange={setChecked}
-          labelledby="sluibs-label"
+          label="Sluibs?"
         />
 
-        <Text variant="body" as="label" id="sluibs-label">
-          Sluibs?
-        </Text>
+        <Checkbox label={<Text variant="bodyStrong">Custom label</Text>} />
+
+        <Checkbox isDisabled label="I'm disabled" />
+
+        <Checkbox isIndeterminate label="I'm not sure about myself" />
       </Stack>
     </div>
   );

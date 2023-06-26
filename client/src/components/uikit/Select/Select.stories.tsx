@@ -1,4 +1,3 @@
-import { useState, ComponentProps } from 'react';
 import { FaAward } from 'react-icons/fa';
 
 import Stack from '../Stack';
@@ -11,7 +10,6 @@ export default {
 
 export function Example() {
   const options = [
-    { label: '', value: '' },
     { label: 'Option 1', value: '1' },
     { label: 'Option 2', value: '2' },
     { label: 'Option 3', value: '3' },
@@ -21,32 +19,25 @@ export function Example() {
 
   return (
     <Stack axis="y" spacing="large" style={{ maxWidth: 400 }}>
-      <TextInputExample label="Regular select" options={options} />
-      <TextInputExample label="With icon" icon={FaAward} options={options} />
-      <TextInputExample
-        label="With info message"
-        message="Hi, I'm a message about this select"
-        options={options}
+      <Select label="Regular select" items={options} />
+
+      <Select label="Disabled select" items={options} isDisabled />
+
+      <Select label="Required select" items={options} isRequired />
+
+      <Select label="With icon" icon={FaAward} items={options} />
+
+      <Select
+        label="Descriptions also"
+        description="You should pick the third one"
+        items={options}
       />
-      <TextInputExample
-        label="Invalid select"
-        isValid={false}
-        message="Something wrong!"
-        options={options}
+
+      <Select
+        label="Some invalid choice"
+        errorMessage="This is really bad"
+        items={options}
       />
     </Stack>
-  );
-}
-
-function TextInputExample(
-  props: Omit<ComponentProps<typeof Select>, 'value' | 'onChange'>
-) {
-  const [value, setValue] = useState('');
-  return (
-    <Select
-      {...props}
-      value={value}
-      onChange={(e: any) => setValue(e.currentTarget.value)}
-    />
   );
 }
