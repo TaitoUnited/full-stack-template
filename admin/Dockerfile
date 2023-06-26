@@ -4,7 +4,7 @@ CMD echo "DISABLED: admin not up-to-date" && tail -f /dev/null
 # # Builder, tester and runtime container for local development
 # # NOTE: Use the same cypress version both in Dockerfile and package.json to
 # #       avoid unnecessary cypress download
-# FROM ghcr.io/taitounited/cypress:9.3.1
+# FROM ghcr.io/taitounited/cypress:12.5.0
 
 # # Init /develop for user USER_UID
 # ARG USER_UID=1001
