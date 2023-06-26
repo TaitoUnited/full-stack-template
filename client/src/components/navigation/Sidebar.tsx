@@ -11,7 +11,12 @@ export default function Sidebar() {
   const auth = useAuth();
 
   const items = [
-    { label: t`Home`, icon: HiHome, to: '/', testId: 'navigate-to-home' },
+    {
+      label: t`Home`,
+      icon: HiHome,
+      to: '/',
+      testId: 'navigate-to-home',
+    },
     {
       label: t`Blog`,
       icon: HiBookOpen,
@@ -32,7 +37,7 @@ export default function Sidebar() {
         <NavList>
           {items.map(({ label, icon, to, testId }) => (
             <li key={label}>
-              <NavItemLink to={to} testId={testId} preloadOn="hover">
+              <NavItemLink to={to} data-test-id={testId} preloadOn="hover">
                 <Icon icon={icon} size={24} color="text" />
                 <Spacer axis="x" size="normal" />
                 <Text variant="body">{label}</Text>

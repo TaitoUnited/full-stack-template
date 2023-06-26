@@ -51,7 +51,7 @@ export default function LoginPage() {
               type="submit"
               variant="primary"
               loading={auth.status === 'logging-in'}
-              testId="login"
+              data-test-id="login"
             >
               {auth.status === 'logging-in' ? (
                 <Trans>Logging in</Trans>

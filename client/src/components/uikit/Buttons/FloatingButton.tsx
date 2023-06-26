@@ -18,7 +18,6 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   onClick?: () => any;
   tooltipPosition?: 'top' | 'bottom' | 'left' | 'right';
   variant: 'primary' | 'info';
-  testId?: string;
 };
 
 const FloatingButton = forwardRef<any, Props>(
@@ -33,7 +32,6 @@ const FloatingButton = forwardRef<any, Props>(
       as: asTag,
       tooltipPosition = 'left',
       variant,
-      testId,
       ...rest
     },
     ref: any
@@ -64,7 +62,6 @@ const FloatingButton = forwardRef<any, Props>(
           {...rest}
           {...buttonProps}
           {...focusProps}
-          testId={testId}
           as={asTag as any}
           type="button"
           ref={mergeRefs([localRef, ref])}
@@ -86,12 +83,9 @@ type WrapperProps = {
   $isLoading: boolean;
   $isFocusVisible: boolean;
   disabled: boolean;
-  testId?: string;
 };
 
-const Wrapper = styled.button.attrs<WrapperProps>(({ testId }) => ({
-  'test-data': testId,
-}))<WrapperProps>`
+const Wrapper = styled.button<WrapperProps>`
   position: relative;
   display: inline-flex;
   justify-content: center;

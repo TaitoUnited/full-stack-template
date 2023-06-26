@@ -16,5 +16,4 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   onClick?: () => any;
   size?: ButtonSize;
   variant: ButtonVariant;
-  testId?: string;
 };

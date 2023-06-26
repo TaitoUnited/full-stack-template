@@ -32,7 +32,6 @@ const ButtonContent = forwardRef<HTMLButtonElement, Props>(
       size = 'normal',
       type = 'button',
       variant,
-      testId,
       ...rest
     },
     ref
@@ -73,7 +72,6 @@ const ButtonContent = forwardRef<HTMLButtonElement, Props>(
         ref={mergeRefs([localRef, ref])}
         as={asLink ? ButtonLink : undefined}
         linkProps={asLink}
-        data-test-id={testId}
         $size={size}
         $variant={variant}
         $customStyles={customStyles}

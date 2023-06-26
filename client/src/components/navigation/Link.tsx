@@ -16,22 +16,16 @@ type PreloadTrigger = 'hover' | 'click' | 'focus';
 
 type Props = LinkProps & {
   children: ReactNode;
-  testId?: string;
   preloadOn?: PreloadTrigger;
 };
 
 export const Link = forwardRef<any, Props>(
-  ({ children, to, testId, preloadOn, ...props }, ref: any) => {
+  ({ children, to, preloadOn, ...props }, ref: any) => {
     const p = useLinkProps({ to, preloadOn });
 
     return (
       <FocusRing focusRingClass="link-focus">
-        <LinkWrapper
-          {...mergeProps(props, p)}
-          to={to}
-          ref={ref}
-          data-test-id={testId}
-        >
+        <LinkWrapper {...mergeProps(props, p)} to={to} ref={ref}>
           {children}
         </LinkWrapper>
       </FocusRing>
@@ -42,16 +36,11 @@ export const Link = forwardRef<any, Props>(
 Link.displayName = 'Link';
 
 export const UnstyledLink = forwardRef<any, Props>(
-  ({ children, to, testId, preloadOn, ...props }, ref: any) => {
+  ({ children, to, preloadOn, ...props }, ref: any) => {
     const p = useLinkProps({ to, preloadOn });
 
     return (
-      <UnstyledLinkWrapper
-        {...mergeProps(props, p)}
-        to={to}
-        ref={ref}
-        data-test-id={testId}
-      >
+      <UnstyledLinkWrapper {...mergeProps(props, p)} to={to} ref={ref}>
         {children}
       </UnstyledLinkWrapper>
     );
@@ -62,17 +51,12 @@ UnstyledLink.displayName = 'UnstyledLink';
 
 // Nav link knows whether it is active or not based on the current url
 export const NavLink = forwardRef<any, Props>(
-  ({ children, to, testId, preloadOn, ...props }, ref: any) => {
+  ({ children, to, preloadOn, ...props }, ref: any) => {
     const p = useLinkProps({ to, preloadOn });
 
     return (
       <FocusRing focusRingClass="link-focus">
-        <NavLinkWrapper
-          {...mergeProps(props, p)}
-          to={to}
-          ref={ref}
-          data-test-id={testId}
-        >
+        <NavLinkWrapper {...mergeProps(props, p)} to={to} ref={ref}>
           {children}
         </NavLinkWrapper>
       </FocusRing>
