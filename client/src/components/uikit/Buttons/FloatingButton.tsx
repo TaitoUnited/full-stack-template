@@ -1,13 +1,15 @@
 import { ButtonHTMLAttributes, forwardRef, useRef } from 'react';
+import { mergeProps, useButton, useFocusRing } from 'react-aria';
+import { Link } from 'react-router-dom'; // eslint-disable-line no-restricted-imports
 import styled from 'styled-components';
 import mergeRefs from 'react-merge-refs';
-import { useButton, useFocusRing } from 'react-aria';
 import type { IconType } from 'react-icons';
 
 import Tooltip from '../Tooltip';
 import Spinner from '../Spinner';
 import Icon from '../Icon';
 import { hoverHighlight } from '~utils/styled';
+import { useLinkProps } from '~components/navigation/Link';
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   as?: keyof JSX.IntrinsicElements;
@@ -18,9 +20,10 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   onClick?: () => any;
   tooltipPosition?: 'top' | 'bottom' | 'left' | 'right';
   variant: 'primary' | 'info';
+  asLink?: Parameters<typeof useLinkProps>[0];
 };
 
-const FloatingButton = forwardRef<any, Props>(
+const FloatingButton = forwardRef<HTMLButtonElement, Props>(
   (
     {
       onClick,
@@ -29,7 +32,7 @@ const FloatingButton = forwardRef<any, Props>(
       loading,
       icon,
       id,
-      as: asTag,
+      asLink,
       tooltipPosition = 'left',
       variant,
       ...rest
@@ -41,7 +44,7 @@ const FloatingButton = forwardRef<any, Props>(
     const { buttonProps, isPressed } = useButton(
       {
         id,
-        elementType: asTag,
+        elementType: asLink ? 'a' : 'button',
         type: 'button',
         'aria-label': label,
         isDisabled: disabled || loading,
@@ -59,12 +62,13 @@ const FloatingButton = forwardRef<any, Props>(
     return (
       <Tooltip title={label} position={tooltipPosition}>
         <Wrapper
+          type="button"
           {...rest}
           {...buttonProps}
           {...focusProps}
-          as={asTag as any}
-          type="button"
           ref={mergeRefs([localRef, ref])}
+          as={asLink ? ButtonLink : undefined}
+          linkProps={asLink}
           $variant={variant}
           $isLoading={loading}
           $isPressed={isPressed}
@@ -76,6 +80,12 @@ const FloatingButton = forwardRef<any, Props>(
     );
   }
 );
+
+// TODO: how do we type the props here?
+function ButtonLink({ linkProps, ...rest }: any) {
+  const extraProps = useLinkProps(linkProps);
+  return <Link to={linkProps.to} {...mergeProps(extraProps, rest)} />;
+}
 
 type WrapperProps = {
   $variant: Props['variant'];

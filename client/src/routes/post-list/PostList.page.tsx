@@ -57,7 +57,7 @@ export default function PostListPage({ loaderData }: Props) {
             icon={HiPencil}
             label="New post"
             data-test-id="navigate-to-create-post"
-            {...({ as: UnstyledLink, to: 'create' } as any)}
+            asLink={{ to: 'create', preloadOn: 'hover' }}
           />
         </NewPostButton>
       </Stack>
