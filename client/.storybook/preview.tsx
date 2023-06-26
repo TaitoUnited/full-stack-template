@@ -5,8 +5,13 @@ import { Decorator, Preview } from '@storybook/react';
 import { OverlayProvider } from 'react-aria';
 import { ThemeProvider } from 'styled-components';
 import { useDarkMode } from 'storybook-dark-mode';
+import { I18nProvider } from '@lingui/react';
+import { i18n } from '@lingui/core';
 
 import { theme, darkTheme } from '../src/constants/theme';
+
+i18n.load('fi', {});
+i18n.activate('fi');
 
 const preview: Preview = {
   parameters: {
@@ -42,9 +47,11 @@ function StoryDecorator({ children }: { children: React.ReactNode }) {
   }, [isDarkMode]);
 
   return (
-    <ThemeProvider theme={isDarkMode ? darkTheme : theme}>
-      <OverlayProvider>{children}</OverlayProvider>
-    </ThemeProvider>
+    <I18nProvider i18n={i18n}>
+      <ThemeProvider theme={isDarkMode ? darkTheme : theme}>
+        <OverlayProvider>{children}</OverlayProvider>
+      </ThemeProvider>
+    </I18nProvider>
   );
 }
 
