@@ -9,9 +9,10 @@ import {
 } from '~graphql';
 
 export default routeEntry({
+  path: '/blog/:id',
   fallback: <Fallback />,
   component: () => import('./Post.page'),
-  loader: ({ id }: { id: string }) =>
+  loader: ({ id }) =>
     query<PostQueryResult, PostQueryVariables>(PostDocument, { id }).then(
       res => res.data
     ),

@@ -1,18 +1,30 @@
 import type { RouteEntries } from './route-utils';
 
-import homeEntry from './home';
-import postListEntry from './post-list';
-import postEntry from './post';
-import postCreateEntry from './post-create';
-import themingEntry from './theming';
+import home from './home';
+import post from './post';
+import postList from './post-list';
+import postCreate from './post-create';
+import theming from './theming';
 
-export const routes: RouteEntries = [
-  { path: '/', entry: homeEntry },
+// NOTE: the path for each route is defined here again in order to have a single
+// source of truth for all routes and visually see the structure of the app.
+
+export const routes = [
+  {
+    path: '/',
+    entry: home,
+  },
   {
     path: '/blog',
-    entry: postListEntry,
-    children: [{ path: 'create', entry: postCreateEntry }],
+    entry: postList,
+    children: [{ path: 'create', entry: postCreate }],
   },
-  { path: '/blog/:id', entry: postEntry },
-  { path: '/theming', entry: themingEntry },
-];
+  {
+    path: '/blog/:id',
+    entry: post,
+  },
+  {
+    path: '/theming',
+    entry: theming,
+  },
+] satisfies RouteEntries;

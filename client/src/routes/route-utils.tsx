@@ -1,6 +1,6 @@
 import loadable from '@loadable/component';
-import { useParams, Route } from 'react-router-dom';
 import { useLingui } from '@lingui/react';
+import { useParams, Route, useSearchParams } from 'react-router-dom';
 
 import {
   createContext,
@@ -12,23 +12,32 @@ import {
 
 import Page from '~components/navigation/Page';
 import { useFallbackDelay } from '~utils/promise';
+import { genId } from '~utils/fn';
+import { prettyLog } from '~utils/log';
 
-export function routeEntry<Data>({
+export function routeEntry<
+  Data,
+  Path extends string,
+  SearchParams extends SearchParamOptions
+>({
+  path,
+  searchParams: searchParamsOptions,
   fallback,
   awaitLoader = true,
   debug = false,
   component,
   loader,
-}: RouteEntryOptions<Data>): RouteEntryConfig<Data> {
+}: RouteEntryOptions<Data, Path, SearchParams>): RouteEntryConfig<Data, Path> {
   const Component = loadable(component);
-
   const dataCache: LoaderDataCache<Data | null> = {};
   const loaderCache: LoaderCache<Data> = {};
   const entryKey = genId();
 
   let componentLoaded = false;
 
-  async function performLoad(params: LoaderParams) {
+  async function performLoad(
+    params: LoaderParams<ExtractPathParams<Path>, SearchParams>
+  ) {
     const cacheKey = getCacheKey(params, entryKey);
     const promises: Promise<any>[] = [];
 
@@ -43,7 +52,7 @@ export function routeEntry<Data>({
 
     if (loader) {
       promises.push(
-        loader(params)
+        loader(params as LoaderParams<ExtractPathParams<Path>, SearchParams>)
           .then(result => {
             dataCache[cacheKey] = result;
             if (debug) prettyLog('Loader data loaded!', result);
@@ -67,7 +76,9 @@ export function routeEntry<Data>({
     return dataCache[cacheKey];
   }
 
-  async function load(params: LoaderParams) {
+  async function load(
+    params: LoaderParams<ExtractPathParams<Path>, SearchParams>
+  ) {
     // Loader should be used for the initial loading of data only so keep returning
     // the same data for all subsequent calls. Data should be refreshed with a lib
     // specific method like apollo's `pollInterval` or react-query's `staleTime` etc.
@@ -100,9 +111,8 @@ export function routeEntry<Data>({
   }
 
   function Entry() {
-    useLingui();
-
     const params = useParams();
+    const parsedSearchParams = useParsedSearchParams(searchParamsOptions);
 
     const [state, setState] = useState<LoaderState<Data>>(() => {
       const cacheKey = getCacheKey(params, entryKey);
@@ -119,7 +129,7 @@ export function routeEntry<Data>({
       return { status, data };
     });
 
-    // By defaul we delay showing the fallback by 500ms in case the data loads
+    // By default we delay showing the fallback by 500ms in case the data loads
     // quickly. If the data takes longer than 500ms to load, we show the fallback
     // at least for 200ms to avoid a flash of skeleton placeholders.
     const showFallback = useFallbackDelay(state.status === 'pending');
@@ -127,9 +137,17 @@ export function routeEntry<Data>({
     // Only do the load initially but not on subsequent route entry visits
     useEffect(() => {
       if (state.status === 'pending') {
-        load(params).then(data => setState({ data, status: 'loaded' }));
+        const loaderParams = {
+          ...params,
+          searchParams: parsedSearchParams,
+        } as LoaderParams<ExtractPathParams<Path>, SearchParams>;
+
+        load(loaderParams).then(data => setState({ data, status: 'loaded' }));
       }
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+    // Ensure that using `t` macro updates correctly within the route
+    useLingui();
 
     if (state.status === 'pending') {
       return showFallback ? fallback || null : null;
@@ -142,12 +160,12 @@ export function routeEntry<Data>({
     );
   }
 
-  return { load, element: Entry };
+  return { path, load, element: Entry, searchParamsOptions };
 }
 
-// Render utils ----------------------------------------------------------------
+// Utils ----------------------------------------------------------------
 
-export function renderRouteEntries(entries: RouteEntry<any>[]) {
+export function renderRouteEntries(entries: RouteEntry<any, string>[]) {
   return entries.map(({ path, entry, children = [] }) => {
     const Element = entry.element;
     return (
@@ -158,15 +176,55 @@ export function renderRouteEntries(entries: RouteEntry<any>[]) {
   });
 }
 
+export function parseEntrySearchParams({
+  searchParams,
+  searchParamsOptions,
+}: {
+  searchParams: URLSearchParams;
+  searchParamsOptions?: SearchParamOptions;
+}) {
+  const parsed: ParsedSearchParams = {};
+
+  Array.from(searchParams.entries()).forEach(([key, value]) => {
+    parsed[key] = value;
+
+    if (searchParamsOptions && searchParamsOptions[key]) {
+      const paramType = searchParamsOptions[key];
+
+      if (paramType === 'number') {
+        parsed[key] = Number(value);
+      } else if (paramType === 'boolean') {
+        parsed[key] = value === 'true';
+      } else if (paramType === 'object') {
+        try {
+          parsed[key] = JSON.parse(value);
+        } catch (error) {
+          console.warn('> Failed to parse search param as JSON', error);
+          parsed[key] = {};
+        }
+      } else {
+        parsed[key] = value; // string is the default
+      }
+    }
+  });
+
+  return parsed;
+}
+
+function useParsedSearchParams(searchParamsOptions?: SearchParamOptions) {
+  const [searchParams] = useSearchParams();
+  return parseEntrySearchParams({ searchParams, searchParamsOptions });
+}
+
 // Context ---------------------------------------------------------------------
 // Provide route entries via context to avoid cyclical import issues with Link
-const RouteEntriesContext = createContext<RouteEntry<any>[]>([]);
+const RouteEntriesContext = createContext<RouteEntry<any, string>[]>([]);
 
 export function RouteEntryProvider({
   routes,
   children,
 }: {
-  routes: RouteEntry<any>[];
+  routes: RouteEntry<any, string>[];
   children: ReactNode;
 }) {
   return (
@@ -182,73 +240,101 @@ export function useRouteEntries() {
 
 // Types -----------------------------------------------------------------------
 
-type LoaderParams = Record<string, unknown>;
+export type SearchParamOptions = Record<
+  string,
+  'string' | 'number' | 'boolean' | 'object'
+>;
 
-type LoaderStatus = 'pending' | 'skipped' | 'loaded';
+export type ParsedSearchParams = Record<
+  string,
+  string | number | boolean | Record<string, any>
+>;
 
-type LoaderDataCache<Data> = Record<string, Data>;
+export type LoaderParams<
+  PathParams extends string, // union of path param strings, eg. 'id' | 'slug'
+  SearchParams extends SearchParamOptions = Record<string, any>
+> = Record<PathParams, string> & {
+  searchParams: {
+    [K in keyof SearchParams]: SearchParams[K] extends 'boolean'
+      ? boolean | undefined
+      : SearchParams[K] extends 'number'
+      ? number | undefined
+      : SearchParams[K] extends 'object'
+      ? Record<string, unknown> | undefined
+      : string | undefined;
+  };
+};
 
-type LoaderCache<Data> = Record<string, Promise<Data | null>>;
+export type LoaderStatus = 'pending' | 'skipped' | 'loaded';
 
-type LoaderState<Data> = {
+export type LoaderDataCache<Data> = Record<string, Data>;
+
+export type LoaderCache<Data> = Record<string, Promise<Data | null>>;
+
+export type LoaderState<Data> = {
   status: LoaderStatus;
   data?: Data | null;
 };
 
-export type RouteEntryOptions<Data> = {
+type ExtractPathParams<T extends string> =
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  T extends `${infer Start}:${infer Param}/${infer Rest}`
+    ? Param | ExtractPathParams<Rest>
+    : // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    T extends `${infer Start}:${infer Param}`
+    ? Param
+    : never;
+
+export type RouteEntryOptions<
+  Data,
+  Path extends string,
+  SearchParams extends SearchParamOptions
+> = {
+  /* Whether to log debug messages. */
   debug?: boolean;
+  /* Path to match for the route. */
+  path: Path;
+  /* Search params options to parse the search params into the correct types. */
+  searchParams?: SearchParams;
+  /* Fallback React component to show while the route data and lazy loaded component is being loaded. */
   fallback?: JSX.Element;
+  /* Whether to wait for the loader to finish before showing the fallback. */
   awaitLoader?: boolean;
+  /* Lazy loaded React component to render when the route is active. */
   component: () => Promise<any>;
-  loader?: (params: LoaderParams) => Promise<Data>;
+  /* Loader function to load data for the route. Should return the data that the route needs. */
+  loader?: (
+    params: LoaderParams<ExtractPathParams<Path>, SearchParams>
+  ) => Promise<Data>;
 };
 
-export type RouteEntryConfig<Data> = {
-  load: (params: LoaderParams) => Promise<Data | null>;
+export type RouteEntryConfig<Data, Path extends string> = {
+  path: Path;
+  searchParamsOptions?: SearchParamOptions;
+  load: (
+    params: LoaderParams<ExtractPathParams<Path>, any>
+  ) => Promise<Data | null>;
   element: () => JSX.Element | null;
 };
 
-export type RouteEntryLoaderData<T extends RouteEntryConfig<any>> = NonNullable<
-  Awaited<ReturnType<T['load']>>
->;
+export type RouteEntryLoaderData<T extends RouteEntryConfig<any, string>> =
+  NonNullable<Awaited<ReturnType<T['load']>>>;
 
-export type RouteEntry<Data> = {
-  path: string;
-  entry: RouteEntryConfig<Data>;
-  children?: RouteEntry<any>[];
+export type RouteEntry<Data, Path extends string> = {
+  path: Path;
+  entry: RouteEntryConfig<Data, Path>;
+  children?: RouteEntry<any, any>[];
 };
 
-export type RouteEntries = RouteEntry<any>[];
+export type RouteEntries = RouteEntry<any, any>[];
 
 // Random helpers -------------------------------------------------------------
 
-function prettyLog(msg: string, data?: any) {
-  console.log(
-    `%c${msg}`,
-    `
-      background: #cbeccb;
-      color: #084922;
-      border-radius: 99px;
-      padding-left: 4px;
-      padding-right: 4px;
-      padding-top: 1px;
-      padding-bottom: 1px;
-    `
-  );
-  if (data) console.log(data);
-}
+function getCacheKey(obj: Record<any, any>, entryKey: string) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { searchParams, ...queryParams } = obj;
 
-function genId() {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
-  }
-  return `${s4()}${s4()}-${s4()}-${s4()}-${s4()}-${s4()}${s4()}${s4()}`;
-}
-
-function getCacheKey(obj: object, entryKey: string) {
-  const paramsKey = Object.entries(obj)
+  const paramsKey = Object.entries(queryParams)
     .map(([key, value]) => `${key}=${value}`)
     .sort()
     .join(',');

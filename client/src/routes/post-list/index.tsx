@@ -9,6 +9,7 @@ import {
 } from '~graphql';
 
 const entry = routeEntry({
+  path: '/blog',
   fallback: <Fallback />,
   component: () => import('./PostList.page'),
   loader: () =>

@@ -9,8 +9,14 @@ import {
   matchPath,
 } from 'react-router-dom';
 
+import {
+  LoaderParams,
+  RouteEntries,
+  parseEntrySearchParams,
+  useRouteEntries,
+} from '../../routes/route-utils';
+
 import { useStaleReload } from '../../utils/routing';
-import { RouteEntry, useRouteEntries } from '../../routes/route-utils';
 
 type PreloadTrigger = 'hover' | 'click' | 'focus';
 
@@ -83,24 +89,37 @@ export function useLinkProps({
 
   // Preload route code for faster page load experience
   async function handlePreload() {
+    const [toPath, toSearchParams] = to.toString().split('?');
+
     const match = (path: string) => {
       // Remove search params
-      const [_to] = to.toString().split('?');
 
       // Absolute links
       if (to.toString().startsWith('/')) {
-        return matchPath(path, _to);
+        return matchPath(path, toPath);
       }
 
       // Relative links
-      return matchPath(path, `${location.pathname}/${_to}`);
+      return matchPath(path, `${location.pathname}/${toPath}`);
     };
 
     const route = flattenRoutes(routes).find(r => match(r.path));
 
     if (route?.entry && route.entry.load) {
       try {
-        await route.entry.load(match(route.path)?.params || {});
+        const params = match(route.path)?.params || {};
+
+        const loaderParams = {
+          ...params,
+          searchParams: parseEntrySearchParams({
+            searchParams: new URLSearchParams(toSearchParams),
+            searchParamsOptions: route.entry.searchParamsOptions,
+          }),
+        } as LoaderParams<string>;
+
+        console.log('> Preloading route', route.path, loaderParams);
+
+        await route.entry.load(loaderParams);
       } catch (error) {
         console.log('> Failed to preload route', error);
       }
@@ -124,8 +143,8 @@ export function useLinkProps({
 
 // Flatten the route tree into a list of routes so that we can match the current
 // url to a route and preload it
-function flattenRoutes(routes: RouteEntry<any>[]) {
-  const flattened: RouteEntry<any>[] = [];
+function flattenRoutes(routes: RouteEntries) {
+  const flattened: RouteEntries = [];
 
   routes.forEach(r => {
     flattened.push(r);
