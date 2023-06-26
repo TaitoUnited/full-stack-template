@@ -1,4 +1,6 @@
 import { useState, forwardRef, ComponentProps } from 'react';
+import { t } from '@lingui/macro';
+import { useLingui } from '@lingui/react';
 import styled from 'styled-components';
 import {
   TextField,
@@ -33,6 +35,7 @@ type Props = ComponentProps<typeof TextField> & {
  */
 const TextInput = forwardRef<HTMLInputElement, Props>(
   ({ label, icon, description, errorMessage, placeholder, ...rest }, ref) => {
+    useLingui();
     const [passwordVisible, setPasswordVisible] = useState(false);
     const isPassword = rest.type === 'password';
 
@@ -56,7 +59,7 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
             <PasswordToggleButton
               isSelected={passwordVisible}
               onChange={setPasswordVisible}
-              aria-label="Show password"
+              aria-label={t`Show password`}
             >
               <Icon
                 icon={passwordVisible ? FiEyeOff : FiEye}
