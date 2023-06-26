@@ -1,4 +1,4 @@
-query post($id: String!, $attachmentOrder: Order!) {
+query post($id: String!, $attachmentOrder: Order) {
     post(id: $id){
         attachments(attachmentOrder: $attachmentOrder){
             data{

@@ -1,4 +1,4 @@
-mutation deletePost($input: DeletePostInput!, $attachmentOrder: Order!) {
+mutation deletePost($input: DeletePostInput!, $attachmentOrder: Order) {
     deletePost(input: $input){
         attachments(attachmentOrder: $attachmentOrder){
             total

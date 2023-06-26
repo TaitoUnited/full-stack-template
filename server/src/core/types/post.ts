@@ -1,5 +1,5 @@
 import { MaxLength, MinLength } from 'class-validator';
-import { Field, InputType, ObjectType, Float, Int, ID } from 'type-graphql';
+import { Field, InputType, ObjectType, ID } from 'type-graphql';
 import { Paginated } from '../../common/types/search';
 
 // Read

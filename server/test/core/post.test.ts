@@ -1,3 +1,4 @@
+import { Order } from '../../src/common/types/search';
 import { initGraphQL, setUser } from '../common/test.utils';
 
 const { api, sdk } = initGraphQL();
@@ -12,6 +13,9 @@ describe('post/queries', () => {
   it('query "posts" returns some posts', async () => {
     const { posts } = await sdk.posts({
       pagination: { offset: 0, limit: 10 },
+      filterGroups: [],
+      order: { field: 'createdAt' },
+      search: '',
     });
     expect(posts.data.length).toBeGreaterThan(0);
 

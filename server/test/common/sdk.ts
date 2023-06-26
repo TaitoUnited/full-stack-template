@@ -228,7 +228,7 @@ export type Post = {
 
 
 export type PostAttachmentsArgs = {
-  attachmentOrder?: Order;
+  attachmentOrder?: InputMaybe<Order>;
 };
 
 export type PostFilter = {
@@ -310,7 +310,7 @@ export enum ValueType {
 
 export type CreatePostMutationVariables = Exact<{
   input: CreatePostInput;
-  attachmentOrder: Order;
+  attachmentOrder?: InputMaybe<Order>;
 }>;
 
 
@@ -325,7 +325,7 @@ export type CreatePostAttachmentMutation = { __typename?: 'Mutation', createPost
 
 export type DeletePostMutationVariables = Exact<{
   input: DeletePostInput;
-  attachmentOrder: Order;
+  attachmentOrder?: InputMaybe<Order>;
 }>;
 
 
@@ -347,7 +347,7 @@ export type FinalizePostAttachmentMutation = { __typename?: 'Mutation', finalize
 
 export type UpdatePostMutationVariables = Exact<{
   input: UpdatePostInput;
-  attachmentOrder: Order;
+  attachmentOrder?: InputMaybe<Order>;
 }>;
 
 
@@ -367,7 +367,7 @@ export type AllowedPostAttachmentMimeTypesQuery = { __typename?: 'Query', allowe
 
 export type PostQueryVariables = Exact<{
   id: Scalars['String'];
-  attachmentOrder: Order;
+  attachmentOrder?: InputMaybe<Order>;
 }>;
 
 
@@ -385,7 +385,7 @@ export type PostsQueryVariables = Exact<{
   order: Order;
   pagination: Pagination;
   search: Scalars['String'];
-  attachmentOrder: Order;
+  attachmentOrder?: InputMaybe<Order>;
 }>;
 
 
@@ -393,7 +393,7 @@ export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'Paginate
 
 
 export const CreatePostDocument = gql`
-    mutation createPost($input: CreatePostInput!, $attachmentOrder: Order!) {
+    mutation createPost($input: CreatePostInput!, $attachmentOrder: Order) {
   createPost(input: $input) {
     attachments(attachmentOrder: $attachmentOrder) {
       total
@@ -420,7 +420,7 @@ export const CreatePostAttachmentDocument = gql`
 }
     `;
 export const DeletePostDocument = gql`
-    mutation deletePost($input: DeletePostInput!, $attachmentOrder: Order!) {
+    mutation deletePost($input: DeletePostInput!, $attachmentOrder: Order) {
   deletePost(input: $input) {
     attachments(attachmentOrder: $attachmentOrder) {
       total
@@ -463,7 +463,7 @@ export const FinalizePostAttachmentDocument = gql`
 }
     `;
 export const UpdatePostDocument = gql`
-    mutation updatePost($input: UpdatePostInput!, $attachmentOrder: Order!) {
+    mutation updatePost($input: UpdatePostInput!, $attachmentOrder: Order) {
   updatePost(input: $input) {
     attachments(attachmentOrder: $attachmentOrder) {
       total
@@ -497,7 +497,7 @@ export const AllowedPostAttachmentMimeTypesDocument = gql`
 }
     `;
 export const PostDocument = gql`
-    query post($id: String!, $attachmentOrder: Order!) {
+    query post($id: String!, $attachmentOrder: Order) {
   post(id: $id) {
     attachments(attachmentOrder: $attachmentOrder) {
       data {
@@ -536,7 +536,7 @@ export const PostAttachmentDocument = gql`
 }
     `;
 export const PostsDocument = gql`
-    query posts($filterGroups: [FilterGroup!]!, $order: Order!, $pagination: Pagination!, $search: String!, $attachmentOrder: Order!) {
+    query posts($filterGroups: [FilterGroup!]!, $order: Order!, $pagination: Pagination!, $search: String!, $attachmentOrder: Order) {
   posts(
     filterGroups: $filterGroups
     order: $order

@@ -120,6 +120,7 @@ class PostAttachmentResolver {
     @Root() root: Post,
     @Arg('attachmentOrder', () => Order, {
       defaultValue: new Order('createdAt', OrderDirection.ASC),
+      nullable: true,
     })
     order: Order
   ) {

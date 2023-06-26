@@ -171,7 +171,7 @@ input Pagination {
 }
 
 type Post {
-  attachments(attachmentOrder: Order! = {dir: ASC, field: "createdAt", invertNullOrder: false}): PaginatedAttachments!
+  attachments(attachmentOrder: Order = {dir: ASC, field: "createdAt", invertNullOrder: false}): PaginatedAttachments!
   author: String!
   content: String!
   createdAt: DateTime!
