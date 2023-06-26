@@ -1,6 +1,3 @@
-// TODO: do we need airbnb config anymore?
-// The `recommended` configs that are already added should suffice
-
 module.exports = {
   parser: '@typescript-eslint/parser',
 
@@ -9,7 +6,6 @@ module.exports = {
   extends: [
     'standard',
     'plugin:@typescript-eslint/recommended',
-
     // Enables eslint-plugin-prettier and displays prettier errors as ESLint errors.
     'prettier',
     'plugin:prettier/recommended',
@@ -18,7 +14,8 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',
-    project: './tsconfig.json',
+    // TODO: vscode's eslint extension borks with the following option :(
+    // project: './tsconfig.json',
   },
 
   env: {
@@ -30,8 +27,9 @@ module.exports = {
     // ESLint standard has confilicts with typescript
     'no-useless-constructor': 'off',
     '@typescript-eslint/no-useless-constructor': 'error',
-    '@typescript-eslint/no-misused-promises': 'error',
-    '@typescript-eslint/no-floating-promises': 'error',
+    // TODO: these rules require `parserOptions.project` to be set but that breaks vscode's eslint extension :(
+    // '@typescript-eslint/no-misused-promises': 'error',
+    // '@typescript-eslint/no-floating-promises': 'error',
 
     // Turn of stupid TS specific rules
     '@typescript-eslint/explicit-module-boundary-types': 'off',
