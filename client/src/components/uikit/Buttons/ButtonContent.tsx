@@ -1,16 +1,15 @@
 import { forwardRef, useRef } from 'react';
-import { mergeProps, useButton, useFocusRing } from 'react-aria';
-import { Link } from 'react-router-dom'; // eslint-disable-line no-restricted-imports
+import { useButton, useFocusRing } from 'react-aria';
 import mergeRefs from 'react-merge-refs';
 import styled from 'styled-components';
 
+import ButtonLink from './ButtonLink';
 import Icon from '../Icon';
 import Stack from '../Stack';
 import Spinner from '../Spinner';
 import type { ButtonProps, ButtonSize, ButtonVariant } from './types';
 import type { Theme, Typography } from '~constants/theme';
 import { hoverHighlight } from '~utils/styled';
-import { useLinkProps } from '~components/navigation/Link';
 
 type Props = ButtonProps & {
   // NOTE: we need to get the custom styles via a prop instead of extending since that will break stuff
@@ -88,12 +87,6 @@ const ButtonContent = forwardRef<HTMLButtonElement, Props>(
     );
   }
 );
-
-// TODO: how do we type the props here?
-function ButtonLink({ linkProps, ...rest }: any) {
-  const extraProps = useLinkProps(linkProps);
-  return <Link to={linkProps.to} {...mergeProps(extraProps, rest)} />;
-}
 
 const buttonSizeToIconSize: { [size in ButtonSize]: number } = {
   small: 12,

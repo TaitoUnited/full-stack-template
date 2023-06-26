@@ -1,10 +1,10 @@
 import { ButtonHTMLAttributes, forwardRef, useRef } from 'react';
-import { mergeProps, useButton, useFocusRing } from 'react-aria';
-import { Link } from 'react-router-dom'; // eslint-disable-line no-restricted-imports
+import { useButton, useFocusRing } from 'react-aria';
 import styled from 'styled-components';
 import mergeRefs from 'react-merge-refs';
 import type { IconType } from 'react-icons';
 
+import ButtonLink from './ButtonLink';
 import Tooltip from '../Tooltip';
 import Spinner from '../Spinner';
 import Icon from '../Icon';
@@ -80,12 +80,6 @@ const FloatingButton = forwardRef<HTMLButtonElement, Props>(
     );
   }
 );
-
-// TODO: how do we type the props here?
-function ButtonLink({ linkProps, ...rest }: any) {
-  const extraProps = useLinkProps(linkProps);
-  return <Link to={linkProps.to} {...mergeProps(extraProps, rest)} />;
-}
 
 type WrapperProps = {
   $variant: Props['variant'];
