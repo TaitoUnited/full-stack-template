@@ -1,5 +1,6 @@
 import loadable from '@loadable/component';
 import { useParams, Route } from 'react-router-dom';
+import { useLingui } from '@lingui/react';
 
 import {
   createContext,
@@ -99,6 +100,8 @@ export function routeEntry<Data>({
   }
 
   function Entry() {
+    useLingui();
+
     const params = useParams();
 
     const [state, setState] = useState<LoaderState<Data>>(() => {
