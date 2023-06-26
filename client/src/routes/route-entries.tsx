@@ -6,8 +6,9 @@ import postList from './post-list';
 import postCreate from './post-create';
 import theming from './theming';
 
-// NOTE: the path for each route is defined here again in order to have a single
-// source of truth for all routes and visually see the structure of the app.
+// NOTE: the `path` that used to match the route is defined here!
+// There is also a `path` defined in the entry itself which is used to provide
+// type safety for the path params used in the loader function.
 
 export const routes = [
   {

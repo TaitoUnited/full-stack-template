@@ -165,7 +165,8 @@ export function routeEntry<
 
 // Utils ----------------------------------------------------------------
 
-export function renderRouteEntries(entries: RouteEntry<any, string>[]) {
+export function renderRouteEntries<T extends RouteEntries>(entries: T) {
+  validateRouteEntries(entries);
   return entries.map(({ path, entry, children = [] }) => {
     const Element = entry.element;
     return (
@@ -214,6 +215,16 @@ export function parseEntrySearchParams({
 function useParsedSearchParams(searchParamsOptions?: SearchParamOptions) {
   const [searchParams] = useSearchParams();
   return parseEntrySearchParams({ searchParams, searchParamsOptions });
+}
+
+function validateRouteEntries<T extends RouteEntries>(routes: T) {
+  routes.forEach(route => {
+    if (route.path !== route.entry.path) {
+      console.error(
+        `Route entry validation error: path "${route.path}" does not match entry path "${route.entry.path}"`
+      );
+    }
+  });
 }
 
 // Context ---------------------------------------------------------------------
