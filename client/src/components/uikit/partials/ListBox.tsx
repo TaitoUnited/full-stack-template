@@ -29,8 +29,8 @@ export const ListBox = styled(AriaListBox)`
     }
 
     &[data-focused='true'] {
-      color: ${p => p.theme.colors.onPrimary};
-      background-color: ${p => p.theme.colors.primary};
+      color: ${p => p.theme.colors.primaryText};
+      background-color: ${p => p.theme.colors.primaryMuted};
       outline: none;
     }
   }
