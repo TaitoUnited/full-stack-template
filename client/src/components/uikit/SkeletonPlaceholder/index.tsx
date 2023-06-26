@@ -1,7 +1,7 @@
 import { createContext, useContext, CSSProperties, ReactNode } from 'react';
 import styled, { keyframes, useTheme } from 'styled-components';
 import type { Spacing, Radius, Color } from '~constants/theme';
-import { fadeColor } from '~utils/fn';
+import { fadeColor } from '~utils/color';
 
 type Props = {
   marginTop?: Spacing | number;
