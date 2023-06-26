@@ -8,8 +8,11 @@ import themingEntry from './theming';
 
 export const routes: RouteEntries = [
   { path: '/', entry: homeEntry },
-  { path: '/blog', entry: postListEntry },
-  { path: '/blog/create', entry: postCreateEntry },
+  {
+    path: '/blog',
+    entry: postListEntry,
+    children: [{ path: 'create', entry: postCreateEntry }],
+  },
   { path: '/blog/:id', entry: postEntry },
   { path: '/theming', entry: themingEntry },
 ];

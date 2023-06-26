@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { HiPencil } from 'react-icons/hi';
 import { t, Trans } from '@lingui/macro';
+import { Outlet } from 'react-router-dom';
 
 import type { LoaderData } from '.';
 import { UnstyledLink } from '~components/navigation/Link';
@@ -25,40 +26,44 @@ export default function PostListPage({ loaderData }: Props) {
   useDocumentTitle(t`Blog`);
 
   return (
-    <Stack axis="y" spacing="large">
-      <Text variant="title1">
-        <Trans>Blog</Trans>
-      </Text>
+    <>
+      <Stack axis="y" spacing="large">
+        <Text variant="title1">
+          <Trans>Blog</Trans>
+        </Text>
 
-      {posts.length > 0 ? (
-        <Stack as="ul" axis="y" spacing="normal" data-test-id="post-list">
-          {posts.map(post => (
-            <li key={post.id}>
-              <UnstyledLink to={post.id}>
-                <PostListCard
-                  createdAt={post.createdAt}
-                  subject={post.subject || ''}
-                />
-              </UnstyledLink>
-            </li>
-          ))}
-        </Stack>
-      ) : (
-        <Text variant="body">No blog posts.</Text>
-      )}
+        {posts.length > 0 ? (
+          <Stack as="ul" axis="y" spacing="normal" data-test-id="post-list">
+            {posts.map(post => (
+              <li key={post.id}>
+                <UnstyledLink to={post.id}>
+                  <PostListCard
+                    createdAt={post.createdAt}
+                    subject={post.subject || ''}
+                  />
+                </UnstyledLink>
+              </li>
+            ))}
+          </Stack>
+        ) : (
+          <Text variant="body">No blog posts.</Text>
+        )}
 
-      {!!error && <Text variant="body">Failed to load blog posts.</Text>}
+        {!!error && <Text variant="body">Failed to load blog posts.</Text>}
 
-      <NewPostButton>
-        <FloatingButton
-          variant="primary"
-          icon={HiPencil}
-          label="New post"
-          testId="navigate-to-create-post"
-          {...({ as: UnstyledLink, to: 'create' } as any)}
-        />
-      </NewPostButton>
-    </Stack>
+        <NewPostButton>
+          <FloatingButton
+            variant="primary"
+            icon={HiPencil}
+            label="New post"
+            data-test-id="navigate-to-create-post"
+            {...({ as: UnstyledLink, to: 'create' } as any)}
+          />
+        </NewPostButton>
+      </Stack>
+
+      <Outlet />
+    </>
   );
 }
 

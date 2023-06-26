@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { t, Trans } from '@lingui/macro';
 
 import { useDocumentTitle } from '~utils/routing';
-import { Text, TextInput, Stack, FillButton } from '~uikit';
+import { Text, TextInput, Stack, FillButton, Modal, TextArea } from '~uikit';
 import { PostListDocument, useCreatePostMutation } from '~graphql';
 
 export default function PostCreatePage() {
@@ -19,8 +19,10 @@ export default function PostCreatePage() {
   const [createPost, createPostState] = useCreatePostMutation();
   const navigate = useNavigate();
 
-  function handleChange(event: any) {
-    const { value, name } = event.target;
+  function handleChange(
+    event: FormEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    const { value, name } = event.currentTarget;
     setFormValues(p => ({ ...p, [name]: value }));
   }
 
@@ -50,67 +52,68 @@ export default function PostCreatePage() {
   useDocumentTitle(t`New blog post`);
 
   return (
-    <Wrapper>
-      <Stack axis="y" spacing="large">
-        <Text variant="title1">
-          <Trans>New blog post</Trans>
-        </Text>
+    <Modal title={t`New blog post`} onClose={() => navigate('/blog')}>
+      <Wrapper>
+        <Stack axis="y" spacing="large">
+          <Text variant="bodyLargeStrong">
+            <Trans>New blog post</Trans>
+          </Text>
 
-        <form onSubmit={handleSubmit}>
-          <Stack axis="y" spacing="normal">
-            <TextInput
-              label={t`Subject`}
-              name="subject"
-              data-test-id="subject-field"
-              value={formValues.subject}
-              onChange={handleChange}
-              minLength={5}
-              maxLength={500}
-            />
+          <form onSubmit={handleSubmit}>
+            <Stack axis="y" spacing="normal">
+              <TextInput
+                label={t`Subject`}
+                name="subject"
+                data-test-id="subject-field"
+                value={formValues.subject}
+                onInput={handleChange}
+                minLength={5}
+                maxLength={500}
+              />
 
-            <TextInput
-              label={t`Author`}
-              name="author"
-              data-test-id="author-field"
-              value={formValues.author}
-              onChange={handleChange}
-              minLength={2}
-              maxLength={100}
-            />
+              <TextInput
+                label={t`Author`}
+                name="author"
+                data-test-id="author-field"
+                value={formValues.author}
+                onInput={handleChange}
+                minLength={2}
+                maxLength={100}
+              />
 
-            <TextInput
-              label={t`Content`}
-              name="content"
-              data-test-id="content-field"
-              value={formValues.content}
-              onChange={handleChange}
-              as="textarea"
-              {...({ rows: 4 } as any)}
-            />
+              <TextArea
+                label={t`Content`}
+                name="content"
+                data-test-id="content-field"
+                value={formValues.content}
+                onInput={handleChange}
+                rows={4}
+              />
 
-            <FillButton
-              type="submit"
-              variant="primary"
-              loading={createPostState.loading}
-              disabled={submitDisabled}
-              style={{ alignSelf: 'flex-end' }}
-              testId="submit-post"
-            >
-              {createPostState.loading ? (
-                <Trans>Creating</Trans>
-              ) : (
-                <Trans>Create</Trans>
-              )}
-            </FillButton>
-          </Stack>
-        </form>
-      </Stack>
-    </Wrapper>
+              <FillButton
+                type="submit"
+                variant="primary"
+                loading={createPostState.loading}
+                disabled={submitDisabled}
+                style={{ alignSelf: 'flex-end' }}
+                data-test-id="submit-post"
+              >
+                {createPostState.loading ? (
+                  <Trans>Creating</Trans>
+                ) : (
+                  <Trans>Create</Trans>
+                )}
+              </FillButton>
+            </Stack>
+          </form>
+        </Stack>
+      </Wrapper>
+    </Modal>
   );
 }
 
 const Wrapper = styled.div`
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
+  width: calc(100vw - ${p => p.theme.spacing.large * 2}px);
+  max-width: 500px;
+  padding: ${p => p.theme.spacing.large}px;
 `;
