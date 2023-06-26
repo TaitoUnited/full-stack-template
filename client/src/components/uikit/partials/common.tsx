@@ -1,5 +1,5 @@
 import { ComponentProps } from 'react';
-import { Label as AriaLabel, Text } from 'react-aria-components';
+import { Text } from 'react-aria-components';
 import styled, { css } from 'styled-components';
 import { HiExclamation } from 'react-icons/hi';
 
@@ -12,24 +12,19 @@ export const inputWrapperStyles = css`
 `;
 
 export const baseInputStyles = css`
-  padding: ${p => p.theme.spacing.small}px;
-
-  width: 100%;
-
+  --outline-width: 1px;
   ${p => p.theme.typography.body};
+  padding: ${p => p.theme.spacing.small}px;
+  width: 100%;
   color: ${p => p.theme.colors.text};
-
   border-radius: ${p => p.theme.radii.normal}px;
   border: 1px solid ${p => p.theme.colors.border};
-
-  --outline-width: 1px;
   outline-offset: calc(0px - var(--outline-width));
 
   &:focus {
+    --outline-width: 3px;
     border-color: transparent;
     outline: var(--outline-width) solid ${p => p.theme.colors.primary};
-
-    --outline-width: 3px;
   }
 
   &[aria-invalid='true'],
@@ -39,7 +34,7 @@ export const baseInputStyles = css`
   }
 
   &[disabled] {
-    background-color: ${p => p.theme.colors.muted5};
+    background-color: ${p => p.theme.colors.muted6};
     cursor: not-allowed;
   }
 `;
@@ -47,11 +42,12 @@ export const baseInputStyles = css`
 /**
  * Add a `data-required` attribute to render an `*` after the label
  */
-export const Label = styled(AriaLabel)`
-  color: ${p => p.theme.colors.text};
+export const labelStyles = css`
   ${p => p.theme.typography.body}
+  color: ${p => p.theme.colors.text};
+  margin-bottom: ${p => p.theme.spacing.xxsmall}px;
 
-  &[data-required="true"]:after {
+  &[data-required='true']:after {
     content: ' *';
   }
 `;

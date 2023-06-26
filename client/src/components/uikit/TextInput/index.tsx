@@ -2,20 +2,23 @@ import { useState, forwardRef, ComponentProps } from 'react';
 import { t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
 import styled from 'styled-components';
-import {
-  TextField,
-  Input as AriaInput,
-  ToggleButton,
-} from 'react-aria-components';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import type { IconType } from 'react-icons';
 
+import {
+  TextField,
+  Input as AriaInput,
+  Label as AriaLabel,
+  ToggleButton,
+} from 'react-aria-components';
+
 import Icon from '../Icon';
 import { focusRing } from '~utils/styled';
+
 import {
   inputWrapperStyles,
   InputIconLeft,
-  Label,
+  labelStyles,
   baseInputStyles,
   DescriptionText,
   ErrorText,
@@ -93,6 +96,10 @@ const InputWrapper = styled.div`
   }
 `;
 
+const Label = styled(AriaLabel)`
+  ${labelStyles}
+`;
+
 const PasswordToggleButton = styled(ToggleButton)`
   position: absolute;
   height: 100%;
@@ -100,7 +107,6 @@ const PasswordToggleButton = styled(ToggleButton)`
   right: 0;
   padding-right: ${p => p.theme.spacing.small}px;
   padding-left: ${p => p.theme.spacing.small}px;
-
   display: flex;
   align-items: center;
 

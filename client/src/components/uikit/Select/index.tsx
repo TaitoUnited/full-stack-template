@@ -1,14 +1,16 @@
 import { forwardRef, ComponentProps } from 'react';
 import styled from 'styled-components';
+import { FaChevronDown } from 'react-icons/fa';
+import type { IconType } from 'react-icons';
+
 import {
   Button,
   Popover,
   Select as AriaSelect,
   SelectValue,
   Item,
+  Label as AriaLabel,
 } from 'react-aria-components';
-import { FaChevronDown } from 'react-icons/fa';
-import type { IconType } from 'react-icons';
 
 import {
   baseInputStyles,
@@ -17,8 +19,9 @@ import {
   InputIconLeft,
   InputIconRight,
   inputWrapperStyles,
-  Label,
+  labelStyles,
 } from '~components/uikit/partials/common';
+
 import { ListBox } from '~components/uikit/partials/ListBox';
 
 type Option = {
@@ -84,9 +87,12 @@ const InputWrapper = styled.div`
   }
 `;
 
+const Label = styled(AriaLabel)`
+  ${labelStyles}
+`;
+
 const Input = styled(Button)`
   ${baseInputStyles}
-
   padding-right: ${p => p.theme.spacing.xlarge}px;
   text-align: inherit;
 
