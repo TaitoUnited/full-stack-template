@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-imports */
 import { forwardRef, useMemo, ReactNode } from 'react';
 import { FocusRing, mergeProps } from 'react-aria';
 import styled, { css } from 'styled-components';

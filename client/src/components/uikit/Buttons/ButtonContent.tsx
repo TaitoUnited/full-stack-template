@@ -1,6 +1,6 @@
 import { forwardRef, useRef } from 'react';
 import { mergeProps, useButton, useFocusRing } from 'react-aria';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; // eslint-disable-line no-restricted-imports
 import mergeRefs from 'react-merge-refs';
 import styled from 'styled-components';
 
