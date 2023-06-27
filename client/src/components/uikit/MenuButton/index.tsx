@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import { FiMoreVertical } from 'react-icons/fi';
 import styled from 'styled-components';
 
 import {
@@ -72,7 +71,7 @@ export default function MenuButton({
           <VisuallyHidden>{label}</VisuallyHidden>
           {children || (
             <Icon
-              icon={FiMoreVertical}
+              name="ellipsisVertical"
               size={16}
               color={iconColor}
               aria-hidden="true"

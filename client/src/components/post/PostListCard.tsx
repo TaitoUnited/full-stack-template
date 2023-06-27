@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { format } from 'date-fns';
-import { HiChevronRight } from 'react-icons/hi';
 
 import { Text, Stack, Icon } from '~uikit';
 
@@ -21,7 +20,7 @@ export default function PostListCard({ createdAt, subject }: Props) {
           </Text>
         </PostInfo>
 
-        <Icon icon={HiChevronRight} size={24} color="muted4" />
+        <Icon name="chevronRight" size={24} color="muted4" />
       </Stack>
     </Wrapper>
   );

@@ -1,7 +1,6 @@
 import { ComponentProps } from 'react';
 import { Text } from 'react-aria-components';
 import styled, { css } from 'styled-components';
-import { HiExclamation } from 'react-icons/hi';
 
 import Icon from '../Icon';
 
@@ -93,7 +92,7 @@ export const ErrorText = ({
   ...rest
 }: Omit<ComponentProps<typeof Text>, 'slot'>) => (
   <ErrorTextWrapper {...rest} slot="errorMessage">
-    <Icon icon={HiExclamation} size={14} color="error" />
+    <Icon name="warningTriangle" size={14} color="error" />
     {children}
   </ErrorTextWrapper>
 );

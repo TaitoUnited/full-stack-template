@@ -1,7 +1,5 @@
 import { forwardRef, ComponentProps } from 'react';
 import styled from 'styled-components';
-import { FaChevronDown } from 'react-icons/fa';
-import type { IconType } from 'react-icons';
 
 import {
   Button,
@@ -11,6 +9,9 @@ import {
   Item,
   Label as AriaLabel,
 } from 'react-aria-components';
+
+import { IconName } from '../Icon';
+import { ListBox } from '../partials/ListBox';
 
 import {
   baseInputStyles,
@@ -22,8 +23,6 @@ import {
   labelStyles,
 } from '~components/uikit/partials/common';
 
-import { ListBox } from '~components/uikit/partials/ListBox';
-
 type Option = {
   value: string;
   label: string;
@@ -34,7 +33,7 @@ type Props = ComponentProps<typeof AriaSelect<Option>> & {
   description?: string;
   /** Passing an `errorMessage` as prop toggles the input as invalid. */
   errorMessage?: string;
-  icon?: IconType;
+  icon?: IconName;
 };
 
 /**
@@ -51,13 +50,13 @@ const Select = forwardRef<HTMLDivElement, Props>(
     >
       <Label data-required={rest.isRequired}>{label}</Label>
       <InputWrapper>
-        {icon && <InputIconLeft icon={icon} size={20} color="muted1" />}
+        {icon && <InputIconLeft name={icon} size={20} color="muted1" />}
 
         <Input data-invalid={!!errorMessage}>
           <SelectValue />
         </Input>
 
-        <InputIconRight icon={FaChevronDown} size={12} color="muted1" />
+        <InputIconRight name="chevronDown" size={20} color="muted1" />
       </InputWrapper>
 
       {description && <DescriptionText>{description}</DescriptionText>}

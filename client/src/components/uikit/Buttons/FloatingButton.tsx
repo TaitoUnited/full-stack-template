@@ -2,19 +2,18 @@ import { ButtonHTMLAttributes, forwardRef, useRef } from 'react';
 import { useButton, useFocusRing } from 'react-aria';
 import styled from 'styled-components';
 import mergeRefs from 'react-merge-refs';
-import type { IconType } from 'react-icons';
 
 import ButtonLink from './ButtonLink';
 import Tooltip from '../Tooltip';
 import Spinner from '../Spinner';
-import Icon from '../Icon';
+import Icon, { IconName } from '../Icon';
 import { hoverHighlight } from '~utils/styled';
 import { useLinkProps } from '~components/navigation/Link';
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   as?: keyof JSX.IntrinsicElements;
   disabled?: boolean;
-  icon: IconType;
+  icon: IconName;
   label: string;
   loading?: boolean;
   onClick?: () => any;
@@ -56,7 +55,7 @@ const FloatingButton = forwardRef<HTMLButtonElement, Props>(
     const content = loading ? (
       <Spinner color="currentColor" size="normal" />
     ) : icon ? (
-      <Icon icon={icon} size={24} color="currentColor" />
+      <Icon name={icon} size={24} color="currentColor" />
     ) : null;
 
     return (

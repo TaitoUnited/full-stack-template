@@ -2,7 +2,6 @@ import React, { forwardRef, ComponentProps } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { Checkbox as AriaCheckbox } from 'react-aria-components';
-import { HiCheck, HiMinusSm } from 'react-icons/hi';
 
 import Icon from '../Icon';
 
@@ -39,11 +38,11 @@ const Checkbox = forwardRef<HTMLInputElement, Props>(
                 animate={{ opacity: 1, scale: 1 }}
                 aria-hidden
               >
-                {isIndeterminate ? (
-                  <Icon icon={HiMinusSm} size={14} color="currentColor" />
-                ) : (
-                  <Icon icon={HiCheck} size={14} color="currentColor" />
-                )}
+                <Icon
+                  name={isIndeterminate ? 'minus' : 'checkmark'}
+                  size={14}
+                  color="currentColor"
+                />
               </IconWrapper>
             )}
           </div>

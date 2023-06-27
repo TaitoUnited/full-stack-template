@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { t } from '@lingui/macro';
-import { FiMoon, FiSun } from 'react-icons/fi';
 
 import { useTheming } from '~services/theming';
 import { activeOpacity, flexCenter, hoverHighlight } from '~utils/styled';
@@ -19,11 +18,11 @@ export default function ColorModeButton() {
       }
     >
       <Wrapper onClick={toggleTheme}>
-        {theme === 'light' ? (
-          <Icon icon={FiMoon} size={16} color="muted1" />
-        ) : (
-          <Icon icon={FiSun} size={16} color="muted1" />
-        )}
+        <Icon
+          name={theme === 'light' ? 'moon' : 'sun'}
+          size={16}
+          color="muted1"
+        />
       </Wrapper>
     </Tooltip>
   );

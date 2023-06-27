@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { t } from '@lingui/macro';
-import { HiOutlineGlobe } from 'react-icons/hi';
 
 import { useI18n, Locale, LOCALE_LABEL } from '~services/i18n';
 import { MenuButton, Stack, Text, Icon } from '~uikit';
@@ -18,7 +17,7 @@ export default function LangMenuButton() {
       }))}
     >
       <Stack axis="x" spacing="xxsmall" align="center">
-        <Icon icon={HiOutlineGlobe} size={16} color="muted1" />
+        <Icon name="languageGlobe" size={16} color="muted1" />
         <Text variant="bodySmall" color="muted1">
           {i18n.locale.toUpperCase()}
         </Text>

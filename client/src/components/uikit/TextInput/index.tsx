@@ -2,8 +2,6 @@ import { useState, forwardRef, ComponentProps } from 'react';
 import { t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
 import styled from 'styled-components';
-import { FiEye, FiEyeOff } from 'react-icons/fi';
-import type { IconType } from 'react-icons';
 
 import {
   TextField,
@@ -12,7 +10,7 @@ import {
   ToggleButton,
 } from 'react-aria-components';
 
-import Icon from '../Icon';
+import Icon, { IconName } from '../Icon';
 import { focusRing } from '~utils/styled';
 
 import {
@@ -26,7 +24,7 @@ import {
 
 type Props = ComponentProps<typeof TextField> & {
   label: string;
-  icon?: IconType;
+  icon?: IconName;
   description?: string;
   /** Passing an `errorMessage` as prop toggles the input as invalid. */
   errorMessage?: string;
@@ -47,7 +45,7 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
         <Label data-required={rest.isRequired}>{label}</Label>
 
         <InputWrapper>
-          {icon && <InputIconLeft icon={icon} size={20} color="muted1" />}
+          {icon && <InputIconLeft name={icon} size={20} color="muted1" />}
 
           <Input
             ref={ref}
@@ -65,7 +63,7 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
               aria-label={t`Show password`}
             >
               <Icon
-                icon={passwordVisible ? FiEyeOff : FiEye}
+                name={passwordVisible ? 'eyeFilled' : 'eyeOutlined'}
                 size={20}
                 color="muted1"
               />

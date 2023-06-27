@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { HiPencil } from 'react-icons/hi';
 import { t, Trans } from '@lingui/macro';
 import { Outlet } from 'react-router-dom';
 
@@ -54,7 +53,7 @@ export default function PostListPage({ loaderData }: Props) {
         <NewPostButton>
           <FloatingButton
             variant="primary"
-            icon={HiPencil}
+            icon="pencil"
             label="New post"
             data-test-id="navigate-to-create-post"
             asLink={{ to: 'create', preloadOn: 'hover' }}

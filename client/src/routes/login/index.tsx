@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { FormEvent, useState } from 'react';
 import { t, Trans } from '@lingui/macro';
-import { HiOutlineMail, HiLockClosed } from 'react-icons/hi';
 
 import { Text, TextInput, Stack, FillButton } from '~uikit';
 import { useDocumentTitle } from '~utils/routing';
@@ -37,7 +36,7 @@ export default function LoginPage() {
             <TextInput
               label={t`Email`}
               name="email"
-              icon={HiOutlineMail}
+              icon="envelopeFilled"
               value={credentials.email}
               onInput={handleChange}
             />
@@ -45,7 +44,7 @@ export default function LoginPage() {
               label={t`Password`}
               name="password"
               type="password"
-              icon={HiLockClosed}
+              icon="lock"
               value={credentials.password}
               onInput={handleChange}
             />

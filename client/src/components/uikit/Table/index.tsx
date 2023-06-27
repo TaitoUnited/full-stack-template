@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { noop } from 'lodash';
 
 import {
@@ -26,7 +25,7 @@ import {
 } from '@react-stately/table';
 
 import Stack from '../Stack';
-import Icon from '../Icon';
+import Icon, { IconName } from '../Icon';
 import { flexCenter } from '~utils/styled';
 
 export type SortDescriptor = NonNullable<
@@ -112,10 +111,10 @@ function TableColumnHeader({
 
   const { isFocusVisible, focusProps } = useFocusRing();
 
-  const arrowIcon =
+  const arrowIcon: IconName =
     state.sortDescriptor?.direction === 'ascending'
-      ? FaChevronUp
-      : FaChevronDown;
+      ? 'chevronUp'
+      : 'chevronDown';
 
   return (
     <TableColumnHeaderBase
@@ -130,7 +129,7 @@ function TableColumnHeader({
         {column.props.allowsSorting && (
           <TabletColumnSort>
             <TabletColumnSortIcon
-              icon={arrowIcon}
+              name={arrowIcon}
               size={10}
               color="textMuted"
               aria-hidden="true"

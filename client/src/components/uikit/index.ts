@@ -21,3 +21,4 @@ export { default as OutlineButton } from './Buttons/OutlineButton';
 export { default as FloatingButton } from './Buttons/FloatingButton';
 export { default as Table } from './Table';
 export type { SortDescriptor } from './Table';
+export type { IconName } from './Icon';

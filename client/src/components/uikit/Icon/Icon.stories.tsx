@@ -1,8 +1,7 @@
-import * as faIcons from 'react-icons/fa';
-
 import Tooltip from '../Tooltip';
 import Stack from '../Stack';
 import Icon from './index';
+import { ids } from '~design-system/icon-sprite-ids';
 
 export default {
   title: 'Icon',
@@ -12,9 +11,9 @@ export default {
 export function AllIcons() {
   return (
     <Stack axis="x" spacing="large" fluid>
-      {Object.entries(faIcons).map(([name, icon], i) => (
+      {ids.map((name, i) => (
         <Tooltip title={name} key={i}>
-          <Icon icon={icon as any} size={24} color="text" />
+          <Icon name={name} size={24} color="text" />
         </Tooltip>
       ))}
     </Stack>

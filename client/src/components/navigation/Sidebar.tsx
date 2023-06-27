@@ -1,31 +1,35 @@
 import styled from 'styled-components';
-import { HiHome, HiBookOpen, HiOutlineSupport, HiLogout } from 'react-icons/hi';
 import { t, Trans } from '@lingui/macro';
 
 import { UnstyledLink } from './Link';
-import { Text, Icon, Spacer, OutlineButton } from '~uikit';
+import { Text, Icon, Spacer, OutlineButton, IconName } from '~uikit';
 import { activeOpacity, hoverHighlight } from '~utils/styled';
 import { useAuth } from '~services/auth';
 
 export default function Sidebar() {
   const auth = useAuth();
 
-  const items = [
+  const items: Array<{
+    label: string;
+    icon: IconName;
+    to: string;
+    testId: string;
+  }> = [
     {
       label: t`Home`,
-      icon: HiHome,
+      icon: 'homeFilled',
       to: '/',
       testId: 'navigate-to-home',
     },
     {
       label: t`Blog`,
-      icon: HiBookOpen,
+      icon: 'book',
       to: '/blog',
       testId: 'navigate-to-blog',
     },
     {
       label: t`Theming`,
-      icon: HiOutlineSupport,
+      icon: 'lightningFilled',
       to: '/theming',
       testId: 'navigate-to-theming',
     },
@@ -38,7 +42,7 @@ export default function Sidebar() {
           {items.map(({ label, icon, to, testId }) => (
             <li key={label}>
               <NavItemLink to={to} data-test-id={testId} preloadOn="hover">
-                <Icon icon={icon} size={24} color="text" />
+                <Icon name={icon} size={24} color="text" />
                 <Spacer axis="x" size="normal" />
                 <Text variant="body">{label}</Text>
               </NavItemLink>
@@ -50,7 +54,7 @@ export default function Sidebar() {
           <Logout>
             <OutlineButton
               variant="primary"
-              icon={HiLogout}
+              icon="logout"
               loading={auth.status === 'logging-out'}
               onClick={auth.logout}
             >

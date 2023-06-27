@@ -1,28 +1,28 @@
-import { useTheme } from 'styled-components';
+import styled from 'styled-components';
 import type { SVGAttributes } from 'react';
-import type { IconType } from 'react-icons';
 
+import { ids } from '~design-system/icon-sprite-ids';
 import type { Color } from '~constants/theme';
 
+export type IconName = (typeof ids)[number];
+
 type Props = SVGAttributes<any> & {
-  icon: IconType;
+  name: IconName;
   color: Color | 'currentColor';
   size: number;
 };
 
-export default function Icon({
-  icon: IconComponent,
-  size,
-  color,
-  ...rest
-}: Props) {
-  const { colors } = useTheme();
-
+export default function Icon({ name, size, color, ...rest }: Props) {
   return (
-    <IconComponent
-      {...rest}
-      color={color === 'currentColor' ? color : colors[color]}
-      size={size}
-    />
+    <Svg size={size} color={color} {...rest} aria-hidden>
+      <use href={`/icon-sprite.svg#${name}`} />
+    </Svg>
   );
 }
+
+const Svg = styled.svg<{ size: Props['size']; color: Props['color'] }>`
+  width: ${p => p.size}px;
+  height: ${p => p.size}px;
+  color: ${p =>
+    p.color === 'currentColor' ? 'currentColor' : p.theme.colors[p.color]};
+`;

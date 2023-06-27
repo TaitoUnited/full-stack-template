@@ -1,5 +1,3 @@
-import { FaAtom, FaAward } from 'react-icons/fa';
-
 import type { ButtonProps } from './types';
 import Stack from '../Stack';
 import FillButton from './FillButton';
@@ -83,7 +81,7 @@ export function WithIcon() {
             key={`icon-${size}`}
             size={size}
             variant="primary"
-            icon={FaAtom}
+            icon="sparkles"
             onClick={() => console.log('Filled')}
           >
             Icon on right
@@ -97,7 +95,7 @@ export function WithIcon() {
             key={`icon-${size}`}
             size={size}
             variant="primary"
-            icon={FaAward}
+            icon="bell"
             iconPlacement="left"
             onClick={() => console.log('Filled')}
           >

@@ -1,5 +1,4 @@
 import { Toaster as HotToaster } from 'react-hot-toast';
-import { HiCheckCircle, HiXCircle } from 'react-icons/hi';
 import { useTheme } from 'styled-components';
 
 import { Icon } from '~uikit';
@@ -19,14 +18,14 @@ export default function Toaster() {
           ...theme.typography.body,
         },
         success: {
-          icon: <Icon icon={HiCheckCircle} size={24} color="currentColor" />,
+          icon: <Icon name="checkmark" size={24} color="currentColor" />,
           style: {
             backgroundColor: theme.colors.successMuted,
             color: theme.colors.successText,
           },
         },
         error: {
-          icon: <Icon icon={HiXCircle} size={24} color="currentColor" />,
+          icon: <Icon name="x" size={24} color="currentColor" />,
           style: {
             backgroundColor: theme.colors.errorMuted,
             color: theme.colors.errorText,

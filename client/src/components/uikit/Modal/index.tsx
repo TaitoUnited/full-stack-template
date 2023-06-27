@@ -1,7 +1,6 @@
 import { useRef, ReactNode, CSSProperties } from 'react';
 import styled, { css } from 'styled-components';
 import { motion } from 'framer-motion';
-import { MdClose } from 'react-icons/md';
 
 import {
   useOverlay,
@@ -79,7 +78,7 @@ export default function Modal({
               {showCloseButton && (
                 <FocusRing focusRingClass="modal-close-button-focus">
                   <CloseButton onClick={onClose}>
-                    <Icon icon={MdClose} size={14} color="text" />
+                    <Icon name="x" size={14} color="text" />
                   </CloseButton>
                 </FocusRing>
               )}

@@ -1,7 +1,5 @@
 import { forwardRef, ComponentProps } from 'react';
 import styled from 'styled-components';
-import { FaChevronDown } from 'react-icons/fa';
-import type { IconType } from 'react-icons';
 
 import {
   Button,
@@ -22,7 +20,7 @@ import {
 } from '~components/uikit/partials/common';
 
 import { ListBox } from '~components/uikit/partials/ListBox';
-import Icon from '~components/uikit/Icon';
+import Icon, { IconName } from '~components/uikit/Icon';
 
 type Option = {
   value: string;
@@ -35,7 +33,7 @@ type Props = ComponentProps<typeof AriaComboBox<Option>> & {
   /** Passing an `errorMessage` as prop toggles the input as invalid. */
   errorMessage?: string;
   placeholder?: string;
-  icon?: IconType;
+  icon?: IconName;
 };
 
 /**
@@ -52,12 +50,12 @@ const ComboBox = forwardRef<HTMLInputElement, Props>(
     >
       <Label data-required={rest.isRequired}>{label}</Label>
       <InputWrapper>
-        {icon && <InputIconLeft icon={icon} size={20} color="muted1" />}
+        {icon && <InputIconLeft name={icon} size={20} color="muted1" />}
 
         <Input placeholder={placeholder} />
 
         <InputButton>
-          <Icon icon={FaChevronDown} size={12} color="muted1" />
+          <Icon name="chevronDown" size={20} color="muted1" />
         </InputButton>
       </InputWrapper>
 

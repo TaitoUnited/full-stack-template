@@ -1,5 +1,3 @@
-import { FaMailBulk } from 'react-icons/fa';
-
 import Stack from '../Stack';
 import TextInput from './index';
 
@@ -26,7 +24,7 @@ export function Example() {
 
       <TextInput label="Erroring input" errorMessage="Please don't do this" />
 
-      <TextInput label="Icon input" icon={FaMailBulk} />
+      <TextInput label="Icon input" icon="microphone" />
 
       <TextInput label="Password input" type="password" />
     </Stack>

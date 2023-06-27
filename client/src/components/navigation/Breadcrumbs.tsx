@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 import { truncate } from 'lodash';
-import { HiChevronRight } from 'react-icons/hi';
 import { useBreadcrumbs, useBreadcrumbItem } from 'react-aria';
 
 import { Link } from './Link';
@@ -60,7 +59,7 @@ function BreadcrumbLink({
 
       {!isCurrent && (
         <Icon
-          icon={HiChevronRight}
+          name="chevronRight"
           size={16}
           color="muted1"
           aria-hidden="true"

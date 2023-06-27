@@ -1,5 +1,3 @@
-import { FaAward } from 'react-icons/fa';
-
 import Stack from '../Stack';
 import Select from './index';
 
@@ -25,7 +23,7 @@ export function Example() {
 
       <Select label="Required select" items={options} isRequired />
 
-      <Select label="With icon" icon={FaAward} items={options} />
+      <Select label="With icon" icon="download" items={options} />
 
       <Select
         label="Descriptions also"

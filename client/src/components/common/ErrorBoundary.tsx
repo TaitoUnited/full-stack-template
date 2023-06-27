@@ -1,6 +1,5 @@
 import { Component, ComponentType, ReactNode } from 'react';
 import { Trans } from '@lingui/macro';
-import { IoIosBug } from 'react-icons/io';
 import styled from 'styled-components';
 import * as Sentry from '@sentry/browser';
 
@@ -67,14 +66,14 @@ export default class ErrorBoundary extends Component<Props, State> {
           {config.ERROR_REPORTING_ENABLED && (
             <FillButton
               variant="error"
-              icon={IoIosBug}
+              icon="infoFilled"
               onClick={this.handleErrorReport}
             >
               <Trans>Report an error</Trans>
             </FillButton>
           )}
           <div>
-            <FillButton variant="info" icon={IoIosBug} onClick={this.tryReload}>
+            <FillButton variant="info" onClick={this.tryReload}>
               <Trans>Reload Page</Trans>
             </FillButton>
           </div>

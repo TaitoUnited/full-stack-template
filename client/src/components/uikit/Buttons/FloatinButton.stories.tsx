@@ -1,5 +1,4 @@
 import { ComponentProps } from 'react';
-import { HiAcademicCap, HiCamera, HiEmojiHappy } from 'react-icons/hi';
 
 import Stack from '../Stack';
 import FloatingButton from './FloatingButton';
@@ -19,7 +18,7 @@ export function AllVariants() {
       {buttons.map(variant => (
         <Stack key={variant} axis="x" spacing="normal" align="flex-start">
           <FloatingButton
-            icon={HiAcademicCap}
+            icon="bell"
             variant={variant}
             onClick={() => console.log('Filled')}
             label="Example"
@@ -36,7 +35,7 @@ export function AllStates() {
     <Stack axis="y" spacing="large" align="flex-start">
       <Stack axis="x" spacing="normal" align="flex-start">
         <FloatingButton
-          icon={HiCamera}
+          icon="clock"
           variant="primary"
           loading
           onClick={() => console.log('Filled')}
@@ -45,7 +44,7 @@ export function AllStates() {
         />
 
         <FloatingButton
-          icon={HiEmojiHappy}
+          icon="heartFilled"
           variant="primary"
           disabled
           onClick={() => console.log('Filled')}

@@ -57,7 +57,7 @@ const ButtonContent = forwardRef<HTMLButtonElement, Props>(
       />
     ) : icon ? (
       <Icon
-        icon={icon}
+        name={icon}
         color="currentColor"
         size={buttonSizeToIconSize[size]}
       />

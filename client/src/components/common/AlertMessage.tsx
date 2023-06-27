@@ -1,8 +1,8 @@
 import styled from 'styled-components';
-import { HiExclamation, HiExclamationCircle } from 'react-icons/hi';
 
 import { Stack, Text, Icon } from '~uikit';
 import type { Color } from '~constants/theme';
+import type { IconName } from '~uikit';
 
 export default function AlertMessage({
   variant,
@@ -14,12 +14,15 @@ export default function AlertMessage({
   const bg = `${variant}Muted` as Color;
   const textColor = `${variant}Text` as Color;
   const iconColor = variant as Color;
-  const icon = variant === 'info' ? HiExclamationCircle : HiExclamation;
+  const icon: IconName =
+    variant === 'info' || variant === 'success'
+      ? 'infoFilled'
+      : 'warningTriangle';
 
   return (
     <Wrapper bg={bg}>
       <Stack axis="x" spacing="normal" align="center">
-        <Icon icon={icon} color={iconColor} size={24} />
+        <Icon name={icon} color={iconColor} size={24} />
         <Text variant="body" color={textColor}>
           {message}
         </Text>
