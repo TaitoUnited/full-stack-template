@@ -7,7 +7,7 @@ import type { Color } from '~constants/theme';
 type Props = SVGAttributes<any> & {
   icon: IconType;
   color: Color | 'currentColor';
-  size: 'small' | 'normal' | 'large' | number;
+  size: number;
 };
 
 export default function Icon({
@@ -16,14 +16,13 @@ export default function Icon({
   color,
   ...rest
 }: Props) {
-  const { sizing, colors } = useTheme();
-  const _size = typeof size === 'string' ? sizing.icon[size] : size;
+  const { colors } = useTheme();
 
   return (
     <IconComponent
       {...rest}
       color={color === 'currentColor' ? color : colors[color]}
-      size={_size}
+      size={size}
     />
   );
 }

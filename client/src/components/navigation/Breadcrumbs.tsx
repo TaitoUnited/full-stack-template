@@ -61,7 +61,7 @@ function BreadcrumbLink({
       {!isCurrent && (
         <Icon
           icon={HiChevronRight}
-          size="small"
+          size={16}
           color="muted1"
           aria-hidden="true"
           className="breadcrumb-separator"

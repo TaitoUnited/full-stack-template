@@ -224,7 +224,7 @@ const MenuButtonTrigger = styled.button`
   }
 
   &:active {
-    background-color: ${p => p.theme.colors.activeHighlight};
+    background-color: ${p => p.theme.colors.pressHighlight};
   }
 
   &.menu-button-trigger-focus {

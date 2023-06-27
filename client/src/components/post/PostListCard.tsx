@@ -21,7 +21,7 @@ export default function PostListCard({ createdAt, subject }: Props) {
           </Text>
         </PostInfo>
 
-        <Icon icon={HiChevronRight} size="normal" color="muted4" />
+        <Icon icon={HiChevronRight} size={24} color="muted4" />
       </Stack>
     </Wrapper>
   );

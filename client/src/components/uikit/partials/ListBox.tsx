@@ -19,7 +19,7 @@ export const ListBox = styled(AriaListBox)`
     border-radius: ${p => p.theme.radii.small}px;
 
     &[aria-selected='true'] {
-      ${p => p.theme.typography.bodyStrong}
+      ${p => p.theme.typography.bodyBold}
 
       &:before {
         content: '✓';

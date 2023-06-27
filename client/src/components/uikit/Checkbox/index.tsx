@@ -66,7 +66,7 @@ const AriaCheckboxWrapper = styled(AriaCheckbox)`
     height: 18px;
     flex-shrink: 0;
     background-color: 'white';
-    color: ${p => p.theme.colors.onPrimary};
+    color: ${p => p.theme.colors.primaryMuted};
     border-radius: ${p => p.theme.radii.small}px;
     border: 1px solid ${p => p.theme.colors.muted3};
   }

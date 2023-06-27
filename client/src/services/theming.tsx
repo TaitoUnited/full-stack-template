@@ -1,39 +1,49 @@
-import { createContext, useContext, ReactNode, useEffect } from 'react';
+import {
+  createContext,
+  useContext,
+  ReactNode,
+  useEffect,
+  useCallback,
+} from 'react';
 import { ThemeProvider } from 'styled-components';
 
 import { theme as lightTheme, darkTheme } from '~constants/theme';
 import { usePersistedState } from '~utils/persistance';
 
-type CurrentTheme = 'light' | 'dark';
+type Theme = 'light' | 'dark';
+
+declare global {
+  interface Window {
+    CURRENT_THEME: Theme;
+  }
+}
 
 type AuthContextValue = {
-  currentTheme: CurrentTheme;
-  setCurrentTheme: (t: CurrentTheme) => void;
+  theme: Theme;
+  setTheme: (t: Theme) => void;
   toggleTheme: () => void;
 };
 
 const ThemingContext = createContext<undefined | AuthContextValue>(undefined);
 
 export function ThemingProvider({ children }: { children: ReactNode }) {
-  const [persistedTheme, setCurrentTheme] = usePersistedState<CurrentTheme>('@app/theme'); // prettier-ignore
-  const currentTheme = persistedTheme || (window as any).CURRENT_THEME || 'light' as CurrentTheme; // prettier-ignore
-  const theme = currentTheme === 'light' ? lightTheme : darkTheme;
+  const [persistedTheme, setTheme] = usePersistedState<Theme>('@app/theme');
+  const theme = persistedTheme || window.CURRENT_THEME || 'light';
+  const values = theme === 'light' ? lightTheme : darkTheme;
 
-  function toggleTheme() {
-    setCurrentTheme(currentTheme === 'dark' ? 'light' : 'dark');
-  }
+  const toggleTheme = useCallback(() => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  }, [theme, setTheme]);
 
   useEffect(() => {
     const root = document.documentElement;
-    root.style.setProperty('color-scheme', currentTheme);
-    root.style.setProperty('--background-color', theme.colors.background);
-  }, [currentTheme]); // eslint-disable-line
+    root.style.setProperty('color-scheme', theme);
+    root.style.setProperty('--background-color', values.colors.background);
+  }, [theme]); // eslint-disable-line
 
   return (
-    <ThemingContext.Provider
-      value={{ currentTheme, setCurrentTheme, toggleTheme }}
-    >
-      <ThemeProvider theme={theme}>{children}</ThemeProvider>
+    <ThemingContext.Provider value={{ theme, setTheme, toggleTheme }}>
+      <ThemeProvider theme={values}>{children}</ThemeProvider>
     </ThemingContext.Provider>
   );
 }

@@ -18,7 +18,7 @@ export default function LangMenuButton() {
       }))}
     >
       <Stack axis="x" spacing="xxsmall" align="center">
-        <Icon icon={HiOutlineGlobe} size="small" color="muted1" />
+        <Icon icon={HiOutlineGlobe} size={16} color="muted1" />
         <Text variant="bodySmall" color="muted1">
           {i18n.locale.toUpperCase()}
         </Text>

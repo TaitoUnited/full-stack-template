@@ -8,7 +8,7 @@ import Icon from '../Icon';
 import Stack from '../Stack';
 import Spinner from '../Spinner';
 import type { ButtonProps, ButtonSize, ButtonVariant } from './types';
-import type { Theme, Typography } from '~constants/theme';
+import type { Size, Theme, Typography } from '~constants/theme';
 import { hoverHighlight } from '~utils/styled';
 
 type Props = ButtonProps & {
@@ -106,8 +106,14 @@ const buttonSizeToSpinnerSize: { [size in ButtonSize]: string } = {
   large: 'medium',
 };
 
+const buttonSizeToHeight: { [size in ButtonSize]: Size } = {
+  small: 'buttonHeightSmall',
+  normal: 'buttonHeightNormal',
+  large: 'buttonHeightLarge',
+};
+
 const horizontalPadding: {
-  [size in keyof Theme['sizing']['button']]: keyof Theme['spacing'];
+  [size in ButtonSize]: keyof Theme['spacing'];
 } = {
   small: 'normal',
   normal: 'large',
@@ -132,7 +138,7 @@ const Wrapper = styled.button<WrapperProps>`
   margin: 0;
   border-radius: ${p => p.theme.radii.normal}px;
   opacity: ${p => (p.disabled && !p.$isLoading ? 0.5 : 1)};
-  height: ${p => p.theme.sizing.button[p.$size]}px;
+  height: ${p => p.theme.sizing[buttonSizeToHeight[p.$size]]}px;
   padding-left: ${p => p.theme.spacing[horizontalPadding[p.$size]]}px;
   padding-right: ${p => p.theme.spacing[horizontalPadding[p.$size]]}px;
   cursor: ${p => (p.disabled ? 'not-allowed' : 'pointer')};

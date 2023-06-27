@@ -118,8 +118,6 @@ export function useLinkProps({
           }),
         } as LoaderParams<string>;
 
-        console.log('> Preloading route', route.path, loaderParams);
-
         await route.entry.load(loaderParams);
       } catch (error) {
         console.log('> Failed to preload route', error);

@@ -7,22 +7,22 @@ import { activeOpacity, flexCenter, hoverHighlight } from '~utils/styled';
 import { Icon, Tooltip } from '~uikit';
 
 export default function ColorModeButton() {
-  const { toggleTheme, currentTheme } = useTheming();
+  const { toggleTheme, theme } = useTheming();
 
   return (
     <Tooltip
       position="left"
       title={
-        currentTheme === 'light'
+        theme === 'light'
           ? t`Change theme to dark mode`
           : t`Change theme to light mode`
       }
     >
       <Wrapper onClick={toggleTheme}>
-        {currentTheme === 'light' ? (
-          <Icon icon={FiMoon} size="small" color="muted1" />
+        {theme === 'light' ? (
+          <Icon icon={FiMoon} size={16} color="muted1" />
         ) : (
-          <Icon icon={FiSun} size="small" color="muted1" />
+          <Icon icon={FiSun} size={16} color="muted1" />
         )}
       </Wrapper>
     </Tooltip>

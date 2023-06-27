@@ -105,7 +105,7 @@ export default function Home() {
             <Card key={feature.title}>
               <Stack axis="y" spacing="normal">
                 <Stack axis="x" spacing="xsmall" align="center">
-                  <Icon icon={feature.icon} size="normal" color="text" />
+                  <Icon icon={feature.icon} size={24} color="text" />
                   <Text variant="title3">{feature.title}</Text>
                 </Stack>
 

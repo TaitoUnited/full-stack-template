@@ -94,8 +94,8 @@ const Wrapper = styled.button<WrapperProps>`
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: ${p => p.theme.sizing.button.large}px;
-  height: ${p => p.theme.sizing.button.large}px;
+  width: ${p => p.theme.sizing.buttonHeightLarge}px;
+  height: ${p => p.theme.sizing.buttonHeightLarge}px;
   border-radius: 50%;
   background-color: ${p => p.theme.colors[p.$variant]};
   color: #fff;

@@ -18,6 +18,10 @@
     "lang:compile": "lingui compile",
     "uikit:preview": "storybook dev -p 6006",
     "uikit:build": "storybook build",
+    "design-system:sync": "npm run design-system:tokenize && npm run design-system:codegen && npm run design-system:format",
+    "design-system:tokenize": "figmage tokenize --env .env.figma",
+    "design-system:codegen": "figmage codegen --env .env.figma",
+    "design-system:format": "prettier --write \"src/design-system/*.ts\"",
     "generate:graphql": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
@@ -88,6 +92,7 @@
     "eslint-plugin-react": "7.32.2",
     "eslint-plugin-react-hooks": "4.6.0",
     "eslint-plugin-storybook": "0.6.12",
+    "figmage": "0.10.0",
     "jsdom": "22.0.0",
     "pg-promise": "10.11.1",
     "prettier": "2.8.8",
@@ -124,5 +129,58 @@
     "semi": true,
     "singleQuote": true,
     "arrowParens": "avoid"
+  },
+  "figmage": {
+    "outDir": "src/design-system",
+    "tokenize": {
+      "tokens": [
+        {
+          "name": "colors",
+          "type": "color"
+        },
+        {
+          "name": "typography",
+          "type": "text"
+        },
+        {
+          "name": "shadows",
+          "type": "drop-shadow"
+        },
+        {
+          "name": "spacing",
+          "type": "width",
+          "nodeId": "110:694"
+        },
+        {
+          "name": "sizing",
+          "type": "height",
+          "nodeId": "102:7"
+        },
+        {
+          "name": "radii",
+          "type": "radius",
+          "nodeId": "102:8"
+        },
+        {
+          "name": "icons",
+          "type": "svg",
+          "nodeId": "102:2"
+        }
+      ]
+    },
+    "codegen": {
+      "defaults": {
+        "filetype": "ts",
+        "tokenCase": "camel"
+      },
+      "icons": {
+        "filetype": "svg",
+        "filename": "icon-sprite",
+        "sprite": {
+          "writeIds": true,
+          "spriteDir": "assets"
+        }
+      }
+    }
   }
 }

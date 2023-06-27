@@ -135,7 +135,7 @@ export const hoverHighlight = css`
   }
 `;
 
-export const activeHighlight = css`
+export const pressHighlight = css`
   &:after {
     content: '';
     opacity: 0;

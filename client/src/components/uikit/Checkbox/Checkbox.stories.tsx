@@ -21,7 +21,7 @@ export const Example = () => {
           label="Sluibs?"
         />
 
-        <Checkbox label={<Text variant="bodyStrong">Custom label</Text>} />
+        <Checkbox label={<Text variant="bodyBold">Custom label</Text>} />
 
         <Checkbox isDisabled label="I'm disabled" />
 

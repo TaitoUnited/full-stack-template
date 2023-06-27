@@ -55,7 +55,7 @@ export default function PostCreatePage() {
     <Modal title={t`New blog post`} onClose={() => navigate('/blog')}>
       <Wrapper>
         <Stack axis="y" spacing="large">
-          <Text variant="bodyLargeStrong">
+          <Text variant="bodyLargeBold">
             <Trans>New blog post</Trans>
           </Text>
 

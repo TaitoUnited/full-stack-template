@@ -19,7 +19,7 @@ export default function AlertMessage({
   return (
     <Wrapper bg={bg}>
       <Stack axis="x" spacing="normal" align="center">
-        <Icon icon={icon} color={iconColor} size="normal" />
+        <Icon icon={icon} color={iconColor} size={24} />
         <Text variant="body" color={textColor}>
           {message}
         </Text>

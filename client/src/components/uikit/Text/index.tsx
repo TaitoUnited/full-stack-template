@@ -45,18 +45,19 @@ export default function Text({
 }
 
 const variantToTag: { [key in Typography]: Partial<Tags> } = {
+  largeTitle: 'h1',
   title1: 'h1',
   title2: 'h2',
   title3: 'h3',
-  title4: 'h4',
+  subtitle: 'strong',
   overline: 'span',
   caption: 'span',
   body: 'span',
-  bodyStrong: 'strong',
+  bodyBold: 'strong',
   bodySmall: 'span',
-  bodySmallStrong: 'strong',
+  bodySmallBold: 'strong',
   bodyLarge: 'span',
-  bodyLargeStrong: 'strong',
+  bodyLargeBold: 'strong',
 };
 
 const TextBase = styled.span<TransientProps>`

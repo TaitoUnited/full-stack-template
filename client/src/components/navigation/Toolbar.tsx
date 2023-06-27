@@ -14,7 +14,7 @@ export default function Toolbar() {
           <LogoImg src={logoImg} />
         </LogoWrapper>
 
-        <Text variant="bodyStrong" color="primary">
+        <Text variant="bodyBold" color="primary">
           Taito Fullstack Template
         </Text>
       </Stack>

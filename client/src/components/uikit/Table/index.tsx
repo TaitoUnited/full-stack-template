@@ -249,7 +249,7 @@ const TableColumnHeaderBase = styled.div<{
   color: ${p => p.theme.colors.text};
   outline: none;
   cursor: ${p => (p.$isSortable ? 'pointer' : 'default')};
-  ${p => p.theme.typography.bodyStrong}
+  ${p => p.theme.typography.bodyBold}
 
   &[aria-sort="ascending"],
   &[aria-sort="descending"] {
