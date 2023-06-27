@@ -26,7 +26,7 @@ export default function PostCreatePage() {
     setFormValues(p => ({ ...p, [name]: value }));
   }
 
-  async function handleSubmit(event: any) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (submitDisabled) return;
 

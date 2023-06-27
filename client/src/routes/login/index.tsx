@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { t, Trans } from '@lingui/macro';
 import { HiOutlineMail, HiLockClosed } from 'react-icons/hi';
 
@@ -11,12 +11,14 @@ export default function LoginPage() {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const auth = useAuth();
 
-  function handleChange(event: any) {
-    const { value, name } = event.target;
+  function handleChange(
+    event: FormEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    const { value, name } = event.currentTarget;
     setCredentials(p => ({ ...p, [name]: value }));
   }
 
-  function handleSubmit(event: any) {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     auth.login(credentials);
   }
@@ -37,7 +39,7 @@ export default function LoginPage() {
               name="email"
               icon={HiOutlineMail}
               value={credentials.email}
-              onChange={handleChange}
+              onInput={handleChange}
             />
             <TextInput
               label={t`Password`}
@@ -45,7 +47,7 @@ export default function LoginPage() {
               type="password"
               icon={HiLockClosed}
               value={credentials.password}
-              onChange={handleChange}
+              onInput={handleChange}
             />
             <FillButton
               type="submit"
