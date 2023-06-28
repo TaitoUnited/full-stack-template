@@ -133,7 +133,7 @@
     "arrowParens": "avoid"
   },
   "figmage": {
-    "outDir": "src/design-system",
+    "outDir": "design-system",
     "tokenize": {
       "tokens": [
         {
@@ -154,7 +154,7 @@
           "nodeId": "110:694"
         },
         {
-          "name": "sizing",
+          "name": "sizes",
           "type": "height",
           "nodeId": "102:7"
         },

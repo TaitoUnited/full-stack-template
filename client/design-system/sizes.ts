@@ -8,7 +8,7 @@ export const iconSizeLarge = 32;
 export const iconSizeNormal = 24;
 export const iconSizeSmall = 16;
 
-export type SizingToken =
+export type SizesToken =
   | 'buttonHeightLarge'
   | 'buttonHeightNormal'
   | 'buttonHeightSmall'
