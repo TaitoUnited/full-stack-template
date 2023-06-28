@@ -24,8 +24,6 @@ export default defineConfig({
     './src/**/*.stories.{ts,tsx}',
   ],
 
-  logLevel: 'debug',
-
   jsxFramework: 'react',
 
   // Useful for theme customization

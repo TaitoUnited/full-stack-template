@@ -1,0 +1,13 @@
+diff --git a/node_modules/@pandacss/shared/dist/index.js b/node_modules/@pandacss/shared/dist/index.js
+index 788a32f..1a4a3cc 100644
+--- a/node_modules/@pandacss/shared/dist/index.js
++++ b/node_modules/@pandacss/shared/dist/index.js
+@@ -71,7 +71,7 @@ function isObject(value) {
+ // src/astish.ts
+ var newRule = /(?:([\u0080-\uFFFF\w-%@]+) *:? *([^{;]+?);|([^;}{]*?) *{)|(}\s*)/g;
+ var ruleClean = /\/\*[^]*?\*\/|\s\s+|\n/g;
+-var astish = (val, tree = [{}]) => {
++var astish = (val = '', tree = [{}]) => {
+   const block = newRule.exec(val.replace(ruleClean, ""));
+   if (!block)
+     return tree[0];

@@ -2,6 +2,7 @@
   "name": "full-stack-template-client",
   "scripts": {
     "prepare": "npm run styled-system:codegen",
+    "postinstall": "patch-package",
     "install:clean": "rm -rf node_modules && npm install",
     "pretty-quick": "pretty-quick",
     "lint": "tsc --noEmit && eslint './src/**/*.{ts,tsx}' --ignore-path .eslintignore --quiet",
@@ -95,6 +96,7 @@
     "eslint-plugin-react-hooks": "4.6.0",
     "eslint-plugin-storybook": "0.6.12",
     "jsdom": "22.0.0",
+    "patch-package": "7.0.0",
     "pg-promise": "10.11.1",
     "prettier": "2.8.8",
     "rollup-plugin-minify-html-literals": "1.2.6",
