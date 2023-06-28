@@ -2,6 +2,7 @@ import path from 'path';
 import react from '@vitejs/plugin-react-swc';
 import strip from '@rollup/plugin-strip';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import pandaCss from '@pandacss/dev/postcss';
 import { lingui } from '@lingui/vite-plugin';
 import { defineConfig } from 'vite';
 import { ViteFaviconsPlugin } from 'vite-plugin-favicon2';
@@ -40,6 +41,11 @@ export default defineConfig(({ mode }) => ({
         optimizeLodashImports(),
         strip({ functions: ['console.log', 'console.warn'] }),
       ],
+    },
+  },
+  css: {
+    postcss: {
+      plugins: [pandaCss()],
     },
   },
   plugins: [

@@ -30,12 +30,13 @@
       "~uikit": ["src/components/uikit/index.ts"],
       "~components/*": ["src/components/*"],
       "~design-system/*": ["design-system/*"],
+      "~styled-system/*": ["styled-system/*"],
       "~utils/*": ["src/utils/*"],
       "~types/*": ["src/types/*"],
       "~test/*": ["src/test/*"]
     }
   },
-  "include": ["shared", "src", "plugins", "design-system"],
+  "include": ["shared", "src", "plugins", "design-system", "styled-system"],
   "exclude": [
     "node_modules",
     "assets",

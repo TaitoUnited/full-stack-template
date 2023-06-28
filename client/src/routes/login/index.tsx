@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { FormEvent, useState } from 'react';
 import { t, Trans } from '@lingui/macro';
 
+import { css } from '~styled-system/css';
 import { Text, TextInput, Stack, FillButton } from '~uikit';
 import { useDocumentTitle } from '~utils/routing';
 import { useAuth } from '~services/auth';
@@ -31,6 +32,8 @@ export default function LoginPage() {
           <Text variant="title1">
             <Trans>Login</Trans>
           </Text>
+
+          <div className={css({ p: '16' })}>Panda css</div>
 
           <Stack axis="y" spacing="normal">
             <TextInput

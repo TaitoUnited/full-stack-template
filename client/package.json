@@ -1,6 +1,7 @@
 {
   "name": "full-stack-template-client",
   "scripts": {
+    "prepare": "npm run styled-system:codegen",
     "install:clean": "rm -rf node_modules && npm install",
     "pretty-quick": "pretty-quick",
     "lint": "tsc --noEmit && eslint './src/**/*.{ts,tsx}' --ignore-path .eslintignore --quiet",
@@ -22,6 +23,8 @@
     "design-system:tokenize": "npx figmage tokenize --env .env.figma",
     "design-system:codegen": "npx figmage codegen --env .env.figma",
     "design-system:format": "prettier --write \"src/design-system/*.ts\"",
+    "styled-system:codegen": "panda codegen --clean",
+    "styled-system:debug": "panda debug",
     "generate:graphql": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
@@ -57,6 +60,7 @@
     "@lingui/swc-plugin": "4.0.2",
     "@lingui/vite-plugin": "4.2.1",
     "@optimize-lodash/rollup-plugin": "4.0.3",
+    "@pandacss/dev": "0.5.0",
     "@rollup/plugin-strip": "3.0.2",
     "@storybook/addon-essentials": "7.0.12",
     "@storybook/addon-interactions": "7.0.12",
@@ -76,8 +80,7 @@
     "@types/styled-components": "5.1.25",
     "@typescript-eslint/eslint-plugin": "5.59.1",
     "@typescript-eslint/parser": "5.59.1",
-    "@vitejs/plugin-react": "4.0.0",
-    "@vitejs/plugin-react-swc": "3.3.0",
+    "@vitejs/plugin-react-swc": "3.3.2",
     "@vitest/coverage-c8": "0.31.1",
     "cypress": "12.16.0",
     "eslint": "8.39.0",
@@ -99,7 +102,7 @@
     "storybook": "7.0.12",
     "storybook-dark-mode": "3.0.0",
     "typescript": "5.0.4",
-    "vite": "4.3.3",
+    "vite": "4.3.9",
     "vite-plugin-favicon2": "1.1.5",
     "vite-tsconfig-paths": "4.2.0",
     "vitest": "0.31.1"
