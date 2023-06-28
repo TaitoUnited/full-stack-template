@@ -4,15 +4,14 @@ import styled from 'styled-components';
 import * as Sentry from '@sentry/browser';
 
 import config from '~constants/config';
-import { FillButton } from '~uikit';
 
-interface Props {
+type Props = {
   children: ReactNode;
-}
+};
 
-interface State {
+type State = {
   error: any;
-}
+};
 
 export default class ErrorBoundary extends Component<Props, State> {
   state = {
@@ -63,19 +62,15 @@ export default class ErrorBoundary extends Component<Props, State> {
     if (error) {
       return (
         <Wrapper>
-          {config.ERROR_REPORTING_ENABLED && (
-            <FillButton
-              variant="error"
-              icon="infoFilled"
-              onClick={this.handleErrorReport}
-            >
+          {!config.ERROR_REPORTING_ENABLED && (
+            <Button onClick={this.handleErrorReport}>
               <Trans>Report an error</Trans>
-            </FillButton>
+            </Button>
           )}
           <div>
-            <FillButton variant="info" onClick={this.tryReload}>
+            <Button onClick={this.tryReload}>
               <Trans>Reload Page</Trans>
-            </FillButton>
+            </Button>
           </div>
         </Wrapper>
       );
@@ -87,7 +82,18 @@ export default class ErrorBoundary extends Component<Props, State> {
 
 const Wrapper = styled.div`
   padding: ${p => p.theme.spacing.medium}px;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: ${p => p.theme.spacing.medium}px;
+`;
+
+const Button = styled.button`
+  padding: ${p => p.theme.spacing.small}px;
+  background-color: ${p => p.theme.colors.errorMuted};
+  color: ${p => p.theme.colors.errorText};
+  border-radius: ${p => p.theme.radii.normal}px;
 `;
 
 export function withErrorBoundary<P extends Props>(Comp: ComponentType<P>) {
