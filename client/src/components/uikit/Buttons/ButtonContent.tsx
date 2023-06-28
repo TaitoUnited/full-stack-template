@@ -42,7 +42,6 @@ const ButtonContent = forwardRef<HTMLButtonElement, Props>(
       {
         id,
         type,
-        children,
         elementType: asLink ? 'a' : 'button',
         isDisabled: disabled || loading,
         onPress: onClick,
