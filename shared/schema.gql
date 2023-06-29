@@ -197,7 +197,7 @@ type Query {
   postAttachment(input: ReadPostAttachmentInput!): Attachment!
 
   """Searches posts."""
-  posts(filterGroups: [FilterGroup!]! = [], order: Order! = {dir: DESC, field: "createdAt", invertNullOrder: false}, pagination: Pagination! = {limit: 20, offset: 0}, search: String!): PaginatedPosts!
+  posts(filterGroups: [FilterGroup!]! = [], order: Order! = {dir: DESC, field: "createdAt", invertNullOrder: false}, pagination: Pagination! = {limit: 20, offset: 0}, search: String): PaginatedPosts!
 }
 
 input ReadPostAttachmentInput {

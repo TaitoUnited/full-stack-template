@@ -33,7 +33,7 @@ class PostResolver {
   async posts(
     @Ctx() ctx: Context,
     @Arg('search', () => String, {
-      defaultValue: null,
+      nullable: true,
     })
     search: string,
     @Arg('filterGroups', () => [FilterGroup], {

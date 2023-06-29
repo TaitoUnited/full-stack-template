@@ -93,7 +93,7 @@ export type Filter = {
   operator: FilterOperator;
   value?: InputMaybe<Scalars['String']>;
   /** Determines how the value is treated */
-  valueType?: InputMaybe<ValueType>;
+  valueType?: ValueType;
 };
 
 export type FilterGroup = {
@@ -133,8 +133,10 @@ export type Mutation = {
   /** Creates a new post. */
   createPost: Post;
   /**
-   * Creates a new attachment for post.
-   * Returns URL and HTTP headers that should be used to upload the file using HTTP PUT.
+   *
+   *       Creates a new attachment for post.
+   *       Returns URL and HTTP headers that should be used to upload the file using HTTP PUT.
+   *
    */
   createPostAttachment: AttachmentUploadRequestDetails;
   /** Deletes a post. */
@@ -186,10 +188,10 @@ export type MutationUpdatePostAttachmentArgs = {
 
 export type Order = {
   /** Determines whether to sort ascending or descending. */
-  dir?: InputMaybe<OrderDirection>;
+  dir?: OrderDirection;
   field: Scalars['String'];
   /** Determines whether NULL values are ordered first or last. */
-  invertNullOrder?: InputMaybe<Scalars['Boolean']>;
+  invertNullOrder?: Scalars['Boolean'];
 };
 
 export enum OrderDirection {
@@ -260,9 +262,9 @@ export type QueryPostAttachmentArgs = {
 
 
 export type QueryPostsArgs = {
-  filterGroups?: InputMaybe<Array<FilterGroup>>;
-  order?: InputMaybe<Order>;
-  pagination?: InputMaybe<Pagination>;
+  filterGroups?: Array<FilterGroup>;
+  order?: Order;
+  pagination?: Pagination;
   search?: InputMaybe<Scalars['String']>;
 };
 
