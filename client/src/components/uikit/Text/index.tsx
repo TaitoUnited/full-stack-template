@@ -1,26 +1,26 @@
 import { memo, type CSSProperties, type HTMLAttributes } from 'react';
-import type { Typography, Color } from '~constants/theme';
+import { TypographyToken } from '~design-system/typography';
+import { token, ColorToken } from '~styled-system/tokens';
 import { cx, cva } from '~styled-system/css';
-import { token } from '~styled-system/tokens';
 
 type AllowedElement =
-  | 'span'
-  | 'p'
-  | 'strong'
-  | 'b'
-  | 'i'
-  | 'em'
-  | 'small'
-  | 'sub'
   | 'h1'
   | 'h2'
   | 'h3'
   | 'h4'
-  | 'h5';
+  | 'h5'
+  | 'b'
+  | 'em'
+  | 'i'
+  | 'p'
+  | 'small'
+  | 'span'
+  | 'strong'
+  | 'sub';
 
 type Props = HTMLAttributes<HTMLSpanElement> & {
-  variant: Typography;
-  color?: Color;
+  variant: TypographyToken;
+  color?: ColorToken;
   align?: CSSProperties['textAlign'];
   lineHeight?: CSSProperties['lineHeight'];
   as?: AllowedElement;
@@ -53,21 +53,22 @@ function Text({
   );
 }
 
-const variantToElement: { [key in Typography]: Partial<AllowedElement> } = {
-  largeTitle: 'h1',
-  title1: 'h1',
-  title2: 'h2',
-  title3: 'h3',
-  subtitle: 'strong',
-  overline: 'span',
-  caption: 'span',
-  body: 'span',
-  bodyBold: 'strong',
-  bodySmall: 'span',
-  bodySmallBold: 'strong',
-  bodyLarge: 'span',
-  bodyLargeBold: 'strong',
-};
+const variantToElement: { [key in TypographyToken]: Partial<AllowedElement> } =
+  {
+    largeTitle: 'h1',
+    title1: 'h1',
+    title2: 'h2',
+    title3: 'h3',
+    subtitle: 'strong',
+    overline: 'span',
+    caption: 'span',
+    body: 'span',
+    bodyBold: 'strong',
+    bodySmall: 'span',
+    bodySmallBold: 'strong',
+    bodyLarge: 'span',
+    bodyLargeBold: 'strong',
+  };
 
 const styles = cva({
   base: {
