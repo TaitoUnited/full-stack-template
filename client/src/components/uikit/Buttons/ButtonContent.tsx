@@ -1,27 +1,21 @@
-import { forwardRef, useRef } from 'react';
+import { CSSProperties, forwardRef, useRef } from 'react';
 import { useButton, useFocusRing } from 'react-aria';
 import mergeRefs from 'react-merge-refs';
-import styled from 'styled-components';
 
+import type { ButtonProps, ButtonSize } from './types';
+import Spinner, { SpinnerSize } from '../Spinner';
 import ButtonLink from './ButtonLink';
 import Icon from '../Icon';
-import Spinner from '../Spinner';
-import type { ButtonProps, ButtonSize, ButtonVariant } from './types';
-import type { Size, Theme, Typography } from '~constants/theme';
-import { hoverHighlight } from '~utils/styled';
 import { Stack } from '~styled-system/jsx';
+import { cva, cx } from '~styled-system/css';
+import { token } from '~styled-system/tokens';
+import { hoverHighlight } from '~styled-system/patterns';
 
-type Props = ButtonProps & {
-  // NOTE: we need to get the custom styles via a prop instead of extending since that will break stuff
-  customStyles: any;
-};
-
-const ButtonContent = forwardRef<HTMLButtonElement, Props>(
+const ButtonContent = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       asLink,
       children,
-      customStyles,
       disabled = false,
       icon,
       iconPlacement = 'right',
@@ -31,6 +25,8 @@ const ButtonContent = forwardRef<HTMLButtonElement, Props>(
       size = 'normal',
       type = 'button',
       variant,
+      className,
+      style,
       ...rest
     },
     ref
@@ -38,7 +34,7 @@ const ButtonContent = forwardRef<HTMLButtonElement, Props>(
     const localRef = useRef<HTMLButtonElement>(null);
     const { isFocusVisible, focusProps } = useFocusRing();
 
-    const { buttonProps, isPressed } = useButton(
+    const { buttonProps } = useButton(
       {
         id,
         type,
@@ -62,27 +58,36 @@ const ButtonContent = forwardRef<HTMLButtonElement, Props>(
       />
     ) : null;
 
+    const _className = cx(
+      styles({ size, isFocusVisible }),
+      hoverHighlight(),
+      className
+    );
+
+    const _style = {
+      ...style,
+      '--outline-color': token.var(`colors.${variant}`),
+    } as CSSProperties;
+
+    const Element = asLink ? ButtonLink : 'button';
+    const linkProps = asLink ? { linkProps: asLink } : {};
+
     return (
-      <Wrapper
+      <Element
         {...rest}
         {...buttonProps}
         {...focusProps}
+        {...linkProps}
         ref={mergeRefs([localRef, ref])}
-        as={asLink ? ButtonLink : undefined}
-        linkProps={asLink}
-        $size={size}
-        $variant={variant}
-        $customStyles={customStyles}
-        $isPressed={isPressed}
-        $isLoading={loading}
-        $isFocusVisible={isFocusVisible}
+        className={_className}
+        style={_style}
       >
         <Stack direction="row" gap="xsmall" align="center" justify="center">
           {iconPlacement === 'left' && iconComp}
           <span>{children}</span>
           {iconPlacement === 'right' && iconComp}
         </Stack>
-      </Wrapper>
+      </Element>
     );
   }
 );
@@ -93,67 +98,63 @@ const buttonSizeToIconSize: { [size in ButtonSize]: number } = {
   large: 24,
 };
 
-const buttonSizeToTextVariant: { [size in ButtonSize]: Partial<Typography> } = {
-  small: 'bodySmall',
-  normal: 'body',
-  large: 'bodyLarge',
-};
-
-const buttonSizeToSpinnerSize: { [size in ButtonSize]: string } = {
+const buttonSizeToSpinnerSize: { [size in ButtonSize]: SpinnerSize } = {
   small: 'small',
   normal: 'normal',
   large: 'medium',
 };
 
-const buttonSizeToHeight: { [size in ButtonSize]: Size } = {
-  small: 'buttonHeightSmall',
-  normal: 'buttonHeightNormal',
-  large: 'buttonHeightLarge',
-};
-
-const horizontalPadding: {
-  [size in ButtonSize]: keyof Theme['spacing'];
-} = {
-  small: 'normal',
-  normal: 'large',
-  large: 'large',
-};
-
-type WrapperProps = {
-  $customStyles: any;
-  $isFocusVisible: boolean;
-  $isLoading: boolean;
-  $isPressed: boolean;
-  $size: ButtonSize;
-  $variant: ButtonVariant;
-};
-
-const Wrapper = styled.button<WrapperProps>`
-  position: relative;
-  display: inline-flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  border-radius: ${p => p.theme.radii.normal}px;
-  opacity: ${p => (p.disabled && !p.$isLoading ? 0.5 : 1)};
-  height: ${p => p.theme.sizing[buttonSizeToHeight[p.$size]]}px;
-  padding-left: ${p => p.theme.spacing[horizontalPadding[p.$size]]}px;
-  padding-right: ${p => p.theme.spacing[horizontalPadding[p.$size]]}px;
-  cursor: ${p => (p.disabled ? 'not-allowed' : 'pointer')};
-  text-decoration: none;
-  outline-offset: 2px;
-  outline: ${p =>
-    p.$isFocusVisible ? `2px solid ${p.theme.colors[p.$variant]}` : 'none'};
-
-  &:active {
-    opacity: ${p => (p.disabled && !p.$isLoading ? 0.5 : 0.8)};
-  }
-
-  ${hoverHighlight}
-  ${p => p.theme.typography[buttonSizeToTextVariant[p.$size] as Typography]}
-  ${p => p.$customStyles}
-`;
+const styles = cva({
+  base: {
+    position: 'relative',
+    display: 'inline-flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 0,
+    borderRadius: 'normal',
+    textDecoration: 'none',
+    outlineOffset: '2px',
+    cursor: 'pointer',
+    _active: {
+      opacity: 0.8,
+    },
+    _disabled: {
+      opacity: 0.5,
+      cursor: 'not-allowed',
+    },
+  },
+  variants: {
+    size: {
+      small: {
+        height: 'buttonHeightSmall',
+        paddingLeft: 'normal',
+        paddingRight: 'normal',
+        textStyle: 'bodySmall',
+      },
+      normal: {
+        height: 'buttonHeightNormal',
+        paddingLeft: 'large',
+        paddingRight: 'large',
+        textStyle: 'body',
+      },
+      large: {
+        height: 'buttonHeightLarge',
+        paddingLeft: 'large',
+        paddingRight: 'large',
+        textStyle: 'bodyLarge',
+      },
+    },
+    isFocusVisible: {
+      true: {
+        outline: '2px solid var(--outline-color)',
+      },
+      false: {
+        outline: 'none',
+      },
+    },
+  },
+});
 
 ButtonContent.displayName = 'ButtonContent';
 

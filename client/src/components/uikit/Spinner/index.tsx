@@ -3,11 +3,11 @@ import styled, { keyframes } from 'styled-components';
 import type { Color } from '~constants/theme';
 import { absoluteFill } from '~utils/styled';
 
-type Size = 'small' | 'normal' | 'medium' | 'large';
+export type SpinnerSize = 'small' | 'normal' | 'medium' | 'large';
 
 type Props = {
   color: Color | 'currentColor';
-  size?: Size;
+  size?: SpinnerSize;
 };
 
 const rotateAnim = keyframes`
