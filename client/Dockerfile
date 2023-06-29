@@ -36,10 +36,11 @@ ARG SERVICE_DIR=.
 COPY --chown="${USER_UID}:0" \
      ${SERVICE_DIR}/package.json \
      ${SERVICE_DIR}/package-lock.* \
+     ${SERVICE_DIR}/patches \
      /develop/
 
 ENV NODE_ENV development
-RUN npm install --loglevel warn
+RUN npm install --loglevel warn --no-audit
 RUN mkdir -p .vite
 
 ENV DEV_PORT 8080

@@ -30,11 +30,12 @@ WORKDIR /develop
 ARG SERVICE_DIR=.
 COPY ${SERVICE_DIR}/package.json \
     ${SERVICE_DIR}/package-lock.* \
+    ${SERVICE_DIR}/patches \
     /develop/
 
 ENV NODE_ENV development
 # TODO: use 'npm ci' once works (bug in npm?)
-RUN npm install --loglevel warn
+RUN npm install --loglevel warn --no-audit
 
 COPY ${SERVICE_DIR} /develop
 

@@ -1,7 +1,6 @@
 {
   "name": "full-stack-template-client",
   "scripts": {
-    "prepare": "npm run styled-system:codegen",
     "postinstall": "patch-package",
     "install:clean": "rm -rf node_modules && npm install",
     "pretty-quick": "pretty-quick",
@@ -11,6 +10,8 @@
     "test": "echo TODO run tests but not cypress",
     "cypress:run": "if [ -z ${test_name} ]; then cypress run; else cypress run -s test/integration/**/${test_name}.spec.ts; fi",
     "cypress:open": "cypress open",
+    "prestart": "npm run styled-system:codegen",
+    "prebuild": "npm run styled-system:codegen",
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview",
