@@ -1,17 +1,21 @@
 # Builder, tester and runtime container for local development
 
-# NOTE: Enable cypress and the browsers you want test against only if you are
-# doing e2e testing! Otherwise keep the ARGs commented out so that the browsers
-# are not installed unnecessarily making the build faster.
+# ******************************** NOTE ***************************************
+# Enable cypress and the browsers you want test against when you are ready
+# to do e2e testing. Otherwise keep the ARGs commented out so that the browsers
+# are not installed unnecessarily.
 
-# NOTE: the browser versions need to be exact versions!
-
-# ARG CHROME_VERSION='107.0.5304.121-1'
-# ARG EDGE_VERSION='100.0.1185.29-1'
-# ARG FIREFOX_VERSION='107.0'
+# Make sure you have the same cypress version specified in package.json!
 # ARG CYPRESS_VERSION='12.16.0'
 
-# Node v18.16.0 has npm v9.6.5
+# Also keep in mind that the browser versions need to be exact versions!
+# Check available versions here: https://github.com/cypress-io/cypress-docker-images/tree/master/factory#api
+# ARG CHROME_VERSION='114.0.5735.198-1'
+# ARG EDGE_VERSION='100.0.1185.29-1'
+# ARG FIREFOX_VERSION='107.0'
+# *****************************************************************************
+
+# Node v18.16.0 has npm v9.6.5 (should match the version in package.json `engines` field!)
 ARG NODE_VERSION='18.16.0'
 ARG BASE_IMAGE='node:18.16.0-alpine'
 
