@@ -7,7 +7,7 @@
     "unit": "vitest run ./src/**/*.test.{ts,tsx}",
     "unit:coverage": "vitest run ./src/**/*.test.{ts,tsx} --coverage",
     "test": "echo TODO run tests but not cypress",
-    "cypress:run": "cypress run -s test/integration/**/${test_name}.spec.js",
+    "cypress:run": "cypress run",
     "cypress:open": "cypress open",
     "start": "vite",
     "build": "vite build",
@@ -79,6 +79,7 @@
     "@vitejs/plugin-react": "4.0.0",
     "@vitejs/plugin-react-swc": "3.3.0",
     "@vitest/coverage-c8": "0.31.1",
+    "cypress": "12.16.0",
     "eslint": "8.39.0",
     "eslint-config-prettier": "8.8.0",
     "eslint-config-standard": "17.0.0",
@@ -115,8 +116,8 @@
     }
   },
   "engines": {
-    "node": "18.16.x",
-    "npm": "9.5.x"
+    "node": ">=18.16",
+    "npm": ">=9.5"
   },
   "lingui": {
     "locales": [
