@@ -1,7 +1,8 @@
-import { defineConfig } from '@pandacss/dev';
+import { defineConfig, defineTextStyles } from '@pandacss/dev';
 
-// import * as colors from './design-system/colors';
-// import * as typography from './design-system/typography';
+import { web as typography } from './design-system/typography';
+import * as shadows from './design-system/shadows';
+import * as colors from './design-system/colors';
 import * as spacing from './design-system/spacing';
 import * as sizes from './design-system/sizes';
 import * as radii from './design-system/radii';
@@ -26,30 +27,115 @@ export default defineConfig({
 
   jsxFramework: 'react',
 
-  // Useful for theme customization
+  conditions: {
+    light: '[data-color-scheme=light] &',
+    dark: '[data-color-scheme=dark] &',
+  },
+
   theme: {
-    extend: {
-      tokens: {
-        spacing: {
-          none: { value: '0rem' },
-          ...mapToRem(spacing),
-        },
-        radii: {
-          none: { value: '0rem' },
-          ...mapToRem(radii),
-        },
-        sizes: {
-          none: { value: '0rem' },
-          ...mapToRem(sizes),
-        },
+    breakpoints: {
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      '2xl': '1536px',
+    },
+
+    tokens: {
+      shadows: transformShadows(shadows),
+      radii: {
+        none: { value: '0rem' },
+        ...transformNumberTokens(radii, value => `${value}px`),
+      },
+      sizes: {
+        none: { value: '0rem' },
+        ...transformNumberTokens(sizes, value => `${value / 16}rem`),
+      },
+      spacing: {
+        none: { value: '0rem' },
+        ...transformNumberTokens(spacing, value => `${value / 16}rem`),
       },
     },
+
+    // Colors need to be defined inside `semanticTokens` if you want to specify
+    // both light and dark mode values
+    semanticTokens: {
+      colors: transformColors(colors),
+    },
+
+    textStyles: transformTypography(typography),
   },
 });
 
-function mapToRem<T extends Record<string, any>, K extends keyof T>(tokens: T) {
+// Helper functions to transform the design system tokens into Panda CSS format
+
+function transformNumberTokens(
+  tokens: Record<string, any>,
+  transformer: (value: number) => string
+) {
+  return Object.entries(tokens).reduce<Record<string, { value: string }>>(
+    (acc, [key, value]) => {
+      acc[key] = { value: transformer(value) };
+      return acc;
+    },
+    {}
+  );
+}
+
+type TextStyle = {
+  fontFamily: string;
+  fontWeight: number;
+  fontSize: number;
+  textTransform: string;
+  letterSpacing: number;
+  lineHeight: number;
+};
+
+function transformTypography(tokens: Record<string, TextStyle>) {
   return Object.entries(tokens).reduce((acc, [key, value]) => {
-    acc[key] = { value: `${value / 16}rem` };
+    acc[key] = {
+      value: {
+        fontFamily: value.fontFamily,
+        fontWeight: value.fontWeight,
+        fontSize: `${value.fontSize / 16}rem`,
+        textTransform: value.textTransform,
+        letterSpacing: value.letterSpacing,
+        lineHeight: value.lineHeight,
+      },
+    };
     return acc;
-  }, {} as Record<K, { value: `${string}rem` }>);
+  }, {} as ReturnType<typeof defineTextStyles>);
+}
+
+function transformColors(tokens: {
+  light: Record<string, string>;
+  dark: Record<string, string>;
+}) {
+  return Object.entries(tokens.light).reduce((acc, [key, value]) => {
+    acc[key] = {
+      value: {
+        _light: value,
+        _dark: tokens.dark[key],
+      },
+    };
+    return acc;
+  }, {} as Record<string, { value: { _light: string; _dark: string } }>);
+}
+
+type Shadow = {
+  boxShadow: string;
+  offset: { x: number; y: number };
+  radius: number;
+  opacity: number;
+  color: { hex: string; rgba: string };
+};
+
+function transformShadows(tokens: Record<string, Shadow>) {
+  return Object.entries(tokens).reduce((acc, [key, value]) => {
+    // Due to the way shadows are named in Figma we need to remove the leading
+    // "shadow" from the key: "shadowLarge" -> "large"
+    const name = key.replace('shadow', '').toLowerCase();
+    acc[name] = { value: value.boxShadow };
+    return acc;
+  }, {} as Record<string, { value: string }>);
 }
