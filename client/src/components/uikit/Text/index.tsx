@@ -1,50 +1,59 @@
-import styled, { CSSProperties } from 'styled-components';
-import type { HTMLAttributes } from 'react';
+import { memo, type CSSProperties, type HTMLAttributes } from 'react';
 import type { Typography, Color } from '~constants/theme';
+import { cx, cva } from '~styled-system/css';
+import { token } from '~styled-system/tokens';
 
-type Tags = keyof JSX.IntrinsicElements;
+type AllowedElement =
+  | 'span'
+  | 'p'
+  | 'strong'
+  | 'b'
+  | 'i'
+  | 'em'
+  | 'small'
+  | 'sub'
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5';
 
 type Props = HTMLAttributes<HTMLSpanElement> & {
   variant: Typography;
   color?: Color;
   align?: CSSProperties['textAlign'];
   lineHeight?: CSSProperties['lineHeight'];
-  as?: Tags;
+  as?: AllowedElement;
 };
 
-type TransientProps = {
-  $variant: Props['variant'];
-  $color?: Props['color'];
-  $align?: Props['align'];
-  $lineHeight?: Props['lineHeight'];
-};
-
-export default function Text({
-  color,
-  variant,
+function Text({
+  as,
   align,
-  lineHeight,
-  as: asTag,
   children,
+  className,
+  lineHeight,
+  variant,
+  color = 'text',
   ...rest
 }: Props) {
-  const tag = asTag || variantToTag[variant];
+  const Element = as || variantToElement[variant];
 
   return (
-    <TextBase
+    <Element
       {...rest}
-      as={tag}
-      $variant={variant}
-      $color={color}
-      $align={align}
-      $lineHeight={lineHeight}
+      className={cx(styles({ variant }), className)}
+      style={{
+        lineHeight,
+        textAlign: align,
+        color: token.var(`colors.${color}`),
+      }}
     >
       {children}
-    </TextBase>
+    </Element>
   );
 }
 
-const variantToTag: { [key in Typography]: Partial<Tags> } = {
+const variantToElement: { [key in Typography]: Partial<AllowedElement> } = {
   largeTitle: 'h1',
   title1: 'h1',
   title2: 'h2',
@@ -60,11 +69,28 @@ const variantToTag: { [key in Typography]: Partial<Tags> } = {
   bodyLargeBold: 'strong',
 };
 
-const TextBase = styled.span<TransientProps>`
-  ${p => p.theme.typography[p.$variant]}
-  margin: 0;
-  max-width: 100%;
-  color: ${p => p.theme.colors[p.$color || 'text']};
-  line-height: ${p => (p.$lineHeight !== undefined ? p.$lineHeight : 1)};
-  text-align: ${p => p.$align || 'left'};
-`;
+const styles = cva({
+  base: {
+    margin: '0px',
+    maxWidth: '100%',
+  },
+  variants: {
+    variant: {
+      largeTitle: { textStyle: 'largeTitle' },
+      title1: { textStyle: 'title1' },
+      title2: { textStyle: 'title2' },
+      title3: { textStyle: 'title3' },
+      subtitle: { textStyle: 'subtitle' },
+      overline: { textStyle: 'overline' },
+      caption: { textStyle: 'caption' },
+      body: { textStyle: 'body' },
+      bodyBold: { textStyle: 'bodyBold' },
+      bodySmall: { textStyle: 'bodySmall' },
+      bodySmallBold: { textStyle: 'bodySmallBold' },
+      bodyLarge: { textStyle: 'bodyLarge' },
+      bodyLargeBold: { textStyle: 'bodyLargeBold' },
+    },
+  },
+});
+
+export default memo(Text);
