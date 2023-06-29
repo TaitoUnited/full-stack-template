@@ -45,7 +45,7 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
     'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn',
+    'react-hooks/exhaustive-deps': 'error',
     'lodash/import-scope': [2, 'member'],
     'lodash/prefer-lodash-method': 'off',
     'lodash/prefer-lodash-typecheck': 'off',
