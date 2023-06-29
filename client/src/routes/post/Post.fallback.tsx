@@ -14,10 +14,10 @@ const rows = range(20).map(i => (
 
 export default function PostFallback() {
   return (
-    <Stack axis="y" spacing="medium">
+    <Stack direction="column" gap="medium">
       <SkeletonPlaceholder width={400} height={48} borderRadius="normal" />
       <SkeletonPlaceholder width={150} height={12} borderRadius="small" />
-      <Stack axis="y" spacing="xsmall">
+      <Stack direction="column" gap="xsmall">
         {rows}
       </Stack>
     </Stack>

@@ -1,6 +1,4 @@
-import Stack from '../Stack';
-import FillButton from '../Buttons/FillButton';
-import Tooltip from './index';
+import { Stack, FillButton, Tooltip } from '~uikit';
 
 export default {
   title: 'Tooltip',
@@ -9,7 +7,7 @@ export default {
 
 export function Example() {
   return (
-    <Stack axis="x" spacing="medium" style={{ padding: 32 }}>
+    <Stack direction="row" gap="medium" style={{ padding: 32 }}>
       <div>
         <Tooltip title="I'm a tooltip" position="top">
           <FillButton variant="primary">Tooltip on top</FillButton>

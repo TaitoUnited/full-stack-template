@@ -54,13 +54,13 @@ export default function PostCreatePage() {
   return (
     <Modal title={t`New blog post`} onClose={() => navigate('/blog')}>
       <Wrapper>
-        <Stack axis="y" spacing="large">
+        <Stack direction="column" gap="large">
           <Text variant="bodyLargeBold">
             <Trans>New blog post</Trans>
           </Text>
 
           <form onSubmit={handleSubmit}>
-            <Stack axis="y" spacing="normal">
+            <Stack direction="column" gap="normal">
               <TextInput
                 label={t`Subject`}
                 name="subject"

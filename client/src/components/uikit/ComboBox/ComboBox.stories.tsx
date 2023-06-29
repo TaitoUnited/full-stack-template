@@ -1,5 +1,4 @@
-import Stack from '../Stack';
-import ComboBox from './index';
+import { Stack, ComboBox } from '~uikit';
 
 export default {
   title: 'ComboBox',
@@ -16,7 +15,7 @@ export function Example() {
   ];
 
   return (
-    <Stack axis="y" spacing="large" style={{ maxWidth: 400 }}>
+    <Stack direction="column" gap="large" style={{ maxWidth: 400 }}>
       <ComboBox label="Regular combobox" defaultItems={options} />
 
       <ComboBox label="Disabled combobox" defaultItems={options} isDisabled />

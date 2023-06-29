@@ -24,8 +24,8 @@ import {
   useTableState,
 } from '@react-stately/table';
 
-import Stack from '../Stack';
 import Icon, { IconName } from '../Icon';
+import { Stack } from '~styled-system/jsx';
 import { flexCenter } from '~utils/styled';
 
 export type SortDescriptor = NonNullable<
@@ -124,7 +124,7 @@ function TableColumnHeader({
       ref={ref}
       className="table-header"
     >
-      <Stack axis="x" spacing="xsmall" align="baseline">
+      <Stack direction="row" gap="xsmall" align="baseline">
         <span>{column.rendered ? column.rendered : ''}</span>
         {column.props.allowsSorting && (
           <TabletColumnSort>

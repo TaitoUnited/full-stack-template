@@ -1,8 +1,5 @@
-import React from 'react';
-
-import Text from '../Text';
-import Checkbox from './index';
-import Stack from '~components/uikit/Stack';
+import { useState } from 'react';
+import { Stack, Text, Checkbox } from '~uikit';
 
 export default {
   title: 'Checkbox',
@@ -10,11 +7,11 @@ export default {
 };
 
 export const Example = () => {
-  const [isChecked, setChecked] = React.useState(false);
+  const [isChecked, setChecked] = useState(false);
 
   return (
     <div style={{ padding: 32 }}>
-      <Stack axis="y" spacing="large">
+      <Stack direction="column" gap="large">
         <Checkbox
           isSelected={isChecked}
           onChange={setChecked}

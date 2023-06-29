@@ -5,20 +5,20 @@ import { Stack, SkeletonPlaceholder } from '~uikit';
 
 export default function HomeFallback() {
   return (
-    <Stack axis="y" spacing="xlarge">
-      <Stack axis="y" spacing="normal">
+    <Stack direction="column" gap="xlarge">
+      <Stack direction="column" gap="normal">
         <SkeletonPlaceholder width={140} height={48} borderRadius="small" />
         <SkeletonPlaceholder width={300} height={24} borderRadius="small" />
         <SkeletonPlaceholder width={600} height={24} borderRadius="small" />
         <SkeletonPlaceholder width={700} height={48} borderRadius="small" />
       </Stack>
 
-      <Stack axis="y" spacing="medium">
+      <Stack direction="column" gap="medium">
         <SkeletonPlaceholder width={150} height={32} borderRadius="small" />
         <SkeletonPlaceholder width={600} height={24} borderRadius="small" />
       </Stack>
 
-      <Stack axis="y" spacing="medium">
+      <Stack direction="column" gap="medium">
         <SkeletonPlaceholder width={150} height={32} borderRadius="small" />
 
         <Cards>

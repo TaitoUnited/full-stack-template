@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
-import Stack from '../Stack';
-import Text from '../Text';
-import MenuButton from './index';
+import { Stack, Text, MenuButton } from '~uikit';
 
 export default {
   title: 'MenuButton',
@@ -11,8 +9,8 @@ export default {
 
 export function Example() {
   return (
-    <Stack axis="y" spacing="xlarge">
-      <Stack axis="x" spacing="small" align="center">
+    <Stack direction="column" gap="xlarge">
+      <Stack direction="row" gap="small" align="center">
         <Text variant="body">Menu button with default trigger</Text>
         <MenuButton
           label="Some actions"
@@ -25,7 +23,7 @@ export function Example() {
         />
       </Stack>
 
-      <Stack axis="x" spacing="small" align="center">
+      <Stack direction="row" gap="small" align="center">
         <Text variant="body">Menu button with a custom trigger</Text>
         <CustomMenuButton
           label="Some actions"

@@ -5,6 +5,7 @@ import { Outlet } from 'react-router-dom';
 import type { LoaderData } from '.';
 import { UnstyledLink } from '~components/navigation/Link';
 import { useDocumentTitle } from '~utils/routing';
+import { vstack } from '~styled-system/patterns';
 import { Text, Stack, FloatingButton } from '~uikit';
 import { OrderDirection, usePostListQuery } from '~graphql';
 import PostListCard from '~components/post/PostListCard';
@@ -26,13 +27,13 @@ export default function PostListPage({ loaderData }: Props) {
 
   return (
     <>
-      <Stack axis="y" spacing="large">
+      <Stack direction="column" gap="large">
         <Text variant="title1">
           <Trans>Blog</Trans>
         </Text>
 
         {posts.length > 0 ? (
-          <Stack as="ul" axis="y" spacing="normal" data-test-id="post-list">
+          <ul className={vstack({ gap: 'normal' })} data-test-id="post-list">
             {posts.map(post => (
               <li key={post.id}>
                 <UnstyledLink to={post.id}>
@@ -43,7 +44,7 @@ export default function PostListPage({ loaderData }: Props) {
                 </UnstyledLink>
               </li>
             ))}
-          </Stack>
+          </ul>
         ) : (
           <Text variant="body">No blog posts.</Text>
         )}

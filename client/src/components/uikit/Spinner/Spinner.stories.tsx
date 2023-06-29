@@ -1,5 +1,4 @@
-import Stack from '../Stack';
-import Spinner from './index';
+import { Stack, Spinner } from '~uikit';
 import { Color } from '~constants/theme';
 
 export default {
@@ -11,7 +10,7 @@ const colors: Partial<Color>[] = ['primary', 'text', 'info', 'warn', 'error'];
 
 export function Colors() {
   return (
-    <Stack axis="x" spacing="normal">
+    <Stack direction="row" gap="normal">
       {colors.map(color => (
         <Spinner key={color} color={color} size="large" />
       ))}
@@ -21,7 +20,7 @@ export function Colors() {
 
 export function Sizes() {
   return (
-    <Stack axis="x" spacing="large">
+    <Stack direction="row" gap="large">
       <Spinner color="primary" size="small" />
       <Spinner color="primary" size="normal" />
       <Spinner color="primary" size="medium" />

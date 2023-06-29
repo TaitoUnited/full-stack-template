@@ -10,7 +10,7 @@ export default function ThemingPage() {
 
   return (
     <Wrapper>
-      <Stack axis="y" spacing="large">
+      <Stack direction="column" gap="large">
         <Text variant="title1">
           <Trans>Theming</Trans>
         </Text>

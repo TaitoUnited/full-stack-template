@@ -1,5 +1,4 @@
-import Stack from '../Stack';
-import TextArea from './index';
+import { Stack, TextArea } from '~uikit';
 
 export default {
   title: 'TextArea',
@@ -8,7 +7,7 @@ export default {
 
 export function Example() {
   return (
-    <Stack axis="y" spacing="large" style={{ maxWidth: 400 }}>
+    <Stack direction="column" gap="large" style={{ maxWidth: 400 }}>
       <TextArea label="Test input" />
 
       <TextArea label="Disabled input" isDisabled />

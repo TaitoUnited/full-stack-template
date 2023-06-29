@@ -5,11 +5,11 @@ import styled from 'styled-components';
 
 import ButtonLink from './ButtonLink';
 import Icon from '../Icon';
-import Stack from '../Stack';
 import Spinner from '../Spinner';
 import type { ButtonProps, ButtonSize, ButtonVariant } from './types';
 import type { Size, Theme, Typography } from '~constants/theme';
 import { hoverHighlight } from '~utils/styled';
+import { Stack } from '~styled-system/jsx';
 
 type Props = ButtonProps & {
   // NOTE: we need to get the custom styles via a prop instead of extending since that will break stuff
@@ -77,7 +77,7 @@ const ButtonContent = forwardRef<HTMLButtonElement, Props>(
         $isLoading={loading}
         $isFocusVisible={isFocusVisible}
       >
-        <Stack axis="x" spacing="xsmall" align="center" justify="center">
+        <Stack direction="row" gap="xsmall" align="center" justify="center">
           {iconPlacement === 'left' && iconComp}
           <span>{children}</span>
           {iconPlacement === 'right' && iconComp}

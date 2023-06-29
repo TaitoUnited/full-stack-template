@@ -1,5 +1,4 @@
-import Stack from '../Stack';
-import Text from './index';
+import { Stack, Text } from '~uikit';
 import { theme } from '~constants/theme';
 import { capitalize } from '~utils/fn';
 
@@ -10,7 +9,7 @@ export default {
 
 export function AllVariants() {
   return (
-    <Stack axis="y" spacing="large">
+    <Stack direction="column" gap="large">
       {Object.keys(theme.typography).map(variant => (
         <Text variant={variant as any} color="text" key={variant}>
           {capitalize(variant).replace(/-/g, ' ')}

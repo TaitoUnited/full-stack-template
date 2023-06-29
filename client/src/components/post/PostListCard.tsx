@@ -11,8 +11,8 @@ type Props = {
 export default function PostListCard({ createdAt, subject }: Props) {
   return (
     <Wrapper>
-      <Stack axis="x" spacing="normal" justify="space-between" align="center">
-        <PostInfo axis="y" spacing="xsmall">
+      <Stack direction="row" gap="normal" justify="space-between" align="center">
+        <PostInfo direction="column" gap="xsmall">
           <Subject variant="body">{subject}</Subject>
 
           <Text variant="bodySmall" color="muted1">

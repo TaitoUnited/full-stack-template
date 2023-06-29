@@ -2,11 +2,7 @@ import styled from 'styled-components';
 import { AnimatePresence } from 'framer-motion';
 import { useOverlayTriggerState } from 'react-stately';
 
-import Text from '../Text';
-import Stack from '../Stack';
-import FillButton from '../Buttons/FillButton';
-import Modal from './index';
-import OutlineButton from '../Buttons/OutlineButton';
+import { Modal, Stack, Text, FillButton, OutlineButton } from '~uikit';
 
 export default {
   title: 'Modal',
@@ -31,8 +27,8 @@ function ModalExample() {
         {state.isOpen && (
           <Modal onClose={state.close} title="Example modal">
             <ModalContent
-              axis="y"
-              spacing="large"
+              direction="column"
+              gap="large"
               align="center"
               justify="space-between"
             >

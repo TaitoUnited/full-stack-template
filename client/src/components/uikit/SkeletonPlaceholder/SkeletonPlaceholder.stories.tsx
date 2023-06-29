@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-import Stack from '../Stack';
 import SkeletonPlaceholder, { SkeletonPlaceholderProvider } from './index';
+import { Stack } from '~uikit';
 
 export default {
   title: 'SkeletonPlaceholder',
@@ -11,7 +11,7 @@ export default {
 export function DefaultBackground() {
   return (
     <Wrapper>
-      <Stack axis="y" spacing="xxlarge">
+      <Stack direction="column" gap="xxlarge">
         <SkeletonPlaceholder
           width={200}
           height={40}
@@ -19,9 +19,9 @@ export function DefaultBackground() {
           marginTop="normal"
         />
 
-        <Stack axis="x" spacing="xxlarge">
+        <Stack direction="row" gap="xxlarge">
           <SkeletonPlaceholder width={200} height={200} borderRadius="full" />
-          <Stack axis="y" spacing="large" style={{ flexGrow: 1 }}>
+          <Stack direction="column" gap="large" style={{ flexGrow: 1 }}>
             <SkeletonPlaceholder height={200} borderRadius="normal" />
             <SkeletonPlaceholder
               width={500}
@@ -39,7 +39,7 @@ export function CustomBackground() {
   return (
     <SkeletonPlaceholderProvider backgroundColor="primaryMuted">
       <Wrapper>
-        <Stack axis="y" spacing="xxlarge">
+        <Stack direction="column" gap="xxlarge">
           <SkeletonPlaceholder
             width={200}
             height={40}
@@ -47,9 +47,9 @@ export function CustomBackground() {
             marginTop="normal"
           />
 
-          <Stack axis="x" spacing="xxlarge">
+          <Stack direction="row" gap="xxlarge">
             <SkeletonPlaceholder width={200} height={200} borderRadius="full" />
-            <Stack axis="y" spacing="large" style={{ flexGrow: 1 }}>
+            <Stack direction="column" gap="large" style={{ flexGrow: 1 }}>
               <SkeletonPlaceholder height={200} borderRadius="normal" />
               <SkeletonPlaceholder
                 width={500}

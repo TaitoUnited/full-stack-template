@@ -2,11 +2,7 @@ import styled from 'styled-components';
 import { AnimatePresence } from 'framer-motion';
 import { useOverlayTriggerState } from 'react-stately';
 
-import FillButton from '../Buttons/FillButton';
-import OutlineButton from '../Buttons/OutlineButton';
-import Stack from '../Stack';
-import Text from '../Text';
-import Drawer from './index';
+import { Stack, FillButton, OutlineButton, Text, Drawer } from '~uikit';
 
 export default {
   title: 'Drawer',
@@ -31,8 +27,8 @@ function DrawerExample() {
         {state.isOpen && (
           <Drawer onClose={state.close} title="Example drawer">
             <DrawerContent
-              axis="y"
-              spacing="large"
+              direction="column"
+              gap="large"
               align="center"
               justify="space-between"
             >

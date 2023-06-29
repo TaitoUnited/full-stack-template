@@ -2,9 +2,10 @@ import styled from 'styled-components';
 import { t, Trans } from '@lingui/macro';
 
 import { UnstyledLink } from './Link';
-import { Text, Icon, Spacer, OutlineButton, IconName } from '~uikit';
+import { Text, Icon, OutlineButton, IconName } from '~uikit';
 import { activeOpacity, hoverHighlight } from '~utils/styled';
 import { useAuth } from '~services/auth';
+import { hstack } from '~styled-system/patterns';
 
 export default function Sidebar() {
   const auth = useAuth();
@@ -41,9 +42,13 @@ export default function Sidebar() {
         <NavList>
           {items.map(({ label, icon, to, testId }) => (
             <li key={label}>
-              <NavItemLink to={to} data-test-id={testId} preloadOn="hover">
+              <NavItemLink
+                to={to}
+                data-test-id={testId}
+                preloadOn="hover"
+                className={hstack({ gap: 'small' })}
+              >
                 <Icon name={icon} size={24} color="text" />
-                <Spacer axis="x" size="normal" />
                 <Text variant="body">{label}</Text>
               </NavItemLink>
             </li>
