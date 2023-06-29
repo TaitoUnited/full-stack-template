@@ -65,6 +65,55 @@ export default defineConfig({
 
     textStyles: transformTypography(typography),
   },
+
+  patterns: {
+    extend: {
+      hoverHighlight: {
+        description: 'A pseudo-element that highlights the element on hover',
+        transform() {
+          return {
+            '&:after': {
+              content: '""',
+              position: 'absolute',
+              inset: 0,
+              opacity: 0,
+              backgroundColor: 'hoverHighlight',
+              transition: 'opacity 50ms linear',
+              borderRadius: 'inherit',
+              pointerEvents: 'none',
+            },
+            '&:hover': {
+              '&:after': {
+                opacity: 1,
+              },
+            },
+          };
+        },
+      },
+      pressHighlight: {
+        description: 'A pseudo-element that highlights the element on press',
+        transform() {
+          return {
+            '&:after': {
+              content: '""',
+              position: 'absolute',
+              inset: 0,
+              opacity: 0,
+              backgroundColor: 'pressHighlight',
+              transition: 'opacity 50ms linear',
+              borderRadius: 'inherit',
+              pointerEvents: 'none',
+            },
+            '&:active': {
+              '&:after': {
+                opacity: 1,
+              },
+            },
+          };
+        },
+      },
+    },
+  },
 });
 
 // Helper functions to transform the design system tokens into Panda CSS format
