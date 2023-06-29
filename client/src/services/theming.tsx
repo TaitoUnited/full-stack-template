@@ -2,9 +2,10 @@ import {
   createContext,
   useContext,
   ReactNode,
-  useEffect,
   useCallback,
+  useLayoutEffect,
 } from 'react';
+
 import { ThemeProvider } from 'styled-components';
 
 import { theme as lightTheme, darkTheme } from '~constants/theme';
@@ -35,8 +36,9 @@ export function ThemingProvider({ children }: { children: ReactNode }) {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   }, [theme, setTheme]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const root = document.documentElement;
+    root.setAttribute('data-color-scheme', theme);
     root.style.setProperty('color-scheme', theme);
     root.style.setProperty('--background-color', values.colors.background);
   }, [theme]); // eslint-disable-line
