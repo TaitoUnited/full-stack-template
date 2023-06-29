@@ -8,6 +8,7 @@ import { useDarkMode } from 'storybook-dark-mode';
 import { I18nProvider } from '@lingui/react';
 import { i18n } from '@lingui/core';
 
+import * as colors from '../design-system/colors';
 import { theme, darkTheme } from '../src/constants/theme';
 
 i18n.load('fi', {});
@@ -25,13 +26,13 @@ const preview: Preview = {
     darkMode: {
       dark: {
         ...themes.dark,
-        appBg: darkTheme.colors.surface,
-        appContentBg: darkTheme.colors.background,
+        appBg: colors.dark.surface,
+        appContentBg: colors.dark.background,
       },
       light: {
         ...themes.light,
-        appBg: theme.colors.surface,
-        appContentBg: theme.colors.background,
+        appBg: colors.light.surface,
+        appContentBg: colors.light.background,
       },
     },
   },
@@ -43,7 +44,10 @@ function StoryDecorator({ children }: { children: React.ReactNode }) {
   // Fix for: https://github.com/storybookjs/storybook/issues/22029
   React.useLayoutEffect(() => {
     const backgroundColor = isDarkMode ? themes.dark.appBg : themes.light.appBg;
+    const currentTheme = isDarkMode ? 'dark' : 'light';
     document.body.style.backgroundColor = backgroundColor || 'inherit';
+    document.documentElement.style.setProperty('color-scheme', currentTheme);
+    document.documentElement.setAttribute('data-color-scheme', currentTheme);
   }, [isDarkMode]);
 
   return (
