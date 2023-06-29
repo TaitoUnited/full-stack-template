@@ -13,3 +13,6 @@ npm run lang:compile
 echo
 echo "Generating GraphQL code for client"
 npm run generate:graphql
+
+echo "Generating styled system"
+npm run generate:styled-system

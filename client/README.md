@@ -91,5 +91,5 @@ Send `.po` files to customer for translation.
 #### 4. Compile messages
 
 ```sh
-npm run lang:compile
+npm run generate:lang
 ```

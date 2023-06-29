@@ -48,7 +48,6 @@ ENV SENTRY_DSN #sentryDSN
 
 RUN npm run lint
 RUN npm run unit
-RUN npm run lang:compile
 RUN npm run build
 
 # Production runtime
