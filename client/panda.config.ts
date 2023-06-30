@@ -68,6 +68,16 @@ export default defineConfig({
 
   patterns: {
     extend: {
+      focusRing: {
+        description: 'Adds a focus ring to the element',
+        transform() {
+          return {
+            '&:focus-visible': {
+              'box-shadow': '0px 0px 0px 2px token(colors.focusRing)',
+            },
+          };
+        },
+      },
       hoverHighlight: {
         description: 'A pseudo-element that highlights the element on hover',
         transform() {

@@ -1,15 +1,15 @@
-import React, { forwardRef, ComponentProps } from 'react';
-import styled from 'styled-components';
+import { forwardRef, ComponentProps, ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { Checkbox as AriaCheckbox } from 'react-aria-components';
 
 import Icon from '../Icon';
+import { css, cx } from '~styled-system/css';
 
 type CommonProps = ComponentProps<typeof AriaCheckbox>;
 
 type PropsWithLabel = CommonProps & {
   /** Text string to be displayed next to the checkbox */
-  label: React.ReactNode;
+  label: ReactNode;
   labelledby?: undefined;
 };
 
@@ -28,75 +28,73 @@ type Props = PropsWithLabel | PropsWithLabelledBy;
  */
 const Checkbox = forwardRef<HTMLInputElement, Props>(
   ({ label, labelledby, ...rest }, ref) => (
-    <AriaCheckboxWrapper aria-labelledby={labelledby} {...rest} ref={ref}>
+    <AriaCheckbox
+      aria-labelledby={labelledby}
+      {...rest}
+      ref={ref}
+      className={cx(
+        css({
+          display: 'flex',
+          alignItems: 'center',
+          gap: 'small',
+          '& .checkbox': {
+            position: 'relative',
+            width: '18px',
+            height: '18px',
+            flexShrink: 0,
+            backgroundColor: 'white',
+            color: 'primaryMuted',
+            borderRadius: 'small',
+            border: '1px solid token(colors.muted3)',
+          },
+          '&[data-selected] > .checkbox, &[data-indeterminate] > .checkbox': {
+            backgroundColor: 'primary',
+            borderColor: 'primary',
+          },
+          '&[data-disabled] > .checkbox': {
+            backgroundColor: 'muted5',
+          },
+          '&[data-focus-visible] > .checkbox': {
+            outline: '2px solid token(colors.primary)',
+            outlineOffset: '1px',
+          },
+        }),
+        rest.className as string
+      )}
+    >
       {({ isSelected, isIndeterminate }) => (
         <>
           <div className="checkbox">
             {(isSelected || isIndeterminate) && (
-              <IconWrapper
+              <motion.div
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
                 aria-hidden
+                className={css({
+                  position: 'absolute',
+                  inset: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  pointerEvents: 'none',
+                })}
               >
                 <Icon
                   name={isIndeterminate ? 'minus' : 'checkmark'}
                   size={14}
                   color="currentColor"
                 />
-              </IconWrapper>
+              </motion.div>
             )}
           </div>
 
           {label}
         </>
       )}
-    </AriaCheckboxWrapper>
+    </AriaCheckbox>
   )
 );
 
-const AriaCheckboxWrapper = styled(AriaCheckbox)`
-  display: flex;
-  align-items: center;
-  gap: ${p => p.theme.spacing.small}px;
-
-  & .checkbox {
-    position: relative;
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-    background-color: 'white';
-    color: ${p => p.theme.colors.primaryMuted};
-    border-radius: ${p => p.theme.radii.small}px;
-    border: 1px solid ${p => p.theme.colors.muted3};
-  }
-
-  &[data-selected] > .checkbox,
-  &[data-indeterminate] > .checkbox {
-    background-color: ${p => p.theme.colors.primary};
-    border-color: ${p => p.theme.colors.primary};
-  }
-
-  &[data-disabled] > .checkbox {
-    background-color: ${p => p.theme.colors.muted5};
-  }
-
-  &[data-focus-visible] > .checkbox {
-    outline: 2px solid ${p => p.theme.colors.primary};
-    outline-offset: 1px;
-  }
-`;
-
-const IconWrapper = styled(motion.div)`
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-`;
-
 Checkbox.displayName = 'Checkbox';
+
 export default Checkbox;

@@ -22,7 +22,7 @@ export function Example() {
 
       <Select label="Required select" items={options} isRequired />
 
-      <Select label="With icon" icon="download" items={options} />
+      <Select label="With icon" icon="clock" items={options} />
 
       <Select
         label="Descriptions also"

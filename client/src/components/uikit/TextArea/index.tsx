@@ -1,7 +1,6 @@
 import { forwardRef, ComponentProps, TextareaHTMLAttributes } from 'react';
 import { useTextField } from 'react-aria';
 import { TextField } from 'react-aria-components';
-import styled from 'styled-components';
 
 import {
   inputWrapperStyles,
@@ -9,7 +8,9 @@ import {
   baseInputStyles,
   DescriptionText,
   ErrorText,
-} from '~components/uikit/partials/common';
+} from '../partials/common';
+
+import { css, cx } from '~styled-system/css';
 
 type Props = ComponentProps<typeof TextField> &
   TextareaHTMLAttributes<HTMLTextAreaElement> & {
@@ -46,18 +47,27 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
       );
 
     return (
-      <Wrapper style={style} className={className}>
-        <Label {...labelProps} data-required={rest.isRequired}>
+      <div style={style} className={cx(inputWrapperStyles, className)}>
+        <label
+          {...labelProps}
+          className={labelStyles}
+          data-required={rest.isRequired}
+        >
           {label}
-        </Label>
+        </label>
 
-        <InputWrapper>
+        <div className={css({ position: 'relative' })}>
           {/**
            * TODO: soon there will probably be a better way to render a textarea
            * with react-aria-components: https://github.com/adobe/react-spectrum/issues/4595
            */}
-          <Input {...inputProps} ref={ref} placeholder={placeholder} />
-        </InputWrapper>
+          <textarea
+            {...inputProps}
+            ref={ref}
+            placeholder={placeholder}
+            className={baseInputStyles}
+          />
+        </div>
 
         {description && (
           <DescriptionText {...descriptionProps}>{description}</DescriptionText>
@@ -65,26 +75,11 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
         {errorMessage && (
           <ErrorText {...errorMessageProps}>{errorMessage}</ErrorText>
         )}
-      </Wrapper>
+      </div>
     );
   }
 );
 
-const Wrapper = styled.div`
-  ${inputWrapperStyles}
-`;
-
-const InputWrapper = styled.div`
-  position: relative;
-`;
-
-const Input = styled.textarea`
-  ${baseInputStyles}
-`;
-
-const Label = styled.label`
-  ${labelStyles}
-`;
-
 TextArea.displayName = 'TextArea';
+
 export default TextArea;

@@ -1,5 +1,4 @@
 import { forwardRef, ComponentProps } from 'react';
-import styled from 'styled-components';
 
 import {
   Button,
@@ -7,21 +6,22 @@ import {
   Select as AriaSelect,
   SelectValue,
   Item,
-  Label as AriaLabel,
+  Label,
 } from 'react-aria-components';
-
-import { IconName } from '../Icon';
-import { ListBox } from '../partials/ListBox';
 
 import {
   baseInputStyles,
   DescriptionText,
   ErrorText,
-  InputIconLeft,
-  InputIconRight,
+  inputIconLeftStyles,
+  inputIconRightStyles,
   inputWrapperStyles,
   labelStyles,
-} from '~components/uikit/partials/common';
+} from '../partials/common';
+
+import Icon, { IconName } from '../Icon';
+import { ListBox } from '../partials/ListBox';
+import { css, cx } from '~styled-system/css';
 
 type Option = {
   value: string;
@@ -43,21 +43,49 @@ type Props = ComponentProps<typeof AriaSelect<Option>> & {
  */
 const Select = forwardRef<HTMLDivElement, Props>(
   ({ label, description, errorMessage, icon, ...rest }, ref) => (
-    <Wrapper
+    <AriaSelect
       {...rest}
       ref={ref}
       validationState={errorMessage ? 'invalid' : 'valid'}
+      className={cx(inputWrapperStyles, rest.className as string)}
     >
-      <Label data-required={rest.isRequired}>{label}</Label>
-      <InputWrapper>
-        {icon && <InputIconLeft name={icon} size={20} color="muted1" />}
+      <Label className={labelStyles} data-required={rest.isRequired}>
+        {label}
+      </Label>
 
-        <Input data-invalid={!!errorMessage}>
+      <div className={css({ position: 'relative' })}>
+        {!!icon && (
+          <Icon
+            name={icon}
+            size={20}
+            color="muted1"
+            className={inputIconLeftStyles}
+          />
+        )}
+
+        <Button
+          data-invalid={!!errorMessage}
+          data-has-icon={!!icon}
+          className={cx(
+            baseInputStyles,
+            css({
+              textAlign: 'left',
+              paddingRight: 'xlarge !important',
+              '&[data-has-icon="true"]': { paddingLeft: 'xlarge' },
+              '& > *[data-placeholder]': { color: 'muted1' },
+            })
+          )}
+        >
           <SelectValue />
-        </Input>
+        </Button>
 
-        <InputIconRight name="chevronDown" size={20} color="muted1" />
-      </InputWrapper>
+        <Icon
+          name="chevronDown"
+          size={20}
+          color="muted1"
+          className={inputIconRightStyles}
+        />
+      </div>
 
       {description && <DescriptionText>{description}</DescriptionText>}
       {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
@@ -70,35 +98,10 @@ const Select = forwardRef<HTMLDivElement, Props>(
           {({ label, value }: Option) => <Item id={value}>{label}</Item>}
         </ListBox>
       </Popover>
-    </Wrapper>
+    </AriaSelect>
   )
 );
 
-const Wrapper = styled(AriaSelect)`
-  ${inputWrapperStyles}
-`;
-
-const InputWrapper = styled.div`
-  position: relative;
-
-  & > svg + button {
-    padding-left: ${p => p.theme.spacing.xlarge}px;
-  }
-`;
-
-const Label = styled(AriaLabel)`
-  ${labelStyles}
-`;
-
-const Input = styled(Button)`
-  ${baseInputStyles}
-  padding-right: ${p => p.theme.spacing.xlarge}px;
-  text-align: inherit;
-
-  & > *[data-placeholder] {
-    color: ${p => p.theme.colors.muted1};
-  }
-`;
-
 Select.displayName = 'Select';
+
 export default Select;

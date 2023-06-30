@@ -1,26 +1,20 @@
 import { useState, forwardRef, ComponentProps } from 'react';
 import { t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
-import styled from 'styled-components';
-
-import {
-  TextField,
-  Input as AriaInput,
-  Label as AriaLabel,
-  ToggleButton,
-} from 'react-aria-components';
-
-import Icon, { IconName } from '../Icon';
-import { focusRing } from '~utils/styled';
+import { TextField, Input, Label, ToggleButton } from 'react-aria-components';
 
 import {
   inputWrapperStyles,
-  InputIconLeft,
+  inputIconLeftStyles,
   labelStyles,
   baseInputStyles,
   DescriptionText,
   ErrorText,
-} from '~components/uikit/partials/common';
+} from '../partials/common';
+
+import Icon, { IconName } from '../Icon';
+import { css, cx } from '~styled-system/css';
+import { focusRing } from '~styled-system/patterns';
 
 type Props = ComponentProps<typeof TextField> & {
   label: string;
@@ -41,15 +35,35 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
     const isPassword = rest.type === 'password';
 
     return (
-      <Wrapper {...rest} validationState={errorMessage ? 'invalid' : 'valid'}>
-        <Label data-required={rest.isRequired}>{label}</Label>
+      <TextField
+        {...rest}
+        className={cx(inputWrapperStyles, rest.className)}
+        validationState={errorMessage ? 'invalid' : 'valid'}
+      >
+        <Label className={labelStyles} data-required={rest.isRequired}>
+          {label}
+        </Label>
 
-        <InputWrapper>
-          {icon && <InputIconLeft name={icon} size={20} color="muted1" />}
+        <div
+          className={css({
+            position: 'relative',
+            '& > svg + input': { paddingLeft: 'xlarge' },
+            '& > input[data-password]': { paddingRight: 'xlarge' },
+          })}
+        >
+          {!!icon && (
+            <Icon
+              className={inputIconLeftStyles}
+              name={icon}
+              size={20}
+              color="muted1"
+            />
+          )}
 
           <Input
             ref={ref}
             placeholder={placeholder}
+            className={baseInputStyles}
             data-password={isPassword || undefined}
             type={
               isPassword ? (passwordVisible ? 'text' : 'password') : rest.type
@@ -57,65 +71,41 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
           />
 
           {isPassword && (
-            <PasswordToggleButton
+            <ToggleButton
               isSelected={passwordVisible}
               onChange={setPasswordVisible}
               aria-label={t`Show password`}
+              className={cx(
+                css({
+                  position: 'absolute',
+                  height: '100%',
+                  top: '0px',
+                  right: '0px',
+                  paddingRight: 'small',
+                  paddingLeft: 'small',
+                  display: 'flex',
+                  alignItems: 'center',
+                  borderRadius: 'normal',
+                }),
+                focusRing()
+              )}
             >
               <Icon
                 name={passwordVisible ? 'eyeFilled' : 'eyeOutlined'}
                 size={20}
                 color="muted1"
               />
-            </PasswordToggleButton>
+            </ToggleButton>
           )}
-        </InputWrapper>
+        </div>
 
         {description && <DescriptionText>{description}</DescriptionText>}
         {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
-      </Wrapper>
+      </TextField>
     );
   }
 );
 
-const Wrapper = styled(TextField)`
-  ${inputWrapperStyles}
-`;
-
-const InputWrapper = styled.div`
-  position: relative;
-
-  & > svg + input {
-    padding-left: ${p => p.theme.spacing.xlarge}px;
-  }
-
-  & > input[data-password] {
-    padding-right: ${p => p.theme.spacing.xlarge}px;
-  }
-`;
-
-const Label = styled(AriaLabel)`
-  ${labelStyles}
-`;
-
-const PasswordToggleButton = styled(ToggleButton)`
-  position: absolute;
-  height: 100%;
-  top: 0;
-  right: 0;
-  padding-right: ${p => p.theme.spacing.small}px;
-  padding-left: ${p => p.theme.spacing.small}px;
-  display: flex;
-  align-items: center;
-
-  &:focus-visible {
-    ${focusRing}
-  }
-`;
-
-const Input = styled(AriaInput)`
-  ${baseInputStyles}
-`;
-
 TextInput.displayName = 'TextInput';
+
 export default TextInput;

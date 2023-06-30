@@ -1,26 +1,26 @@
 import { forwardRef, ComponentProps } from 'react';
-import styled from 'styled-components';
 
 import {
   Button,
   Popover,
   ComboBox as AriaComboBox,
   Item,
-  Input as AriaInput,
-  Label as AriaLabel,
+  Input,
+  Label,
 } from 'react-aria-components';
 
 import {
   baseInputStyles,
   DescriptionText,
   ErrorText,
-  InputIconLeft,
+  inputIconLeftStyles,
   inputWrapperStyles,
   labelStyles,
 } from '~components/uikit/partials/common';
 
 import { ListBox } from '~components/uikit/partials/ListBox';
 import Icon, { IconName } from '~components/uikit/Icon';
+import { css, cx } from '~styled-system/css';
 
 type Option = {
   value: string;
@@ -43,21 +43,51 @@ type Props = ComponentProps<typeof AriaComboBox<Option>> & {
  */
 const ComboBox = forwardRef<HTMLInputElement, Props>(
   ({ label, description, errorMessage, placeholder, icon, ...rest }, ref) => (
-    <Wrapper
+    <AriaComboBox
       {...rest}
       ref={ref}
       validationState={errorMessage ? 'invalid' : 'valid'}
+      className={cx(inputWrapperStyles, rest.className as string)}
     >
-      <Label data-required={rest.isRequired}>{label}</Label>
-      <InputWrapper>
-        {icon && <InputIconLeft name={icon} size={20} color="muted1" />}
+      <Label className={labelStyles} data-required={rest.isRequired}>
+        {label}
+      </Label>
 
-        <Input placeholder={placeholder} />
+      <div
+        className={css({
+          position: 'relative',
+          '& > svg + input': { paddingLeft: 'xlarge' },
+        })}
+      >
+        {!!icon && (
+          <Icon
+            name={icon}
+            size={20}
+            color="muted1"
+            className={inputIconLeftStyles}
+          />
+        )}
 
-        <InputButton>
+        <Input
+          placeholder={placeholder}
+          className={cx(baseInputStyles, css({ paddingRight: 'large' }))}
+        />
+
+        <Button
+          className={css({
+            position: 'absolute',
+            height: '100%',
+            top: '0px',
+            right: '0px',
+            paddingRight: 'small',
+            paddingLeft: 'small',
+            display: 'flex',
+            alignItems: 'center',
+          })}
+        >
           <Icon name="chevronDown" size={20} color="muted1" />
-        </InputButton>
-      </InputWrapper>
+        </Button>
+      </div>
 
       {description && <DescriptionText>{description}</DescriptionText>}
       {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
@@ -70,41 +100,10 @@ const ComboBox = forwardRef<HTMLInputElement, Props>(
           {({ label, value }: Option) => <Item id={value}>{label}</Item>}
         </ListBox>
       </Popover>
-    </Wrapper>
+    </AriaComboBox>
   )
 );
 
-const Wrapper = styled(AriaComboBox)`
-  ${inputWrapperStyles}
-`;
-
-const InputWrapper = styled.div`
-  position: relative;
-
-  & > svg + input {
-    padding-left: ${p => p.theme.spacing.xlarge}px;
-  }
-`;
-
-const Label = styled(AriaLabel)`
-  ${labelStyles}
-`;
-
-const Input = styled(AriaInput)`
-  ${baseInputStyles}
-  padding-right: ${p => p.theme.spacing.large}px;
-`;
-
-const InputButton = styled(Button)`
-  position: absolute;
-  height: 100%;
-  top: 0;
-  right: 0;
-  padding-right: ${p => p.theme.spacing.small}px;
-  padding-left: ${p => p.theme.spacing.small}px;
-  display: flex;
-  align-items: center;
-`;
-
 ComboBox.displayName = 'ComboBox';
+
 export default ComboBox;
