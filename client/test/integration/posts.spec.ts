@@ -1,5 +1,3 @@
-// / <reference types="Cypress" />
-
 describe('Posts', () => {
   beforeEach(() => {
     // REST API call example
@@ -27,17 +25,13 @@ describe('Posts', () => {
   it('Submits a new post', () => {
     const random = Math.floor(Math.random() * 100000000);
 
-    cy.get('[data-test-id=subject-field]').type(`subject-${random}`);
-    cy.get('[data-test-id=author-field]').type(`author-${random}`);
-    cy.get('[data-test-id=content-field]').type(`content-${random}`);
+    cy.get('input[data-test-id=subject-field]').type(`subject-${random}`);
+    cy.get('input[data-test-id=author-field]').type(`author-${random}`);
+    cy.get('textarea[data-test-id=content-field]').type(`content-${random}`);
     cy.get('[data-test-id=submit-post]').click();
 
     // Assert
-    // TODO: implementation does not currently reload posts after submit
-    // cy.get('[data-test-id=post-list]')
-    //   .should('contain', `subject-${random}`)
-    //   .and('contain', `author-${random}`)
-    //   .and('contain', `content-${random}`);
+    cy.get('[data-test-id=post-list]').should('contain', `subject-${random}`);
 
     // Assert: API call example
     // TODO: Add GraphQL example
