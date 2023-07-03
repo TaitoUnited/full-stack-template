@@ -7,7 +7,7 @@
     "unit": "vitest run ./src/**/*.test.{ts,tsx}",
     "unit:coverage": "vitest run ./src/**/*.test.{ts,tsx} --coverage",
     "test": "echo TODO run tests but not cypress",
-    "cypress:run": "cypress run",
+    "cypress:run": "if [ -z ${test_name} ]; then cypress run; else cypress run -s test/integration/**/${test_name}.spec.ts; fi",
     "cypress:open": "cypress open",
     "start": "vite",
     "build": "vite build",
