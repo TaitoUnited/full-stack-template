@@ -134,7 +134,7 @@ full-stack:
         - ip: "${db_database_real_host}/32"
         - fullname: ${taito_project}-${taito_env}-redis
         - fullname: ${taito_project}-${taito_env}-storage
-      livenessInitialDelay: 120
+      livenessDisabled: true # TODO: implement /healthz for worker
       db: # For old gcp environments
         useProxy: ${gcp_db_proxy_enabled} # For old gcp environments
         instance: ${taito_zone}:${taito_provider_region}:${db_database_instance} # For old gcp environments
