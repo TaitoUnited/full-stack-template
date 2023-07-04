@@ -19,7 +19,8 @@
 ARG NODE_VERSION='18.16.0'
 ARG BASE_IMAGE='node:18.16.0-alpine'
 
-FROM cypress/factory as builder
+# FROM cypress/factory as builder
+FROM node:18.16.1 as builder
 
 RUN mkdir -p /develop
 WORKDIR /develop

@@ -19,7 +19,8 @@
 ARG NODE_VERSION='18.16.0'
 ARG BASE_IMAGE='node:18.16.0-alpine'
 
-FROM cypress/factory
+# FROM cypress/factory
+FROM node:18.16.1
 
 # Init /develop for user USER_UID
 ARG USER_UID=1001
