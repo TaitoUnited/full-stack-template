@@ -1,5 +1,5 @@
 {
-  "name": "scanwai-web-worker",
+  "name": "full-stack-template-worker",
   "private": true,
   "scripts": {
     "unit": "jest --rootDir=src --passWithNoTests -t",
