@@ -31,7 +31,8 @@ COPY ${SERVICE_DIR}/package.json \
     /develop/
 
 ENV NODE_ENV development
-RUN npm ci --loglevel warn
+# TODO: use 'npm ci' once works (bug in npm?)
+RUN npm install --loglevel warn
 
 COPY ${SERVICE_DIR} /develop
 
