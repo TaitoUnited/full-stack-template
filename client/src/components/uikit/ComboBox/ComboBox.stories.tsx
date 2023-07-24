@@ -15,7 +15,7 @@ export function Example() {
   ];
 
   return (
-    <Stack direction="column" gap="large" style={{ maxWidth: 400 }}>
+    <Stack direction="column" gap="$large" style={{ maxWidth: 400 }}>
       <ComboBox label="Regular combobox" defaultItems={options} />
 
       <ComboBox label="Disabled combobox" defaultItems={options} isDisabled />

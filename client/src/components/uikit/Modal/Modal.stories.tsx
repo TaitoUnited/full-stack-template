@@ -28,7 +28,7 @@ function ModalExample() {
           <Modal onClose={state.close} title="Example modal">
             <ModalContent
               direction="column"
-              gap="large"
+              gap="$large"
               align="center"
               justify="space-between"
             >

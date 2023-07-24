@@ -9,7 +9,7 @@ import LangMenuButton from '~components/common/LangMenuButton';
 export default function Toolbar() {
   return (
     <Wrapper>
-      <Stack direction="row" gap="normal" align="center">
+      <Stack direction="row" gap="$normal" align="center">
         <LogoWrapper>
           <LogoImg src={logoImg} />
         </LogoWrapper>
@@ -19,7 +19,7 @@ export default function Toolbar() {
         </Text>
       </Stack>
 
-      <Stack direction="row" gap="normal" align="center">
+      <Stack direction="row" gap="$normal" align="center">
         <ColorModeButton />
         <LangMenuButton />
       </Stack>

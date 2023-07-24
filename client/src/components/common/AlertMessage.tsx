@@ -21,7 +21,7 @@ export default function AlertMessage({
 
   return (
     <Wrapper bg={bg}>
-      <Stack direction="row" gap="normal" align="center">
+      <Stack direction="row" gap="$normal" align="center">
         <Icon name={icon} color={iconColor} size={24} />
         <Text variant="body" color={textColor}>
           {message}

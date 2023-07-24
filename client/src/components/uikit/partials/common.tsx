@@ -7,30 +7,30 @@ import { css } from '~styled-system/css';
 export const inputWrapperStyles = css({
   display: 'flex',
   flexDirection: 'column',
-  gap: 'xxsmall',
+  gap: '$xxsmall',
 });
 
 export const baseInputStyles = css({
   '--outline-width': '1px',
-  textStyle: 'body',
-  padding: 'small',
+  textStyle: '$body',
+  padding: '$small',
   width: '100%',
   color: 'text',
-  borderRadius: 'normal',
-  border: '1px solid token(colors.border)',
+  borderRadius: '$normal',
+  border: '1px solid token(colors.$border)',
   outlineOffset: 'calc(0px - var(--outline-width))',
 
   _focus: {
     '--outline-width': '2px',
     borderColor: 'transparent',
-    outline: 'var(--outline-width) solid token(colors.primary)',
+    outline: 'var(--outline-width) solid token(colors.$primary)',
   },
   '&[aria-invalid="true"], &[data-invalid="true"]': {
     borderColor: 'transparent',
-    outline: 'var(--outline-width) solid token(colors.error)',
+    outline: 'var(--outline-width) solid token(colors.$error)',
   },
   '&[disabled]': {
-    backgroundColor: 'muted6',
+    backgroundColor: '$muted6',
     cursor: 'not-allowed',
   },
 });
@@ -39,9 +39,9 @@ export const baseInputStyles = css({
  * Add a `data-required` attribute to render an `*` after the label
  */
 export const labelStyles = css({
-  textStyle: 'body',
-  color: 'text',
-  marginBottom: 'xxsmall',
+  textStyle: '$body',
+  color: '$text',
+  marginBottom: '$xxsmall',
 
   '&[data-required="true"]': {
     '&:after': {
@@ -72,7 +72,7 @@ export const DescriptionText = (
   <Text
     {...props}
     slot="description"
-    className={css({ textStyle: 'bodySmall' })}
+    className={css({ textStyle: '$bodySmall' })}
   />
 );
 
@@ -84,11 +84,13 @@ export const ErrorText = ({
     {...rest}
     slot="errorMessage"
     className={css({
-      textStyle: 'bodySmall',
-      color: 'errorText',
+      textStyle: '$bodySmall',
+      color: '$errorText',
       display: 'flex',
       alignItems: 'center',
-      '& > svg': { marginRight: 'xxsmall' },
+      '& > svg': {
+        marginRight: '$xxsmall',
+      },
     })}
   >
     <Icon name="warningTriangle" size={14} color="error" />

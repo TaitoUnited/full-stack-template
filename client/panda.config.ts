@@ -44,15 +44,15 @@ export default defineConfig({
     tokens: {
       shadows: transformShadows(shadows),
       radii: {
-        none: { value: '0rem' },
+        $none: { value: '0rem' },
         ...transformNumberTokens(radii, value => `${value}px`),
       },
       sizes: {
-        none: { value: '0rem' },
+        $none: { value: '0rem' },
         ...transformNumberTokens(sizes, value => `${value / 16}rem`),
       },
       spacing: {
-        none: { value: '0rem' },
+        $none: { value: '0rem' },
         ...transformNumberTokens(spacing, value => `${value / 16}rem`),
       },
     },
@@ -128,13 +128,17 @@ export default defineConfig({
 
 // Helper functions to transform the design system tokens into Panda CSS format
 
+function tokenName(value: string | number) {
+  return `$${value}`;
+}
+
 function transformNumberTokens(
   tokens: Record<string, any>,
   transformer: (value: number) => string
 ) {
   return Object.entries(tokens).reduce<Record<string, { value: string }>>(
     (acc, [key, value]) => {
-      acc[key] = { value: transformer(value) };
+      acc[tokenName(key)] = { value: transformer(value) };
       return acc;
     },
     {}
@@ -152,7 +156,7 @@ type TextStyle = {
 
 function transformTypography(tokens: Record<string, TextStyle>) {
   return Object.entries(tokens).reduce((acc, [key, value]) => {
-    acc[key] = {
+    acc[tokenName(key)] = {
       value: {
         fontFamily: value.fontFamily,
         fontWeight: value.fontWeight,
@@ -171,7 +175,7 @@ function transformColors(tokens: {
   dark: Record<string, string>;
 }) {
   return Object.entries(tokens.light).reduce((acc, [key, value]) => {
-    acc[key] = {
+    acc[tokenName(key)] = {
       value: {
         _light: value,
         _dark: tokens.dark[key],
@@ -193,7 +197,7 @@ function transformShadows(tokens: Record<string, Shadow>) {
   return Object.entries(tokens).reduce((acc, [key, value]) => {
     // Due to the way shadows are named in Figma we need to remove the leading
     // "shadow" from the key: "shadowLarge" -> "large"
-    const name = key.replace('shadow', '').toLowerCase();
+    const name = tokenName(key.replace('shadow', '').toLowerCase());
     acc[name] = { value: value.boxShadow };
     return acc;
   }, {} as Record<string, { value: string }>);

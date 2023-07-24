@@ -12,9 +12,9 @@ const buttons: Variant[] = ['primary', 'info'];
 
 export function AllVariants() {
   return (
-    <Stack direction="row" gap="large">
+    <Stack direction="row" gap="$large">
       {buttons.map(variant => (
-        <Stack key={variant} direction="row" gap="normal" align="flex-start">
+        <Stack key={variant} direction="row" gap="$normal" align="flex-start">
           <FloatingButton
             icon="bell"
             variant={variant}
@@ -30,8 +30,8 @@ export function AllVariants() {
 
 export function AllStates() {
   return (
-    <Stack direction="column" gap="large" align="flex-start">
-      <Stack direction="row" gap="normal" align="flex-start">
+    <Stack direction="column" gap="$large" align="flex-start">
+      <Stack direction="row" gap="$normal" align="flex-start">
         <FloatingButton
           icon="clock"
           variant="primary"

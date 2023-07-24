@@ -47,8 +47,8 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
         <div
           className={css({
             position: 'relative',
-            '& > svg + input': { paddingLeft: 'xlarge' },
-            '& > input[data-password]': { paddingRight: 'xlarge' },
+            '& > svg + input': { paddingLeft: '$xlarge' },
+            '& > input[data-password]': { paddingRight: '$xlarge' },
           })}
         >
           {!!icon && (
@@ -81,11 +81,11 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
                   height: '100%',
                   top: '0px',
                   right: '0px',
-                  paddingRight: 'small',
-                  paddingLeft: 'small',
+                  paddingRight: '$small',
+                  paddingLeft: '$small',
                   display: 'flex',
                   alignItems: 'center',
-                  borderRadius: 'normal',
+                  borderRadius: '$normal',
                 }),
                 focusRing()
               )}

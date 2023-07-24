@@ -67,9 +67,9 @@ const FloatingButton = forwardRef<HTMLButtonElement, Props>(
 
     const _style = {
       ...style,
-      color: token.var(`colors.${variant}Text`),
-      backgroundColor: token.var(`colors.${variant}Muted`),
-      '--outline-color': token.var(`colors.${variant}`),
+      color: token.var(`colors.$${variant}Text`),
+      backgroundColor: token.var(`colors.$${variant}Muted`),
+      '--outline-color': token.var(`colors.$${variant}`),
     } as CSSProperties;
 
     const Element = asLink ? ButtonLink : 'button';
@@ -105,9 +105,9 @@ const styles = cva({
     textDecoration: 'none',
     outlineOffset: '2px',
     cursor: 'pointer',
-    height: 'buttonHeightLarge',
-    width: 'buttonHeightLarge',
-    shadow: 'large',
+    height: '$buttonHeightLarge',
+    width: '$buttonHeightLarge',
+    shadow: '$large',
     _active: {
       opacity: 0.8,
     },

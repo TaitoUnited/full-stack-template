@@ -7,7 +7,7 @@ export default {
 
 export function Example() {
   return (
-    <Stack direction="row" gap="medium" style={{ padding: 32 }}>
+    <Stack direction="row" gap="$medium" style={{ padding: 32 }}>
       <div>
         <Tooltip title="I'm a tooltip" position="top">
           <FillButton variant="primary">Tooltip on top</FillButton>

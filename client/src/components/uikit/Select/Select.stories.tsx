@@ -15,7 +15,7 @@ export function Example() {
   ];
 
   return (
-    <Stack direction="column" gap="large" style={{ maxWidth: 400 }}>
+    <Stack direction="column" gap="$large" style={{ maxWidth: 400 }}>
       <Select label="Regular select" items={options} />
 
       <Select label="Disabled select" items={options} isDisabled />

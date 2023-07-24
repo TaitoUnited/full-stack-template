@@ -9,7 +9,7 @@ const OutlineButton = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ children, variant, className, style, ...rest }, ref) => {
     const _style = {
       ...style,
-      '--color': token.var(`colors.${variant}`),
+      '--color': token.var(`colors.$${variant}`),
     } as CSSProperties;
 
     return (

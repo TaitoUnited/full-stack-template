@@ -4,7 +4,7 @@ export default function PostCreateFallback() {
   return (
     <Stack
       direction="column"
-      gap="large"
+      gap="$large"
       style={{
         maxWidth: 600,
         width: '100%',
@@ -13,7 +13,7 @@ export default function PostCreateFallback() {
       }}
     >
       <SkeletonPlaceholder width={340} height={48} borderRadius="small" />
-      <Stack direction="column" gap="normal">
+      <Stack direction="column" gap="$normal">
         <SkeletonPlaceholder height={52} borderRadius="normal" />
         <SkeletonPlaceholder height={52} borderRadius="normal" />
         <SkeletonPlaceholder height={112} borderRadius="normal" />

@@ -16,7 +16,7 @@ export default function LangMenuButton() {
         label: LOCALE_LABEL[locale],
       }))}
     >
-      <Stack direction="row" gap="xxsmall" align="center">
+      <Stack direction="row" gap="$xxsmall" align="center">
         <Icon name="languageGlobe" size={16} color="muted1" />
         <Text variant="bodySmall" color="muted1">
           {i18n.locale.toUpperCase()}

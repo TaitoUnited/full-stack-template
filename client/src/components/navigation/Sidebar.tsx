@@ -46,7 +46,7 @@ export default function Sidebar() {
                 to={to}
                 data-test-id={testId}
                 preloadOn="hover"
-                className={hstack({ gap: 'small' })}
+                className={hstack({ gap: '$small' })}
               >
                 <Icon name={icon} size={24} color="text" />
                 <Text variant="body">{label}</Text>

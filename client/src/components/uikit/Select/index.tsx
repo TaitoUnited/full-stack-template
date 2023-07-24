@@ -70,9 +70,9 @@ const Select = forwardRef<HTMLDivElement, Props>(
             baseInputStyles,
             css({
               textAlign: 'left',
-              paddingRight: 'xlarge !important',
-              '&[data-has-icon="true"]': { paddingLeft: 'xlarge' },
-              '& > *[data-placeholder]': { color: 'muted1' },
+              paddingRight: '$xlarge!',
+              '&[data-has-icon="true"]': { paddingLeft: '$xlarge' },
+              '& > *[data-placeholder]': { color: '$muted1' },
             })
           )}
         >

@@ -28,7 +28,7 @@ function DrawerExample() {
           <Drawer onClose={state.close} title="Example drawer">
             <DrawerContent
               direction="column"
-              gap="large"
+              gap="$large"
               align="center"
               justify="space-between"
             >

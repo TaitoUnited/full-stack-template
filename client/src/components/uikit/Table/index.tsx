@@ -124,7 +124,7 @@ function TableColumnHeader({
       ref={ref}
       className="table-header"
     >
-      <Stack direction="row" gap="xsmall" align="baseline">
+      <Stack direction="row" gap="$xsmall" align="baseline">
         <span>{column.rendered ? column.rendered : ''}</span>
         {column.props.allowsSorting && (
           <TabletColumnSort>

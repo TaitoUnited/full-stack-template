@@ -9,8 +9,8 @@ const FillButton = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ children, variant, className, style, ...rest }, ref) => {
     const _style = {
       ...style,
-      '--color': token.var(`colors.${variant}Text`),
-      '--bg': token.var(`colors.${variant}Muted`),
+      '--color': token.var(`colors.$${variant}Text`),
+      '--bg': token.var(`colors.$${variant}Muted`),
     } as CSSProperties;
 
     return (

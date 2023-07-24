@@ -57,8 +57,8 @@ export default function Home() {
   ];
 
   return (
-    <Stack direction="column" gap="xlarge">
-      <Stack direction="column" gap="normal">
+    <Stack direction="column" gap="$xlarge">
+      <Stack direction="column" gap="$normal">
         <Text variant="title1">
           <Trans>Home</Trans>
         </Text>
@@ -76,7 +76,7 @@ export default function Home() {
         </Text>
       </Stack>
 
-      <Stack direction="column" gap="medium">
+      <Stack direction="column" gap="$medium">
         <Text variant="title2">
           <Trans>Examples</Trans>
         </Text>
@@ -89,7 +89,7 @@ export default function Home() {
         </Text>
       </Stack>
 
-      <Stack direction="column" gap="medium">
+      <Stack direction="column" gap="$medium">
         <Text variant="title2">
           <Trans>Features</Trans>
         </Text>
@@ -97,8 +97,8 @@ export default function Home() {
         <Cards>
           {features.map(feature => (
             <Card key={feature.title}>
-              <Stack direction="column" gap="normal">
-                <Stack direction="row" gap="xsmall" align="center">
+              <Stack direction="column" gap="$normal">
+                <Stack direction="row" gap="$xsmall" align="center">
                   <Icon name={feature.icon} size={24} color="text" />
                   <Text variant="title3">{feature.title}</Text>
                 </Stack>

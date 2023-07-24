@@ -18,9 +18,9 @@ const sizes: NonNullable<ButtonProps['size']>[] = ['small', 'normal', 'large'];
 
 export function AllVariants() {
   return (
-    <Stack direction="column" gap="large">
+    <Stack direction="column" gap="$large">
       {buttons.map(variant => (
-        <Stack key={variant} direction="row" gap="normal" align="flex-start">
+        <Stack key={variant} direction="row" gap="$normal" align="flex-start">
           {sizes.map(size => (
             <FillButton
               key={`${variant}-${size}`}
@@ -39,8 +39,8 @@ export function AllVariants() {
 
 export function AllStates() {
   return (
-    <Stack direction="column" gap="large" align="flex-start">
-      <Stack direction="row" gap="normal" align="flex-start">
+    <Stack direction="column" gap="$large" align="flex-start">
+      <Stack direction="row" gap="$normal" align="flex-start">
         {sizes.map(size => (
           <FillButton
             key={`loading-${size}`}
@@ -54,7 +54,7 @@ export function AllStates() {
         ))}
       </Stack>
 
-      <Stack direction="row" gap="normal" align="flex-start">
+      <Stack direction="row" gap="$normal" align="flex-start">
         {sizes.map(size => (
           <FillButton
             key={`loading-${size}`}
@@ -73,8 +73,8 @@ export function AllStates() {
 
 export function WithIcon() {
   return (
-    <Stack direction="column" gap="large" align="flex-start">
-      <Stack direction="row" gap="normal" align="flex-start">
+    <Stack direction="column" gap="$large" align="flex-start">
+      <Stack direction="row" gap="$normal" align="flex-start">
         {sizes.map(size => (
           <FillButton
             key={`icon-${size}`}
@@ -88,7 +88,7 @@ export function WithIcon() {
         ))}
       </Stack>
 
-      <Stack direction="row" gap="normal" align="flex-start">
+      <Stack direction="row" gap="$normal" align="flex-start">
         {sizes.map(size => (
           <FillButton
             key={`icon-${size}`}

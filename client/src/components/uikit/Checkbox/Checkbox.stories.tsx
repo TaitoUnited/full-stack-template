@@ -11,7 +11,7 @@ export const Example = () => {
 
   return (
     <div style={{ padding: 32 }}>
-      <Stack direction="column" gap="large">
+      <Stack direction="column" gap="$large">
         <Checkbox
           isSelected={isChecked}
           onChange={setChecked}

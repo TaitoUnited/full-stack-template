@@ -60,7 +60,7 @@ function PopoverExample() {
         >
           <Stack
             direction="column"
-            gap="small"
+            gap="$small"
             style={{ padding: 24, maxWidth: 300 }}
           >
             <Text variant="body">Popover content here</Text>

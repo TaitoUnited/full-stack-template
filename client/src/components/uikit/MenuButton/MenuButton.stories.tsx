@@ -9,8 +9,8 @@ export default {
 
 export function Example() {
   return (
-    <Stack direction="column" gap="xlarge">
-      <Stack direction="row" gap="small" align="center">
+    <Stack direction="column" gap="$xlarge">
+      <Stack direction="row" gap="$small" align="center">
         <Text variant="body">Menu button with default trigger</Text>
         <MenuButton
           label="Some actions"
@@ -23,7 +23,7 @@ export function Example() {
         />
       </Stack>
 
-      <Stack direction="row" gap="small" align="center">
+      <Stack direction="row" gap="$small" align="center">
         <Text variant="body">Menu button with a custom trigger</Text>
         <CustomMenuButton
           label="Some actions"

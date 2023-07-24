@@ -56,7 +56,7 @@ const ComboBox = forwardRef<HTMLInputElement, Props>(
       <div
         className={css({
           position: 'relative',
-          '& > svg + input': { paddingLeft: 'xlarge' },
+          '& > svg + input': { paddingLeft: '$xlarge' },
         })}
       >
         {!!icon && (
@@ -70,7 +70,7 @@ const ComboBox = forwardRef<HTMLInputElement, Props>(
 
         <Input
           placeholder={placeholder}
-          className={cx(baseInputStyles, css({ paddingRight: 'large' }))}
+          className={cx(baseInputStyles, css({ paddingRight: '$large' }))}
         />
 
         <Button
@@ -79,8 +79,8 @@ const ComboBox = forwardRef<HTMLInputElement, Props>(
             height: '100%',
             top: '0px',
             right: '0px',
-            paddingRight: 'small',
-            paddingLeft: 'small',
+            paddingRight: '$small',
+            paddingLeft: '$small',
             display: 'flex',
             alignItems: 'center',
           })}

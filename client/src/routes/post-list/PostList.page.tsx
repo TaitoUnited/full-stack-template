@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { t, Trans } from '@lingui/macro';
 import { Outlet } from 'react-router-dom';
 
@@ -6,6 +5,7 @@ import type { LoaderData } from '.';
 import { UnstyledLink } from '~components/navigation/Link';
 import { useDocumentTitle } from '~utils/routing';
 import { vstack } from '~styled-system/patterns';
+import { styled } from '~styled-system/jsx';
 import { Text, Stack, FloatingButton } from '~uikit';
 import { OrderDirection, usePostListQuery } from '~graphql';
 import PostListCard from '~components/post/PostListCard';
@@ -27,13 +27,16 @@ export default function PostListPage({ loaderData }: Props) {
 
   return (
     <>
-      <Stack direction="column" gap="large">
+      <Stack direction="column" gap="$large">
         <Text variant="title1">
           <Trans>Blog</Trans>
         </Text>
 
         {posts.length > 0 ? (
-          <ul className={vstack({ gap: 'normal' })} data-test-id="post-list">
+          <ul
+            className={vstack({ gap: '$normal', alignItems: 'stretch' })}
+            data-test-id="post-list"
+          >
             {posts.map(post => (
               <li key={post.id}>
                 <UnstyledLink to={post.id}>
@@ -67,8 +70,10 @@ export default function PostListPage({ loaderData }: Props) {
   );
 }
 
-const NewPostButton = styled.div`
-  position: fixed;
-  bottom: ${p => p.theme.spacing.medium}px;
-  right: ${p => p.theme.spacing.medium}px;
-`;
+const NewPostButton = styled('div', {
+  base: {
+    position: 'fixed',
+    bottom: '$medium',
+    right: '$medium',
+  },
+});

@@ -7,7 +7,7 @@ export default {
 
 export function Example() {
   return (
-    <Stack direction="column" gap="large" style={{ maxWidth: 400 }}>
+    <Stack direction="column" gap="$large" style={{ maxWidth: 400 }}>
       <TextInput label="Test input" />
 
       <TextInput label="Disabled input" isDisabled />

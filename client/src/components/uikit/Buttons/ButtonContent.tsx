@@ -66,7 +66,7 @@ const ButtonContent = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const _style = {
       ...style,
-      '--outline-color': token.var(`colors.${variant}`),
+      '--outline-color': token.var(`colors.$${variant}`),
     } as CSSProperties;
 
     const Element = asLink ? ButtonLink : 'button';
@@ -82,7 +82,7 @@ const ButtonContent = forwardRef<HTMLButtonElement, ButtonProps>(
         className={_className}
         style={_style}
       >
-        <Stack direction="row" gap="xsmall" align="center" justify="center">
+        <Stack direction="row" gap="$xsmall" align="center" justify="center">
           {iconPlacement === 'left' && iconComp}
           <span>{children}</span>
           {iconPlacement === 'right' && iconComp}
@@ -112,7 +112,7 @@ const styles = cva({
     alignItems: 'center',
     justifyContent: 'center',
     margin: 0,
-    borderRadius: 'normal',
+    borderRadius: '$normal',
     textDecoration: 'none',
     outlineOffset: '2px',
     cursor: 'pointer',
@@ -127,22 +127,22 @@ const styles = cva({
   variants: {
     size: {
       small: {
-        height: 'buttonHeightSmall',
-        paddingLeft: 'normal',
-        paddingRight: 'normal',
-        textStyle: 'bodySmall',
+        height: '$buttonHeightSmall',
+        paddingLeft: '$normal',
+        paddingRight: '$normal',
+        textStyle: '$bodySmall',
       },
       normal: {
-        height: 'buttonHeightNormal',
-        paddingLeft: 'large',
-        paddingRight: 'large',
-        textStyle: 'body',
+        height: '$buttonHeightNormal',
+        paddingLeft: '$large',
+        paddingRight: '$large',
+        textStyle: '$body',
       },
       large: {
-        height: 'buttonHeightLarge',
-        paddingLeft: 'large',
-        paddingRight: 'large',
-        textStyle: 'bodyLarge',
+        height: '$buttonHeightLarge',
+        paddingLeft: '$large',
+        paddingRight: '$large',
+        textStyle: '$bodyLarge',
       },
     },
     isFocusVisible: {
