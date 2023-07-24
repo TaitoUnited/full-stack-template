@@ -30,7 +30,6 @@ WORKDIR /develop
 ARG SERVICE_DIR=.
 COPY ${SERVICE_DIR}/package.json \
     ${SERVICE_DIR}/package-lock.* \
-    ${SERVICE_DIR}/patches \
     /develop/
 
 ENV NODE_ENV development
