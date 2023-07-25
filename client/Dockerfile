@@ -15,12 +15,14 @@
 # ARG FIREFOX_VERSION='107.0'
 # *****************************************************************************
 
-# Node v18.16.0 has npm v9.6.5 (should match the version in package.json `engines` field!)
-ARG NODE_VERSION='18.16.0'
-ARG BASE_IMAGE='node:18.16.0-alpine'
+# Node v18.16.1 has npm v9.6.5 (should match the version in package.json `engines` field!)
+ARG NODE_VERSION='18.16.1'
+# Cypress factory image uses this arg so you can control the base image
+ARG BASE_IMAGE='node:18.16.1'
 
+# Enable Cypress factory image when you are ready to do e2e testing
 # FROM cypress/factory
-FROM node:18.16.1
+FROM ${BASE_IMAGE}
 
 # Init /develop for user USER_UID
 ARG USER_UID=1001
