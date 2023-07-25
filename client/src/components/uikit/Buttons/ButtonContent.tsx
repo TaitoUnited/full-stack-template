@@ -9,7 +9,6 @@ import Icon from '../Icon';
 import { Stack } from '~styled-system/jsx';
 import { cva, cx } from '~styled-system/css';
 import { token } from '~styled-system/tokens';
-import { hoverHighlight } from '~styled-system/patterns';
 
 const ButtonContent = forwardRef<HTMLButtonElement, ButtonProps>(
   (
@@ -60,7 +59,7 @@ const ButtonContent = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const _className = cx(
       styles({ size, isFocusVisible }),
-      hoverHighlight(),
+
       className
     );
 
@@ -106,6 +105,7 @@ const buttonSizeToSpinnerSize: { [size in ButtonSize]: SpinnerSize } = {
 
 const styles = cva({
   base: {
+    $hoverHighlight: '',
     position: 'relative',
     display: 'inline-flex',
     flexDirection: 'row',

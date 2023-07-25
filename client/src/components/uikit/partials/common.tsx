@@ -15,7 +15,7 @@ export const baseInputStyles = css({
   textStyle: '$body',
   padding: '$small',
   width: '100%',
-  color: 'text',
+  color: '$text',
   borderRadius: '$normal',
   border: '1px solid token(colors.$border)',
   outlineOffset: 'calc(0px - var(--outline-width))',
@@ -52,7 +52,7 @@ export const labelStyles = css({
 
 export const inputIconLeftStyles = css({
   position: 'absolute',
-  left: 'normal',
+  left: '$normal',
   top: '50%',
   transform: 'translateY(-50%)',
   pointerEvents: 'none',
@@ -60,7 +60,7 @@ export const inputIconLeftStyles = css({
 
 export const inputIconRightStyles = css({
   position: 'absolute',
-  right: 'normal',
+  right: '$normal',
   top: '50%',
   transform: 'translateY(-50%)',
   pointerEvents: 'none',

@@ -1,10 +1,10 @@
 import { CSSObject } from 'styled-components';
 
-import * as colors from '~design-system/colors';
-import * as typography from '~design-system/typography';
-import * as spacing from '~design-system/spacing';
-import * as sizing from '~design-system/sizes';
-import * as radii from '~design-system/radii';
+import * as colors from '~design-tokens/colors';
+import * as typography from '~design-tokens/typography';
+import * as spacing from '~design-tokens/spacing';
+import * as sizing from '~design-tokens/sizes';
+import * as radii from '~design-tokens/radii';
 
 const rem = (px: number) => `${px / 16}rem`;
 const em = (px: number) => `${px / 16}em`;

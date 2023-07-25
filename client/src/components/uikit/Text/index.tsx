@@ -1,5 +1,5 @@
 import { memo, type CSSProperties, type HTMLAttributes } from 'react';
-import { TypographyToken } from '~design-system/typography';
+import { TypographyToken } from '~design-tokens/typography';
 import { token, ColorToken } from '~styled-system/tokens';
 import { StyledSystemToken } from '~utils/styled-system';
 import { cx, cva } from '~styled-system/css';

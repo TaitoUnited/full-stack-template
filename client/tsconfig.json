@@ -29,14 +29,13 @@
       "~graphql": ["src/graphql/index.ts"],
       "~uikit": ["src/components/uikit/index.ts"],
       "~components/*": ["src/components/*"],
-      "~design-system/*": ["design-system/*"],
-      "~styled-system/*": ["styled-system/*"],
+      "~design-tokens/*": ["styled-system/tokens/*"],
+      "~styled-system/*": ["styled-system/generated/*"],
       "~utils/*": ["src/utils/*"],
-      "~types/*": ["src/types/*"],
       "~test/*": ["src/test/*"]
     }
   },
-  "include": ["shared", "src", "plugins", "design-system", "styled-system"],
+  "include": ["shared", "src", "plugins", "styled-system"],
   "exclude": [
     "node_modules",
     "assets",

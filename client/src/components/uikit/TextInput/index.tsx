@@ -14,7 +14,6 @@ import {
 
 import Icon, { IconName } from '../Icon';
 import { css, cx } from '~styled-system/css';
-import { focusRing } from '~styled-system/patterns';
 
 type Props = ComponentProps<typeof TextField> & {
   label: string;
@@ -86,8 +85,8 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
                   display: 'flex',
                   alignItems: 'center',
                   borderRadius: '$normal',
-                }),
-                focusRing()
+                  $focusRing: '',
+                })
               )}
             >
               <Icon

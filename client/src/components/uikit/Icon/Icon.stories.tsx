@@ -1,5 +1,5 @@
 import { Stack, Tooltip, Icon } from '~uikit';
-import { ids } from '~design-system/icon-sprite-ids';
+import { ids } from '~design-tokens/icon-sprite-ids';
 
 export default {
   title: 'Icon',

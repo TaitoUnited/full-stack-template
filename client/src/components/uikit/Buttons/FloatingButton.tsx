@@ -9,7 +9,6 @@ import Icon, { IconName } from '../Icon';
 import { useLinkProps } from '~components/navigation/Link';
 import { cva, cx } from '~styled-system/css';
 import { token } from '~styled-system/tokens';
-import { hoverHighlight } from '~styled-system/patterns';
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   icon: IconName;
@@ -59,11 +58,7 @@ const FloatingButton = forwardRef<HTMLButtonElement, Props>(
       <Icon name={icon} size={24} color="currentColor" />
     ) : null;
 
-    const _className = cx(
-      styles({ isFocusVisible }),
-      hoverHighlight(),
-      className
-    );
+    const _className = cx(styles({ isFocusVisible }), className);
 
     const _style = {
       ...style,
@@ -95,6 +90,7 @@ const FloatingButton = forwardRef<HTMLButtonElement, Props>(
 
 const styles = cva({
   base: {
+    $hoverHighlight: '',
     position: 'relative',
     display: 'inline-flex',
     flexDirection: 'row',

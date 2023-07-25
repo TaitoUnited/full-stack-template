@@ -26,7 +26,7 @@
     "generate": "npm-run-all -p generate:*",
     "generate:lang": "lingui compile",
     "generate:graphql": "graphql-codegen --config codegen.yml",
-    "generate:styled-system": "panda codegen --clean"
+    "generate:styled-system": "panda codegen --clean --config ./styled-system/setup/config.ts"
   },
   "dependencies": {
     "@apollo/client": "3.7.13",
@@ -149,7 +149,7 @@
     "arrowParens": "avoid"
   },
   "figmage": {
-    "outDir": "design-system",
+    "outDir": "styled-system/tokens",
     "tokenize": {
       "tokens": [
         {
