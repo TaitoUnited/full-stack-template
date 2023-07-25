@@ -3,13 +3,11 @@ import React from 'react';
 import { themes } from '@storybook/theming';
 import { Decorator, Preview } from '@storybook/react';
 import { OverlayProvider } from 'react-aria';
-import { ThemeProvider } from 'styled-components';
 import { useDarkMode } from 'storybook-dark-mode';
 import { I18nProvider } from '@lingui/react';
 import { i18n } from '@lingui/core';
 
-import * as colors from '../design-system/colors';
-import { theme, darkTheme } from '../src/constants/theme';
+import * as colors from '../styled-system/tokens/colors';
 
 i18n.load('fi', {});
 i18n.activate('fi');
@@ -52,9 +50,7 @@ function StoryDecorator({ children }: { children: React.ReactNode }) {
 
   return (
     <I18nProvider i18n={i18n}>
-      <ThemeProvider theme={isDarkMode ? darkTheme : theme}>
-        <OverlayProvider>{children}</OverlayProvider>
-      </ThemeProvider>
+      <OverlayProvider>{children}</OverlayProvider>
     </I18nProvider>
   );
 }

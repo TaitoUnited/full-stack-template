@@ -1,11 +1,9 @@
 import { forwardRef, ReactNode, CSSProperties } from 'react';
-import styled from 'styled-components';
 
 import {
   useOverlay,
   useModal,
   useDialog,
-  useFocusRing,
   mergeProps,
   OverlayContainer,
   DismissButton,
@@ -13,7 +11,7 @@ import {
   VisuallyHidden,
 } from 'react-aria';
 
-import { focusRing } from '~utils/styled';
+import { styled } from '~styled-system/jsx';
 
 type Props = {
   title: string;
@@ -42,12 +40,9 @@ const Popover = forwardRef<any, Props>(
     // Get props for the dialog and its title
     const { dialogProps, titleProps } = useDialog({}, ref);
 
-    const { isFocusVisible, focusProps } = useFocusRing();
-
     const wrapperProps = mergeProps(
       overlayProps,
       dialogProps,
-      focusProps,
       otherProps,
       modalProps
     );
@@ -55,7 +50,7 @@ const Popover = forwardRef<any, Props>(
     return (
       <OverlayContainer>
         <FocusScope restoreFocus>
-          <Wrapper {...wrapperProps} focused={isFocusVisible} ref={ref}>
+          <Wrapper {...wrapperProps} ref={ref}>
             <VisuallyHidden>
               <h3 {...titleProps}>{title}</h3>
             </VisuallyHidden>
@@ -70,14 +65,16 @@ const Popover = forwardRef<any, Props>(
 
 Popover.displayName = 'Popover';
 
-const Wrapper = styled.div<{ focused: boolean }>`
-  outline: none;
-  z-index: 1;
-  position: absolute;
-  box-shadow: ${p => p.theme.shadows.large};
-  background-color: ${p => p.theme.colors.elevated};
-  border-radius: ${p => p.theme.radii.normal}px;
-  ${p => p.focused && focusRing}
-`;
+const Wrapper = styled('div', {
+  base: {
+    outline: 'none',
+    zIndex: 1,
+    position: 'absolute',
+    boxShadow: '$large',
+    backgroundColor: '$elevated',
+    borderRadius: '$normal',
+    $focusRing: '',
+  },
+});
 
 export default Popover;

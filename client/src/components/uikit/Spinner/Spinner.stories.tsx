@@ -1,12 +1,11 @@
 import { Stack, Spinner } from '~uikit';
-import { Color } from '~constants/theme';
 
 export default {
   title: 'Spinner',
   component: Spinner,
 };
 
-const colors: Partial<Color>[] = ['primary', 'text', 'info', 'warn', 'error'];
+const colors = ['primary', 'text', 'info', 'warn', 'error'] as const;
 
 export function Colors() {
   return (

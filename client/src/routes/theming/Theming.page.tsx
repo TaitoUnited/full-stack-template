@@ -1,7 +1,7 @@
-import styled from 'styled-components';
 import { t, Trans } from '@lingui/macro';
 
 import AlertMessage from '~components/common/AlertMessage';
+import { styled } from '~styled-system/jsx';
 import { Stack, Text } from '~uikit';
 import { useDocumentTitle } from '~utils/routing';
 
@@ -24,6 +24,8 @@ export default function ThemingPage() {
   );
 }
 
-const Wrapper = styled.div`
-  flex: 1;
-`;
+const Wrapper = styled('div', {
+  base: {
+    flex: 1,
+  },
+});

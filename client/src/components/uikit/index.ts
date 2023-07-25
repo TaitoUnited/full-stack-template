@@ -4,10 +4,7 @@ export { default as MenuButton } from './MenuButton';
 export { default as Modal } from './Modal';
 export { default as Popover } from './Popover';
 export { default as Select } from './Select';
-export {
-  default as SkeletonPlaceholder,
-  SkeletonPlaceholderProvider,
-} from './SkeletonPlaceholder';
+export { default as SkeletonPlaceholder } from './SkeletonPlaceholder';
 export { default as Spinner } from './Spinner';
 export { default as Text } from './Text';
 export { default as TextInput } from './TextInput';

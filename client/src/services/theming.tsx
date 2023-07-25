@@ -6,9 +6,6 @@ import {
   useLayoutEffect,
 } from 'react';
 
-import { ThemeProvider } from 'styled-components';
-
-import { theme as lightTheme, darkTheme } from '~constants/theme';
 import { usePersistedState } from '~utils/persistance';
 
 type Theme = 'light' | 'dark';
@@ -19,18 +16,17 @@ declare global {
   }
 }
 
-type AuthContextValue = {
+type ThemeContextValue = {
   theme: Theme;
   setTheme: (t: Theme) => void;
   toggleTheme: () => void;
 };
 
-const ThemingContext = createContext<undefined | AuthContextValue>(undefined);
+const ThemeContext = createContext<undefined | ThemeContextValue>(undefined);
 
-export function ThemingProvider({ children }: { children: ReactNode }) {
+export function ThemeProvider({ children }: { children: ReactNode }) {
   const [persistedTheme, setTheme] = usePersistedState<Theme>('@app/theme');
   const theme = persistedTheme || window.CURRENT_THEME || 'light';
-  const values = theme === 'light' ? lightTheme : darkTheme;
 
   const toggleTheme = useCallback(() => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
@@ -40,18 +36,17 @@ export function ThemingProvider({ children }: { children: ReactNode }) {
     const root = document.documentElement;
     root.setAttribute('data-color-scheme', theme);
     root.style.setProperty('color-scheme', theme);
-    root.style.setProperty('--background-color', values.colors.background);
-  }, [theme]); // eslint-disable-line
+  }, [theme]);
 
   return (
-    <ThemingContext.Provider value={{ theme, setTheme, toggleTheme }}>
-      <ThemeProvider theme={values}>{children}</ThemeProvider>
-    </ThemingContext.Provider>
+    <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
   );
 }
 
-export const useTheming = () => {
-  const context = useContext(ThemingContext);
-  if (!context) throw new Error('Missing ThemingProvider!');
+export const useTheme = () => {
+  const context = useContext(ThemeContext);
+  if (!context) throw new Error('Missing ThemeProvider!');
   return context;
 };

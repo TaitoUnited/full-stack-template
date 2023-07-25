@@ -19,12 +19,34 @@ import { PropertyConfig } from '@pandacss/types';
  * });
  */
 
+export const $paddingVertical: PropertyConfig = {
+  className: 'padding-v',
+  values: 'spacing',
+  transform(value) {
+    return {
+      paddingTop: value,
+      paddingBottom: value,
+    };
+  },
+};
+
+export const $paddingHorizontal: PropertyConfig = {
+  className: 'padding-h',
+  values: 'spacing',
+  transform(value) {
+    return {
+      paddingLeft: value,
+      paddingRight: value,
+    };
+  },
+};
+
 export const $focusRing: PropertyConfig = {
   className: 'focus-ring',
-  transform() {
+  transform(_, { token }) {
     return {
       '&:focus-visible': {
-        'box-shadow': '0px 0px 0px 2px token(colors.focusRing)',
+        'box-shadow': `0px 0px 0px 2px ${token('colors.$focusRing')}`,
       },
     };
   },
@@ -32,14 +54,14 @@ export const $focusRing: PropertyConfig = {
 
 export const $hoverHighlight: PropertyConfig = {
   className: 'hover-highlight',
-  transform() {
+  transform(_, { token }) {
     return {
       '&:after': {
         content: '""',
         position: 'absolute',
         inset: 0,
         opacity: 0,
-        backgroundColor: 'hoverHighlight',
+        backgroundColor: token('colors.$hoverHighlight'),
         transition: 'opacity 50ms linear',
         borderRadius: 'inherit',
         pointerEvents: 'none',
@@ -55,14 +77,14 @@ export const $hoverHighlight: PropertyConfig = {
 
 export const $pressHighlight: PropertyConfig = {
   className: 'press-highlight',
-  transform() {
+  transform(_, { token }) {
     return {
       '&:after': {
         content: '""',
         position: 'absolute',
         inset: 0,
         opacity: 0,
-        backgroundColor: 'pressHighlight',
+        backgroundColor: token('colors.$pressHighlight'),
         transition: 'opacity 50ms linear',
         borderRadius: 'inherit',
         pointerEvents: 'none',

@@ -10,25 +10,25 @@ export function Example() {
     <Stack direction="row" gap="$medium" style={{ padding: 32 }}>
       <div>
         <Tooltip title="I'm a tooltip" position="top">
-          <FillButton variant="primary">Tooltip on top</FillButton>
+          <FillButton variant="primary">Top</FillButton>
         </Tooltip>
       </div>
 
       <div>
         <Tooltip title="I'm a tooltip" position="bottom">
-          <FillButton variant="primary">Tooltip at bottom</FillButton>
+          <FillButton variant="primary">Bottom</FillButton>
         </Tooltip>
       </div>
 
       <div>
         <Tooltip title="I'm a tooltip" position="left">
-          <FillButton variant="primary">Tooltip on left side</FillButton>
+          <FillButton variant="primary">Left</FillButton>
         </Tooltip>
       </div>
 
       <div>
         <Tooltip title="I'm a tooltip" position="right">
-          <FillButton variant="primary">Tooltip on right side</FillButton>
+          <FillButton variant="primary">Right</FillButton>
         </Tooltip>
       </div>
     </Stack>

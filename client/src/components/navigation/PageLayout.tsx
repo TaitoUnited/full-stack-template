@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
-import styled from 'styled-components';
 
 import Sidebar from './Sidebar';
 import Toolbar from './Toolbar';
+import { styled } from '~styled-system/jsx';
 
 export default function PageLayout({ children }: { children: ReactNode }) {
   return (
@@ -24,50 +24,58 @@ export default function PageLayout({ children }: { children: ReactNode }) {
   );
 }
 
-const Layout = styled.div`
-  position: relative;
-  overflow: hidden;
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  background-color: ${p => p.theme.colors.background};
+const Layout = styled('div', {
+  base: {
+    position: 'relative',
+    overflow: 'hidden',
+    height: '100vh',
+    width: '100vw',
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: '$background',
 
-  @supports (-webkit-touch-callout: none) {
-    height: -webkit-fill-available;
-  }
-`;
+    '@supports (-webkit-touch-callout: none)': {
+      height: '-webkit-fill-available',
+    },
+  },
+});
 
-const Main = styled.div`
-  flex: 1;
-  display: flex;
-  min-height: 0px;
-`;
+const Main = styled('div', {
+  base: {
+    flex: 1,
+    display: 'flex',
+    minHeight: '0px',
+  },
+});
 
-const Scroller = styled.div`
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  overflow-x: hidden;
-`;
+const Scroller = styled('div', {
+  base: {
+    flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    overflowY: 'auto',
+    overflowX: 'hidden',
+  },
+});
 
-const Content = styled.main`
-  position: relative;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: ${p => p.theme.spacing.xlarge}px ${p => p.theme.spacing.medium}px;
+const Content = styled('main', {
+  base: {
+    position: 'relative',
+    flexGrow: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    maxWidth: '1000px',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    $paddingVertical: '$xlarge',
+    $paddingHorizontal: '$medium',
 
-  ${p => p.theme.media.tablet} {
-    padding: ${p => p.theme.spacing.medium}px;
-  }
-
-  ${p => p.theme.media.phone} {
-    padding: ${p => p.theme.spacing.normal}px;
-  }
-`;
+    mdDown: {
+      padding: '$medium',
+    },
+    smDown: {
+      padding: '$normal',
+    },
+  },
+});

@@ -1,8 +1,8 @@
 import { Component, ComponentType, ReactNode } from 'react';
 import { Trans } from '@lingui/macro';
-import styled from 'styled-components';
 import * as Sentry from '@sentry/browser';
 
+import { styled } from '~styled-system/jsx';
 import config from '~constants/config';
 
 type Props = {
@@ -80,21 +80,25 @@ export default class ErrorBoundary extends Component<Props, State> {
   }
 }
 
-const Wrapper = styled.div`
-  padding: ${p => p.theme.spacing.medium}px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: ${p => p.theme.spacing.medium}px;
-`;
+const Wrapper = styled('div', {
+  base: {
+    padding: '$medium',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '$medium',
+  },
+});
 
-const Button = styled.button`
-  padding: ${p => p.theme.spacing.small}px;
-  background-color: ${p => p.theme.colors.errorMuted};
-  color: ${p => p.theme.colors.errorText};
-  border-radius: ${p => p.theme.radii.normal}px;
-`;
+const Button = styled('button', {
+  base: {
+    padding: '$small',
+    backgroundColor: '$errorMuted',
+    color: '$errorText',
+    borderRadius: '$normal',
+  },
+});
 
 export function withErrorBoundary<P extends Props>(Comp: ComponentType<P>) {
   const displayName = Comp.displayName || Comp.name || 'Component';

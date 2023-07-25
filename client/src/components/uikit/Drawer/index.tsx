@@ -1,5 +1,4 @@
 import { useRef, ReactNode, CSSProperties } from 'react';
-import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
 import {
@@ -12,6 +11,8 @@ import {
   FocusScope,
   VisuallyHidden,
 } from 'react-aria';
+
+import { css } from '~styled-system/css';
 
 type Props = {
   title: string;
@@ -42,57 +43,59 @@ export default function Drawer({ title, children, onClose, ...rest }: Props) {
 
   return (
     <OverlayContainer>
-      <Backdrop
+      <motion.div
+        className={backdropStyles}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       />
 
       <FocusScope contain restoreFocus autoFocus>
-        <Wrapper
+        <motion.div
           {...wrapperProps}
+          className={wrapperStyles}
           initial={{ x: '100%' }}
           animate={{ x: '0%' }}
           exit={{ x: '100%' }}
-          transition={{ ease: 'easeInOut', duration: 0.2 }}
+          transition={{ ease: 'easeOut', duration: 0.3 }}
           ref={ref}
         >
           <VisuallyHidden>
             <h3 {...titleProps}>{title}</h3>
           </VisuallyHidden>
 
-          <Content>{children}</Content>
-        </Wrapper>
+          <motion.div className={contentStyles}>{children}</motion.div>
+        </motion.div>
       </FocusScope>
     </OverlayContainer>
   );
 }
 
-const Backdrop = styled(motion.div)`
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1000;
-  background-color: ${p => p.theme.colors.backdrop};
-`;
+const backdropStyles = css({
+  position: 'fixed',
+  top: 0,
+  right: 0,
+  bottom: 0,
+  left: 0,
+  zIndex: 1000,
+  backgroundColor: '$backdrop',
+});
 
-const Wrapper = styled(motion.div)`
-  position: fixed;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 1001;
-  outline: none;
-  min-width: 350px;
-  background-color: ${p => p.theme.colors.elevated};
-  box-shadow: ${p => p.theme.shadows.large};
-`;
+const wrapperStyles = css({
+  position: 'fixed',
+  right: 0,
+  top: 0,
+  bottom: 0,
+  zIndex: 1001,
+  outline: 'none',
+  minWidth: '350px',
+  backgroundColor: '$elevated',
+  boxShadow: '$large',
+});
 
-const Content = styled(motion.div)`
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-`;
+const contentStyles = css({
+  position: 'relative',
+  zIndex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+});

@@ -1,41 +1,24 @@
-import { createContext, useContext, CSSProperties, ReactNode } from 'react';
-import styled, { keyframes, useTheme } from 'styled-components';
-import type { Spacing, Radius, Color } from '~constants/theme';
-import { fadeColor } from '~utils/color';
+import { type CSSProperties } from 'react';
+
+import './styles.css';
+
+import { type SpacingToken } from '~design-tokens/spacing';
+import { type ColorsToken } from '~design-tokens/colors';
+import { type RadiiToken } from '~design-tokens/radii';
+import { styled } from '~styled-system/jsx';
+import { token } from '~styled-system/tokens';
 
 type Props = {
-  marginTop?: Spacing | number;
-  marginRight?: Spacing | number;
-  marginBottom?: Spacing | number;
-  marginLeft?: Spacing | number;
-  width?: Spacing | CSSProperties['width'];
-  height?: Spacing | CSSProperties['height'];
+  marginTop?: SpacingToken | number;
+  marginRight?: SpacingToken | number;
+  marginBottom?: SpacingToken | number;
+  marginLeft?: SpacingToken | number;
+  width?: SpacingToken | CSSProperties['width'];
+  height?: SpacingToken | CSSProperties['height'];
   style?: CSSProperties;
-  borderRadius?: Radius | number;
-  backgroundColor?: Color;
+  borderRadius?: RadiiToken | number;
+  backgroundColor?: ColorsToken;
 };
-
-type SkeletonPlaceholderContextValue = {
-  backgroundColor: Color;
-};
-
-const BG_SIZE = 800; // this is just some arbitrary value that looks good
-
-const SkeletonPlaceholderContext = createContext<SkeletonPlaceholderContextValue>({ backgroundColor: 'muted5' }); // prettier-ignore
-
-export function SkeletonPlaceholderProvider({
-  children,
-  backgroundColor,
-}: {
-  children: ReactNode;
-  backgroundColor: Color;
-}) {
-  return (
-    <SkeletonPlaceholderContext.Provider value={{ backgroundColor }}>
-      {children}
-    </SkeletonPlaceholderContext.Provider>
-  );
-}
 
 export default function SkeletonPlaceholder({
   width,
@@ -48,46 +31,32 @@ export default function SkeletonPlaceholder({
   style,
   ...rest
 }: Props) {
-  const { spacing, radii } = useTheme();
-  const { backgroundColor } = useContext(SkeletonPlaceholderContext);
-
   return (
     <Wrapper
       style={{
         width,
         height,
-        marginTop: typeof marginTop === 'string' ? spacing[marginTop] : marginTop, // prettier-ignore
-        marginRight: typeof marginRight === 'string' ? spacing[marginRight] : marginRight, // prettier-ignore
-        marginBottom: typeof marginBottom === 'string' ? spacing[marginBottom] : marginBottom, // prettier-ignore
-        marginLeft: typeof marginLeft === 'string' ? spacing[marginLeft] : marginLeft, // prettier-ignore
-        borderRadius: typeof borderRadius === 'string' ? radii[borderRadius] : borderRadius, // prettier-ignore
+        marginTop: typeof marginTop === 'string' ? token.var(`spacing.$${marginTop}`) : marginTop, // prettier-ignore
+        marginRight: typeof marginRight === 'string' ? token.var(`spacing.$${marginRight}`) : marginRight, // prettier-ignore
+        marginBottom: typeof marginBottom === 'string' ? token.var(`spacing.$${marginBottom}`) : marginBottom, // prettier-ignore
+        marginLeft: typeof marginLeft === 'string' ? token.var(`spacing.$${marginLeft}`) : marginLeft, // prettier-ignore
+        borderRadius: typeof borderRadius === 'string' ? token.var(`radii.$${borderRadius}`) : borderRadius, // prettier-ignore
         flexGrow: width ? 0 : 1,
-        backgroundSize: `${BG_SIZE}px 100%`,
         ...style,
       }}
       {...rest}
-      backgroundColor={rest.backgroundColor || backgroundColor}
     />
   );
 }
 
-const shimmerAnimation = keyframes`
-  from {
-    background-position: -${BG_SIZE}px 0;
-  }
-  to {
-    background-position: ${BG_SIZE}px 0;
-  }
-`;
-
-const Wrapper = styled.div<{ borderRadius?: Radius; backgroundColor: Color }>`
-  flex-shrink: 0;
-  animation: ${shimmerAnimation} 2s forwards infinite linear;
-  background-repeat: no-repeat;
-  background: linear-gradient(
-    to right,
-    ${p => fadeColor(p.theme.colors[p.backgroundColor], 0.5)} 8%,
-    ${p => p.theme.colors[p.backgroundColor]} 18%,
-    ${p => fadeColor(p.theme.colors[p.backgroundColor], 0.5)} 33%
-  );
-`;
+const Wrapper = styled('div', {
+  base: {
+    flexShrink: 0,
+    animation: 'skeletonPlaceholderShimmer 2s forwards infinite linear',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: '800px 100%',
+    backgroundColor: '$muted5',
+    backgroundImage:
+      'linear-gradient(to right, token(colors.$muted5) 0%, token(colors.$muted4) 20%, token(colors.$muted5) 40%, token(colors.$muted5) 100%)',
+  },
+});

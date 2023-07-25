@@ -1,6 +1,6 @@
-import styled from 'styled-components';
 import { t } from '@lingui/macro';
 
+import { styled } from '~styled-system/jsx';
 import { useI18n, Locale, LOCALE_LABEL } from '~services/i18n';
 import { MenuButton, Stack, Text, Icon } from '~uikit';
 
@@ -26,10 +26,11 @@ export default function LangMenuButton() {
   );
 }
 
-const Wrapper = styled(MenuButton)`
-  width: auto;
-  height: auto;
-  padding: ${p => p.theme.spacing.small}px;
-  border: 1px solid ${p => p.theme.colors.border};
-  border-radius: ${p => p.theme.radii.small}px;
-`;
+const Wrapper = styled(MenuButton, {
+  base: {
+    padding: '$small',
+    border: '1px solid',
+    borderColor: '$border!',
+    borderRadius: '$small!',
+  },
+});

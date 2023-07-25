@@ -1,12 +1,11 @@
-import styled from 'styled-components';
 import { t } from '@lingui/macro';
 
-import { useTheming } from '~services/theming';
-import { activeOpacity, flexCenter, hoverHighlight } from '~utils/styled';
+import { styled } from '~styled-system/jsx';
+import { useTheme } from '~services/theming';
 import { Icon, Tooltip } from '~uikit';
 
 export default function ColorModeButton() {
-  const { toggleTheme, theme } = useTheming();
+  const { toggleTheme, theme } = useTheme();
 
   return (
     <Tooltip
@@ -28,11 +27,15 @@ export default function ColorModeButton() {
   );
 }
 
-const Wrapper = styled.button`
-  height: 40px;
-  width: 40px;
-  border-radius: ${p => p.theme.radii.full}px;
-  ${flexCenter}
-  ${hoverHighlight}
-  ${activeOpacity}
-`;
+const Wrapper = styled('button', {
+  base: {
+    height: '40px',
+    width: '40px',
+    borderRadius: '$full',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    $hoverHighlight: '',
+    $pressOpacity: '',
+  },
+});

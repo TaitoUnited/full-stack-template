@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { orderBy, random, range } from 'lodash';
 import { t, Trans } from '@lingui/macro';
-import styled from 'styled-components';
 
 import { Text, Stack, Icon, SortDescriptor, Table, IconName } from '~uikit';
 import { useDocumentTitle } from '~utils/routing';
+import { styled } from '~styled-system/jsx';
 
 export default function Home() {
   useDocumentTitle(t`Home`);
@@ -145,13 +145,13 @@ function SortableTable() {
 
   return (
     <Table
-      label="Test table"
+      label="Home table example"
       rowStyle="striped"
       sortDescriptor={sort}
       onSortChange={setSort}
     >
       <Table.Header>
-        <Table.Column key="name" allowsSorting>
+        <Table.Column key="name" allowsSorting isRowHeader>
           Name
         </Table.Column>
         <Table.Column key="age" allowsSorting>
@@ -175,15 +175,19 @@ function SortableTable() {
   );
 }
 
-const Cards = styled.div`
-  display: grid;
-  grid-gap: ${p => p.theme.spacing.normal}px;
-  grid-template-columns: 50% 50%;
-`;
+const Cards = styled('div', {
+  base: {
+    display: 'grid',
+    gridGap: '$normal',
+    gridTemplateColumns: '50% 50%',
+  },
+});
 
-const Card = styled.div`
-  background-color: ${p => p.theme.colors.surface};
-  border-radius: ${p => p.theme.radii.normal}px;
-  padding: ${p => p.theme.spacing.large}px;
-  box-shadow: ${p => p.theme.shadows.medium};
-`;
+const Card = styled('div', {
+  base: {
+    backgroundColor: '$surface',
+    borderRadius: '$normal',
+    padding: '$large',
+    boxShadow: '$medium',
+  },
+});

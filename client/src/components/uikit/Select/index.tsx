@@ -7,6 +7,7 @@ import {
   SelectValue,
   Item,
   Label,
+  ListBox,
 } from 'react-aria-components';
 
 import {
@@ -17,10 +18,10 @@ import {
   inputIconRightStyles,
   inputWrapperStyles,
   labelStyles,
+  listBoxStyles,
 } from '../partials/common';
 
 import Icon, { IconName } from '../Icon';
-import { ListBox } from '../partials/ListBox';
 import { css, cx } from '~styled-system/css';
 
 type Option = {
@@ -91,7 +92,7 @@ const Select = forwardRef<HTMLDivElement, Props>(
       {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
 
       <Popover>
-        <ListBox>
+        <ListBox className={listBoxStyles}>
           {/* In cases like these, render props are preferred for perf reasons.
            * Ref: https://react-spectrum.adobe.com/react-stately/collections.html#why-not-array-map
            */}

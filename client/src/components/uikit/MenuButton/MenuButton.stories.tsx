@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-
-import { Stack, Text, MenuButton } from '~uikit';
+import { css } from '~styled-system/css';
+import { Stack } from '~styled-system/jsx';
+import { Text, MenuButton } from '~uikit';
 
 export default {
   title: 'MenuButton',
@@ -25,7 +25,8 @@ export function Example() {
 
       <Stack direction="row" gap="$small" align="center">
         <Text variant="body">Menu button with a custom trigger</Text>
-        <CustomMenuButton
+        <MenuButton
+          className={menuButtonStyles}
           label="Some actions"
           onAction={action => window.alert(action)}
           actions={[
@@ -35,16 +36,17 @@ export function Example() {
           ]}
         >
           <Text variant="bodySmall">Custom trigger</Text>
-        </CustomMenuButton>
+        </MenuButton>
       </Stack>
     </Stack>
   );
 }
 
-const CustomMenuButton = styled(MenuButton)`
-  width: auto;
-  height: auto;
-  border-radius: ${p => p.theme.radii.small}px;
-  border: 1px solid ${p => p.theme.colors.muted1};
-  padding: ${p => p.theme.spacing.xsmall}px;
-`;
+const menuButtonStyles = css({
+  width: 'auto',
+  height: 'auto',
+  borderRadius: '$small',
+  border: '1px solid',
+  borderColor: '$muted1',
+  padding: '$xsmall',
+});

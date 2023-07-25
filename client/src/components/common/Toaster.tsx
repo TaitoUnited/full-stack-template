@@ -1,35 +1,36 @@
 import { Toaster as HotToaster } from 'react-hot-toast';
-import { useTheme } from 'styled-components';
 
+import { cva } from '~styled-system/css';
 import { Icon } from '~uikit';
 
 export default function Toaster() {
-  const theme = useTheme();
+  const styles = cva({
+    base: {
+      boxShadow: '$medium!',
+      borderRadius: '$normal!',
+      textStyle: '$body',
+    },
+    variants: {
+      type: {
+        info: { color: '$text!', background: '$elevated!' },
+        success: { background: '$successMuted!', color: '$successText!' },
+        error: { background: '$errorMuted!', color: '$errorText!' },
+      },
+    },
+  });
 
   return (
     <HotToaster
       toastOptions={{
-        style: {
-          padding: theme.spacing.normal,
-          color: theme.colors.text,
-          background: theme.colors.elevated,
-          boxShadow: theme.shadows.medium,
-          borderRadius: theme.radii.normal,
-          ...theme.typography.body,
-        },
+        duration: 50000,
+        className: styles({ type: 'info' }),
         success: {
-          icon: <Icon name="checkmark" size={24} color="currentColor" />,
-          style: {
-            backgroundColor: theme.colors.successMuted,
-            color: theme.colors.successText,
-          },
+          icon: <Icon name="checkmark" size={24} color="successText" />,
+          className: styles({ type: 'success' }),
         },
         error: {
-          icon: <Icon name="x" size={24} color="currentColor" />,
-          style: {
-            backgroundColor: theme.colors.errorMuted,
-            color: theme.colors.errorText,
-          },
+          icon: <Icon name="x" size={24} color="errorText" />,
+          className: styles({ type: 'error' }),
         },
       }}
     />

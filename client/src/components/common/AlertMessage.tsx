@@ -1,7 +1,5 @@
-import styled from 'styled-components';
-
+import { styled } from '~styled-system/jsx';
 import { Stack, Text, Icon } from '~uikit';
-import type { Color } from '~constants/theme';
 import type { IconName } from '~uikit';
 
 export default function AlertMessage({
@@ -11,19 +9,16 @@ export default function AlertMessage({
   variant: 'info' | 'success' | 'warn' | 'error';
   message: string;
 }) {
-  const bg = `${variant}Muted` as Color;
-  const textColor = `${variant}Text` as Color;
-  const iconColor = variant as Color;
   const icon: IconName =
     variant === 'info' || variant === 'success'
       ? 'infoFilled'
       : 'warningTriangle';
 
   return (
-    <Wrapper bg={bg}>
+    <Wrapper bg={variant}>
       <Stack direction="row" gap="$normal" align="center">
-        <Icon name={icon} color={iconColor} size={24} />
-        <Text variant="body" color={textColor}>
+        <Icon name={icon} color={variant} size={24} />
+        <Text variant="body" color={`${variant}Text`}>
           {message}
         </Text>
       </Stack>
@@ -31,8 +26,17 @@ export default function AlertMessage({
   );
 }
 
-const Wrapper = styled.div<{ bg: Color }>`
-  padding: ${p => p.theme.spacing.medium}px;
-  border-radius: ${p => p.theme.radii.normal}px;
-  background-color: ${p => p.theme.colors[p.bg]};
-`;
+const Wrapper = styled('div', {
+  base: {
+    padding: '$medium',
+    borderRadius: '$normal',
+  },
+  variants: {
+    bg: {
+      info: { backgroundColor: '$infoMuted' },
+      success: { backgroundColor: '$successMuted' },
+      warn: { backgroundColor: '$warnMuted' },
+      error: { backgroundColor: '$errorMuted' },
+    },
+  },
+});

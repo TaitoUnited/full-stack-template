@@ -97,3 +97,40 @@ export const ErrorText = ({
     {children}
   </Text>
 );
+
+export const listBoxStyles = css({
+  width: 'var(--trigger-width)' /* magical var from react-aria */,
+  padding: '$xsmall',
+  border: '1px solid',
+  borderColor: '$border',
+  borderRadius: '$normal',
+  backgroundColor: '$elevated',
+  boxShadow: '$normal',
+  outline: 'none',
+
+  /* The 'Item' component isn't the actual thing that gets rendered, so we need
+   * to style it indirectly */
+  '& .react-aria-Item': {
+    position: 'relative',
+    $paddingVertical: '$xsmall',
+    paddingRight: '$small',
+    paddingLeft: '$medium',
+    borderRadius: '$small',
+
+    '&[aria-selected="true"]': {
+      textStyle: '$bodyBold',
+
+      '&:before': {
+        content: "'✓'",
+        position: 'absolute',
+        left: '6px',
+      },
+    },
+
+    '&[data-focused="true"]': {
+      color: '$primaryText',
+      backgroundColor: '$primaryMuted',
+      outline: 'none',
+    },
+  },
+});

@@ -1,7 +1,6 @@
 /* eslint-disable no-restricted-imports */
 import { forwardRef, useMemo, ReactNode } from 'react';
 import { FocusRing, mergeProps } from 'react-aria';
-import styled, { css } from 'styled-components';
 
 import {
   NavLink as RRNavLink,
@@ -18,6 +17,7 @@ import {
 } from '../../routes/route-utils';
 
 import { useStaleReload } from '../../utils/routing';
+import { css, cx } from '~styled-system/css';
 
 type PreloadTrigger = 'hover' | 'click' | 'focus';
 
@@ -27,14 +27,19 @@ type Props = LinkProps & {
 };
 
 export const Link = forwardRef<any, Props>(
-  ({ children, to, preloadOn, ...props }, ref: any) => {
+  ({ children, to, preloadOn, className, ...props }, ref: any) => {
     const p = useLinkProps({ to, preloadOn });
 
     return (
       <FocusRing focusRingClass="link-focus">
-        <LinkWrapper {...mergeProps(props, p)} to={to} ref={ref}>
+        <RRLink
+          {...mergeProps(props, p)}
+          className={cx(linkStyles, className)}
+          to={to}
+          ref={ref}
+        >
           {children}
-        </LinkWrapper>
+        </RRLink>
       </FocusRing>
     );
   }
@@ -43,13 +48,18 @@ export const Link = forwardRef<any, Props>(
 Link.displayName = 'Link';
 
 export const UnstyledLink = forwardRef<any, Props>(
-  ({ children, to, preloadOn, ...props }, ref: any) => {
+  ({ children, to, preloadOn, className, ...props }, ref: any) => {
     const p = useLinkProps({ to, preloadOn });
 
     return (
-      <UnstyledLinkWrapper {...mergeProps(props, p)} to={to} ref={ref}>
+      <RRLink
+        {...mergeProps(props, p)}
+        className={cx(unstyledLinkStyles, className)}
+        to={to}
+        ref={ref}
+      >
         {children}
-      </UnstyledLinkWrapper>
+      </RRLink>
     );
   }
 );
@@ -58,14 +68,19 @@ UnstyledLink.displayName = 'UnstyledLink';
 
 // Nav link knows whether it is active or not based on the current url
 export const NavLink = forwardRef<any, Props>(
-  ({ children, to, preloadOn, ...props }, ref: any) => {
+  ({ children, to, preloadOn, className, ...props }, ref: any) => {
     const p = useLinkProps({ to, preloadOn });
 
     return (
       <FocusRing focusRingClass="link-focus">
-        <NavLinkWrapper {...mergeProps(props, p)} to={to} ref={ref}>
+        <RRNavLink
+          {...mergeProps(props, p)}
+          className={cx(linkStyles, className)}
+          to={to}
+          ref={ref}
+        >
           {children}
-        </NavLinkWrapper>
+        </RRNavLink>
       </FocusRing>
     );
   }
@@ -159,27 +174,19 @@ function flattenRoutes(routes: RouteEntries) {
   return flattened;
 }
 
-const linkStyles = css`
-  text-decoration: none;
-  outline: none;
+const linkStyles = css({
+  textDecoration: 'none',
+  outline: 'none',
 
-  &.link-focus {
-    text-decoration: underline;
-    text-decoration-color: ${p => p.theme.colors.primary};
-    text-decoration-skip-ink: auto;
-    text-decoration-thickness: 2px;
-  }
-`;
+  '&.link-focus': {
+    textDecoration: 'underline',
+    textDecorationColor: '$primary',
+    textDecorationSkipInk: 'auto',
+    textDecorationThickness: '2px',
+  },
+});
 
-const UnstyledLinkWrapper = styled(RRLink)`
-  text-decoration: none;
-  outline: none;
-`;
-
-const LinkWrapper = styled(RRLink)`
-  ${linkStyles}
-`;
-
-const NavLinkWrapper = styled(RRNavLink)`
-  ${linkStyles}
-`;
+const unstyledLinkStyles = css({
+  textDecoration: 'none',
+  outline: 'none',
+});

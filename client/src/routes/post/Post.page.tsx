@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { Trans } from '@lingui/macro';
 
@@ -7,6 +6,7 @@ import Breadcrumbs from '~components/navigation/Breadcrumbs';
 import { useDocumentTitle } from '~utils/routing';
 import { usePostQuery } from '~graphql';
 import { Text } from '~uikit';
+import { css } from '~styled-system/css';
 
 export default function PostPage() {
   const { id = '' } = useParams();
@@ -17,7 +17,7 @@ export default function PostPage() {
   useDocumentTitle(postSubject);
 
   return (
-    <Wrapper>
+    <div className={css({ flex: 1 })}>
       <Breadcrumbs>
         <Breadcrumbs.Link to={`/blog`}>Blog</Breadcrumbs.Link>
         <Breadcrumbs.Link>{postSubject}</Breadcrumbs.Link>
@@ -41,10 +41,6 @@ export default function PostPage() {
           <Trans>Failed to load blog post.</Trans>
         </Text>
       )}
-    </Wrapper>
+    </div>
   );
 }
-
-const Wrapper = styled.div`
-  flex: 1;
-`;

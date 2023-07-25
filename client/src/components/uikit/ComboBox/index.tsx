@@ -7,6 +7,7 @@ import {
   Item,
   Input,
   Label,
+  ListBox,
 } from 'react-aria-components';
 
 import {
@@ -16,9 +17,9 @@ import {
   inputIconLeftStyles,
   inputWrapperStyles,
   labelStyles,
+  listBoxStyles,
 } from '~components/uikit/partials/common';
 
-import { ListBox } from '~components/uikit/partials/ListBox';
 import Icon, { IconName } from '~components/uikit/Icon';
 import { css, cx } from '~styled-system/css';
 
@@ -93,7 +94,7 @@ const ComboBox = forwardRef<HTMLInputElement, Props>(
       {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
 
       <Popover>
-        <ListBox>
+        <ListBox className={listBoxStyles}>
           {/* In cases like these, render props are preferred for perf reasons.
            * Ref: https://react-spectrum.adobe.com/react-stately/collections.html#why-not-array-map
            */}

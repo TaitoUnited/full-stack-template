@@ -1,6 +1,6 @@
-import styled from 'styled-components';
 import { range } from 'lodash';
 
+import { styled } from '~styled-system/jsx';
 import { Stack, SkeletonPlaceholder } from '~uikit';
 
 export default function HomeFallback() {
@@ -36,8 +36,10 @@ export default function HomeFallback() {
   );
 }
 
-const Cards = styled.div`
-  display: grid;
-  grid-gap: ${p => p.theme.spacing.normal}px;
-  grid-template-columns: 50% 50%;
-`;
+const Cards = styled('div', {
+  base: {
+    display: 'grid',
+    gridGap: '$normal',
+    gridTemplateColumns: '50% 50%',
+  },
+});

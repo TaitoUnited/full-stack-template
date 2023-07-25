@@ -1,7 +1,8 @@
-import styled from 'styled-components';
 import { AnimatePresence } from 'framer-motion';
 import { useOverlayTriggerState } from 'react-stately';
 
+import { css } from '~styled-system/css';
+import { styled } from '~styled-system/jsx';
 import { Stack, FillButton, OutlineButton, Text, Drawer } from '~uikit';
 
 export default {
@@ -26,11 +27,12 @@ function DrawerExample() {
       <AnimatePresence>
         {state.isOpen && (
           <Drawer onClose={state.close} title="Example drawer">
-            <DrawerContent
+            <Stack
               direction="column"
               gap="$large"
               align="center"
               justify="space-between"
+              className={css({ flex: 1, padding: '$medium' })}
             >
               <Text variant="body" aria-hidden>
                 Example drawer
@@ -39,7 +41,7 @@ function DrawerExample() {
               <OutlineButton variant="info" onClick={() => state.close()}>
                 Close
               </OutlineButton>
-            </DrawerContent>
+            </Stack>
           </Drawer>
         )}
       </AnimatePresence>
@@ -47,11 +49,8 @@ function DrawerExample() {
   );
 }
 
-const Wrapper = styled.div`
-  padding: ${p => p.theme.spacing.medium}px;
-`;
-
-const DrawerContent = styled(Stack)`
-  flex: 1;
-  padding: ${p => p.theme.spacing.medium}px;
-`;
+const Wrapper = styled('div', {
+  base: {
+    padding: '$medium',
+  },
+});
