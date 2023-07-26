@@ -1,7 +1,10 @@
 import { definePattern } from '@pandacss/dev';
 
-// Add more patterns here if needed
-// Docs: https://panda-css.com/docs/customization/patterns
+/* Add more patterns here if needed
+ * Docs: https://panda-css.com/docs/customization/patterns
+ * You can copy & paste and modify the existing patterns that Panda CSS provides:
+ * https://github.com/chakra-ui/panda/blob/main/packages/preset-base/src/patterns.ts
+ **/
 
 export const stack = definePattern({
   properties: {

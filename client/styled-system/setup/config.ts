@@ -10,14 +10,16 @@ import * as sizes from '../tokens/sizes';
 import * as radii from '../tokens/radii';
 import { web as typography } from '../tokens/typography';
 import { globalCss } from './global';
+import { preset } from './preset';
 
 export default defineConfig({
   // The output directory for your css system
   outdir: 'styled-system/generated',
 
-  // Don't use baked-in Panda CSS defaults (patterns/utilities/etc.) since
-  // they don't get tree shaken properly
+  // Don't use baked-in Panda CSS default presets since they contain non-standard
+  // CSS properties and they don't get tree shaken properly in the final JS bundle
   eject: true,
+  presets: [preset],
 
   // Whether to use css reset
   preflight: true,

@@ -10,7 +10,7 @@ export const globalCss = defineGlobalStyles({
     height: '100%',
     minHeight: '100%',
     fontFamily: "'Inter', sans-serif",
-    backgroundColor: 'var(--background-color)',
+    backgroundColor: '$background',
     WebkitFontSmoothing: 'antialiased',
     MozOsxFontSmoothing: 'grayscale',
     WebkitOverflowScrolling: 'touch',
