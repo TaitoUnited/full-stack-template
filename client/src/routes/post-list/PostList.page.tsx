@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom';
 import type { LoaderData } from '.';
 import { UnstyledLink } from '~components/navigation/Link';
 import { useDocumentTitle } from '~utils/routing';
-import { vstack } from '~styled-system/patterns';
+import { stack } from '~styled-system/patterns';
 import { styled } from '~styled-system/jsx';
 import { Text, Stack, FloatingButton } from '~uikit';
 import { OrderDirection, usePostListQuery } from '~graphql';
@@ -34,7 +34,7 @@ export default function PostListPage({ loaderData }: Props) {
 
         {posts.length > 0 ? (
           <ul
-            className={vstack({ gap: '$normal', alignItems: 'stretch' })}
+            className={stack({ gap: '$normal', alignItems: 'stretch' })}
             data-test-id="post-list"
           >
             {posts.map(post => (

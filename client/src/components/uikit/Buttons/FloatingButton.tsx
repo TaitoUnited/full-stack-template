@@ -103,11 +103,11 @@ const styles = cva({
     cursor: 'pointer',
     height: '$buttonHeightLarge',
     width: '$buttonHeightLarge',
-    shadow: '$large',
-    _active: {
+    boxShadow: '$large',
+    '&:active': {
       opacity: 0.8,
     },
-    _disabled: {
+    '&:disabled': {
       opacity: 0.5,
       cursor: 'not-allowed',
     },

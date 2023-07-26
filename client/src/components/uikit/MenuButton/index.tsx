@@ -241,7 +241,7 @@ const MenuPopupList = styled('ul', {
     border: '1px solid',
     borderColor: '$border',
     borderRadius: '$small',
-    shadow: '$large',
+    boxShadow: '$large',
   },
 });
 

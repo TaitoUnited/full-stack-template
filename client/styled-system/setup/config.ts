@@ -2,6 +2,7 @@ import { defineConfig } from '@pandacss/dev';
 
 import * as helpers from './helpers';
 import * as utilities from './utilities';
+import * as patterns from './patterns';
 import * as shadows from '../tokens/shadows';
 import * as colors from '../tokens/colors';
 import * as spacing from '../tokens/spacing';
@@ -13,6 +14,10 @@ import { globalCss } from './global';
 export default defineConfig({
   // The output directory for your css system
   outdir: 'styled-system/generated',
+
+  // Don't use baked-in Panda CSS defaults (patterns/utilities/etc.) since
+  // they don't get tree shaken properly
+  eject: true,
 
   // Whether to use css reset
   preflight: true,
@@ -33,6 +38,8 @@ export default defineConfig({
   globalCss,
 
   utilities,
+
+  patterns,
 
   conditions: {
     light: '[data-color-scheme=light] &',

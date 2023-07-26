@@ -20,7 +20,7 @@ export const baseInputStyles = css({
   border: '1px solid token(colors.$border)',
   outlineOffset: 'calc(0px - var(--outline-width))',
 
-  _focus: {
+  '&:focus': {
     '--outline-width': '2px',
     borderColor: 'transparent',
     outline: 'var(--outline-width) solid token(colors.$primary)',

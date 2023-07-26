@@ -4,7 +4,7 @@ import { UnstyledLink } from './Link';
 import { Text, Icon, OutlineButton, IconName } from '~uikit';
 import { styled } from '~styled-system/jsx';
 import { useAuth } from '~services/auth';
-import { hstack } from '~styled-system/patterns';
+import { stack } from '~styled-system/patterns';
 
 export default function Sidebar() {
   const auth = useAuth();
@@ -45,7 +45,7 @@ export default function Sidebar() {
                 to={to}
                 data-test-id={testId}
                 preloadOn="hover"
-                className={hstack({ gap: '$small' })}
+                className={stack({ direction: 'row', gap: '$small' })}
               >
                 <Icon name={icon} size={24} color="text" />
                 <Text variant="body">{label}</Text>

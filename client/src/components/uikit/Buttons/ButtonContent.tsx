@@ -116,10 +116,10 @@ const styles = cva({
     textDecoration: 'none',
     outlineOffset: '2px',
     cursor: 'pointer',
-    _active: {
+    '&:active': {
       opacity: 0.8,
     },
-    _disabled: {
+    '&:disabled': {
       opacity: 0.5,
       cursor: 'not-allowed',
     },
