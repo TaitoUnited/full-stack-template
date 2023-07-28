@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { orderBy, random, range } from 'lodash';
-import styled from 'styled-components';
 
 import Table, { SortDescriptor } from './index';
+import { styled } from '~styled-system/jsx';
 
 export default {
   title: 'Table',
@@ -33,7 +33,9 @@ export function Basic() {
     <Wrapper>
       <Table label="Test table">
         <Table.Header>
-          <Table.Column key="name">Name</Table.Column>
+          <Table.Column key="name" isRowHeader>
+            Name
+          </Table.Column>
           <Table.Column key="age">Age</Table.Column>
           <Table.Column key="location">Location</Table.Column>
         </Table.Header>
@@ -57,7 +59,9 @@ export function Striped() {
     <Wrapper>
       <Table label="Test table" rowStyle="striped">
         <Table.Header>
-          <Table.Column key="name">Name</Table.Column>
+          <Table.Column key="name" isRowHeader>
+            Name
+          </Table.Column>
           <Table.Column key="age">Age</Table.Column>
           <Table.Column key="location">Location</Table.Column>
         </Table.Header>
@@ -97,7 +101,7 @@ export function Sortable() {
         onSortChange={setSort}
       >
         <Table.Header>
-          <Table.Column key="name" allowsSorting>
+          <Table.Column key="name" allowsSorting isRowHeader>
             Name
           </Table.Column>
           <Table.Column key="age" allowsSorting>
@@ -122,7 +126,9 @@ export function Sortable() {
   );
 }
 
-const Wrapper = styled.div`
-  background-color: ${p => p.theme.colors.surface};
-  padding: ${p => p.theme.spacing.medium}px;
-`;
+const Wrapper = styled('div', {
+  base: {
+    backgroundColor: '$surface',
+    padding: '$medium',
+  },
+});

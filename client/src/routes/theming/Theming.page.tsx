@@ -1,7 +1,7 @@
-import styled from 'styled-components';
 import { t, Trans } from '@lingui/macro';
 
 import AlertMessage from '~components/common/AlertMessage';
+import { styled } from '~styled-system/jsx';
 import { Stack, Text } from '~uikit';
 import { useDocumentTitle } from '~utils/routing';
 
@@ -10,7 +10,7 @@ export default function ThemingPage() {
 
   return (
     <Wrapper>
-      <Stack axis="y" spacing="large">
+      <Stack direction="column" gap="$large">
         <Text variant="title1">
           <Trans>Theming</Trans>
         </Text>
@@ -24,6 +24,8 @@ export default function ThemingPage() {
   );
 }
 
-const Wrapper = styled.div`
-  flex: 1;
-`;
+const Wrapper = styled('div', {
+  base: {
+    flex: 1,
+  },
+});

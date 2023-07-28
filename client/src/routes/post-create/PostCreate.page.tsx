@@ -1,9 +1,9 @@
-import styled from 'styled-components';
 import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { t, Trans } from '@lingui/macro';
 
+import { styled } from '~styled-system/jsx';
 import { useDocumentTitle } from '~utils/routing';
 import { Text, TextInput, Stack, FillButton, Modal, TextArea } from '~uikit';
 import { PostListDocument, useCreatePostMutation } from '~graphql';
@@ -54,13 +54,13 @@ export default function PostCreatePage() {
   return (
     <Modal title={t`New blog post`} onClose={() => navigate('/blog')}>
       <Wrapper>
-        <Stack axis="y" spacing="large">
+        <Stack direction="column" gap="$large">
           <Text variant="bodyLargeBold">
             <Trans>New blog post</Trans>
           </Text>
 
           <form onSubmit={handleSubmit}>
-            <Stack axis="y" spacing="normal">
+            <Stack direction="column" gap="$normal">
               <TextInput
                 label={t`Subject`}
                 name="subject"
@@ -112,8 +112,10 @@ export default function PostCreatePage() {
   );
 }
 
-const Wrapper = styled.div`
-  width: calc(100vw - ${p => p.theme.spacing.large * 2}px);
-  max-width: 500px;
-  padding: ${p => p.theme.spacing.large}px;
-`;
+const Wrapper = styled('div', {
+  base: {
+    width: 'calc(100vw - token(spacing.$large) * 2)',
+    maxWidth: '500px',
+    padding: '$large',
+  },
+});

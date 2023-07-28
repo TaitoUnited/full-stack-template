@@ -2,10 +2,7 @@ import { useRef } from 'react';
 import { useOverlayTriggerState } from 'react-stately';
 import { useOverlayTrigger, useOverlayPosition } from 'react-aria';
 
-import Text from '../Text';
-import Stack from '../Stack';
-import FillButton from '../Buttons/FillButton';
-import Popover from './index';
+import { Stack, Text, FillButton, Popover } from '~uikit';
 
 export default {
   title: 'Popover',
@@ -62,8 +59,8 @@ function PopoverExample() {
           title="Example popover"
         >
           <Stack
-            axis="y"
-            spacing="small"
+            direction="column"
+            gap="$small"
             style={{ padding: 24, maxWidth: 300 }}
           >
             <Text variant="body">Popover content here</Text>

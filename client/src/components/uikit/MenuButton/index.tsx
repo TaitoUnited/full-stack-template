@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import styled from 'styled-components';
 
 import {
   Item,
@@ -27,14 +26,16 @@ import {
 } from 'react-aria';
 
 import Icon from '../Icon';
-import { focusRing } from '~utils/styled';
-import type { Color } from '~constants/theme';
+import { styled } from '~styled-system/jsx';
+import { ColorToken } from '~styled-system/tokens';
+import { StyledSystemToken } from '~utils/styled-system';
 
 type Props = {
   label: string;
   actions: Array<{ action: string; label: string }>;
-  iconColor?: Color;
+  iconColor?: StyledSystemToken<ColorToken>;
   children?: React.ReactNode;
+  className?: string;
   onAction: (action: string) => void;
 };
 
@@ -201,52 +202,66 @@ function MenuItem({ item, state, onAction, onClose }: MenuItemProps) {
   );
 }
 
-const MenuButtonWrapper = styled.div`
-  position: relative;
-  display: inline-flex;
-`;
+const MenuButtonWrapper = styled('div', {
+  base: {
+    position: 'relative',
+    display: 'inline-flex',
+  },
+});
 
-const MenuButtonTrigger = styled.button`
-  background: none;
-  border: none;
-  appearance: none;
-  outline: none;
-  width: 24px;
-  height: 24px;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: ${p => p.theme.radii.full}px;
+const MenuButtonTrigger = styled('button', {
+  base: {
+    minWidth: '24px',
+    minHeight: '24px',
+    display: 'inline-flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: '$full',
 
-  &:hover {
-    background-color: ${p => p.theme.colors.hoverHighlight};
-  }
+    '&:hover': {
+      backgroundColor: '$hoverHighlight',
+    },
 
-  &:active {
-    background-color: ${p => p.theme.colors.pressHighlight};
-  }
+    '&:active': {
+      backgroundColor: '$pressHighlight',
+    },
 
-  &.menu-button-trigger-focus {
-    ${focusRing}
-  }
-`;
+    '&.menu-button-trigger-focus': {
+      $focusRing: '',
+    },
+  },
+});
 
-const MenuPopupList = styled.ul`
-  overflow: hidden;
-  outline: none;
-  min-width: 80px;
-  background-color: ${p => p.theme.colors.elevated};
-  border: 1px solid ${p => p.theme.colors.border};
-  border-radius: ${p => p.theme.radii.small}px;
-  ${p => p.theme.shadows.large}
-`;
+const MenuPopupList = styled('ul', {
+  base: {
+    overflow: 'hidden',
+    outline: 'none',
+    minWidth: '80px',
+    backgroundColor: '$elevated',
+    border: '1px solid',
+    borderColor: '$border',
+    borderRadius: '$small',
+    boxShadow: '$large',
+  },
+});
 
-const MenuItemWrapper = styled.li<{ isFocused: boolean }>`
-  cursor: pointer;
-  outline: none;
-  padding: ${p => p.theme.spacing.xsmall}px ${p => p.theme.spacing.normal}px;
-  color: ${p => p.theme.colors.text};
-  background-color: ${p =>
-    p.isFocused ? p.theme.colors.hoverHighlight : 'transparent'};
-  ${p => p.theme.typography.bodySmall}
-`;
+const MenuItemWrapper = styled('li', {
+  base: {
+    textStyle: '$bodySmall',
+    cursor: 'pointer',
+    outline: 'none',
+    color: '$text',
+    paddingBlock: '$xsmall',
+    paddingInline: '$normal',
+  },
+  variants: {
+    isFocused: {
+      true: {
+        backgroundColor: '$hoverHighlight',
+      },
+      false: {
+        backgroundColor: 'transparent',
+      },
+    },
+  },
+});

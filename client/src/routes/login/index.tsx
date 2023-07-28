@@ -1,7 +1,7 @@
-import styled from 'styled-components';
 import { FormEvent, useState } from 'react';
 import { t, Trans } from '@lingui/macro';
 
+import { styled } from '~styled-system/jsx';
 import { Text, TextInput, Stack, FillButton } from '~uikit';
 import { useDocumentTitle } from '~utils/routing';
 import { useAuth } from '~services/auth';
@@ -27,12 +27,12 @@ export default function LoginPage() {
   return (
     <Wrapper>
       <LoginForm onSubmit={handleSubmit}>
-        <Stack axis="y" spacing="large">
+        <Stack direction="column" gap="$large">
           <Text variant="title1">
             <Trans>Login</Trans>
           </Text>
 
-          <Stack axis="y" spacing="normal">
+          <Stack direction="column" gap="$normal">
             <TextInput
               label={t`Email`}
               name="email"
@@ -67,19 +67,23 @@ export default function LoginPage() {
   );
 }
 
-const Wrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+const Wrapper = styled('div', {
+  base: {
+    width: '100%',
+    height: '100%',
+    minHeight: '100vh',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
-const LoginForm = styled.form`
-  min-width: 450px;
-  padding: ${p => p.theme.spacing.xxlarge}px;
-  background-color: ${p => p.theme.colors.surface};
-  border-radius: ${p => p.theme.radii.normal}px;
-  box-shadow: ${p => p.theme.shadows.large};
-`;
+const LoginForm = styled('form', {
+  base: {
+    minWidth: '450px',
+    padding: '$xxlarge',
+    backgroundColor: '$surface',
+    borderRadius: '$normal',
+    boxShadow: '$large',
+  },
+});

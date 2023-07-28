@@ -1,27 +1,21 @@
-import styled from 'styled-components';
-
-import Stack from '../Stack';
-import SkeletonPlaceholder, { SkeletonPlaceholderProvider } from './index';
+import SkeletonPlaceholder from './index';
+import { styled } from '~styled-system/jsx';
+import { Stack } from '~uikit';
 
 export default {
   title: 'SkeletonPlaceholder',
   component: SkeletonPlaceholder,
 };
 
-export function DefaultBackground() {
+export function Example() {
   return (
     <Wrapper>
-      <Stack axis="y" spacing="xxlarge">
-        <SkeletonPlaceholder
-          width={200}
-          height={40}
-          borderRadius="small"
-          marginTop="normal"
-        />
+      <Stack direction="column" gap="$xlarge">
+        <SkeletonPlaceholder width={400} height={40} borderRadius="small" />
 
-        <Stack axis="x" spacing="xxlarge">
+        <Stack direction="row" gap="$xlarge">
           <SkeletonPlaceholder width={200} height={200} borderRadius="full" />
-          <Stack axis="y" spacing="large" style={{ flexGrow: 1 }}>
+          <Stack direction="column" gap="$large" style={{ flexGrow: 1 }}>
             <SkeletonPlaceholder height={200} borderRadius="normal" />
             <SkeletonPlaceholder
               width={500}
@@ -35,36 +29,9 @@ export function DefaultBackground() {
   );
 }
 
-export function CustomBackground() {
-  return (
-    <SkeletonPlaceholderProvider backgroundColor="primaryMuted">
-      <Wrapper>
-        <Stack axis="y" spacing="xxlarge">
-          <SkeletonPlaceholder
-            width={200}
-            height={40}
-            borderRadius="small"
-            marginTop="normal"
-          />
-
-          <Stack axis="x" spacing="xxlarge">
-            <SkeletonPlaceholder width={200} height={200} borderRadius="full" />
-            <Stack axis="y" spacing="large" style={{ flexGrow: 1 }}>
-              <SkeletonPlaceholder height={200} borderRadius="normal" />
-              <SkeletonPlaceholder
-                width={500}
-                height={100}
-                borderRadius="normal"
-              />
-            </Stack>
-          </Stack>
-        </Stack>
-      </Wrapper>
-    </SkeletonPlaceholderProvider>
-  );
-}
-
-const Wrapper = styled.div`
-  background-color: ${p => p.theme.colors.surface};
-  padding: ${p => p.theme.spacing.large}px;
-`;
+const Wrapper = styled('div', {
+  base: {
+    backgroundColor: '$surface',
+    padding: '$large',
+  },
+});

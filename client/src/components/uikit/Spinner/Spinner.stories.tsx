@@ -1,17 +1,15 @@
-import Stack from '../Stack';
-import Spinner from './index';
-import { Color } from '~constants/theme';
+import { Stack, Spinner } from '~uikit';
 
 export default {
   title: 'Spinner',
   component: Spinner,
 };
 
-const colors: Partial<Color>[] = ['primary', 'text', 'info', 'warn', 'error'];
+const colors = ['primary', 'text', 'info', 'warn', 'error'] as const;
 
 export function Colors() {
   return (
-    <Stack axis="x" spacing="normal">
+    <Stack direction="row" gap="$normal">
       {colors.map(color => (
         <Spinner key={color} color={color} size="large" />
       ))}
@@ -21,7 +19,7 @@ export function Colors() {
 
 export function Sizes() {
   return (
-    <Stack axis="x" spacing="large">
+    <Stack direction="row" gap="$large">
       <Spinner color="primary" size="small" />
       <Spinner color="primary" size="normal" />
       <Spinner color="primary" size="medium" />

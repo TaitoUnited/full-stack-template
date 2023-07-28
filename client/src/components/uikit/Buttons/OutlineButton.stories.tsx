@@ -1,6 +1,5 @@
 import type { ButtonProps } from './types';
-import Stack from '../Stack';
-import OutlineButton from './OutlineButton';
+import { Stack, OutlineButton } from '~uikit';
 import { capitalize } from '~utils/fn';
 
 export default {
@@ -19,9 +18,9 @@ const sizes: NonNullable<ButtonProps['size']>[] = ['small', 'normal', 'large'];
 
 export function AllVariants() {
   return (
-    <Stack axis="y" spacing="large">
+    <Stack direction="column" gap="$large">
       {buttons.map(variant => (
-        <Stack key={variant} axis="x" spacing="normal" align="flex-start">
+        <Stack key={variant} direction="row" gap="$normal" align="flex-start">
           {sizes.map(size => (
             <OutlineButton
               key={`${variant}-${size}`}
@@ -40,8 +39,8 @@ export function AllVariants() {
 
 export function AllStates() {
   return (
-    <Stack axis="y" spacing="large" align="flex-start">
-      <Stack axis="x" spacing="normal" align="flex-start">
+    <Stack direction="column" gap="$large" align="flex-start">
+      <Stack direction="row" gap="$normal" align="flex-start">
         {sizes.map(size => (
           <OutlineButton
             key={`loading-${size}`}
@@ -55,7 +54,7 @@ export function AllStates() {
         ))}
       </Stack>
 
-      <Stack axis="x" spacing="normal" align="flex-start">
+      <Stack direction="row" gap="$normal" align="flex-start">
         {sizes.map(size => (
           <OutlineButton
             key={`loading-${size}`}
@@ -74,8 +73,8 @@ export function AllStates() {
 
 export function WithIcon() {
   return (
-    <Stack axis="y" spacing="large" align="flex-start">
-      <Stack axis="x" spacing="normal" align="flex-start">
+    <Stack direction="column" gap="$large" align="flex-start">
+      <Stack direction="row" gap="$normal" align="flex-start">
         {sizes.map(size => (
           <OutlineButton
             key={`icon-${size}`}
@@ -89,7 +88,7 @@ export function WithIcon() {
         ))}
       </Stack>
 
-      <Stack axis="x" spacing="normal" align="flex-start">
+      <Stack direction="row" gap="$normal" align="flex-start">
         {sizes.map(size => (
           <OutlineButton
             key={`icon-${size}`}

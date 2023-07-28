@@ -1,28 +1,34 @@
-import styled from 'styled-components';
-import type { SVGAttributes } from 'react';
-
-import { ids } from '~design-system/icon-sprite-ids';
-import type { Color } from '~constants/theme';
+import { SVGAttributes, memo } from 'react';
+import { token, ColorToken } from '~styled-system/tokens';
+import { type ids } from '~design-tokens/icon-sprite-ids';
+import { StyledSystemToken } from '~utils/styled-system';
 
 export type IconName = (typeof ids)[number];
 
 type Props = SVGAttributes<any> & {
   name: IconName;
-  color: Color | 'currentColor';
+  color: StyledSystemToken<ColorToken> | 'currentColor';
   size: number;
 };
 
-export default function Icon({ name, size, color, ...rest }: Props) {
+function Icon({ name, size, color, style, ...rest }: Props) {
   return (
-    <Svg size={size} color={color} {...rest} aria-hidden>
+    <svg
+      style={{
+        ...style,
+        width: size,
+        height: size,
+        color:
+          color === 'currentColor'
+            ? 'currentColor'
+            : token.var(`colors.$${color}`),
+      }}
+      {...rest}
+      aria-hidden
+    >
       <use href={`/icon-sprite.svg#${name}`} />
-    </Svg>
+    </svg>
   );
 }
 
-const Svg = styled.svg<{ size: Props['size']; color: Props['color'] }>`
-  width: ${p => p.size}px;
-  height: ${p => p.size}px;
-  color: ${p =>
-    p.color === 'currentColor' ? 'currentColor' : p.theme.colors[p.color]};
-`;
+export default memo(Icon);

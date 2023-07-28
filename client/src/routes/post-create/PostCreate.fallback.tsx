@@ -3,8 +3,8 @@ import { SkeletonPlaceholder, Stack } from '~uikit';
 export default function PostCreateFallback() {
   return (
     <Stack
-      axis="y"
-      spacing="large"
+      direction="column"
+      gap="$large"
       style={{
         maxWidth: 600,
         width: '100%',
@@ -13,7 +13,7 @@ export default function PostCreateFallback() {
       }}
     >
       <SkeletonPlaceholder width={340} height={48} borderRadius="small" />
-      <Stack axis="y" spacing="normal">
+      <Stack direction="column" gap="$normal">
         <SkeletonPlaceholder height={52} borderRadius="normal" />
         <SkeletonPlaceholder height={52} borderRadius="normal" />
         <SkeletonPlaceholder height={112} borderRadius="normal" />

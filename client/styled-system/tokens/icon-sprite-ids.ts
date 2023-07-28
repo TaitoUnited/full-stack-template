@@ -93,6 +93,7 @@ export const ids = [
   'settingsCogFilled',
   'settingsCogOutlined',
   'share',
+  'shieldCheckFilled',
   'sortVertical',
   'sparkles',
   'square2Stack',

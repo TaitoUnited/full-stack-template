@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { orderBy, random, range } from 'lodash';
 import { t, Trans } from '@lingui/macro';
-import styled from 'styled-components';
 
 import { Text, Stack, Icon, SortDescriptor, Table, IconName } from '~uikit';
 import { useDocumentTitle } from '~utils/routing';
+import { styled } from '~styled-system/jsx';
 
 export default function Home() {
   useDocumentTitle(t`Home`);
@@ -57,8 +57,8 @@ export default function Home() {
   ];
 
   return (
-    <Stack axis="y" spacing="xlarge">
-      <Stack axis="y" spacing="normal">
+    <Stack direction="column" gap="$xlarge">
+      <Stack direction="column" gap="$normal">
         <Text variant="title1">
           <Trans>Home</Trans>
         </Text>
@@ -76,7 +76,7 @@ export default function Home() {
         </Text>
       </Stack>
 
-      <Stack axis="y" spacing="medium">
+      <Stack direction="column" gap="$medium">
         <Text variant="title2">
           <Trans>Examples</Trans>
         </Text>
@@ -89,7 +89,7 @@ export default function Home() {
         </Text>
       </Stack>
 
-      <Stack axis="y" spacing="medium">
+      <Stack direction="column" gap="$medium">
         <Text variant="title2">
           <Trans>Features</Trans>
         </Text>
@@ -97,8 +97,8 @@ export default function Home() {
         <Cards>
           {features.map(feature => (
             <Card key={feature.title}>
-              <Stack axis="y" spacing="normal">
-                <Stack axis="x" spacing="xsmall" align="center">
+              <Stack direction="column" gap="$normal">
+                <Stack direction="row" gap="$xsmall" align="center">
                   <Icon name={feature.icon} size={24} color="text" />
                   <Text variant="title3">{feature.title}</Text>
                 </Stack>
@@ -145,13 +145,13 @@ function SortableTable() {
 
   return (
     <Table
-      label="Test table"
+      label="Home table example"
       rowStyle="striped"
       sortDescriptor={sort}
       onSortChange={setSort}
     >
       <Table.Header>
-        <Table.Column key="name" allowsSorting>
+        <Table.Column key="name" allowsSorting isRowHeader>
           Name
         </Table.Column>
         <Table.Column key="age" allowsSorting>
@@ -175,15 +175,19 @@ function SortableTable() {
   );
 }
 
-const Cards = styled.div`
-  display: grid;
-  grid-gap: ${p => p.theme.spacing.normal}px;
-  grid-template-columns: 50% 50%;
-`;
+const Cards = styled('div', {
+  base: {
+    display: 'grid',
+    gridGap: '$normal',
+    gridTemplateColumns: '50% 50%',
+  },
+});
 
-const Card = styled.div`
-  background-color: ${p => p.theme.colors.surface};
-  border-radius: ${p => p.theme.radii.normal}px;
-  padding: ${p => p.theme.spacing.large}px;
-  box-shadow: ${p => p.theme.shadows.medium};
-`;
+const Card = styled('div', {
+  base: {
+    backgroundColor: '$surface',
+    borderRadius: '$normal',
+    padding: '$large',
+    boxShadow: '$medium',
+  },
+});

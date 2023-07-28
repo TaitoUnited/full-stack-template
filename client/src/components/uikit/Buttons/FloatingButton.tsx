@@ -1,25 +1,23 @@
-import { ButtonHTMLAttributes, forwardRef, useRef } from 'react';
+import { ButtonHTMLAttributes, CSSProperties, forwardRef, useRef } from 'react';
 import { useButton, useFocusRing } from 'react-aria';
-import styled from 'styled-components';
 import mergeRefs from 'react-merge-refs';
 
 import ButtonLink from './ButtonLink';
 import Tooltip from '../Tooltip';
 import Spinner from '../Spinner';
 import Icon, { IconName } from '../Icon';
-import { hoverHighlight } from '~utils/styled';
 import { useLinkProps } from '~components/navigation/Link';
+import { cva, cx } from '~styled-system/css';
+import { token } from '~styled-system/tokens';
 
 type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
-  as?: keyof JSX.IntrinsicElements;
-  disabled?: boolean;
   icon: IconName;
   label: string;
   loading?: boolean;
-  onClick?: () => any;
   tooltipPosition?: 'top' | 'bottom' | 'left' | 'right';
   variant: 'primary' | 'info';
   asLink?: Parameters<typeof useLinkProps>[0];
+  onClick?: () => any;
 };
 
 const FloatingButton = forwardRef<HTMLButtonElement, Props>(
@@ -34,13 +32,15 @@ const FloatingButton = forwardRef<HTMLButtonElement, Props>(
       asLink,
       tooltipPosition = 'left',
       variant,
+      className,
+      style,
       ...rest
     },
-    ref: any
+    ref
   ) => {
     const localRef = useRef<HTMLButtonElement>(null);
     const { isFocusVisible, focusProps } = useFocusRing();
-    const { buttonProps, isPressed } = useButton(
+    const { buttonProps } = useButton(
       {
         id,
         elementType: asLink ? 'a' : 'button',
@@ -58,73 +58,71 @@ const FloatingButton = forwardRef<HTMLButtonElement, Props>(
       <Icon name={icon} size={24} color="currentColor" />
     ) : null;
 
+    const _className = cx(styles({ isFocusVisible }), className);
+
+    const _style = {
+      ...style,
+      color: token.var(`colors.$${variant}Text`),
+      backgroundColor: token.var(`colors.$${variant}Muted`),
+      '--outline-color': token.var(`colors.$${variant}`),
+    } as CSSProperties;
+
+    const Element = asLink ? ButtonLink : 'button';
+    const linkProps = asLink ? { linkProps: asLink } : {};
+
     return (
       <Tooltip title={label} position={tooltipPosition}>
-        <Wrapper
-          type="button"
+        <Element
           {...rest}
           {...buttonProps}
           {...focusProps}
+          {...linkProps}
           ref={mergeRefs([localRef, ref])}
-          as={asLink ? ButtonLink : undefined}
-          linkProps={asLink}
-          $variant={variant}
-          $isLoading={loading}
-          $isPressed={isPressed}
-          $isFocusVisible={isFocusVisible}
+          className={_className}
+          style={_style}
         >
           {content}
-        </Wrapper>
+        </Element>
       </Tooltip>
     );
   }
 );
 
-type WrapperProps = {
-  $variant: Props['variant'];
-  $isPressed: boolean;
-  $isLoading: boolean;
-  $isFocusVisible: boolean;
-  disabled: boolean;
-};
-
-const Wrapper = styled.button<WrapperProps>`
-  position: relative;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: ${p => p.theme.sizing.buttonHeightLarge}px;
-  height: ${p => p.theme.sizing.buttonHeightLarge}px;
-  border-radius: 50%;
-  background-color: ${p => p.theme.colors[p.$variant]};
-  color: #fff;
-  opacity: ${p => (p.disabled ? 0.5 : 1)};
-  cursor: ${p => (p.disabled ? 'not-allowed' : 'pointer')};
-  text-decoration: none;
-  ${p => p.theme.shadows.large};
-
-  &:active {
-    opacity: ${p => (p.disabled && !p.$isLoading ? 0.5 : 0.8)};
-  }
-
-  ${hoverHighlight}
-
-  /* Focus ring */
-  &:before {
-    content: '';
-    pointer-events: none;
-    opacity: ${p => (p.$isFocusVisible ? 1 : 0)};
-    position: absolute;
-    top: -4px;
-    right: -4px;
-    bottom: -4px;
-    left: -4px;
-    background: transparent;
-    transition: opacity 50ms ease-in;
-    border-radius: 999px;
-    border: 2px solid ${p => p.theme.colors.primary};
-  }
-`;
+const styles = cva({
+  base: {
+    $hoverHighlight: '',
+    position: 'relative',
+    display: 'inline-flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 0,
+    borderRadius: '50%',
+    textDecoration: 'none',
+    outlineOffset: '2px',
+    cursor: 'pointer',
+    height: '$buttonHeightLarge',
+    width: '$buttonHeightLarge',
+    boxShadow: '$large',
+    '&:active': {
+      opacity: 0.8,
+    },
+    '&:disabled': {
+      opacity: 0.5,
+      cursor: 'not-allowed',
+    },
+  },
+  variants: {
+    isFocusVisible: {
+      true: {
+        outline: '2px solid var(--outline-color)',
+      },
+      false: {
+        outline: 'none',
+      },
+    },
+  },
+});
 
 FloatingButton.displayName = 'FloatingButton';
 

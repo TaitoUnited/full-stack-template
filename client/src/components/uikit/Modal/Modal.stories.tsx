@@ -1,12 +1,9 @@
-import styled from 'styled-components';
 import { AnimatePresence } from 'framer-motion';
 import { useOverlayTriggerState } from 'react-stately';
 
-import Text from '../Text';
-import Stack from '../Stack';
-import FillButton from '../Buttons/FillButton';
-import Modal from './index';
-import OutlineButton from '../Buttons/OutlineButton';
+import { css } from '~styled-system/css';
+import { styled } from '~styled-system/jsx';
+import { Stack, Modal, Text, FillButton, OutlineButton } from '~uikit';
 
 export default {
   title: 'Modal',
@@ -30,11 +27,12 @@ function ModalExample() {
       <AnimatePresence>
         {state.isOpen && (
           <Modal onClose={state.close} title="Example modal">
-            <ModalContent
-              axis="y"
-              spacing="large"
+            <Stack
+              direction="column"
+              gap="$large"
               align="center"
               justify="space-between"
+              className={modalContentStyles}
             >
               <Text variant="title3" aria-hidden>
                 Example modal
@@ -53,7 +51,7 @@ function ModalExample() {
               <OutlineButton variant="info" onClick={() => state.close()}>
                 Close
               </OutlineButton>
-            </ModalContent>
+            </Stack>
           </Modal>
         )}
       </AnimatePresence>
@@ -61,13 +59,15 @@ function ModalExample() {
   );
 }
 
-const Wrapper = styled.div`
-  padding: ${p => p.theme.spacing.medium}px;
-`;
+const Wrapper = styled('div', {
+  base: {
+    padding: '$medium',
+  },
+});
 
-const ModalContent = styled(Stack)`
-  flex: 1;
-  min-width: 300px;
-  max-width: 500px;
-  padding: ${p => p.theme.spacing.medium}px;
-`;
+const modalContentStyles = css({
+  flex: 1,
+  minWidth: '300px',
+  maxWidth: '500px',
+  padding: '$medium',
+});

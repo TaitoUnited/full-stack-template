@@ -4,10 +4,8 @@ import { RenderOptions, cleanup, render } from '@testing-library/react';
 import { afterEach } from 'vitest';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
-import { ThemeProvider } from 'styled-components';
 
 import storage from '~utils/storage';
-import { theme } from '~constants/theme';
 
 afterEach(() => {
   cleanup();
@@ -18,11 +16,7 @@ i18n.load(locale, {});
 i18n.activate(locale);
 
 function WithProviders({ children }: { children: React.ReactNode }) {
-  return (
-    <I18nProvider i18n={i18n}>
-      <ThemeProvider theme={theme}>{children}</ThemeProvider>
-    </I18nProvider>
-  );
+  return <I18nProvider i18n={i18n}>{children}</I18nProvider>;
 }
 
 function customRender(

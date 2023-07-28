@@ -1,58 +1,75 @@
-import styled, { keyframes } from 'styled-components';
+import { CSSProperties } from 'react';
 
-import type { Color } from '~constants/theme';
-import { absoluteFill } from '~utils/styled';
+import './styles.css';
 
-type Size = 'small' | 'normal' | 'medium' | 'large';
+import { ColorToken, token } from '~styled-system/tokens';
+import { StyledSystemToken } from '~utils/styled-system';
+import { styled } from '~styled-system/jsx';
+
+export type SpinnerSize = 'small' | 'normal' | 'medium' | 'large';
 
 type Props = {
-  color: Color | 'currentColor';
-  size?: Size;
+  color: StyledSystemToken<ColorToken> | 'currentColor';
+  size?: SpinnerSize;
+  className?: string;
+  style?: CSSProperties;
 };
 
-const rotateAnim = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(359deg);
-  }
-`;
+export default function Spinner({ color, size, style, className }: Props) {
+  return (
+    <Root
+      className={className}
+      size={size}
+      style={
+        {
+          ...style,
+          '--border-size': '2px',
+          color:
+            color === 'currentColor'
+              ? 'currentColor'
+              : token.var(`colors.$${color}`),
+        } as CSSProperties
+      }
+    />
+  );
+}
 
-const BORDER_SIZE = 3;
+const Root = styled('div', {
+  base: {
+    position: 'relative',
+    width: 'calc(var(--size) + var(--border-size))',
+    height: 'calc(var(--size) + var(--border-size))',
 
-const sizes = {
-  small: 12 + BORDER_SIZE,
-  normal: 16 + BORDER_SIZE,
-  medium: 24 + BORDER_SIZE,
-  large: 48 + BORDER_SIZE,
-};
+    '&:before': {
+      content: "''",
+      borderRadius: '50%',
+      border: 'var(--border-size) solid currentColor',
+      opacity: 0.3,
+      zIndex: -1,
+      position: 'absolute',
+      inset: 0,
+    },
 
-const Spinner = styled.div<Props>`
-  position: relative;
-  width: ${p => sizes[p.size || 'normal']}px;
-  height: ${p => sizes[p.size || 'normal']}px;
-  color: ${p =>
-    p.color === 'currentColor' ? 'currentColor' : p.theme.colors[p.color]};
-
-  &:before {
-    content: '';
-    border-radius: 50%;
-    border: ${BORDER_SIZE}px solid currentColor;
-    opacity: 0.3;
-    z-index: -1;
-    ${absoluteFill}
-  }
-
-  &:after {
-    content: '';
-    animation: ${rotateAnim} 0.6s infinite linear;
-    border-radius: 50%;
-    border: ${BORDER_SIZE}px solid currentColor;
-    border-top-color: transparent;
-    z-index: 1;
-    ${absoluteFill}
-  }
-`;
-
-export default Spinner;
+    '&:after': {
+      content: "''",
+      animation: 'spin 0.6s infinite linear',
+      borderRadius: '50%',
+      border: 'var(--border-size) solid currentColor',
+      borderTopColor: 'transparent',
+      zIndex: 1,
+      position: 'absolute',
+      inset: 0,
+    },
+  },
+  variants: {
+    size: {
+      small: { '--size': '12px' },
+      normal: { '--size': '16px' },
+      medium: { '--size': '24px' },
+      large: { '--size': '48px' },
+    },
+  },
+  defaultVariants: {
+    size: 'normal',
+  },
+});

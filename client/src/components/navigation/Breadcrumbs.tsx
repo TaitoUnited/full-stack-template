@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import styled from 'styled-components';
 import { truncate } from 'lodash';
 import { useBreadcrumbs, useBreadcrumbItem } from 'react-aria';
 
 import { Link } from './Link';
 import { Icon } from '~uikit';
+import { styled } from '~styled-system/jsx';
 
 type Props = {
   children: any;
@@ -70,22 +70,37 @@ function BreadcrumbLink({
   );
 }
 
-const BreadcrumbList = styled.ol`
-  display: flex;
-  padding: ${p => p.theme.spacing.normal}px;
-`;
+const BreadcrumbList = styled('ol', {
+  base: {
+    display: 'flex',
+    padding: '$normal',
+  },
+});
 
-const BreadcrumbItem = styled.li<{ current: boolean }>`
-  display: flex;
-  align-items: center;
+const BreadcrumbItem = styled('li', {
+  base: {
+    display: 'flex',
+    alignItems: 'center',
 
-  a {
-    cursor: ${p => (p.current ? 'default' : 'pointer')};
-    color: ${p => p.theme.colors[p.current ? 'text' : 'muted1']};
-    ${p => p.theme.typography.body}
-  }
+    '& a': {
+      textStyle: '$body',
+      cursor: 'pointer',
+      color: '$textMuted',
+    },
 
-  .breadcrumb-separator {
-    margin: 0px ${p => p.theme.spacing.xxsmall}px;
-  }
-`;
+    '& .breadcrumb-separator': {
+      margin: '0px token(spacing.$xxsmall)',
+    },
+  },
+
+  variants: {
+    current: {
+      true: {
+        '& a': {
+          cursor: 'default',
+          color: '$text',
+        },
+      },
+    },
+  },
+});

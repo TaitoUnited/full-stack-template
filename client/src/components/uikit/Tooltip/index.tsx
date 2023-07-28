@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useRef, CSSProperties, ReactNode } from 'react';
 import { useTooltipTriggerState } from 'react-stately';
@@ -9,6 +8,9 @@ import {
   useFocusVisible,
   mergeProps,
 } from 'react-aria';
+
+import { styled } from '~styled-system/jsx';
+import { css } from '~styled-system/css';
 
 type Props = {
   title: string;
@@ -52,15 +54,16 @@ export default function Tooltip({
       </span>
 
       {state.isOpen && (
-        <TooltipWrapper
+        <motion.span
           {...tooltipProps}
+          className={tooltipWrapperStyles}
           initial={{ opacity: 0, scale: 0.8, ...positionProps[position] }}
           animate={{ opacity: 1, scale: 1, ...positionProps[position] }}
           exit={{ opacity: 0, scale: 0, ...positionProps[position] }}
           transition={{ ease: 'easeOut', duration: 0.3 }}
         >
           {customContent || <TooltipContent>{title}</TooltipContent>}
-        </TooltipWrapper>
+        </motion.span>
       )}
     </Wrapper>
   );
@@ -73,26 +76,31 @@ const positionProps = {
   right: { y: '-50%', x: 'calc(100% + 8px)', top: '50%', right: '0px' },
 };
 
-const Wrapper = styled.span`
-  position: relative;
-  display: inline-block;
-`;
+const Wrapper = styled('span', {
+  base: {
+    position: 'relative',
+    display: 'inline-block',
+  },
+});
 
-const TooltipWrapper = styled(motion.span)`
-  display: inline-flex;
-  position: absolute;
-  left: 50%;
-  z-index: 999;
-`;
+const tooltipWrapperStyles = css({
+  display: 'inline-flex',
+  position: 'absolute',
+  left: '50%',
+  zIndex: 999,
+});
 
-const TooltipContent = styled.span`
-  display: inline-flex;
-  color: ${p => p.theme.colors.text};
-  background-color: ${p => p.theme.colors.elevated};
-  box-shadow: ${p => p.theme.shadows.small};
-  padding: ${p => p.theme.spacing.xsmall}px ${p => p.theme.spacing.small}px;
-  border-radius: ${p => p.theme.radii.full}px;
-  white-space: nowrap;
-  line-height: 1;
-  ${p => p.theme.typography.bodySmall}
-`;
+const TooltipContent = styled('span', {
+  base: {
+    display: 'inline-flex',
+    color: '$text',
+    backgroundColor: '$elevated',
+    boxShadow: '$small',
+    paddingBlock: '$xsmall',
+    paddingInline: '$small',
+    borderRadius: '$full',
+    whiteSpace: 'nowrap',
+    lineHeight: 1,
+    textStyle: '$bodySmall',
+  },
+});

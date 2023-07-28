@@ -1,10 +1,10 @@
-import styled from 'styled-components';
 import { t, Trans } from '@lingui/macro';
 
 import { UnstyledLink } from './Link';
-import { Text, Icon, Spacer, OutlineButton, IconName } from '~uikit';
-import { activeOpacity, hoverHighlight } from '~utils/styled';
+import { Text, Icon, OutlineButton, IconName } from '~uikit';
+import { styled } from '~styled-system/jsx';
 import { useAuth } from '~services/auth';
+import { stack } from '~styled-system/patterns';
 
 export default function Sidebar() {
   const auth = useAuth();
@@ -41,9 +41,13 @@ export default function Sidebar() {
         <NavList>
           {items.map(({ label, icon, to, testId }) => (
             <li key={label}>
-              <NavItemLink to={to} data-test-id={testId} preloadOn="hover">
+              <NavItemLink
+                to={to}
+                data-test-id={testId}
+                preloadOn="hover"
+                className={stack({ direction: 'row', gap: '$small' })}
+              >
                 <Icon name={icon} size={24} color="text" />
-                <Spacer axis="x" size="normal" />
                 <Text variant="body">{label}</Text>
               </NavItemLink>
             </li>
@@ -71,34 +75,44 @@ export default function Sidebar() {
   );
 }
 
-const Wrapper = styled.aside`
-  min-width: 300px;
-  background-color: ${p => p.theme.colors.surface};
-  border-right: 1px solid ${p => p.theme.colors.border};
-`;
+const Wrapper = styled('aside', {
+  base: {
+    minWidth: '300px',
+    backgroundColor: '$surface',
+    borderRight: '1px solid $border',
+  },
+});
 
-const Nav = styled.nav`
-  height: 100%;
-`;
+const Nav = styled('nav', {
+  base: {
+    height: '100%',
+  },
+});
 
-const NavList = styled.ul`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-`;
+const NavList = styled('ul', {
+  base: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+  },
+});
 
-const NavItemLink = styled(UnstyledLink)`
-  position: relative;
-  display: flex;
-  align-items: center;
-  color: ${p => p.theme.colors.text};
-  padding: ${p => p.theme.spacing.normal}px;
-  ${hoverHighlight}
-  ${activeOpacity}
-`;
+const NavItemLink = styled(UnstyledLink, {
+  base: {
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+    color: '$text',
+    padding: '$normal',
+    $hoverHighlight: '',
+    $pressOpacity: '',
+  },
+});
 
-const Logout = styled.li`
-  display: flex;
-  flex-direction: column;
-  padding: ${p => p.theme.spacing.normal}px;
-`;
+const Logout = styled('li', {
+  base: {
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '$normal',
+  },
+});

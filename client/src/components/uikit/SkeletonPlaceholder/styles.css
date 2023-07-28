@@ -1,0 +1,9 @@
+/* Panda CSS doesn't yet support defining keyframes inside javascript...*/
+@keyframes skeletonPlaceholderShimmer {
+  from {
+    background-position: -800px 0;
+  }
+  to {
+    background-position: 800px 0;
+  }
+}

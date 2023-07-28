@@ -3,26 +3,32 @@
   "scripts": {
     "install:clean": "rm -rf node_modules && npm install",
     "pretty-quick": "pretty-quick",
-    "lint": "tsc --noEmit && eslint './src/**/*.{ts,tsx}' --ignore-path .eslintignore --quiet",
+    "lint": "npm-run-all -p lint:*",
+    "lint:tsc": "tsc --noEmit",
+    "lint:eslint": "eslint './src/**/*.{ts,tsx}' --ignore-path .eslintignore --quiet",
     "unit": "echo TODO make this work in container vitest run ./src/**/*.test.{ts,tsx}",
     "unit:coverage": "vitest run ./src/**/*.test.{ts,tsx} --coverage",
     "test": "echo TODO run tests but not cypress",
     "cypress:run": "if [ -z ${test_name} ]; then cypress run; else cypress run -s test/integration/**/${test_name}.spec.ts; fi",
     "cypress:open": "cypress open",
+    "prestart": "npm run generate",
+    "prebuild": "NODE_ENV=production npm run generate",
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "analyze": "ANALYZE=true npm run build && source-map-explorer 'build/assets/*.js' --no-border-checks",
     "lang:add-locale": "lingui add-locale",
     "lang:extract": "lingui extract",
-    "lang:compile": "lingui compile",
     "uikit:preview": "storybook dev -p 6006",
     "uikit:build": "storybook build",
-    "design-system:sync": "npm run design-system:tokenize && npm run design-system:codegen && npm run design-system:format",
-    "design-system:tokenize": "npx figmage tokenize --env .env.figma",
-    "design-system:codegen": "npx figmage codegen --env .env.figma",
-    "design-system:format": "prettier --write \"src/design-system/*.ts\"",
-    "generate:graphql": "graphql-codegen --config codegen.yml"
+    "design-system:sync": "npm-run-all -s design-system:tokenize design-system:codegen design-system:format",
+    "design-system:tokenize": "npx figmage tokenize --env ./styled-system/.env",
+    "design-system:codegen": "npx figmage codegen --env ./styled-system/.env",
+    "design-system:format": "prettier --write \"styled-system/tokens/*.ts\"",
+    "generate": "npm-run-all -p generate:*",
+    "generate:lang": "lingui compile",
+    "generate:graphql": "graphql-codegen --config codegen.yml",
+    "generate:styled-system": "panda codegen --clean --config ./styled-system/setup/config.ts"
   },
   "dependencies": {
     "@apollo/client": "3.7.13",
@@ -45,8 +51,7 @@
     "react-router": "6.10.0",
     "react-router-dom": "6.10.0",
     "react-stately": "3.22.0",
-    "react-use": "17.4.0",
-    "styled-components": "5.3.5"
+    "react-use": "17.4.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "3.3.1",
@@ -57,6 +62,7 @@
     "@lingui/swc-plugin": "4.0.2",
     "@lingui/vite-plugin": "4.2.1",
     "@optimize-lodash/rollup-plugin": "4.0.3",
+    "@pandacss/dev": "0.8.0",
     "@rollup/plugin-strip": "3.0.2",
     "@storybook/addon-essentials": "7.0.12",
     "@storybook/addon-interactions": "7.0.12",
@@ -73,11 +79,9 @@
     "@types/react": "18.2.0",
     "@types/react-dom": "18.2.1",
     "@types/react-router-dom": "5.3.3",
-    "@types/styled-components": "5.1.25",
     "@typescript-eslint/eslint-plugin": "5.59.1",
     "@typescript-eslint/parser": "5.59.1",
-    "@vitejs/plugin-react": "4.0.0",
-    "@vitejs/plugin-react-swc": "3.3.0",
+    "@vitejs/plugin-react-swc": "3.3.2",
     "@vitest/coverage-c8": "0.31.1",
     "cypress": "12.16.0",
     "eslint": "8.39.0",
@@ -92,6 +96,7 @@
     "eslint-plugin-react-hooks": "4.6.0",
     "eslint-plugin-storybook": "0.6.12",
     "jsdom": "22.0.0",
+    "npm-run-all": "4.1.5",
     "pg-promise": "10.11.1",
     "prettier": "2.8.8",
     "rollup-plugin-minify-html-literals": "1.2.6",
@@ -99,10 +104,21 @@
     "storybook": "7.0.12",
     "storybook-dark-mode": "3.0.0",
     "typescript": "5.0.4",
-    "vite": "4.3.3",
+    "vite": "4.3.9",
     "vite-plugin-favicon2": "1.1.5",
     "vite-tsconfig-paths": "4.2.0",
     "vitest": "0.31.1"
+  },
+  "overrides": {
+    "@vitejs/plugin-react-swc": {
+      "@swc/core-darwin-arm64": "1.3.58",
+      "@swc/core-darwin-x64": "1.3.58",
+      "@swc/core-linux-arm-gnueabihf": "1.3.58",
+      "@swc/core-linux-arm64-gnu": "1.3.58",
+      "@swc/core-linux-arm64-musl": "1.3.58",
+      "@swc/core-linux-x64-gnu": "1.3.58",
+      "@swc/core-linux-x64-musl": "1.3.58"
+    }
   },
   "engines": {
     "node": ">=18.16",
@@ -133,7 +149,7 @@
     "arrowParens": "avoid"
   },
   "figmage": {
-    "outDir": "src/design-system",
+    "outDir": "styled-system/tokens",
     "tokenize": {
       "tokens": [
         {
@@ -154,7 +170,7 @@
           "nodeId": "110:694"
         },
         {
-          "name": "sizing",
+          "name": "sizes",
           "type": "height",
           "nodeId": "102:7"
         },

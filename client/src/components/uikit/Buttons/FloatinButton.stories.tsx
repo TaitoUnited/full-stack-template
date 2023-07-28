@@ -1,7 +1,5 @@
 import { ComponentProps } from 'react';
-
-import Stack from '../Stack';
-import FloatingButton from './FloatingButton';
+import { Stack, FloatingButton } from '~uikit';
 
 export default {
   title: 'FloatingButton',
@@ -14,9 +12,9 @@ const buttons: Variant[] = ['primary', 'info'];
 
 export function AllVariants() {
   return (
-    <Stack axis="x" spacing="large">
+    <Stack direction="row" gap="$large">
       {buttons.map(variant => (
-        <Stack key={variant} axis="x" spacing="normal" align="flex-start">
+        <Stack key={variant} direction="row" gap="$normal" align="flex-start">
           <FloatingButton
             icon="bell"
             variant={variant}
@@ -32,8 +30,8 @@ export function AllVariants() {
 
 export function AllStates() {
   return (
-    <Stack axis="y" spacing="large" align="flex-start">
-      <Stack axis="x" spacing="normal" align="flex-start">
+    <Stack direction="column" gap="$large" align="flex-start">
+      <Stack direction="row" gap="$normal" align="flex-start">
         <FloatingButton
           icon="clock"
           variant="primary"

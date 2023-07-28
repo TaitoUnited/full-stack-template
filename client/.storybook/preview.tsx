@@ -3,12 +3,11 @@ import React from 'react';
 import { themes } from '@storybook/theming';
 import { Decorator, Preview } from '@storybook/react';
 import { OverlayProvider } from 'react-aria';
-import { ThemeProvider } from 'styled-components';
 import { useDarkMode } from 'storybook-dark-mode';
 import { I18nProvider } from '@lingui/react';
 import { i18n } from '@lingui/core';
 
-import { theme, darkTheme } from '../src/constants/theme';
+import * as colors from '../styled-system/tokens/colors';
 
 i18n.load('fi', {});
 i18n.activate('fi');
@@ -25,13 +24,13 @@ const preview: Preview = {
     darkMode: {
       dark: {
         ...themes.dark,
-        appBg: darkTheme.colors.surface,
-        appContentBg: darkTheme.colors.background,
+        appBg: colors.dark.surface,
+        appContentBg: colors.dark.background,
       },
       light: {
         ...themes.light,
-        appBg: theme.colors.surface,
-        appContentBg: theme.colors.background,
+        appBg: colors.light.surface,
+        appContentBg: colors.light.background,
       },
     },
   },
@@ -43,14 +42,15 @@ function StoryDecorator({ children }: { children: React.ReactNode }) {
   // Fix for: https://github.com/storybookjs/storybook/issues/22029
   React.useLayoutEffect(() => {
     const backgroundColor = isDarkMode ? themes.dark.appBg : themes.light.appBg;
+    const currentTheme = isDarkMode ? 'dark' : 'light';
     document.body.style.backgroundColor = backgroundColor || 'inherit';
+    document.documentElement.style.setProperty('color-scheme', currentTheme);
+    document.documentElement.setAttribute('data-color-scheme', currentTheme);
   }, [isDarkMode]);
 
   return (
     <I18nProvider i18n={i18n}>
-      <ThemeProvider theme={isDarkMode ? darkTheme : theme}>
-        <OverlayProvider>{children}</OverlayProvider>
-      </ThemeProvider>
+      <OverlayProvider>{children}</OverlayProvider>
     </I18nProvider>
   );
 }

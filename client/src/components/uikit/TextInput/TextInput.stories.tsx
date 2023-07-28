@@ -1,5 +1,4 @@
-import Stack from '../Stack';
-import TextInput from './index';
+import { Stack, TextInput } from '~uikit';
 
 export default {
   title: 'TextInput',
@@ -8,7 +7,7 @@ export default {
 
 export function Example() {
   return (
-    <Stack axis="y" spacing="large" style={{ maxWidth: 400 }}>
+    <Stack direction="column" gap="$large" style={{ maxWidth: 400 }}>
       <TextInput label="Test input" />
 
       <TextInput label="Disabled input" isDisabled />

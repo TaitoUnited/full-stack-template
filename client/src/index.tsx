@@ -14,6 +14,7 @@ async function init() {
 
   // TODO: consider adding StrictMode
   // It's important to note that it will cause double effects in dev mode!
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   ReactDOM.createRoot(document.getElementById('app')!).render(
     <ApolloProvider client={apolloClient}>
       <App />
