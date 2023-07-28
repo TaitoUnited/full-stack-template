@@ -15,6 +15,8 @@ import { preset } from './preset';
 const isProd = process.env.NODE_ENV === 'production';
 
 export default defineConfig({
+  cwd: './',
+
   // The output directory for your css system
   outdir: 'styled-system/generated',
 
