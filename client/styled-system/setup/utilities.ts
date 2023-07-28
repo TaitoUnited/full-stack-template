@@ -19,28 +19,6 @@ import { PropertyConfig } from '@pandacss/types';
  * });
  */
 
-export const $paddingVertical: PropertyConfig = {
-  className: 'padding-v',
-  values: 'spacing',
-  transform(value) {
-    return {
-      paddingTop: value,
-      paddingBottom: value,
-    };
-  },
-};
-
-export const $paddingHorizontal: PropertyConfig = {
-  className: 'padding-h',
-  values: 'spacing',
-  transform(value) {
-    return {
-      paddingLeft: value,
-      paddingRight: value,
-    };
-  },
-};
-
 export const $focusRing: PropertyConfig = {
   className: 'focus-ring',
   transform(_, { token }) {

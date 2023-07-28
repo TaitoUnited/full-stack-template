@@ -67,8 +67,8 @@ const tableStyles = cva({
 
     '& .react-aria-Column': {
       textAlign: 'left',
-      $paddingVertical: '$small',
-      $paddingHorizontal: '$normal',
+      paddingBlock: '$small',
+      paddingInline: '$normal',
     },
 
     '& .react-aria-Row': {
@@ -82,8 +82,8 @@ const tableStyles = cva({
 
     '& .react-aria-Cell': {
       textStyle: '$body',
-      $paddingVertical: '$small',
-      $paddingHorizontal: '$normal',
+      paddingBlock: '$small',
+      paddingInline: '$normal',
     },
   },
   variants: {

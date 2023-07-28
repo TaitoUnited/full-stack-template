@@ -112,7 +112,7 @@ export const listBoxStyles = css({
    * to style it indirectly */
   '& .react-aria-Item': {
     position: 'relative',
-    $paddingVertical: '$xsmall',
+    paddingBlock: '$xsmall',
     paddingRight: '$small',
     paddingLeft: '$medium',
     borderRadius: '$small',

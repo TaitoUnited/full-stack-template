@@ -251,8 +251,8 @@ const MenuItemWrapper = styled('li', {
     cursor: 'pointer',
     outline: 'none',
     color: '$text',
-    $paddingVertical: '$xsmall',
-    $paddingHorizontal: '$normal',
+    paddingBlock: '$xsmall',
+    paddingInline: '$normal',
   },
   variants: {
     isFocused: {

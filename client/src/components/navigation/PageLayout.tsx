@@ -68,8 +68,8 @@ const Content = styled('main', {
     maxWidth: '1000px',
     marginLeft: 'auto',
     marginRight: 'auto',
-    $paddingVertical: '$xlarge',
-    $paddingHorizontal: '$medium',
+    paddingBlock: '$xlarge',
+    paddingInline: '$medium',
 
     mdDown: {
       padding: '$medium',
