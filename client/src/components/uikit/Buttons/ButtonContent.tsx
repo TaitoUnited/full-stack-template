@@ -59,7 +59,6 @@ const ButtonContent = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const _className = cx(
       styles({ size, isFocusVisible }),
-
       className
     );
 
