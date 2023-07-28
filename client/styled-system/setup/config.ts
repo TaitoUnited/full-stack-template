@@ -12,6 +12,8 @@ import { web as typography } from '../tokens/typography';
 import { globalCss } from './global';
 import { preset } from './preset';
 
+const isProd = process.env.NODE_ENV === 'production';
+
 export default defineConfig({
   // The output directory for your css system
   outdir: 'styled-system/generated',
@@ -20,6 +22,12 @@ export default defineConfig({
   // CSS properties and they don't get tree shaken properly in the final JS bundle
   eject: true,
   presets: [preset],
+
+  // Makse generated class names shorter in non-dev mode
+  hash: isProd,
+
+  // Don't use non-standard CSS properties
+  shorthands: false,
 
   // Whether to use css reset
   preflight: true,

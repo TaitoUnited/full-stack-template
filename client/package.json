@@ -12,7 +12,7 @@
     "cypress:run": "if [ -z ${test_name} ]; then cypress run; else cypress run -s test/integration/**/${test_name}.spec.ts; fi",
     "cypress:open": "cypress open",
     "prestart": "npm run generate",
-    "prebuild": "npm run generate",
+    "prebuild": "NODE_ENV=production npm run generate",
     "start": "vite",
     "build": "vite build",
     "preview": "vite preview",
