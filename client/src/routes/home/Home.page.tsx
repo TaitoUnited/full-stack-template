@@ -5,9 +5,17 @@ import { t, Trans } from '@lingui/macro';
 import { Text, Stack, Icon, SortDescriptor, Table, IconName } from '~uikit';
 import { useDocumentTitle } from '~utils/routing';
 import { styled } from '~styled-system/jsx';
+import { isFeatureEnabled } from '~utils/feature-flags';
+import FeatureGate from '~components/feature-flags/FeatureGate';
 
 export default function Home() {
   useDocumentTitle(t`Home`);
+
+  const featureEnabled = isFeatureEnabled('feature-1');
+
+  if (featureEnabled) {
+    console.log('Feature 1 is enabled!');
+  }
 
   const features: Array<{
     icon: IconName;
@@ -115,6 +123,8 @@ export default function Home() {
       <Card>
         <SortableTable />
       </Card>
+
+      <FeatureGate feature="feature-1">Hello from feature 1!</FeatureGate>
     </Stack>
   );
 }

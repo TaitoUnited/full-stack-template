@@ -14,6 +14,7 @@ import Page from '~components/navigation/Page';
 import { useFallbackDelay } from '~utils/promise';
 import { genId } from '~utils/fn';
 import { prettyLog } from '~utils/log';
+import { Feature, isFeatureEnabled } from '~utils/feature-flags';
 
 export function routeEntry<
   Data,
@@ -23,6 +24,7 @@ export function routeEntry<
   path,
   searchParams: searchParamsOptions,
   fallback,
+  featureFlag,
   awaitLoader = true,
   debug = false,
   component,
@@ -32,6 +34,7 @@ export function routeEntry<
   const dataCache: LoaderDataCache<Data | null> = {};
   const loaderCache: LoaderCache<Data> = {};
   const entryKey = genId();
+  const enabled = featureFlag ? isFeatureEnabled(featureFlag) : true;
 
   let componentLoaded = false;
 
@@ -113,6 +116,7 @@ export function routeEntry<
   function Entry() {
     const params = useParams();
     const parsedSearchParams = useParsedSearchParams(searchParamsOptions);
+    const enabled = featureFlag ? isFeatureEnabled(featureFlag) : true;
 
     const [state, setState] = useState<LoaderState<Data>>(() => {
       const cacheKey = getCacheKey(params, entryKey);
@@ -136,7 +140,7 @@ export function routeEntry<
 
     // Only do the load initially but not on subsequent route entry visits
     useEffect(() => {
-      if (state.status === 'pending') {
+      if (enabled && state.status === 'pending') {
         const loaderParams = {
           ...params,
           searchParams: parsedSearchParams,
@@ -149,6 +153,10 @@ export function routeEntry<
     // Ensure that using `t` macro updates correctly within the route
     useLingui();
 
+    if (!enabled) {
+      return null;
+    }
+
     if (state.status === 'pending') {
       return showFallback ? fallback || null : null;
     }
@@ -160,7 +168,7 @@ export function routeEntry<
     );
   }
 
-  return { path, load, element: Entry, searchParamsOptions };
+  return { path, enabled, load, element: Entry, searchParamsOptions };
 }
 
 // Utils ----------------------------------------------------------------
@@ -305,6 +313,8 @@ export type RouteEntryOptions<
   debug?: boolean;
   /* Path to match for the route. */
   path: Path;
+  /* If a feature flag is given this route will only render when that flag is enabled */
+  featureFlag?: Feature;
   /* Search params options to parse the search params into the correct types. */
   searchParams?: SearchParams;
   /* Fallback React component to show while the route data and lazy loaded component is being loaded. */
@@ -320,6 +330,7 @@ export type RouteEntryOptions<
 };
 
 export type RouteEntryConfig<Data, Path extends string> = {
+  enabled: boolean;
   path: Path;
   searchParamsOptions?: SearchParamOptions;
   load: (

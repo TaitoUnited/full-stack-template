@@ -5,6 +5,7 @@ import post from './post';
 import postList from './post-list';
 import postCreate from './post-create';
 import theming from './theming';
+import featureFlags from './feature-flags';
 
 // NOTE: the `path` that used to match the route is defined here!
 // There is also a `path` defined in the entry itself which is used to provide
@@ -27,5 +28,9 @@ export const routes = [
   {
     path: '/theming',
     entry: theming,
+  },
+  {
+    path: '/feature-flags',
+    entry: featureFlags,
   },
 ] satisfies RouteEntries;
