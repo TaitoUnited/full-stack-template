@@ -1,0 +1,131 @@
+name: Lint, typecheck, unit test
+
+on:
+  # This workflow isn't run by itself, insted use it inside another workflow
+  workflow_call:
+    inputs:
+      working-directory:
+        required: true
+        type: string
+      node-version:
+        required: false
+        type: string
+        default: 18.x
+
+jobs:
+  # We run dependency install on a separate job so that later on we can run
+  # multiple code quality analyses parallelized without needing to install
+  # the same deps multiple times
+  install-deps:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: npm
+          cache-dependency-path: ${{ inputs.working-directory }}/package-lock.json
+
+      - name: Install client dependencies
+        working-directory: ${{ inputs.working-directory }}
+        run: npm ci
+
+        # Node setup doesn't cache node_modules, so we do it manually
+      - name: Cache dependencies
+        uses: actions/cache/save@v3
+        with:
+          path: ${{ inputs.working-directory }}/node_modules
+          key: modules-${{ hashFiles(format('{0}/package-lock.json', inputs.working-directory)) }}
+
+  typecheck:
+    needs: install-deps # ensure we hit dependency cache
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: npm
+          cache-dependency-path: ${{ inputs.working-directory }}/package-lock.json
+
+      - name: Restore cached dependencies
+        id: cache
+        uses: actions/cache/restore@v3
+        with:
+          path: ${{ inputs.working-directory }}/node_modules
+          key: modules-${{ hashFiles(format('{0}/package-lock.json', inputs.working-directory)) }}
+
+      - name: Install dependencies if no cache
+        if: steps.cache.outputs.cache-hit != 'true'
+        working-directory: ${{ inputs.working-directory }}
+        run: npm ci
+
+      - name: Run typecheck
+        working-directory: ${{ inputs.working-directory }}
+        run: npm run typecheck
+
+  lint:
+    needs: install-deps # ensure we hit dependency cache
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: npm
+          cache-dependency-path: ${{ inputs.working-directory }}/package-lock.json
+
+      - name: Restore cached dependencies
+        id: cache
+        uses: actions/cache/restore@v3
+        with:
+          path: ${{ inputs.working-directory }}/node_modules
+          key: modules-${{ hashFiles(format('{0}/package-lock.json', inputs.working-directory)) }}
+
+      - name: Install dependencies if no cache
+        if: steps.cache.outputs.cache-hit != 'true'
+        working-directory: ${{ inputs.working-directory }}
+        run: npm ci
+
+      - name: Run linter
+        working-directory: ${{ inputs.working-directory }}
+        run: npm run lint
+
+  unit:
+    needs: install-deps # ensure we hit dependency cache
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ inputs.node-version }}
+          cache: npm
+          cache-dependency-path: ${{ inputs.working-directory }}/package-lock.json
+
+      - name: Restore cached dependencies
+        id: cache
+        uses: actions/cache/restore@v3
+        with:
+          path: ${{ inputs.working-directory }}/node_modules
+          key: modules-${{ hashFiles(format('{0}/package-lock.json', inputs.working-directory)) }}
+
+      - name: Install dependencies if no cache
+        if: steps.cache.outputs.cache-hit != 'true'
+        working-directory: ${{ inputs.working-directory }}
+        run: npm ci
+
+      - name: Run unit tests
+        working-directory: ${{ inputs.working-directory }}
+        run: npm run unit
