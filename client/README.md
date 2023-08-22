@@ -235,9 +235,15 @@ const featureConfig = {
 };
 ```
 
-#### Session overrides
+### Session overrides
 
-Feature flags can be forcefully turned on via URL search parameter for the duration of the tab session.
+Feature flags can be forcefully turned on either via URL search parameter or via the feature flag manager widget for the duration of the tab session.
+
+#### Feature flag manager
+
+You can open the feature flag manager widget with a `Cmd+K` (or `Ctrl+K`) shortcut and then toggle on/off the features that you want. Note that you need to press the save button to apply the changes which will reload the page.
+
+#### URL search parameters
 
 Format: `?features=feature-name`
 
@@ -307,9 +313,3 @@ export default routeEntry({
   component: () => import('./Some.page'),
 });
 ```
-
-### TODO
-
-- Allow enabling/disabling features via UI (floating widget?)
-  - Modifies the session storage data
-  - Can generate a shareable url that has the currently active feature flags as search params
