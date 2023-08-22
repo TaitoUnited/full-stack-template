@@ -1,0 +1,27 @@
+name: Code quality
+
+on:
+  push:
+    branches:
+      - dev
+      - test
+      - uat
+      - stag
+      - canary
+      - prod
+      - master
+      - main
+  pull_request:
+
+jobs:
+  lint-and-typecheck-client:
+    name: Client quality
+    uses: ./.github/workflows/lint-tsc-unit.yaml
+    with:
+      working-directory: ./client
+
+  lint-and-typecheck-server:
+    name: Server quality
+    uses: ./.github/workflows/lint-tsc-unit.yaml
+    with:
+      working-directory: ./server

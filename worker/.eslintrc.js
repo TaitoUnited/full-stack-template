@@ -16,8 +16,7 @@ module.exports = {
 
     // Uses eslint-config-prettier to disable ESLint rules from various plugins
     // that would conflict with prettier
-    'prettier/@typescript-eslint',
-    'prettier/standard',
+    'prettier',
   ],
 
   parserOptions: {
