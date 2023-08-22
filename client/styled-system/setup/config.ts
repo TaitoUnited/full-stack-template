@@ -2,7 +2,6 @@ import { defineConfig } from '@pandacss/dev';
 
 import * as helpers from './helpers';
 import * as utilities from './utilities';
-import * as patterns from './patterns';
 import * as shadows from '../tokens/shadows';
 import * as colors from '../tokens/colors';
 import * as spacing from '../tokens/spacing';
@@ -10,7 +9,6 @@ import * as sizes from '../tokens/sizes';
 import * as radii from '../tokens/radii';
 import { web as typography } from '../tokens/typography';
 import { globalCss } from './global';
-import { preset } from './preset';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -20,13 +18,10 @@ export default defineConfig({
   // The output directory for your css system
   outdir: 'styled-system/generated',
 
-  // Don't use baked-in Panda CSS default presets since they contain non-standard
-  // CSS properties and they don't get tree shaken properly in the final JS bundle
-  eject: true,
-  presets: [preset],
-
-  // Makse generated class names shorter in non-dev mode
+  // Makse generated class names shorter and optimize css in non-dev mode
   hash: isProd,
+  optimize: isProd,
+  minify: isProd,
 
   // Don't use non-standard CSS properties
   shorthands: false,
@@ -50,8 +45,6 @@ export default defineConfig({
   globalCss,
 
   utilities,
-
-  patterns,
 
   conditions: {
     light: '[data-color-scheme=light] &',

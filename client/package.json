@@ -61,7 +61,7 @@
     "@lingui/swc-plugin": "4.0.2",
     "@lingui/vite-plugin": "4.2.1",
     "@optimize-lodash/rollup-plugin": "4.0.3",
-    "@pandacss/dev": "0.8.0",
+    "@pandacss/dev": "0.11.1",
     "@rollup/plugin-strip": "3.0.2",
     "@storybook/addon-essentials": "7.0.12",
     "@storybook/addon-interactions": "7.0.12",
