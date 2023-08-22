@@ -5,9 +5,11 @@ import { Text, Icon, OutlineButton, IconName } from '~uikit';
 import { styled } from '~styled-system/jsx';
 import { useAuth } from '~services/auth';
 import { stack } from '~styled-system/patterns';
+import { isFeatureEnabled } from '~utils/feature-flags';
 
 export default function Sidebar() {
   const auth = useAuth();
+  const feature3Enabled = isFeatureEnabled('feature-3');
 
   const items: Array<{
     label: string;
@@ -34,6 +36,15 @@ export default function Sidebar() {
       testId: 'navigate-to-theming',
     },
   ];
+
+  if (feature3Enabled) {
+    items.push({
+      label: t`Feature Flags`,
+      icon: 'commandLineFilled',
+      to: '/feature-flags',
+      testId: 'navigate-to-feature-flags',
+    });
+  }
 
   return (
     <Wrapper>

@@ -5,10 +5,12 @@ import { ApolloProvider } from '@apollo/client';
 
 import App from './App';
 import { setupErrorReporting } from '~services/reporting';
+import { setupFeatureFlags } from '~utils/feature-flags';
 import { setupApolloClient } from '~graphql';
 
 async function init() {
   setupErrorReporting();
+  setupFeatureFlags();
 
   const apolloClient = await setupApolloClient();
 

@@ -1,4 +1,4 @@
-type APP_ENV =
+export type AppEnv =
   | 'localhost'
   | 'feat'
   | 'dev'
@@ -10,7 +10,7 @@ type APP_ENV =
   | 'cana'
   | 'prod';
 
-const environments = [
+export const appEnvironments: AppEnv[] = [
   'localhost',
   'feat',
   'dev',
@@ -24,11 +24,11 @@ const environments = [
 ];
 
 const subdomainSplit = window.location.hostname.split('.')[0].split('-');
-const envSuffix = subdomainSplit[subdomainSplit.length - 1];
-const currentEnv = environments.includes(envSuffix) ? envSuffix : 'prod';
+const envSuffix = subdomainSplit[subdomainSplit.length - 1] as AppEnv;
+const currentEnv = appEnvironments.includes(envSuffix) ? envSuffix : 'prod';
 
 const config = {
-  ENV: currentEnv as APP_ENV,
+  ENV: currentEnv as AppEnv,
   IS_DEV: import.meta.env.DEV,
   API_URL: process.env.API_URL,
   SENTRY_DSN: process.env.SENTRY_DSN,
