@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { Checkbox, FillButton, Text } from '~uikit';
+import { Checkbox, FillButton, IconButton, Text } from '~uikit';
 import { Stack, styled } from '~styled-system/jsx';
 import { css } from '~styled-system/css';
 import { stack } from '~styled-system/patterns';
@@ -24,7 +24,11 @@ export default function FeatureFlagManager() {
   });
 
   return (
-    <AnimatePresence>{visible && <FeatureFlagManagerWidget />}</AnimatePresence>
+    <AnimatePresence>
+      {visible && (
+        <FeatureFlagManagerWidget onClose={() => setVisible(false)} />
+      )}
+    </AnimatePresence>
   );
 }
 
@@ -33,7 +37,7 @@ const togglableFeatures = featureNames.filter(
   f => !isFeatureEnabledInConfig(f)
 );
 
-function FeatureFlagManagerWidget() {
+function FeatureFlagManagerWidget({ onClose }: { onClose: () => void }) {
   const [features, setFeatures] = useState(() =>
     togglableFeatures.map(f => ({
       feature: f,
@@ -129,6 +133,10 @@ function FeatureFlagManagerWidget() {
             Save and reload
           </FillButton>
         )}
+
+        <CloseButton>
+          <IconButton icon="x" label="Close" onClick={onClose} />
+        </CloseButton>
       </motion.div>
     </Wrapper>
   );
@@ -143,6 +151,7 @@ const Wrapper = styled('div', {
 });
 
 const widgetStyles = css({
+  position: 'relative',
   display: 'flex',
   flexDirection: 'column',
   gap: '$medium',
@@ -180,5 +189,13 @@ const Separator = styled('div', {
     '& span': {
       paddingInline: '$small',
     },
+  },
+});
+
+const CloseButton = styled('div', {
+  base: {
+    position: 'absolute',
+    top: '8px',
+    right: '8px',
   },
 });
