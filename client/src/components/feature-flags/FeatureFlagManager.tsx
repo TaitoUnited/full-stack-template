@@ -3,7 +3,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 import { Checkbox, FillButton, IconButton, Text } from '~uikit';
 import { Stack, styled } from '~styled-system/jsx';
-import { css } from '~styled-system/css';
 import { stack } from '~styled-system/patterns';
 import { useShortcut } from '~utils/observe';
 
@@ -65,8 +64,7 @@ function FeatureFlagManagerWidget({ onClose }: { onClose: () => void }) {
 
   return (
     <Wrapper>
-      <motion.div
-        className={widgetStyles}
+      <Widget
         initial={{ opacity: 0, scale: 0, y: 200, x: 200 }}
         animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
         exit={{ opacity: 0, scale: 0, y: 200, x: 200 }}
@@ -137,7 +135,7 @@ function FeatureFlagManagerWidget({ onClose }: { onClose: () => void }) {
         <CloseButton>
           <IconButton icon="x" label="Close" onClick={onClose} />
         </CloseButton>
-      </motion.div>
+      </Widget>
     </Wrapper>
   );
 }
@@ -150,18 +148,20 @@ const Wrapper = styled('div', {
   },
 });
 
-const widgetStyles = css({
-  position: 'relative',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '$medium',
-  backgroundColor: '$elevated',
-  borderRadius: '$normal',
-  padding: '$medium',
-  boxShadow: '$large',
-  border: '1px solid',
-  borderColor: '$border',
-  maxWidth: '400px',
+const Widget = styled(motion.div, {
+  base: {
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '$medium',
+    backgroundColor: '$elevated',
+    borderRadius: '$normal',
+    padding: '$medium',
+    boxShadow: '$large',
+    border: '1px solid',
+    borderColor: '$border',
+    maxWidth: '400px',
+  },
 });
 
 const FeatureName = styled('span', {
