@@ -36,7 +36,7 @@ export function disableFeatureInSession(feature: Feature) {
 
 export function setupFeatureFlags() {
   const params = new URLSearchParams(document.location.search);
-  const paramsFeatures = params.getAll('features') as Feature[];
+  const paramsFeatures = params.getAll('feature-flags') as Feature[];
 
   paramsFeatures
     .filter(feature => features.includes(feature))

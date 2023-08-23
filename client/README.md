@@ -245,18 +245,18 @@ You can open the feature flag manager widget with a `Cmd+K` (or `Ctrl+K`) shortc
 
 #### URL search parameters
 
-Format: `?features=feature-name`
+Format: `?feature-flags=feature-name`
 
 Turn on one feature:
 
 ```txt
-?features=feature-1
+?feature-flags=feature-1
 ```
 
 Turn on multiple feature:
 
 ```txt
-?features=feature-1&features=feature-2
+?feature-flags=feature-1&feature-flags=feature-2
 ```
 
 ### Usage
