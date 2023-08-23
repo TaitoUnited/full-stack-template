@@ -34,7 +34,6 @@ export function routeEntry<
   const dataCache: LoaderDataCache<Data | null> = {};
   const loaderCache: LoaderCache<Data> = {};
   const entryKey = genId();
-  const enabled = featureFlag ? isFeatureEnabled(featureFlag) : true;
 
   let componentLoaded = false;
 
@@ -168,7 +167,7 @@ export function routeEntry<
     );
   }
 
-  return { path, enabled, load, element: Entry, searchParamsOptions };
+  return { path, load, element: Entry, searchParamsOptions };
 }
 
 // Utils ----------------------------------------------------------------
@@ -330,7 +329,6 @@ export type RouteEntryOptions<
 };
 
 export type RouteEntryConfig<Data, Path extends string> = {
-  enabled: boolean;
   path: Path;
   searchParamsOptions?: SearchParamOptions;
   load: (
