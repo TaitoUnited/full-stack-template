@@ -1,14 +1,16 @@
 import config, { AppEnv, appEnvironments } from '~constants/config';
 
-export const features = ['feature-1', 'feature-2', 'feature-3'] as const;
-
-export type Feature = (typeof features)[number];
-
-const featureConfig: Record<Feature, AppEnv[]> = {
+const featureConfig = {
   'feature-1': appEnvironments, // enabled in all envs
   'feature-2': ['localhost', 'dev', 'test'],
   'feature-3': [], // this feature can be enabled via query param or feature flag manager
-};
+} as const satisfies Record<string, readonly AppEnv[]>;
+
+export type Feature = keyof typeof featureConfig;
+
+export const features = Object.keys(
+  featureConfig
+) as (keyof typeof featureConfig)[];
 
 export function isFeatureEnabled(feature: Feature) {
   return (
@@ -18,7 +20,7 @@ export function isFeatureEnabled(feature: Feature) {
 }
 
 export function isFeatureEnabledInConfig(feature: Feature) {
-  const envs = featureConfig[feature];
+  const envs: readonly AppEnv[] = featureConfig[feature];
   return envs.includes(config.ENV);
 }
 
