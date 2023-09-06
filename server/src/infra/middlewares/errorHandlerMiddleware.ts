@@ -49,7 +49,16 @@ export default async function errorHandlerMiddleware(
     if (ctx.response.status >= 500) {
       // Uncontrolled (unexpected) error stack trace is logged and
       // they are sent to Sentry if enabled
-      ctx.state.log.error({ err }, 'Unexpected error while handling request');
+      try {
+        ctx.state.log.error(
+          { err },
+          `Unexpected error while handling request: ${err.message}`
+        );
+      } catch (e: any) {
+        ctx.state.log.error(
+          `Unexpected error while handling request: ${e.message}`
+        );
+      }
       Sentry.captureException(err);
     }
   }
