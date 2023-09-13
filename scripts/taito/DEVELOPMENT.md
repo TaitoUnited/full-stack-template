@@ -24,7 +24,11 @@ Table of contents:
 
 ## Quick start
 
-> TIP: Start application in a cleaned and initialized local environment with a single command: `taito develop`. This is essentially the same thing as running `taito env apply --clean`, `taito start --clean`, and `taito init`. If the application fails to start, run `taito trouble` to see troubleshooting.
+> TIP: Make sure your cloud auth is still in effect with `taito auth:dev` and start application in a cleaned and initialized local environment with a single command: `taito develop`. This is essentially the same thing as running `taito env apply --clean`, `taito start --clean`, and `taito init`. If the application fails to start, run `taito trouble` to see troubleshooting.
+
+In case you need some secrets from dev, make sure your cloud authentication is still in effect:
+
+    taito auth:dev
 
 Create local environment by installing some libraries and generating secrets (add `--clean` to recreate clean environment):
 
