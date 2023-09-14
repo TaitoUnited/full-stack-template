@@ -182,6 +182,7 @@ services:
       COMMON_LOG_FORMAT: text
       COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
       COMMON_ENV: local
+      COMMON_DOMAIN: localhost
       # Services
       SENTRY_DSN: #sentryDSN
       DATABASE_HOST: full-stack-template-database

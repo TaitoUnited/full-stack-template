@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.db import connection
-from ..app.config import Config
+from app.config import Config
 
 
 def get_config(request):

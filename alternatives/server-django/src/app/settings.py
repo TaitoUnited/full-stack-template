@@ -38,7 +38,7 @@ SECRET_KEY = Config.DJANGO_SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = Config.DEBUG
 
-ALLOWED_HOSTS: List[str] = []
+ALLOWED_HOSTS: List[str] = [Config.COMMON_DOMAIN]
 
 
 # Application definition
@@ -65,7 +65,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "base.urls"
+ROOT_URLCONF = "app.urls"
 
 TEMPLATES = [
     {
@@ -117,7 +117,7 @@ LOGGING = {
     },
 }
 
-WSGI_APPLICATION = "base.wsgi.application"
+WSGI_APPLICATION = "app.wsgi.application"
 
 
 # Database

@@ -26,8 +26,9 @@ RUN pip3 install --upgrade pip pip-tools debugpy
 RUN pip3 install -r requirements-dev.txt
 
 EXPOSE 8080
+ENV PYTHONPATH='/develop/src'
 CMD pip-compile requirements-dev.in; \
   pip-compile requirements-prod.in; \
   pip3 install -r requirements-dev.txt; \
   python -m debugpy --listen 0.0.0.0:9229 -m \
-  src/manage.py runserver 0.0.0.0:8080
+    manage runserver 0.0.0.0:8080
