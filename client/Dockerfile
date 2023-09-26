@@ -36,6 +36,7 @@ ARG SERVICE_DIR=.
 COPY --chown="${USER_UID}:0" \
      ${SERVICE_DIR}/package.json \
      ${SERVICE_DIR}/package-lock.* \
+     ${SERVICE_DIR}/.npmrc \
      /develop/
 
 ENV NODE_ENV development

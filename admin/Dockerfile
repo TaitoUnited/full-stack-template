@@ -18,6 +18,7 @@ CMD echo "DISABLED: admin not up-to-date" && tail -f /dev/null
 # COPY --chown="${USER_UID}:0" \
 #      ${SERVICE_DIR}/package.json \
 #      ${SERVICE_DIR}/package-lock.* \
+#      ${SERVICE_DIR}/.npmrc \
 #      /develop/
 
 # ENV NODE_ENV development

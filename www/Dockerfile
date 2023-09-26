@@ -17,6 +17,7 @@ CMD echo "DISABLED: www not up-to-date" && tail -f /dev/null
 # COPY --chown="${USER_UID}:0" \
 #      ${SERVICE_DIR}/install.sh \
 #      ${SERVICE_DIR}/package* \
+#      ${SERVICE_DIR}/.npmrc \
 #      /develop/
 # RUN ./install.sh
 # USER "${USER_UID}"

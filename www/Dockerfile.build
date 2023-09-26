@@ -6,8 +6,9 @@ WORKDIR /develop
 
 ARG SERVICE_DIR=.
 COPY ${SERVICE_DIR}/*.sh \
-    ${SERVICE_DIR}/package* \
-    /develop/
+     ${SERVICE_DIR}/package* \
+     ${SERVICE_DIR}/.npmrc \
+     /develop/
 
 ENV NODE_ENV development
 ENV SENTRY_DSN #sentryDSN
