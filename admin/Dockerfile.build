@@ -13,7 +13,7 @@ COPY ${SERVICE_DIR}/package.json \
     /develop/
 
 ENV NODE_ENV development
-RUN npm ci --loglevel warn
+RUN npm ci --loglevel warn --no-audit
 
 COPY ${SERVICE_DIR} /develop
 

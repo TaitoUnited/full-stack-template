@@ -19,7 +19,7 @@ RUN mkdir -p /build && \
     chown -R node:root /develop
 
 USER node
-RUN . ~/.bashrc && npm ci --loglevel warn
+RUN . ~/.bashrc && npm ci --loglevel warn --no-audit
 
 # Install site
 COPY --chown=node:root ${SERVICE_DIR} /develop
