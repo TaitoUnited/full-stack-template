@@ -1,3 +1,4 @@
+import 'module-alias/register';
 import 'reflect-metadata';
 import { Container } from 'typedi';
 import getDb from './common/setup/db';
