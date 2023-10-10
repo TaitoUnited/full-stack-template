@@ -146,7 +146,7 @@ FIGMA_ACCESS_TOKEN=get-this-from-figma
 FIGMA_FILE_ID=get-this-from-figma-project-url
 ```
 
-Before you can pull down the design system tokens from Figma ensure that the necessary variables (colors, text styles, etc.) have been [published](https://help.figma.com/hc/en-us/articles/360025508373-Publish-a-library).
+Before you can pull down the design system tokens from Figma ensure that the necessary variables (colors, text styles, etc.) have been [published](https://help.figma.com/hc/en-us/articles/360025508373-Publish-a-library). Also you should update the Figmage configuration inside package.json `"figmage"` field - see available configuration options [here](https://github.com/Temzasse/figmage#configuration).
 
 Then you can run `npm run design-system:sync` to pull down the tokens from the Figma project. This will store the tokens in `/styled-system/tokens` and you **should not** edit them manually but instead rerun the command in case you need to update the tokens.
 
