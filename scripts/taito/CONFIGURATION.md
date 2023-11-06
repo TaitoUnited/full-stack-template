@@ -116,7 +116,7 @@ Changes you have made to containers or functions will be deployed automatically 
 
 ## Scheduled jobs
 
-Create a cli command (see server/cli.sh) that you can execute manually on local development. Then schedule the cli command on helm.yaml:
+Create a cli command (see server/cli.sh and server/src/cli.ts) that you can execute manually on local development with `taito exec:server ./cli.sh createPost`. Then schedule the cli command on helm.yaml to make it run on Kubernetes as a cron job:
 
 ```
   server:
