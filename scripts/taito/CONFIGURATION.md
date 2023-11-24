@@ -28,6 +28,8 @@ Start your local development environment by running `taito develop`. Once the co
 
 ## Your first remote environment (dev)
 
+> NOTE: You might not have enough permissions to create a new environment. In such case, ask DevOps personnel to do this for you.
+
 Make sure your authentication is in effect:
 
     taito auth:dev
