@@ -1,4 +1,4 @@
-FROM node:18.16.1-alpine
+FROM node:20.9.0-alpine
 CMD echo "DISABLED: www not up-to-date" && tail -f /dev/null
 
 # # Builder, tester and runtime container for local development

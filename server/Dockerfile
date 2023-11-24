@@ -1,6 +1,6 @@
 # Builder, tester and runtime container for local development
 # NOTE: npm libraries are installed inside container to speed up build
-FROM node:18.16.1-alpine
+FROM node:20.9.0-alpine
 
 # Init /develop for user USER_UID
 ARG USER_UID=1001

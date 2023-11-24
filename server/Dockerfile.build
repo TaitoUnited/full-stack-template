@@ -1,5 +1,5 @@
 # Builder and tester container for production build
-FROM node:18.16.1-alpine as builder
+FROM node:20.9.0-alpine as builder
 RUN apk add --update-cache build-base python3 git fontconfig
 
 RUN mkdir -p /develop
@@ -21,7 +21,7 @@ RUN npm run unit
 RUN npm run build:prod
 
 # Production runtime container
-FROM node:18.16.1-alpine
+FROM node:20.9.0-alpine
 ARG BUILD_VERSION
 LABEL version=${BUILD_VERSION} \
       company=companyname \
