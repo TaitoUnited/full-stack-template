@@ -1,13 +1,13 @@
 terraform {
   backend "s3" {
   }
-  required_version = ">= 0.13"
+  required_version = ">= 1.6.0"
 }
 
 provider "aws" {
-  region                  = var.taito_provider_region
-  profile                 = coalesce(var.taito_provider_user_profile, var.taito_organization)
-  shared_credentials_file = "/home/taito/.aws/credentials"
+  region                   = var.taito_provider_region
+  profile                  = coalesce(var.taito_provider_user_profile, var.taito_organization)
+  shared_credentials_files = ["/home/taito/.aws/credentials"]
 
   /* EXAMPLE: Assume role (e.g. for CI/CD)
   assume_role {
@@ -88,7 +88,7 @@ locals {
 
 module "aws" {
   source  = "TaitoUnited/project-resources/aws"
-  version = "3.16.0"
+  version = "3.19.0"
 
   # Create flags
   create_ingress              = true
@@ -125,7 +125,7 @@ module "aws" {
   gateway_policies            = var.taito_gateway_policies
 
   # Network
-  function_subnet_ids         = data.aws_subnet_ids.function_subnet_ids.ids
+  function_subnet_ids         = data.aws_subnets.function_subnets.ids
   function_security_group_ids = data.aws_security_groups.function_security_groups.ids
 
   # Additional resources as a json file

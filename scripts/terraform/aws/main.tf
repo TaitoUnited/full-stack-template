@@ -1,13 +1,13 @@
 terraform {
   backend "s3" {
   }
-  required_version = ">= 0.13"
+  required_version = ">= 1.6.0"
 }
 
 provider "aws" {
-  region                  = var.taito_provider_region
-  profile                 = coalesce(var.taito_provider_user_profile, var.taito_organization)
-  shared_credentials_file = "/home/taito/.aws/credentials"
+  region                   = var.taito_provider_region
+  profile                  = coalesce(var.taito_provider_user_profile, var.taito_organization)
+  shared_credentials_files = ["/home/taito/.aws/credentials"]
 }
 
 provider "helm" {
@@ -145,7 +145,7 @@ locals {
 
 module "aws" {
   source  = "TaitoUnited/project-resources/aws"
-  version = "3.17.0"
+  version = "3.19.0"
 
   # Create flags
   create_cicd_service_account         = var.create_cicd_service_account
@@ -197,7 +197,7 @@ module "aws" {
   gateway_policies                = var.taito_gateway_policies
 
   # Network
-  elasticache_subnet_ids          = data.aws_subnet_ids.elasticache_subnet_ids.ids
+  elasticache_subnet_ids          = data.aws_subnets.elasticache_subnets.ids
   elasticache_security_group_ids  = data.aws_security_groups.elasticache_security_groups.ids
 
   # Additional resources as a json file

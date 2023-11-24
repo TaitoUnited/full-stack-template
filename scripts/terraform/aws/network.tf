@@ -2,8 +2,12 @@ data "aws_vpcs" "vpcs" {
   tags = var.taito_network_tags
 }
 
-data "aws_subnet_ids" "elasticache_subnet_ids" {
-  vpc_id = sort(data.aws_vpcs.vpcs.ids)[0]
+data "aws_subnets" "elasticache_subnets" {
+  filter {
+    name = "vpc-id"
+    values = [sort(data.aws_vpcs.vpcs.ids)[0]]
+  }
+
   tags = var.taito_cache_subnet_tags
 }
 
