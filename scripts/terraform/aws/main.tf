@@ -7,7 +7,6 @@ terraform {
 provider "aws" {
   region                   = var.taito_provider_region
   profile                  = coalesce(var.taito_provider_user_profile, var.taito_organization)
-  shared_credentials_files = ["/home/taito/.aws/credentials"]
 }
 
 provider "helm" {
@@ -145,7 +144,7 @@ locals {
 
 module "aws" {
   source  = "TaitoUnited/project-resources/aws"
-  version = "3.19.0"
+  version = "3.19.1"
 
   # Create flags
   create_cicd_service_account         = var.create_cicd_service_account
