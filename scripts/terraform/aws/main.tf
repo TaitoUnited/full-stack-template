@@ -6,7 +6,6 @@ terraform {
 
 provider "aws" {
   region                   = var.taito_provider_region
-  profile                  = coalesce(var.taito_provider_user_profile, var.taito_organization)
 }
 
 provider "helm" {
@@ -144,7 +143,7 @@ locals {
 
 module "aws" {
   source  = "TaitoUnited/project-resources/aws"
-  version = "3.19.1"
+  version = "3.20.1"
 
   # Create flags
   create_cicd_service_account         = var.create_cicd_service_account
@@ -164,7 +163,6 @@ module "aws" {
   # AWS provider
   account_id                  = var.taito_provider_org_id
   region                      = var.taito_provider_region
-  user_profile                = coalesce(var.taito_provider_user_profile, var.taito_organization)
 
   # Labels
   zone_name                   = var.taito_zone
