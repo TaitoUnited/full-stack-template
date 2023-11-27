@@ -43,7 +43,8 @@ services:
     networks:
       - cicd
     depends_on:
-      - full-stack-template-database-proxy
+      full-stack-template-database-proxy:
+        condition: service_healthy
     volumes:
       - "${DOCKER_HOST_PATH}/client:/develop:delegated"
       - "${DOCKER_HOST_PATH}/shared:/develop/shared:delegated"
@@ -67,8 +68,10 @@ services:
     networks:
       - cicd
     depends_on:
-      - full-stack-template-database-proxy
+      full-stack-template-database-proxy:
+        condition: service_healthy
       # - full-stack-template-services-proxy
+      #   condition: service_healthy
     volumes:
       - "${DOCKER_HOST_PATH}/server:/develop:delegated"
       - "${DOCKER_HOST_PATH}/shared:/develop/shared:delegated"
@@ -99,6 +102,9 @@ services:
       - |
         cd /project
         taito db proxy:${taito_env} 5432
+    healthcheck:
+      test: (echo > /dev/tcp/localhost/5432) &> /dev/null || exit 1
+      start_period: 10s
     ports:
       - "5432"
     volumes:
@@ -158,6 +164,9 @@ services:
   #       # TIP: you can define multiple forwards like this:
   #       # taito forward:redis:${taito_env} 6379 &
   #       # tail -f /dev/null
+  #   healthcheck:
+  #     test: (echo > /dev/tcp/localhost/6379) &> /dev/null || exit 1
+  #     start_period: 10s
   #   ports:
   #     - "6379"
   #   volumes:
