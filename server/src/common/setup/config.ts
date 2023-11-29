@@ -33,6 +33,18 @@ export const readFile = async (path?: string | null) => {
   return null;
 };
 
+export const readMandatorySecret = async (
+  secret: string,
+  isFileSecret = false,
+  altFilePath?: string | null
+) => {
+  const value = await readSecret(secret, isFileSecret, altFilePath);
+  if (!value) {
+    throw Error(`Secret ${secret} value not set.`);
+  }
+  return value;
+};
+
 // prettier-ignore
 export const readSecret = async (
   secret: string,
@@ -162,7 +174,7 @@ export const getSecrets = async () => {
       : undefined,
     REDIS_PASSWORD: await readSecret('REDIS_PASSWORD'),
     BUCKET_KEY_SECRET: await readSecret('BUCKET_KEY_SECRET'),
-    SESSION: await readSecret('SESSION'),
+    SESSION: await readMandatorySecret('SESSION'),
   };
 
   if (!secrets) {

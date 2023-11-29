@@ -4,7 +4,7 @@ import { koaMiddleware } from '@as-integrations/koa';
 import patchKoaQs from 'koa-qs';
 import jwt from 'koa-jwt';
 
-import config, { readSecret } from './common/setup/config';
+import config, { getSecrets } from './common/setup/config';
 import getDb from './common/setup/db';
 import log from './common/setup/log';
 import restMiddlewares from './rest';
@@ -25,6 +25,8 @@ let handler = null;
 async function setupServer() {
   patchKoaQs(server); // Adds support for query parameter nesting
 
+  const secrets = await getSecrets();
+
   // Request state prototype
   server.use(async (ctx, next) => {
     ctx.state = ctx.state || {};
@@ -43,7 +45,7 @@ async function setupServer() {
   server.use(dbTransactionMiddleware);
   server.use(
     jwt({
-      secret: (await readSecret('SESSION')) || 'secret',
+      secret: secrets.SESSION,
       passthrough: true,
       key: 'user',
       cookie: 'session',
