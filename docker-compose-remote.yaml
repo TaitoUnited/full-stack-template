@@ -239,6 +239,8 @@ secrets:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-storage.secretKey
   EXAMPLE_SECRET:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-example.secret
+  SESSION_SECRET:
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-session.secret
   BASIC_AUTH_HTPASSWD:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-basic-auth.auth
 

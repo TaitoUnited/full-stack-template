@@ -66,6 +66,7 @@ st_bucket_name="$taito_random_name-$taito_env"
 taito_secrets="
   $db_database_app_secret:random
   $taito_project-$taito_env-example.secret:manual
+  $taito_project-$taito_env-session.secret:manual
   $taito_project-$taito_env-redis.password:random
 "
 

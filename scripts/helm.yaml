@@ -105,6 +105,7 @@ full-stack:
         REDIS_PASSWORD: ${taito_project}-${taito_env}-redis.password
         BUCKET_KEY_SECRET: ${taito_project}-${taito_env}-storage.secretKey
         EXAMPLE_SECRET: ${taito_project}-${taito_env}-example.secret
+        SESSION_SECRET: ${taito_project}-${taito_env}-session.secret
       secretEnv:
         BUCKET_KEY_ID: ${taito_project}-${taito_env}-storage.accessKeyId
       env:

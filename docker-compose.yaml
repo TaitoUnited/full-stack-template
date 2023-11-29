@@ -315,6 +315,8 @@ secrets:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-redis.password
   EXAMPLE_SECRET:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-example.secret
+  SESSION_SECRET:
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-session.secret
 
 networks:
   default:
