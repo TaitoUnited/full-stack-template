@@ -4,13 +4,17 @@
 
 # full-stack-template
 
+The main information about this project can be found in the [Wiki page of the project](docs/README.md).
+
+Information only relevant to developers can be found here.
+
 Template for cloud-native applications and microservices running on Kubernetes, Docker Compose, serverless (FaaS), or virtual machine. The template can be used with both public cloud and on-premise private cloud. DevOps is the main focus of this template, and thus, you can freely change the implementation that is running inside the containers. The example implementation is based on React, Node.js, PostgreSQL, and S3 compatible storage, but you can choose the stack during project creation from multiple alternatives, or just write the implementation from scratch.
 
-You can create a new project from this template by running `taito project create full-stack-template`. Later you can upgrade your project to the latest version of the template by running `taito project upgrade`. To ensure flawless upgrade, do not modify files that have a **do-not-modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files of the template instead, and then upgrade. See [Taito CLI](https://taitounited.github.io/taito-cli/) for more information.
+You can create a new project from this template by running `taito project create full-stack-template`. Later you can upgrade your project to the latest version of the template by running `taito project upgrade`. To ensure flawless upgrade, do not modify files that have a **do-not-modify** note in them as they are designed to be reusable and easily configurable for various needs. In such case, improve the original files of the template instead, and then upgrade. See [Taito CLIdocshttps://taitounited.github.io/taito-cli/) for more information.
 
 You can also migrate an existing project that does not currently use Taito CLI by running `taito project migrate full-stack-template` in your project root folder.
 
-You can use either monorepo or multirepo approach with this template. If you are going for multirepo, just create a separate project for each microservice based on this project template, and define common `taito_namespace` in scripts/taito/project.sh if you want them to share the same namespace. You can also place environment descriptions in a separate repository (see [CONFIGURATION.md](scripts/taito/CONFIGURATION.md#environment-descriptions-in-a-separate-repository)).
+You can use either monorepo or multirepo approach with this template. If you are going for multirepo, just create a separate project for each microservice based on this project template, and define common `taito_namespace` in scripts/taito/project.sh if you want them to share the same namespace. You can also place environment descriptions in a separate repository (see [CONFIGURATION.mddocsscripts/taito/CONFIGURATION.md#environment-descriptions-in-a-separate-repository)).
 
 [//]: # "TEMPLATE NOTE END"
 
