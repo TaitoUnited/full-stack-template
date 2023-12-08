@@ -70,7 +70,7 @@ services:
     depends_on:
       full-stack-template-database-proxy:
         condition: service_healthy
-      # - full-stack-template-services-proxy
+      # full-stack-template-services-proxy
       #   condition: service_healthy
     volumes:
       - "${DOCKER_HOST_PATH}/server:/develop:delegated"
