@@ -1,12 +1,8 @@
-> This page contains a short summary of the project itself. See [DEVELOPMENT.md](scripts/taito/DEVELOPMENT.md) and [CONFIGURATION.md](scripts/taito/CONFIGURATION.md) for development and configuration instructions.
+> This page contains a short summary of the project itself, aimed mostly for developers. See [Wiki page of the project](docs/README.md) for more extensive resources, [DEVELOPMENT.md](scripts/taito/DEVELOPMENT.md) for common development conventions, and [CONFIGURATION.md](scripts/taito/CONFIGURATION.md) for common configuration conventions.
 
 [//]: # "TEMPLATE NOTE START"
 
 # full-stack-template
-
-The main information about this project can be found in the [Wiki page of the project](docs/README.md).
-
-Information only relevant to developers can be found here.
 
 Template for cloud-native applications and microservices running on Kubernetes, Docker Compose, serverless (FaaS), or virtual machine. The template can be used with both public cloud and on-premise private cloud. DevOps is the main focus of this template, and thus, you can freely change the implementation that is running inside the containers. The example implementation is based on React, Node.js, PostgreSQL, and S3 compatible storage, but you can choose the stack during project creation from multiple alternatives, or just write the implementation from scratch.
 
