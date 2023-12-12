@@ -43,6 +43,7 @@
     "koa-joi-router": "~8.0.0",
     "koa-jwt": "^4.0.3",
     "koa-qs": "~3.0.0",
+    "module-alias": "2.2.3",
     "mustache": "~4.2.0",
     "node-gyp": "9.3.1",
     "openapi-types": "^12.0.2",
