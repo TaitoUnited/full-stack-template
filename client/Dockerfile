@@ -17,13 +17,11 @@
 
 # Node v20.9.0 has npm v9.6.5 (should match the version in package.json `engines` field!)
 ARG NODE_VERSION='20.9.0'
-# BASE_IMAGE us used by 'cypress/factory' image
+# BASE_IMAGE arg is used by the 'cypress/factory' image
 ARG BASE_IMAGE='node:20.9.0'
-# Change BUILDER_IMAGE to 'cypress/factory' when you are ready to do e2e testing
+# Change BUILDER_IMAGE from 'node:x' to 'cypress/factory' when you are ready to do e2e testing
 ARG BUILDER_IMAGE='node:20.9.0'
 
-# Enable Cypress factory image when you are ready to do e2e testing
-# FROM cypress/factory
 FROM ${BUILDER_IMAGE}
 
 # Init /develop for user USER_UID
