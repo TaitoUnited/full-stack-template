@@ -1,5 +1,7 @@
+ARG BUILDER_IMAGE='nginx:stable-alpine'
+
 # Local development runtime
-FROM nginx:stable-alpine
+FROM ${BUILDER_IMAGE}
 
 # Init /develop for user USER_UID
 ARG USER_UID=1001

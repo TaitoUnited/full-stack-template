@@ -1,5 +1,7 @@
+ARG BUILDER_IMAGE='python:3.9-alpine3.13'
+
 # Builder, tester and runtime container for local development
-FROM python:3.9-alpine3.13
+FROM ${BUILDER_IMAGE}
 ENV NODE_ENV development
 ENV FLASK_ENV development
 ENV FLASK_APP src

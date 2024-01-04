@@ -1,4 +1,6 @@
-FROM node:20.9.0-alpine
+ARG BUILDER_IMAGE='node:20.9.0-alpine'
+
+FROM ${BUILDER_IMAGE}
 CMD echo "DISABLED: www not up-to-date" && tail -f /dev/null
 
 # # Builder, tester and runtime container for local development

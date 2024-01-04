@@ -1,5 +1,7 @@
+ARG BUILDER_IMAGE='adoptopenjdk/openjdk11-openj9:jdk-11.0.1.13-alpine-slim'
+
 # For local development
-FROM adoptopenjdk/openjdk11-openj9:jdk-11.0.1.13-alpine-slim
+FROM ${BUILDER_IMAGE}
 
 # Init /develop for user USER_UID
 ARG USER_UID=1001

@@ -1,6 +1,8 @@
+ARG BUILDER_IMAGE='node:20.9.0-alpine'
+
 # Builder, tester and runtime container for local development
 # NOTE: npm libraries are installed inside container to speed up build
-FROM node:20.9.0-alpine
+FROM ${BUILDER_IMAGE}
 
 # Init /develop for user USER_UID
 ARG USER_UID=1001

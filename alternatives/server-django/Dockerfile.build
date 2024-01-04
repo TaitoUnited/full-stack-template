@@ -1,5 +1,8 @@
+ARG BUILDER_IMAGE='python:3.9-alpine3.13'
+ARG RUNTIME_IMAGE='python:3.9-alpine3.13'
+
 # Builder and tester container for production build
-FROM python:3.9-alpine3.13 as builder
+FROM ${BUILDER_IMAGE} as builder
 
 RUN apk add --update-cache \
   g++ \
@@ -21,7 +24,7 @@ RUN mypy --ignore-missing-imports src
 
 
 # Production runtime container
-FROM python:3.9-alpine3.13
+FROM ${RUNTIME_IMAGE}
 ARG BUILD_VERSION
 LABEL version=${BUILD_VERSION} \
       company=companyname \

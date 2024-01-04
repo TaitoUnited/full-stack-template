@@ -1,5 +1,8 @@
+ARG BUILDER_IMAGE='adoptopenjdk/openjdk11-openj9:alpine-slim'
+ARG RUNTIME_IMAGE='adoptopenjdk/openjdk11-openj9:alpine-jre'
+
 # Builder and tester container for production build
-FROM adoptopenjdk/openjdk11-openj9:alpine-slim as builder
+FROM ${BUILDER_IMAGE} as builder
 
 RUN mkdir -p /develop
 WORKDIR /develop
@@ -8,7 +11,7 @@ ARG SERVICE_DIR=.
 COPY ${SERVICE_DIR} ./
 RUN ./gradlew build
 
-FROM adoptopenjdk/openjdk11-openj9:alpine-jre
+FROM ${RUNTIME_IMAGE}
 LABEL version=${BUILD_VERSION} \
       company=sandbox \
       project=sandbox-jukka6 \

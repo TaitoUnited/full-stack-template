@@ -1,4 +1,6 @@
-FROM full-stack-template-www-tester:latest as builder
+ARG BUILDER_IMAGE='full-stack-template-www-tester:latest'
+
+FROM ${BUILDER_IMAGE} as builder
 LABEL version=${BUILD_VERSION} \
       company=taito \
       project=full-stack-template \
