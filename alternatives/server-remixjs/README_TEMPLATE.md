@@ -3,17 +3,18 @@
 ## Remix.js app
 
 1. Create remix.js app by executing `npx create-remix@latest server` in the root directory of your project. Select **npm** as the dependency installer.
-2. Change path `/api` into `/` in the following files:
+2. Add `unit` script on **server/package.json**: `"unit": "echo 'no unit tests yet'",`.
+3. Change path `/api` into `/` in the following files:
    - **docker-nginx.conf**
    - **scripts/helm.yaml**
    - **scripts/terraform.yaml**
-3. Tune taito_links in **scripts/taito/project.sh** (`taito open server` should open `/` instead of `/api/uptimez`)
+4. Tune taito_links in **scripts/taito/project.sh** (`taito open server` should open `/` instead of `/api/uptimez`)
 
 ## Drizzle ORM
 
 If you would like to use Drizzle ORM instead of plain SQL and Sqitch, execute the following steps:
 
-1. Install Drizzle ORM for PostgreSQL with npm.
+1. Install Drizzle ORM for PostgreSQL in **server** directory with npm.
 2. Set up Drizzle ORM so that it reads database connection details from `DATABASE_*` environment variables.
 3. Add db-migrate script for running database migrations, for example: `"db-migrate": "ts-node src/db/migrate.ts"`
 4. Disable Sqitch Taito CLI plugin by removing `sqitch-db` from **scripts/taito/project.sh**.
