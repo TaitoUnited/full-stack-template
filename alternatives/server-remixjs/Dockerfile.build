@@ -1,0 +1,32 @@
+ARG BUILDER_IMAGE='node:20.9.0-alpine'
+ARG RUNTIME_IMAGE='node:20.9.0-alpine'
+
+# Builder and tester container for production build
+FROM ${BUILDER_IMAGE} as builder
+RUN apk add --update-cache build-base python3 git fontconfig
+
+RUN mkdir -p /develop
+WORKDIR /develop
+
+ARG SERVICE_DIR=.
+COPY ${SERVICE_DIR}/package.json \
+     ${SERVICE_DIR}/package-lock.* \
+     ${SERVICE_DIR}/.npmrc \
+     /develop/
+
+ENV NODE_ENV development
+RUN npm ci --loglevel warn --no-audit
+
+COPY ${SERVICE_DIR} /develop
+
+RUN npm run lint
+# RUN npm run unit
+RUN npm run build
+
+
+# TODO: Proper production runtime container image
+USER node
+ENV NODE_ENV production
+ENV PORT 8080
+EXPOSE 8080
+CMD npm run start
