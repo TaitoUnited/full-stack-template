@@ -16,7 +16,7 @@ If you would like to use Drizzle ORM instead of plain SQL and Sqitch, execute th
 
 1. Install Drizzle ORM for PostgreSQL in **server** directory with npm.
 2. Set up Drizzle ORM so that it reads database connection details from `DATABASE_*` environment variables.
-3. Add db-migrate script for running database migrations, for example: `"db-migrate": "ts-node src/db/migrate.ts"`
+3. Add db-migrate script on `server/package.json` for running database migrations, for example: `"db-migrate": "ts-node src/db/migrate.ts"`
 4. Disable Sqitch Taito CLI plugin by removing `sqitch-db` from **scripts/taito/project.sh**.
 5. Enable Drizzle ORM migrations for Taito CLI and CI/CD by adding the following script on the package.json file located on project root:
 
