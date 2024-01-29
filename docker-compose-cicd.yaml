@@ -21,13 +21,13 @@ services:
     networks:
       - cicd
     volumes:
-      - "${DOCKER_HOST_PATH}/admin:/develop:delegated"
-      - "${DOCKER_HOST_PATH}/shared:/develop/shared:delegated"
+      - "${DOCKER_HOST_PATH:-.}/admin:/develop:delegated"
+      - "${DOCKER_HOST_PATH:-.}/shared:/develop/shared:delegated"
       - "/develop/node_modules"
-      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_mgr_secret}:/run/secrets/DATABASE_PASSWORD" # For GitHub Actions
-      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_ca_secret}:/run/secrets/DATABASE_SSL_CA" # For GitHub Actions
-      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_cert_secret}:/run/secrets/DATABASE_SSL_CERT" # For GitHub Actions
-      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_key_secret}:/run/secrets/DATABASE_SSL_KEY" # For GitHub Actions
+      - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_mgr_secret}:/run/secrets/DATABASE_PASSWORD" # For GitHub Actions
+      - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_ssl_ca_secret}:/run/secrets/DATABASE_SSL_CA" # For GitHub Actions
+      - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_ssl_cert_secret}:/run/secrets/DATABASE_SSL_CERT" # For GitHub Actions
+      - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_ssl_key_secret}:/run/secrets/DATABASE_SSL_KEY" # For GitHub Actions
     secrets:
       - DATABASE_PASSWORD
       - DATABASE_SSL_CA
@@ -46,13 +46,13 @@ services:
       full-stack-template-database-proxy:
         condition: service_healthy
     volumes:
-      - "${DOCKER_HOST_PATH}/client:/develop:delegated"
-      - "${DOCKER_HOST_PATH}/shared:/develop/shared:delegated"
+      - "${DOCKER_HOST_PATH:-.}/client:/develop:delegated"
+      - "${DOCKER_HOST_PATH:-.}/shared:/develop/shared:delegated"
       - "/develop/node_modules"
-      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_mgr_secret}:/run/secrets/DATABASE_PASSWORD" # For GitHub Actions
-      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_ca_secret}:/run/secrets/DATABASE_SSL_CA" # For GitHub Actions
-      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_cert_secret}:/run/secrets/DATABASE_SSL_CERT" # For GitHub Actions
-      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_key_secret}:/run/secrets/DATABASE_SSL_KEY" # For GitHub Actions
+      - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_mgr_secret}:/run/secrets/DATABASE_PASSWORD" # For GitHub Actions
+      - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_ssl_ca_secret}:/run/secrets/DATABASE_SSL_CA" # For GitHub Actions
+      - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_ssl_cert_secret}:/run/secrets/DATABASE_SSL_CERT" # For GitHub Actions
+      - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_ssl_key_secret}:/run/secrets/DATABASE_SSL_KEY" # For GitHub Actions
     secrets:
       - DATABASE_PASSWORD
       - DATABASE_SSL_CA
@@ -73,13 +73,13 @@ services:
       # full-stack-template-services-proxy
       #   condition: service_healthy
     volumes:
-      - "${DOCKER_HOST_PATH}/server:/develop:delegated"
-      - "${DOCKER_HOST_PATH}/shared:/develop/shared:delegated"
+      - "${DOCKER_HOST_PATH:-.}/server:/develop:delegated"
+      - "${DOCKER_HOST_PATH:-.}/shared:/develop/shared:delegated"
       - "/develop/node_modules"
-      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_mgr_secret}:/run/secrets/DATABASE_PASSWORD" # For GitHub Actions
-      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_ca_secret}:/run/secrets/DATABASE_SSL_CA" # For GitHub Actions
-      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_cert_secret}:/run/secrets/DATABASE_SSL_CERT" # For GitHub Actions
-      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_key_secret}:/run/secrets/DATABASE_SSL_KEY" # For GitHub Actions
+      - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_mgr_secret}:/run/secrets/DATABASE_PASSWORD" # For GitHub Actions
+      - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_ssl_ca_secret}:/run/secrets/DATABASE_SSL_CA" # For GitHub Actions
+      - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_ssl_cert_secret}:/run/secrets/DATABASE_SSL_CERT" # For GitHub Actions
+      - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_ssl_key_secret}:/run/secrets/DATABASE_SSL_KEY" # For GitHub Actions
     secrets:
       - DATABASE_PASSWORD
       - DATABASE_SSL_CA
@@ -108,8 +108,8 @@ services:
     ports:
       - "5432"
     volumes:
-      - "${DOCKER_HOST_PATH}/:/project:delegated"
-      - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/cicd-proxy-serviceaccount.key:/run/secrets/CICD_PROXY_SERVICEACCOUNT_KEY" # For GitHub Actions # For GCP
+      - "${DOCKER_HOST_PATH:-.}/:/project:delegated"
+      - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/cicd-proxy-serviceaccount.key:/run/secrets/CICD_PROXY_SERVICEACCOUNT_KEY" # For GitHub Actions # For GCP
     secrets: # For GCP
       - CICD_PROXY_SERVICEACCOUNT_KEY # For GCP
     environment:
@@ -170,8 +170,8 @@ services:
   #   ports:
   #     - "6379"
   #   volumes:
-  #     - "${DOCKER_HOST_PATH}/:/project:delegated"
-  #     - "${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/cicd-proxy-serviceaccount.key:/run/secrets/CICD_PROXY_SERVICEACCOUNT_KEY" # For GitHub Actions # For GCP
+  #     - "${DOCKER_HOST_PATH:-.}/:/project:delegated"
+  #     - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/cicd-proxy-serviceaccount.key:/run/secrets/CICD_PROXY_SERVICEACCOUNT_KEY" # For GitHub Actions # For GCP
   #   secrets: # For GCP
   #     - CICD_PROXY_SERVICEACCOUNT_KEY # For GCP
   #   environment:
@@ -186,15 +186,15 @@ services:
 
 secrets:
   CICD_PROXY_SERVICEACCOUNT_KEY: # For GCP
-    file: ${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/cicd-proxy-serviceaccount.key # For GCP
+    file: ${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/cicd-proxy-serviceaccount.key # For GCP
   DATABASE_PASSWORD:
-    file: ${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_mgr_secret}
+    file: ${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_mgr_secret}
   DATABASE_SSL_CA:
-    file: ${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_ca_secret}
+    file: ${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_ssl_ca_secret}
   DATABASE_SSL_CERT:
-    file: ${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_cert_secret}
+    file: ${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_ssl_cert_secret}
   DATABASE_SSL_KEY:
-    file: ${DOCKER_HOST_PATH}/tmp/secrets/${taito_env}/${db_database_ssl_key_secret}
+    file: ${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_ssl_key_secret}
 
 networks:
   cicd:
