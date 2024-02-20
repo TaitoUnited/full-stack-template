@@ -28,7 +28,10 @@ type Props = ComponentProps<typeof TextField> & {
  * Ref: https://react-spectrum.adobe.com/react-aria/TextField.html
  */
 const TextInput = forwardRef<HTMLInputElement, Props>(
-  ({ label, icon, description, errorMessage, placeholder, ...rest }, ref) => {
+  (
+    { label, icon, description, errorMessage, placeholder, id, ...rest },
+    ref
+  ) => {
     useLingui();
     const [passwordVisible, setPasswordVisible] = useState(false);
     const isPassword = rest.type === 'password';
@@ -61,6 +64,7 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
 
           <Input
             ref={ref}
+            id={id}
             placeholder={placeholder}
             className={baseInputStyles}
             data-password={isPassword || undefined}
