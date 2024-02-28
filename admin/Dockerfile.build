@@ -28,7 +28,7 @@ ENV API_URL /api
 ENV SENTRY_DSN #sentryDSN
 
 RUN npm run unit
-RUN npm run build && cp -r ./assets/* /build/
+RUN npm run build && cp -r ./assets/. /build/
 
 # Production runtime
 FROM ${RUNTIME_IMAGE}
