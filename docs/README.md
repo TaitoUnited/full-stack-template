@@ -13,7 +13,8 @@ Table of contents:
   - [Client](#client)
 - [Preferred communication channels](#preferred-communication-channels)
 - [Responsibilities](#responsibilities)
-- [Conventions](#conventions)
+- [Intellectual property rights](#intellectual-property-rights)
+- [Compliance](#compliance)
 - [Application walkthrough](#application-walkthrough)
 - [How to log in](#how-to-log-in)
 - [Common issues](#common-issues)
@@ -74,26 +75,13 @@ Table of contents:
 
 > TODO: Who is responsible for the Git repository, environments, CI/CD, Apple App Store and Google Play Store etc.?
 
-## Conventions
+## Intellectual property rights
 
-> TODO: Project-specific conventions. E.g.: Git commit message conventions, naming conventions, pull request conventions, etc.
-
-We are using [Taito version control conventions](https://taitounited.github.io/taito-cli/tutorial/03-version-control) for commit messages.
-
-Pull requests should be reviewed by at least one other developer before merging, ideally by the main developer. The developer who created the pull request should merge it once it has been approved.
-
-Each pull request should come with:
-
-- A description of the changes
-- Photos or videos of the changes (if useful)
-- A link to the issue it is related to (if any)
-- A link to the design (if any)
-- Documentation changes related to the changes (if any)
-- Tests related to the changes (if any)
+> IPR ownership. Also update the LICENSE file. TODO license examples
 
 ## Compliance
 
-> TODO: List the compliance requirements if applicable. E.g.: GDPR, PCI DSS, etc.
+> Add compliance requirements and implementation details either here or in a separate document. For GDPR, see the [data protection and privacy](https://taitounited.github.io/taito-cli/tutorial/e-data-protection-and-privacy) appendix of the [Taito CLI tutorial](https://taitounited.github.io/taito-cli/tutorial).
 
 ## Application walkthrough
 
@@ -106,7 +94,6 @@ Each pull request should come with:
 > Important: Give links to the 1Password credentials for the application instead of writing the credentials here.
 
 You can find the credentials for the `XX` application (production) [here](https://start.1password.com/open/`XX`)
-
 
 ## Common issues
 
