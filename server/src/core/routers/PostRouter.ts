@@ -20,7 +20,10 @@ const PostSchema = ItemSchema.concat(BasePostSchema);
  */
 @Service()
 export class PostRouter extends BaseRouter {
-  constructor(private postService: PostService, router: any = null) {
+  constructor(
+    private postService: PostService,
+    router: any = null
+  ) {
     super(router);
     this.group = 'Posts';
     this.prefix = '/posts';

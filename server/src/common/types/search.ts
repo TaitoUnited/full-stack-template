@@ -77,7 +77,7 @@ registerEnumType(ValueType, {
 @InputType()
 export class Filter<
   Item extends Record<string, any>,
-  Key extends keyof Item = keyof Item
+  Key extends keyof Item = keyof Item,
 > {
   constructor(
     field: Key,

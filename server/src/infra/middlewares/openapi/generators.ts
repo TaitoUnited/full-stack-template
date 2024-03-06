@@ -1,4 +1,3 @@
-import createRouter from 'koa-joi-router';
 import { OpenAPIV3_1 as OpenAPI } from 'openapi-types';
 import j2s from 'joi-to-swagger';
 import Joi from 'joi';
@@ -57,25 +56,28 @@ export function generateResponses(route: RouteSpec) {
     },
   };
 
-  const responses = Object.entries(output).reduce((obj, [status, schema]) => {
-    const body: any = 'body' in schema ? schema.body : undefined;
+  const responses = Object.entries(output).reduce(
+    (obj, [status, schema]) => {
+      const body: any = 'body' in schema ? schema.body : undefined;
 
-    if (!body) {
-      return obj;
-    }
+      if (!body) {
+        return obj;
+      }
 
-    return {
-      ...obj,
-      [status]: {
-        description: defaultDescriptions[status] || status,
-        content: {
-          'application/json': {
-            schema: j2s(body).swagger,
+      return {
+        ...obj,
+        [status]: {
+          description: defaultDescriptions[status] || status,
+          content: {
+            'application/json': {
+              schema: j2s(body).swagger,
+            },
           },
         },
-      },
-    };
-  }, {} as Record<string, OpenAPI.ResponseObject>);
+      };
+    },
+    {} as Record<string, OpenAPI.ResponseObject>
+  );
 
   return { ...defaultResponses, ...responses };
 }

@@ -202,7 +202,7 @@ function getColumnName(field: string, filterableColumnNames: string[]) {
  */
 function generateFilterFragment<
   Item extends Record<string, any>,
-  Key extends keyof Item
+  Key extends keyof Item,
 >(filter: Filter<Item, Key>) {
   if (filter.operator === FilterOperator.EQ && filter.value === null) {
     return `IS NULL`;

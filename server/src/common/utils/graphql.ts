@@ -234,47 +234,50 @@ export function createTemplate(
   /*
     Create an object containing the @Fields from the supplied class
   */
-  const template = fields.reduce((obj, field) => {
-    /*
+  const template = fields.reduce(
+    (obj, field) => {
+      /*
       This is essentially the return value of the
       type-function supplied to a field. So for
 
       @Field(() => String) foo: string;
       -> type = String
     */
-    const type = field.getType();
+      const type = field.getType();
 
-    const isArray = field.typeOptions.array;
+      const isArray = field.typeOptions.array;
 
-    /*
+      /*
       Ignore fields with type specified in `ignoreArray`
     */
-    if (ignoreArray.includes(type as any)) {
-      return obj;
-    }
+      if (ignoreArray.includes(type as any)) {
+        return obj;
+      }
 
-    /*
+      /*
       Recursively traverse the type if it contains other types,
       but pass the type in ignoreArray to prevent stackoverflows
     */
-    const template = createTemplate(type as any, false, [
-      ...ignoreArray,
-      objectTypeClass,
-    ]);
+      const template = createTemplate(type as any, false, [
+        ...ignoreArray,
+        objectTypeClass,
+      ]);
 
-    /*
+      /*
       If the template does not exist, construct the type
 
       ... so most likely type is then just a primitive class (i.e. String or Number),
       or Date or something
     */
-    const instance = template ?? construct(type);
+      const instance = template ?? construct(type);
 
-    return {
-      ...obj,
-      [field.name]: isArray ? [instance] : instance,
-    };
-  }, {} as Record<string, any>);
+      return {
+        ...obj,
+        [field.name]: isArray ? [instance] : instance,
+      };
+    },
+    {} as Record<string, any>
+  );
 
   return template;
 }
@@ -321,18 +324,21 @@ export function SelectedFields() {
         return true;
       }
 
-      return selectionSet?.selections.reduce((obj, cur) => {
-        const name = 'name' in cur ? cur.name.value : undefined;
+      return selectionSet?.selections.reduce(
+        (obj, cur) => {
+          const name = 'name' in cur ? cur.name.value : undefined;
 
-        if (!name) {
-          return obj;
-        }
+          if (!name) {
+            return obj;
+          }
 
-        return {
-          ...obj,
-          [name]: getSelectionSet(cur),
-        };
-      }, {} as Record<string, any>);
+          return {
+            ...obj,
+            [name]: getSelectionSet(cur),
+          };
+        },
+        {} as Record<string, any>
+      );
     };
 
     return getSelectionSet(fieldNode);

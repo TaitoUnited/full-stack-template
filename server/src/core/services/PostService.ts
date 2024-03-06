@@ -27,7 +27,10 @@ const filterableFieldNames = getObjectKeysAsFieldNames(new PostFilter());
 
 @Service()
 export class PostService {
-  constructor(private authService: AuthService, private postDao: PostDao) {}
+  constructor(
+    private authService: AuthService,
+    private postDao: PostDao
+  ) {}
 
   public async search(input: {
     state: Context['state'];

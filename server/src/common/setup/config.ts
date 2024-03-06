@@ -193,12 +193,12 @@ export const getDatabaseSSL = (config: any, secrets: any) => {
           key: secrets.DATABASE_SSL_KEY,
         }
       : config.DATABASE_SSL_ENABLED && config.DATABASE_SSL_SERVER_CERT_ENABLED
-      ? {
-          ca: secrets.DATABASE_SSL_CA,
-        }
-      : config.DATABASE_SSL_ENABLED
-      ? { rejectUnauthorized: false } // TODO: remove once AWSCA check works
-      : false;
+        ? {
+            ca: secrets.DATABASE_SSL_CA,
+          }
+        : config.DATABASE_SSL_ENABLED
+          ? { rejectUnauthorized: false } // TODO: remove once AWSCA check works
+          : false;
 
   // Skip hostname check if SSL is enabled but HOST is IP or proxy
   return ssl !== false &&
