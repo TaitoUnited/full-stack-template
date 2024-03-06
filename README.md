@@ -22,18 +22,14 @@ Table of contents:
 
 - [Links](#links)
 - [Usage](#usage)
-- [Contacts](#contacts)
-- [Responsibilities](#responsibilities)
-- [Intellectual property rights](#intellectual-property-rights)
 - [Manually configured settings](#manually-configured-settings)
-- [Recurring issues and solutions](#recurring-issues-and-solutions)
-- [Miscellaneous notes](#miscellaneous-notes)
 - [Conventions](#conventions)
 - [Architecture Overview](#architecture-overview)
 - [Security](#security)
-- [Compliance](#compliance)
 
 ## Links
+
+> Note: some general project links are to be found on the [Wiki page](docs/README.md) of the project.
 
 Non-production basic auth credentials: `USERNAME` / `PASSWORD`
 
@@ -49,36 +45,26 @@ LINKS WILL BE GENERATED HERE
 
 > Some notes about testing and usage either here or in a separate document.
 
-## Contacts
-
-- Project Manager: John Doe, Company co.
-- Designer: Jane Doe, Company co.
-
-> NOTE: It is recommended to use a shared address book or CRM for keeping the contact details like email and phone number up-to-date.
-
-## Responsibilities
-
-Hosting, billing and control of 3rd party services, SSL/TLS certificates, etc.
-
-## Intellectual property rights
-
-> IPR ownership. Also update the LICENSE file. TODO license examples
-
 ## Manually configured settings
 
 > Try to keep all configurations in version control. However, if you have configured something manually, describe manually configured settings here.
 
-## Recurring issues and solutions
-
-See trouble.txt or run `taito trouble`.
-
-## Miscellaneous notes
-
-Misc notes.
-
 ## Conventions
 
-Project specific conventions.
+> TODO: Project-specific conventions. E.g.: Git commit message conventions, naming conventions, pull request conventions, etc.
+
+We are using [Taito version control conventions](https://taitounited.github.io/taito-cli/tutorial/03-version-control) for commit messages.
+
+Pull requests should be reviewed by at least one other developer before merging, ideally by the main developer. The developer who created the pull request should merge it once it has been approved.
+
+Each pull request should come with:
+
+- A description of the changes
+- Photos or videos of the changes (if useful)
+- A link to the issue it is related to (if any)
+- A link to the design (if any)
+- Documentation changes related to the changes (if any)
+- Tests related to the changes (if any)
 
 ## Architecture Overview
 
@@ -118,9 +104,3 @@ Only non-trivial processes need to be described here (e.g. scheduled batch proce
 ## Security
 
 > Add security details either here or in a separate document. See the [security](https://taitounited.github.io/taito-cli/tutorial/d-security/) appendix of the [Taito CLI tutorial](https://taitounited.github.io/taito-cli/tutorial).
-
-## Compliance
-
-> Add compliance requirements and implementation details either here or in a separate document. For GDPR, see the [data protection and privacy](https://taitounited.github.io/taito-cli/tutorial/e-data-protection-and-privacy) appendix of the [Taito CLI tutorial](https://taitounited.github.io/taito-cli/tutorial).
-
-### GDPR
