@@ -336,14 +336,14 @@ export type DeletePostAttachmentMutationVariables = Exact<{
 }>;
 
 
-export type DeletePostAttachmentMutation = { __typename?: 'Mutation', deletePostAttachment: { __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null, fileUrl?: string | null, filename?: string | null, id: string, title?: string | null, updatedAt: any } };
+export type DeletePostAttachmentMutation = { __typename?: 'Mutation', deletePostAttachment: { __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, fileUrl?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any } };
 
 export type FinalizePostAttachmentMutationVariables = Exact<{
   input: FinalizePostAttachmentInput;
 }>;
 
 
-export type FinalizePostAttachmentMutation = { __typename?: 'Mutation', finalizePostAttachment: { __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null, fileUrl?: string | null, filename?: string | null, id: string, title?: string | null, updatedAt: any } };
+export type FinalizePostAttachmentMutation = { __typename?: 'Mutation', finalizePostAttachment: { __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, fileUrl?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any } };
 
 export type UpdatePostMutationVariables = Exact<{
   input: UpdatePostInput;
@@ -358,7 +358,7 @@ export type UpdatePostAttachmentMutationVariables = Exact<{
 }>;
 
 
-export type UpdatePostAttachmentMutation = { __typename?: 'Mutation', updatePostAttachment: { __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null, fileUrl?: string | null, filename?: string | null, id: string, title?: string | null, updatedAt: any } };
+export type UpdatePostAttachmentMutation = { __typename?: 'Mutation', updatePostAttachment: { __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, fileUrl?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any } };
 
 export type AllowedPostAttachmentMimeTypesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -371,14 +371,14 @@ export type PostQueryVariables = Exact<{
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post: { __typename?: 'Post', author: string, content: string, createdAt: any, id: string, subject: string, updatedAt: any, attachments: { __typename?: 'PaginatedAttachments', total: number, data: Array<{ __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null, fileUrl?: string | null, filename?: string | null, id: string, title?: string | null, updatedAt: any }> } } };
+export type PostQuery = { __typename?: 'Query', post: { __typename?: 'Post', author: string, content: string, createdAt: any, id: string, subject: string, updatedAt: any, attachments: { __typename?: 'PaginatedAttachments', total: number, data: Array<{ __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, fileUrl?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any }> } } };
 
 export type PostAttachmentQueryVariables = Exact<{
   input: ReadPostAttachmentInput;
 }>;
 
 
-export type PostAttachmentQuery = { __typename?: 'Query', postAttachment: { __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null, fileUrl?: string | null, filename?: string | null, id: string, title?: string | null, updatedAt: any } };
+export type PostAttachmentQuery = { __typename?: 'Query', postAttachment: { __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, fileUrl?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any } };
 
 export type PostsQueryVariables = Exact<{
   filterGroups: Array<FilterGroup> | FilterGroup;
@@ -389,7 +389,7 @@ export type PostsQueryVariables = Exact<{
 }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', total: number, data: Array<{ __typename?: 'Post', author: string, content: string, createdAt: any, id: string, subject: string, updatedAt: any, attachments: { __typename?: 'PaginatedAttachments', total: number, data: Array<{ __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null, fileUrl?: string | null, filename?: string | null, id: string, title?: string | null, updatedAt: any }> } }> } };
+export type PostsQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', total: number, data: Array<{ __typename?: 'Post', author: string, content: string, createdAt: any, id: string, subject: string, updatedAt: any, attachments: { __typename?: 'PaginatedAttachments', total: number, data: Array<{ __typename?: 'Attachment', contentType: string, createdAt: any, description?: string | null | undefined, fileUrl?: string | null | undefined, filename?: string | null | undefined, id: string, title?: string | null | undefined, updatedAt: any }> } }> } };
 
 
 export const CreatePostDocument = gql`
