@@ -353,7 +353,7 @@ fi
 
 # github
 if [[ $ci != "github" ]] && [[ $template_default_ci_provider_prod != "github" ]]; then
-  rm -rf .github
+  rm -rf .github/workflows
 fi
 
 # gitlab
