@@ -174,7 +174,8 @@ export const getSecrets = async () => {
       : undefined,
     REDIS_PASSWORD: await readSecret('REDIS_PASSWORD'),
     BUCKET_KEY_SECRET: await readSecret('BUCKET_KEY_SECRET'),
-    SESSION: await readMandatorySecret('SESSION'),
+    SESSION_SECRET: await readMandatorySecret('SESSION_SECRET'),
+    EXAMPLE_SECRET: await readMandatorySecret('EXAMPLE_SECRET'),
   };
 
   if (!secrets) {

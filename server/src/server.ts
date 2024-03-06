@@ -45,7 +45,7 @@ async function setupServer() {
   server.use(dbTransactionMiddleware);
   server.use(
     jwt({
-      secret: secrets.SESSION,
+      secret: secrets.SESSION_SECRET,
       passthrough: true,
       key: 'user',
       cookie: 'session',

@@ -110,6 +110,7 @@ services:
     secrets:
       - DATABASE_PASSWORD
       - REDIS_PASSWORD
+      - SESSION_SECRET
       - EXAMPLE_SECRET
     environment:
       # Paths and bind
@@ -313,10 +314,10 @@ secrets:
     file: ./secrets/${taito_env}/${db_database_app_secret}
   REDIS_PASSWORD:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-redis.password
-  EXAMPLE_SECRET:
-    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-example.secret
   SESSION_SECRET:
     file: ./secrets/${taito_env}/${taito_project}-${taito_env}-session.secret
+  EXAMPLE_SECRET:
+    file: ./secrets/${taito_env}/${taito_project}-${taito_env}-example.secret
 
 networks:
   default:
