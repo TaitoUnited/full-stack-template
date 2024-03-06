@@ -264,7 +264,7 @@ export type QueryPostsArgs = {
   filterGroups?: Array<FilterGroup>;
   order?: Order;
   pagination?: Pagination;
-  search: Scalars['String'];
+  search?: InputMaybe<Scalars['String']>;
 };
 
 export type ReadPostAttachmentInput = {
@@ -384,7 +384,7 @@ export type PostsQueryVariables = Exact<{
   filterGroups: Array<FilterGroup> | FilterGroup;
   order: Order;
   pagination: Pagination;
-  search: Scalars['String'];
+  search?: InputMaybe<Scalars['String']>;
   attachmentOrder?: InputMaybe<Order>;
 }>;
 
@@ -536,7 +536,7 @@ export const PostAttachmentDocument = gql`
 }
     `;
 export const PostsDocument = gql`
-    query posts($filterGroups: [FilterGroup!]!, $order: Order!, $pagination: Pagination!, $search: String!, $attachmentOrder: Order) {
+    query posts($filterGroups: [FilterGroup!]!, $order: Order!, $pagination: Pagination!, $search: String, $attachmentOrder: Order) {
   posts(
     filterGroups: $filterGroups
     order: $order
