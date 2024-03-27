@@ -41,6 +41,9 @@ echo "[Copy files in ${deploy_temp_dir}]"
   mkdir -p "${deploy_temp_dir}"
   echo docker-compose-remote.yaml
   cp docker-compose-remote.yaml "${deploy_temp_dir}"
+  if [[ -f REMOTE.md ]]; then
+    cp REMOTE.md "${deploy_temp_dir}/README.md" 2> /dev/null
+  fi
   if [[ -f docker-crontab ]]; then
     cp docker-crontab "${deploy_temp_dir}" 2> /dev/null
   fi
