@@ -7,7 +7,7 @@ import { css } from '~styled-system/css';
 export const inputWrapperStyles = css({
   display: 'flex',
   flexDirection: 'column',
-  gap: '$xxsmall',
+  gap: '$xxs',
 });
 
 export const baseInputStyles = css({
@@ -16,21 +16,21 @@ export const baseInputStyles = css({
   padding: '$small',
   width: '100%',
   color: '$text',
-  borderRadius: '$normal',
-  border: '1px solid token(colors.$border)',
+  borderRadius: '$regular',
+  border: '1px solid token($colors.line3)',
   outlineOffset: 'calc(0px - var(--outline-width))',
 
   '&:focus': {
     '--outline-width': '2px',
     borderColor: 'transparent',
-    outline: 'var(--outline-width) solid token(colors.$primary)',
+    outline: 'var(--outline-width) solid token($colors.focusRing)',
   },
   '&[aria-invalid="true"], &[data-invalid="true"]': {
     borderColor: 'transparent',
-    outline: 'var(--outline-width) solid token(colors.$error)',
+    outline: 'var(--outline-width) solid token($colors.error)',
   },
   '&[disabled]': {
-    backgroundColor: '$muted6',
+    backgroundColor: '$neutral5',
     cursor: 'not-allowed',
   },
 });
@@ -41,7 +41,7 @@ export const baseInputStyles = css({
 export const labelStyles = css({
   textStyle: '$body',
   color: '$text',
-  marginBottom: '$xxsmall',
+  marginBottom: '$xxs',
 
   '&[data-required="true"]': {
     '&:after': {
@@ -52,7 +52,7 @@ export const labelStyles = css({
 
 export const inputIconLeftStyles = css({
   position: 'absolute',
-  left: '$normal',
+  left: '$regular',
   top: '50%',
   transform: 'translateY(-50%)',
   pointerEvents: 'none',
@@ -60,7 +60,7 @@ export const inputIconLeftStyles = css({
 
 export const inputIconRightStyles = css({
   position: 'absolute',
-  right: '$normal',
+  right: '$regular',
   top: '50%',
   transform: 'translateY(-50%)',
   pointerEvents: 'none',
@@ -89,30 +89,30 @@ export const ErrorText = ({
       display: 'flex',
       alignItems: 'center',
       '& > svg': {
-        marginRight: '$xxsmall',
+        marginRight: '$xxs',
       },
     })}
   >
-    <Icon name="warningTriangle" size={14} color="error" />
+    <Icon name="warning" size={14} color="error" />
     {children}
   </Text>
 );
 
 export const listBoxStyles = css({
   width: 'var(--trigger-width)' /* magical var from react-aria */,
-  padding: '$xsmall',
-  border: '1px solid',
-  borderColor: '$border',
-  borderRadius: '$normal',
-  backgroundColor: '$elevated',
-  boxShadow: '$normal',
+  padding: '$xs',
+  borderWidth: '1px',
+  borderColor: '$line3',
+  borderRadius: '$regular',
+  backgroundColor: '$surface',
+  boxShadow: '$regular',
   outline: 'none',
 
   /* The 'Item' component isn't the actual thing that gets rendered, so we need
    * to style it indirectly */
   '& .react-aria-Item': {
     position: 'relative',
-    paddingBlock: '$xsmall',
+    paddingBlock: '$xs',
     paddingRight: '$small',
     paddingLeft: '$medium',
     borderRadius: '$small',

@@ -64,7 +64,7 @@ const ButtonContent = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const _style = {
       ...style,
-      '--outline-color': token.var(`colors.$${variant}`),
+      '--outline-color': token.var(`$colors.${variant}`),
     } as CSSProperties;
 
     const Element = asLink ? ButtonLink : 'button';
@@ -80,7 +80,7 @@ const ButtonContent = forwardRef<HTMLButtonElement, ButtonProps>(
         className={_className}
         style={_style}
       >
-        <Stack direction="row" gap="$xsmall" align="center" justify="center">
+        <Stack direction="row" gap="$xs" align="center" justify="center">
           {iconPlacement === 'left' && iconComp}
           <span>{children}</span>
           {iconPlacement === 'right' && iconComp}
@@ -104,14 +104,14 @@ const buttonSizeToSpinnerSize: { [size in ButtonSize]: SpinnerSize } = {
 
 const styles = cva({
   base: {
-    $hoverHighlight: '',
+    $hoverHighlight: true,
     position: 'relative',
     display: 'inline-flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     margin: 0,
-    borderRadius: '$normal',
+    borderRadius: '$regular',
     textDecoration: 'none',
     outlineOffset: '2px',
     cursor: 'pointer',
@@ -127,8 +127,8 @@ const styles = cva({
     size: {
       small: {
         height: '$buttonHeightSmall',
-        paddingLeft: '$normal',
-        paddingRight: '$normal',
+        paddingLeft: '$regular',
+        paddingRight: '$regular',
         textStyle: '$bodySmall',
       },
       normal: {

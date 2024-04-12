@@ -61,7 +61,7 @@ function BreadcrumbLink({
         <Icon
           name="chevronRight"
           size={16}
-          color="muted1"
+          color="neutral1"
           aria-hidden="true"
           className="breadcrumb-separator"
         />
@@ -73,7 +73,7 @@ function BreadcrumbLink({
 const BreadcrumbList = styled('ol', {
   base: {
     display: 'flex',
-    padding: '$normal',
+    padding: '$regular',
   },
 });
 
@@ -89,7 +89,7 @@ const BreadcrumbItem = styled('li', {
     },
 
     '& .breadcrumb-separator': {
-      margin: '0px token(spacing.$xxsmall)',
+      margin: '0px token(spacing.$xxs)',
     },
   },
 

@@ -13,14 +13,14 @@ export default function PostCreateFallback() {
       }}
     >
       <SkeletonPlaceholder width={340} height={48} borderRadius="small" />
-      <Stack direction="column" gap="$normal">
-        <SkeletonPlaceholder height={52} borderRadius="normal" />
-        <SkeletonPlaceholder height={52} borderRadius="normal" />
-        <SkeletonPlaceholder height={112} borderRadius="normal" />
+      <Stack direction="column" gap="$regular">
+        <SkeletonPlaceholder height={52} borderRadius="regular" />
+        <SkeletonPlaceholder height={52} borderRadius="regular" />
+        <SkeletonPlaceholder height={112} borderRadius="regular" />
         <SkeletonPlaceholder
           width={116}
           height={44}
-          borderRadius="normal"
+          borderRadius="regular"
           style={{ alignSelf: 'flex-end' }}
         />
       </Stack>

@@ -59,7 +59,7 @@ const Select = forwardRef<HTMLDivElement, Props>(
           <Icon
             name={icon}
             size={20}
-            color="muted1"
+            color="neutral1"
             className={inputIconLeftStyles}
           />
         )}
@@ -71,9 +71,9 @@ const Select = forwardRef<HTMLDivElement, Props>(
             baseInputStyles,
             css({
               textAlign: 'left',
-              paddingRight: '$xlarge!',
-              '&[data-has-icon="true"]': { paddingLeft: '$xlarge' },
-              '& > *[data-placeholder]': { color: '$muted1' },
+              paddingRight: '$xl!',
+              '&[data-has-icon="true"]': { paddingLeft: '$xl' },
+              '& > *[data-placeholder]': { color: '$neutral1' },
             })
           )}
         >
@@ -83,7 +83,7 @@ const Select = forwardRef<HTMLDivElement, Props>(
         <Icon
           name="chevronDown"
           size={20}
-          color="muted1"
+          color="neutral1"
           className={inputIconRightStyles}
         />
       </div>

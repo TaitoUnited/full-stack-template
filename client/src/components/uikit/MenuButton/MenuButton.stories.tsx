@@ -9,7 +9,7 @@ export default {
 
 export function Example() {
   return (
-    <Stack direction="column" gap="$xlarge">
+    <Stack direction="column" gap="$xl">
       <Stack direction="row" gap="$small" align="center">
         <Text variant="body">Menu button with default trigger</Text>
         <MenuButton
@@ -46,7 +46,7 @@ const menuButtonStyles = css({
   width: 'auto',
   height: 'auto',
   borderRadius: '$small',
-  border: '1px solid',
-  borderColor: '$muted1',
-  padding: '$xsmall',
+  borderWidth: '1px',
+  borderColor: '$neutral1',
+  padding: '$xs',
 });

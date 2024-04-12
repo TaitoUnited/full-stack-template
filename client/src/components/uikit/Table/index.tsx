@@ -47,8 +47,8 @@ export default function Table({
 
 const wrapperStyles = css({
   width: '100%',
-  border: '1px solid',
-  borderColor: '$border',
+  borderWidth: '1px',
+  borderColor: '$line3',
   borderRadius: '$small',
   overflow: 'hidden',
 });
@@ -60,20 +60,20 @@ const tableStyles = cva({
 
     '& .react-aria-TableHeader': {
       borderBottom: '1px solid',
-      borderColor: '$border',
-      backgroundColor: '$muted5',
+      borderColor: '$line3',
+      backgroundColor: '$neutral5',
       textStyle: '$bodyBold',
     },
 
     '& .react-aria-Column': {
       textAlign: 'left',
       paddingBlock: '$small',
-      paddingInline: '$normal',
+      paddingInline: '$regular',
     },
 
     '& .react-aria-Row': {
       borderBottom: '1px solid',
-      borderColor: '$border',
+      borderColor: '$line3',
 
       '&:nth-child(even)': {
         backgroundColor: 'var(--stripe-color, transparent)',
@@ -83,13 +83,13 @@ const tableStyles = cva({
     '& .react-aria-Cell': {
       textStyle: '$body',
       paddingBlock: '$small',
-      paddingInline: '$normal',
+      paddingInline: '$regular',
     },
   },
   variants: {
     striped: {
       true: {
-        '--stripe-color': 'token(colors.$muted6)',
+        '--stripe-color': 'token($colors.neutral5)',
       },
     },
   },

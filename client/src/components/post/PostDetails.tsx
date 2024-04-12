@@ -18,9 +18,9 @@ export default function PostDetails({
   return (
     <article>
       <Stack direction="column" gap="$medium">
-        <Text variant="title1">{subject}</Text>
+        <Text variant="headingXl">{subject}</Text>
 
-        <Text variant="bodySmall" color="muted1">
+        <Text variant="bodySmall" color="neutral1">
           {format(new Date(createdAt), 'MMM d, yyyy')} | {author}
         </Text>
 

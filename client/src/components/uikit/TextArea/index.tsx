@@ -39,8 +39,8 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
     const { inputProps, labelProps, descriptionProps, errorMessageProps } =
       useTextField(
         {
-          ...rest,
-          validationState: errorMessage ? 'invalid' : 'valid',
+          ...(rest as any),
+          isInvalid: !!errorMessage,
           inputElementType: 'textarea',
         },
         ref as any
@@ -62,7 +62,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
            * with react-aria-components: https://github.com/adobe/react-spectrum/issues/4595
            */}
           <textarea
-            {...inputProps}
+            {...(inputProps as any)}
             ref={ref}
             placeholder={placeholder}
             className={baseInputStyles}

@@ -10,17 +10,17 @@ export default {
 export function Example() {
   return (
     <Wrapper>
-      <Stack direction="column" gap="$xlarge">
+      <Stack direction="column" gap="$xl">
         <SkeletonPlaceholder width={400} height={40} borderRadius="small" />
 
-        <Stack direction="row" gap="$xlarge">
+        <Stack direction="row" gap="$xl">
           <SkeletonPlaceholder width={200} height={200} borderRadius="full" />
           <Stack direction="column" gap="$large" style={{ flexGrow: 1 }}>
-            <SkeletonPlaceholder height={200} borderRadius="normal" />
+            <SkeletonPlaceholder height={200} borderRadius="regular" />
             <SkeletonPlaceholder
               width={500}
               height={100}
-              borderRadius="normal"
+              borderRadius="regular"
             />
           </Stack>
         </Stack>

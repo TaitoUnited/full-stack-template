@@ -1,26 +1,22 @@
 import logoImg from '../../images/logo.svg';
 import { Stack, Text } from '~uikit';
 import { styled } from '~styled-system/jsx';
-import ColorModeButton from '~components/common/ColorModeButton';
 import LangMenuButton from '~components/common/LangMenuButton';
 
 export default function Toolbar() {
   return (
     <Wrapper>
-      <Stack direction="row" gap="$normal" align="center">
+      <Stack direction="row" gap="$regular" align="center">
         <LogoWrapper>
           <LogoImg src={logoImg} />
         </LogoWrapper>
 
-        <Text variant="bodyBold" color="primary">
+        <Text variant="bodyBold" color="brand">
           Taito Fullstack Template
         </Text>
       </Stack>
 
-      <Stack direction="row" gap="$normal" align="center">
-        <ColorModeButton />
-        <LangMenuButton />
-      </Stack>
+      <LangMenuButton />
     </Wrapper>
   );
 }
@@ -31,10 +27,10 @@ const Wrapper = styled('header', {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '$normal',
+    padding: '$regular',
     backgroundColor: '$surface',
     borderBottom: '1px solid',
-    borderColor: '$border',
+    borderColor: '$line3',
   },
 });
 

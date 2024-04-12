@@ -62,9 +62,9 @@ const FloatingButton = forwardRef<HTMLButtonElement, Props>(
 
     const _style = {
       ...style,
-      color: token.var(`colors.$${variant}Text`),
-      backgroundColor: token.var(`colors.$${variant}Muted`),
-      '--outline-color': token.var(`colors.$${variant}`),
+      color: token.var(`$colors.${variant}Contrast`),
+      backgroundColor: token.var(`$colors.${variant}Muted`),
+      '--outline-color': token.var(`$colors.${variant}`),
     } as CSSProperties;
 
     const Element = asLink ? ButtonLink : 'button';
@@ -90,7 +90,7 @@ const FloatingButton = forwardRef<HTMLButtonElement, Props>(
 
 const styles = cva({
   base: {
-    $hoverHighlight: '',
+    $hoverHighlight: true,
     position: 'relative',
     display: 'inline-flex',
     flexDirection: 'row',

@@ -28,13 +28,13 @@ export default function PostListPage({ loaderData }: Props) {
   return (
     <>
       <Stack direction="column" gap="$large">
-        <Text variant="title1">
+        <Text variant="headingXl">
           <Trans>Blog</Trans>
         </Text>
 
         {posts.length > 0 ? (
           <ul
-            className={stack({ gap: '$normal', alignItems: 'stretch' })}
+            className={stack({ gap: '$regular', alignItems: 'stretch' })}
             data-test-id="post-list"
           >
             {posts.map(post => (
@@ -57,7 +57,7 @@ export default function PostListPage({ loaderData }: Props) {
         <NewPostButton>
           <FloatingButton
             variant="primary"
-            icon="pencil"
+            icon="pen"
             label="New post"
             data-test-id="navigate-to-create-post"
             asLink={{ to: 'create', preloadOn: 'hover' }}

@@ -96,7 +96,7 @@ const Button = styled('button', {
     padding: '$small',
     backgroundColor: '$errorMuted',
     color: '$errorText',
-    borderRadius: '$normal',
+    borderRadius: '$regular',
   },
 });
 

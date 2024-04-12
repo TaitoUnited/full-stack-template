@@ -21,7 +21,7 @@ function Icon({ name, size, color, style, ...rest }: Props) {
         color:
           color === 'currentColor'
             ? 'currentColor'
-            : token.var(`colors.$${color}`),
+            : token.var(`$colors.${color}`),
       }}
       {...rest}
       aria-hidden

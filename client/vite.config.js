@@ -48,6 +48,7 @@ export default defineConfig(({ mode }) => ({
       plugins: [
         pandaCss({
           configPath: './styled-system/setup/config.ts',
+          cwd: __dirname,
         }),
       ],
     },

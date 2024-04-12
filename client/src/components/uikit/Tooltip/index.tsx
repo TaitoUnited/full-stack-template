@@ -94,9 +94,9 @@ const TooltipContent = styled('span', {
   base: {
     display: 'inline-flex',
     color: '$text',
-    backgroundColor: '$elevated',
+    backgroundColor: '$surface',
     boxShadow: '$small',
-    paddingBlock: '$xsmall',
+    paddingBlock: '$xs',
     paddingInline: '$small',
     borderRadius: '$full',
     whiteSpace: 'nowrap',

@@ -11,7 +11,6 @@ function getIconSpriteLink(sprite) {
 
 export function taitoHtmlFragmentsPlugin() {
   const iconSpriteSvg = fs.readFileSync('./assets/icon-sprite.svg', 'utf8');
-  const initiaThemeScript = fs.readFileSync('./plugins/html-fragments-plugin/initial-theme.html', 'utf8'); // prettier-ignore
   const splashScreenCSS = fs.readFileSync('./plugins/html-fragments-plugin/SplashScreen.css', 'utf8'); // prettier-ignore
   const splashScreenStylesHTML = `<style>${splashScreenCSS}</style>`;
   const splashScreenHTML = renderToStaticMarkup(<SplashScreen />);
@@ -20,7 +19,6 @@ export function taitoHtmlFragmentsPlugin() {
     name: 'taito-html-fragments-plugin',
     transformIndexHtml(html) {
       return html
-        .replace('<!-- initial-theme -->', initiaThemeScript)
         .replace('<!-- splash-screen -->', splashScreenHTML)
         .replace('<!-- splash-screen-styles -->', splashScreenStylesHTML)
         .replace('<!-- icon-sprite.html -->', getIconSpriteLink(iconSpriteSvg))

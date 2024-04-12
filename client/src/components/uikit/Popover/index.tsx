@@ -71,9 +71,9 @@ const Wrapper = styled('div', {
     zIndex: 1,
     position: 'absolute',
     boxShadow: '$large',
-    backgroundColor: '$elevated',
-    borderRadius: '$normal',
-    $focusRing: '',
+    backgroundColor: '$surface',
+    borderRadius: '$regular',
+    $focusRing: true,
   },
 });
 

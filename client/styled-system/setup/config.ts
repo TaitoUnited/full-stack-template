@@ -4,16 +4,16 @@ import * as helpers from './helpers';
 import * as utilities from './utilities';
 import * as shadows from '../tokens/shadows';
 import * as colors from '../tokens/colors';
-import * as spacing from '../tokens/spacing';
+import * as spacing from '../tokens/spacing.json';
 import * as sizes from '../tokens/sizes';
 import * as radii from '../tokens/radii';
-import { web as typography } from '../tokens/typography';
+import * as typography from '../tokens/typography';
 import { globalCss } from './global';
 
 const isProd = process.env.NODE_ENV === 'production';
 
 export default defineConfig({
-  cwd: './',
+  importMap: '~styled-system',
 
   // The output directory for your css system
   outdir: 'styled-system/generated',
@@ -34,6 +34,7 @@ export default defineConfig({
 
   // Files to exclude
   exclude: [
+    './src/styled-system/**/*',
     './src/locales/**/*',
     './src/images/**/*',
     './src/graphql/**/*',
@@ -41,15 +42,11 @@ export default defineConfig({
   ],
 
   jsxFramework: 'react',
+  jsxStyleProps: 'none',
 
   globalCss,
 
   utilities,
-
-  conditions: {
-    light: '[data-color-scheme=light] &',
-    dark: '[data-color-scheme=dark] &',
-  },
 
   theme: {
     breakpoints: {
@@ -61,30 +58,34 @@ export default defineConfig({
     },
 
     tokens: {
+      colors: helpers.transformColors(colors),
       shadows: {
-        $none: { value: 'none' },
+        none: { value: 'none' },
         ...helpers.transformShadows(shadows),
       },
       radii: {
-        $none: { value: '0rem' },
+        none: { value: '0rem' },
         ...helpers.transformNumberTokens(radii, value => `${value}px`),
       },
       sizes: {
-        $none: { value: '0rem' },
+        none: { value: '0rem' },
         ...helpers.transformNumberTokens(sizes, value => `${value / 16}rem`),
       },
       spacing: {
-        $none: { value: '0rem' },
+        none: { value: '0rem' },
         ...helpers.transformNumberTokens(spacing, value => `${value / 16}rem`),
       },
     },
 
-    // Colors need to be defined inside `semanticTokens` if you want to specify
-    // both light and dark mode values
-    semanticTokens: {
-      colors: helpers.transformColors(colors),
-    },
-
     textStyles: helpers.transformTypography(typography),
+  },
+
+  hooks: {
+    'tokens:created': ({ configure }) => {
+      configure({
+        // Add $ prefix to token names so that it is clear that they are tokens
+        formatTokenName: path => '$' + path.join('.'),
+      });
+    },
   },
 });

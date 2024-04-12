@@ -7,7 +7,7 @@ export default function NotFoundAuthenticatedPage() {
   useDocumentTitle('404');
 
   return (
-    <Text variant="title1">
+    <Text variant="headingXl">
       <Trans>404 - Not Found (authenticated)</Trans>
     </Text>
   );

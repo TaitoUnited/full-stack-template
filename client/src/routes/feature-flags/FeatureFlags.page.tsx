@@ -8,11 +8,11 @@ export default function FeatureFlags() {
 
   return (
     <Stack direction="column" gap="$large">
-      <Text variant="title1">
+      <Text variant="headingXl">
         <Trans>Feature flags</Trans>
       </Text>
 
-      <Stack direction="column" gap="$normal">
+      <Stack direction="column" gap="$regular">
         <Text variant="body" color="textMuted" lineHeight={1.5}>
           <Trans>
             This page is only accessible when <strong>feature-3</strong> is

@@ -23,7 +23,7 @@ export function Example() {
 
       <TextInput label="Erroring input" errorMessage="Please don't do this" />
 
-      <TextInput label="Icon input" icon="microphone" />
+      <TextInput label="Icon input" icon="comment" />
 
       <TextInput label="Password input" type="password" />
     </Stack>

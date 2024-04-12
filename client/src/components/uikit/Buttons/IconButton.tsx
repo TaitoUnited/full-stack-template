@@ -70,14 +70,14 @@ const IconButton = forwardRef<HTMLButtonElement, Props>(
 );
 
 const styles = css({
-  $focusRing: '',
-  $hoverHighlight: '',
+  $focusRing: true,
+  $hoverHighlight: true,
   position: 'relative',
   margin: 0,
   borderRadius: '50%',
   textDecoration: 'none',
   cursor: 'pointer',
-  padding: '$xsmall',
+  padding: '$xs',
   '&:active': {
     opacity: 0.8,
   },

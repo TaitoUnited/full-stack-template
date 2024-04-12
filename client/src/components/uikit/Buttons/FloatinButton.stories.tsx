@@ -14,7 +14,7 @@ export function AllVariants() {
   return (
     <Stack direction="row" gap="$large">
       {buttons.map(variant => (
-        <Stack key={variant} direction="row" gap="$normal" align="flex-start">
+        <Stack key={variant} direction="row" gap="$regular" align="flex-start">
           <FloatingButton
             icon="bell"
             variant={variant}
@@ -31,9 +31,9 @@ export function AllVariants() {
 export function AllStates() {
   return (
     <Stack direction="column" gap="$large" align="flex-start">
-      <Stack direction="row" gap="$normal" align="flex-start">
+      <Stack direction="row" gap="$regular" align="flex-start">
         <FloatingButton
-          icon="clock"
+          icon="check"
           variant="primary"
           loading
           onClick={() => console.log('Filled')}
@@ -42,7 +42,7 @@ export function AllStates() {
         />
 
         <FloatingButton
-          icon="heartFilled"
+          icon="personCircle"
           variant="primary"
           disabled
           onClick={() => console.log('Filled')}

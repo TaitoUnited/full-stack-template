@@ -10,7 +10,7 @@ export const globalCss = defineGlobalStyles({
     height: '100%',
     minHeight: '100%',
     fontFamily: "'Inter', sans-serif",
-    backgroundColor: '$background',
+    backgroundColor: '$surface',
     WebkitFontSmoothing: 'antialiased',
     MozOsxFontSmoothing: 'grayscale',
     WebkitOverflowScrolling: 'touch',
@@ -37,6 +37,7 @@ export const globalCss = defineGlobalStyles({
 
   '*': {
     boxSizing: 'border-box',
+    borderStyle: 'solid',
   },
 
   'ul, ol': {
@@ -51,7 +52,8 @@ export const globalCss = defineGlobalStyles({
   },
 
   button: {
-    border: 'none',
+    borderWidth: 0,
+    borderStyle: 'solid',
     background: 'none',
     padding: 0,
     cursor: 'pointer',

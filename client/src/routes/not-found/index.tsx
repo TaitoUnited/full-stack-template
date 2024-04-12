@@ -7,7 +7,7 @@ export default function NotFoundPage() {
   useDocumentTitle('404');
 
   return (
-    <Text variant="title1">
+    <Text variant="headingXl">
       <Trans>404 - Not Found</Trans>
     </Text>
   );

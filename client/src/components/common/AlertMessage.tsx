@@ -10,15 +10,13 @@ export default function AlertMessage({
   message: string;
 }) {
   const icon: IconName =
-    variant === 'info' || variant === 'success'
-      ? 'infoFilled'
-      : 'warningTriangle';
+    variant === 'info' || variant === 'success' ? 'info' : 'warning';
 
   return (
     <Wrapper bg={variant}>
-      <Stack direction="row" gap="$normal" align="center">
+      <Stack direction="row" gap="$regular" align="center">
         <Icon name={icon} color={variant} size={24} />
-        <Text variant="body" color={`${variant}Text`}>
+        <Text variant="body" color={`${variant}Contrast`}>
           {message}
         </Text>
       </Stack>
@@ -29,14 +27,27 @@ export default function AlertMessage({
 const Wrapper = styled('div', {
   base: {
     padding: '$medium',
-    borderRadius: '$normal',
+    borderRadius: '$regular',
+    borderWidth: '1px',
   },
   variants: {
     bg: {
-      info: { backgroundColor: '$infoMuted' },
-      success: { backgroundColor: '$successMuted' },
-      warn: { backgroundColor: '$warnMuted' },
-      error: { backgroundColor: '$errorMuted' },
+      info: {
+        backgroundColor: '$infoMuted',
+        borderColor: '$info',
+      },
+      success: {
+        backgroundColor: '$successMuted',
+        borderColor: '$success',
+      },
+      warn: {
+        backgroundColor: '$warnMuted',
+        borderColor: '$warn',
+      },
+      error: {
+        backgroundColor: '$errorMuted',
+        borderColor: '$error',
+      },
     },
   },
 });

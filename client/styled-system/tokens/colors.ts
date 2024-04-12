@@ -1,104 +1,78 @@
 /* eslint-disable */
-export const dark = {
-  border: 'rgba(150, 150, 150, 0.3)',
-  warn: '#fbbf24',
-  successMuted: '#193328',
-  infoText: '#81aef7',
-  hoverHighlight: 'rgba(150, 150, 150, 0.08)',
-  textMuted: '#999999',
-  muted5: '#2c2c2e',
-  successText: '#1ee8a5',
-  infoMuted: '#1b2940',
-  info: '#3b82f6',
-  background: '#111111',
-  backdrop: 'rgba(0, 0, 0, 0.5)',
-  surface: '#222222',
-  text: '#ffffff',
-  muted6: '#1d1d1f',
-  muted1: '#8e8e93',
-  primaryMuted: '#24392a',
-  primary: '#009a48',
-  muted2: '#636366',
-  errorText: '#ff7070',
-  warnMuted: '#40351a',
-  primaryText: '#1cff87',
-  warnText: '#ffc93d',
-  success: '#10b981',
-  elevated: '#333333',
-  muted3: '#48484a',
-  error: '#ef4444',
-  errorMuted: '#3e1c1d',
-  focusRing: '#009a48',
-  pressHighlight: 'rgba(150, 150, 150, 0.2)',
-  muted4: '#3a3a3c',
+export const brand = {
+  "brand": "#009a48",
+  "brandContrast": "#066531",
+  "brandContrastHover": "#035827",
+  "brandHover": "#00813c",
+  "brandMuted": "#def2e7",
+  "brandMutedHover": "#d1eadc"
 };
-export const envStaging = '#9a008b';
-export const envTest = '#009a9a';
-export const light = {
-  muted5: '#e5e5ea',
-  hoverHighlight: 'rgba(150, 150, 150, 0.1)',
-  warn: '#fbbf24',
-  focusRing: '#009a48',
-  errorText: '#8c0606',
-  border: 'rgba(150, 150, 150, 0.3)',
-  pressHighlight: 'rgba(150, 150, 150, 0.2)',
-  backdrop: 'rgba(0, 0, 0, 0.5)',
-  primaryText: '#015227',
-  warnMuted: '#f3ead1',
-  primary: '#009a48',
-  background: '#f3f4f6',
-  errorMuted: '#f3d2d3',
-  successText: '#06734e',
-  successMuted: '#cee8df',
-  infoMuted: '#cfdef7',
-  infoText: '#0a45a6',
-  muted2: '#aeaeb2',
-  success: '#10b981',
-  elevated: '#ffffff',
-  info: '#3b82f6',
-  surface: '#ffffff',
-  text: '#222222',
-  muted3: '#c7c7cc',
-  muted6: '#f2f2f7',
-  muted4: '#d1d1d6',
-  textMuted: '#666666',
-  warnText: '#8a6200',
-  primaryMuted: '#d6ebdb',
-  error: '#ef4444',
-  muted1: '#8e8e93',
+export const error = {
+  "error": "#c53535",
+  "errorContrast": "#870d0d",
+  "errorContrastHover": "#750a0a",
+  "errorHover": "#b93131",
+  "errorMuted": "#f9e2e3",
+  "errorMutedHover": "#f4c6c8"
+};
+export const info = {
+  "info": "#2e72e1",
+  "infoContrast": "#0c47a7",
+  "infoContrastHover": "#0b4199",
+  "infoHover": "#2063d2",
+  "infoMuted": "#e7effd",
+  "infoMutedHover": "#dae7fd"
+};
+export const line = {
+  "focusRing": "#296bd7",
+  "line1": "rgba(0, 0, 0, 0.5)",
+  "line2": "rgba(0, 0, 0, 0.25)",
+  "line3": "rgba(0, 0, 0, 0.1)"
+};
+export const neutral = {
+  "neutral1": "#55575e",
+  "neutral2": "#92969d",
+  "neutral3": "#d4d6db",
+  "neutral4": "#e4e5e9",
+  "neutral5": "#f0f1f5",
+  "surface": "#ffffff",
+  "surfaceHover": "#f5f6fa"
+};
+export const primary = {
+  "primary": "#296bd7",
+  "primaryContrast": "#124598",
+  "primaryContrastHover": "#08357f",
+  "primaryHover": "#1857be",
+  "primaryMuted": "#ebf3ff",
+  "primaryMutedDarker": "#cedef8",
+  "primaryMutedHover": "#dee9fd"
+};
+export const success = {
+  "success": "#099566",
+  "successContrast": "#00573a",
+  "successContrastHover": "#004d34",
+  "successHover": "#05865c",
+  "successMuted": "#ddf1ea",
+  "successMutedHover": "#c1e6d9"
+};
+export const text = {
+  "text": "#000000",
+  "textDisabled": "#7d7f85",
+  "textMuted": "#55575e",
+  "textOnContrastingBg": "#ffffff"
+};
+export const visualization = {
+  "mint": "#27caa3",
+  "pink": "#e04f83",
+  "purple": "#9d2389"
+};
+export const warn = {
+  "warn": "#b98604",
+  "warnContrast": "#614500",
+  "warnContrastHover": "#573d00",
+  "warnHover": "#a07403",
+  "warnMuted": "#f3ead1",
+  "warnMutedHover": "#ede0bd"
 };
 
-export type ColorsToken =
-  | 'backdrop'
-  | 'background'
-  | 'border'
-  | 'elevated'
-  | 'envStaging'
-  | 'envTest'
-  | 'error'
-  | 'errorMuted'
-  | 'errorText'
-  | 'focusRing'
-  | 'hoverHighlight'
-  | 'info'
-  | 'infoMuted'
-  | 'infoText'
-  | 'muted1'
-  | 'muted2'
-  | 'muted3'
-  | 'muted4'
-  | 'muted5'
-  | 'muted6'
-  | 'pressHighlight'
-  | 'primary'
-  | 'primaryMuted'
-  | 'primaryText'
-  | 'success'
-  | 'successMuted'
-  | 'successText'
-  | 'surface'
-  | 'text'
-  | 'textMuted'
-  | 'warn'
-  | 'warnMuted'
-  | 'warnText';
+export type ColorsToken = "brand" | "brandContrast" | "brandContrastHover" | "brandHover" | "brandMuted" | "brandMutedHover" | "error" | "errorContrast" | "errorContrastHover" | "errorHover" | "errorMuted" | "errorMutedHover" | "focusRing" | "info" | "infoContrast" | "infoContrastHover" | "infoHover" | "infoMuted" | "infoMutedHover" | "line1" | "line2" | "line3" | "mint" | "neutral1" | "neutral2" | "neutral3" | "neutral4" | "neutral5" | "pink" | "primary" | "primaryContrast" | "primaryContrastHover" | "primaryHover" | "primaryMuted" | "primaryMutedDarker" | "primaryMutedHover" | "purple" | "success" | "successContrast" | "successContrastHover" | "successHover" | "successMuted" | "successMutedHover" | "surface" | "surfaceHover" | "text" | "textDisabled" | "textMuted" | "textOnContrastingBg" | "warn" | "warnContrast" | "warnContrastHover" | "warnHover" | "warnMuted" | "warnMutedHover";
