@@ -1,5 +1,5 @@
 import path from 'path';
-import react from '@vitejs/plugin-react-swc';
+import react from '@vitejs/plugin-react';
 import strip from '@rollup/plugin-strip';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import pandaCss from '@pandacss/dev/postcss';
@@ -82,8 +82,7 @@ export default defineConfig(({ mode }) => ({
     taitoHtmlFragmentsPlugin(),
     react({
       exclude: /\.stories\.(t|j)sx?$/, // Exclude Storybook stories
-      plugins: [['@lingui/swc-plugin', {}]],
-      jsxRuntime: mode === 'development' ? 'automatic' : 'classic',
+      babel: { plugins: ['macros'] },
     }),
     lingui(),
   ].filter(Boolean),
