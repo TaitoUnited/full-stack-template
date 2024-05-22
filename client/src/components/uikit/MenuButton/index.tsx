@@ -72,7 +72,7 @@ export default function MenuButton({
           <VisuallyHidden>{label}</VisuallyHidden>
           {children || (
             <Icon
-              name="ellipsisVertical"
+              name="moreVert"
               size={16}
               color={iconColor}
               aria-hidden="true"
@@ -217,17 +217,11 @@ const MenuButtonTrigger = styled('button', {
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: '$full',
-
-    '&:hover': {
-      backgroundColor: '$hoverHighlight',
-    },
-
-    '&:active': {
-      backgroundColor: '$pressHighlight',
-    },
+    $hoverHighlight: true,
+    $pressOpacity: true,
 
     '&.menu-button-trigger-focus': {
-      $focusRing: '',
+      $focusRing: true,
     },
   },
 });
@@ -237,9 +231,10 @@ const MenuPopupList = styled('ul', {
     overflow: 'hidden',
     outline: 'none',
     minWidth: '80px',
-    backgroundColor: '$elevated',
-    border: '1px solid',
-    borderColor: '$border',
+    padding: '$xxs',
+    backgroundColor: '$surface',
+    borderWidth: '1px',
+    borderColor: '$line3',
     borderRadius: '$small',
     boxShadow: '$large',
   },
@@ -251,13 +246,14 @@ const MenuItemWrapper = styled('li', {
     cursor: 'pointer',
     outline: 'none',
     color: '$text',
-    paddingBlock: '$xsmall',
-    paddingInline: '$normal',
+    paddingBlock: '$xs',
+    paddingInline: '$regular',
+    borderRadius: '$small',
   },
   variants: {
     isFocused: {
       true: {
-        backgroundColor: '$hoverHighlight',
+        backgroundColor: '$neutral5',
       },
       false: {
         backgroundColor: 'transparent',

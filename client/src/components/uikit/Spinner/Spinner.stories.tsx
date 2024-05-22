@@ -9,7 +9,7 @@ const colors = ['primary', 'text', 'info', 'warn', 'error'] as const;
 
 export function Colors() {
   return (
-    <Stack direction="row" gap="$normal">
+    <Stack direction="row" gap="$regular">
       {colors.map(color => (
         <Spinner key={color} color={color} size="large" />
       ))}

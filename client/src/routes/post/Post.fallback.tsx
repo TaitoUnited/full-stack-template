@@ -15,9 +15,9 @@ const rows = range(20).map(i => (
 export default function PostFallback() {
   return (
     <Stack direction="column" gap="$medium">
-      <SkeletonPlaceholder width={400} height={48} borderRadius="normal" />
+      <SkeletonPlaceholder width={400} height={48} borderRadius="regular" />
       <SkeletonPlaceholder width={150} height={12} borderRadius="small" />
-      <Stack direction="column" gap="$xsmall">
+      <Stack direction="column" gap="$xs">
         {rows}
       </Stack>
     </Stack>

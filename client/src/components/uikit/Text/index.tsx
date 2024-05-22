@@ -1,8 +1,8 @@
 import { memo, type CSSProperties, type HTMLAttributes } from 'react';
-import { TypographyToken } from '~design-tokens/typography';
 import { token, ColorToken } from '~styled-system/tokens';
 import { StyledSystemToken } from '~utils/styled-system';
 import { cx, cva } from '~styled-system/css';
+import { Typography } from '~design-tokens/types';
 
 type AllowedElement =
   | 'h1'
@@ -20,7 +20,7 @@ type AllowedElement =
   | 'sub';
 
 type Props = HTMLAttributes<HTMLSpanElement> & {
-  variant: TypographyToken;
+  variant: Typography;
   color?: StyledSystemToken<ColorToken>;
   align?: CSSProperties['textAlign'];
   lineHeight?: CSSProperties['lineHeight'];
@@ -46,7 +46,7 @@ function Text({
       style={{
         lineHeight,
         textAlign: align,
-        color: token.var(`colors.$${color}`),
+        color: token.var(`$colors.${color}`),
       }}
     >
       {children}
@@ -54,22 +54,33 @@ function Text({
   );
 }
 
-const variantToElement: { [key in TypographyToken]: Partial<AllowedElement> } =
-  {
-    largeTitle: 'h1',
-    title1: 'h1',
-    title2: 'h2',
-    title3: 'h3',
-    subtitle: 'strong',
-    overline: 'span',
-    caption: 'span',
-    body: 'span',
-    bodyBold: 'strong',
-    bodySmall: 'span',
-    bodySmallBold: 'strong',
-    bodyLarge: 'span',
-    bodyLargeBold: 'strong',
-  };
+const variantToElement: { [key in Typography]: Partial<AllowedElement> } = {
+  body: 'span',
+  bodyBold: 'strong',
+  bodyExtraSmall: 'span',
+  bodyExtraSmallBold: 'strong',
+  bodyLarge: 'span',
+  bodyLargeBold: 'strong',
+  bodySemiBold: 'strong',
+  bodySmall: 'span',
+  bodySmallBold: 'strong',
+  bodySmallSemiBold: 'strong',
+  displayExtraSmall: 'span',
+  displayLarge: 'span',
+  displaySmall: 'span',
+  headingL: 'h2',
+  headingM: 'h3',
+  headingS: 'h4',
+  headingXl: 'h1',
+  headingXxl: 'h1',
+  label: 'span',
+  lead: 'span',
+  leadBold: 'strong',
+  linkText: 'span',
+  linkTextHover: 'span',
+  overlineRegular: 'span',
+  overlineSmall: 'span',
+};
 
 const styles = cva({
   base: {
@@ -78,19 +89,31 @@ const styles = cva({
   },
   variants: {
     variant: {
-      largeTitle: { textStyle: '$largeTitle' },
-      title1: { textStyle: '$title1' },
-      title2: { textStyle: '$title2' },
-      title3: { textStyle: '$title3' },
-      subtitle: { textStyle: '$subtitle' },
-      overline: { textStyle: '$overline' },
-      caption: { textStyle: '$caption' },
       body: { textStyle: '$body' },
       bodyBold: { textStyle: '$bodyBold' },
-      bodySmall: { textStyle: '$bodySmall' },
-      bodySmallBold: { textStyle: '$bodySmallBold' },
+      bodyExtraSmall: { textStyle: '$bodyExtraSmall' },
+      bodyExtraSmallBold: { textStyle: '$bodyExtraSmallBold' },
       bodyLarge: { textStyle: '$bodyLarge' },
       bodyLargeBold: { textStyle: '$bodyLargeBold' },
+      bodySemiBold: { textStyle: '$bodySemiBold' },
+      bodySmall: { textStyle: '$bodySmall' },
+      bodySmallBold: { textStyle: '$bodySmallBold' },
+      bodySmallSemiBold: { textStyle: '$bodySmallSemiBold' },
+      displayExtraSmall: { textStyle: '$displayExtraSmall' },
+      displayLarge: { textStyle: '$displayLarge' },
+      displaySmall: { textStyle: '$displaySmall' },
+      headingL: { textStyle: '$headingL' },
+      headingM: { textStyle: '$headingM' },
+      headingS: { textStyle: '$headingS' },
+      headingXl: { textStyle: '$headingXl' },
+      headingXxl: { textStyle: '$headingXxl' },
+      label: { textStyle: '$label' },
+      lead: { textStyle: '$lead' },
+      leadBold: { textStyle: '$leadBold' },
+      linkText: { textStyle: '$linkText' },
+      linkTextHover: { textStyle: '$linkTextHover' },
+      overlineRegular: { textStyle: '$overlineRegular' },
+      overlineSmall: { textStyle: '$overlineSmall' },
     },
   },
 });

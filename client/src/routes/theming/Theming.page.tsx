@@ -11,7 +11,7 @@ export default function ThemingPage() {
   return (
     <Wrapper>
       <Stack direction="column" gap="$large">
-        <Text variant="title1">
+        <Text variant="headingXl">
           <Trans>Theming</Trans>
         </Text>
 

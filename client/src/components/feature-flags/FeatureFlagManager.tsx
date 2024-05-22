@@ -69,8 +69,8 @@ function FeatureFlagManagerWidget({ onClose }: { onClose: () => void }) {
         animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
         exit={{ opacity: 0, scale: 0, y: 200, x: 200 }}
       >
-        <Stack direction="column" gap="$normal">
-          <Text variant="title3">Feature flags</Text>
+        <Stack direction="column" gap="$regular">
+          <Text variant="headingM">Feature flags</Text>
 
           <Text variant="body" lineHeight={1.5}>
             Only features that are not enabled for the current env can be turned
@@ -79,7 +79,7 @@ function FeatureFlagManagerWidget({ onClose }: { onClose: () => void }) {
         </Stack>
 
         {features.length > 0 && (
-          <ul className={stack({ direction: 'column', gap: '$normal' })}>
+          <ul className={stack({ direction: 'column', gap: '$regular' })}>
             {features.map(({ feature, enabled }) => (
               <li key={feature}>
                 <Checkbox
@@ -107,7 +107,7 @@ function FeatureFlagManagerWidget({ onClose }: { onClose: () => void }) {
               <div />
             </Separator>
 
-            <ul className={stack({ direction: 'column', gap: '$normal' })}>
+            <ul className={stack({ direction: 'column', gap: '$regular' })}>
               {fixedFeatures.map(feature => (
                 <li key={feature}>
                   <Checkbox
@@ -133,7 +133,7 @@ function FeatureFlagManagerWidget({ onClose }: { onClose: () => void }) {
         )}
 
         <CloseButton>
-          <IconButton icon="x" label="Close" onClick={onClose} />
+          <IconButton icon="close" label="Close" onClick={onClose} />
         </CloseButton>
       </Widget>
     </Wrapper>
@@ -154,12 +154,12 @@ const Widget = styled(motion.div, {
     display: 'flex',
     flexDirection: 'column',
     gap: '$medium',
-    backgroundColor: '$elevated',
-    borderRadius: '$normal',
+    backgroundColor: '$surface',
+    borderRadius: '$regular',
     padding: '$medium',
     boxShadow: '$large',
-    border: '1px solid',
-    borderColor: '$border',
+    borderWidth: '1px',
+    borderColor: '$line3',
     maxWidth: '400px',
   },
 });
@@ -167,10 +167,10 @@ const Widget = styled(motion.div, {
 const FeatureName = styled('span', {
   base: {
     color: '$text',
-    backgroundColor: '$muted5',
-    paddingBlock: '$xxsmall',
-    paddingInline: '$xsmall',
-    borderRadius: '$normal',
+    backgroundColor: '$neutral5',
+    paddingBlock: '$xxs',
+    paddingInline: '$xs',
+    borderRadius: '$regular',
     textStyle: '$bodySmallBold',
     fontFamily: 'Menlo, monospace',
   },
@@ -184,7 +184,7 @@ const Separator = styled('div', {
     '& div:first-child, & div:last-child': {
       flex: 1,
       height: '1px',
-      backgroundColor: '$border',
+      backgroundColor: '$line3',
     },
     '& span': {
       paddingInline: '$small',

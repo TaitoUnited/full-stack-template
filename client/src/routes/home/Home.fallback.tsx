@@ -5,8 +5,8 @@ import { Stack, SkeletonPlaceholder } from '~uikit';
 
 export default function HomeFallback() {
   return (
-    <Stack direction="column" gap="$xlarge">
-      <Stack direction="column" gap="$normal">
+    <Stack direction="column" gap="$xl">
+      <Stack direction="column" gap="$regular">
         <SkeletonPlaceholder width={140} height={48} borderRadius="small" />
         <SkeletonPlaceholder width={300} height={24} borderRadius="small" />
         <SkeletonPlaceholder width={600} height={24} borderRadius="small" />
@@ -27,7 +27,7 @@ export default function HomeFallback() {
               key={i}
               width="100%"
               height={255}
-              borderRadius="normal"
+              borderRadius="regular"
             />
           ))}
         </Cards>
@@ -39,7 +39,7 @@ export default function HomeFallback() {
 const Cards = styled('div', {
   base: {
     display: 'grid',
-    gridGap: '$normal',
+    gridGap: '$regular',
     gridTemplateColumns: '50% 50%',
   },
 });

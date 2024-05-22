@@ -16,9 +16,9 @@ export default function LangMenuButton() {
         label: LOCALE_LABEL[locale],
       }))}
     >
-      <Stack direction="row" gap="$xxsmall" align="center">
-        <Icon name="languageGlobe" size={16} color="muted1" />
-        <Text variant="bodySmall" color="muted1">
+      <Stack direction="row" gap="$xxs" align="center">
+        <Icon name="globe" size={16} color="neutral1" />
+        <Text variant="bodySmall" color="neutral1">
           {i18n.locale.toUpperCase()}
         </Text>
       </Stack>
@@ -29,8 +29,8 @@ export default function LangMenuButton() {
 const Wrapper = styled(MenuButton, {
   base: {
     padding: '$small',
-    border: '1px solid',
-    borderColor: '$border!',
+    borderWidth: '1px',
+    borderColor: '$line3!',
     borderRadius: '$small!',
   },
 });

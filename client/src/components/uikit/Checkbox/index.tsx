@@ -51,7 +51,7 @@ const Checkbox = forwardRef<HTMLInputElement, Props>(
                 className={checkmarkStyles}
               >
                 <Icon
-                  name={isIndeterminate ? 'minus' : 'checkmark'}
+                  name={isIndeterminate ? 'remove' : 'check'}
                   size={14}
                   color="currentColor"
                 />
@@ -68,7 +68,7 @@ const Checkbox = forwardRef<HTMLInputElement, Props>(
 const wrapperStyles = css({
   display: 'flex',
   alignItems: 'center',
-  gap: '$xsmall',
+  gap: '$xs',
 });
 
 const checkboxStyles = cva({
@@ -77,11 +77,11 @@ const checkboxStyles = cva({
     width: '18px',
     height: '18px',
     flexShrink: 0,
-    backgroundColor: '$elevated ',
+    backgroundColor: '$surface ',
     color: '$infoMuted',
     borderRadius: '$small',
-    border: '1px solid',
-    borderColor: '$border',
+    borderWidth: '1px',
+    borderColor: '$line3',
   },
   variants: {
     isSelected: {
@@ -92,7 +92,7 @@ const checkboxStyles = cva({
     },
     isDisabled: {
       true: {
-        backgroundColor: '$muted4',
+        backgroundColor: '$neutral4',
         borderColor: '$textMuted!',
         color: '$textMuted',
         cursor: 'not-allowed',

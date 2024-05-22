@@ -5,7 +5,7 @@ export default {
   component: IconButton,
 };
 
-const icons: IconName[] = ['camera', 'bell', 'language'];
+const icons: IconName[] = ['globe', 'bell', 'language'];
 
 export function Example() {
   return (

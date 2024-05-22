@@ -34,7 +34,7 @@ function ModalExample() {
               justify="space-between"
               className={modalContentStyles}
             >
-              <Text variant="title3" aria-hidden>
+              <Text variant="headingM" aria-hidden>
                 Example modal
               </Text>
 

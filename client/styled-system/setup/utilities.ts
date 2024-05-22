@@ -8,20 +8,24 @@ import { PropertyConfig } from '@pandacss/types';
  *
  * const StyledComponent = styled('div', {
  *   base: {
- *     $hoverHighlight: '',
+ *     $hoverHighlight: true,
  *     color: 'blue',
  *   },
  * });
  *
  * const styles = css({
- *   $hoverHighlight: '',
+ *   $hoverHighlight: true,
  *   color: 'red',
  * });
  */
 
 export const $focusRing: PropertyConfig = {
   className: 'focus-ring',
-  transform(_, { token }) {
+  values: { type: 'boolean' },
+  transform(value, { token }) {
+    if (!value) {
+      return {};
+    }
     return {
       '&:focus-visible': {
         'box-shadow': `0px 0px 0px 2px ${token('colors.$focusRing')}`,
@@ -32,14 +36,21 @@ export const $focusRing: PropertyConfig = {
 
 export const $hoverHighlight: PropertyConfig = {
   className: 'hover-highlight',
-  transform(_, { token }) {
+  values: { type: 'boolean' },
+  transform(value: boolean) {
+    if (!value) {
+      return {
+        position: 'relative',
+      };
+    }
     return {
+      position: 'relative',
       '&:after': {
         content: '""',
         position: 'absolute',
         inset: 0,
         opacity: 0,
-        backgroundColor: token('colors.$hoverHighlight'),
+        backgroundColor: 'rgba(0, 0, 0, 0.05)',
         transition: 'opacity 50ms linear',
         borderRadius: 'inherit',
         pointerEvents: 'none',
@@ -55,14 +66,21 @@ export const $hoverHighlight: PropertyConfig = {
 
 export const $pressHighlight: PropertyConfig = {
   className: 'press-highlight',
-  transform(_, { token }) {
+  values: { type: 'boolean' },
+  transform(value: boolean) {
+    if (!value) {
+      return {
+        position: 'relative',
+      };
+    }
     return {
+      position: 'relative',
       '&:after': {
         content: '""',
         position: 'absolute',
         inset: 0,
         opacity: 0,
-        backgroundColor: token('colors.$pressHighlight'),
+        backgroundColor: 'rgba(0, 0, 0, 0.1)',
         transition: 'opacity 50ms linear',
         borderRadius: 'inherit',
         pointerEvents: 'none',
@@ -78,7 +96,11 @@ export const $pressHighlight: PropertyConfig = {
 
 export const $pressOpacity: PropertyConfig = {
   className: 'press-opacity',
-  transform() {
+  values: { type: 'boolean' },
+  transform(value: boolean) {
+    if (!value) {
+      return {};
+    }
     return {
       opacity: 1,
       transition: 'opacity 50ms linear',

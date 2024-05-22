@@ -28,15 +28,15 @@ export default function LoginPage() {
     <Wrapper>
       <LoginForm onSubmit={handleSubmit}>
         <Stack direction="column" gap="$large">
-          <Text variant="title1">
+          <Text variant="headingXl">
             <Trans>Login</Trans>
           </Text>
 
-          <Stack direction="column" gap="$normal">
+          <Stack direction="column" gap="$regular">
             <TextInput
               label={t`Email`}
               name="email"
-              icon="envelopeFilled"
+              icon="mail"
               value={credentials.email}
               onInput={handleChange}
             />
@@ -44,7 +44,7 @@ export default function LoginPage() {
               label={t`Password`}
               name="password"
               type="password"
-              icon="lock"
+              icon="eyeOff"
               value={credentials.password}
               onInput={handleChange}
             />
@@ -75,15 +75,16 @@ const Wrapper = styled('div', {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '$neutral5',
   },
 });
 
 const LoginForm = styled('form', {
   base: {
     minWidth: '450px',
-    padding: '$xxlarge',
+    padding: '$2xl',
     backgroundColor: '$surface',
-    borderRadius: '$normal',
+    borderRadius: '$regular',
     boxShadow: '$large',
   },
 });

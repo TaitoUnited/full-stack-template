@@ -40,7 +40,7 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
       <TextField
         {...rest}
         className={cx(inputWrapperStyles, rest.className)}
-        validationState={errorMessage ? 'invalid' : 'valid'}
+        isInvalid={!!errorMessage}
       >
         <Label className={labelStyles} data-required={rest.isRequired}>
           {label}
@@ -49,8 +49,8 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
         <div
           className={css({
             position: 'relative',
-            '& > svg + input': { paddingLeft: '$xlarge' },
-            '& > input[data-password]': { paddingRight: '$xlarge' },
+            '& > svg + input': { paddingLeft: '$xl' },
+            '& > input[data-password]': { paddingRight: '$xl' },
           })}
         >
           {!!icon && (
@@ -58,7 +58,7 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
               className={inputIconLeftStyles}
               name={icon}
               size={20}
-              color="muted1"
+              color="neutral1"
             />
           )}
 
@@ -88,15 +88,15 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
                   paddingLeft: '$small',
                   display: 'flex',
                   alignItems: 'center',
-                  borderRadius: '$normal',
-                  $focusRing: '',
+                  borderRadius: '$regular',
+                  $focusRing: true,
                 })
               )}
             >
               <Icon
-                name={passwordVisible ? 'eyeFilled' : 'eyeOutlined'}
+                name={passwordVisible ? 'eye' : 'eyeOff'}
                 size={20}
-                color="muted1"
+                color="neutral1"
               />
             </ToggleButton>
           )}

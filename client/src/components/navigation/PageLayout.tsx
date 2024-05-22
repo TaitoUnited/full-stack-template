@@ -32,7 +32,7 @@ const Layout = styled('div', {
     width: '100vw',
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: '$background',
+    backgroundColor: '$neutral5',
 
     '@supports (-webkit-touch-callout: none)': {
       height: '-webkit-fill-available',
@@ -68,14 +68,14 @@ const Content = styled('main', {
     maxWidth: '1000px',
     marginLeft: 'auto',
     marginRight: 'auto',
-    paddingBlock: '$xlarge',
+    paddingBlock: '$xl',
     paddingInline: '$medium',
 
     mdDown: {
       padding: '$medium',
     },
     smDown: {
-      padding: '$normal',
+      padding: '$regular',
     },
   },
 });

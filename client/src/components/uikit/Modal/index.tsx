@@ -78,7 +78,7 @@ export default function Modal({
               {showCloseButton && (
                 <FocusRing focusRingClass="modal-close-button-focus">
                   <CloseButton onClick={onClose}>
-                    <Icon name="x" size={14} color="text" />
+                    <Icon name="close" size={14} color="text" />
                   </CloseButton>
                 </FocusRing>
               )}
@@ -125,7 +125,7 @@ const contentBackgroundStyles = css({
   left: 0,
   zIndex: -1,
   backgroundColor: '$surface',
-  borderRadius: '$normal',
+  borderRadius: '$regular',
   boxShadow: '$large',
 });
 
@@ -145,7 +145,7 @@ const CloseButton = styled('button', {
     transition: 'transform 100ms ease',
 
     '&.modal-close-button-focus': {
-      $focusRing: '',
+      $focusRing: true,
     },
 
     '&:hover': {

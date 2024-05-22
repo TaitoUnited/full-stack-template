@@ -7,14 +7,14 @@ export default function Toaster() {
   const styles = cva({
     base: {
       boxShadow: '$medium!',
-      borderRadius: '$normal!',
+      borderRadius: '$regular!',
       textStyle: '$body',
     },
     variants: {
       type: {
-        info: { color: '$text!', background: '$elevated!' },
-        success: { background: '$successMuted!', color: '$successText!' },
-        error: { background: '$errorMuted!', color: '$errorText!' },
+        info: { color: '$text!', background: '$surface!' },
+        success: { background: '$successMuted!', color: '$successContrast!' },
+        error: { background: '$errorMuted!', color: '$successContrast!' },
       },
     },
   });
@@ -25,11 +25,11 @@ export default function Toaster() {
         duration: 50000,
         className: styles({ type: 'info' }),
         success: {
-          icon: <Icon name="checkmark" size={24} color="successText" />,
+          icon: <Icon name="check" size={24} color="successContrast" />,
           className: styles({ type: 'success' }),
         },
         error: {
-          icon: <Icon name="x" size={24} color="errorText" />,
+          icon: <Icon name="close" size={24} color="errorContrast" />,
           className: styles({ type: 'error' }),
         },
       }}

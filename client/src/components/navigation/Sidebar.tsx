@@ -25,13 +25,13 @@ export default function Sidebar() {
     },
     {
       label: t`Blog`,
-      icon: 'book',
+      icon: 'document',
       to: '/blog',
       testId: 'navigate-to-blog',
     },
     {
       label: t`Theming`,
-      icon: 'lightningFilled',
+      icon: 'eye',
       to: '/theming',
       testId: 'navigate-to-theming',
     },
@@ -40,7 +40,7 @@ export default function Sidebar() {
   if (feature3Enabled) {
     items.push({
       label: t`Feature Flags`,
-      icon: 'commandLineFilled',
+      icon: 'save',
       to: '/feature-flags',
       testId: 'navigate-to-feature-flags',
     });
@@ -90,7 +90,7 @@ const Wrapper = styled('aside', {
   base: {
     minWidth: '300px',
     backgroundColor: '$surface',
-    borderRight: '1px solid $border',
+    borderRight: '1px solid $line3',
   },
 });
 
@@ -105,6 +105,7 @@ const NavList = styled('ul', {
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
+    padding: '$xs',
   },
 });
 
@@ -114,9 +115,10 @@ const NavItemLink = styled(UnstyledLink, {
     display: 'flex',
     alignItems: 'center',
     color: '$text',
-    padding: '$normal',
-    $hoverHighlight: '',
-    $pressOpacity: '',
+    padding: '$regular',
+    borderRadius: '$small',
+    $hoverHighlight: true,
+    $pressOpacity: true,
   },
 });
 
@@ -124,6 +126,6 @@ const Logout = styled('li', {
   base: {
     display: 'flex',
     flexDirection: 'column',
-    padding: '$normal',
+    padding: '$regular',
   },
 });

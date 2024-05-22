@@ -60,7 +60,7 @@ export default function PostCreatePage() {
           </Text>
 
           <form onSubmit={handleSubmit}>
-            <Stack direction="column" gap="$normal">
+            <Stack direction="column" gap="$regular">
               <TextInput
                 label={t`Subject`}
                 name="subject"

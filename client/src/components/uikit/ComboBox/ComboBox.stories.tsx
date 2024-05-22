@@ -22,7 +22,7 @@ export function Example() {
 
       <ComboBox label="Required combobox" defaultItems={options} isRequired />
 
-      <ComboBox label="With icon" icon="faceId" defaultItems={options} />
+      <ComboBox label="With icon" icon="fingerprint" defaultItems={options} />
 
       <ComboBox
         label="Descriptions also"

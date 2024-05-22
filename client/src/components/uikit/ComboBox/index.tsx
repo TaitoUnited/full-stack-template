@@ -57,14 +57,14 @@ const ComboBox = forwardRef<HTMLInputElement, Props>(
       <div
         className={css({
           position: 'relative',
-          '& > svg + input': { paddingLeft: '$xlarge' },
+          '& > svg + input': { paddingLeft: '$xl' },
         })}
       >
         {!!icon && (
           <Icon
             name={icon}
             size={20}
-            color="muted1"
+            color="neutral1"
             className={inputIconLeftStyles}
           />
         )}
@@ -86,7 +86,7 @@ const ComboBox = forwardRef<HTMLInputElement, Props>(
             alignItems: 'center',
           })}
         >
-          <Icon name="chevronDown" size={20} color="muted1" />
+          <Icon name="chevronDown" size={20} color="neutral1" />
         </Button>
       </div>
 

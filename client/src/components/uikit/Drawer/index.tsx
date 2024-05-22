@@ -89,7 +89,7 @@ const wrapperStyles = css({
   zIndex: 1001,
   outline: 'none',
   minWidth: '350px',
-  backgroundColor: '$elevated',
+  backgroundColor: '$surface',
   boxShadow: '$large',
 });
 
