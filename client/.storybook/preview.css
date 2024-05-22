@@ -14,7 +14,7 @@
     -moz-osx-font-smoothing: grayscale;
     -webkit-overflow-scrolling: touch;
     -webkit-tap-highlight-color: transparent;
-    background-color: var(--background);
+    background-color: #fff;
   }
 
   body {
