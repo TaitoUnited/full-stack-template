@@ -5,7 +5,7 @@ import {
   Popover,
   Select as AriaSelect,
   SelectValue,
-  Item,
+  ListBoxItem,
   Label,
   ListBox,
 } from 'react-aria-components';
@@ -31,6 +31,7 @@ type Option = {
 
 type Props = ComponentProps<typeof AriaSelect<Option>> & {
   label: string;
+  items: Option[];
   description?: string;
   /** Passing an `errorMessage` as prop toggles the input as invalid. */
   errorMessage?: string;
@@ -43,11 +44,11 @@ type Props = ComponentProps<typeof AriaSelect<Option>> & {
  * Ref: https://react-spectrum.adobe.com/react-aria/Select.html
  */
 const Select = forwardRef<HTMLDivElement, Props>(
-  ({ label, description, errorMessage, icon, ...rest }, ref) => (
+  ({ label, description, errorMessage, icon, items, ...rest }, ref) => (
     <AriaSelect
       {...rest}
       ref={ref}
-      validationState={errorMessage ? 'invalid' : 'valid'}
+      isInvalid={!!errorMessage}
       className={cx(inputWrapperStyles, rest.className as string)}
     >
       <Label className={labelStyles} data-required={rest.isRequired}>
@@ -92,11 +93,13 @@ const Select = forwardRef<HTMLDivElement, Props>(
       {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
 
       <Popover>
-        <ListBox className={listBoxStyles}>
+        <ListBox className={listBoxStyles} items={items}>
           {/* In cases like these, render props are preferred for perf reasons.
            * Ref: https://react-spectrum.adobe.com/react-stately/collections.html#why-not-array-map
            */}
-          {({ label, value }: Option) => <Item id={value}>{label}</Item>}
+          {({ label, value }: Option) => (
+            <ListBoxItem id={value}>{label}</ListBoxItem>
+          )}
         </ListBox>
       </Popover>
     </AriaSelect>

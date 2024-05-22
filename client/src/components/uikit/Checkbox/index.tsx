@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Checkbox as AriaCheckbox } from 'react-aria-components';
 
 import Icon from '../Icon';
-import { css, cva, cx } from '~styled-system/css';
+import { styled } from '~styled-system/jsx';
 
 type CommonProps = ComponentProps<typeof AriaCheckbox>;
 
@@ -11,90 +11,119 @@ type PropsWithLabel = CommonProps & {
   /** Text string to be displayed next to the checkbox */
   label: ReactNode;
   labelledby?: undefined;
+  hiddenLabel?: undefined;
 };
 
 type PropsWithLabelledBy = CommonProps & {
   /** ID of an element that contains text naming this checkbox */
   labelledby: string;
   label?: undefined;
+  hiddenLabel?: undefined;
 };
 
-type Props = PropsWithLabel | PropsWithLabelledBy;
+type PropsWithHiddenLabel = CommonProps & {
+  /** Aria label for the checkbox */
+  hiddenLabel: string;
+  labelledby?: undefined;
+  label?: undefined;
+};
+
+type Props = PropsWithLabel | PropsWithLabelledBy | PropsWithHiddenLabel;
 
 /**
- * For accessibility reasons, you need to provide either `label` or `labelledby` as a prop
+ * For accessibility reasons, you need to provide either `label`, `labelledby`,
+ * or `hiddenLabel` as a prop.
  *
  * Ref: https://react-spectrum.adobe.com/react-aria/Checkbox.html
  */
-const Checkbox = forwardRef<HTMLInputElement, Props>(
-  ({ label, labelledby, ...rest }, ref) => (
-    <AriaCheckbox
+const Checkbox = forwardRef<HTMLLabelElement, Props>(
+  ({ label, labelledby, hiddenLabel, ...rest }, ref) => (
+    <Wrapper
       aria-labelledby={labelledby}
-      {...rest}
+      aria-label={hiddenLabel}
       ref={ref}
-      className={cx(wrapperStyles, rest.className as string)}
+      {...rest}
     >
-      {({ isSelected, isIndeterminate, isDisabled, isFocusVisible }) => (
+      {state => (
         <>
-          <div
-            className={checkboxStyles({
-              isSelected: isSelected || isIndeterminate,
-              isDisabled,
-              isFocusVisible,
-            })}
+          <Content
+            isFocusVisible={state.isFocusVisible}
+            isDisabled={state.isDisabled}
+            isInvalid={state.isInvalid}
+            state={
+              state.isIndeterminate
+                ? 'indeterminate'
+                : state.isSelected
+                ? 'selected'
+                : 'unselected'
+            }
           >
-            {(isSelected || isIndeterminate) && (
-              <motion.div
+            {(state.isSelected || state.isIndeterminate) && (
+              <Checkmark
                 initial={{ opacity: 0, scale: 0 }}
                 animate={{ opacity: 1, scale: 1 }}
                 aria-hidden
-                className={checkmarkStyles}
               >
                 <Icon
-                  name={isIndeterminate ? 'remove' : 'check'}
+                  name={state.isIndeterminate ? 'remove' : 'check'}
                   size={14}
                   color="currentColor"
                 />
-              </motion.div>
+              </Checkmark>
             )}
-          </div>
+          </Content>
           {label}
         </>
       )}
-    </AriaCheckbox>
+    </Wrapper>
   )
 );
 
-const wrapperStyles = css({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '$xs',
+const Wrapper = styled(AriaCheckbox, {
+  base: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '$xs',
+  },
 });
 
-const checkboxStyles = cva({
+const Content = styled('div', {
   base: {
     position: 'relative',
     width: '18px',
     height: '18px',
     flexShrink: 0,
-    backgroundColor: '$surface ',
-    color: '$infoMuted',
     borderRadius: '$small',
     borderWidth: '1px',
-    borderColor: '$line3',
   },
   variants: {
-    isSelected: {
+    state: {
+      unselected: {
+        backgroundColor: '$surface',
+        color: '$primaryMuted',
+        borderColor: '$line1',
+      },
+      indeterminate: {
+        backgroundColor: '$primaryMuted',
+        borderColor: '$primary',
+        color: '$primaryContrast',
+      },
+      selected: {
+        backgroundColor: '$primaryContrast',
+        borderColor: '$primaryContrast',
+        color: '$primaryMuted',
+      },
+    },
+    isInvalid: {
       true: {
-        backgroundColor: '$infoText',
-        borderColor: '$infoText',
+        backgroundColor: '$errorMuted',
+        borderColor: '$error',
+        color: '$error',
       },
     },
     isDisabled: {
       true: {
         backgroundColor: '$neutral4',
-        borderColor: '$textMuted!',
-        color: '$textMuted',
         cursor: 'not-allowed',
       },
     },
@@ -108,13 +137,15 @@ const checkboxStyles = cva({
   },
 });
 
-const checkmarkStyles = css({
-  position: 'absolute',
-  inset: 0,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  pointerEvents: 'none',
+const Checkmark = styled(motion.div, {
+  base: {
+    position: 'absolute',
+    inset: 0,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    pointerEvents: 'none',
+  },
 });
 
 Checkbox.displayName = 'Checkbox';

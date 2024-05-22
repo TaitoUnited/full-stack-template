@@ -22,6 +22,7 @@ type Props = ComponentProps<typeof TextField> & {
   /** Passing an `errorMessage` as prop toggles the input as invalid. */
   errorMessage?: string;
   placeholder?: string;
+  className?: string;
 };
 
 /**
@@ -78,20 +79,18 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
               isSelected={passwordVisible}
               onChange={setPasswordVisible}
               aria-label={t`Show password`}
-              className={cx(
-                css({
-                  position: 'absolute',
-                  height: '100%',
-                  top: '0px',
-                  right: '0px',
-                  paddingRight: '$small',
-                  paddingLeft: '$small',
-                  display: 'flex',
-                  alignItems: 'center',
-                  borderRadius: '$regular',
-                  $focusRing: true,
-                })
-              )}
+              className={css({
+                position: 'absolute',
+                height: '100%',
+                top: '0px',
+                right: '0px',
+                paddingRight: '$small',
+                paddingLeft: '$small',
+                display: 'flex',
+                alignItems: 'center',
+                borderRadius: '$regular',
+                $focusRing: true,
+              })}
             >
               <Icon
                 name={passwordVisible ? 'eye' : 'eyeOff'}

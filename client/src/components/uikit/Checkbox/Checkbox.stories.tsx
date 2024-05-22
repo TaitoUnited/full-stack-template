@@ -18,11 +18,31 @@ export const Example = () => {
           label="Sluibs?"
         />
 
-        <Checkbox label={<Text variant="bodyBold">Custom label</Text>} />
+        <Checkbox label={<Text variant="bodyBold">Styled label label</Text>} />
+
+        <Stack direction="column" gap="$small">
+          <Text id="outer-label" variant="body">
+            Outer label
+          </Text>
+          <Checkbox labelledby="outer-label" />
+        </Stack>
+
+        <Stack direction="column" gap="$small">
+          <Text variant="body">(This checkbox has a hidden label)</Text>
+          <Checkbox hiddenLabel="Testing" />
+        </Stack>
 
         <Checkbox isDisabled label="I'm disabled" />
 
-        <Checkbox isIndeterminate label="I'm not sure about myself" />
+        <Checkbox isInvalid label="I'm invalid" />
+
+        <Stack direction="column" gap="$small">
+          <Checkbox isIndeterminate label="I'm not sure about myself" />
+          <Stack direction="column" gap="$xs" style={{ paddingLeft: 20 }}>
+            <Checkbox isSelected label="Child checkbox 1" />
+            <Checkbox label="Child checkbox 2" />
+          </Stack>
+        </Stack>
       </Stack>
     </div>
   );

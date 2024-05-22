@@ -4,7 +4,7 @@ import {
   Button,
   Popover,
   ComboBox as AriaComboBox,
-  Item,
+  ListBoxItem,
   Input,
   Label,
   ListBox,
@@ -47,7 +47,7 @@ const ComboBox = forwardRef<HTMLInputElement, Props>(
     <AriaComboBox
       {...rest}
       ref={ref}
-      validationState={errorMessage ? 'invalid' : 'valid'}
+      isInvalid={!!errorMessage}
       className={cx(inputWrapperStyles, rest.className as string)}
     >
       <Label className={labelStyles} data-required={rest.isRequired}>
@@ -98,7 +98,9 @@ const ComboBox = forwardRef<HTMLInputElement, Props>(
           {/* In cases like these, render props are preferred for perf reasons.
            * Ref: https://react-spectrum.adobe.com/react-stately/collections.html#why-not-array-map
            */}
-          {({ label, value }: Option) => <Item id={value}>{label}</Item>}
+          {({ label, value }: Option) => (
+            <ListBoxItem id={value}>{label}</ListBoxItem>
+          )}
         </ListBox>
       </Popover>
     </AriaComboBox>
