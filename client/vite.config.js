@@ -7,8 +7,8 @@ import { lingui } from '@lingui/vite-plugin';
 import { defineConfig } from 'vite';
 import { ViteFaviconsPlugin } from 'vite-plugin-favicon2';
 import { optimizeLodashImports } from '@optimize-lodash/rollup-plugin';
-import { taitoHtmlFragmentsPlugin } from './plugins/html-fragments-plugin';
-import { minifyTemplateLiteralsPlugin } from './plugins/minify-template-literals-plugin';
+import { splashScreen } from 'vite-plugin-splash-screen';
+import { iconSpritesheet } from './plugins/icon-spritesheet-plugin';
 
 const ANALYZE = !!process.env.ANALYZE;
 const OUT_DIR = path.resolve(__dirname, ANALYZE ? 'build' : '../../build');
@@ -36,8 +36,6 @@ export default defineConfig(({ mode }) => ({
         },
       },
       plugins: [
-        // Minify CSS-in-JS styles and GraphQL queries
-        minifyTemplateLiteralsPlugin(),
         optimizeLodashImports(),
         strip({ functions: ['console.log', 'console.warn'] }),
       ],
@@ -54,6 +52,14 @@ export default defineConfig(({ mode }) => ({
     },
   },
   plugins: [
+    splashScreen({
+      logoSrc: 'logo.svg',
+      splashBg: '#ffffff',
+      loaderBg: '#009a48',
+      loaderType: 'line',
+      minDurationMs: 500,
+    }),
+    iconSpritesheet(),
     // Generate favicons only on production since it slows down the dev build
     mode === 'production' &&
       ViteFaviconsPlugin({
@@ -80,7 +86,6 @@ export default defineConfig(({ mode }) => ({
         },
       }),
     tsconfigPaths(),
-    taitoHtmlFragmentsPlugin(),
     react({
       exclude: /\.stories\.(t|j)sx?$/, // Exclude Storybook stories
       babel: { plugins: ['macros'] },

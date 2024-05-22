@@ -1,4 +1,5 @@
 import { useApolloClient } from '@apollo/client';
+import { hideSplashScreen } from 'vite-plugin-splash-screen/runtime';
 
 import {
   createContext,
@@ -8,7 +9,6 @@ import {
   ReactNode,
 } from 'react';
 
-import { hideSplashScreen } from '~utils/splash';
 import { sleep } from '~utils/promise';
 import storage from '~utils/storage';
 
