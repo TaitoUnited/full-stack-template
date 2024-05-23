@@ -1,5 +1,4 @@
 export { Stack } from '~styled-system/jsx';
-export { Drawer } from './Drawer';
 export { MenuButton } from './MenuButton';
 export { Modal } from './Modal';
 export { Popover } from './Popover';

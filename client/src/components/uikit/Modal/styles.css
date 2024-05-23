@@ -1,0 +1,9 @@
+/* Panda CSS doesn't yet support defining keyframes inside javascript...*/
+@keyframes overlayAnimation {
+  from {
+    background-color: rgba(0, 0, 0, 0);
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+}

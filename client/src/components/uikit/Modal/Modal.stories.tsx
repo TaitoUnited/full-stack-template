@@ -1,73 +1,110 @@
-import { AnimatePresence } from 'framer-motion';
-import { useOverlayTriggerState } from 'react-stately';
+import { capitalize } from 'lodash';
+import { ComponentProps, useState } from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { css } from '~styled-system/css';
-import { styled } from '~styled-system/jsx';
-import { Stack, Modal, Text, FillButton, OutlineButton } from '~uikit';
+import { Stack, Modal, Text, FillButton, OutlineButton, Icon } from '~uikit';
 
 export default {
   title: 'Modal',
   component: Modal,
+} satisfies Meta<typeof Modal>;
+
+type Story = StoryObj<typeof Modal>;
+
+export const Full: Story = {
+  render: () => (
+    <Stack direction="row" gap="$regular">
+      <ModalExample kind="full" placement="middle" />
+      <ModalExample kind="full" placement="top" />
+      <ModalExample kind="full" placement="bottom" />
+      <ModalExample kind="full" placement="drawer" />
+    </Stack>
+  ),
 };
 
-// NOTE: for some reason Storybook breaks if you use hooks inside the story component...
-export function Example() {
-  return <ModalExample />;
-}
+export const Basic: Story = {
+  render: () => (
+    <Stack direction="row" gap="$regular">
+      <ModalExample kind="basic" placement="middle" />
+      <ModalExample kind="basic" placement="top" />
+      <ModalExample kind="basic" placement="bottom" />
+      <ModalExample kind="basic" placement="drawer" />
+    </Stack>
+  ),
+};
 
-function ModalExample() {
-  const state = useOverlayTriggerState({});
+export const CustomHeader: Story = {
+  render: () => (
+    <Stack direction="row" gap="$regular">
+      <ModalExample kind="custom-header" placement="middle" />
+      <ModalExample kind="custom-header" placement="top" />
+      <ModalExample kind="custom-header" placement="bottom" />
+      <ModalExample kind="custom-header" placement="drawer" />
+    </Stack>
+  ),
+};
+
+function ModalExample({
+  placement,
+  kind,
+}: {
+  placement: ComponentProps<typeof Modal.Content>['placement'];
+  kind: 'full' | 'basic' | 'custom-header';
+}) {
+  const [isOpen, setOpen] = useState(false);
 
   return (
-    <Wrapper>
-      <FillButton variant="primary" onClick={() => state.open()}>
-        Open modal
+    <>
+      <FillButton variant="info" onClick={() => setOpen(true)}>
+        {capitalize(placement)}
       </FillButton>
 
-      <AnimatePresence>
-        {state.isOpen && (
-          <Modal onClose={state.close} title="Example modal">
-            <Stack
-              direction="column"
-              gap="$large"
-              align="center"
-              justify="space-between"
-              className={modalContentStyles}
-            >
-              <Text variant="headingM" aria-hidden>
-                Example modal
-              </Text>
+      <Modal isOpen={isOpen} onClose={() => setOpen(false)}>
+        <Modal.Content placement={placement}>
+          {kind === 'custom-header' ? (
+            <Modal.Header>
+              <Stack direction="row" gap="$small" align="center">
+                <Icon name="calendarMonth" size={32} color="text" aria-hidden />
+                <Stack direction="column" gap="$none">
+                  <Text variant="headingL" as="span">
+                    Custom modal title!
+                  </Text>
+                  <Text variant="bodySmall">
+                    This is a description for the header.
+                  </Text>
+                </Stack>
+              </Stack>
+            </Modal.Header>
+          ) : (
+            <Modal.Header>Example modal</Modal.Header>
+          )}
 
-              <Text variant="body" lineHeight={1.5}>
-                Branding product management partner network advisor equity
-                monetization sales business-to-consumer buzz facebook client
-                ecosystem. IPhone technology angel investor analytics responsive
-                web design pivot stock user experience creative leverage
-                conversion interaction design branding. Business-to-consumer
-                customer mass market buyer ecosystem startup advisor incubator
-                bandwidth.
-              </Text>
+          <Modal.Body>
+            <Text variant="body" lineHeight={1.5}>
+              Branding product management partner network advisor equity
+              monetization sales business-to-consumer buzz facebook client
+              ecosystem. IPhone technology angel investor analytics responsive
+              web design pivot stock user experience creative leverage
+              conversion interaction design branding. Business-to-consumer
+              customer mass market buyer ecosystem startup advisor incubator
+              bandwidth.
+            </Text>
+          </Modal.Body>
 
-              <OutlineButton variant="info" onClick={() => state.close()}>
-                Close
-              </OutlineButton>
-            </Stack>
-          </Modal>
-        )}
-      </AnimatePresence>
-    </Wrapper>
+          {kind === 'full' && (
+            <Modal.Footer>
+              <Stack direction="row" gap="$xs">
+                <OutlineButton variant="info" onClick={() => setOpen(false)}>
+                  Cancel
+                </OutlineButton>
+                <FillButton variant="info" onClick={() => setOpen(false)}>
+                  Save
+                </FillButton>
+              </Stack>
+            </Modal.Footer>
+          )}
+        </Modal.Content>
+      </Modal>
+    </>
   );
 }
-
-const Wrapper = styled('div', {
-  base: {
-    padding: '$medium',
-  },
-});
-
-const modalContentStyles = css({
-  flex: 1,
-  minWidth: '300px',
-  maxWidth: '500px',
-  padding: '$medium',
-});

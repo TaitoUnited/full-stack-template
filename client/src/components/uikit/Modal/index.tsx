@@ -1,159 +1,271 @@
-import { useRef, ReactNode, CSSProperties } from 'react';
-import { motion } from 'framer-motion';
+import { t } from '@lingui/macro';
+import { useLingui } from '@lingui/react';
+import { AnimatePresence, Variants, motion } from 'framer-motion';
+
+import { ComponentProps, HTMLAttributes, ReactNode, useContext } from 'react';
 
 import {
-  useOverlay,
-  useModal,
-  useDialog,
-  usePreventScroll,
-  mergeProps,
-  OverlayContainer,
-  FocusScope,
-  FocusRing,
-  VisuallyHidden,
-} from 'react-aria';
+  Dialog,
+  ModalOverlay as AriaModalOverlay,
+  Modal as AriaModal,
+  OverlayTriggerStateContext,
+  Heading,
+} from 'react-aria-components';
 
-import { Icon } from '../Icon';
-import { css } from '~styled-system/css';
+import './styles.css';
+
+import { Text } from '../Text';
+import { IconButton } from '../Buttons/IconButton';
 import { styled } from '~styled-system/jsx';
 
-type Props = {
-  title: string;
-  children: ReactNode;
-  showCloseButton?: boolean;
-  style?: CSSProperties;
-  onClose: () => void;
-};
-
-// Based on https://react-spectrum.adobe.com/react-aria/useDialog.html
-
-export function Modal({
-  title,
+function ModalBase({
   children,
+  isOpen,
+  isDismissable = true,
   onClose,
-  showCloseButton,
-  ...rest
-}: Props) {
-  const ref = useRef<any>(null);
-  const { modalProps } = useModal();
-  const { dialogProps, titleProps } = useDialog({}, ref);
-  const { overlayProps } = useOverlay(
-    { onClose, isOpen: true, isDismissable: true },
-    ref
-  );
-
-  const wrapperProps = mergeProps(
-    overlayProps,
-    dialogProps,
-    rest,
-    modalProps
-  ) as any;
-
-  usePreventScroll();
+}: {
+  children: ReactNode;
+  isOpen: boolean;
+  /**
+   * Allows closing the modal by clicking on the overlay or pressing ESC.
+   * Defaults to `true`.
+   */
+  isDismissable?: boolean;
+  onClose: () => void;
+}) {
+  useLingui();
 
   return (
-    <OverlayContainer>
-      <motion.div
-        className={backdropStyles}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-      >
-        <FocusScope contain restoreFocus autoFocus>
-          <motion.div
-            {...wrapperProps}
-            className={wrapperStyles}
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 1, scale: 1, y: 0, rotate: 0 }}
-            exit={{ opacity: 0, scale: 0, rotate: -15 }}
-            ref={ref}
+    <AnimatePresence data-test-id="modal-container">
+      {isOpen && (
+        /**
+         * NOTE: the `key` is important for AnimatePresence to work correctly!
+         * See: https://www.framer.com/motion/animate-presence/
+         */
+        <div key="modal">
+          <ModalOverlay
+            /**
+             * Instead of controlling the open state via `isOpen` prop, the modal
+             * should just be either rendered or not rendered by the parent.
+             * This allows the whole modal to be code-split when needed.
+             */
+            isOpen={true}
+            isDismissable={isDismissable}
+            isKeyboardDismissDisabled={!isDismissable}
+            onOpenChange={() => onClose()}
+            data-test-id="modal-overlay"
           >
-            <VisuallyHidden>
-              <h3 {...titleProps}>{title}</h3>
-            </VisuallyHidden>
-
-            <motion.div className={contentStyles}>
-              {children}
-
-              {showCloseButton && (
-                <FocusRing focusRingClass="modal-close-button-focus">
-                  <CloseButton onClick={onClose}>
-                    <Icon name="close" size={14} color="text" />
-                  </CloseButton>
-                </FocusRing>
-              )}
-            </motion.div>
-
-            <motion.div className={contentBackgroundStyles} layout />
-          </motion.div>
-        </FocusScope>
-      </motion.div>
-    </OverlayContainer>
+            {children}
+          </ModalOverlay>
+        </div>
+      )}
+    </AnimatePresence>
   );
 }
 
-const backdropStyles = css({
-  position: 'fixed',
-  top: 0,
-  right: 0,
-  bottom: 0,
-  left: 0,
-  zIndex: 999,
-  backgroundColor: 'rgba(0, 0, 0, 0.3)',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-});
+function ModalContent({
+  placement = 'middle',
+  children,
+  ...rest
+}: HTMLAttributes<HTMLDivElement> & {
+  children: ReactNode;
+  /**
+   * Where the modal should be placed.
+   * Defaults to `middle`.
+   */
+  placement?: 'top' | 'middle' | 'bottom' | 'drawer';
+}) {
+  let variants: Variants = {
+    hidden: { opacity: 0, scale: 0.9 },
+    visible: { opacity: 1, scale: 1 },
+  };
 
-const wrapperStyles = css({
-  outline: 'none',
-  position: 'relative',
-});
+  if (placement === 'drawer') {
+    variants = {
+      hidden: {
+        x: '100%',
+        transition: { type: 'tween', duration: 0.15 },
+      },
+      visible: {
+        x: 0,
+        transition: { type: 'tween', duration: 0.2 },
+      },
+    };
+  } else if (placement === 'top') {
+    variants = {
+      hidden: { opacity: 0, y: -20 },
+      visible: { opacity: 1, y: 0 },
+    };
+  } else if (placement === 'bottom') {
+    variants = {
+      hidden: { opacity: 0, y: 20 },
+      visible: { opacity: 1, y: 0 },
+    };
+  }
 
-const contentStyles = css({
-  position: 'relative',
-  zIndex: 1,
-  display: 'flex',
-  flexDirection: 'column',
-});
+  return (
+    <ModalPlacement
+      placement={placement}
+      data-test-id="modal-content"
+      {...rest}
+    >
+      <ModalDialogContainer
+        variants={variants}
+        initial="hidden"
+        animate="visible"
+        exit="hidden"
+        kind={placement === 'drawer' ? 'drawer' : 'dialog'}
+      >
+        <ModalDialogContent>{children}</ModalDialogContent>
+      </ModalDialogContainer>
+    </ModalPlacement>
+  );
+}
 
-const contentBackgroundStyles = css({
-  position: 'absolute',
-  top: 0,
-  right: 0,
-  bottom: 0,
-  left: 0,
-  zIndex: -1,
-  backgroundColor: '$surface',
-  borderRadius: '$regular',
-  boxShadow: '$large',
-});
+function ModalHeader({
+  children,
+  ...rest
+}: ComponentProps<typeof ModalHeaderContainer>) {
+  const { close } = useContext(OverlayTriggerStateContext);
 
-const CloseButton = styled('button', {
+  return (
+    <ModalHeaderContainer data-test-id="modal-header" {...rest}>
+      <Heading slot="title">
+        {typeof children === 'string' ? (
+          <Text variant="headingM" as="span">
+            {children}
+          </Text>
+        ) : (
+          children
+        )}
+      </Heading>
+      <IconButton label={t`Close`} icon="close" size={20} onClick={close} />
+    </ModalHeaderContainer>
+  );
+}
+
+function ModalBody(props: ComponentProps<typeof ModalBodyContainer>) {
+  return <ModalBodyContainer data-test-id="modal-body" {...props} />;
+}
+
+function ModalFooter(props: ComponentProps<typeof ModalFooterContainer>) {
+  return <ModalFooterContainer data-test-id="modal-footer" {...props} />;
+}
+
+const ModalOverlay = styled(AriaModalOverlay, {
   base: {
-    position: 'absolute',
-    top: '16px',
-    right: '16px',
-    zIndex: 1,
-    width: '32px',
-    height: '32px',
-    borderRadius: '50%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    outline: 'none',
-    transition: 'transform 100ms ease',
+    position: 'fixed',
+    inset: 0,
+    zIndex: 1000,
+    minHeight: '100vh',
+    minWidth: '100vw',
+    backdropFilter: 'blur(4px)',
+    animation: 'overlayAnimation 0.2s ease-in-out forwards',
+  },
+});
 
-    '&.modal-close-button-focus': {
-      $focusRing: true,
-    },
-
-    '&:hover': {
-      backgroundColor: 'rgba(0, 0, 0, 0.1)',
-    },
-
-    '&:active': {
-      backgroundColor: 'rgba(0, 0, 0, 0.2)',
+const ModalPlacement = styled(AriaModal, {
+  base: {
+    position: 'fixed',
+    zIndex: 1001,
+    mdDown: {
+      width: '100%',
+      maxWidth: 'calc(100vw - 32px)',
     },
   },
+  variants: {
+    placement: {
+      middle: {
+        left: '50%',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
+      },
+      top: {
+        left: '50%',
+        top: '10%',
+        transform: 'translate(-50%, 0)',
+      },
+      bottom: {
+        left: '50%',
+        bottom: '10%',
+        transform: 'translate(-50%, 0)',
+      },
+      drawer: {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        width: '90vw',
+        maxWidth: '500px',
+      },
+    },
+  },
+});
+
+const ModalDialogContainer = styled(motion.div, {
+  base: {
+    overflow: 'hidden',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  variants: {
+    kind: {
+      dialog: {
+        boxShadow: '$large',
+        borderRadius: '$medium',
+      },
+      drawer: {
+        height: '100%',
+      },
+    },
+  },
+});
+
+const ModalDialogContent = styled(Dialog, {
+  base: {
+    outline: 'none',
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    backgroundColor: '$surface',
+  },
+});
+
+const ModalHeaderContainer = styled('div', {
+  base: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: '$small',
+    justifyContent: 'space-between',
+    paddingLeft: '$medium',
+    paddingRight: '$small', // take close button into account
+    paddingTop: '$regular',
+  },
+});
+
+const ModalBodyContainer = styled('div', {
+  base: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+    padding: '$medium',
+    position: 'relative',
+  },
+});
+
+const ModalFooterContainer = styled('div', {
+  base: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    paddingInline: '$medium',
+    paddingBottom: '$medium',
+  },
+});
+
+// Add compound components to Modal
+export const Modal = Object.assign(ModalBase, {
+  Content: ModalContent,
+  Header: ModalHeader,
+  Body: ModalBody,
+  Footer: ModalFooter,
 });
