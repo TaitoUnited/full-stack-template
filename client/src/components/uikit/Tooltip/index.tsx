@@ -1,106 +1,105 @@
-import { motion } from 'framer-motion';
-import { useRef, CSSProperties, ReactNode } from 'react';
-import { useTooltipTriggerState } from 'react-stately';
+import { HTMLAttributes, ReactNode } from 'react';
 
 import {
-  useTooltip,
-  useTooltipTrigger,
-  useFocusVisible,
-  mergeProps,
-} from 'react-aria';
+  Button as AriaButton,
+  Tooltip as AriaTooltip,
+  TooltipTrigger as AriaTooltipTrigger,
+  OverlayArrow,
+  TooltipTriggerComponentProps,
+} from 'react-aria-components';
 
 import { styled } from '~styled-system/jsx';
-import { css } from '~styled-system/css';
 
-type Props = {
-  title: string;
-  position?: 'top' | 'bottom' | 'left' | 'right';
-  isDisabled?: boolean;
-  triggerStyle?: CSSProperties;
-  children: ReactNode;
-  customContent?: ReactNode;
-};
+type Props = Omit<HTMLAttributes<HTMLDivElement>, 'content'> &
+  TooltipTriggerComponentProps & {
+    content: ReactNode;
+    children: ReactNode;
+    placement?: 'top' | 'bottom' | 'left' | 'right';
+  };
 
-export function Tooltip({
-  title,
-  position = 'bottom',
-  isDisabled = false,
-  triggerStyle,
-  customContent,
+const ARROW_OFFSET = 8;
+
+const TooltipBase = ({
   children,
+  content,
+  placement = 'top',
+  delay = 300,
+  closeDelay = 100,
+  className,
+  style,
   ...rest
-}: Props) {
-  const ref = useRef<any>();
-  const state = useTooltipTriggerState({ delay: 400 });
-  const tooltipTrigger = useTooltipTrigger({ isDisabled }, state, ref);
-
-  const tooltip = useTooltip(
-    { 'aria-label': customContent ? title : undefined },
-    state
-  );
-
-  const tooltipProps = mergeProps(
-    tooltipTrigger.tooltipProps,
-    tooltip.tooltipProps
-  ) as any;
-
-  // HACK: https://github.com/adobe/react-spectrum/issues/1301#issuecomment-737378129
-  useFocusVisible();
-
+}: Props) => {
   return (
-    <Wrapper {...rest}>
-      <span ref={ref} {...tooltipTrigger.triggerProps} style={triggerStyle}>
-        {children}
-      </span>
-
-      {state.isOpen && (
-        <motion.span
-          {...tooltipProps}
-          className={tooltipWrapperStyles}
-          initial={{ opacity: 0, scale: 0.8, ...positionProps[position] }}
-          animate={{ opacity: 1, scale: 1, ...positionProps[position] }}
-          exit={{ opacity: 0, scale: 0, ...positionProps[position] }}
-          transition={{ ease: 'easeOut', duration: 0.3 }}
-        >
-          {customContent || <TooltipContent>{title}</TooltipContent>}
-        </motion.span>
-      )}
-    </Wrapper>
+    <AriaTooltipTrigger
+      {...rest}
+      delay={delay}
+      closeDelay={closeDelay}
+      data-test-id="tooltip"
+    >
+      {children}
+      <TooltipContent
+        style={style}
+        className={className}
+        placement={placement}
+        offset={ARROW_OFFSET}
+        data-test-id="tooltip-content"
+      >
+        <TooltipArrow>
+          <svg width={8} height={8} viewBox="0 0 8 8">
+            <path d="M0 0 L4 4 L8 0" />
+          </svg>
+        </TooltipArrow>
+        {content}
+      </TooltipContent>
+    </AriaTooltipTrigger>
   );
-}
-
-const positionProps = {
-  top: { x: '-50%', y: '-8px', bottom: '100%' },
-  bottom: { x: '-50%', y: '8px', top: '100%' },
-  left: { y: '-50%', x: 'calc(-100% - 8px)', top: '50%', left: '0px' },
-  right: { y: '-50%', x: 'calc(100% + 8px)', top: '50%', right: '0px' },
 };
 
-const Wrapper = styled('span', {
+const TooltipContent = styled(AriaTooltip, {
   base: {
-    position: 'relative',
-    display: 'inline-block',
+    backgroundColor: '$text',
+    padding: '$small',
+    borderRadius: '$regular',
+    color: '$neutral5',
+    outline: 'none',
+    textStyle: '$bodySmall',
+    boxShadow: '$regular',
   },
 });
 
-const tooltipWrapperStyles = css({
-  display: 'inline-flex',
-  position: 'absolute',
-  left: '50%',
-  zIndex: 999,
-});
-
-const TooltipContent = styled('span', {
+const TooltipArrow = styled(OverlayArrow, {
   base: {
     display: 'inline-flex',
-    color: '$text',
-    backgroundColor: '$surface',
-    boxShadow: '$small',
-    paddingBlock: '$xs',
-    paddingInline: '$small',
-    borderRadius: '$full',
-    whiteSpace: 'nowrap',
-    lineHeight: 1,
-    textStyle: '$bodySmall',
+
+    '& svg': {
+      fill: '$text',
+    },
+
+    '&[data-placement="bottom"] svg': {
+      transform: 'rotate(180deg)',
+    },
+
+    '&[data-placement="right"] svg': {
+      transform: 'rotate(90deg)',
+    },
+
+    '&[data-placement="left"] svg': {
+      transform: 'rotate(-90deg)',
+    },
   },
+});
+
+/**
+ * Use this when the wrapped element is not a button-like element.
+ * React Aria requires the trigger to be a button-like element,
+ * otherwise the tooltip won't show up.
+ */
+const TooltipTrigger = styled(AriaButton, {
+  base: {
+    all: 'unset',
+  },
+});
+
+export const Tooltip = Object.assign(TooltipBase, {
+  Trigger: TooltipTrigger,
 });

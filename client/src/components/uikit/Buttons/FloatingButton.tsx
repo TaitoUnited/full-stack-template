@@ -71,7 +71,7 @@ export const FloatingButton = forwardRef<HTMLButtonElement, Props>(
     const linkProps = asLink ? { linkProps: asLink } : {};
 
     return (
-      <Tooltip title={label} position={tooltipPosition}>
+      <Tooltip content={label} placement={tooltipPosition}>
         <Element
           {...rest}
           {...buttonProps}

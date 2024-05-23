@@ -10,7 +10,7 @@ export function AllIcons() {
   return (
     <Stack direction="row" gap="$large" style={{ flexWrap: 'wrap' }}>
       {ids.map((name, i) => (
-        <Tooltip title={name} key={i}>
+        <Tooltip content={name} key={i}>
           <Icon name={name} size={24} color="text" />
         </Tooltip>
       ))}

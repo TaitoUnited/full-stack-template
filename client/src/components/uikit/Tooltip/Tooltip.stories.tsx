@@ -1,36 +1,66 @@
-import { Stack, FillButton, Tooltip } from '~uikit';
+import type { Meta, StoryObj } from '@storybook/react';
+
+import { FillButton, Tooltip } from '~uikit';
 
 export default {
   title: 'Tooltip',
   component: Tooltip,
+  decorators: [
+    Story => (
+      <div
+        style={{
+          padding: '100px',
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
+} satisfies Meta<typeof Tooltip>;
+
+type Story = StoryObj<typeof Tooltip>;
+
+export const Top: Story = {
+  args: {
+    content: 'I am a tooltip',
+    children: <FillButton variant="primary">Top</FillButton>,
+    placement: 'top',
+  },
 };
 
-export function Example() {
-  return (
-    <Stack direction="row" gap="$medium" style={{ padding: 32 }}>
-      <div>
-        <Tooltip title="I'm a tooltip" position="top">
-          <FillButton variant="primary">Top</FillButton>
-        </Tooltip>
-      </div>
+export const Bottom: Story = {
+  args: {
+    content: 'I am a tooltip',
+    children: <FillButton variant="primary">Bottom</FillButton>,
+    placement: 'bottom',
+  },
+};
 
-      <div>
-        <Tooltip title="I'm a tooltip" position="bottom">
-          <FillButton variant="primary">Bottom</FillButton>
-        </Tooltip>
-      </div>
+export const Left: Story = {
+  args: {
+    content: 'I am a tooltip',
+    children: <FillButton variant="primary">Left</FillButton>,
+    placement: 'left',
+  },
+};
 
-      <div>
-        <Tooltip title="I'm a tooltip" position="left">
-          <FillButton variant="primary">Left</FillButton>
-        </Tooltip>
-      </div>
+export const Right: Story = {
+  args: {
+    content: 'I am a tooltip',
+    children: <FillButton variant="primary">Right</FillButton>,
+    placement: 'right',
+  },
+};
 
-      <div>
-        <Tooltip title="I'm a tooltip" position="right">
-          <FillButton variant="primary">Right</FillButton>
-        </Tooltip>
-      </div>
-    </Stack>
-  );
-}
+export const CustomTrigger: Story = {
+  args: {
+    content: 'I am a tooltip',
+    children: (
+      <Tooltip.Trigger>
+        <strong>Hover me</strong>
+      </Tooltip.Trigger>
+    ),
+  },
+};
