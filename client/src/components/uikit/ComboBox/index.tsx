@@ -10,25 +10,30 @@ import {
   ListBox,
 } from 'react-aria-components';
 
+import Text from '../Text';
+
 import {
-  baseInputStyles,
+  inputBaseStyles,
   DescriptionText,
   ErrorText,
   inputIconLeftStyles,
   inputWrapperStyles,
   labelStyles,
+  listBoxItemStyles,
   listBoxStyles,
 } from '~components/uikit/partials/common';
 
 import Icon, { IconName } from '~components/uikit/Icon';
 import { css, cx } from '~styled-system/css';
+import { Stack, styled } from '~styled-system/jsx';
 
-type Option = {
+export type ComboBoxOption = {
   value: string;
   label: string;
+  description?: string;
 };
 
-type Props = ComponentProps<typeof AriaComboBox<Option>> & {
+type Props = ComponentProps<typeof AriaComboBox<ComboBoxOption>> & {
   label: string;
   description?: string;
   /** Passing an `errorMessage` as prop toggles the input as invalid. */
@@ -54,12 +59,7 @@ const ComboBox = forwardRef<HTMLInputElement, Props>(
         {label}
       </Label>
 
-      <div
-        className={css({
-          position: 'relative',
-          '& > svg + input': { paddingLeft: '$xl' },
-        })}
-      >
+      <InputWrapper>
         {!!icon && (
           <Icon
             name={icon}
@@ -71,41 +71,90 @@ const ComboBox = forwardRef<HTMLInputElement, Props>(
 
         <Input
           placeholder={placeholder}
-          className={cx(baseInputStyles, css({ paddingRight: '$large' }))}
+          className={cx(inputBaseStyles, css({ paddingRight: '$large' }))}
         />
 
-        <Button
-          className={css({
-            position: 'absolute',
-            height: '100%',
-            top: '0px',
-            right: '0px',
-            paddingRight: '$small',
-            paddingLeft: '$small',
-            display: 'flex',
-            alignItems: 'center',
-          })}
-        >
-          <Icon name="chevronDown" size={20} color="neutral1" />
-        </Button>
-      </div>
+        <ChevronButton>
+          <Icon name="arrowDropDown" size={24} color="text" />
+        </ChevronButton>
+      </InputWrapper>
 
-      {description && <DescriptionText>{description}</DescriptionText>}
-      {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
+      {!!description && <DescriptionText>{description}</DescriptionText>}
+      {!!errorMessage && <ErrorText>{errorMessage}</ErrorText>}
 
       <Popover>
         <ListBox className={listBoxStyles}>
           {/* In cases like these, render props are preferred for perf reasons.
            * Ref: https://react-spectrum.adobe.com/react-stately/collections.html#why-not-array-map
            */}
-          {({ label, value }: Option) => (
-            <ListBoxItem id={value}>{label}</ListBoxItem>
+          {({ label, description, value }: ComboBoxOption) => (
+            <ListBoxItem
+              className={listBoxItemStyles}
+              id={value}
+              textValue={label}
+            >
+              <Stack
+                direction="row"
+                gap="$small"
+                align="center"
+                justify="space-between"
+              >
+                <Stack direction="column" gap="$xxs">
+                  <Text slot="label" variant="body">
+                    {label}
+                  </Text>
+
+                  {!!description && (
+                    <Text
+                      slot="description"
+                      variant="bodyExtraSmall"
+                      color="textMuted"
+                    >
+                      {description}
+                    </Text>
+                  )}
+                </Stack>
+
+                <SelectedIcon
+                  className="selected-icon"
+                  name="check"
+                  size={20}
+                  color="text"
+                />
+              </Stack>
+            </ListBoxItem>
           )}
         </ListBox>
       </Popover>
     </AriaComboBox>
   )
 );
+
+const InputWrapper = styled('div', {
+  base: {
+    position: 'relative',
+    '& > svg + input': { paddingLeft: '$xl' },
+  },
+});
+
+const ChevronButton = styled(Button, {
+  base: {
+    position: 'absolute',
+    height: '100%',
+    top: '0px',
+    right: '0px',
+    paddingRight: '$small',
+    paddingLeft: '$small',
+    display: 'flex',
+    alignItems: 'center',
+  },
+});
+
+const SelectedIcon = styled(Icon, {
+  base: {
+    display: 'none',
+  },
+});
 
 ComboBox.displayName = 'ComboBox';
 

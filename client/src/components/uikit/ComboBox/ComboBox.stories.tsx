@@ -1,40 +1,118 @@
-import { Stack, ComboBox } from '~uikit';
+import { useAsyncList } from 'react-stately';
+import type { Meta, StoryObj } from '@storybook/react';
+
+import { ComboBox, ComboBoxOption } from '~uikit';
 
 export default {
   title: 'ComboBox',
   component: ComboBox,
+  decorators: [
+    Story => (
+      <div style={{ maxWidth: '300px' }}>
+        <Story />
+      </div>
+    ),
+  ],
+} satisfies Meta<typeof ComboBox>;
+
+type Story = StoryObj<typeof ComboBox>;
+
+const options: ComboBoxOption[] = [
+  { label: 'Cat', value: '1' },
+  { label: 'Dog', value: '2' },
+  { label: 'Horse', value: '3', description: 'Very special!' },
+  { label: 'Cow', value: '4' },
+  { label: 'Horseradish', value: '5' },
+];
+
+export const Regular: Story = {
+  args: {
+    defaultItems: options,
+    label: 'Regular combobox',
+  },
 };
 
-export function Example() {
-  const options = [
-    { label: 'Cat', value: '1' },
-    { label: 'Dog', value: '2' },
-    { label: 'Horse', value: '3' },
-    { label: 'Cow', value: '4' },
-    { label: 'Horseradish', value: '5' },
-  ];
+export const Disabled: Story = {
+  args: {
+    defaultItems: options,
+    label: 'Disabled combobox',
+    isDisabled: true,
+  },
+};
+
+export const Required: Story = {
+  args: {
+    defaultItems: options,
+    label: 'Required combobox',
+    isRequired: true,
+  },
+};
+
+export const WithIcon: Story = {
+  args: {
+    defaultItems: options,
+    label: 'With icon',
+    icon: 'cloud',
+  },
+};
+
+export const WithDescription: Story = {
+  args: {
+    defaultItems: options,
+    label: 'Descriptions also',
+    description: 'You should pick the third one',
+  },
+};
+
+export const WithErrorMessage: Story = {
+  args: {
+    defaultItems: options,
+    label: 'Some invalid choice',
+    errorMessage: 'This is really bad',
+  },
+};
+
+export const AsyncOptions: Story = {
+  render: args => <AsyncOptionsStory {...args} />,
+};
+
+function AsyncOptionsStory() {
+  const list = useAsyncList<ComboBoxOption>({
+    async load({ signal, filterText }) {
+      const items = await fetchSWCharacter({
+        search: filterText,
+        signal,
+      });
+      return { items };
+    },
+  });
 
   return (
-    <Stack direction="column" gap="$large" style={{ maxWidth: 400 }}>
-      <ComboBox label="Regular combobox" defaultItems={options} />
-
-      <ComboBox label="Disabled combobox" defaultItems={options} isDisabled />
-
-      <ComboBox label="Required combobox" defaultItems={options} isRequired />
-
-      <ComboBox label="With icon" icon="fingerprint" defaultItems={options} />
-
-      <ComboBox
-        label="Descriptions also"
-        description="You should pick the third one"
-        defaultItems={options}
-      />
-
-      <ComboBox
-        label="Some invalid choice"
-        errorMessage="This is really bad"
-        defaultItems={options}
-      />
-    </Stack>
+    <ComboBox
+      label="Async options"
+      icon="apps"
+      items={list.items}
+      inputValue={list.filterText}
+      onInputChange={list.setFilterText}
+    />
   );
+}
+
+// Helpers
+
+async function fetchSWCharacter({
+  search = '',
+  signal,
+}: {
+  search?: string;
+  signal?: AbortSignal;
+}): Promise<ComboBoxOption[]> {
+  const result = await fetch(
+    `https://swapi.py4e.com/api/people/?search=${search}`,
+    { signal }
+  )
+    .then(res => res.json())
+    .then(data => data.results as { name: string; url: string }[]);
+
+  return result.map(pokemon => ({ value: pokemon.url, label: pokemon.name }));
 }
