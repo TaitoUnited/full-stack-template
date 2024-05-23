@@ -72,7 +72,6 @@ export const Select = forwardRef<HTMLDivElement, Props>(
           className={cx(
             inputBaseStyles,
             css({
-              textAlign: 'left',
               paddingRight: '$xl!',
               '&[data-has-icon="true"]': { paddingLeft: '$xl' },
               '& > *[data-placeholder]': { color: '$neutral1' },

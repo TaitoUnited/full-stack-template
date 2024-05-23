@@ -45,11 +45,13 @@ export const inputWrapperStyles = css({
 export const inputBaseStyles = css({
   '--outline-width': '1px',
   textStyle: '$body',
+  textAlign: 'left',
   padding: '$small',
   width: '100%',
   color: '$text',
   borderRadius: '$regular',
-  border: '1px solid token($colors.line1)',
+  borderWidth: '1px',
+  borderColor: '$line1',
   outlineOffset: 'calc(0px - var(--outline-width))',
   backgroundColor: '$surface',
 
@@ -65,6 +67,7 @@ export const inputBaseStyles = css({
   '&[disabled]': {
     backgroundColor: '$neutral5',
     cursor: 'not-allowed',
+    borderColor: '$line2',
   },
 });
 
@@ -116,6 +119,8 @@ export const listBoxItemStyles = css({
   paddingBlock: '$xs',
   paddingInline: '$small',
   borderRadius: '$small',
+  userSelect: 'none',
+  cursor: 'default',
 
   // The selected item is hidden by default
   '&[data-selected="true"] .selected-icon': {
