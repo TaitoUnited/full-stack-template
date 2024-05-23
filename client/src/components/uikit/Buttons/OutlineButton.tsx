@@ -1,11 +1,11 @@
 import { CSSProperties, forwardRef } from 'react';
 
 import type { ButtonProps } from './types';
-import ButtonContent from './ButtonContent';
+import { ButtonContent } from './ButtonContent';
 import { css, cx } from '~styled-system/css';
 import { token } from '~styled-system/tokens';
 
-const OutlineButton = forwardRef<HTMLButtonElement, ButtonProps>(
+export const OutlineButton = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ children, variant, className, style, ...rest }, ref) => {
     const _style = {
       ...style,
@@ -33,5 +33,3 @@ const styles = css({
 });
 
 OutlineButton.displayName = 'OutlineButton';
-
-export default OutlineButton;

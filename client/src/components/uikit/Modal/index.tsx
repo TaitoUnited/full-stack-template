@@ -13,7 +13,7 @@ import {
   VisuallyHidden,
 } from 'react-aria';
 
-import Icon from '../Icon';
+import { Icon } from '../Icon';
 import { css } from '~styled-system/css';
 import { styled } from '~styled-system/jsx';
 
@@ -27,7 +27,7 @@ type Props = {
 
 // Based on https://react-spectrum.adobe.com/react-aria/useDialog.html
 
-export default function Modal({
+export function Modal({
   title,
   children,
   onClose,

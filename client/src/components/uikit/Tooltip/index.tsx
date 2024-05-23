@@ -21,7 +21,7 @@ type Props = {
   customContent?: ReactNode;
 };
 
-export default function Tooltip({
+export function Tooltip({
   title,
   position = 'bottom',
   isDisabled = false,

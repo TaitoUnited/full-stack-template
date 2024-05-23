@@ -2,9 +2,9 @@ import { ButtonHTMLAttributes, forwardRef, useRef } from 'react';
 import { useButton } from 'react-aria';
 import mergeRefs from 'react-merge-refs';
 
-import ButtonLink from './ButtonLink';
-import Tooltip from '../Tooltip';
-import Icon, { IconName } from '../Icon';
+import { ButtonLink } from './ButtonLink';
+import { Tooltip } from '../Tooltip';
+import { Icon, IconName } from '../Icon';
 import { useLinkProps } from '~components/navigation/Link';
 import { css, cx } from '~styled-system/css';
 import { StyledSystemToken } from '~utils/styled-system';
@@ -20,7 +20,7 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   onClick?: () => any;
 };
 
-const IconButton = forwardRef<HTMLButtonElement, Props>(
+export const IconButton = forwardRef<HTMLButtonElement, Props>(
   (
     {
       onClick,
@@ -88,5 +88,3 @@ const styles = css({
 });
 
 IconButton.displayName = 'IconButton';
-
-export default IconButton;

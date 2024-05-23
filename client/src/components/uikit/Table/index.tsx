@@ -22,7 +22,7 @@ export type SortDescriptor = NonNullable<Props['sortDescriptor']>;
 
 // TODO: figure out how to render the sort icon
 
-export default function Table({
+export function Table({
   label,
   rowStyle,
   children,

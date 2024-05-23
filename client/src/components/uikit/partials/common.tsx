@@ -1,7 +1,7 @@
 import { ComponentProps } from 'react';
 
-import Icon from '../Icon';
-import Text from '../Text';
+import { Icon } from '../Icon';
+import { Text } from '../Text';
 import { css } from '~styled-system/css';
 import { Stack } from '~styled-system/jsx';
 

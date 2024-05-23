@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { orderBy, random, range } from 'lodash';
 
-import Table, { SortDescriptor } from './index';
+import { Table, SortDescriptor } from './index';
 import { styled } from '~styled-system/jsx';
 
 export default {

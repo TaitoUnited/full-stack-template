@@ -11,7 +11,7 @@ type Props = SVGAttributes<any> & {
   size: number;
 };
 
-function Icon({ name, size, color, style, ...rest }: Props) {
+function IconBase({ name, size, color, style, ...rest }: Props) {
   return (
     <svg
       style={{
@@ -31,4 +31,4 @@ function Icon({ name, size, color, style, ...rest }: Props) {
   );
 }
 
-export default memo(Icon);
+export const Icon = memo(IconBase);

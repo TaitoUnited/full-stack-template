@@ -10,7 +10,8 @@ import {
   ListBox,
 } from 'react-aria-components';
 
-import Text from '../Text';
+import { Text } from '../Text';
+import { Icon, IconName } from '../Icon';
 
 import {
   inputBaseStyles,
@@ -23,7 +24,6 @@ import {
   listBoxStyles,
 } from '~components/uikit/partials/common';
 
-import Icon, { IconName } from '~components/uikit/Icon';
 import { css, cx } from '~styled-system/css';
 import { Stack, styled } from '~styled-system/jsx';
 
@@ -47,7 +47,7 @@ type Props = ComponentProps<typeof AriaComboBox<ComboBoxOption>> & {
  *
  * Ref: https://react-spectrum.adobe.com/react-aria/ComboBox.html
  */
-const ComboBox = forwardRef<HTMLInputElement, Props>(
+export const ComboBox = forwardRef<HTMLInputElement, Props>(
   ({ label, description, errorMessage, placeholder, icon, ...rest }, ref) => (
     <AriaComboBox
       {...rest}
@@ -157,5 +157,3 @@ const SelectedIcon = styled(Icon, {
 });
 
 ComboBox.displayName = 'ComboBox';
-
-export default ComboBox;

@@ -23,7 +23,7 @@ type Props = {
 
 // Based on https://react-spectrum.adobe.com/react-aria/useDialog.html
 
-export default function Drawer({ title, children, onClose, ...rest }: Props) {
+export function Drawer({ title, children, onClose, ...rest }: Props) {
   const ref = useRef<any>(null);
   const { modalProps } = useModal();
   const { dialogProps, titleProps } = useDialog({}, ref);

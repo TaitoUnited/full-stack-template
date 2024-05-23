@@ -1,4 +1,4 @@
-import SkeletonPlaceholder from './index';
+import { SkeletonPlaceholder } from './index';
 import { styled } from '~styled-system/jsx';
 import { Stack } from '~uikit';
 

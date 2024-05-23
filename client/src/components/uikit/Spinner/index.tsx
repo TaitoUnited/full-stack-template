@@ -15,7 +15,7 @@ type Props = {
   style?: CSSProperties;
 };
 
-export default function Spinner({ color, size, style, className }: Props) {
+export function Spinner({ color, size, style, className }: Props) {
   return (
     <Root
       className={className}

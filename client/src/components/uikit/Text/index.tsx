@@ -36,7 +36,7 @@ type Props = HTMLAttributes<HTMLSpanElement> &
     as?: AllowedElement;
   };
 
-function Text({
+function TextBase({
   as,
   align,
   children,
@@ -128,4 +128,4 @@ const styles = cva({
   },
 });
 
-export default memo(Text);
+export const Text = memo(TextBase);

@@ -3,14 +3,14 @@ import { useButton, useFocusRing } from 'react-aria';
 import mergeRefs from 'react-merge-refs';
 
 import type { ButtonProps, ButtonSize } from './types';
-import Spinner, { SpinnerSize } from '../Spinner';
-import ButtonLink from './ButtonLink';
-import Icon from '../Icon';
+import { Spinner, SpinnerSize } from '../Spinner';
+import { ButtonLink } from './ButtonLink';
+import { Icon } from '../Icon';
 import { Stack } from '~styled-system/jsx';
 import { cva, cx } from '~styled-system/css';
 import { token } from '~styled-system/tokens';
 
-const ButtonContent = forwardRef<HTMLButtonElement, ButtonProps>(
+export const ButtonContent = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       asLink,
@@ -57,10 +57,7 @@ const ButtonContent = forwardRef<HTMLButtonElement, ButtonProps>(
       />
     ) : null;
 
-    const _className = cx(
-      styles({ size, isFocusVisible }),
-      className
-    );
+    const _className = cx(styles({ size, isFocusVisible }), className);
 
     const _style = {
       ...style,
@@ -156,5 +153,3 @@ const styles = cva({
 });
 
 ButtonContent.displayName = 'ButtonContent';
-
-export default ButtonContent;

@@ -1,11 +1,11 @@
 import { CSSProperties, forwardRef } from 'react';
 
 import type { ButtonProps } from './types';
-import ButtonContent from './ButtonContent';
+import { ButtonContent } from './ButtonContent';
 import { css, cx } from '~styled-system/css';
 import { token } from '~styled-system/tokens';
 
-const FillButton = forwardRef<HTMLButtonElement, ButtonProps>(
+export const FillButton = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ children, variant, className, style, ...rest }, ref) => {
     const _style = {
       ...style,
@@ -34,5 +34,3 @@ const styles = css({
 });
 
 FillButton.displayName = 'FillButton';
-
-export default FillButton;

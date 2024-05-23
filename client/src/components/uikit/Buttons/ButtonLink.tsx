@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'; // eslint-disable-line no-restricted-im
 import { useLinkProps } from '~components/navigation/Link';
 
 // TODO: fix types
-const ButtonLink = forwardRef<any, any>(
+export const ButtonLink = forwardRef<any, any>(
   ({ linkProps, ...buttonProps }, ref) => {
     const extraProps = useLinkProps(linkProps);
 
@@ -19,4 +19,3 @@ const ButtonLink = forwardRef<any, any>(
 );
 
 ButtonLink.displayName = 'ButtonLink';
-export default ButtonLink;

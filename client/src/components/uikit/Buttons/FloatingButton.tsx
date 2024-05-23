@@ -2,10 +2,10 @@ import { ButtonHTMLAttributes, CSSProperties, forwardRef, useRef } from 'react';
 import { useButton, useFocusRing } from 'react-aria';
 import mergeRefs from 'react-merge-refs';
 
-import ButtonLink from './ButtonLink';
-import Tooltip from '../Tooltip';
-import Spinner from '../Spinner';
-import Icon, { IconName } from '../Icon';
+import { ButtonLink } from './ButtonLink';
+import { Tooltip } from '../Tooltip';
+import { Spinner } from '../Spinner';
+import { Icon, IconName } from '../Icon';
 import { useLinkProps } from '~components/navigation/Link';
 import { cva, cx } from '~styled-system/css';
 import { token } from '~styled-system/tokens';
@@ -20,7 +20,7 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
   onClick?: () => any;
 };
 
-const FloatingButton = forwardRef<HTMLButtonElement, Props>(
+export const FloatingButton = forwardRef<HTMLButtonElement, Props>(
   (
     {
       onClick,
@@ -125,5 +125,3 @@ const styles = cva({
 });
 
 FloatingButton.displayName = 'FloatingButton';
-
-export default FloatingButton;

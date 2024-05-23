@@ -22,7 +22,7 @@ type Props = {
 
 // Based on https://react-spectrum.adobe.com/react-aria/useOverlayTrigger.html
 
-const Popover = forwardRef<any, Props>(
+export const Popover = forwardRef<any, Props>(
   ({ title, children, onClose, ...otherProps }, ref: any) => {
     // Handle interacting outside the dialog and pressing the Escape key to close the modal
     const { overlayProps } = useOverlay(
@@ -76,5 +76,3 @@ const Wrapper = styled('div', {
     $focusRing: true,
   },
 });
-
-export default Popover;

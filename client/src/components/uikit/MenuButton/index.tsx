@@ -25,7 +25,7 @@ import {
   OverlayContainer,
 } from 'react-aria';
 
-import Icon from '../Icon';
+import { Icon } from '../Icon';
 import { styled } from '~styled-system/jsx';
 import { ColorToken } from '~styled-system/tokens';
 import { StyledSystemToken } from '~utils/styled-system';
@@ -40,7 +40,7 @@ type Props = {
 };
 
 // Based on https://react-spectrum.adobe.com/react-aria/useMenuTrigger.html
-export default function MenuButton({
+export function MenuButton({
   label,
   actions,
   iconColor = 'text',

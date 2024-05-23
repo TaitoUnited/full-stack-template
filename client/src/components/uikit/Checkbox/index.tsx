@@ -2,7 +2,7 @@ import { forwardRef, ComponentProps, ReactNode } from 'react';
 import { motion } from 'framer-motion';
 import { Checkbox as AriaCheckbox } from 'react-aria-components';
 
-import Icon from '../Icon';
+import { Icon } from '../Icon';
 import { styled } from '~styled-system/jsx';
 
 type CommonProps = ComponentProps<typeof AriaCheckbox>;
@@ -36,7 +36,7 @@ type Props = PropsWithLabel | PropsWithLabelledBy | PropsWithHiddenLabel;
  *
  * Ref: https://react-spectrum.adobe.com/react-aria/Checkbox.html
  */
-const Checkbox = forwardRef<HTMLLabelElement, Props>(
+export const Checkbox = forwardRef<HTMLLabelElement, Props>(
   ({ label, labelledby, hiddenLabel, ...rest }, ref) => (
     <Wrapper
       aria-labelledby={labelledby}
@@ -149,5 +149,3 @@ const Checkmark = styled(motion.div, {
 });
 
 Checkbox.displayName = 'Checkbox';
-
-export default Checkbox;

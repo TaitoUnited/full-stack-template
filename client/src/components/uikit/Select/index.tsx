@@ -22,7 +22,7 @@ import {
   listBoxItemStyles,
 } from '../partials/common';
 
-import Icon, { IconName } from '../Icon';
+import { Icon, IconName } from '../Icon';
 import { css, cx } from '~styled-system/css';
 
 export type SelectOption = {
@@ -44,7 +44,7 @@ type Props = ComponentProps<typeof AriaSelect<SelectOption>> & {
  *
  * Ref: https://react-spectrum.adobe.com/react-aria/Select.html
  */
-const Select = forwardRef<HTMLDivElement, Props>(
+export const Select = forwardRef<HTMLDivElement, Props>(
   ({ label, description, errorMessage, icon, items, ...rest }, ref) => (
     <AriaSelect
       {...rest}
@@ -110,5 +110,3 @@ const Select = forwardRef<HTMLDivElement, Props>(
 );
 
 Select.displayName = 'Select';
-
-export default Select;

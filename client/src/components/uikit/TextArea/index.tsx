@@ -23,7 +23,7 @@ type Props = ComponentProps<typeof TextField> &
 /**
  * Ref: https://react-spectrum.adobe.com/react-aria/TextField.html
  */
-const TextArea = forwardRef<HTMLTextAreaElement, Props>(
+export const TextArea = forwardRef<HTMLTextAreaElement, Props>(
   (
     {
       label,
@@ -81,5 +81,3 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
 );
 
 TextArea.displayName = 'TextArea';
-
-export default TextArea;

@@ -12,7 +12,7 @@ import {
   ErrorText,
 } from '../partials/common';
 
-import Icon, { IconName } from '../Icon';
+import { Icon, IconName } from '../Icon';
 import { css, cx } from '~styled-system/css';
 
 type Props = ComponentProps<typeof TextField> & {
@@ -28,7 +28,7 @@ type Props = ComponentProps<typeof TextField> & {
 /**
  * Ref: https://react-spectrum.adobe.com/react-aria/TextField.html
  */
-const TextInput = forwardRef<HTMLInputElement, Props>(
+export const TextInput = forwardRef<HTMLInputElement, Props>(
   (
     { label, icon, description, errorMessage, placeholder, id, ...rest },
     ref
@@ -109,5 +109,3 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
 );
 
 TextInput.displayName = 'TextInput';
-
-export default TextInput;

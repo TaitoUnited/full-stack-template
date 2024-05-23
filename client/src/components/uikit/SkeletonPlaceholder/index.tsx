@@ -18,7 +18,7 @@ type Props = {
   backgroundColor?: Color;
 };
 
-export default function SkeletonPlaceholder({
+export function SkeletonPlaceholder({
   width,
   height,
   marginTop,
