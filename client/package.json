@@ -63,7 +63,6 @@
     "@pandacss/dev": "0.39.1",
     "@rollup/plugin-strip": "3.0.2",
     "@storybook/addon-essentials": "8.1.2",
-    "@storybook/addon-interactions": "8.1.2",
     "@storybook/addon-links": "8.1.2",
     "@storybook/react-vite": "8.1.2",
     "@storybook/theming": "8.1.2",
