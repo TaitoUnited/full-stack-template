@@ -26,12 +26,14 @@
   textarea,
   select,
   optgroup {
+    outline: none; /* focus ring should be added manually */
     appearance: none;
-    outline: none; /* Focus styles are added at UI kit level */
-    border: none;
-    background-color: transparent;
+    border-width: 0;
+    padding: 0;
+    background: transparent;
     -webkit-tap-highlight-color: transparent;
     font-family: 'Inter', sans-serif;
+    font-size: 16px;
   }
 
   img {
@@ -40,6 +42,7 @@
 
   * {
     box-sizing: border-box;
+    border-style: solid;
   }
 
   ul,
@@ -51,12 +54,10 @@
 
   li {
     margin: 0;
+    list-style: none;
   }
 
   button {
-    border: none;
-    background: none;
-    padding: 0;
     cursor: pointer;
   }
 }

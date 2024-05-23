@@ -23,12 +23,14 @@ export const globalCss = defineGlobalStyles({
   },
 
   'button, input, textarea, select, optgroup': {
+    outline: 'none', // focus ring should be added manually
     appearance: 'none',
-    outline: 'none',
-    border: 'none',
-    backgroundColor: 'transparent',
+    borderWidth: '0',
+    padding: '0',
+    background: 'transparent',
     WebkitTapHighlightColor: 'transparent',
     fontFamily: "'Inter', sans-serif",
+    fontSize: '16px',
   },
 
   img: {
@@ -52,10 +54,6 @@ export const globalCss = defineGlobalStyles({
   },
 
   button: {
-    borderWidth: 0,
-    borderStyle: 'solid',
-    background: 'none',
-    padding: 0,
     cursor: 'pointer',
   },
 });
