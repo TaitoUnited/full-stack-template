@@ -10,7 +10,9 @@ import { Stack } from '~styled-system/jsx';
 export function DescriptionText(
   props: Omit<ComponentProps<typeof Text>, 'slot' | 'variant'>
 ) {
-  return <Text {...props} slot="description" variant="bodySmall" />;
+  return (
+    <Text {...props} slot="description" variant="bodySmall" color="textMuted" />
+  );
 }
 
 export function ErrorText({
@@ -72,7 +74,6 @@ export const inputBaseStyles = css({
 export const labelStyles = css({
   textStyle: '$label',
   color: '$text',
-  marginBottom: '$xxs',
 
   '&[data-required="true"]': {
     '&:after': {

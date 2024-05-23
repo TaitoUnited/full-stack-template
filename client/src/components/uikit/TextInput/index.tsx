@@ -13,7 +13,8 @@ import {
 } from '../partials/common';
 
 import { Icon, IconName } from '../Icon';
-import { css, cx } from '~styled-system/css';
+import { cx } from '~styled-system/css';
+import { styled } from '~styled-system/jsx';
 
 type Props = ComponentProps<typeof TextField> & {
   label: string;
@@ -47,13 +48,7 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(
           {label}
         </Label>
 
-        <div
-          className={css({
-            position: 'relative',
-            '& > svg + input': { paddingLeft: '$xl' },
-            '& > input[data-password]': { paddingRight: '$xl' },
-          })}
-        >
+        <InputContent>
           {!!icon && (
             <Icon
               className={inputIconLeftStyles}
@@ -75,37 +70,48 @@ export const TextInput = forwardRef<HTMLInputElement, Props>(
           />
 
           {isPassword && (
-            <ToggleButton
+            <PasswordToggleButton
               isSelected={passwordVisible}
               onChange={setPasswordVisible}
               aria-label={t`Show password`}
-              className={css({
-                position: 'absolute',
-                height: '100%',
-                top: '0px',
-                right: '0px',
-                paddingRight: '$small',
-                paddingLeft: '$small',
-                display: 'flex',
-                alignItems: 'center',
-                borderRadius: '$regular',
-                $focusRing: true,
-              })}
             >
               <Icon
                 name={passwordVisible ? 'eye' : 'eyeOff'}
                 size={20}
                 color="neutral1"
               />
-            </ToggleButton>
+            </PasswordToggleButton>
           )}
-        </div>
+        </InputContent>
 
-        {description && <DescriptionText>{description}</DescriptionText>}
-        {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
+        {!!description && <DescriptionText>{description}</DescriptionText>}
+        {!!errorMessage && <ErrorText>{errorMessage}</ErrorText>}
       </TextField>
     );
   }
 );
+
+const InputContent = styled('div', {
+  base: {
+    position: 'relative',
+    '& > svg + input': { paddingLeft: '$xl' },
+    '& > input[data-password]': { paddingRight: '$xl' },
+  },
+});
+
+const PasswordToggleButton = styled(ToggleButton, {
+  base: {
+    position: 'absolute',
+    height: '100%',
+    top: '0px',
+    right: '0px',
+    paddingRight: '$small',
+    paddingLeft: '$small',
+    display: 'flex',
+    alignItems: 'center',
+    borderRadius: '$regular',
+    $focusRing: true,
+  },
+});
 
 TextInput.displayName = 'TextInput';

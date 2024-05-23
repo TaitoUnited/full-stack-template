@@ -1,31 +1,65 @@
-import { Stack, TextInput } from '~uikit';
+import type { Meta, StoryObj } from '@storybook/react';
+import { TextInput } from '~uikit';
 
 export default {
   title: 'TextInput',
   component: TextInput,
+  decorators: [
+    Story => (
+      <div style={{ maxWidth: '300px' }}>
+        <Story />
+      </div>
+    ),
+  ],
+} satisfies Meta<typeof TextInput>;
+
+type Story = StoryObj<typeof TextInput>;
+
+export const Regular: Story = {
+  args: {
+    label: 'Regular input',
+    placeholder: 'Type something',
+  },
 };
 
-export function Example() {
-  return (
-    <Stack direction="column" gap="$large" style={{ maxWidth: 400 }}>
-      <TextInput label="Test input" />
+export const Disabled: Story = {
+  args: {
+    label: 'Disabled input',
+    isDisabled: true,
+  },
+};
 
-      <TextInput label="Disabled input" isDisabled />
+export const Required: Story = {
+  args: {
+    label: 'Required input',
+    isRequired: true,
+  },
+};
 
-      <TextInput label="Placeholder input" placeholder="Tell me why" />
+export const WithDescription: Story = {
+  args: {
+    label: 'Input with description',
+    description: 'You should fill this one',
+  },
+};
 
-      <TextInput label="Required input" isRequired />
+export const WithError: Story = {
+  args: {
+    label: 'Erroring input',
+    errorMessage: "Please don't do this",
+  },
+};
 
-      <TextInput
-        label="Input with description"
-        description="You should fill this one"
-      />
+export const WithIcon: Story = {
+  args: {
+    label: 'Icon input',
+    icon: 'comment',
+  },
+};
 
-      <TextInput label="Erroring input" errorMessage="Please don't do this" />
-
-      <TextInput label="Icon input" icon="comment" />
-
-      <TextInput label="Password input" type="password" />
-    </Stack>
-  );
-}
+export const Password: Story = {
+  args: {
+    label: 'Password input',
+    type: 'password',
+  },
+};

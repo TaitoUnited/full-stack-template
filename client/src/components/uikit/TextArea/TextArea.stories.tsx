@@ -1,27 +1,60 @@
-import { Stack, TextArea } from '~uikit';
+import type { Meta, StoryObj } from '@storybook/react';
+
+import { TextArea } from '~uikit';
 
 export default {
   title: 'TextArea',
   component: TextArea,
+  decorators: [
+    Story => (
+      <div style={{ maxWidth: '300px' }}>
+        <Story />
+      </div>
+    ),
+  ],
+} satisfies Meta<typeof TextArea>;
+
+type Story = StoryObj<typeof TextArea>;
+
+export const Regular: Story = {
+  args: {
+    label: 'Regular textarea',
+    placeholder: 'Hello there',
+    rows: 4,
+  },
 };
 
-export function Example() {
-  return (
-    <Stack direction="column" gap="$large" style={{ maxWidth: 400 }}>
-      <TextArea label="Test input" />
+export const Disabled: Story = {
+  args: {
+    label: 'Disabled textarea',
+    isDisabled: true,
+  },
+};
 
-      <TextArea label="Disabled input" isDisabled />
+export const Required: Story = {
+  args: {
+    label: 'Required textarea',
+    isRequired: true,
+  },
+};
 
-      <TextArea label="Placeholder input" placeholder="Tell me why" />
+export const WithDescription: Story = {
+  args: {
+    label: 'Textarea with description',
+    description: 'You should fill this one',
+  },
+};
 
-      <TextArea label="Required input" isRequired />
+export const WithError: Story = {
+  args: {
+    label: 'Erroring textarea',
+    errorMessage: "Please don't do this",
+  },
+};
 
-      <TextArea
-        label="Input with description"
-        description="You should fill this one"
-      />
-
-      <TextArea label="Erroring input" errorMessage="Please don't do this" />
-    </Stack>
-  );
-}
+export const AutoResize: Story = {
+  args: {
+    label: 'Auto-resizing textarea',
+    autoResize: true,
+  },
+};
