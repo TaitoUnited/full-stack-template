@@ -1,4 +1,12 @@
-import { memo, type CSSProperties, type HTMLAttributes } from 'react';
+import {
+  memo,
+  type ComponentProps,
+  type CSSProperties,
+  type HTMLAttributes,
+} from 'react';
+
+import { Text as AriaText } from 'react-aria-components';
+
 import { token, ColorToken } from '~styled-system/tokens';
 import { StyledSystemToken } from '~utils/styled-system';
 import { cx, cva } from '~styled-system/css';
@@ -19,13 +27,14 @@ type AllowedElement =
   | 'strong'
   | 'sub';
 
-type Props = HTMLAttributes<HTMLSpanElement> & {
-  variant: Typography;
-  color?: StyledSystemToken<ColorToken>;
-  align?: CSSProperties['textAlign'];
-  lineHeight?: CSSProperties['lineHeight'];
-  as?: AllowedElement;
-};
+type Props = HTMLAttributes<HTMLSpanElement> &
+  ComponentProps<typeof AriaText> & {
+    variant: Typography;
+    color?: StyledSystemToken<ColorToken>;
+    align?: CSSProperties['textAlign'];
+    lineHeight?: CSSProperties['lineHeight'];
+    as?: AllowedElement;
+  };
 
 function Text({
   as,
@@ -37,11 +46,12 @@ function Text({
   color = 'text',
   ...rest
 }: Props) {
-  const Element = as || variantToElement[variant];
+  const elementType = as || variantToElement[variant];
 
   return (
-    <Element
+    <AriaText
       {...rest}
+      elementType={elementType}
       className={cx(styles({ variant }), className)}
       style={{
         lineHeight,
@@ -50,7 +60,7 @@ function Text({
       }}
     >
       {children}
-    </Element>
+    </AriaText>
   );
 }
 
