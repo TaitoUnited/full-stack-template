@@ -5,7 +5,7 @@ import { TextField } from 'react-aria-components';
 import {
   inputWrapperStyles,
   labelStyles,
-  baseInputStyles,
+  inputBaseStyles,
   DescriptionText,
   ErrorText,
 } from '../partials/common';
@@ -65,7 +65,7 @@ const TextArea = forwardRef<HTMLTextAreaElement, Props>(
             {...(inputProps as any)}
             ref={ref}
             placeholder={placeholder}
-            className={baseInputStyles}
+            className={inputBaseStyles}
           />
         </div>
 

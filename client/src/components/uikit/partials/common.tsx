@@ -1,8 +1,38 @@
 import { ComponentProps } from 'react';
-import { Text } from 'react-aria-components';
 
 import Icon from '../Icon';
+import Text from '../Text';
 import { css } from '~styled-system/css';
+import { Stack } from '~styled-system/jsx';
+
+// Common input sub-components
+
+export function DescriptionText(
+  props: Omit<ComponentProps<typeof Text>, 'slot' | 'variant'>
+) {
+  return <Text {...props} slot="description" variant="bodySmall" />;
+}
+
+export function ErrorText({
+  children,
+  ...rest
+}: Omit<ComponentProps<typeof Text>, 'slot' | 'variant'>) {
+  return (
+    <Stack direction="row" gap="$xxs" align="center">
+      <Icon name="error" size={18} color="error" />
+      <Text
+        {...rest}
+        slot="errorMessage"
+        variant="bodySmall"
+        color="errorContrast"
+      >
+        {children}
+      </Text>
+    </Stack>
+  );
+}
+
+// Common input styles
 
 export const inputWrapperStyles = css({
   display: 'flex',
@@ -10,15 +40,16 @@ export const inputWrapperStyles = css({
   gap: '$xxs',
 });
 
-export const baseInputStyles = css({
+export const inputBaseStyles = css({
   '--outline-width': '1px',
   textStyle: '$body',
   padding: '$small',
   width: '100%',
   color: '$text',
   borderRadius: '$regular',
-  border: '1px solid token($colors.line3)',
+  border: '1px solid token($colors.line1)',
   outlineOffset: 'calc(0px - var(--outline-width))',
+  backgroundColor: '$surface',
 
   '&:focus': {
     '--outline-width': '2px',
@@ -39,13 +70,14 @@ export const baseInputStyles = css({
  * Add a `data-required` attribute to render an `*` after the label
  */
 export const labelStyles = css({
-  textStyle: '$body',
+  textStyle: '$label',
   color: '$text',
   marginBottom: '$xxs',
 
   '&[data-required="true"]': {
     '&:after': {
       content: '" *"',
+      color: '$errorContrast',
     },
   },
 });
@@ -66,38 +98,6 @@ export const inputIconRightStyles = css({
   pointerEvents: 'none',
 });
 
-export const DescriptionText = (
-  props: Omit<ComponentProps<typeof Text>, 'slot'>
-) => (
-  <Text
-    {...props}
-    slot="description"
-    className={css({ textStyle: '$bodySmall' })}
-  />
-);
-
-export const ErrorText = ({
-  children,
-  ...rest
-}: Omit<ComponentProps<typeof Text>, 'slot'>) => (
-  <Text
-    {...rest}
-    slot="errorMessage"
-    className={css({
-      textStyle: '$bodySmall',
-      color: '$errorText',
-      display: 'flex',
-      alignItems: 'center',
-      '& > svg': {
-        marginRight: '$xxs',
-      },
-    })}
-  >
-    <Icon name="warning" size={14} color="error" />
-    {children}
-  </Text>
-);
-
 export const listBoxStyles = css({
   width: 'var(--trigger-width)' /* magical var from react-aria */,
   padding: '$xs',
@@ -107,30 +107,26 @@ export const listBoxStyles = css({
   backgroundColor: '$surface',
   boxShadow: '$regular',
   outline: 'none',
+});
 
-  /* The 'Item' component isn't the actual thing that gets rendered, so we need
-   * to style it indirectly */
-  '& .react-aria-Item': {
-    position: 'relative',
-    paddingBlock: '$xs',
-    paddingRight: '$small',
-    paddingLeft: '$medium',
-    borderRadius: '$small',
+export const listBoxItemStyles = css({
+  outline: 'none',
+  position: 'relative',
+  paddingBlock: '$xs',
+  paddingInline: '$small',
+  borderRadius: '$small',
 
-    '&[aria-selected="true"]': {
-      textStyle: '$bodyBold',
+  // The selected item is hidden by default
+  '&[data-selected="true"] .selected-icon': {
+    display: 'block',
+  },
 
-      '&:before': {
-        content: "'✓'",
-        position: 'absolute',
-        left: '6px',
-      },
-    },
+  '&[data-focused="true"]': {
+    backgroundColor: '$primaryMuted',
+  },
 
-    '&[data-focused="true"]': {
-      color: '$primaryText',
-      backgroundColor: '$primaryMuted',
-      outline: 'none',
-    },
+  '& span': {
+    userSelect: 'none',
+    cursor: 'default',
   },
 });

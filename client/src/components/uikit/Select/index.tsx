@@ -11,7 +11,7 @@ import {
 } from 'react-aria-components';
 
 import {
-  baseInputStyles,
+  inputBaseStyles,
   DescriptionText,
   ErrorText,
   inputIconLeftStyles,
@@ -19,19 +19,20 @@ import {
   inputWrapperStyles,
   labelStyles,
   listBoxStyles,
+  listBoxItemStyles,
 } from '../partials/common';
 
 import Icon, { IconName } from '../Icon';
 import { css, cx } from '~styled-system/css';
 
-type Option = {
+export type SelectOption = {
   value: string;
   label: string;
 };
 
-type Props = ComponentProps<typeof AriaSelect<Option>> & {
+type Props = ComponentProps<typeof AriaSelect<SelectOption>> & {
   label: string;
-  items: Option[];
+  items: SelectOption[];
   description?: string;
   /** Passing an `errorMessage` as prop toggles the input as invalid. */
   errorMessage?: string;
@@ -69,7 +70,7 @@ const Select = forwardRef<HTMLDivElement, Props>(
           data-invalid={!!errorMessage}
           data-has-icon={!!icon}
           className={cx(
-            baseInputStyles,
+            inputBaseStyles,
             css({
               textAlign: 'left',
               paddingRight: '$xl!',
@@ -82,23 +83,25 @@ const Select = forwardRef<HTMLDivElement, Props>(
         </Button>
 
         <Icon
-          name="chevronDown"
-          size={20}
-          color="neutral1"
+          name="arrowDropDown"
+          size={24}
+          color="text"
           className={inputIconRightStyles}
         />
       </div>
 
-      {description && <DescriptionText>{description}</DescriptionText>}
-      {errorMessage && <ErrorText>{errorMessage}</ErrorText>}
+      {!!description && <DescriptionText>{description}</DescriptionText>}
+      {!!errorMessage && <ErrorText>{errorMessage}</ErrorText>}
 
       <Popover>
         <ListBox className={listBoxStyles} items={items}>
           {/* In cases like these, render props are preferred for perf reasons.
            * Ref: https://react-spectrum.adobe.com/react-stately/collections.html#why-not-array-map
            */}
-          {({ label, value }: Option) => (
-            <ListBoxItem id={value}>{label}</ListBoxItem>
+          {({ label, value }: SelectOption) => (
+            <ListBoxItem className={listBoxItemStyles} id={value}>
+              {label}
+            </ListBoxItem>
           )}
         </ListBox>
       </Popover>

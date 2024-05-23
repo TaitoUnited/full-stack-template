@@ -7,7 +7,7 @@ import {
   inputWrapperStyles,
   inputIconLeftStyles,
   labelStyles,
-  baseInputStyles,
+  inputBaseStyles,
   DescriptionText,
   ErrorText,
 } from '../partials/common';
@@ -67,7 +67,7 @@ const TextInput = forwardRef<HTMLInputElement, Props>(
             ref={ref}
             id={id}
             placeholder={placeholder}
-            className={baseInputStyles}
+            className={inputBaseStyles}
             data-password={isPassword || undefined}
             type={
               isPassword ? (passwordVisible ? 'text' : 'password') : rest.type
