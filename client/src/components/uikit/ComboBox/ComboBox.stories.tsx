@@ -1,6 +1,7 @@
 import { useAsyncList } from 'react-stately';
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { fetchStarWarsCharacter } from '../helpers';
 import { ComboBox, ComboBoxOption } from '~uikit';
 
 export default {
@@ -79,10 +80,7 @@ export const AsyncOptions: Story = {
 function AsyncOptionsStory() {
   const list = useAsyncList<ComboBoxOption>({
     async load({ signal, filterText }) {
-      const items = await fetchSWCharacter({
-        search: filterText,
-        signal,
-      });
+      const items = await fetchStarWarsCharacter({ filterText, signal });
       return { items };
     },
   });
@@ -96,23 +94,4 @@ function AsyncOptionsStory() {
       onInputChange={list.setFilterText}
     />
   );
-}
-
-// Helpers
-
-async function fetchSWCharacter({
-  search = '',
-  signal,
-}: {
-  search?: string;
-  signal?: AbortSignal;
-}): Promise<ComboBoxOption[]> {
-  const result = await fetch(
-    `https://swapi.py4e.com/api/people/?search=${search}`,
-    { signal }
-  )
-    .then(res => res.json())
-    .then(data => data.results as { name: string; url: string }[]);
-
-  return result.map(pokemon => ({ value: pokemon.url, label: pokemon.name }));
 }

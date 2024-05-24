@@ -3,6 +3,11 @@ export { MenuButton } from './MenuButton';
 export { Modal } from './Modal';
 export { Popover } from './Popover';
 export { Select, type SelectOption } from './Select';
+export {
+  MultiSelect,
+  type MultiSelectOption,
+  type MultiSelectLoadOptions,
+} from './MultiSelect';
 export { SkeletonPlaceholder } from './SkeletonPlaceholder';
 export { Spinner } from './Spinner';
 export { Text } from './Text';

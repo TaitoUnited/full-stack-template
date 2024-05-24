@@ -2,7 +2,7 @@ import { ComponentProps } from 'react';
 
 import { Icon } from '../Icon';
 import { Text } from '../Text';
-import { css } from '~styled-system/css';
+import { css, cx } from '~styled-system/css';
 import { Stack } from '~styled-system/jsx';
 
 // Common input sub-components
@@ -34,6 +34,17 @@ export function ErrorText({
   );
 }
 
+export function SelectedIcon() {
+  return (
+    <Icon
+      className={cx('selected-icon', css({ display: 'none' }))}
+      name="check"
+      size={20}
+      color="text"
+    />
+  );
+}
+
 // Common input styles
 
 export const inputWrapperStyles = css({
@@ -47,6 +58,7 @@ export const inputBaseStyles = css({
   textStyle: '$body',
   textAlign: 'left',
   padding: '$small',
+  minHeight: '50px',
   width: '100%',
   color: '$text',
   borderRadius: '$regular',
@@ -127,7 +139,7 @@ export const listBoxItemStyles = css({
     display: 'block',
   },
 
-  '&[data-focused="true"]': {
+  '&:hover, &[data-focused="true"]': {
     backgroundColor: '$primaryMuted',
   },
 

@@ -22,6 +22,7 @@ import {
   labelStyles,
   listBoxItemStyles,
   listBoxStyles,
+  SelectedIcon,
 } from '~components/uikit/partials/common';
 
 import { css, cx } from '~styled-system/css';
@@ -115,12 +116,7 @@ export const ComboBox = forwardRef<HTMLInputElement, Props>(
                   )}
                 </Stack>
 
-                <SelectedIcon
-                  className="selected-icon"
-                  name="check"
-                  size={20}
-                  color="text"
-                />
+                <SelectedIcon />
               </Stack>
             </ListBoxItem>
           )}
@@ -147,12 +143,6 @@ const ChevronButton = styled(Button, {
     paddingLeft: '$small',
     display: 'flex',
     alignItems: 'center',
-  },
-});
-
-const SelectedIcon = styled(Icon, {
-  base: {
-    display: 'none',
   },
 });
 

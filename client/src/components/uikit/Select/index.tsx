@@ -74,7 +74,7 @@ export const Select = forwardRef<HTMLDivElement, Props>(
             css({
               paddingRight: '$xl!',
               '&[data-has-icon="true"]': { paddingLeft: '$xl' },
-              '& > *[data-placeholder]': { color: '$neutral1' },
+              '& > *[data-placeholder]': { color: '$textMuted' },
             })
           )}
         >
@@ -85,7 +85,7 @@ export const Select = forwardRef<HTMLDivElement, Props>(
           name="arrowDropDown"
           size={24}
           color="text"
-          className={inputIconRightStyles}
+          className={cx(inputIconRightStyles, css({ right: '$xs' }))}
         />
       </div>
 
