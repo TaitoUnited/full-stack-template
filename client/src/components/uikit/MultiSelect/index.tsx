@@ -200,6 +200,7 @@ function MultiSelectOptions({
           autoFocus
           value={list.filterText}
           onChange={e => list.setFilterText(e.target.value)}
+          data-test-id="multi-select-input"
         />
 
         {list.loadingState === 'filtering' ? (
@@ -212,6 +213,7 @@ function MultiSelectOptions({
             size={24}
             label={t`Clear search filter`}
             onClick={() => list.setFilterText('')}
+            data-test-id="multi-select-input-clear"
           />
         ) : null}
       </MultiSelectFilter>
