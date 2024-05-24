@@ -2,7 +2,13 @@ import { t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
 import { AnimatePresence, Variants, motion } from 'framer-motion';
 
-import { ComponentProps, HTMLAttributes, ReactNode, useContext } from 'react';
+import {
+  ComponentProps,
+  HTMLAttributes,
+  ReactElement,
+  ReactNode,
+  useContext,
+} from 'react';
 
 import {
   Dialog,
@@ -123,17 +129,25 @@ function ModalContent({
 }
 
 function ModalHeader({
+  title,
   children,
   ...rest
-}: ComponentProps<typeof ModalHeaderContainer>) {
+}: ComponentProps<typeof ModalHeaderContainer> & {
+  title?: string;
+  children?: ReactElement;
+}) {
   const { close } = useContext(OverlayTriggerStateContext);
+
+  if (!title && !children) {
+    throw new Error('ModalHeader requires either a `title` string or `children` element!');
+  }
 
   return (
     <ModalHeaderContainer data-test-id="modal-header" {...rest}>
       <Heading slot="title">
-        {typeof children === 'string' ? (
+        {title ? (
           <Text variant="headingM" as="span">
-            {children}
+            {title}
           </Text>
         ) : (
           children

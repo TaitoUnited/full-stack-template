@@ -76,7 +76,7 @@ function ModalExample({
               </Stack>
             </Modal.Header>
           ) : (
-            <Modal.Header>Example modal</Modal.Header>
+            <Modal.Header title="Example modal" />
           )}
 
           <Modal.Body>
