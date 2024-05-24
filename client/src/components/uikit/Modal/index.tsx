@@ -139,7 +139,7 @@ function ModalHeader({
           children
         )}
       </Heading>
-      <IconButton label={t`Close`} icon="close" size={20} onClick={close} />
+      <IconButton label={t`Close`} icon="close" size={24} onClick={close} />
     </ModalHeaderContainer>
   );
 }

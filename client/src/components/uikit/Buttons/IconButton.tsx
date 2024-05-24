@@ -60,9 +60,9 @@ export const IconButton = forwardRef<HTMLButtonElement, Props>(
           {...buttonProps}
           {...linkProps}
           ref={mergeRefs([localRef, ref])}
-          className={cx(styles, className)}
+          className={cx(styles, className, css({ width: size, height: size }))}
         >
-          <Icon name={icon} size={size} color={color} />
+          <Icon name={icon} size={size * 0.75} color={color} />
         </Element>
       </Tooltip>
     );
@@ -77,7 +77,10 @@ const styles = css({
   borderRadius: '50%',
   textDecoration: 'none',
   cursor: 'pointer',
-  padding: '$xs',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+
   '&:active': {
     opacity: 0.8,
   },
