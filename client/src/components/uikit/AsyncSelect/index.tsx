@@ -38,25 +38,25 @@ import { Spinner } from '../Spinner';
 import { Stack, styled } from '~styled-system/jsx';
 import { css, cx } from '~styled-system/css';
 
-export type MultiSelectOption = {
+export type AsyncSelectOption = {
   value: string;
   label: string;
 };
 
-export type MultiSelectLoadOptions = (state: {
+export type AsyncSelectLoadOptions = (state: {
   filterText?: string;
   signal: AbortSignal;
-}) => Promise<{ items: MultiSelectOption[] }>;
+}) => Promise<{ items: AsyncSelectOption[] }>;
 
 type CommonProps = {
   /**
    * Function to load options asynchronously. This function should return a
-   * promise that resolves to `{ items: MultiSelectOption[] }`.
+   * promise that resolves to `{ items: AsyncSelectOption[] }`.
    * The function receives an object with an abort signal and a `search` property
    * that contains he current input value. This function will be initially called
    * with an empty string to load the initial set of options.
    */
-  loadOptions: MultiSelectLoadOptions;
+  loadOptions: AsyncSelectLoadOptions;
   /**
    * Whether to show the confirmation footer and require the user take an action
    * to apply the selection. If not provided, the selection is applied immediately
@@ -73,6 +73,7 @@ type CommonProps = {
   errorMessage?: string;
   description?: string;
   icon?: IconName;
+  selectionMode?: 'single' | 'multiple';
   selected: Set<string>;
   onSelect: (value: Set<string>) => void;
 };
@@ -84,7 +85,7 @@ type Props = ButtonProps &
     placeholder?: string;
   };
 
-export const MultiSelect = forwardRef<HTMLButtonElement, Props>(
+export const AsyncSelect = forwardRef<HTMLButtonElement, Props>(
   (
     {
       label,
@@ -94,6 +95,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, Props>(
       errorMessage,
       description,
       placeholder = '',
+      selectionMode,
       selected,
       onSelect,
       loadOptions,
@@ -130,6 +132,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, Props>(
                 css({
                   paddingRight: '$xl!',
                   color: '$textMuted',
+                  $truncate: true,
                   '&[data-has-icon="true"]': { paddingLeft: '$xl' },
                   '&[data-has-selected="true"]': { color: '$text' },
                 })
@@ -160,10 +163,11 @@ export const MultiSelect = forwardRef<HTMLButtonElement, Props>(
             style={{ '--trigger-width': `${dimensions.width}px` }}
             offset={4}
           >
-            <MultiSelectOptions
+            <AsyncSelectOptions
               isConfirmationRequired={isConfirmationRequired}
               emptyMessage={emptyMessage}
               errorMessage={errorMessage}
+              selectionMode={selectionMode}
               selected={selected}
               onSelect={onSelect}
               loadOptions={loadOptions}
@@ -175,28 +179,29 @@ export const MultiSelect = forwardRef<HTMLButtonElement, Props>(
   }
 );
 
-MultiSelect.displayName = 'MultiSelect';
+AsyncSelect.displayName = 'AsyncSelect';
 
-function MultiSelectOptions({
+function AsyncSelectOptions({
   errorMessage = t`Something went wrong`,
   emptyMessage,
   isConfirmationRequired,
+  selectionMode,
   selected,
   onSelect,
   loadOptions,
 }: CommonProps) {
-  const list = useAsyncList<MultiSelectOption>({ load: loadOptions });
+  const list = useAsyncList<AsyncSelectOption>({ load: loadOptions });
 
   return (
-    <MultiSelectDialog className={listBoxStyles}>
-      <MultiSelectFilter>
+    <AsyncSelectDialog className={listBoxStyles}>
+      <AsyncSelectFilter>
         <VisuallyHidden>
           <Trans>Search options</Trans>
         </VisuallyHidden>
 
         <Icon name="search" size={20} color="textMuted" />
 
-        <MultiSelectFilterInput
+        <AsyncSelectFilterInput
           autoFocus
           value={list.filterText}
           onChange={e => list.setFilterText(e.target.value)}
@@ -204,9 +209,9 @@ function MultiSelectOptions({
         />
 
         {list.loadingState === 'filtering' ? (
-          <MultiSelectFilterSpinner>
+          <AsyncSelectFilterSpinner>
             <Spinner size="small" color="text" />
-          </MultiSelectFilterSpinner>
+          </AsyncSelectFilterSpinner>
         ) : list.filterText ? (
           <IconButton
             icon="close"
@@ -216,26 +221,27 @@ function MultiSelectOptions({
             data-test-id="multi-select-input-clear"
           />
         ) : null}
-      </MultiSelectFilter>
+      </AsyncSelectFilter>
 
       {list.items ? (
-        <MultiSelectOptionsList
+        <AsyncSelectOptionsList
           items={list.items}
           emptyMessage={emptyMessage}
           isConfirmationRequired={isConfirmationRequired}
+          selectionMode={selectionMode}
           selected={selected}
           onSelect={onSelect}
         />
       ) : list.loadingState === 'error' ? (
-        <MultiSelectEmpty>
+        <AsyncSelectEmpty>
           <Text variant="body">{errorMessage}</Text>
-        </MultiSelectEmpty>
+        </AsyncSelectEmpty>
       ) : list.loadingState === 'loading' ? (
-        <MultiSelectEmpty>
+        <AsyncSelectEmpty>
           <Spinner size="medium" color="text" />
-        </MultiSelectEmpty>
+        </AsyncSelectEmpty>
       ) : null}
-    </MultiSelectDialog>
+    </AsyncSelectDialog>
   );
 }
 
@@ -244,14 +250,15 @@ function MultiSelectOptions({
  * reset when the popover is closed! That way we don't need to do any manual
  * state synchronization and cleanup.
  */
-function MultiSelectOptionsList({
+function AsyncSelectOptionsList({
   emptyMessage = t`No options found`,
   isConfirmationRequired = false,
+  selectionMode = 'multiple',
   items,
   selected,
   onSelect,
 }: Omit<CommonProps, 'loadOptions'> & {
-  items: MultiSelectOption[];
+  items: AsyncSelectOption[];
 }) {
   const triggerState = useContext(OverlayTriggerStateContext);
   const [internalSelected, setInternalSelected] = useState(selected);
@@ -277,19 +284,19 @@ function MultiSelectOptionsList({
 
   return (
     <>
-      <MultiSelectItems
+      <AsyncSelectItems
         items={items}
-        selectionMode="multiple"
+        selectionMode={selectionMode}
         selectedKeys={selectedOptions}
         onSelectionChange={handleSelect}
         data-test-id="multi-select-options"
         renderEmptyState={() => (
-          <MultiSelectEmpty>
+          <AsyncSelectEmpty>
             <Text variant="body">{emptyMessage}</Text>
-          </MultiSelectEmpty>
+          </AsyncSelectEmpty>
         )}
       >
-        {(option: MultiSelectOption) => (
+        {(option: AsyncSelectOption) => (
           <ListBoxItem
             key={option.value}
             id={option.value}
@@ -308,10 +315,10 @@ function MultiSelectOptionsList({
             </Stack>
           </ListBoxItem>
         )}
-      </MultiSelectItems>
+      </AsyncSelectItems>
 
       {isConfirmationRequired && (
-        <MultiSelectConfirmation>
+        <AsyncSelectConfirmation>
           <OutlineButton
             variant="info"
             onClick={handleClear}
@@ -327,7 +334,7 @@ function MultiSelectOptionsList({
           >
             <Trans>Confirm</Trans>
           </FillButton>
-        </MultiSelectConfirmation>
+        </AsyncSelectConfirmation>
       )}
     </>
   );
@@ -339,13 +346,13 @@ const ButtonWrapper = styled('div', {
   },
 });
 
-const MultiSelectDialog = styled(Dialog, {
+const AsyncSelectDialog = styled(Dialog, {
   base: {
     outline: 'none',
   },
 });
 
-const MultiSelectItems = styled(ListBox, {
+const AsyncSelectItems = styled(ListBox, {
   base: {
     outline: 'none',
     maxHeight: '400px',
@@ -356,7 +363,7 @@ const MultiSelectItems = styled(ListBox, {
   },
 });
 
-const MultiSelectEmpty = styled('div', {
+const AsyncSelectEmpty = styled('div', {
   base: {
     display: 'flex',
     alignItems: 'center',
@@ -367,7 +374,7 @@ const MultiSelectEmpty = styled('div', {
   },
 });
 
-const MultiSelectFilter = styled('label', {
+const AsyncSelectFilter = styled('label', {
   base: {
     '--outline-width': '1px',
     padding: '$small',
@@ -387,7 +394,7 @@ const MultiSelectFilter = styled('label', {
   },
 });
 
-const MultiSelectFilterInput = styled('input', {
+const AsyncSelectFilterInput = styled('input', {
   base: {
     flex: 1,
     marginLeft: '$xs',
@@ -397,7 +404,7 @@ const MultiSelectFilterInput = styled('input', {
   },
 });
 
-const MultiSelectFilterSpinner = styled('div', {
+const AsyncSelectFilterSpinner = styled('div', {
   base: {
     width: 24,
     height: 24,
@@ -407,7 +414,7 @@ const MultiSelectFilterSpinner = styled('div', {
   },
 });
 
-const MultiSelectConfirmation = styled('div', {
+const AsyncSelectConfirmation = styled('div', {
   base: {
     marginTop: '$xs',
     display: 'flex',

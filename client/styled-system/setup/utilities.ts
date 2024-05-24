@@ -110,3 +110,18 @@ export const $pressOpacity: PropertyConfig = {
     };
   },
 };
+
+export const $truncate: PropertyConfig = {
+  className: 'truncate',
+  values: { type: 'boolean' },
+  transform(value: boolean) {
+    if (!value) {
+      return {};
+    }
+    return {
+      overflow: 'hidden',
+      'text-overflow': 'ellipsis',
+      'white-space': 'nowrap',
+    };
+  },
+};

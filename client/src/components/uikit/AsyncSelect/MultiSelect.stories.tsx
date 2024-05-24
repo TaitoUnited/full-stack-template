@@ -2,11 +2,11 @@ import { ComponentProps, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { fetchStarWarsCharacter } from '../helpers';
-import { MultiSelect } from '~uikit';
+import { AsyncSelect } from '~uikit';
 
 export default {
-  title: 'MultiSelect',
-  component: MultiSelect,
+  title: 'AsyncSelect',
+  component: AsyncSelect,
   decorators: [
     Story => (
       <div style={{ maxWidth: '300px' }}>
@@ -14,39 +14,44 @@ export default {
       </div>
     ),
   ],
-} satisfies Meta<typeof MultiSelect>;
+} satisfies Meta<typeof AsyncSelect>;
 
-type Story = StoryObj<typeof MultiSelect>;
+type Story = StoryObj<typeof AsyncSelect>;
 
-export const Regular: Story = {
-  render: args => <MultiSelectExample {...args} />,
+export const WithMultiSelect: Story = {
+  render: args => <AsyncSelectExample {...args} />,
+};
+
+export const WithSingleSelect: Story = {
+  args: { selectionMode: 'single' },
+  render: args => <AsyncSelectExample {...args} />,
 };
 
 export const WithIcon: Story = {
   args: { icon: 'group' },
-  render: args => <MultiSelectExample {...args} />,
+  render: args => <AsyncSelectExample {...args} />,
 };
 
 export const WithDescription: Story = {
   args: { description: 'Type eg. "luke" to filter the options' },
-  render: args => <MultiSelectExample {...args} />,
+  render: args => <AsyncSelectExample {...args} />,
 };
 
 export const WithError: Story = {
   args: { errorMessage: 'May the force NOT be with you' },
-  render: args => <MultiSelectExample {...args} />,
+  render: args => <AsyncSelectExample {...args} />,
 };
 
 export const WithConfirmation: Story = {
   args: { isConfirmationRequired: true },
-  render: args => <MultiSelectExample {...args} />,
+  render: args => <AsyncSelectExample {...args} />,
 };
 
-function MultiSelectExample(props: ComponentProps<typeof MultiSelect>) {
+function AsyncSelectExample(props: ComponentProps<typeof AsyncSelect>) {
   const [selected, setSelected] = useState(new Set<string>());
 
   return (
-    <MultiSelect
+    <AsyncSelect
       {...props}
       label="Star Wars characters"
       placeholder="Select characters"
