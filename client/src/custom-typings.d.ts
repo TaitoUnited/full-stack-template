@@ -1,9 +1,10 @@
 /* eslint-disable */
+import 'react';
 
-// NOTE: if some lib is missing type definitions you can add them here
-
-// NOTE: however if your are extending existing types put the extensions in
-// a separate file like in `styled.d.ts`!
+/**
+ * NOTE: if some lib is missing type definitions you can add them here.
+ * You can also extend existing type definitions.
+ */
 
 declare module '*.mp4' {
   const src: string;
@@ -30,3 +31,9 @@ declare module '*.png' {
   export default src;
 }
 
+declare module 'react' {
+  // Add type support for CSS variables
+  interface CSSProperties {
+    [key: `--${string}`]: string | number;
+  }
+}
