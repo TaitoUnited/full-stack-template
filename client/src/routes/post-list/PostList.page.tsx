@@ -21,7 +21,7 @@ export default function PostListPage({ loaderData }: Props) {
     },
   });
 
-  const posts = data?.posts.data ?? loaderData.data?.posts.data ?? [];
+  const posts = data?.posts.data ?? loaderData?.data?.posts.data ?? [];
 
   useDocumentTitle(t`Blog`);
 
