@@ -147,7 +147,7 @@ export const AsyncSelect = forwardRef<HTMLButtonElement, Props>(
               name="arrowDropDown"
               size={24}
               color="text"
-              className={cx(inputIconRightStyles, css({ right: '$xs' }))}
+              className={cx(inputIconRightStyles, css({ right: '$xs!' }))}
             />
           </ButtonWrapper>
 
