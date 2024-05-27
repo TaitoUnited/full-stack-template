@@ -56,7 +56,7 @@ type CommonProps = {
    * that contains he current input value. This function will be initially called
    * with an empty string to load the initial set of options.
    */
-  loadOptions: AsyncSelectLoadOptions;
+  loadItems: AsyncSelectLoadOptions;
   /**
    * Whether to show the confirmation footer and require the user take an action
    * to apply the selection. If not provided, the selection is applied immediately
@@ -90,6 +90,7 @@ export const AsyncSelect = forwardRef<HTMLButtonElement, Props>(
     {
       label,
       icon,
+      isRequired,
       isConfirmationRequired,
       emptyMessage,
       errorMessage,
@@ -98,7 +99,7 @@ export const AsyncSelect = forwardRef<HTMLButtonElement, Props>(
       selectionMode,
       selected,
       onSelect,
-      loadOptions,
+      loadItems,
       ...rest
     },
     ref
@@ -108,7 +109,7 @@ export const AsyncSelect = forwardRef<HTMLButtonElement, Props>(
     return (
       <DialogTrigger>
         <div className={inputWrapperStyles}>
-          <Label className={labelStyles} data-required={rest.isRequired}>
+          <Label className={labelStyles} data-required={isRequired}>
             {label}
           </Label>
 
@@ -123,6 +124,7 @@ export const AsyncSelect = forwardRef<HTMLButtonElement, Props>(
             )}
 
             <AriaButton
+              {...rest}
               ref={ref}
               data-invalid={!!errorMessage}
               data-has-icon={!!icon}
@@ -170,7 +172,7 @@ export const AsyncSelect = forwardRef<HTMLButtonElement, Props>(
               selectionMode={selectionMode}
               selected={selected}
               onSelect={onSelect}
-              loadOptions={loadOptions}
+              loadItems={loadItems}
             />
           </Popover>
         </div>
@@ -188,9 +190,9 @@ function AsyncSelectOptions({
   selectionMode,
   selected,
   onSelect,
-  loadOptions,
+  loadItems,
 }: CommonProps) {
-  const list = useAsyncList<AsyncSelectOption>({ load: loadOptions });
+  const list = useAsyncList<AsyncSelectOption>({ load: loadItems });
 
   return (
     <AsyncSelectDialog className={listBoxStyles}>
@@ -257,7 +259,7 @@ function AsyncSelectOptionsList({
   items,
   selected,
   onSelect,
-}: Omit<CommonProps, 'loadOptions'> & {
+}: Omit<CommonProps, 'loadItems'> & {
   items: AsyncSelectOption[];
 }) {
   const triggerState = useContext(OverlayTriggerStateContext);

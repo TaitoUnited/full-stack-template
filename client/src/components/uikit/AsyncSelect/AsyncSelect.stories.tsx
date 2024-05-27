@@ -27,6 +27,11 @@ export const WithSingleSelect: Story = {
   render: args => <AsyncSelectExample {...args} />,
 };
 
+export const Disabled: Story = {
+  args: { isDisabled: true },
+  render: args => <AsyncSelectExample {...args} />,
+};
+
 export const WithIcon: Story = {
   args: { icon: 'group' },
   render: args => <AsyncSelectExample {...args} />,
@@ -58,7 +63,7 @@ function AsyncSelectExample(props: ComponentProps<typeof AsyncSelect>) {
       emptyMessage="These aren't the droids you're looking for"
       selected={selected}
       onSelect={setSelected}
-      loadOptions={params =>
+      loadItems={params =>
         fetchStarWarsCharacter(params).then(items => ({ items }))
       }
     />
