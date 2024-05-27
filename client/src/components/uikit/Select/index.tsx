@@ -22,12 +22,14 @@ import {
   listBoxItemStyles,
 } from '../partials/common';
 
+import { SelectItem } from '../partials/SelectItem';
 import { Icon, IconName } from '../Icon';
 import { css, cx } from '~styled-system/css';
 
 export type SelectOption = {
   value: string;
   label: string;
+  description?: string;
 };
 
 type Props = ComponentProps<typeof AriaSelect<SelectOption>> & {
@@ -98,9 +100,17 @@ export const Select = forwardRef<HTMLDivElement, Props>(
             {/* In cases like these, render props are preferred for perf reasons.
              * Ref: https://react-spectrum.adobe.com/react-stately/collections.html#why-not-array-map
              */}
-            {({ label, value }: SelectOption) => (
-              <ListBoxItem className={listBoxItemStyles} id={value}>
-                {label}
+            {(option: SelectOption) => (
+              <ListBoxItem
+                id={option.value}
+                textValue={option.label}
+                className={listBoxItemStyles}
+                data-test-id="select-option"
+              >
+                <SelectItem
+                  label={option.label}
+                  description={option.description}
+                />
               </ListBoxItem>
             )}
           </ListBox>

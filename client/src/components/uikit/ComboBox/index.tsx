@@ -10,7 +10,6 @@ import {
   ListBox,
 } from 'react-aria-components';
 
-import { Text } from '../Text';
 import { Icon, IconName } from '../Icon';
 
 import {
@@ -22,11 +21,11 @@ import {
   labelStyles,
   listBoxItemStyles,
   listBoxStyles,
-  SelectedIcon,
-} from '~components/uikit/partials/common';
+} from '../partials/common';
 
+import { SelectItem } from '../partials/SelectItem';
 import { css, cx } from '~styled-system/css';
-import { Stack, styled } from '~styled-system/jsx';
+import { styled } from '~styled-system/jsx';
 
 export type ComboBoxOption = {
   value: string;
@@ -88,36 +87,16 @@ export const ComboBox = forwardRef<HTMLInputElement, Props>(
           {/* In cases like these, render props are preferred for perf reasons.
            * Ref: https://react-spectrum.adobe.com/react-stately/collections.html#why-not-array-map
            */}
-          {({ label, description, value }: ComboBoxOption) => (
+          {(option: ComboBoxOption) => (
             <ListBoxItem
-              className={listBoxItemStyles}
-              id={value}
+              id={option.value}
               textValue={label}
+              className={listBoxItemStyles}
             >
-              <Stack
-                direction="row"
-                gap="$small"
-                align="center"
-                justify="space-between"
-              >
-                <Stack direction="column" gap="$xxs">
-                  <Text slot="label" variant="body">
-                    {label}
-                  </Text>
-
-                  {!!description && (
-                    <Text
-                      slot="description"
-                      variant="bodyExtraSmall"
-                      color="textMuted"
-                    >
-                      {description}
-                    </Text>
-                  )}
-                </Stack>
-
-                <SelectedIcon />
-              </Stack>
+              <SelectItem
+                label={option.label}
+                description={option.description}
+              />
             </ListBoxItem>
           )}
         </ListBox>

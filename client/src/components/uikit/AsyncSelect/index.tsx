@@ -1,8 +1,7 @@
 import { forwardRef, useContext, useState } from 'react';
 import { useAsyncList } from 'react-stately';
 import { useMeasure } from 'react-use';
-import { Trans, t } from '@lingui/macro';
-import { VisuallyHidden } from 'react-aria';
+import { t } from '@lingui/macro';
 
 import {
   Button as AriaButton,
@@ -19,7 +18,6 @@ import {
 import {
   DescriptionText,
   ErrorText,
-  SelectedIcon,
   inputBaseStyles,
   inputIconLeftStyles,
   inputIconRightStyles,
@@ -29,18 +27,19 @@ import {
   listBoxStyles,
 } from '../partials/common';
 
+import { SelectActions } from '../partials/SelectActions';
+import { SelectFilterInput } from '../partials/SelectFilterInput';
+import { SelectItem } from '../partials/SelectItem';
 import { Icon, IconName } from '../Icon';
-import { FillButton } from '../Buttons/FillButton';
-import { OutlineButton } from '../Buttons/OutlineButton';
-import { IconButton } from '../Buttons/IconButton';
 import { Text } from '../Text';
 import { Spinner } from '../Spinner';
-import { Stack, styled } from '~styled-system/jsx';
+import { styled } from '~styled-system/jsx';
 import { css, cx } from '~styled-system/css';
 
 export type AsyncSelectOption = {
   value: string;
   label: string;
+  description?: string;
 };
 
 export type AsyncSelectLoadOptions = (state: {
@@ -58,11 +57,9 @@ type CommonProps = {
    */
   loadItems: AsyncSelectLoadOptions;
   /**
-   * Whether to show the confirmation footer and require the user take an action
-   * to apply the selection. If not provided, the selection is applied immediately
-   * when the user selects an option.
+   * Whether to show the actions footer with buttons to confirm or clear the selection.
    */
-  isConfirmationRequired?: boolean;
+  actions?: { confirm?: boolean; clear?: boolean };
   /**
    * Text to display when no options are found for the current search value.
    */
@@ -91,7 +88,7 @@ export const AsyncSelect = forwardRef<HTMLButtonElement, Props>(
       label,
       icon,
       isRequired,
-      isConfirmationRequired,
+      actions,
       emptyMessage,
       errorMessage,
       description,
@@ -109,11 +106,15 @@ export const AsyncSelect = forwardRef<HTMLButtonElement, Props>(
     return (
       <DialogTrigger>
         <div className={inputWrapperStyles}>
-          <Label className={labelStyles} data-required={isRequired}>
+          <Label
+            className={labelStyles}
+            data-required={isRequired}
+            data-test-id="async-select-label"
+          >
             {label}
           </Label>
 
-          <ButtonWrapper ref={measureRef}>
+          <AsyncSelectButton ref={measureRef}>
             {!!icon && (
               <Icon
                 name={icon}
@@ -129,6 +130,7 @@ export const AsyncSelect = forwardRef<HTMLButtonElement, Props>(
               data-invalid={!!errorMessage}
               data-has-icon={!!icon}
               data-has-selected={selected.size > 0}
+              data-test-id="async-select-button"
               className={cx(
                 inputBaseStyles,
                 css({
@@ -149,13 +151,13 @@ export const AsyncSelect = forwardRef<HTMLButtonElement, Props>(
               color="text"
               className={cx(inputIconRightStyles, css({ right: '$xs!' }))}
             />
-          </ButtonWrapper>
+          </AsyncSelectButton>
 
           {!!description && <DescriptionText>{description}</DescriptionText>}
           {!!errorMessage && <ErrorText>{errorMessage}</ErrorText>}
 
           <Popover
-            data-test-id="multi-select-popover"
+            data-test-id="async-select-popover"
             placement="bottom start"
             /**
              * With some components React Aria would automatically provide this
@@ -166,7 +168,7 @@ export const AsyncSelect = forwardRef<HTMLButtonElement, Props>(
             offset={4}
           >
             <AsyncSelectOptions
-              isConfirmationRequired={isConfirmationRequired}
+              actions={actions}
               emptyMessage={emptyMessage}
               errorMessage={errorMessage}
               selectionMode={selectionMode}
@@ -185,8 +187,8 @@ AsyncSelect.displayName = 'AsyncSelect';
 
 function AsyncSelectOptions({
   errorMessage = t`Something went wrong`,
-  emptyMessage,
-  isConfirmationRequired,
+  emptyMessage = t`No options found`,
+  actions,
   selectionMode,
   selected,
   onSelect,
@@ -196,52 +198,35 @@ function AsyncSelectOptions({
 
   return (
     <AsyncSelectDialog className={listBoxStyles}>
-      <AsyncSelectFilter>
-        <VisuallyHidden>
-          <Trans>Search options</Trans>
-        </VisuallyHidden>
+      <SelectFilterInput
+        isLoading={list.loadingState === 'filtering'}
+        inputValue={list.filterText}
+        onInputChange={list.setFilterText}
+      />
 
-        <Icon name="search" size={20} color="textMuted" />
-
-        <AsyncSelectFilterInput
-          autoFocus
-          value={list.filterText}
-          onChange={e => list.setFilterText(e.target.value)}
-          data-test-id="multi-select-input"
-        />
-
-        {list.loadingState === 'filtering' ? (
-          <AsyncSelectFilterSpinner>
-            <Spinner size="small" color="text" />
-          </AsyncSelectFilterSpinner>
-        ) : list.filterText ? (
-          <IconButton
-            icon="close"
-            size={24}
-            label={t`Clear search filter`}
-            onClick={() => list.setFilterText('')}
-            data-test-id="multi-select-input-clear"
-          />
-        ) : null}
-      </AsyncSelectFilter>
-
-      {list.items ? (
-        <AsyncSelectOptionsList
-          items={list.items}
-          emptyMessage={emptyMessage}
-          isConfirmationRequired={isConfirmationRequired}
-          selectionMode={selectionMode}
-          selected={selected}
-          onSelect={onSelect}
-        />
+      {list.loadingState === 'loading' ? (
+        <AsyncSelectEmpty>
+          <Spinner size="medium" color="text" />
+        </AsyncSelectEmpty>
       ) : list.loadingState === 'error' ? (
         <AsyncSelectEmpty>
           <Text variant="body">{errorMessage}</Text>
         </AsyncSelectEmpty>
-      ) : list.loadingState === 'loading' ? (
+      ) : list.loadingState === 'idle' &&
+        list.filterText &&
+        list.items.length === 0 ? (
         <AsyncSelectEmpty>
-          <Spinner size="medium" color="text" />
+          <Text variant="body">{emptyMessage}</Text>
         </AsyncSelectEmpty>
+      ) : list.items ? (
+        <AsyncSelectOptionsList
+          items={list.items}
+          emptyMessage={emptyMessage}
+          actions={actions}
+          selectionMode={selectionMode}
+          selected={selected}
+          onSelect={onSelect}
+        />
       ) : null}
     </AsyncSelectDialog>
   );
@@ -253,8 +238,7 @@ function AsyncSelectOptions({
  * state synchronization and cleanup.
  */
 function AsyncSelectOptionsList({
-  emptyMessage = t`No options found`,
-  isConfirmationRequired = false,
+  actions,
   selectionMode = 'multiple',
   items,
   selected,
@@ -264,7 +248,16 @@ function AsyncSelectOptionsList({
 }) {
   const triggerState = useContext(OverlayTriggerStateContext);
   const [internalSelected, setInternalSelected] = useState(selected);
+  const isConfirmationRequired = Boolean(actions?.confirm);
   const selectedOptions = isConfirmationRequired ? internalSelected : selected;
+
+  // It only makes sense to show the clear button when there are selected options
+  const isClearable = Boolean(actions?.clear && selectedOptions.size > 0);
+
+  // Only show the confirm button when there are selected options
+  const isConfirmable = Boolean(
+    actions?.confirm && (internalSelected.size > 0 || selected.size > 0)
+  );
 
   function handleSelect(value: CommonProps['selected']) {
     if (isConfirmationRequired) {
@@ -291,58 +284,31 @@ function AsyncSelectOptionsList({
         selectionMode={selectionMode}
         selectedKeys={selectedOptions}
         onSelectionChange={handleSelect}
-        data-test-id="multi-select-options"
-        renderEmptyState={() => (
-          <AsyncSelectEmpty>
-            <Text variant="body">{emptyMessage}</Text>
-          </AsyncSelectEmpty>
-        )}
+        data-test-id="async-select-options"
       >
         {(option: AsyncSelectOption) => (
           <ListBoxItem
-            key={option.value}
             id={option.value}
             textValue={option.label}
             className={listBoxItemStyles}
-            data-test-id="multi-select-option"
+            data-test-id="async-select-option"
           >
-            <Stack
-              direction="row"
-              gap="$small"
-              align="center"
-              justify="space-between"
-            >
-              {option.label}
-              <SelectedIcon />
-            </Stack>
+            <SelectItem label={option.label} description={option.description} />
           </ListBoxItem>
         )}
       </AsyncSelectItems>
 
-      {isConfirmationRequired && (
-        <AsyncSelectConfirmation>
-          <OutlineButton
-            variant="info"
-            onClick={handleClear}
-            data-test-id="multi-select-clear"
-          >
-            <Trans>Clear</Trans>
-          </OutlineButton>
-
-          <FillButton
-            variant="primary"
-            onClick={handleConfirm}
-            data-test-id="multi-select-confirm"
-          >
-            <Trans>Confirm</Trans>
-          </FillButton>
-        </AsyncSelectConfirmation>
+      {!!actions && (
+        <SelectActions
+          onClear={isClearable ? handleClear : undefined}
+          onConfirm={isConfirmable ? handleConfirm : undefined}
+        />
       )}
     </>
   );
 }
 
-const ButtonWrapper = styled('div', {
+const AsyncSelectButton = styled('div', {
   base: {
     position: 'relative',
   },
@@ -373,58 +339,5 @@ const AsyncSelectEmpty = styled('div', {
     minHeight: '100px',
     padding: '$small',
     textAlign: 'center',
-  },
-});
-
-const AsyncSelectFilter = styled('label', {
-  base: {
-    '--outline-width': '1px',
-    padding: '$small',
-    display: 'flex',
-    alignItems: 'center',
-    borderRadius: '4px', // try to match container border radius
-    borderWidth: '1px',
-    borderColor: '$line1',
-    outlineOffset: 'calc(0px - var(--outline-width))',
-    marginBottom: '$xs',
-
-    '&:focus-within': {
-      '--outline-width': '2px',
-      borderColor: 'transparent',
-      outline: 'var(--outline-width) solid token($colors.focusRing)',
-    },
-  },
-});
-
-const AsyncSelectFilterInput = styled('input', {
-  base: {
-    flex: 1,
-    marginLeft: '$xs',
-    marginRight: '$small',
-    textStyle: '$body',
-    textAlign: 'left',
-  },
-});
-
-const AsyncSelectFilterSpinner = styled('div', {
-  base: {
-    width: 24,
-    height: 24,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
-const AsyncSelectConfirmation = styled('div', {
-  base: {
-    marginTop: '$xs',
-    display: 'flex',
-    justifyContent: 'space-evenly',
-    gap: '$xs',
-
-    '& button': {
-      flex: 1,
-    },
   },
 });

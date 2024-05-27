@@ -1,7 +1,7 @@
 import { forwardRef, useContext, useState } from 'react';
 import { useMeasure } from 'react-use';
 import { Trans, t } from '@lingui/macro';
-import { VisuallyHidden, useFilter } from 'react-aria';
+import { useFilter } from 'react-aria';
 
 import {
   Button as AriaButton,
@@ -18,7 +18,6 @@ import {
 import {
   DescriptionText,
   ErrorText,
-  SelectedIcon,
   inputBaseStyles,
   inputIconLeftStyles,
   inputIconRightStyles,
@@ -28,27 +27,26 @@ import {
   listBoxStyles,
 } from '../partials/common';
 
+import { SelectActions } from '../partials/SelectActions';
+import { SelectFilterInput } from '../partials/SelectFilterInput';
+import { SelectItem } from '../partials/SelectItem';
 import { Icon, IconName } from '../Icon';
-import { FillButton } from '../Buttons/FillButton';
-import { OutlineButton } from '../Buttons/OutlineButton';
-import { IconButton } from '../Buttons/IconButton';
 import { Text } from '../Text';
-import { Stack, styled } from '~styled-system/jsx';
+import { styled } from '~styled-system/jsx';
 import { css, cx } from '~styled-system/css';
 
 export type MultiSelectOption = {
   value: string;
   label: string;
+  description?: string;
 };
 
 type CommonProps = {
   items: MultiSelectOption[];
   /**
-   * Whether to show the confirmation footer and require the user take an action
-   * to apply the selection. If not provided, the selection is applied immediately
-   * when the user selects an option.
+   * Whether to show the actions footer with buttons to confirm or clear the selection.
    */
-  isConfirmationRequired?: boolean;
+  actions?: { confirm?: boolean; clear?: boolean };
   /**
    * Passing an `errorMessage` as prop toggles the input as invalid.
    */
@@ -69,7 +67,7 @@ type Props = ButtonProps &
 /**
  * This `MultiSelect` component can be used to select multiple options from
  * a list of **static** options.
- * 
+ *
  * For selecting a single option, use the regular `Select` component. If you
  * need to load options asynchronously, use the `AsyncSelect` component instead.
  * The `AsyncSelect` component supports both single and multiple selection modes.
@@ -80,7 +78,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, Props>(
       label,
       icon,
       isRequired,
-      isConfirmationRequired,
+      actions,
       errorMessage,
       description,
       placeholder = '',
@@ -96,11 +94,15 @@ export const MultiSelect = forwardRef<HTMLButtonElement, Props>(
     return (
       <DialogTrigger>
         <div className={inputWrapperStyles}>
-          <Label className={labelStyles} data-required={isRequired}>
+          <Label
+            className={labelStyles}
+            data-required={isRequired}
+            data-test-id="multi-select-label"
+          >
             {label}
           </Label>
 
-          <ButtonWrapper ref={measureRef}>
+          <MultiSelectButton ref={measureRef}>
             {!!icon && (
               <Icon
                 name={icon}
@@ -116,6 +118,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, Props>(
               data-invalid={!!errorMessage}
               data-has-icon={!!icon}
               data-has-selected={selected.size > 0}
+              data-test-id="multi-select-button"
               className={cx(
                 inputBaseStyles,
                 css({
@@ -136,7 +139,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, Props>(
               color="text"
               className={cx(inputIconRightStyles, css({ right: '$xs!' }))}
             />
-          </ButtonWrapper>
+          </MultiSelectButton>
 
           {!!description && <DescriptionText>{description}</DescriptionText>}
           {!!errorMessage && <ErrorText>{errorMessage}</ErrorText>}
@@ -154,7 +157,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, Props>(
           >
             <MultiSelectOptions
               items={items}
-              isConfirmationRequired={isConfirmationRequired}
+              actions={actions}
               errorMessage={errorMessage}
               selected={selected}
               onSelect={onSelect}
@@ -169,7 +172,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, Props>(
 MultiSelect.displayName = 'MultiSelect';
 
 function MultiSelectOptions({
-  isConfirmationRequired,
+  actions,
   items,
   selected,
   onSelect,
@@ -184,35 +187,16 @@ function MultiSelectOptions({
   return (
     <MultiSelectDialog className={listBoxStyles}>
       {items.length > 10 && (
-        <MultiSelectFilter>
-          <VisuallyHidden>
-            <Trans>Filter options</Trans>
-          </VisuallyHidden>
-
-          <Icon name="search" size={20} color="textMuted" />
-
-          <MultiSelectFilterInput
-            autoFocus
-            value={inputValue}
-            onChange={e => setInputValue(e.target.value)}
-            data-test-id="multi-select-input"
-          />
-
-          {inputValue.length > 0 && (
-            <IconButton
-              icon="close"
-              size={24}
-              label={t`Clear search filter`}
-              onClick={() => setInputValue('')}
-              data-test-id="multi-select-input-clear"
-            />
-          )}
-        </MultiSelectFilter>
+        <SelectFilterInput
+          isLoading={false}
+          inputValue={inputValue}
+          onInputChange={setInputValue}
+        />
       )}
 
       <MultiSelectOptionsList
         items={visibleItems}
-        isConfirmationRequired={isConfirmationRequired}
+        actions={actions}
         selected={selected}
         onSelect={onSelect}
       />
@@ -226,14 +210,23 @@ function MultiSelectOptions({
  * state synchronization and cleanup.
  */
 function MultiSelectOptionsList({
-  isConfirmationRequired = false,
+  actions,
   items,
   selected,
   onSelect,
 }: CommonProps) {
   const triggerState = useContext(OverlayTriggerStateContext);
   const [internalSelected, setInternalSelected] = useState(selected);
+  const isConfirmationRequired = Boolean(actions?.confirm);
   const selectedOptions = isConfirmationRequired ? internalSelected : selected;
+
+  // It only makes sense to show the clear button when there are selected options
+  const isClearable = Boolean(actions?.clear && selectedOptions.size > 0);
+
+  // Only show the confirm button when there are selected options
+  const isConfirmable = Boolean(
+    actions?.confirm && (internalSelected.size > 0 || selected.size > 0)
+  );
 
   function handleSelect(value: CommonProps['selected']) {
     if (isConfirmationRequired) {
@@ -271,49 +264,27 @@ function MultiSelectOptionsList({
       >
         {(option: MultiSelectOption) => (
           <ListBoxItem
-            key={option.value}
             id={option.value}
             textValue={option.label}
             className={listBoxItemStyles}
             data-test-id="multi-select-option"
           >
-            <Stack
-              direction="row"
-              gap="$small"
-              align="center"
-              justify="space-between"
-            >
-              {option.label}
-              <SelectedIcon />
-            </Stack>
+            <SelectItem label={option.label} description={option.description} />
           </ListBoxItem>
         )}
       </MultiSelectItems>
 
-      {isConfirmationRequired && (
-        <MultiSelectConfirmation>
-          <OutlineButton
-            variant="info"
-            onClick={handleClear}
-            data-test-id="multi-select-clear"
-          >
-            <Trans>Clear</Trans>
-          </OutlineButton>
-
-          <FillButton
-            variant="primary"
-            onClick={handleConfirm}
-            data-test-id="multi-select-confirm"
-          >
-            <Trans>Confirm</Trans>
-          </FillButton>
-        </MultiSelectConfirmation>
+      {!!actions && (
+        <SelectActions
+          onClear={isClearable ? handleClear : undefined}
+          onConfirm={isConfirmable ? handleConfirm : undefined}
+        />
       )}
     </>
   );
 }
 
-const ButtonWrapper = styled('div', {
+const MultiSelectButton = styled('div', {
   base: {
     position: 'relative',
   },
@@ -344,48 +315,5 @@ const MultiSelectEmpty = styled('div', {
     minHeight: '100px',
     padding: '$small',
     textAlign: 'center',
-  },
-});
-
-const MultiSelectFilter = styled('label', {
-  base: {
-    '--outline-width': '1px',
-    padding: '$small',
-    display: 'flex',
-    alignItems: 'center',
-    borderRadius: '4px', // try to match container border radius
-    borderWidth: '1px',
-    borderColor: '$line1',
-    outlineOffset: 'calc(0px - var(--outline-width))',
-    marginBottom: '$xs',
-
-    '&:focus-within': {
-      '--outline-width': '2px',
-      borderColor: 'transparent',
-      outline: 'var(--outline-width) solid token($colors.focusRing)',
-    },
-  },
-});
-
-const MultiSelectFilterInput = styled('input', {
-  base: {
-    flex: 1,
-    marginLeft: '$xs',
-    marginRight: '$small',
-    textStyle: '$body',
-    textAlign: 'left',
-  },
-});
-
-const MultiSelectConfirmation = styled('div', {
-  base: {
-    marginTop: '$xs',
-    display: 'flex',
-    justifyContent: 'space-evenly',
-    gap: '$xs',
-
-    '& button': {
-      flex: 1,
-    },
   },
 });

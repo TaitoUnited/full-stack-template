@@ -47,8 +47,13 @@ export const WithError: Story = {
   render: args => <AsyncSelectExample {...args} />,
 };
 
-export const WithConfirmation: Story = {
-  args: { isConfirmationRequired: true },
+export const WithClearing: Story = {
+  args: { actions: { clear: true } },
+  render: args => <AsyncSelectExample {...args} />,
+};
+
+export const WithClearAndConfirm: Story = {
+  args: { actions: { confirm: true, clear: true } },
   render: args => <AsyncSelectExample {...args} />,
 };
 

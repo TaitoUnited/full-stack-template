@@ -78,10 +78,19 @@ export const WithError: Story = {
   render: args => <MultiSelectExample {...args} />,
 };
 
-export const WithConfirmation: Story = {
+export const WithClearing: Story = {
+  args: {
+    label: 'Clearing all selected options',
+    actions: { clear: true },
+    items: options,
+  },
+  render: args => <MultiSelectExample {...args} />,
+};
+
+export const WithClearAndConfirm: Story = {
   args: {
     label: 'Confirmation required',
-    isConfirmationRequired: true,
+    actions: { confirm: true, clear: true },
     items: options,
   },
   render: args => <MultiSelectExample {...args} />,
@@ -103,9 +112,9 @@ function MultiSelectExample(props: ComponentProps<typeof MultiSelect>) {
 
   return (
     <MultiSelect
-      {...props}
       label="This is an example"
       placeholder="Select options"
+      {...props}
       selected={selected}
       onSelect={setSelected}
     />
