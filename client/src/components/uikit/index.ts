@@ -17,6 +17,7 @@ export { TextArea } from './TextArea';
 export { Checkbox } from './Checkbox';
 export { Tooltip } from './Tooltip';
 export { Icon } from './Icon';
+export { Button } from './Button';
 export { FillButton } from './Buttons/FillButton';
 export { OutlineButton } from './Buttons/OutlineButton';
 export { FloatingButton } from './Buttons/FloatingButton';
