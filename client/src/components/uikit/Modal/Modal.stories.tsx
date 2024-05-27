@@ -2,7 +2,7 @@ import { capitalize } from 'lodash';
 import { ComponentProps, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Stack, Modal, Text, FillButton, OutlineButton, Icon } from '~uikit';
+import { Stack, Modal, Text, Icon, Button } from '~uikit';
 
 export default {
   title: 'Modal',
@@ -55,9 +55,9 @@ function ModalExample({
 
   return (
     <>
-      <FillButton variant="info" onClick={() => setOpen(true)}>
+      <Button variant="filled" color="primary" onPress={() => setOpen(true)}>
         {capitalize(placement)}
-      </FillButton>
+      </Button>
 
       <Modal isOpen={isOpen} onClose={() => setOpen(false)}>
         <Modal.Content placement={placement}>
@@ -94,12 +94,20 @@ function ModalExample({
           {kind === 'full' && (
             <Modal.Footer>
               <Stack direction="row" gap="$xs">
-                <OutlineButton variant="info" onClick={() => setOpen(false)}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onPress={() => setOpen(false)}
+                >
                   Cancel
-                </OutlineButton>
-                <FillButton variant="info" onClick={() => setOpen(false)}>
+                </Button>
+                <Button
+                  variant="filled"
+                  color="primary"
+                  onPress={() => setOpen(false)}
+                >
                   Save
-                </FillButton>
+                </Button>
               </Stack>
             </Modal.Footer>
           )}

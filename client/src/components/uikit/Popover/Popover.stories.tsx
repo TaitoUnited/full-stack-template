@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { useOverlayTriggerState } from 'react-stately';
 import { useOverlayTrigger, useOverlayPosition } from 'react-aria';
 
-import { Stack, Text, FillButton, Popover } from '~uikit';
+import { Stack, Text, Popover, Button } from '~uikit';
 
 export default {
   title: 'Popover',
@@ -41,14 +41,15 @@ function PopoverExample() {
         minHeight: '600px',
       }}
     >
-      <FillButton
-        variant="primary"
+      <Button
+        variant="filled"
+        color="primary"
         {...triggerProps}
         ref={triggerRef}
-        onClick={() => state.open()}
+        onPress={() => state.open()}
       >
         Open popover
-      </FillButton>
+      </Button>
 
       {state.isOpen && (
         <Popover

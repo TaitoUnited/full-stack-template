@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { Checkbox, FillButton, IconButton, Text } from '~uikit';
+import { Button, Checkbox, IconButton, Text } from '~uikit';
 import { Stack, styled } from '~styled-system/jsx';
 import { stack } from '~styled-system/patterns';
 import { useShortcut } from '~utils/observe';
@@ -127,9 +127,9 @@ function FeatureFlagManagerWidget({ onClose }: { onClose: () => void }) {
         )}
 
         {togglableFeatures.length > 0 && (
-          <FillButton variant="info" onClick={save}>
+          <Button variant="filled" color="primary" onPress={save}>
             Save and reload
-          </FillButton>
+          </Button>
         )}
 
         <CloseButton>

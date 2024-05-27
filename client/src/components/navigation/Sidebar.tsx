@@ -1,7 +1,7 @@
 import { t, Trans } from '@lingui/macro';
 
 import { UnstyledLink } from './Link';
-import { Text, Icon, OutlineButton, IconName } from '~uikit';
+import { Text, Icon, IconName, Button } from '~uikit';
 import { styled } from '~styled-system/jsx';
 import { useAuth } from '~services/auth';
 import { stack } from '~styled-system/patterns';
@@ -67,18 +67,19 @@ export default function Sidebar() {
           <div style={{ flex: 1 }} />
 
           <Logout>
-            <OutlineButton
-              variant="primary"
-              icon="logout"
-              loading={auth.status === 'logging-out'}
-              onClick={auth.logout}
+            <Button
+              variant="outlined"
+              color="primary"
+              iconTrailing="logout"
+              isLoading={auth.status === 'logging-out'}
+              onPress={auth.logout}
             >
               {auth.status === 'logging-out' ? (
                 <Trans>Logging out</Trans>
               ) : (
                 <Trans>Logout</Trans>
               )}
-            </OutlineButton>
+            </Button>
           </Logout>
         </NavList>
       </Nav>

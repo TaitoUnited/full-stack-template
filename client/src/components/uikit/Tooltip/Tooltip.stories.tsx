@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { FillButton, Tooltip } from '~uikit';
+import { Button, Tooltip } from '~uikit';
 
 export default {
   title: 'Tooltip',
@@ -25,32 +25,48 @@ type Story = StoryObj<typeof Tooltip>;
 export const Top: Story = {
   args: {
     content: 'I am a tooltip',
-    children: <FillButton variant="primary">Top</FillButton>,
     placement: 'top',
+    children: (
+      <Button variant="filled" color="primary">
+        Top
+      </Button>
+    ),
   },
 };
 
 export const Bottom: Story = {
   args: {
     content: 'I am a tooltip',
-    children: <FillButton variant="primary">Bottom</FillButton>,
     placement: 'bottom',
+    children: (
+      <Button variant="filled" color="primary">
+        Bottom
+      </Button>
+    ),
   },
 };
 
 export const Left: Story = {
   args: {
     content: 'I am a tooltip',
-    children: <FillButton variant="primary">Left</FillButton>,
     placement: 'left',
+    children: (
+      <Button variant="filled" color="primary">
+        Left
+      </Button>
+    ),
   },
 };
 
 export const Right: Story = {
   args: {
     content: 'I am a tooltip',
-    children: <FillButton variant="primary">Right</FillButton>,
     placement: 'right',
+    children: (
+      <Button variant="filled" color="primary">
+        Right
+      </Button>
+    ),
   },
 };
 

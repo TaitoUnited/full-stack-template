@@ -5,7 +5,7 @@ import { t, Trans } from '@lingui/macro';
 
 import { styled } from '~styled-system/jsx';
 import { useDocumentTitle } from '~utils/routing';
-import { TextInput, Stack, FillButton, Modal, TextArea } from '~uikit';
+import { TextInput, Stack, Modal, TextArea, Button } from '~uikit';
 import { PostListDocument, useCreatePostMutation } from '~graphql';
 
 export default function PostCreatePage() {
@@ -88,11 +88,12 @@ export default function PostCreatePage() {
                   rows={4}
                 />
 
-                <FillButton
+                <Button
                   type="submit"
-                  variant="primary"
-                  loading={createPostState.loading}
-                  disabled={submitDisabled}
+                  variant="filled"
+                  color="primary"
+                  isLoading={createPostState.loading}
+                  isDisabled={submitDisabled}
                   style={{ alignSelf: 'flex-end' }}
                   data-test-id="submit-post"
                 >
@@ -101,7 +102,7 @@ export default function PostCreatePage() {
                   ) : (
                     <Trans>Create</Trans>
                   )}
-                </FillButton>
+                </Button>
               </Stack>
             </form>
           </Wrapper>

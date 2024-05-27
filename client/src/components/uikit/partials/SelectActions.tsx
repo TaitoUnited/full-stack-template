@@ -1,37 +1,39 @@
+import { ComponentProps } from 'react';
 import { Trans } from '@lingui/macro';
 
-import { OutlineButton } from '../Buttons/OutlineButton';
-import { FillButton } from '../Buttons/FillButton';
+import { Button } from '../Button';
 import { styled } from '~styled-system/jsx';
 
 type Props = {
-  onConfirm?: () => void;
-  onClear?: () => void;
+  onConfirm?: ComponentProps<typeof Button>['onPress'];
+  onClear?: ComponentProps<typeof Button>['onPress'];
 };
 
 export function SelectActions({ onClear, onConfirm }: Props) {
   return (
     <Wrapper>
       {!!onClear && (
-        <OutlineButton
+        <Button
           key="clear"
-          variant="info"
-          onClick={onClear}
+          color="primary"
+          variant="plain"
+          onPress={onClear}
           data-test-id="select-actions-clear"
         >
           <Trans>Clear</Trans>
-        </OutlineButton>
+        </Button>
       )}
 
       {!!onConfirm && (
-        <FillButton
+        <Button
           key="confirm"
-          variant="primary"
-          onClick={onConfirm}
+          color="primary"
+          variant="filled"
+          onPress={onConfirm}
           data-test-id="select-actions-confirm"
         >
           <Trans>Confirm</Trans>
-        </FillButton>
+        </Button>
       )}
     </Wrapper>
   );

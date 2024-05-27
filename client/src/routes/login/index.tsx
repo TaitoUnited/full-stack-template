@@ -2,7 +2,7 @@ import { FormEvent, useState } from 'react';
 import { t, Trans } from '@lingui/macro';
 
 import { styled } from '~styled-system/jsx';
-import { Text, TextInput, Stack, FillButton } from '~uikit';
+import { Text, TextInput, Stack, Button } from '~uikit';
 import { useDocumentTitle } from '~utils/routing';
 import { useAuth } from '~services/auth';
 
@@ -48,10 +48,11 @@ export default function LoginPage() {
               value={credentials.password}
               onInput={handleChange}
             />
-            <FillButton
+            <Button
               type="submit"
-              variant="primary"
-              loading={auth.status === 'logging-in'}
+              variant="filled"
+              color="primary"
+              isLoading={auth.status === 'logging-in'}
               data-test-id="login"
             >
               {auth.status === 'logging-in' ? (
@@ -59,7 +60,7 @@ export default function LoginPage() {
               ) : (
                 <Trans>Submit</Trans>
               )}
-            </FillButton>
+            </Button>
           </Stack>
         </Stack>
       </LoginForm>
