@@ -8,6 +8,7 @@ export {
   type AsyncSelectOption,
   type AsyncSelectLoadOptions,
 } from './AsyncSelect';
+export { MultiSelect, type MultiSelectOption } from './MultiSelect';
 export { SkeletonPlaceholder } from './SkeletonPlaceholder';
 export { Spinner } from './Spinner';
 export { Text } from './Text';
