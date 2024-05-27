@@ -90,7 +90,7 @@ export const ComboBox = forwardRef<HTMLInputElement, Props>(
           {(option: ComboBoxOption) => (
             <ListBoxItem
               id={option.value}
-              textValue={label}
+              textValue={option.label}
               className={listBoxItemStyles}
             >
               <SelectItem
