@@ -3,7 +3,7 @@ import { VisuallyHidden } from 'react-aria';
 
 import { Icon } from '../Icon';
 import { Spinner } from '../Spinner';
-import { IconButton } from '../Buttons/IconButton';
+import { IconButton } from '../IconButton';
 import { styled } from '~styled-system/jsx';
 
 type Props = {
@@ -41,7 +41,7 @@ export function SelectFilterInput({
           icon="close"
           size={24}
           label={t`Clear search filter`}
-          onClick={() => onInputChange('')}
+          onPress={() => onInputChange('')}
           data-test-id="select-filter-input-clear"
         />
       ) : null}
