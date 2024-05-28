@@ -2,8 +2,8 @@ import { ComponentProps } from 'react';
 
 import { Icon } from '../Icon';
 import { Text } from '../Text';
+import { Stack } from '../Stack';
 import { css, cx } from '~styled-system/css';
-import { Stack } from '~styled-system/jsx';
 
 // Common input sub-components
 
@@ -20,7 +20,7 @@ export function ErrorText({
   ...rest
 }: Omit<ComponentProps<typeof Text>, 'slot' | 'variant'>) {
   return (
-    <Stack direction="row" gap="$xxs" align="center">
+    <Stack direction="row" gap="xxs" align="center">
       <Icon name="error" size={18} color="error" />
       <Text
         {...rest}

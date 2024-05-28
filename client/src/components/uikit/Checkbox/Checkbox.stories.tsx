@@ -31,7 +31,7 @@ export const ComponentLabel: Story = {
 
 export const HiddenLabel: Story = {
   render: () => (
-    <Stack direction="column" gap="$small">
+    <Stack direction="column" gap="small">
       <Text variant="body">(This checkbox has a hidden label)</Text>
       <Checkbox hiddenLabel="Testing" />
     </Stack>
@@ -40,7 +40,7 @@ export const HiddenLabel: Story = {
 
 export const OuterLabel: Story = {
   render: () => (
-    <Stack direction="column" gap="$small">
+    <Stack direction="column" gap="small">
       <Text id="outer-label" variant="body">
         This label is connected via the `labelledby` prop
       </Text>
@@ -65,11 +65,11 @@ export const Invalid: Story = {
 
 export const Indeterminate: Story = {
   render: () => (
-    <Stack direction="column" gap="$small">
+    <Stack direction="column" gap="small">
       <Checkbox isIndeterminate label="I'm not sure about myself" />
       <Stack
         direction="column"
-        gap="$xs"
+        gap="xs"
         className={css({ paddingLeft: '$regular' })}
       >
         <Checkbox isSelected label="Child checkbox 1" />

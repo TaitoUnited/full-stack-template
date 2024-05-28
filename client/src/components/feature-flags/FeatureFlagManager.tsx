@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import { Button, Checkbox, IconButton, Text } from '~uikit';
-import { Stack, styled } from '~styled-system/jsx';
+import { Button, Checkbox, IconButton, Text, Stack } from '~uikit';
+import { styled } from '~styled-system/jsx';
 import { stack } from '~styled-system/patterns';
 import { useShortcut } from '~utils/observe';
 
@@ -69,7 +69,7 @@ function FeatureFlagManagerWidget({ onClose }: { onClose: () => void }) {
         animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
         exit={{ opacity: 0, scale: 0, y: 200, x: 200 }}
       >
-        <Stack direction="column" gap="$regular">
+        <Stack direction="column" gap="regular">
           <Text variant="headingM">Feature flags</Text>
 
           <Text variant="body" lineHeight={1.5}>
@@ -133,7 +133,7 @@ function FeatureFlagManagerWidget({ onClose }: { onClose: () => void }) {
         )}
 
         <CloseButton>
-          <IconButton icon="close" label="Close" onClick={onClose} />
+          <IconButton icon="close" label="Close" onPress={onClose} />
         </CloseButton>
       </Widget>
     </Wrapper>

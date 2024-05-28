@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 
-import { Text, Icon } from '~uikit';
-import { Stack, styled } from '~styled-system/jsx';
+import { Text, Icon, Stack } from '~uikit';
+import { styled } from '~styled-system/jsx';
 
 type Props = {
   createdAt: string;
@@ -13,11 +13,11 @@ export default function PostListCard({ createdAt, subject }: Props) {
     <Wrapper>
       <Stack
         direction="row"
-        gap="$regular"
+        gap="regular"
         justify="space-between"
         align="center"
       >
-        <Stack direction="column" gap="$xs">
+        <Stack direction="column" gap="xs">
           <Subject variant="body">{subject}</Subject>
 
           <Text variant="bodySmall" color="neutral1">

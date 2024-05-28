@@ -1,6 +1,5 @@
 import { css } from '~styled-system/css';
-import { Stack } from '~styled-system/jsx';
-import { Text, MenuButton } from '~uikit';
+import { Stack, Text, MenuButton } from '~uikit';
 
 export default {
   title: 'MenuButton',
@@ -9,8 +8,8 @@ export default {
 
 export function Example() {
   return (
-    <Stack direction="column" gap="$xl">
-      <Stack direction="row" gap="$small" align="center">
+    <Stack direction="column" gap="xl">
+      <Stack direction="row" gap="small" align="center">
         <Text variant="body">Menu button with default trigger</Text>
         <MenuButton
           label="Some actions"
@@ -23,7 +22,7 @@ export function Example() {
         />
       </Stack>
 
-      <Stack direction="row" gap="$small" align="center">
+      <Stack direction="row" gap="small" align="center">
         <Text variant="body">Menu button with a custom trigger</Text>
         <MenuButton
           className={menuButtonStyles}

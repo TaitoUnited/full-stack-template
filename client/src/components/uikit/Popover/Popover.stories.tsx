@@ -24,7 +24,7 @@ type Story = StoryObj<typeof Popover>;
 
 function Content() {
   return (
-    <Stack direction="column" gap="$xs">
+    <Stack direction="column" gap="xs">
       <Text variant="headingS">Heading</Text>
       <Text variant="bodySmall" style={{ maxWidth: 220 }}>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta error

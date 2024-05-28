@@ -1,4 +1,4 @@
-export { Stack } from '~styled-system/jsx';
+export { Stack } from './Stack';
 export { MenuButton } from './MenuButton';
 export { Modal } from './Modal';
 export { Popover } from './Popover';
@@ -19,7 +19,7 @@ export { Tooltip } from './Tooltip';
 export { Icon } from './Icon';
 export { Button } from './Button';
 export { FloatingButton } from './Buttons/FloatingButton';
-export { IconButton } from './Buttons/IconButton';
+export { IconButton } from './IconButton';
 export { Table } from './Table';
 export { ComboBox, type ComboBoxOption } from './ComboBox';
 export type { SortDescriptor } from './Table';

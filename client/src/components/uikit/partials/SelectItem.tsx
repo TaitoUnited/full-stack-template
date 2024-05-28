@@ -1,6 +1,6 @@
 import { SelectedIcon } from './common';
 import { Text } from '../Text';
-import { Stack } from '~styled-system/jsx';
+import { Stack } from '../Stack';
 
 type Props = {
   label: string;
@@ -9,8 +9,8 @@ type Props = {
 
 export function SelectItem({ label, description }: Props) {
   return (
-    <Stack direction="row" gap="$small" align="center" justify="space-between">
-      <Stack direction="column" gap="$xxs">
+    <Stack direction="row" gap="small" align="center" justify="space-between">
+      <Stack direction="column" gap="xxs">
         <Text slot="label" variant="body">
           {label}
         </Text>

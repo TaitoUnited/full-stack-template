@@ -27,12 +27,12 @@ export default function LoginPage() {
   return (
     <Wrapper>
       <LoginForm onSubmit={handleSubmit}>
-        <Stack direction="column" gap="$large">
+        <Stack direction="column" gap="large">
           <Text variant="headingXl">
             <Trans>Login</Trans>
           </Text>
 
-          <Stack direction="column" gap="$regular">
+          <Stack direction="column" gap="regular">
             <TextInput
               label={t`Email`}
               name="email"

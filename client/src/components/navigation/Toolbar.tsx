@@ -6,7 +6,7 @@ import LangMenuButton from '~components/common/LangMenuButton';
 export default function Toolbar() {
   return (
     <Wrapper>
-      <Stack direction="row" gap="$regular" align="center">
+      <Stack direction="row" gap="regular" align="center">
         <LogoWrapper>
           <LogoImg src={logoImg} />
         </LogoWrapper>

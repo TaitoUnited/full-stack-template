@@ -70,6 +70,11 @@ module.exports = {
         importNames: ['Link', 'NavLink'],
         message: 'Please use custom Link, UnstyledLink, or NavLink instead.',
       },
+      {
+        name: '~styled-system/jsx',
+        importNames: ['Stack'],
+        message: 'Please use custom Stack from uikit instead.',
+      },
     ],
   },
   settings: {

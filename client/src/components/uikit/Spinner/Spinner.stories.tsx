@@ -20,7 +20,7 @@ const colors = ['primary', 'text', 'info', 'warn', 'error'] as const;
 
 export const Color: Story = {
   render: () => (
-    <Stack direction="row" gap="$regular">
+    <Stack direction="row" gap="regular">
       {colors.map(color => (
         <Spinner key={color} color={color} size="medium" />
       ))}
@@ -30,7 +30,7 @@ export const Color: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <Stack direction="row" gap="$large">
+    <Stack direction="row" gap="large">
       <Spinner color="primary" size="small" />
       <Spinner color="primary" size="normal" />
       <Spinner color="primary" size="medium" />

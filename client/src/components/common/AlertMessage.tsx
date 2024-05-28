@@ -14,7 +14,7 @@ export default function AlertMessage({
 
   return (
     <Wrapper bg={variant}>
-      <Stack direction="row" gap="$regular" align="center">
+      <Stack direction="row" gap="regular" align="center">
         <Icon name={icon} color={variant} size={24} />
         <Text variant="body" color={`${variant}Contrast`}>
           {message}
