@@ -135,6 +135,8 @@ export const buttonStyle = cva({
     outlineOffset: '2px',
     cursor: 'pointer',
     transition: 'background 50ms linear, opacity 100ms linear',
+    userSelect: 'none',
+
     '&:active': {
       opacity: 0.8,
     },
