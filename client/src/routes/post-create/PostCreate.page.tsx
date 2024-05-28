@@ -52,62 +52,60 @@ export default function PostCreatePage() {
   useDocumentTitle(t`New blog post`);
 
   return (
-    <Modal isOpen onClose={() => navigate('/blog')}>
-      <Modal.Content placement="middle">
-        <Modal.Header title={t`New blog post`} />
-        <Modal.Body>
-          <Wrapper>
-            <form onSubmit={handleSubmit}>
-              <Stack direction="column" gap="$regular">
-                <TextInput
-                  label={t`Subject`}
-                  name="subject"
-                  data-test-id="subject-field"
-                  value={formValues.subject}
-                  onInput={handleChange}
-                  minLength={5}
-                  maxLength={500}
-                />
+    <Modal placement="middle" isOpen onOpenChange={() => navigate('/blog')}>
+      <Modal.Header title={t`New blog post`} />
+      <Modal.Body>
+        <Wrapper>
+          <form onSubmit={handleSubmit}>
+            <Stack direction="column" gap="regular">
+              <TextInput
+                label={t`Subject`}
+                name="subject"
+                data-test-id="subject-field"
+                value={formValues.subject}
+                onInput={handleChange}
+                minLength={5}
+                maxLength={500}
+              />
 
-                <TextInput
-                  label={t`Author`}
-                  name="author"
-                  data-test-id="author-field"
-                  value={formValues.author}
-                  onInput={handleChange}
-                  minLength={2}
-                  maxLength={100}
-                />
+              <TextInput
+                label={t`Author`}
+                name="author"
+                data-test-id="author-field"
+                value={formValues.author}
+                onInput={handleChange}
+                minLength={2}
+                maxLength={100}
+              />
 
-                <TextArea
-                  label={t`Content`}
-                  name="content"
-                  data-test-id="content-field"
-                  value={formValues.content}
-                  onInput={handleChange}
-                  rows={4}
-                />
+              <TextArea
+                label={t`Content`}
+                name="content"
+                data-test-id="content-field"
+                value={formValues.content}
+                onInput={handleChange}
+                rows={4}
+              />
 
-                <Button
-                  type="submit"
-                  variant="filled"
-                  color="primary"
-                  isLoading={createPostState.loading}
-                  isDisabled={submitDisabled}
-                  style={{ alignSelf: 'flex-end' }}
-                  data-test-id="submit-post"
-                >
-                  {createPostState.loading ? (
-                    <Trans>Creating</Trans>
-                  ) : (
-                    <Trans>Create</Trans>
-                  )}
-                </Button>
-              </Stack>
-            </form>
-          </Wrapper>
-        </Modal.Body>
-      </Modal.Content>
+              <Button
+                type="submit"
+                variant="filled"
+                color="primary"
+                isLoading={createPostState.loading}
+                isDisabled={submitDisabled}
+                style={{ alignSelf: 'flex-end' }}
+                data-test-id="submit-post"
+              >
+                {createPostState.loading ? (
+                  <Trans>Creating</Trans>
+                ) : (
+                  <Trans>Create</Trans>
+                )}
+              </Button>
+            </Stack>
+          </form>
+        </Wrapper>
+      </Modal.Body>
     </Modal>
   );
 }

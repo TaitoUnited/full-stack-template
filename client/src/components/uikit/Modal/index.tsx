@@ -1,34 +1,27 @@
 import { t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
-import { AnimatePresence, Variants, motion } from 'framer-motion';
-
-import {
-  ComponentProps,
-  HTMLAttributes,
-  ReactElement,
-  ReactNode,
-  useContext,
-} from 'react';
+import { ComponentProps, ReactElement, ReactNode, useContext } from 'react';
 
 import {
   Dialog,
-  ModalOverlay as AriaModalOverlay,
+  ModalOverlay,
   Modal as AriaModal,
   OverlayTriggerStateContext,
   Heading,
 } from 'react-aria-components';
 
 import './styles.css';
-
 import { Text } from '../Text';
-import { IconButton } from '../Buttons/IconButton';
+import { IconButton } from '../IconButton';
 import { styled } from '~styled-system/jsx';
+import { cva } from '~styled-system/css';
 
 function ModalBase({
   children,
   isOpen,
+  placement = 'middle',
   isDismissable = true,
-  onClose,
+  onOpenChange,
 }: {
   children: ReactNode;
   isOpen: boolean;
@@ -37,94 +30,35 @@ function ModalBase({
    * Defaults to `true`.
    */
   isDismissable?: boolean;
-  onClose: () => void;
-}) {
-  useLingui();
-
-  return (
-    <AnimatePresence data-test-id="modal-container">
-      {isOpen && (
-        /**
-         * NOTE: the `key` is important for AnimatePresence to work correctly!
-         * See: https://www.framer.com/motion/animate-presence/
-         */
-        <div key="modal">
-          <ModalOverlay
-            /**
-             * Instead of controlling the open state via `isOpen` prop, the modal
-             * should just be either rendered or not rendered by the parent.
-             * This allows the whole modal to be code-split when needed.
-             */
-            isOpen={true}
-            isDismissable={isDismissable}
-            isKeyboardDismissDisabled={!isDismissable}
-            onOpenChange={() => onClose()}
-            data-test-id="modal-overlay"
-          >
-            {children}
-          </ModalOverlay>
-        </div>
-      )}
-    </AnimatePresence>
-  );
-}
-
-function ModalContent({
-  placement = 'middle',
-  children,
-  ...rest
-}: HTMLAttributes<HTMLDivElement> & {
-  children: ReactNode;
   /**
    * Where the modal should be placed.
    * Defaults to `middle`.
    */
   placement?: 'top' | 'middle' | 'bottom' | 'drawer';
+  onOpenChange: (isOpen: boolean) => void;
 }) {
-  let variants: Variants = {
-    hidden: { opacity: 0, scale: 0.9 },
-    visible: { opacity: 1, scale: 1 },
-  };
-
-  if (placement === 'drawer') {
-    variants = {
-      hidden: {
-        x: '100%',
-        transition: { type: 'tween', duration: 0.15 },
-      },
-      visible: {
-        x: 0,
-        transition: { type: 'tween', duration: 0.2 },
-      },
-    };
-  } else if (placement === 'top') {
-    variants = {
-      hidden: { opacity: 0, y: -20 },
-      visible: { opacity: 1, y: 0 },
-    };
-  } else if (placement === 'bottom') {
-    variants = {
-      hidden: { opacity: 0, y: 20 },
-      visible: { opacity: 1, y: 0 },
-    };
-  }
+  useLingui();
 
   return (
-    <ModalPlacement
-      placement={placement}
-      data-test-id="modal-content"
-      {...rest}
+    <ModalOverlay
+      isDismissable={isDismissable}
+      isKeyboardDismissDisabled={!isDismissable}
+      isOpen={isOpen}
+      onOpenChange={onOpenChange}
+      data-test-id="modal-overlay"
+      className={({ isEntering, isExiting }) =>
+        modalOverlayStyles({ isEntering, isExiting })
+      }
     >
-      <ModalDialogContainer
-        variants={variants}
-        initial="hidden"
-        animate="visible"
-        exit="hidden"
-        kind={placement === 'drawer' ? 'drawer' : 'dialog'}
+      <AriaModal
+        data-test-id="modal-container"
+        className={({ isEntering, isExiting }) =>
+          modalStyles({ placement, isEntering, isExiting })
+        }
       >
-        <ModalDialogContent>{children}</ModalDialogContent>
-      </ModalDialogContainer>
-    </ModalPlacement>
+        <ModalDialog>{children}</ModalDialog>
+      </AriaModal>
+    </ModalOverlay>
   );
 }
 
@@ -139,7 +73,9 @@ function ModalHeader({
   const { close } = useContext(OverlayTriggerStateContext);
 
   if (!title && !children) {
-    throw new Error('ModalHeader requires either a `title` string or `children` element!');
+    throw new Error(
+      'ModalHeader requires either a `title` string or `children` element!'
+    );
   }
 
   return (
@@ -153,7 +89,7 @@ function ModalHeader({
           children
         )}
       </Heading>
-      <IconButton label={t`Close`} icon="close" size={24} onClick={close} />
+      <IconButton label={t`Close`} icon="close" size={24} onPress={close} />
     </ModalHeaderContainer>
   );
 }
@@ -166,7 +102,7 @@ function ModalFooter(props: ComponentProps<typeof ModalFooterContainer>) {
   return <ModalFooterContainer data-test-id="modal-footer" {...props} />;
 }
 
-const ModalOverlay = styled(AriaModalOverlay, {
+const modalOverlayStyles = cva({
   base: {
     position: 'fixed',
     inset: 0,
@@ -174,73 +110,85 @@ const ModalOverlay = styled(AriaModalOverlay, {
     minHeight: '100vh',
     minWidth: '100vw',
     backdropFilter: 'blur(4px)',
-    animation: 'overlayAnimation 0.2s ease-in-out forwards',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+  },
+  variants: {
+    isEntering: {
+      true: {
+        animation: 'modal-overlay-animation 150ms ease-out forwards',
+      },
+    },
+    isExiting: {
+      true: {
+        animation: 'modal-overlay-animation 100ms ease-in reverse',
+      },
+    },
   },
 });
 
-const ModalPlacement = styled(AriaModal, {
+const modalStyles = cva({
   base: {
     position: 'fixed',
     zIndex: 1001,
+    boxShadow: '$large',
+    borderRadius: '$medium',
+    backgroundColor: '$surface',
+
     mdDown: {
       width: '100%',
       maxWidth: 'calc(100vw - 32px)',
     },
   },
   variants: {
+    isEntering: {
+      true: {
+        animation: 'var(--animation) 150ms ease-out forwards',
+      },
+    },
+    isExiting: {
+      true: {
+        animation: 'var(--animation) 100ms ease-out reverse',
+      },
+    },
     placement: {
       middle: {
+        '--animation': 'modal-middle-animation',
         left: '50%',
         top: '50%',
-        transform: 'translate(-50%, -50%)',
+        translate: '-50% -50%',
       },
       top: {
+        '--animation': 'modal-top-animation',
         left: '50%',
         top: '10%',
-        transform: 'translate(-50%, 0)',
+        translate: '-50% 0px',
       },
       bottom: {
+        '--animation': 'modal-bottom-animation',
         left: '50%',
         bottom: '10%',
-        transform: 'translate(-50%, 0)',
+        translate: '-50% 0px',
       },
       drawer: {
-        top: 0,
-        right: 0,
-        bottom: 0,
+        '--animation': 'modal-drawer-animation',
+        top: '0px',
+        right: '0px',
+        bottom: '0px',
         width: '90vw',
         maxWidth: '500px',
-      },
-    },
-  },
-});
-
-const ModalDialogContainer = styled(motion.div, {
-  base: {
-    overflow: 'hidden',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  variants: {
-    kind: {
-      dialog: {
-        boxShadow: '$large',
-        borderRadius: '$medium',
-      },
-      drawer: {
         height: '100%',
+        borderRadius: '0px',
       },
     },
   },
 });
 
-const ModalDialogContent = styled(Dialog, {
+const ModalDialog = styled(Dialog, {
   base: {
     outline: 'none',
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: '$surface',
   },
 });
 
@@ -278,7 +226,6 @@ const ModalFooterContainer = styled('div', {
 
 // Add compound components to Modal
 export const Modal = Object.assign(ModalBase, {
-  Content: ModalContent,
   Header: ModalHeader,
   Body: ModalBody,
   Footer: ModalFooter,

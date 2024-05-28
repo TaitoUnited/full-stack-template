@@ -1,9 +1,51 @@
 /* Panda CSS doesn't yet support defining keyframes inside javascript...*/
-@keyframes overlayAnimation {
-  from {
+@keyframes modal-overlay-animation {
+  0% {
     background-color: rgba(0, 0, 0, 0);
   }
-  to {
+  100% {
     background-color: rgba(0, 0, 0, 0.3);
+  }
+}
+
+@keyframes modal-middle-animation {
+  0% {
+    opacity: 0;
+    scale: 0.9;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@keyframes modal-top-animation {
+  0% {
+    opacity: 0;
+    translate: -50% -20px;
+  }
+  100% {
+    opacity: 1;
+    translate: -50% 0px;
+  }
+}
+
+@keyframes modal-bottom-animation {
+  0% {
+    opacity: 0;
+    translate: -50% 20px;
+  }
+  100% {
+    opacity: 1;
+    translate: -50% 0px;
+  }
+}
+
+@keyframes modal-drawer-animation {
+  0% {
+    translate: 100% 0px;
+  }
+  100% {
+    translate: 0px 0px;
   }
 }
