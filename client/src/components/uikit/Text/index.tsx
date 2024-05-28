@@ -43,6 +43,7 @@ function TextBase({
   className,
   lineHeight,
   variant,
+  style,
   color = 'text',
   ...rest
 }: Props) {
@@ -54,6 +55,7 @@ function TextBase({
       elementType={elementType}
       className={cx(styles({ variant }), className)}
       style={{
+        ...style,
         lineHeight,
         textAlign: align,
         color: token.var(`$colors.${color}`),
