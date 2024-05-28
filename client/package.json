@@ -60,7 +60,7 @@
     "@lingui/cli": "4.2.1",
     "@lingui/vite-plugin": "4.2.1",
     "@optimize-lodash/rollup-plugin": "4.0.3",
-    "@pandacss/dev": "0.39.1",
+    "@pandacss/dev": "0.39.2",
     "@rollup/plugin-strip": "3.0.2",
     "@storybook/addon-essentials": "8.1.2",
     "@storybook/addon-links": "8.1.2",
