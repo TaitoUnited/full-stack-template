@@ -1,79 +1,94 @@
-import { useRef } from 'react';
-import { useOverlayTriggerState } from 'react-stately';
-import { useOverlayTrigger, useOverlayPosition } from 'react-aria';
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { Stack, Text, Popover, Button } from '~uikit';
+import { Button, Popover, Stack, Text } from '~uikit';
 
 export default {
   title: 'Popover',
   component: Popover,
+  decorators: [
+    Story => (
+      <div
+        style={{
+          padding: '200px',
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
+        <Story />
+      </div>
+    ),
+  ],
+} satisfies Meta<typeof Popover>;
+
+type Story = StoryObj<typeof Popover>;
+
+function Content() {
+  return (
+    <Stack direction="column" gap="$xs">
+      <Text variant="headingS">Heading</Text>
+      <Text variant="bodySmall" style={{ maxWidth: 220 }}>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta error
+        cupiditate laboriosam numquam quos mollitia quo non minima vitae harum?
+      </Text>
+    </Stack>
+  );
+}
+
+export const Top: Story = {
+  args: {
+    content: <Content />,
+    placement: 'top',
+    children: (
+      <Button variant="filled" color="primary">
+        Top
+      </Button>
+    ),
+  },
 };
 
-export function Example() {
-  return <PopoverExample />;
-}
-
-function PopoverExample() {
-  const state = useOverlayTriggerState({});
-  const triggerRef = useRef<any>();
-  const overlayRef = useRef<any>();
-
-  const { triggerProps, overlayProps } = useOverlayTrigger(
-    { type: 'dialog' },
-    state,
-    triggerRef
-  );
-
-  const { overlayProps: positionProps } = useOverlayPosition({
-    targetRef: triggerRef,
-    overlayRef,
-    placement: 'top',
-    offset: 8,
-    isOpen: state.isOpen,
-  });
-
-  return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '600px',
-      }}
-    >
-      <Button
-        variant="filled"
-        color="primary"
-        {...triggerProps}
-        ref={triggerRef}
-        onPress={() => state.open()}
-      >
-        Open popover
+export const Bottom: Story = {
+  args: {
+    content: <Content />,
+    placement: 'bottom',
+    children: (
+      <Button variant="filled" color="primary">
+        Bottom
       </Button>
+    ),
+  },
+};
 
-      {state.isOpen && (
-        <Popover
-          {...overlayProps}
-          {...positionProps}
-          ref={overlayRef}
-          onClose={state.close}
-          title="Example popover"
-        >
-          <Stack
-            direction="column"
-            gap="$small"
-            style={{ padding: 24, maxWidth: 300 }}
-          >
-            <Text variant="body">Popover content here</Text>
-            <Text variant="bodySmall" lineHeight={1.6}>
-              Funding business plan rockstar. Android customer creative
-              hypotheses marketing non-disclosure agreement twitter. IPad launch
-              party funding ramen seed money advisor rockstar influencer burn
-              rate MVP.
-            </Text>
-          </Stack>
-        </Popover>
-      )}
-    </div>
-  );
-}
+export const Left: Story = {
+  args: {
+    content: <Content />,
+    placement: 'left',
+    children: (
+      <Button variant="filled" color="primary">
+        Left
+      </Button>
+    ),
+  },
+};
+
+export const Right: Story = {
+  args: {
+    content: <Content />,
+    placement: 'right',
+    children: (
+      <Button variant="filled" color="primary">
+        Right
+      </Button>
+    ),
+  },
+};
+
+export const CustomTrigger: Story = {
+  args: {
+    content: <Content />,
+    children: (
+      <Popover.Trigger>
+        <strong>Click me</strong>
+      </Popover.Trigger>
+    ),
+  },
+};
