@@ -70,7 +70,8 @@ export default function Sidebar() {
             <Button
               variant="outlined"
               color="primary"
-              iconTrailing="logout"
+              icon="logout"
+              iconPlacement="end"
               isLoading={auth.status === 'logging-out'}
               onPress={auth.logout}
             >

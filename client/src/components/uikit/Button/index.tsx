@@ -8,7 +8,6 @@ import {
 
 import { Icon, IconName } from '../Icon';
 import { Spinner, SpinnerSize } from '../Spinner';
-import { useLinkProps } from '~components/navigation/Link';
 import { RecipeVariantProps, cva, cx } from '~styled-system/css';
 import { styled } from '~styled-system/jsx';
 import { token } from '~styled-system/tokens';
@@ -18,10 +17,9 @@ type ButtonSize = 'small' | 'normal' | 'large';
 type ButtonColor = 'primary' | 'success' | 'error';
 
 type OwnProps = {
-  asLink?: Parameters<typeof useLinkProps>[0];
   children: ReactNode;
-  iconLeading?: IconName;
-  iconTrailing?: IconName;
+  icon?: IconName;
+  iconPlacement?: 'start' | 'end';
   color?: ButtonColor;
   isLoading?: boolean;
   isDisabled?: boolean;
@@ -38,8 +36,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       children,
       className,
       color = 'primary',
-      iconLeading,
-      iconTrailing,
+      icon,
+      iconPlacement = 'start',
       isLoading,
       isDisabled,
       size = 'normal',
@@ -61,13 +59,18 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       '--color-muted': token.var(`$colors.${color}Muted`),
       '--color-text': token.var(`$colors.${color}Contrast`),
       '--color': token.var(`$colors.${color}`),
-      /**
-       * NOTE: We want to reduce the horizontal padding when there are icons.
-       * Doing this with compound variants would be very verbose...
-       */
-      '--padding-leading-factor': iconLeading ? 0.6 : 1,
-      '--padding-trailing-factor': iconTrailing ? 0.6 : 1,
+      // Visually balance the horizontal padding when an icon is present.
+      '--padding-start-factor': icon && iconPlacement === 'start' ? 0.75 : 1,
+      '--padding-end-factor': icon && iconPlacement === 'end' ? 0.75 : 1,
     } as CSSProperties;
+
+    const iconComp = icon && (
+      <Icon
+        name={icon}
+        color="currentColor"
+        size={buttonSizeToIconSize[size]}
+      />
+    );
 
     return (
       <AriaButton
@@ -78,24 +81,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={_className}
         isDisabled={isDisabled}
       >
-        {iconLeading && (
-          <Icon
-            name={iconLeading}
-            color="currentColor"
-            size={buttonSizeToIconSize[size]}
-          />
-        )}
-
+        {icon && iconPlacement === 'start' && iconComp}
         <span>{children}</span>
-
-        {iconTrailing && (
-          <Icon
-            name={iconTrailing}
-            color="currentColor"
-            size={buttonSizeToIconSize[size]}
-          />
-        )}
-
+        {icon && iconPlacement === 'end' && iconComp}
         {isLoading && (
           <SpinnerWrapper>
             <Spinner
@@ -111,8 +99,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
 const buttonSizeToIconSize: { [size in ButtonSize]: number } = {
   small: 14,
-  normal: 20,
-  large: 24,
+  normal: 18,
+  large: 20,
 };
 
 const buttonSizeToSpinnerSize: { [size in ButtonSize]: SpinnerSize } = {
@@ -129,6 +117,7 @@ export const buttonStyle = cva({
     alignItems: 'center',
     justifyContent: 'center',
     margin: 0,
+    paddingBlock: '$xs',
     borderRadius: '$full',
     overflow: 'hidden',
     textDecoration: 'none',
@@ -136,8 +125,9 @@ export const buttonStyle = cva({
     cursor: 'pointer',
     transition: 'background 50ms linear, opacity 100ms linear',
     userSelect: 'none',
+    lineHeight: 1,
 
-    '&:active': {
+    '&[data-pressed="true"]': {
       opacity: 0.8,
     },
     '& svg': {
@@ -162,45 +152,45 @@ export const buttonStyle = cva({
         borderColor: 'var(--color)',
         borderWidth: '1px',
         borderStyle: 'solid',
-        '&:hover': {
+        '&[data-hovered="true"]': {
           backgroundColor: 'var(--color-muted)',
         },
       },
       plain: {
         backgroundColor: 'transparent',
         color: 'var(--color-text)',
-        '&:hover': {
+        '&[data-hovered="true"]': {
           backgroundColor: 'var(--color-muted)',
         },
       },
     },
     size: {
       small: {
+        gap: '$xxs',
+        textStyle: '$bodySmallSemiBold',
         minHeight: '$buttonHeightSmall',
         paddingLeft:
-          'calc(token($spacing.regular) * var(--padding-leading-factor, 1))',
+          'calc(token($spacing.small) * var(--padding-start-factor, 1))',
         paddingRight:
-          'calc(token($spacing.regular) * var(--padding-trailing-factor, 1))',
-        textStyle: '$bodySmallSemiBold',
-        gap: '$xxs',
+          'calc(token($spacing.small) * var(--padding-end-factor, 1))',
       },
       normal: {
-        minHeight: '$buttonHeightNormal',
-        paddingLeft:
-          'calc(token($spacing.medium) * var(--padding-leading-factor, 1))',
-        paddingRight:
-          'calc(token($spacing.medium) * var(--padding-trailing-factor, 1))',
+        gap: '$xxs',
         textStyle: '$bodySemiBold',
-        gap: '$xs',
+        minHeight: '$buttonHeightMedium',
+        paddingLeft:
+          'calc(token($spacing.regular) * var(--padding-start-factor, 1))',
+        paddingRight:
+          'calc(token($spacing.regular) * var(--padding-end-factor, 1))',
       },
       large: {
+        gap: '$xs',
+        textStyle: '$bodyLargeBold',
         minHeight: '$buttonHeightLarge',
         paddingLeft:
-          'calc(token($spacing.large) * var(--padding-leading-factor, 1))',
+          'calc(token($spacing.regular) * var(--padding-start-factor, 1))',
         paddingRight:
-          'calc(token($spacing.large) * var(--padding-trailing-factor, 1))',
-        textStyle: '$bodyLargeBold',
-        gap: '$small',
+          'calc(token($spacing.regular) * var(--padding-end-factor, 1))',
       },
     },
     isFocusVisible: {
@@ -215,10 +205,10 @@ export const buttonStyle = cva({
       true: {
         cursor: 'not-allowed',
         color: '$textDisabled',
-        '&:hover': {
+        '&[data-hovered="true"]': {
           backgroundColor: '$neutral5',
         },
-        '&:active': {
+        '&[data-pressed="true"]': {
           opacity: 1,
         },
       },

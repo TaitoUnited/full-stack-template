@@ -33,11 +33,15 @@ export const Variations: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <Stack direction="row" gap="medium" align="flex-start">
-      {sizes.map(size => (
-        <Button key={size} size={size} variant="filled" color="primary">
-          {capitalize(size)}
-        </Button>
+    <Stack direction="column" gap="medium">
+      {variants.map(variant => (
+        <Stack key={variant} direction="row" gap="regular" align="flex-start">
+          {sizes.map(size => (
+            <Button key={size} size={size} variant={variant} color="primary">
+              {capitalize(size)}
+            </Button>
+          ))}
+        </Stack>
       ))}
     </Stack>
   ),
@@ -47,29 +51,24 @@ export const WithIcon: Story = {
   render: () => (
     <Stack direction="column" gap="large">
       <Stack direction="column" gap="small">
-        <Text variant="headingM">Leading icon</Text>
-        <ButtonIconExample iconLeading="bellFilled" />
+        <Text variant="headingM">Start icon</Text>
+        <ButtonIconExample icon="bellFilled" />
       </Stack>
 
       <Stack direction="column" gap="small">
-        <Text variant="headingM">Trailing icon</Text>
-        <ButtonIconExample iconTrailing="arrowRight" />
-      </Stack>
-
-      <Stack direction="column" gap="small">
-        <Text variant="headingM">Both icons</Text>
-        <ButtonIconExample iconLeading="bellFilled" iconTrailing="arrowRight" />
+        <Text variant="headingM">End icon</Text>
+        <ButtonIconExample icon="addCircle" iconPlacement="end" />
       </Stack>
     </Stack>
   ),
 };
 
 function ButtonIconExample({
-  iconLeading,
-  iconTrailing,
+  icon,
+  iconPlacement,
 }: {
-  iconLeading?: ComponentProps<typeof Button>['iconLeading'];
-  iconTrailing?: ComponentProps<typeof Button>['iconTrailing'];
+  icon?: ComponentProps<typeof Button>['icon'];
+  iconPlacement?: ComponentProps<typeof Button>['iconPlacement'];
 }) {
   return (
     <Stack direction="column" gap="medium">
@@ -81,8 +80,8 @@ function ButtonIconExample({
               variant={variant}
               size={size}
               color="primary"
-              iconLeading={iconLeading}
-              iconTrailing={iconTrailing}
+              icon={icon}
+              iconPlacement={iconPlacement}
             >
               {capitalize(variant)}
             </Button>

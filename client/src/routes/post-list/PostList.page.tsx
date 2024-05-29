@@ -58,7 +58,7 @@ export default function PostListPage({ loaderData }: Props) {
           <Button
             color="primary"
             variant="outlined"
-            iconLeading="pen"
+            icon="pen"
             data-test-id="navigate-to-create-post"
             onPress={() => navigate('create')}
           >
