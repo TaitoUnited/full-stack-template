@@ -58,7 +58,8 @@ const TooltipBase = ({
 const TooltipContent = styled(AriaTooltip, {
   base: {
     backgroundColor: '$text',
-    padding: '$small',
+    paddingBlock: '$xs',
+    paddingInline: '$small',
     borderRadius: '$regular',
     color: '$neutral5',
     outline: 'none',
