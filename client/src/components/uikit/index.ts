@@ -1,5 +1,5 @@
 export { Stack } from './Stack';
-export { MenuButton } from './MenuButton';
+export { Menu } from './Menu';
 export { Modal } from './Modal';
 export { Popover } from './Popover';
 export { Select, type SelectOption } from './Select';
