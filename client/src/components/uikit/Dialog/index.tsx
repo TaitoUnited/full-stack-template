@@ -3,8 +3,8 @@ import { useLingui } from '@lingui/react';
 import { ComponentProps, ReactElement, ReactNode, useContext } from 'react';
 
 import {
-  Dialog,
-  ModalOverlay,
+  Dialog as AriaDialog,
+  ModalOverlay as AriaModalOverlay,
   Modal as AriaModal,
   OverlayTriggerStateContext,
   Heading,
@@ -16,7 +16,7 @@ import { IconButton } from '../IconButton';
 import { styled } from '~styled-system/jsx';
 import { cva } from '~styled-system/css';
 
-function ModalBase({
+function DialogBase({
   children,
   isOpen,
   placement = 'middle',
@@ -26,12 +26,12 @@ function ModalBase({
   children: ReactNode;
   isOpen: boolean;
   /**
-   * Allows closing the modal by clicking on the overlay or pressing ESC.
+   * Allows closing the dialog by clicking on the overlay or pressing ESC.
    * Defaults to `true`.
    */
   isDismissable?: boolean;
   /**
-   * Where the modal should be placed.
+   * Where the dialog should be placed.
    * Defaults to `middle`.
    */
   placement?: 'top' | 'middle' | 'bottom' | 'drawer';
@@ -40,33 +40,33 @@ function ModalBase({
   useLingui();
 
   return (
-    <ModalOverlay
+    <AriaModalOverlay
       isDismissable={isDismissable}
       isKeyboardDismissDisabled={!isDismissable}
       isOpen={isOpen}
       onOpenChange={onOpenChange}
-      data-test-id="modal-overlay"
+      data-test-id="dialog-overlay"
       className={({ isEntering, isExiting }) =>
-        modalOverlayStyles({ isEntering, isExiting })
+        dialogOverlayStyles({ isEntering, isExiting })
       }
     >
       <AriaModal
-        data-test-id="modal-container"
+        data-test-id="dialog-container"
         className={({ isEntering, isExiting }) =>
-          modalStyles({ placement, isEntering, isExiting })
+          dialogModalStyles({ placement, isEntering, isExiting })
         }
       >
-        <ModalDialog>{children}</ModalDialog>
+        <DialogContainer>{children}</DialogContainer>
       </AriaModal>
-    </ModalOverlay>
+    </AriaModalOverlay>
   );
 }
 
-function ModalHeader({
+function DialogHeader({
   title,
   children,
   ...rest
-}: ComponentProps<typeof ModalHeaderContainer> & {
+}: ComponentProps<typeof DialogHeaderContainer> & {
   title?: string;
   children?: ReactElement;
 }) {
@@ -74,12 +74,12 @@ function ModalHeader({
 
   if (!title && !children) {
     throw new Error(
-      'ModalHeader requires either a `title` string or `children` element!'
+      'DialogHeader requires either a `title` string or `children` element!'
     );
   }
 
   return (
-    <ModalHeaderContainer data-test-id="modal-header" {...rest}>
+    <DialogHeaderContainer data-test-id="dialog-header" {...rest}>
       <Heading slot="title">
         {title ? (
           <Text variant="headingM" as="span">
@@ -89,20 +89,20 @@ function ModalHeader({
           children
         )}
       </Heading>
-      <IconButton label={t`Close`} icon="close" size={24} onPress={close} />
-    </ModalHeaderContainer>
+      <IconButton label={t`Close`} icon="close" size={32} onPress={close} />
+    </DialogHeaderContainer>
   );
 }
 
-function ModalBody(props: ComponentProps<typeof ModalBodyContainer>) {
-  return <ModalBodyContainer data-test-id="modal-body" {...props} />;
+function DialogBody(props: ComponentProps<typeof DialogBodyContainer>) {
+  return <DialogBodyContainer data-test-id="dialog-body" {...props} />;
 }
 
-function ModalFooter(props: ComponentProps<typeof ModalFooterContainer>) {
-  return <ModalFooterContainer data-test-id="modal-footer" {...props} />;
+function DialogFooter(props: ComponentProps<typeof DialogFooterContainer>) {
+  return <DialogFooterContainer data-test-id="dialog-footer" {...props} />;
 }
 
-const modalOverlayStyles = cva({
+const dialogOverlayStyles = cva({
   base: {
     position: 'fixed',
     inset: 0,
@@ -115,18 +115,18 @@ const modalOverlayStyles = cva({
   variants: {
     isEntering: {
       true: {
-        animation: 'modal-overlay-animation 150ms ease-out forwards',
+        animation: 'dialog-overlay-animation 150ms ease-out forwards',
       },
     },
     isExiting: {
       true: {
-        animation: 'modal-overlay-animation 100ms ease-in reverse',
+        animation: 'dialog-overlay-animation 100ms ease-in reverse',
       },
     },
   },
 });
 
-const modalStyles = cva({
+const dialogModalStyles = cva({
   base: {
     position: 'fixed',
     zIndex: 1001,
@@ -152,25 +152,25 @@ const modalStyles = cva({
     },
     placement: {
       middle: {
-        '--animation': 'modal-middle-animation',
+        '--animation': 'dialog-middle-animation',
         left: '50%',
         top: '50%',
         translate: '-50% -50%',
       },
       top: {
-        '--animation': 'modal-top-animation',
+        '--animation': 'dialog-top-animation',
         left: '50%',
         top: '10%',
         translate: '-50% 0px',
       },
       bottom: {
-        '--animation': 'modal-bottom-animation',
+        '--animation': 'dialog-bottom-animation',
         left: '50%',
         bottom: '10%',
         translate: '-50% 0px',
       },
       drawer: {
-        '--animation': 'modal-drawer-animation',
+        '--animation': 'dialog-drawer-animation',
         top: '0px',
         right: '0px',
         bottom: '0px',
@@ -183,7 +183,7 @@ const modalStyles = cva({
   },
 });
 
-const ModalDialog = styled(Dialog, {
+const DialogContainer = styled(AriaDialog, {
   base: {
     outline: 'none',
     flex: 1,
@@ -192,7 +192,7 @@ const ModalDialog = styled(Dialog, {
   },
 });
 
-const ModalHeaderContainer = styled('div', {
+const DialogHeaderContainer = styled('div', {
   base: {
     display: 'flex',
     flexDirection: 'row',
@@ -205,7 +205,7 @@ const ModalHeaderContainer = styled('div', {
   },
 });
 
-const ModalBodyContainer = styled('div', {
+const DialogBodyContainer = styled('div', {
   base: {
     flex: 1,
     display: 'flex',
@@ -215,7 +215,7 @@ const ModalBodyContainer = styled('div', {
   },
 });
 
-const ModalFooterContainer = styled('div', {
+const DialogFooterContainer = styled('div', {
   base: {
     display: 'flex',
     justifyContent: 'flex-end',
@@ -224,9 +224,9 @@ const ModalFooterContainer = styled('div', {
   },
 });
 
-// Add compound components to Modal
-export const Modal = Object.assign(ModalBase, {
-  Header: ModalHeader,
-  Body: ModalBody,
-  Footer: ModalFooter,
+// Add compound components to Dialog
+export const Dialog = Object.assign(DialogBase, {
+  Header: DialogHeader,
+  Body: DialogBody,
+  Footer: DialogFooter,
 });

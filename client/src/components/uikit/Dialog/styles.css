@@ -1,5 +1,5 @@
 /* Panda CSS doesn't yet support defining keyframes inside javascript...*/
-@keyframes modal-overlay-animation {
+@keyframes dialog-overlay-animation {
   0% {
     background-color: rgba(0, 0, 0, 0);
   }
@@ -8,7 +8,7 @@
   }
 }
 
-@keyframes modal-middle-animation {
+@keyframes dialog-middle-animation {
   0% {
     opacity: 0;
     scale: 0.9;
@@ -19,7 +19,7 @@
   }
 }
 
-@keyframes modal-top-animation {
+@keyframes dialog-top-animation {
   0% {
     opacity: 0;
     translate: -50% -20px;
@@ -30,7 +30,7 @@
   }
 }
 
-@keyframes modal-bottom-animation {
+@keyframes dialog-bottom-animation {
   0% {
     opacity: 0;
     translate: -50% 20px;
@@ -41,7 +41,7 @@
   }
 }
 
-@keyframes modal-drawer-animation {
+@keyframes dialog-drawer-animation {
   0% {
     translate: 100% 0px;
   }

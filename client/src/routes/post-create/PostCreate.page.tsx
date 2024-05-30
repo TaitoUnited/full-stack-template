@@ -5,7 +5,7 @@ import { t, Trans } from '@lingui/macro';
 
 import { styled } from '~styled-system/jsx';
 import { useDocumentTitle } from '~utils/routing';
-import { TextInput, Stack, Modal, TextArea, Button } from '~uikit';
+import { TextInput, Stack, Dialog, TextArea, Button } from '~uikit';
 import { PostListDocument, useCreatePostMutation } from '~graphql';
 
 export default function PostCreatePage() {
@@ -52,9 +52,9 @@ export default function PostCreatePage() {
   useDocumentTitle(t`New blog post`);
 
   return (
-    <Modal placement="middle" isOpen onOpenChange={() => navigate('/blog')}>
-      <Modal.Header title={t`New blog post`} />
-      <Modal.Body>
+    <Dialog placement="middle" isOpen onOpenChange={() => navigate('/blog')}>
+      <Dialog.Header title={t`New blog post`} />
+      <Dialog.Body>
         <Wrapper>
           <form onSubmit={handleSubmit}>
             <Stack direction="column" gap="regular">
@@ -105,8 +105,8 @@ export default function PostCreatePage() {
             </Stack>
           </form>
         </Wrapper>
-      </Modal.Body>
-    </Modal>
+      </Dialog.Body>
+    </Dialog>
   );
 }
 

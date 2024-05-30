@@ -1,6 +1,6 @@
 export { Stack } from './Stack';
 export { Menu } from './Menu';
-export { Modal } from './Modal';
+export { Dialog } from './Dialog';
 export { Popover } from './Popover';
 export { Select, type SelectOption } from './Select';
 export {

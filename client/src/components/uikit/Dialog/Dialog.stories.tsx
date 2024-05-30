@@ -2,22 +2,22 @@ import { capitalize } from 'lodash';
 import { ComponentProps, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Stack, Modal, Text, Icon, Button, TextInput } from '~uikit';
+import { Stack, Dialog, Text, Icon, Button, TextInput } from '~uikit';
 
 export default {
-  title: 'Modal',
-  component: Modal,
-} satisfies Meta<typeof Modal>;
+  title: 'Dialog',
+  component: Dialog,
+} satisfies Meta<typeof Dialog>;
 
-type Story = StoryObj<typeof Modal>;
+type Story = StoryObj<typeof Dialog>;
 
 export const Full: Story = {
   render: () => (
     <Stack direction="row" gap="regular">
-      <ModalExample kind="full" placement="middle" />
-      <ModalExample kind="full" placement="top" />
-      <ModalExample kind="full" placement="bottom" />
-      <ModalExample kind="full" placement="drawer" />
+      <DialogExample kind="full" placement="middle" />
+      <DialogExample kind="full" placement="top" />
+      <DialogExample kind="full" placement="bottom" />
+      <DialogExample kind="full" placement="drawer" />
     </Stack>
   ),
 };
@@ -25,10 +25,10 @@ export const Full: Story = {
 export const Basic: Story = {
   render: () => (
     <Stack direction="row" gap="regular">
-      <ModalExample kind="basic" placement="middle" />
-      <ModalExample kind="basic" placement="top" />
-      <ModalExample kind="basic" placement="bottom" />
-      <ModalExample kind="basic" placement="drawer" />
+      <DialogExample kind="basic" placement="middle" />
+      <DialogExample kind="basic" placement="top" />
+      <DialogExample kind="basic" placement="bottom" />
+      <DialogExample kind="basic" placement="drawer" />
     </Stack>
   ),
 };
@@ -36,19 +36,19 @@ export const Basic: Story = {
 export const CustomHeader: Story = {
   render: () => (
     <Stack direction="row" gap="regular">
-      <ModalExample kind="custom-header" placement="middle" />
-      <ModalExample kind="custom-header" placement="top" />
-      <ModalExample kind="custom-header" placement="bottom" />
-      <ModalExample kind="custom-header" placement="drawer" />
+      <DialogExample kind="custom-header" placement="middle" />
+      <DialogExample kind="custom-header" placement="top" />
+      <DialogExample kind="custom-header" placement="bottom" />
+      <DialogExample kind="custom-header" placement="drawer" />
     </Stack>
   ),
 };
 
-function ModalExample({
+function DialogExample({
   placement,
   kind,
 }: {
-  placement: ComponentProps<typeof Modal>['placement'];
+  placement: ComponentProps<typeof Dialog>['placement'];
   kind: 'full' | 'basic' | 'custom-header';
 }) {
   const [isOpen, setOpen] = useState(false);
@@ -60,26 +60,26 @@ function ModalExample({
         {capitalize(placement)}
       </Button>
 
-      <Modal placement={placement} isOpen={isOpen} onOpenChange={setOpen}>
+      <Dialog placement={placement} isOpen={isOpen} onOpenChange={setOpen}>
         {kind === 'custom-header' ? (
-          <Modal.Header>
+          <Dialog.Header>
             <Stack direction="row" gap="small" align="center">
               <Icon name="calendarMonth" size={32} color="text" aria-hidden />
               <Stack direction="column" gap="none">
                 <Text variant="headingL" as="span">
-                  Custom modal title!
+                  Custom dialog title!
                 </Text>
                 <Text variant="bodySmall">
                   This is a description for the header.
                 </Text>
               </Stack>
             </Stack>
-          </Modal.Header>
+          </Dialog.Header>
         ) : (
-          <Modal.Header title="Example modal" />
+          <Dialog.Header title="Example dialog" />
         )}
 
-        <Modal.Body>
+        <Dialog.Body>
           <Stack direction="column" gap="regular">
             <TextInput
               label="Random input"
@@ -96,10 +96,10 @@ function ModalExample({
               bandwidth.
             </Text>
           </Stack>
-        </Modal.Body>
+        </Dialog.Body>
 
         {kind === 'full' && (
-          <Modal.Footer>
+          <Dialog.Footer>
             <Stack direction="row" gap="xs">
               <Button
                 variant="outlined"
@@ -116,9 +116,9 @@ function ModalExample({
                 Save
               </Button>
             </Stack>
-          </Modal.Footer>
+          </Dialog.Footer>
         )}
-      </Modal>
+      </Dialog>
     </>
   );
 }
