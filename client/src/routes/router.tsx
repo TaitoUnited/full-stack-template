@@ -26,6 +26,16 @@ export const router = createBrowserRouter([
           {
             path: 'blog',
             ...lazyRoute(() => import('./post-list')),
+            children: [
+              {
+                path: 'create',
+                ...lazyRoute(() => import('./post-create')),
+              },
+            ],
+          },
+          {
+            path: 'blog/:id',
+            ...lazyRoute(() => import('./post')),
           },
           {
             path: 'theming',

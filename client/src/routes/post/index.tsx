@@ -1,46 +1,31 @@
 import { useParams } from 'react-router-dom';
-import { Trans } from '@lingui/macro';
 
-import {PostDetails} from '~components/post/PostDetails';
+import { PostDetails } from '~components/post/PostDetails';
 import { Breadcrumbs } from '~components/navigation/Breadcrumbs';
 import { useDocumentTitle } from '~utils/document';
-import { usePostQuery } from '~graphql';
-import { Text } from '~uikit';
+import { usePostSuspenseQuery } from '~graphql';
 import { css } from '~styled-system/css';
 
 export default function PostRoute() {
   const { id = '' } = useParams();
-  const { data, error } = usePostQuery({ variables: { id } });
-  const post = data?.post;
-  const postSubject = post?.subject ?? '';
+  const { data } = usePostSuspenseQuery({ variables: { id } });
+  const { post } = data;
 
-  useDocumentTitle(postSubject);
+  useDocumentTitle(post.subject);
 
   return (
     <div className={css({ flex: 1 })}>
       <Breadcrumbs>
-        <Breadcrumbs.Link to={`/blog`}>Blog</Breadcrumbs.Link>
-        <Breadcrumbs.Link>{postSubject}</Breadcrumbs.Link>
+        <Breadcrumbs.Link to="/blog">Blog</Breadcrumbs.Link>
+        <Breadcrumbs.Link>{post.subject}</Breadcrumbs.Link>
       </Breadcrumbs>
 
-      {post ? (
-        <PostDetails
-          createdAt={post.createdAt}
-          author={post.author || ''}
-          subject={post.subject || ''}
-          content={post.content || ''}
-        />
-      ) : (
-        <Text variant="body">
-          <Trans>Could not find post.</Trans>
-        </Text>
-      )}
-
-      {!!error && (
-        <Text variant="body">
-          <Trans>Failed to load blog post.</Trans>
-        </Text>
-      )}
+      <PostDetails
+        createdAt={post.createdAt}
+        author={post.author}
+        subject={post.subject}
+        content={post.content}
+      />
     </div>
   );
 }

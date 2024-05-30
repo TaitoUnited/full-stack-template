@@ -1,6 +1,13 @@
+// The following imports are only needed if you are using subscriptions or cache persistence.
+/*
 import { LocalStorageWrapper, CachePersistor } from 'apollo3-cache-persist';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { createClient } from 'graphql-ws';
+import { getMainDefinition } from '@apollo/client/utilities';
+*/
 
 import {
+  // split,
   ApolloClient,
   ApolloLink,
   from,
@@ -8,12 +15,7 @@ import {
   InMemoryCache,
   NormalizedCacheObject,
   OperationVariables,
-  // split,
 } from '@apollo/client';
-
-// import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
-// import { createClient } from 'graphql-ws';
-// import { getMainDefinition } from '@apollo/client/utilities';
 
 import { config } from '~constants/config';
 import { storage } from '~utils/storage';
@@ -27,16 +29,14 @@ let __client__: ApolloClient<NormalizedCacheObject>;
 export async function setupApolloClient() {
   const httpLink = new HttpLink({ uri: config.API_URL });
 
-  // If you need to use subscriptions, uncomment the following lines
-  // const wsUri = `${config.ENV === 'localhost' ? 'ws' : 'wss'}://${
-  //   location.host
-  // }${config.API_URL}/subscriptions`;
+  // If you need to use subscriptions, uncomment the following block:
+  /*
+  const wsUri = `${config.ENV === 'localhost' ? 'ws' : 'wss'}://${
+    location.host
+  }${config.API_URL}/subscriptions`;
 
-  // const wsLink = new GraphQLWsLink(
-  //   createClient({
-  //     url: wsUri,
-  //   })
-  // );
+  const wsLink = new GraphQLWsLink(createClient({ url: wsUri }));
+  */
 
   const headersLink = new ApolloLink((operation, forward) => {
     const locales = SUPPORTED_LOCALES;
@@ -52,6 +52,8 @@ export async function setupApolloClient() {
     return forward(operation);
   });
 
+  // If you want to persist the cache, uncomment the following block:
+  /*
   const persistor = new CachePersistor({
     cache,
     storage: new LocalStorageWrapper(window.localStorage),
@@ -64,19 +66,22 @@ export async function setupApolloClient() {
   } else {
     await persistor.restore();
   }
+  */
 
-  // If you need to use subscriptions, uncomment the following lines
-  // const splitLink = split(
-  //   ({ query }) => {
-  //     const definition = getMainDefinition(query);
-  //     return (
-  //       definition.kind === 'OperationDefinition' &&
-  //       definition.operation === 'subscription'
-  //     );
-  //   },
-  //   wsLink,
-  //   httpLink
-  // );
+  // If you need to use subscriptions, uncomment the following block
+  /*
+  const splitLink = split(
+    ({ query }) => {
+      const definition = getMainDefinition(query);
+      return (
+        definition.kind === 'OperationDefinition' &&
+        definition.operation === 'subscription'
+      );
+    },
+    wsLink,
+    httpLink
+  );
+  */
 
   const client = new ApolloClient({
     // If you need to use subscriptions, change the following line to:
@@ -118,6 +123,8 @@ export function query<
   });
 }
 
+// The following function is only needed if you are using cache persistence:
+/* 
 // https://github.com/apollographql/apollo-cache-persist/blob/master/docs/faq.md#ive-had-a-breaking-schema-change-how-do-i-migrate-or-purge-my-cache
 const SCHEMA_VERSION = '1';
 const SCHEMA_VERSION_KEY = 'apollo-schema-version';
@@ -132,3 +139,4 @@ async function shouldPurgeStorage() {
     return true;
   }
 }
+*/

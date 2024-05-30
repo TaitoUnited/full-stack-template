@@ -6,92 +6,94 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: string;
-  String: string;
-  Boolean: boolean;
-  Int: number;
-  Float: number;
+  ID: { input: string; output: string; }
+  String: { input: string; output: string; }
+  Boolean: { input: boolean; output: boolean; }
+  Int: { input: number; output: number; }
+  Float: { input: number; output: number; }
   /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
-  DateTime: any;
+  DateTime: { input: any; output: any; }
 };
 
 export type Attachment = {
   __typename?: 'Attachment';
-  contentType: Scalars['String'];
-  createdAt: Scalars['DateTime'];
-  description?: Maybe<Scalars['String']>;
-  fileUrl?: Maybe<Scalars['String']>;
-  filename?: Maybe<Scalars['String']>;
-  id: Scalars['ID'];
-  title?: Maybe<Scalars['String']>;
-  updatedAt: Scalars['DateTime'];
+  contentType: Scalars['String']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  fileUrl?: Maybe<Scalars['String']['output']>;
+  filename?: Maybe<Scalars['String']['output']>;
+  id: Scalars['ID']['output'];
+  title?: Maybe<Scalars['String']['output']>;
+  updatedAt: Scalars['DateTime']['output'];
 };
 
 export type AttachmentFilter = {
-  attachmentType: Scalars['String'];
-  contentType: Scalars['String'];
-  createdAt: Scalars['DateTime'];
-  description: Scalars['String'];
-  filename: Scalars['String'];
-  id: Scalars['String'];
-  postId: Scalars['String'];
-  title: Scalars['String'];
-  updatedAt: Scalars['DateTime'];
+  attachmentType: Scalars['String']['input'];
+  contentType: Scalars['String']['input'];
+  createdAt: Scalars['DateTime']['input'];
+  description: Scalars['String']['input'];
+  filename: Scalars['String']['input'];
+  id: Scalars['String']['input'];
+  postId: Scalars['String']['input'];
+  title: Scalars['String']['input'];
+  updatedAt: Scalars['DateTime']['input'];
 };
 
 export type AttachmentUploadRequestDetails = {
   __typename?: 'AttachmentUploadRequestDetails';
   headers: Array<KeyValue>;
-  id: Scalars['String'];
-  url: Scalars['String'];
+  id: Scalars['String']['output'];
+  url: Scalars['String']['output'];
 };
 
 export type CreateAttachmentInput = {
-  contentType: Scalars['String'];
-  description?: InputMaybe<Scalars['String']>;
-  filename?: InputMaybe<Scalars['String']>;
-  title?: InputMaybe<Scalars['String']>;
+  contentType: Scalars['String']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  filename?: InputMaybe<Scalars['String']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CreateAttachmentInputBase = {
-  contentType: Scalars['String'];
-  filename?: InputMaybe<Scalars['String']>;
+  contentType: Scalars['String']['input'];
+  filename?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CreatePostAttachmentInput = {
-  contentType: Scalars['String'];
-  description?: InputMaybe<Scalars['String']>;
-  filename?: InputMaybe<Scalars['String']>;
-  postId: Scalars['String'];
-  title?: InputMaybe<Scalars['String']>;
+  contentType: Scalars['String']['input'];
+  description?: InputMaybe<Scalars['String']['input']>;
+  filename?: InputMaybe<Scalars['String']['input']>;
+  postId: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type CreatePostInput = {
-  author: Scalars['String'];
-  content: Scalars['String'];
-  subject: Scalars['String'];
+  author: Scalars['String']['input'];
+  content: Scalars['String']['input'];
+  subject: Scalars['String']['input'];
 };
 
 export type DeleteAttachmentInput = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type DeletePostAttachmentInput = {
-  id: Scalars['String'];
-  postId: Scalars['String'];
+  id: Scalars['String']['input'];
+  postId: Scalars['String']['input'];
 };
 
 export type DeletePostInput = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type Filter = {
-  field: Scalars['String'];
+  field: Scalars['String']['input'];
   operator: FilterOperator;
-  value?: InputMaybe<Scalars['String']>;
+  value?: InputMaybe<Scalars['String']['input']>;
   /** Determines how the value is treated */
   valueType?: ValueType;
 };
@@ -118,14 +120,14 @@ export enum FilterOperator {
 }
 
 export type FinalizePostAttachmentInput = {
-  id: Scalars['String'];
-  postId: Scalars['String'];
+  id: Scalars['String']['input'];
+  postId: Scalars['String']['input'];
 };
 
 export type KeyValue = {
   __typename?: 'KeyValue';
-  key: Scalars['String'];
-  value: Scalars['String'];
+  key: Scalars['String']['output'];
+  value: Scalars['String']['output'];
 };
 
 export type Mutation = {
@@ -189,9 +191,9 @@ export type MutationUpdatePostAttachmentArgs = {
 export type Order = {
   /** Determines whether to sort ascending or descending. */
   dir?: OrderDirection;
-  field: Scalars['String'];
+  field: Scalars['String']['input'];
   /** Determines whether NULL values are ordered first or last. */
-  invertNullOrder?: Scalars['Boolean'];
+  invertNullOrder?: Scalars['Boolean']['input'];
 };
 
 export enum OrderDirection {
@@ -202,29 +204,29 @@ export enum OrderDirection {
 export type PaginatedAttachments = {
   __typename?: 'PaginatedAttachments';
   data: Array<Attachment>;
-  total: Scalars['Float'];
+  total: Scalars['Float']['output'];
 };
 
 export type PaginatedPosts = {
   __typename?: 'PaginatedPosts';
   data: Array<Post>;
-  total: Scalars['Float'];
+  total: Scalars['Float']['output'];
 };
 
 export type Pagination = {
-  limit: Scalars['Float'];
-  offset: Scalars['Float'];
+  limit: Scalars['Float']['input'];
+  offset: Scalars['Float']['input'];
 };
 
 export type Post = {
   __typename?: 'Post';
   attachments: PaginatedAttachments;
-  author: Scalars['String'];
-  content: Scalars['String'];
-  createdAt: Scalars['DateTime'];
-  id: Scalars['ID'];
-  subject: Scalars['String'];
-  updatedAt: Scalars['DateTime'];
+  author: Scalars['String']['output'];
+  content: Scalars['String']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  id: Scalars['ID']['output'];
+  subject: Scalars['String']['output'];
+  updatedAt: Scalars['DateTime']['output'];
 };
 
 
@@ -233,15 +235,15 @@ export type PostAttachmentsArgs = {
 };
 
 export type PostFilter = {
-  createdAt: Scalars['DateTime'];
-  id: Scalars['String'];
-  updatedAt: Scalars['DateTime'];
+  createdAt: Scalars['DateTime']['input'];
+  id: Scalars['String']['input'];
+  updatedAt: Scalars['DateTime']['input'];
 };
 
 export type Query = {
   __typename?: 'Query';
   /** Returns all MIME types allowed for post attachments. */
-  allowedPostAttachmentMimeTypes: Array<Scalars['String']>;
+  allowedPostAttachmentMimeTypes: Array<Scalars['String']['output']>;
   /** Reads a post. */
   post: Post;
   /** Reads a post attachment. */
@@ -252,7 +254,7 @@ export type Query = {
 
 
 export type QueryPostArgs = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 
@@ -265,42 +267,42 @@ export type QueryPostsArgs = {
   filterGroups?: Array<FilterGroup>;
   order?: Order;
   pagination?: Pagination;
-  search?: InputMaybe<Scalars['String']>;
+  search?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type ReadPostAttachmentInput = {
-  id: Scalars['String'];
-  postId: Scalars['String'];
+  id: Scalars['String']['input'];
+  postId: Scalars['String']['input'];
 };
 
 export type RequestDetails = {
   __typename?: 'RequestDetails';
   headers: Array<KeyValue>;
-  url: Scalars['String'];
+  url: Scalars['String']['output'];
 };
 
 export type UpdateAttachmentInput = {
-  description?: InputMaybe<Scalars['String']>;
-  id: Scalars['String'];
-  title?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdateAttachmentInputBase = {
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 };
 
 export type UpdatePostAttachmentInput = {
-  description?: InputMaybe<Scalars['String']>;
-  id: Scalars['String'];
-  postId: Scalars['String'];
-  title?: InputMaybe<Scalars['String']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
+  postId: Scalars['String']['input'];
+  title?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type UpdatePostInput = {
-  author?: InputMaybe<Scalars['String']>;
-  content?: InputMaybe<Scalars['String']>;
-  id: Scalars['String'];
-  subject?: InputMaybe<Scalars['String']>;
+  author?: InputMaybe<Scalars['String']['input']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
+  subject?: InputMaybe<Scalars['String']['input']>;
 };
 
 export enum ValueType {
@@ -310,9 +312,9 @@ export enum ValueType {
 }
 
 export type CreatePostMutationVariables = Exact<{
-  subject: Scalars['String'];
-  author: Scalars['String'];
-  content: Scalars['String'];
+  subject: Scalars['String']['input'];
+  author: Scalars['String']['input'];
+  content: Scalars['String']['input'];
 }>;
 
 
@@ -327,7 +329,7 @@ export type PostListQueryVariables = Exact<{
 export type PostListQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', total: number, data: Array<{ __typename?: 'Post', id: string, subject: string, createdAt: any }> } };
 
 export type PostQueryVariables = Exact<{
-  id: Scalars['String'];
+  id: Scalars['String']['input'];
 }>;
 
 
@@ -407,8 +409,13 @@ export function usePostListLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHoo
           const options = {...defaultOptions, ...baseOptions}
           return ApolloReactHooks.useLazyQuery<PostListQuery, PostListQueryVariables>(PostListDocument, options);
         }
+export function usePostListSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<PostListQuery, PostListQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useSuspenseQuery<PostListQuery, PostListQueryVariables>(PostListDocument, options);
+        }
 export type PostListQueryHookResult = ReturnType<typeof usePostListQuery>;
 export type PostListLazyQueryHookResult = ReturnType<typeof usePostListLazyQuery>;
+export type PostListSuspenseQueryHookResult = ReturnType<typeof usePostListSuspenseQuery>;
 export type PostListQueryResult = Apollo.QueryResult<PostListQuery, PostListQueryVariables>;
 export const PostDocument = gql`
     query Post($id: String!) {
@@ -438,7 +445,7 @@ export const PostDocument = gql`
  *   },
  * });
  */
-export function usePostQuery(baseOptions: ApolloReactHooks.QueryHookOptions<PostQuery, PostQueryVariables>) {
+export function usePostQuery(baseOptions: ApolloReactHooks.QueryHookOptions<PostQuery, PostQueryVariables> & ({ variables: PostQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
         const options = {...defaultOptions, ...baseOptions}
         return ApolloReactHooks.useQuery<PostQuery, PostQueryVariables>(PostDocument, options);
       }
@@ -446,6 +453,11 @@ export function usePostLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOpt
           const options = {...defaultOptions, ...baseOptions}
           return ApolloReactHooks.useLazyQuery<PostQuery, PostQueryVariables>(PostDocument, options);
         }
+export function usePostSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<PostQuery, PostQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useSuspenseQuery<PostQuery, PostQueryVariables>(PostDocument, options);
+        }
 export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
 export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
+export type PostSuspenseQueryHookResult = ReturnType<typeof usePostSuspenseQuery>;
 export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;

@@ -1,47 +1,41 @@
 import { useEffect, useState } from 'react';
-import { usePreviousDistinct } from 'react-use';
-import { debounce } from 'lodash';
 
 import { useEffectEvent } from './memo';
 
-export function useWindowFocus() {
-  const [focused, setFocused] = useState(true);
+export function useWindowFocusState() {
+  const [isFocused, setFocused] = useState(true);
 
   useEffect(() => {
-    function onFocus() {
-      setFocused(
-        [undefined, 'visible', 'prerender'].includes(document.visibilityState)
-      );
+    function handler() {
+      setFocused(document.visibilityState !== 'hidden');
     }
 
-    window.addEventListener('visibilitychange', onFocus, false);
-    window.addEventListener('focus', onFocus, false);
+    window.addEventListener('visibilitychange', handler, false);
 
     return () => {
-      window.removeEventListener('visibilitychange', onFocus);
-      window.removeEventListener('focus', onFocus);
+      window.removeEventListener('visibilitychange', handler);
     };
   }, []);
 
-  return focused;
+  return isFocused;
 }
 
-// Debounce handler in case the user eg. changes tabs quickly
-const windowFocusEffectHandler = debounce(cb => cb && cb(), 5000, {
-  leading: true,
-  trailing: false,
-});
-
-export function useWindowFocusEffect(cb: () => any) {
-  const focused = useWindowFocus();
-  const prevFocused = usePreviousDistinct(focused);
+export function useWindowFocusEffect(callback: () => void) {
+  const stableCallback = useEffectEvent(callback);
 
   useEffect(() => {
-    if (prevFocused === undefined) return;
-    if (focused && !prevFocused) windowFocusEffectHandler(cb);
-  }, [focused, prevFocused, cb]);
-}
+    function handler() {
+      const isFocused = document.visibilityState !== 'hidden';
+      if (isFocused) stableCallback();
+    }
 
+    window.addEventListener('visibilitychange', handler, false);
+
+    return () => {
+      window.removeEventListener('visibilitychange', handler);
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+}
 /**
  * Hook to run a callback when a shortcut combination is pressed
  * @param keys Format: Meta+Shift+K etc.

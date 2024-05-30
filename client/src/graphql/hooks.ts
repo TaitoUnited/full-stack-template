@@ -1,12 +1,15 @@
-import { useRef } from 'react';
+import { startTransition, useDeferredValue, useRef } from 'react';
+import { useDeepCompareMemo } from 'use-deep-compare';
+import { useSpinDelay } from 'spin-delay';
 
 import {
   DocumentNode,
   OperationVariables,
   QueryHookOptions,
   TypedDocumentNode,
-  QueryResult as ApolloQueryResult,
   useQuery as useApolloQuery,
+  useSuspenseQuery as useApolloSuspenseQuery,
+  SuspenseQueryHookOptions,
 } from '@apollo/client';
 
 import { useWindowFocusEffect } from '~utils/observe';
@@ -14,69 +17,96 @@ import { useWindowFocusEffect } from '~utils/observe';
 // Re-export all hooks so that they can be used by graphql-codegen
 export * from '@apollo/client'; // eslint-disable-line import/export
 
-// Add `revalidating` field to query result so that we are able to distinguish
-// between initial data loading and subsequent data revalidating that happens
-// in the background as part of Stale-While-Revalidate pattern
-interface QueryResult<D, V extends OperationVariables>
-  extends ApolloQueryResult<D, V> {
-  revalidating: boolean;
-}
-
-// Enhance `useQuery` hook to add better support for Stale-While-Revalidate and Window-Focus-Refetching
+/**
+ * Enhance `useQuery` hook to add support for refetching data on window focus.
+ */
 // eslint-disable-next-line import/export
 export function useQuery<
   TData = any,
   TVariables extends OperationVariables = OperationVariables
 >(
   query: DocumentNode | TypedDocumentNode<TData, TVariables>,
-  options?: QueryHookOptions<TData, TVariables> | undefined
-): QueryResult<TData, TVariables> {
-  const q = useApolloQuery<TData, TVariables>(query, options) as QueryResult<
-    TData,
-    TVariables
-  >;
+  options?: QueryHookOptions<NoInfer<TData>, NoInfer<TVariables>>
+) {
+  const result = useApolloQuery<TData, TVariables>(query, options);
 
-  q.revalidating = false;
+  useWindowFocusRefetching(result.refetch);
 
-  // When using `cache-and-network` fetch policy the `loading` prop is set to true
-  // every time the query data is refetched in the background causing issues
-  // with loading skeleton placeholders
-  // --> we want to keep the `loading` as false if the data is in the cache
-  if (q.loading) {
-    try {
-      const cacheHit = q.client.readQuery({ query, variables: q.variables });
-
-      if (cacheHit) {
-        q.loading = false;
-        q.revalidating = true;
-      }
-    } catch (error) {}
-  }
-
-  useQueryAutoRefetching(q);
-
-  return q;
+  return result;
 }
 
-// Apollo doesn't provide a way to refetch queries when the browser window is
-// focused, eg. when user goes to another site and comes back.
-type RefetchableQuery = { refetch: () => Promise<any> };
+/**
+ * Enhance `useSuspenseQuery` hook to add better support for refetching on
+ * window focus and stop the hook from suspending when variables change
+ * and instead return a `suspending` flag that can be used to shown an inline
+ * loading indicator.
+ *
+ * More info: https://www.teemutaskula.com/blog/exploring-query-suspense#deferring-with-usedeferredvalue
+ * (the article is written for React Query but the same concept applies to Apollo)
+ */
+// eslint-disable-next-line import/export
+export function useSuspenseQuery<
+  TData = unknown,
+  TVariables extends OperationVariables = OperationVariables
+>(
+  query: DocumentNode | TypedDocumentNode<TData, TVariables>,
+  options?: SuspenseQueryHookOptions<NoInfer<TData>, NoInfer<TVariables>>
+) {
+  const variables = useDeepCompareMemo(
+    () => options?.variables,
+    [options?.variables]
+  );
 
-function useQueryAutoRefetching(query: RefetchableQuery) {
+  const deferredVariables = useDeferredValue(variables);
+
+  const result = useApolloSuspenseQuery<TData, TVariables>(query, {
+    ...options,
+    variables: deferredVariables,
+  });
+
+  // Add smart delay to prevent spinner flickering when variables change
+  const suspending = useSpinDelay(variables !== deferredVariables);
+
+  useWindowFocusRefetching(result.refetch);
+
+  return { ...result, suspending };
+}
+
+/**
+ * Apollo doesn't provide a way to refetch queries when the browser window is
+ * focused, eg. when user goes to another site and comes back.
+ * https://github.com/apollographql/apollo-feature-requests/issues/422
+ */
+function useWindowFocusRefetching(refetch: () => Promise<any>) {
   const refetching = useRef(false);
+  const refetchedAt = useRef(new Date().getTime());
+  const refetchThreshold = 5000; // 5 seconds
 
   useWindowFocusEffect(async () => {
+    const now = new Date().getTime();
+    const elapsed = now - refetchedAt.current;
+
+    // Don't refetch if the query was just fetched/refetched recently
+    if (elapsed < refetchThreshold) return;
+
+    // Prevent multiple refetches
     if (refetching.current) return;
+
     refetching.current = true;
 
-    try {
-      console.log('> Window refocused, refetching query...');
-      await query.refetch();
-    } catch (error) {
-      console.log('> Failed to refetch query', error);
-    } finally {
-      console.log('> Query refetched!');
-      refetching.current = false;
-    }
+    console.log('Window refocused, refetching query...');
+
+    // Using `startTransition` prevents suspending the component
+    startTransition(() => {
+      refetch()
+        .catch(error => {
+          console.log('Failed to refetch query', error);
+        })
+        .finally(() => {
+          console.log('Query refetched!');
+          refetchedAt.current = new Date().getTime();
+          refetching.current = false;
+        });
+    });
   });
 }
