@@ -5,7 +5,7 @@ const LOCALE_KEY = '@app/locale';
 // Add keys here so that we get strong typings for the storage key value pairs
 const ALL_KEYS = [TOKENS_KEY, THEME_KEY, LOCALE_KEY] as const;
 
-type StorageKey = typeof ALL_KEYS[number];
+type StorageKey = (typeof ALL_KEYS)[number];
 
 const set = (key: StorageKey, value: Record<string, any> | string) => {
   localStorage.setItem(key, JSON.stringify(value));
@@ -29,6 +29,4 @@ const clearAll = () => {
   localStorage.clear();
 };
 
-const storage = { get, set, remove, clearAll };
-
-export default storage;
+export const storage = { get, set, remove, clearAll };

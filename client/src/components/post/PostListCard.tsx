@@ -8,7 +8,7 @@ type Props = {
   subject: string;
 };
 
-export default function PostListCard({ createdAt, subject }: Props) {
+export function PostListCard({ createdAt, subject }: Props) {
   return (
     <Wrapper>
       <Stack

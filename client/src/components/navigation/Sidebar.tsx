@@ -7,7 +7,7 @@ import { useAuth } from '~services/auth';
 import { stack } from '~styled-system/patterns';
 import { isFeatureEnabled } from '~utils/feature-flags';
 
-export default function Sidebar() {
+export function Sidebar() {
   const auth = useAuth();
   const feature3Enabled = isFeatureEnabled('feature-3');
 
@@ -55,8 +55,8 @@ export default function Sidebar() {
               <NavItemLink
                 to={to}
                 data-test-id={testId}
-                preloadOn="hover"
                 className={stack({ direction: 'row', gap: '$small' })}
+                preload // preload route on mouse down
               >
                 <Icon name={icon} size={24} color="text" />
                 <Text variant="body">{label}</Text>

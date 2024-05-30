@@ -1,4 +1,4 @@
-import config, { AppEnv, appEnvironments } from '~constants/config';
+import { config, AppEnv, appEnvironments } from '~constants/config';
 
 const featureConfig = {
   'feature-1': appEnvironments, // enabled in all envs

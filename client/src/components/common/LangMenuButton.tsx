@@ -3,7 +3,7 @@ import { t } from '@lingui/macro';
 import { useI18n, SUPPORTED_LOCALES, LOCALE_LABEL } from '~services/i18n';
 import { Menu, IconButton } from '~uikit';
 
-export default function LangMenuButton() {
+export function LangMenuButton() {
   const { i18n, changeLocale } = useI18n();
 
   return (

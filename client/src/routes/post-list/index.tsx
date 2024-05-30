@@ -1,23 +1,68 @@
-import Fallback from './PostList.fallback';
-import { routeEntry, RouteEntryLoaderData } from '../route-utils';
+import { t, Trans } from '@lingui/macro';
+import { Outlet, useNavigate } from 'react-router-dom';
 
-import {
-  query,
-  PostListDocument,
-  PostListQueryResult,
-  OrderDirection,
-} from '~graphql';
+import { UnstyledLink } from '~components/navigation/Link';
+import { useDocumentTitle } from '~utils/document';
+import { stack } from '~styled-system/patterns';
+import { Text, Stack, Button } from '~uikit';
+import { OrderDirection, usePostListQuery } from '~graphql';
+import { PostListCard } from '~components/post/PostListCard';
 
-const entry = routeEntry({
-  path: '/blog',
-  fallback: <Fallback />,
-  component: () => import('./PostList.page'),
-  loader: () =>
-    query<PostListQueryResult>(PostListDocument, {
+export default function PostListRoute() {
+  const navigate = useNavigate();
+  const { data, error } = usePostListQuery({
+    variables: {
       order: { field: 'createdAt', dir: OrderDirection.Desc },
-    }).then(res => res.data),
-});
+    },
+  });
 
-export type LoaderData = RouteEntryLoaderData<typeof entry>;
+  const posts = data?.posts.data ?? [];
 
-export default entry;
+  useDocumentTitle(t`Blog`);
+
+  return (
+    <>
+      <Stack direction="column" gap="large">
+        <Text variant="headingXl">
+          <Trans>Blog</Trans>
+        </Text>
+
+        {posts.length > 0 ? (
+          <ul
+            className={stack({ gap: '$regular', alignItems: 'stretch' })}
+            data-test-id="post-list"
+          >
+            {posts.map(post => (
+              <li key={post.id}>
+                <UnstyledLink to={post.id}>
+                  <PostListCard
+                    createdAt={post.createdAt}
+                    subject={post.subject || ''}
+                  />
+                </UnstyledLink>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <Text variant="body">No blog posts.</Text>
+        )}
+
+        {!!error && <Text variant="body">Failed to load blog posts.</Text>}
+
+        <div>
+          <Button
+            color="primary"
+            variant="outlined"
+            icon="pen"
+            data-test-id="navigate-to-create-post"
+            onPress={() => navigate('create')}
+          >
+            <Trans>New post</Trans>
+          </Button>
+        </div>
+      </Stack>
+
+      <Outlet />
+    </>
+  );
+}

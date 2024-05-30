@@ -2,7 +2,7 @@ import { styled } from '~styled-system/jsx';
 import { Stack, Text, Icon } from '~uikit';
 import type { IconName } from '~uikit';
 
-export default function AlertMessage({
+export function AlertMessage({
   variant,
   message,
 }: {

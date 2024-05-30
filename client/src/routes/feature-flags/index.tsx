@@ -1,9 +1,31 @@
-import Fallback from './FeatureFlags.fallback';
-import { routeEntry } from '../route-utils';
+import { t, Trans } from '@lingui/macro';
 
-export default routeEntry({
-  path: '/feature-flags',
-  fallback: <Fallback />,
-  featureFlag: 'feature-3',
-  component: () => import('./FeatureFlags.page'),
-});
+import { Text, Stack } from '~uikit';
+import { useDocumentTitle } from '~utils/document';
+
+export default function FeatureFlagsRoute() {
+  useDocumentTitle(t`Feature Flags`);
+
+  return (
+    <Stack direction="column" gap="large">
+      <Text variant="headingXl">
+        <Trans>Feature flags</Trans>
+      </Text>
+
+      <Stack direction="column" gap="regular">
+        <Text variant="body" color="textMuted" lineHeight={1.5}>
+          <Trans>
+            This page is only accessible when <strong>feature-3</strong> is
+            enabled in session.
+          </Trans>
+        </Text>
+
+        <Text variant="body" color="textMuted" lineHeight={1.5}>
+          <Trans>
+            You can enable features via the feature flag manager widget.
+          </Trans>
+        </Text>
+      </Stack>
+    </Stack>
+  );
+}

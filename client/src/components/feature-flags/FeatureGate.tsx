@@ -6,7 +6,7 @@ type Props = {
   children: ReactNode;
 };
 
-export default function FeatureGate({ children, feature }: Props) {
+export function FeatureGate({ children, feature }: Props) {
   if (!isFeatureEnabled(feature)) return null;
   return <>{children}</>;
 }

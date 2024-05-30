@@ -1,37 +1,26 @@
-import { useEffect, useState } from 'react';
 import loadable from '@loadable/component';
+import { RouterProvider } from 'react-router-dom';
 
-import Providers from './Providers';
-import Routes from './routes';
-import config from '~constants/config';
-import { initMessages } from '~services/i18n';
+import { router } from './routes/router';
+import { RouteSpinner } from './routes/RouteSpinner';
+import { Providers } from './Providers';
+import { config } from '~constants/config';
+import { useVerifyAuth } from '~services/auth';
 
 const FeatureFlagManager = loadable(
   () => import('~components/feature-flags/FeatureFlagManager')
 );
 
-export default function App() {
-  const ready = useAppReady();
-  if (!ready) return null;
-
+export function App() {
   return (
     <Providers>
-      <Routes />
+      <Root />
       {config.ENV !== 'prod' && <FeatureFlagManager />}
     </Providers>
   );
 }
 
-function useAppReady() {
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    async function init() {
-      await initMessages();
-      setReady(true);
-    }
-    init();
-  }, []);
-
-  return ready;
+function Root() {
+  useVerifyAuth();
+  return <RouterProvider router={router} fallbackElement={<RouteSpinner />} />;
 }

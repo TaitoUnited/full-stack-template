@@ -1,12 +1,13 @@
 import { FormEvent, useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import { t, Trans } from '@lingui/macro';
 
 import { styled } from '~styled-system/jsx';
 import { Text, TextInput, Stack, Button } from '~uikit';
-import { useDocumentTitle } from '~utils/routing';
+import { useDocumentTitle } from '~utils/document';
 import { useAuth } from '~services/auth';
 
-export default function LoginPage() {
+export default function LoginRoute() {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const auth = useAuth();
 
@@ -23,6 +24,10 @@ export default function LoginPage() {
   }
 
   useDocumentTitle(t`Login`);
+
+  if (auth.status === 'authenticated') {
+    return <Navigate to="/" replace={true} />;
+  }
 
   return (
     <Wrapper>
@@ -50,6 +55,7 @@ export default function LoginPage() {
             />
             <Button
               type="submit"
+              size="large"
               variant="filled"
               color="primary"
               isLoading={auth.status === 'logging-in'}

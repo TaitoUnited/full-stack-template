@@ -1,19 +1,46 @@
-import Fallback from './Post.fallback';
-import { routeEntry } from '../route-utils';
+import { useParams } from 'react-router-dom';
+import { Trans } from '@lingui/macro';
 
-import {
-  query,
-  PostDocument,
-  PostQueryResult,
-  PostQueryVariables,
-} from '~graphql';
+import {PostDetails} from '~components/post/PostDetails';
+import { Breadcrumbs } from '~components/navigation/Breadcrumbs';
+import { useDocumentTitle } from '~utils/document';
+import { usePostQuery } from '~graphql';
+import { Text } from '~uikit';
+import { css } from '~styled-system/css';
 
-export default routeEntry({
-  path: '/blog/:id',
-  fallback: <Fallback />,
-  component: () => import('./Post.page'),
-  loader: ({ id }) =>
-    query<PostQueryResult, PostQueryVariables>(PostDocument, { id }).then(
-      res => res.data
-    ),
-});
+export default function PostRoute() {
+  const { id = '' } = useParams();
+  const { data, error } = usePostQuery({ variables: { id } });
+  const post = data?.post;
+  const postSubject = post?.subject ?? '';
+
+  useDocumentTitle(postSubject);
+
+  return (
+    <div className={css({ flex: 1 })}>
+      <Breadcrumbs>
+        <Breadcrumbs.Link to={`/blog`}>Blog</Breadcrumbs.Link>
+        <Breadcrumbs.Link>{postSubject}</Breadcrumbs.Link>
+      </Breadcrumbs>
+
+      {post ? (
+        <PostDetails
+          createdAt={post.createdAt}
+          author={post.author || ''}
+          subject={post.subject || ''}
+          content={post.content || ''}
+        />
+      ) : (
+        <Text variant="body">
+          <Trans>Could not find post.</Trans>
+        </Text>
+      )}
+
+      {!!error && (
+        <Text variant="body">
+          <Trans>Failed to load blog post.</Trans>
+        </Text>
+      )}
+    </div>
+  );
+}

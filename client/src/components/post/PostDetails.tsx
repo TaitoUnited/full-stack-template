@@ -9,12 +9,7 @@ type Props = {
   content: string;
 };
 
-export default function PostDetails({
-  createdAt,
-  author,
-  subject,
-  content,
-}: Props) {
+export function PostDetails({ createdAt, author, subject, content }: Props) {
   return (
     <article>
       <Stack direction="column" gap="medium">

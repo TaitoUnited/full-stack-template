@@ -47,8 +47,7 @@
     "react-dom": "18.2.0",
     "react-hot-toast": "2.4.0",
     "react-merge-refs": "1.1.0",
-    "react-router": "6.10.0",
-    "react-router-dom": "6.10.0",
+    "react-router-dom": "6.23.1",
     "react-stately": "3.31.1",
     "react-use": "17.4.0"
   },

@@ -1,9 +1,9 @@
 import logoImg from '../../images/logo.svg';
 import { Stack, Text } from '~uikit';
 import { styled } from '~styled-system/jsx';
-import LangMenuButton from '~components/common/LangMenuButton';
+import { LangMenuButton } from '~components/common/LangMenuButton';
 
-export default function Toolbar() {
+export function Toolbar() {
   return (
     <Wrapper>
       <Stack direction="row" gap="regular" align="center">

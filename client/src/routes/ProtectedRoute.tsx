@@ -1,7 +1,9 @@
 import { Navigate, Outlet } from 'react-router-dom';
+
+import { PageLayout } from '~components/common/PageLayout';
 import { useAuth } from '~services/auth';
 
-export default function ProtectedRoute() {
+export function ProtectedRoute() {
   const { status } = useAuth();
 
   if (status === 'undetermined' || status === 'determining') {
@@ -9,8 +11,10 @@ export default function ProtectedRoute() {
   }
 
   return status === 'authenticated' || status === 'logging-out' ? (
-    <Outlet />
+    <PageLayout>
+      <Outlet />
+    </PageLayout>
   ) : (
-    <Navigate to={'/login'} replace={true} />
+    <Navigate to="/login" replace />
   );
 }

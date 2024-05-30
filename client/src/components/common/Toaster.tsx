@@ -3,7 +3,7 @@ import { Toaster as HotToaster } from 'react-hot-toast';
 import { cva } from '~styled-system/css';
 import { Icon } from '~uikit';
 
-export default function Toaster() {
+export function Toaster() {
   const styles = cva({
     base: {
       boxShadow: '$medium!',

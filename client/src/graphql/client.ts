@@ -10,18 +10,18 @@ import {
   OperationVariables,
   // split,
 } from '@apollo/client';
+
 // import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 // import { createClient } from 'graphql-ws';
-
 // import { getMainDefinition } from '@apollo/client/utilities';
 
-import config from '~constants/config';
-import storage from '~utils/storage';
+import { config } from '~constants/config';
+import { storage } from '~utils/storage';
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '~services/i18n';
 
 const cache = new InMemoryCache();
 
-// This is used for preloading data outside of React
+// This is used for querying data outside of React
 let __client__: ApolloClient<NormalizedCacheObject>;
 
 export async function setupApolloClient() {
@@ -117,11 +117,6 @@ export function query<
     fetchPolicy: 'network-only',
   });
 }
-
-export type PreloadHandler = (
-  params: null | Record<string, any>,
-  trigger: 'click' | 'hover'
-) => Promise<void>;
 
 // https://github.com/apollographql/apollo-cache-persist/blob/master/docs/faq.md#ive-had-a-breaking-schema-change-how-do-i-migrate-or-purge-my-cache
 const SCHEMA_VERSION = '1';

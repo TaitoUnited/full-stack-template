@@ -5,7 +5,7 @@ import { afterEach } from 'vitest';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 
-import storage from '~utils/storage';
+import { storage } from '~utils/storage';
 
 afterEach(() => {
   cleanup();

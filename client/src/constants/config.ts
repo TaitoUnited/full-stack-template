@@ -17,7 +17,7 @@ const subdomainSplit = window.location.hostname.split('.')[0].split('-');
 const envSuffix = subdomainSplit[subdomainSplit.length - 1] as AppEnv;
 const currentEnv = appEnvironments.includes(envSuffix) ? envSuffix : 'prod';
 
-const config = {
+export const config = {
   ENV: currentEnv as AppEnv,
   IS_DEV: import.meta.env.DEV,
   API_URL: process.env.API_URL,
@@ -28,5 +28,3 @@ const config = {
     !!process.env.SENTRY_DSN &&
     process.env.SENTRY_DSN.startsWith('https'),
 };
-
-export default config;

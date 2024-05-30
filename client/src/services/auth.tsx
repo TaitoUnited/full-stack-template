@@ -1,16 +1,16 @@
-import { useApolloClient } from '@apollo/client';
 import { hideSplashScreen } from 'vite-plugin-splash-screen/runtime';
+import { useApolloClient } from '@apollo/client';
 
 import {
   createContext,
   useState,
   useContext,
-  useEffect,
   ReactNode,
+  useEffect,
 } from 'react';
 
 import { sleep } from '~utils/promise';
-import storage from '~utils/storage';
+import { storage } from '~utils/storage';
 
 type AuthStatus =
   | 'undetermined'
@@ -23,11 +23,16 @@ type AuthStatus =
 type AuthContextValue = {
   login: (credentials: { email: string; password: string }) => Promise<void>;
   logout: () => Promise<void>;
-  checkAuth: () => Promise<void>;
+  verifyAuth: () => Promise<void>;
   status: AuthStatus;
 };
 
 const AuthContext = createContext<undefined | AuthContextValue>(undefined); // prettier-ignore
+
+/**
+ * TODO: update auth to not use localStorage for storing tokens!
+ * We should use secure cookies with the HttpOnly flag for storing tokens.
+ */
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState<AuthStatus>('undetermined');
@@ -63,7 +68,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  async function checkAuth() {
+  async function verifyAuth() {
     setStatus('determining');
 
     try {
@@ -83,29 +88,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ checkAuth, status, login, logout }}>
+    <AuthContext.Provider value={{ verifyAuth, status, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 }
 
-export const useAuth = () => {
+export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) throw new Error('Missing AuthProvider!');
   return context;
-};
+}
 
-export const useAuthCheck = () => {
-  const { checkAuth, status } = useAuth();
+export function useVerifyAuth() {
+  const { verifyAuth, status } = useAuth();
 
   useEffect(() => {
     if (status === 'undetermined') {
-      checkAuth();
+      verifyAuth();
     }
   }, []); // eslint-disable-line
 
   return status;
-};
+}
 
 // ----------------------------------------------------------------------------
 // TODO: remove these fake login/logout functions and implement them for real

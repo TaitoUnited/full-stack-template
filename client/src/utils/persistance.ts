@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 
-import storage from './storage';
+import { storage } from './storage';
 import { useUrlState } from './url';
 
 type PersistedStateOptions = {

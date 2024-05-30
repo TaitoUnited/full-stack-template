@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { i18n } from '@lingui/core';
 import { I18nProvider as LinguiProvider, useLingui } from '@lingui/react';
-import storage from '~utils/storage';
+import { storage } from '~utils/storage';
 
 export type Locale = 'fi' | 'en';
 
@@ -18,7 +18,7 @@ async function loadMessages(locale: Locale) {
   return messages;
 }
 
-export async function initMessages() {
+export async function setupMessages() {
   const persistedLocale = storage.get('@app/locale');
 
   const locale: Locale = SUPPORTED_LOCALES.includes(persistedLocale)

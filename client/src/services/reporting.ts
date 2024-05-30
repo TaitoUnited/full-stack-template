@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/browser';
-import config from '~constants/config';
+import { config } from '~constants/config';
 
 export const setupErrorReporting = () => {
   if (config.ERROR_REPORTING_ENABLED) {

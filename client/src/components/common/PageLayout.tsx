@@ -1,22 +1,19 @@
 import { ReactNode } from 'react';
 
-import Sidebar from './Sidebar';
-import Toolbar from './Toolbar';
+import { Sidebar } from '~components/navigation/Sidebar';
+import { Toolbar } from '~components/navigation/Toolbar';
 import { styled } from '~styled-system/jsx';
 
-export default function PageLayout({ children }: { children: ReactNode }) {
+export function PageLayout({ children }: { children: ReactNode }) {
   return (
     <Layout>
       <Toolbar />
-
       <Main>
         <Sidebar />
-
         <Scroller>
           <div id="breadcrumbs-slot">
             {/* Breadcrumbs are rendered in here via React portal */}
           </div>
-
           <Content>{children}</Content>
         </Scroller>
       </Main>

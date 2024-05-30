@@ -302,16 +302,3 @@ function Example() {
   return <div>...</div>;
 }
 ```
-
-#### Feature flags for route entries
-
-If you pass a `featureFlag` option for `routeEntry` it will ensure that the route is only accessible when that feature is enabled.
-
-```ts
-export default routeEntry({
-  featureFlag: 'feature-2',
-  path: '/',
-  fallback: <Fallback />,
-  component: () => import('./Some.page'),
-});
-```
