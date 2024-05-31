@@ -1,5 +1,4 @@
 import { forwardRef, ComponentProps, ReactNode } from 'react';
-import { motion } from 'framer-motion';
 import { Checkbox as AriaCheckbox } from 'react-aria-components';
 
 import { Icon } from '../Icon';
@@ -59,11 +58,7 @@ export const Checkbox = forwardRef<HTMLLabelElement, Props>(
             }
           >
             {(state.isSelected || state.isIndeterminate) && (
-              <Checkmark
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                aria-hidden
-              >
+              <Checkmark aria-hidden>
                 <Icon
                   name={state.isIndeterminate ? 'remove' : 'check'}
                   size={14}
@@ -137,7 +132,7 @@ const Content = styled('div', {
   },
 });
 
-const Checkmark = styled(motion.div, {
+const Checkmark = styled('div', {
   base: {
     position: 'absolute',
     inset: 0,
@@ -145,6 +140,7 @@ const Checkmark = styled(motion.div, {
     alignItems: 'center',
     justifyContent: 'center',
     pointerEvents: 'none',
+    $fadeScaleIn: 200,
   },
 });
 

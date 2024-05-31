@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
 
 import { Button, Checkbox, IconButton, Text, Stack } from '~uikit';
 import { styled } from '~styled-system/jsx';
@@ -22,13 +21,9 @@ export default function FeatureFlagManager() {
     setVisible(prev => !prev);
   });
 
-  return (
-    <AnimatePresence>
-      {visible && (
-        <FeatureFlagManagerWidget onClose={() => setVisible(false)} />
-      )}
-    </AnimatePresence>
-  );
+  if (!visible) return null;
+
+  return <FeatureFlagManagerWidget onClose={() => setVisible(false)} />;
 }
 
 const fixedFeatures = featureNames.filter(f => isFeatureEnabledInConfig(f));
@@ -64,11 +59,7 @@ function FeatureFlagManagerWidget({ onClose }: { onClose: () => void }) {
 
   return (
     <Wrapper>
-      <Widget
-        initial={{ opacity: 0, scale: 0, y: 200, x: 200 }}
-        animate={{ opacity: 1, scale: 1, y: 0, x: 0 }}
-        exit={{ opacity: 0, scale: 0, y: 200, x: 200 }}
-      >
+      <Widget>
         <Stack direction="column" gap="regular">
           <Text variant="headingM">Feature flags</Text>
 
@@ -148,7 +139,7 @@ const Wrapper = styled('div', {
   },
 });
 
-const Widget = styled(motion.div, {
+const Widget = styled('div', {
   base: {
     position: 'relative',
     display: 'flex',
@@ -161,6 +152,7 @@ const Widget = styled(motion.div, {
     borderWidth: '1px',
     borderColor: '$line3',
     maxWidth: '400px',
+    $fadeScaleIn: 100,
   },
 });
 

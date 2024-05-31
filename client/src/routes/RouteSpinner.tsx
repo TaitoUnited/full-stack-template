@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 
 import { styled } from '~styled-system/jsx';
 import { Spinner } from '~uikit';
+import { css } from '~styled-system/css';
 
 export function RouteSpinner() {
   const [showSpinner, setShowSpinner] = useState(false);
@@ -22,9 +22,9 @@ export function RouteSpinner() {
   return (
     <Wrapper>
       {showSpinner && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        <div className={css({ $fadeIn: 300 })}>
           <Spinner size="large" color="primary" />
-        </motion.div>
+        </div>
       )}
     </Wrapper>
   );

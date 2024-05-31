@@ -8,6 +8,7 @@ import * as spacing from '../tokens/spacing.json';
 import * as sizes from '../tokens/sizes';
 import * as radii from '../tokens/radii';
 import * as typography from '../tokens/typography';
+import { keyframes } from './keyframes';
 import { globalCss } from './global';
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -56,6 +57,8 @@ export default defineConfig({
       xl: '1280px',
       '2xl': '1536px',
     },
+
+    keyframes,
 
     tokens: {
       colors: helpers.transformColors(colors),

@@ -125,3 +125,31 @@ export const $truncate: PropertyConfig = {
     };
   },
 };
+
+export const $fadeIn: PropertyConfig = {
+  className: 'fade-in',
+  values: { type: 'number' },
+  transform(duration: number) {
+    if (typeof duration !== 'number') {
+      return {};
+    }
+    return {
+      opacity: 0,
+      animation: `fadeIn ${duration}ms forwards`,
+    };
+  },
+};
+
+export const $fadeScaleIn: PropertyConfig = {
+  className: 'fade-scale-in',
+  values: { type: 'number' },
+  transform(duration: number) {
+    if (typeof duration !== 'number') {
+      return {};
+    }
+    return {
+      opacity: 0,
+      animation: `fadeScaleIn ${duration}ms forwards`,
+    };
+  },
+};
