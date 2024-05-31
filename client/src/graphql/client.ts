@@ -114,7 +114,7 @@ type ClientQueryParams = Parameters<
 
 export function query<
   Data = any,
-  Variables extends OperationVariables = OperationVariables
+  Variables extends OperationVariables = OperationVariables,
 >(query: ClientQueryParams['query'], variables?: Variables) {
   return __client__.query<Data, Variables>({
     query,

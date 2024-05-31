@@ -54,8 +54,8 @@ export const Checkbox = forwardRef<HTMLLabelElement, Props>(
               state.isIndeterminate
                 ? 'indeterminate'
                 : state.isSelected
-                ? 'selected'
-                : 'unselected'
+                  ? 'selected'
+                  : 'unselected'
             }
           >
             {(state.isSelected || state.isIndeterminate) && (

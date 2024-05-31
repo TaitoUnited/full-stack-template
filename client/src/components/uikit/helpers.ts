@@ -1,4 +1,4 @@
-import { sleep } from "~utils/promise";
+import { sleep } from '~utils/promise';
 
 export async function fetchStarWarsCharacter({
   filterText = '',

@@ -12,7 +12,7 @@ export function ErrorView() {
 
   return (
     <Wrapper>
-      <Stack direction="column" gap="large" justify='center' align='center'>
+      <Stack direction="column" gap="large" justify="center" align="center">
         <Text variant="headingL">
           <Trans>Something went wrong!</Trans>
         </Text>

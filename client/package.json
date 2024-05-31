@@ -5,6 +5,8 @@
     "pretty-quick": "pretty-quick",
     "lint": "eslint './src/**/*.{ts,tsx}' --ignore-path .eslintignore --quiet",
     "typecheck": "tsc --noEmit",
+    "format:check": "prettier --check './src/**/*.{ts,tsx}'",
+    "format:write": "prettier --write './src/**/*.{ts,tsx}'",
     "unit": "echo TODO make this work in container vitest run ./src/**/*.test.{ts,tsx}",
     "unit:coverage": "vitest run ./src/**/*.test.{ts,tsx} --coverage",
     "test": "echo TODO run tests but not cypress",
@@ -124,14 +126,6 @@
     ],
     "format": "po",
     "compileNamespace": "ts"
-  },
-  "prettier": {
-    "bracketSpacing": true,
-    "trailingComma": "es5",
-    "tabWidth": 2,
-    "semi": true,
-    "singleQuote": true,
-    "arrowParens": "avoid"
   },
   "figmage": {
     "outDir": "styled-system/tokens",

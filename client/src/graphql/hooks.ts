@@ -23,7 +23,7 @@ export * from '@apollo/client'; // eslint-disable-line import/export
 // eslint-disable-next-line import/export
 export function useQuery<
   TData = any,
-  TVariables extends OperationVariables = OperationVariables
+  TVariables extends OperationVariables = OperationVariables,
 >(
   query: DocumentNode | TypedDocumentNode<TData, TVariables>,
   options?: QueryHookOptions<NoInfer<TData>, NoInfer<TVariables>>
@@ -47,7 +47,7 @@ export function useQuery<
 // eslint-disable-next-line import/export
 export function useSuspenseQuery<
   TData = unknown,
-  TVariables extends OperationVariables = OperationVariables
+  TVariables extends OperationVariables = OperationVariables,
 >(
   query: DocumentNode | TypedDocumentNode<TData, TVariables>,
   options?: SuspenseQueryHookOptions<NoInfer<TData>, NoInfer<TVariables>>
