@@ -63,7 +63,7 @@ export function transformColorsWithScheme(tokens: {
     acc[key] = {
       value: {
         _light: value,
-        _dark: tokens.dark[key],
+        _dark: tokens.dark[key] || value,
       },
     };
     return acc;

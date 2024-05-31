@@ -1,4 +1,3 @@
-import { useFocusRing } from 'react-aria';
 import { CSSProperties, ReactNode, forwardRef } from 'react';
 
 import {
@@ -47,10 +46,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    const { isFocusVisible, focusProps } = useFocusRing();
-
     const _className = cx(
-      buttonStyle({ size, variant, isFocusVisible, isDisabled }),
+      buttonStyle({ size, variant, isDisabled }),
       className
     );
 
@@ -75,7 +72,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <AriaButton
         {...rest}
-        {...focusProps}
         ref={ref}
         style={_style}
         className={_className}
@@ -126,9 +122,13 @@ export const buttonStyle = cva({
     transition: 'background 50ms linear, opacity 100ms linear',
     userSelect: 'none',
     lineHeight: 1,
+    outline: 'none',
 
     '&[data-pressed="true"]': {
       opacity: 0.8,
+    },
+    '&[data-focus-visible="true"]': {
+      outline: '2px solid var(--color)',
     },
     '& svg': {
       flexShrink: 0,
@@ -191,14 +191,6 @@ export const buttonStyle = cva({
           'calc(token($spacing.regular) * var(--padding-start-factor, 1))',
         paddingRight:
           'calc(token($spacing.regular) * var(--padding-end-factor, 1))',
-      },
-    },
-    isFocusVisible: {
-      true: {
-        outline: '2px solid var(--color)',
-      },
-      false: {
-        outline: 'none',
       },
     },
     isDisabled: {

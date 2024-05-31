@@ -13,8 +13,9 @@ export const appEnvironments = [
 
 export type AppEnv = (typeof appEnvironments)[number];
 
-const subdomainSplit = window.location.hostname.split('.')[0].split('-');
-const envSuffix = subdomainSplit[subdomainSplit.length - 1] as AppEnv;
+const subdomain = window.location.hostname.split('.')[0] || '';
+const subdomainParts = subdomain.split('-');
+const envSuffix = subdomainParts[subdomainParts.length - 1] as AppEnv;
 const currentEnv = appEnvironments.includes(envSuffix) ? envSuffix : 'prod';
 
 export const config = {

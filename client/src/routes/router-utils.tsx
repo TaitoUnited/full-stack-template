@@ -83,7 +83,7 @@ export function useRoutePreloading() {
 
     const { router } = routerContext;
 
-    function handleMouseDown(event: MouseEvent) {
+    function handleMouseDown(event: MouseEvent | TouchEvent) {
       const target = event.target as HTMLElement;
 
       if (target.tagName === 'A' && target.dataset?.preload) {
@@ -96,6 +96,7 @@ export function useRoutePreloading() {
         const bestMatch = routeMatches[routeMatches.length - 1];
 
         if (
+          bestMatch &&
           'preload' in bestMatch.route &&
           typeof bestMatch.route.preload === 'function'
         ) {

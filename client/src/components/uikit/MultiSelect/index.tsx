@@ -248,12 +248,14 @@ function MultiSelectOptionsList({
 
   return (
     <>
-      <MultiSelectItems
+      <ListBox<MultiSelectOption>
         items={items}
         selectionMode="multiple"
         selectedKeys={selectedOptions}
-        onSelectionChange={handleSelect}
+        // We don't support the `'all'` selection value
+        onSelectionChange={selection => handleSelect(selection as Set<string>)}
         data-test-id="multi-select-options"
+        className={multiSelectListBoxStyles}
         renderEmptyState={() => (
           <MultiSelectEmpty>
             <Text variant="body">
@@ -262,7 +264,7 @@ function MultiSelectOptionsList({
           </MultiSelectEmpty>
         )}
       >
-        {(option: MultiSelectOption) => (
+        {option => (
           <ListBoxItem
             id={option.value}
             textValue={option.label}
@@ -272,7 +274,7 @@ function MultiSelectOptionsList({
             <SelectItem label={option.label} description={option.description} />
           </ListBoxItem>
         )}
-      </MultiSelectItems>
+      </ListBox>
 
       {!!actions && (
         <SelectActions
@@ -296,15 +298,13 @@ const MultiSelectDialog = styled(Dialog, {
   },
 });
 
-const MultiSelectItems = styled(ListBox, {
-  base: {
-    outline: 'none',
-    maxHeight: '400px',
-    overflowY: 'auto',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '2px',
-  },
+const multiSelectListBoxStyles = css({
+  outline: 'none',
+  maxHeight: '400px',
+  overflowY: 'auto',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '2px',
 });
 
 const MultiSelectEmpty = styled('div', {

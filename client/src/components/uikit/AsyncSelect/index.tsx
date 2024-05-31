@@ -279,14 +279,16 @@ function AsyncSelectOptionsList({
 
   return (
     <>
-      <AsyncSelectItems
+      <ListBox<AsyncSelectOption>
         items={items}
         selectionMode={selectionMode}
         selectedKeys={selectedOptions}
-        onSelectionChange={handleSelect}
+        // We don't support the `'all'` selection value
+        onSelectionChange={selection => handleSelect(selection as Set<string>)}
+        className={asyncSelectListBoxStyles}
         data-test-id="async-select-options"
       >
-        {(option: AsyncSelectOption) => (
+        {option => (
           <ListBoxItem
             id={option.value}
             textValue={option.label}
@@ -296,7 +298,7 @@ function AsyncSelectOptionsList({
             <SelectItem label={option.label} description={option.description} />
           </ListBoxItem>
         )}
-      </AsyncSelectItems>
+      </ListBox>
 
       {!!actions && (
         <SelectActions
@@ -320,15 +322,13 @@ const AsyncSelectDialog = styled(Dialog, {
   },
 });
 
-const AsyncSelectItems = styled(ListBox, {
-  base: {
-    outline: 'none',
-    maxHeight: '400px',
-    overflowY: 'auto',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '2px',
-  },
+const asyncSelectListBoxStyles = css({
+  outline: 'none',
+  maxHeight: '400px',
+  overflowY: 'auto',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '2px',
 });
 
 const AsyncSelectEmpty = styled('div', {

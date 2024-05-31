@@ -78,10 +78,10 @@ const languages = [
 
 export const Selection: Story = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [selectedProfile, setSelectedProfile] = useState(profiles[0].id);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [selectedLanguage, setSelectedLanguage] = useState(languages[0].id);
+    // eslint-disable-next-line
+    const [selectedProfile, setSelectedProfile] = useState(profiles[0]!.id);
+    // eslint-disable-next-line
+    const [selectedLanguage, setSelectedLanguage] = useState(languages[0]!.id);
 
     return (
       <Menu
