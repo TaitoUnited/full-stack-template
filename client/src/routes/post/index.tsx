@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 
-import { PostDetails } from '~components/post/PostDetails';
+import { PostDetails } from './PostDetails';
 import { Breadcrumbs } from '~components/navigation/Breadcrumbs';
 import { useDocumentTitle } from '~hooks/useDocumentTitle';
 import { usePostSuspenseQuery } from '~graphql';
