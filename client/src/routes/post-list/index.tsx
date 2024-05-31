@@ -3,7 +3,7 @@ import { t, Trans } from '@lingui/macro';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import { UnstyledLink } from '~components/navigation/Link';
-import { useDocumentTitle } from '~utils/document';
+import { useDocumentTitle } from '~hooks/useDocumentTitle';
 import { stack } from '~styled-system/patterns';
 import { Text, Stack, Button, Select } from '~uikit';
 import { OrderDirection, usePostListSuspenseQuery } from '~graphql';

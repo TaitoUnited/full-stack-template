@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Button, Checkbox, IconButton, Text, Stack } from '~uikit';
 import { styled } from '~styled-system/jsx';
 import { stack } from '~styled-system/patterns';
-import { useShortcut } from '~utils/observe';
+import { useShortcut } from '~hooks/useShortcut';
 
 import {
   Feature,
@@ -13,7 +13,7 @@ import {
   isFeatureEnabledInConfig,
   isFeatureEnabledInSession,
   disableFeatureInSession,
-} from '~utils/feature-flags';
+} from '~services/feature-flags';
 
 export default function FeatureFlagManager() {
   const [visible, setVisible] = useState(false);

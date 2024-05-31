@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Feature, isFeatureEnabled } from '~utils/feature-flags';
+import { Feature, isFeatureEnabled } from '~services/feature-flags';
 
 type Props = {
   feature: Feature;

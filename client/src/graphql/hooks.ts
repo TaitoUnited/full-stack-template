@@ -12,7 +12,7 @@ import {
   SuspenseQueryHookOptions,
 } from '@apollo/client';
 
-import { useWindowFocusEffect } from '~utils/observe';
+import { useWindowFocusEffect } from '~hooks/useWindowFocus';
 
 // Re-export all hooks so that they can be used by graphql-codegen
 export * from '@apollo/client'; // eslint-disable-line import/export

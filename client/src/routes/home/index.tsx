@@ -3,9 +3,9 @@ import { orderBy, random, range } from 'lodash';
 import { t, Trans } from '@lingui/macro';
 
 import { Text, Stack, Icon, SortDescriptor, Table, IconName } from '~uikit';
-import { useDocumentTitle } from '~utils/document';
+import { useDocumentTitle } from '~hooks/useDocumentTitle';
 import { styled } from '~styled-system/jsx';
-import { isFeatureEnabled } from '~utils/feature-flags';
+import { isFeatureEnabled } from '~services/feature-flags';
 import { FeatureGate } from '~components/feature-flags/FeatureGate';
 
 export default function HomeRoute() {

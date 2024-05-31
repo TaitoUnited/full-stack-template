@@ -3,7 +3,7 @@ import { t, Trans } from '@lingui/macro';
 import { AlertMessage } from '~components/common/AlertMessage';
 import { styled } from '~styled-system/jsx';
 import { Stack, Text } from '~uikit';
-import { useDocumentTitle } from '~utils/document';
+import { useDocumentTitle } from '~hooks/useDocumentTitle';
 
 export default function ThemingRoute() {
   useDocumentTitle(t`Theming`);

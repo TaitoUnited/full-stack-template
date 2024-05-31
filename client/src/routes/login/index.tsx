@@ -4,7 +4,7 @@ import { t, Trans } from '@lingui/macro';
 
 import { styled } from '~styled-system/jsx';
 import { Text, TextInput, Stack, Button } from '~uikit';
-import { useDocumentTitle } from '~utils/document';
+import { useDocumentTitle } from '~hooks/useDocumentTitle';
 import { useAuth } from '~services/auth';
 
 export default function LoginRoute() {

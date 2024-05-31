@@ -1,7 +1,7 @@
 import { t, Trans } from '@lingui/macro';
 
 import { Text, Stack } from '~uikit';
-import { useDocumentTitle } from '~utils/document';
+import { useDocumentTitle } from '~hooks/useDocumentTitle';
 
 export default function FeatureFlagsRoute() {
   useDocumentTitle(t`Feature Flags`);

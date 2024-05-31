@@ -4,7 +4,7 @@ import { toast } from 'react-hot-toast';
 import { t, Trans } from '@lingui/macro';
 
 import { styled } from '~styled-system/jsx';
-import { useDocumentTitle } from '~utils/document';
+import { useDocumentTitle } from '~hooks/useDocumentTitle';
 import { TextInput, Stack, Dialog, TextArea, Button } from '~uikit';
 import { PostListDocument, useCreatePostMutation } from '~graphql';
 

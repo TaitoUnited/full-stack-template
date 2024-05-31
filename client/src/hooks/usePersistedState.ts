@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 
-import { storage } from './storage';
-import { useUrlState } from './url';
+import { useUrlState } from './useUrlState';
+import { storage } from '~utils/storage';
 
 type PersistedStateOptions = {
   urlKey: string; // if url key is give we persist the value to url too

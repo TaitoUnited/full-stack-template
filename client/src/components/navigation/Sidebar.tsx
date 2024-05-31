@@ -5,7 +5,7 @@ import { Text, Icon, IconName, Button } from '~uikit';
 import { styled } from '~styled-system/jsx';
 import { useAuth } from '~services/auth';
 import { stack } from '~styled-system/patterns';
-import { isFeatureEnabled } from '~utils/feature-flags';
+import { isFeatureEnabled } from '~services/feature-flags';
 
 export function Sidebar() {
   const auth = useAuth();

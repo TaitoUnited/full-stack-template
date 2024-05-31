@@ -2,7 +2,7 @@ import { Trans } from '@lingui/macro';
 
 import { Stack, Text } from '~uikit';
 import { Link } from '~components/navigation/Link';
-import { useDocumentTitle } from '~utils/document';
+import { useDocumentTitle } from '~hooks/useDocumentTitle';
 
 export default function NotFoundUnauthenticatedRoute() {
   useDocumentTitle('404');

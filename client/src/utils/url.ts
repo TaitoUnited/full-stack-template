@@ -1,24 +1,3 @@
-import { useState, useMemo } from 'react';
-
-export function useUrlState() {
-  const [state, setState] = useState<{ [key: string]: string }>(() =>
-    getAllUrlParams()
-  );
-
-  return useMemo(
-    () =>
-      [
-        state,
-        (key: string, val: number | string) => {
-          const v = val.toString();
-          setUrlParam(key, v);
-          setState(p => ({ ...p, [key]: v }));
-        },
-      ] as const,
-    [state]
-  );
-}
-
 export function getAllUrlParams() {
   const entries = new URLSearchParams(location.search).entries();
   const all: Record<string, string> = {};

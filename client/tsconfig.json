@@ -6,8 +6,9 @@
     "target": "ES2022",
     "jsx": "react-jsx",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "module": "Preserve",
+    "module": "ES2022",
     "moduleDetection": "force",
+    "moduleResolution": "Bundler",
     "isolatedModules": true,
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
@@ -31,6 +32,7 @@
       "~design-tokens/*": ["styled-system/tokens/*"],
       "~styled-system/*": ["styled-system/generated/*"],
       "~utils/*": ["src/utils/*"],
+      "~hooks/*": ["src/hooks/*"],
       "~test/*": ["src/test/*"]
     }
   },

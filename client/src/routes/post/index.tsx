@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 
 import { PostDetails } from '~components/post/PostDetails';
 import { Breadcrumbs } from '~components/navigation/Breadcrumbs';
-import { useDocumentTitle } from '~utils/document';
+import { useDocumentTitle } from '~hooks/useDocumentTitle';
 import { usePostSuspenseQuery } from '~graphql';
 import { css } from '~styled-system/css';
 
