@@ -1,7 +1,7 @@
 import { forwardRef, useContext, useState } from 'react';
-import { useMeasure } from 'react-use';
 import { Trans, t } from '@lingui/macro';
 import { useFilter } from 'react-aria';
+import useMeasure from 'react-use-measure';
 
 import {
   Button as AriaButton,
@@ -89,7 +89,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, Props>(
     },
     ref
   ) => {
-    const [measureRef, dimensions] = useMeasure<HTMLDivElement>();
+    const [measureRef, dimensions] = useMeasure();
 
     return (
       <DialogTrigger>

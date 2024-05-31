@@ -1,7 +1,7 @@
 import { forwardRef, useContext, useState } from 'react';
 import { useAsyncList } from 'react-stately';
-import { useMeasure } from 'react-use';
 import { t } from '@lingui/macro';
+import useMeasure from 'react-use-measure';
 
 import {
   Button as AriaButton,
@@ -101,7 +101,7 @@ export const AsyncSelect = forwardRef<HTMLButtonElement, Props>(
     },
     ref
   ) => {
-    const [measureRef, dimensions] = useMeasure<HTMLDivElement>();
+    const [measureRef, dimensions] = useMeasure();
 
     return (
       <DialogTrigger>

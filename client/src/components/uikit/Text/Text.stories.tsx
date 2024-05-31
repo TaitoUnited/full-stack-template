@@ -1,5 +1,5 @@
 import { Stack, Text } from '~uikit';
-import { capitalize } from '~utils/fn';
+import { capitalize } from '~utils/string';
 import * as typography from '~design-tokens/typography';
 
 export default {

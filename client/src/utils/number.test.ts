@@ -1,7 +1,7 @@
-import { range } from './fn';
+import { range } from './number';
 
-describe('fx', () => {
-  describe('#range', () => {
+describe('Number utils', () => {
+  describe('range', () => {
     it('3 returns [0 ... 2]', async () => {
       expect(range(3)).toEqual([0, 1, 2]);
     });
