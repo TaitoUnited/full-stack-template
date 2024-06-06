@@ -16,7 +16,7 @@ type Props = LinkProps & {
 };
 
 export const Link = forwardRef<HTMLAnchorElement, Props>(
-  ({ children, to, className, preload = false, ...rest }, ref) => {
+  ({ children, to, className, preload = true, ...rest }, ref) => {
     return (
       <FocusRing focusRingClass="link-focus">
         <RRLink
@@ -36,7 +36,7 @@ export const Link = forwardRef<HTMLAnchorElement, Props>(
 Link.displayName = 'Link';
 
 export const UnstyledLink = forwardRef<HTMLAnchorElement, Props>(
-  ({ children, to, className, preload = false, ...rest }, ref) => {
+  ({ children, to, className, preload = true, ...rest }, ref) => {
     return (
       <RRLink
         {...rest}
@@ -55,7 +55,7 @@ UnstyledLink.displayName = 'UnstyledLink';
 
 // Nav link knows whether it is active or not based on the current url
 export const NavLink = forwardRef<HTMLAnchorElement, Props>(
-  ({ children, to, className, preload = false, ...rest }, ref) => {
+  ({ children, to, className, preload = true, ...rest }, ref) => {
     return (
       <FocusRing focusRingClass="link-focus">
         <RRNavLink
