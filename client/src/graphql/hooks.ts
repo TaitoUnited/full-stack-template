@@ -1,6 +1,6 @@
 import { startTransition, useDeferredValue, useRef } from 'react';
-import { useDeepCompareMemo } from 'use-deep-compare';
 import { useSpinDelay } from 'spin-delay';
+import { equal } from '@wry/equality';
 
 import {
   DocumentNode,
@@ -52,20 +52,19 @@ export function useSuspenseQuery<
   query: DocumentNode | TypedDocumentNode<TData, TVariables>,
   options?: SuspenseQueryHookOptions<NoInfer<TData>, NoInfer<TVariables>>
 ) {
-  const variables = useDeepCompareMemo(
-    () => options?.variables,
-    [options?.variables]
-  );
-
-  const deferredVariables = useDeferredValue(variables);
+  const variables = useDeferredValue(options?.variables);
 
   const result = useApolloSuspenseQuery<TData, TVariables>(query, {
     ...options,
-    variables: deferredVariables,
+    variables,
   });
 
-  // Add smart delay to prevent spinner flickering when variables change
-  const suspending = useSpinDelay(variables !== deferredVariables);
+  /**
+   * Add smart delay to prevent spinner flickering when variables change,
+   * and tell when the query is suspending so that we can show an inline
+   * loading indicator.
+   */
+  const suspending = useSpinDelay(!equal(variables, options?.variables));
 
   useWindowFocusRefetching(result.refetch);
 
