@@ -46,4 +46,4 @@ RUN mkdir -p .vite
 ENV DEV_PORT 8080
 ENV DEV_BINDADDR 0.0.0.0
 EXPOSE 8080
-CMD npm install; npm run start
+CMD npm install; rm -rf .vite/*; npm run start
