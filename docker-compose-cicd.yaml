@@ -120,7 +120,7 @@ services:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       DO_API_KEY: ${DO_API_KEY}
-      GOOGLE_APPLICATION_CREDENTIALS: /run/secrets/CICD_PROXY_SERVICEACCOUNT_KEY # For GCP
+      GOOGLE_SQL_PROXY_CREDENTIALS: /run/secrets/CICD_PROXY_SERVICEACCOUNT_KEY # For GCP
       template_default_taito_image: ${template_default_taito_image}
       template_default_environments: ${template_default_environments}
       template_default_organization: ${template_default_organization}
