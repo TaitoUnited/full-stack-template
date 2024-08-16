@@ -34,7 +34,7 @@ const TooltipBase = ({
       {...rest}
       delay={delay}
       closeDelay={closeDelay}
-      data-test-id="tooltip"
+      data-testid="tooltip"
     >
       {children}
       <TooltipContent
@@ -42,7 +42,7 @@ const TooltipBase = ({
         className={className}
         placement={placement}
         offset={ARROW_OFFSET}
-        data-test-id="tooltip-content"
+        data-testid="tooltip-content"
       >
         <TooltipArrow>
           <svg width={8} height={8} viewBox="0 0 8 8">

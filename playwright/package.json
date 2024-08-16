@@ -1,0 +1,30 @@
+{
+  "name": "bronto-cloud-client",
+  "type": "module",
+  "scripts": {
+    "install:clean": "rm -rf node_modules && npm ci",
+    "pretty-quick": "pretty-quick",
+    "lint": "tsc --noEmit && eslint 'tests/**/*.ts'",
+    "lint-fix": "eslint 'tests/**/*.{ts,tsx}' --fix",
+    "playwright:test": "playwright test",
+    "playwright:debug": "playwright test --debug",
+    "playwright:ui": "playwright test --ui"
+  },
+  "resolutions": {},
+  "devDependencies": {
+    "@playwright/test": "^1.41.2",
+    "@types/node": "20.11.19",
+    "eslint": "^8.56.0",
+    "eslint-plugin-playwright": "^1.3.0",
+    "typescript": "5.4.2",
+    "typescript-eslint": "7.2.0"
+  },
+  "prettier": {
+    "bracketSpacing": true,
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true,
+    "arrowParens": "avoid"
+  }
+}

@@ -18,7 +18,7 @@ export function SelectActions({ onClear, onConfirm }: Props) {
           color="primary"
           variant="plain"
           onPress={onClear}
-          data-test-id="select-actions-clear"
+          data-testid="select-actions-clear"
         >
           <Trans>Clear</Trans>
         </Button>
@@ -30,7 +30,7 @@ export function SelectActions({ onClear, onConfirm }: Props) {
           color="primary"
           variant="filled"
           onPress={onConfirm}
-          data-test-id="select-actions-confirm"
+          data-testid="select-actions-confirm"
         >
           <Trans>Confirm</Trans>
         </Button>

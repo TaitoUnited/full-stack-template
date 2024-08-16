@@ -97,7 +97,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, Props>(
           <Label
             className={labelStyles}
             data-required={isRequired}
-            data-test-id="multi-select-label"
+            data-testid="multi-select-label"
           >
             {label}
           </Label>
@@ -118,7 +118,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, Props>(
               data-invalid={!!errorMessage}
               data-has-icon={!!icon}
               data-has-selected={selected.size > 0}
-              data-test-id="multi-select-button"
+              data-testid="multi-select-button"
               className={cx(
                 inputBaseStyles,
                 css({
@@ -145,7 +145,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, Props>(
           {!!errorMessage && <ErrorText>{errorMessage}</ErrorText>}
 
           <Popover
-            data-test-id="multi-select-popover"
+            data-testid="multi-select-popover"
             placement="bottom start"
             /**
              * With some components React Aria would automatically provide this
@@ -254,7 +254,7 @@ function MultiSelectOptionsList({
         selectedKeys={selectedOptions}
         // We don't support the `'all'` selection value
         onSelectionChange={selection => handleSelect(selection as Set<string>)}
-        data-test-id="multi-select-options"
+        data-testid="multi-select-options"
         className={multiSelectListBoxStyles}
         renderEmptyState={() => (
           <MultiSelectEmpty>
@@ -269,7 +269,7 @@ function MultiSelectOptionsList({
             id={option.value}
             textValue={option.label}
             className={listBoxItemStyles}
-            data-test-id="multi-select-option"
+            data-testid="multi-select-option"
           >
             <SelectItem label={option.label} description={option.description} />
           </ListBoxItem>

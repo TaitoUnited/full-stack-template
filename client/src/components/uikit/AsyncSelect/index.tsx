@@ -109,7 +109,7 @@ export const AsyncSelect = forwardRef<HTMLButtonElement, Props>(
           <Label
             className={labelStyles}
             data-required={isRequired}
-            data-test-id="async-select-label"
+            data-testid="async-select-label"
           >
             {label}
           </Label>
@@ -130,7 +130,7 @@ export const AsyncSelect = forwardRef<HTMLButtonElement, Props>(
               data-invalid={!!errorMessage}
               data-has-icon={!!icon}
               data-has-selected={selected.size > 0}
-              data-test-id="async-select-button"
+              data-testid="async-select-button"
               className={cx(
                 inputBaseStyles,
                 css({
@@ -157,7 +157,7 @@ export const AsyncSelect = forwardRef<HTMLButtonElement, Props>(
           {!!errorMessage && <ErrorText>{errorMessage}</ErrorText>}
 
           <Popover
-            data-test-id="async-select-popover"
+            data-testid="async-select-popover"
             placement="bottom start"
             /**
              * With some components React Aria would automatically provide this
@@ -286,14 +286,14 @@ function AsyncSelectOptionsList({
         // We don't support the `'all'` selection value
         onSelectionChange={selection => handleSelect(selection as Set<string>)}
         className={asyncSelectListBoxStyles}
-        data-test-id="async-select-options"
+        data-testid="async-select-options"
       >
         {option => (
           <ListBoxItem
             id={option.value}
             textValue={option.label}
             className={listBoxItemStyles}
-            data-test-id="async-select-option"
+            data-testid="async-select-option"
           >
             <SelectItem label={option.label} description={option.description} />
           </ListBoxItem>

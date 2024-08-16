@@ -61,7 +61,7 @@ export default function PostCreateRoute() {
               <TextInput
                 label={t`Subject`}
                 name="subject"
-                data-test-id="subject-field"
+                data-testid="subject-field"
                 value={formValues.subject}
                 onInput={handleChange}
                 minLength={5}
@@ -71,7 +71,7 @@ export default function PostCreateRoute() {
               <TextInput
                 label={t`Author`}
                 name="author"
-                data-test-id="author-field"
+                data-testid="author-field"
                 value={formValues.author}
                 onInput={handleChange}
                 minLength={2}
@@ -81,7 +81,7 @@ export default function PostCreateRoute() {
               <TextArea
                 label={t`Content`}
                 name="content"
-                data-test-id="content-field"
+                data-testid="content-field"
                 value={formValues.content}
                 onInput={handleChange}
                 rows={4}
@@ -94,7 +94,7 @@ export default function PostCreateRoute() {
                 isLoading={createPostState.loading}
                 isDisabled={submitDisabled}
                 style={{ alignSelf: 'flex-end' }}
-                data-test-id="submit-post"
+                data-testid="submit-post"
               >
                 {createPostState.loading ? (
                   <Trans>Creating</Trans>

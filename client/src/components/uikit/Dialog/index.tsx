@@ -45,13 +45,13 @@ function DialogBase({
       isKeyboardDismissDisabled={!isDismissable}
       isOpen={isOpen}
       onOpenChange={onOpenChange}
-      data-test-id="dialog-overlay"
+      data-testid="dialog-overlay"
       className={({ isEntering, isExiting }) =>
         dialogOverlayStyles({ isEntering, isExiting })
       }
     >
       <AriaModal
-        data-test-id="dialog-container"
+        data-testid="dialog-container"
         className={({ isEntering, isExiting }) =>
           dialogModalStyles({ placement, isEntering, isExiting })
         }
@@ -79,7 +79,7 @@ function DialogHeader({
   }
 
   return (
-    <DialogHeaderContainer data-test-id="dialog-header" {...rest}>
+    <DialogHeaderContainer data-testid="dialog-header" {...rest}>
       <Heading slot="title">
         {title ? (
           <Text variant="headingM" as="span">
@@ -95,11 +95,11 @@ function DialogHeader({
 }
 
 function DialogBody(props: ComponentProps<typeof DialogBodyContainer>) {
-  return <DialogBodyContainer data-test-id="dialog-body" {...props} />;
+  return <DialogBodyContainer data-testid="dialog-body" {...props} />;
 }
 
 function DialogFooter(props: ComponentProps<typeof DialogFooterContainer>) {
-  return <DialogFooterContainer data-test-id="dialog-footer" {...props} />;
+  return <DialogFooterContainer data-testid="dialog-footer" {...props} />;
 }
 
 const dialogOverlayStyles = cva({

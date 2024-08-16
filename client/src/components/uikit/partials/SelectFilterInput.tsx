@@ -29,7 +29,7 @@ export function SelectFilterInput({
         autoFocus
         value={inputValue}
         onChange={e => onInputChange(e.target.value)}
-        data-test-id="select-filter-input"
+        data-testid="select-filter-input"
       />
 
       {isLoading ? (
@@ -42,7 +42,7 @@ export function SelectFilterInput({
           size={24}
           label={t`Clear search filter`}
           onPress={() => onInputChange('')}
-          data-test-id="select-filter-input-clear"
+          data-testid="select-filter-input-clear"
         />
       ) : null}
     </Wrapper>

@@ -56,10 +56,10 @@ const MenuBase = forwardRef(
     ref: Ref<HTMLDivElement>
   ) => {
     return (
-      <MenuTrigger data-test-id="menu" {...rest}>
+      <MenuTrigger data-testid="menu" {...rest}>
         {trigger}
         <Popover
-          data-test-id="menu-popover"
+          data-testid="menu-popover"
           offset={offset}
           placement={placement}
           className={({ isEntering, isExiting }) =>
@@ -72,7 +72,7 @@ const MenuBase = forwardRef(
             ref={ref}
             style={style}
             className={className}
-            data-test-id="menu-items"
+            data-testid="menu-items"
           >
             {children}
           </MenuItems>
@@ -94,7 +94,7 @@ const Item = forwardRef<
   }
 >(({ children, ...rest }, ref) => {
   return (
-    <MenuItem ref={ref} data-test-id="menu-item" {...rest}>
+    <MenuItem ref={ref} data-testid="menu-item" {...rest}>
       <Stack direction="row" gap="small" align="center" justify="space-between">
         {children}
         <SelectedIcon />
@@ -114,8 +114,8 @@ type SectionProps = AriaSectionProps<any> &
 const Section = forwardRef<HTMLElement, SectionProps>(
   ({ title, children, ...rest }, ref) => {
     return (
-      <MenuSection data-test-id="menu-section" ref={ref} {...rest}>
-        <MenuSectionHeader data-test-id="menu-section-title">
+      <MenuSection data-testid="menu-section" ref={ref} {...rest}>
+        <MenuSectionHeader data-testid="menu-section-title">
           {title}
         </MenuSectionHeader>
         {children}

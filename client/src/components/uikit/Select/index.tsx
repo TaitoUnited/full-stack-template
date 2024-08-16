@@ -105,7 +105,7 @@ export const Select = forwardRef<HTMLDivElement, Props>(
                 id={option.value}
                 textValue={option.label}
                 className={listBoxItemStyles}
-                data-test-id="select-option"
+                data-testid="select-option"
               >
                 <SelectItem
                   label={option.label}

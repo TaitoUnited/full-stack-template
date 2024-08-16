@@ -54,7 +54,7 @@ export function Sidebar() {
             <li key={label}>
               <NavItemLink
                 to={to}
-                data-test-id={testId}
+                data-testid={testId}
                 className={stack({ direction: 'row', gap: '$small' })}
                 preload // preload route on mouse down
               >

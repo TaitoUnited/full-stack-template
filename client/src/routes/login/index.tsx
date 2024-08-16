@@ -59,7 +59,7 @@ export default function LoginRoute() {
               variant="filled"
               color="primary"
               isLoading={auth.status === 'logging-in'}
-              data-test-id="login"
+              data-testid="login"
             >
               {auth.status === 'logging-in' ? (
                 <Trans>Logging in</Trans>

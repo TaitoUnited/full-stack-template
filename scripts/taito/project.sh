@@ -29,6 +29,8 @@ if [[ ${taito_deployment_platforms} == *"docker"* ]] ||
   taito_containers=" admin client redis server storage worker www pgweb "
   if [[ ${taito_env} == "local" ]]; then
     taito_containers="${taito_containers} database "
+  else
+    taito_containers="${taito_containers} playwright"
   fi
 else
   taito_functions=" server worker "

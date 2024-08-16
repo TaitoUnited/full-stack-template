@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "full-stack-template-client",
   "scripts": {
     "install:clean": "rm -rf node_modules && npm install",

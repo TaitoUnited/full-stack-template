@@ -71,6 +71,14 @@ steps:
     env:
       - taito_mode=ci
       - taito_ci_phases=${_TAITO_CI_PHASES}
+   
+  - id: artifact-prepare-playwright
+    waitFor: ["build-prepare"]
+    name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
+    args: ["artifact-prepare:playwright:$BRANCH_NAME", "$COMMIT_SHA"]
+    env:
+      - taito_mode=ci
+      - taito_ci_phases=${_TAITO_CI_PHASES}
 
   - id: artifact-prepare-server
     waitFor: ["build-prepare"]
@@ -151,6 +159,14 @@ steps:
     waitFor: ["deployment-verify"]
     name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
     args: ["artifact-release:client:$BRANCH_NAME", "$COMMIT_SHA"]
+    env:
+      - taito_mode=ci
+      - taito_ci_phases=${_TAITO_CI_PHASES}
+
+  - id: artifact-release-playwright
+    waitFor: ["deployment-verify"]
+    name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
+    args: ["artifact-release:playwright:$BRANCH_NAME", "$COMMIT_SHA"]
     env:
       - taito_mode=ci
       - taito_ci_phases=${_TAITO_CI_PHASES}

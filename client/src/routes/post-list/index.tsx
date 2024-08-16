@@ -48,7 +48,7 @@ export default function PostListRoute() {
         {posts.length > 0 ? (
           <ul
             className={stack({ gap: '$regular', alignItems: 'stretch' })}
-            data-test-id="post-list"
+            data-testid="post-list"
           >
             {posts.map(post => (
               <li key={post.id}>
@@ -70,7 +70,7 @@ export default function PostListRoute() {
             color="primary"
             variant="filled"
             icon="pen"
-            data-test-id="navigate-to-create-post"
+            data-testid="navigate-to-create-post"
             onPress={() => navigate('create')}
           >
             <Trans>New post</Trans>

@@ -61,6 +61,15 @@ services:
     environment:
       taito_running_tests: "true"
 
+  bronto-cloud-playwright-cicd:
+    container_name: bronto-cloud-playwright
+    build:
+      context: ./playwright
+      dockerfile: Dockerfile
+    volumes:
+      - "${DOCKER_HOST_PATH}/playwright:/playwright:delegated"
+      - "/playwright/node_modules"
+
   full-stack-template-server-cicd:
     container_name: full-stack-template-server-cicd
     image: full-stack-template-server-builder:latest
