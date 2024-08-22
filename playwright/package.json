@@ -1,5 +1,5 @@
 {
-  "name": "bronto-cloud-client",
+  "name": "full-stack-template-playwright",
   "type": "module",
   "scripts": {
     "install:clean": "rm -rf node_modules && npm ci",
@@ -10,12 +10,11 @@
     "playwright:debug": "playwright test --debug",
     "playwright:ui": "playwright test --ui"
   },
-  "resolutions": {},
   "devDependencies": {
-    "@playwright/test": "^1.41.2",
+    "@playwright/test": "1.41.2",
     "@types/node": "20.11.19",
-    "eslint": "^8.56.0",
-    "eslint-plugin-playwright": "^1.3.0",
+    "eslint": "8.56.0",
+    "eslint-plugin-playwright": "1.3.0",
     "typescript": "5.4.2",
     "typescript-eslint": "7.2.0"
   },

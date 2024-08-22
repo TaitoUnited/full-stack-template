@@ -12,6 +12,5 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
   },
-  "include": ["**/*.ts"],
-  "exclude": ["old-cypress-suite/**"]
+  "include": ["**/*.ts"]
 }

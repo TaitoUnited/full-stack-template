@@ -7,7 +7,6 @@ export default [
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    ignores: ['old-cypress-tests/'],
     files: ['tests/**/*.ts'],
     rules: {
       // Customize Playwright rules
