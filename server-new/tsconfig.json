@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "lib": ["es2022"],
+    "target": "es2022",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "moduleDetection": "force",
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noUncheckedIndexedAccess": true,
+    "outDir": "../build",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": false,
+    "typeRoots": ["./src/types", "./node_modules/@types"],
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./src/*"]
+    }
+  },
+  "include": ["index.ts", "shared/**/*.ts", "src/**/*.ts", "test/**/*.ts"]
+}
