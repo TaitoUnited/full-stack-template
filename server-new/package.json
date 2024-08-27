@@ -9,6 +9,10 @@
     "start:dev": "NODE_ENV=development tsx watch index.ts --inspect=0.0.0.0:9229 | bunyan -o short -l debug",
     "lint": "eslint './src/**/*.ts' --quiet",
     "typecheck": "tsc -p . --noEmit",
+    "db:migrate": "tsx ./src/db/migrate.ts",
+    "db:migrate:drop": "drizzle-kit drop",
+    "db:migrate:generate": "drizzle-kit generate",
+    "db:seed": "tsx ./src/db/seed.ts",
     "build:prod": "NODE_ENV=production tsc --build tsconfig.json",
     "start:prod": "NODE_ENV=production npm run build:prod && node build/index.js"
   },
@@ -44,6 +48,7 @@
   "devDependencies": {
     "@eslint/compat": "1.1.1",
     "@eslint/js": "9.9.0",
+    "@types/bcrypt": "5.0.2",
     "@types/bunyan": "1.8.11",
     "@types/eslint__js": "8.42.3",
     "@types/node": "22.5.0",
