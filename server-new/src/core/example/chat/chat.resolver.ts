@@ -1,22 +1,34 @@
 import { builder } from '~/setup/graphql/builder';
-import { User } from '../user/user.resolver';
+import { User } from '../../user/user.resolver';
+import * as userService from '../../user/user.service';
 import * as chatService from './chat.service';
 
 const Message = builder.simpleObject('Message', {
   fields: (t) => ({
     id: t.id(),
-    message: t.string(),
-    user: t.field({ type: User, nullable: false }),
+    content: t.string(),
+    authorType: t.string(),
+    authorId: t.string({ nullable: true }),
   }),
 });
 
 export function setupResolvers() {
   builder.queryField('chat', (t) =>
-    t.field({
+    t.withAuth({ authenticated: true }).field({
       type: [Message],
-      nullable: false,
-      resolve: async () => {
-        return chatService.getMessages();
+      resolve: async (_, __, ctx) => {
+        return chatService.getChatMessages(ctx.db, ctx.user.id);
+      },
+    })
+  );
+
+  builder.objectField(Message, 'author', (t) =>
+    t.field({
+      type: User,
+      nullable: true,
+      resolve: async (parent, _, ctx) => {
+        if (!parent.authorId) return null;
+        return userService.getUser(ctx.db, parent.authorId);
       },
     })
   );

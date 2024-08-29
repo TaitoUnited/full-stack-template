@@ -55,6 +55,35 @@ async function seedDb() {
       .onConflictDoNothing();
   }
 
+  console.log('Inserting chats per user...');
+
+  for (const user of users) {
+    await db
+      .insert(chatTable)
+      .values({ userId: user.id })
+      .onConflictDoNothing();
+
+    const [chat] = await db
+      .select()
+      .from(chatTable)
+      .where(eq(chatTable.userId, user.id));
+
+    if (!chat) continue;
+
+    const messages = await db
+      .select()
+      .from(chatMessageTable)
+      .where(eq(chatMessageTable.chatId, chat.id));
+
+    // Insert a message from the AI if we don't have any messages
+    if (messages.length === 0) {
+      await db
+        .insert(chatMessageTable)
+        .values({ chatId: chat.id, authorType: 'ai', content: 'Hello!' })
+        .onConflictDoNothing();
+    }
+  }
+
   console.log('Database seed done!');
 }
 
