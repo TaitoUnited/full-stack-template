@@ -2,12 +2,12 @@ import multipart from '@fastify/multipart';
 
 import { config } from '~/common/config';
 import { log } from '~/common/log';
-import { infraRoutes } from './infra';
 import { authPlugin } from './auth';
 import { contextPlugin } from './context';
 import { type ServerInstance } from './server';
 import { setupErrorHandler } from './error';
 import { setupGraphQL } from './graphql/server';
+import { infraRoutes } from './infra.routes';
 import { sessionRoutes } from '~/core/session/session.routes';
 import { csrfPlugin } from './csrf';
 
