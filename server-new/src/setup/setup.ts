@@ -2,27 +2,37 @@ import multipart from '@fastify/multipart';
 
 import { config } from '~/common/config';
 import { log } from '~/common/log';
-import { auth } from './auth';
-import { context } from './context';
 import { infraRoutes } from './infra';
-import { ServerInstance } from './server';
+import { authPlugin } from './auth';
+import { contextPlugin } from './context';
+import { type ServerInstance } from './server';
 import { setupErrorHandler } from './error';
 import { setupGraphQL } from './graphql/server';
+import { sessionRoutes } from '~/core/session/session.routes';
+import { csrfPlugin } from './csrf';
 
 export async function setupServer(server: ServerInstance) {
   server.register(multipart);
 
   /**
-   * Parse JWT from cookies and expose `fastify.authenticate` decorator which can
-   * be used to protect routes.
-   */
-  await server.register(auth);
-
-  /**
-   * Include context and transaction data to the request lifecycle.
+   * Include context (db, log, user, session, etc.) to the request lifecycle.
    * Accessible as `request.ctx` from route handlers.
    */
-  await server.register(context);
+  await server.register(contextPlugin);
+
+  /**
+   * Cross-Site Request Forgery (CSRF) protection for production environments.
+   * See: https://lucia-auth.com/guides/validate-session-cookies/
+   */
+  await server.register(csrfPlugin, {
+    enabled: config.NODE_ENV === 'production',
+  });
+
+  /**
+   * Parse and validate the session from cookies and expose `fastify.authenticate`
+   * decorator which can be used to protect REST endpoints.
+   */
+  await server.register(authPlugin);
 
   /**
    * Setup error handler to catch and log errors.
@@ -32,8 +42,8 @@ export async function setupServer(server: ServerInstance) {
 
   await setupGraphQL(server);
 
-  // Infra routes (health checks, etc.)
-  await server.register(infraRoutes);
+  await server.register(infraRoutes); // health checks, etc.
+  await server.register(sessionRoutes); // login, logout, etc.
 
   server.listen(
     { port: config.API_PORT, host: config.API_BINDADDR },

@@ -1,22 +1,44 @@
-import fp from 'fastify-plugin';
-import jwt from '@fastify/jwt';
+import { fastifyPlugin } from 'fastify-plugin';
 import cookie from '@fastify/cookie';
 
-import { config, getSecrets } from '~/common/config';
 import { type ServerInstance } from './server';
 
-export const auth = fp(async (server: ServerInstance) => {
-  const secrets = await getSecrets();
-
-  await server.register(jwt, {
-    secret: secrets.SESSION_SECRET,
-    cookie: { cookieName: config.SESSION_COOKIE, signed: false },
-  });
-
+export const authPlugin = fastifyPlugin(async (server: ServerInstance) => {
+  // Adds cookie helpers to the server instance
   await server.register(cookie);
 
   /**
-   * Authenticate the request using JWT.
+   * Keep the session alive by automatically refreshing the session cookie.
+   */
+  server.addHook('preHandler', async (request, reply) => {
+    const { auth } = request.ctx;
+    const sessionId = auth.readSessionCookie(request.headers.cookie ?? '');
+
+    if (!sessionId) {
+      request.ctx.user = null;
+      request.ctx.session = null;
+      return;
+    }
+
+    const { session, user } = await auth.validateSession(sessionId);
+
+    if (session && session.fresh) {
+      const cookie = auth.createSessionCookie(session.id);
+      reply.setCookie(cookie.name, cookie.value, cookie.attributes);
+    }
+
+    // If the session is invalid, clear the session cookie by setting a blank cookie
+    if (!session) {
+      const cookie = auth.createBlankSessionCookie();
+      reply.setCookie(cookie.name, cookie.value, cookie.attributes);
+    }
+
+    request.ctx.user = user;
+    request.ctx.session = session;
+  });
+
+  /**
+   * Authenticate the request.
    *
    * This will be available via `server.authenticate` and can be used to protect
    * routes by adding a `onRequest: [server.authenticate]` option to the route
@@ -24,10 +46,8 @@ export const auth = fp(async (server: ServerInstance) => {
    */
   // @ts-expect-error - `decorate` has type issues...
   server.decorate('authenticate', async (request, reply) => {
-    try {
-      await request.jwtVerify();
-    } catch (err) {
-      reply.send(err);
+    if (!request.user || !request.session) {
+      reply.code(401).send('Unauthorized');
     }
   });
 });

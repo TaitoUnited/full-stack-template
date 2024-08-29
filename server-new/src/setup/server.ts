@@ -7,12 +7,11 @@ import queryString from 'query-string';
  * Note: keep this in separate file to avoid circular imports/dependencies.
  */
 export const server = Fastify({
+  // Close connections on server shutdown
+  forceCloseConnections: true,
   // Custom parser for query strings to be able to use booleans and numbers
   querystringParser: (str) => {
-    return queryString.parse(str, {
-      parseBooleans: true,
-      parseNumbers: true,
-    });
+    return queryString.parse(str, { parseBooleans: true, parseNumbers: true });
   },
 }).withTypeProvider<TypeBoxTypeProvider>();
 

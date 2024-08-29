@@ -1,7 +1,10 @@
+import { eq } from 'drizzle-orm';
+
 import { getDb } from '.';
 import { hashPassword } from '~/common/password';
-import { userTable } from '~/core/example/user/user.db';
+import { userTable } from '~/core/user/user.db';
 import { postTable } from '~/core/example/post/post.db';
+import { chatMessageTable, chatTable } from '~/core/example/chat/chat.db';
 
 /**
  * This file is used to seed the database with initial data.
@@ -18,28 +21,30 @@ async function seedDb() {
 
   console.log('Inserting users...');
 
-  const users: (typeof userTable.$inferInsert)[] = [
+  const userData: (typeof userTable.$inferInsert)[] = [
     {
       email: 'test1@user.com',
       name: 'Test user 1',
-      passwordHash: hashPassword('password'),
+      passwordHash: '',
     },
     {
       email: 'test2@user.com',
       name: 'Test user 2',
-      passwordHash: hashPassword('password'),
+      passwordHash: '',
     },
   ];
 
-  const userResult = await db
-    .insert(userTable)
-    .values(users)
-    .onConflictDoNothing()
-    .returning();
+  for (const data of userData) {
+    data.passwordHash = await hashPassword('password');
+  }
+
+  await db.insert(userTable).values(userData).onConflictDoNothing();
+
+  const users = await db.select({ id: userTable.id }).from(userTable);
 
   console.log('Inserting posts per user...');
 
-  for (const user of userResult) {
+  for (const user of users) {
     await db
       .insert(postTable)
       .values({

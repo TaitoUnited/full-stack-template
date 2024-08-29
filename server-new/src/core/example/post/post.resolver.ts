@@ -1,12 +1,14 @@
 import { builder } from '~/setup/graphql/builder';
-import { User } from '../user/user.resolver';
+import { User } from '../../user/user.resolver';
+import * as userService from '../../user/user.service';
 import * as postService from './post.service';
 
 const Post = builder.simpleObject('Post', {
   fields: (t) => ({
-    id: t.id(),
-    name: t.string(),
-    author: t.field({ type: User, nullable: false }),
+    id: t.string(),
+    title: t.string(),
+    content: t.string(),
+    authorId: t.string(),
   }),
 });
 
@@ -14,11 +16,21 @@ export function setupResolvers() {
   builder.queryField('post', (t) =>
     t.field({
       type: Post,
-      args: {
-        id: t.arg.int({ required: true }),
+      nullable: true,
+      authScopes: { authenticated: true },
+      args: { id: t.arg.string() },
+      resolve: async (_, args, ctx) => {
+        return postService.getPost(ctx.db, args.id);
       },
-      resolve: async (_, args) => {
-        return postService.getPost(args.id);
+    })
+  );
+
+  builder.objectField(Post, 'author', (t) =>
+    t.field({
+      type: User,
+      nullable: true,
+      resolve: async (parent, _, ctx) => {
+        return userService.getUser(ctx.db, parent.authorId);
       },
     })
   );
@@ -26,12 +38,10 @@ export function setupResolvers() {
   builder.queryField('posts', (t) =>
     t.field({
       type: [Post],
-      nullable: false,
-      args: {
-        search: t.arg.string(),
-      },
-      resolve: async () => {
-        return postService.getPosts();
+      authScopes: { authenticated: true },
+      args: { search: t.arg.string({ required: false }) },
+      resolve: async (_, args, ctx) => {
+        return postService.getPosts(ctx.db, args);
       },
     })
   );
@@ -39,11 +49,12 @@ export function setupResolvers() {
   builder.mutationField('createPost', (t) =>
     t.field({
       type: Post,
-      args: {
-        name: t.arg.string({ required: true }),
-      },
-      resolve: async (_, args) => {
-        return postService.createPost(args.name);
+      authScopes: { authenticated: true },
+      args: { title: t.arg.string(), content: t.arg.string() },
+      resolve: async (_, args, ctx) => {
+        return ctx.db.transaction((tx) => {
+          return postService.createPost(tx, { ...args, authorId: ctx.user.id });
+        });
       },
     })
   );

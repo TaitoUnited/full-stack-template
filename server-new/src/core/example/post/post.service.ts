@@ -1,38 +1,30 @@
-import { User } from '../user/user.resolver';
+import { eq, ilike } from 'drizzle-orm';
 
-const posts: { id: number; name: string; author: typeof User.$inferType }[] = [
-  {
-    id: 1,
-    name: 'Post 1',
-    author: { id: '1', firstName: 'User', lastName: 'One' },
-  },
-  {
-    id: 2,
-    name: 'Post 2',
-    author: { id: '1', firstName: 'User', lastName: 'One' },
-  },
-];
+import { type DrizzleDb } from '~/db';
+import { postTable } from './post.db';
 
-export function getPosts(search?: string) {
-  return search
-    ? posts.filter((post) =>
-        post.name.toLowerCase().includes(search.toLowerCase())
-      )
-    : posts;
+export async function getPosts(
+  db: DrizzleDb,
+  params: { search?: string | null }
+) {
+  return db
+    .select()
+    .from(postTable)
+    .where(
+      params.search ? ilike(postTable.title, `%${params.search}%`) : undefined
+    );
 }
 
-export function getPost(id: number) {
-  return posts.find((post) => post.id === id);
+export async function getPost(db: DrizzleDb, id: string) {
+  const [post] = await db.select().from(postTable).where(eq(postTable.id, id));
+  return post;
 }
 
-export function createPost(name: string) {
-  const newPost = {
-    id: posts.length + 1,
-    name,
-    author: { id: '1', firstName: 'User', lastName: 'One' },
-  };
-
-  posts.push(newPost);
-
-  return newPost;
+export async function createPost(
+  db: DrizzleDb,
+  values: { title: string; content: string; authorId: string }
+) {
+  const [post] = await db.insert(postTable).values(values).returning();
+  if (!post) throw new Error('Failed to create post');
+  return post;
 }

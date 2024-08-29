@@ -26,6 +26,7 @@ export function setupErrorHandler(server: ServerInstance) {
 
     Sentry.captureException(error);
 
+    // TODO: handle GraphQL errors as well
     if (error instanceof ApiError) {
       const data = {
         requestId: request.ctx.requestId,
