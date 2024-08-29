@@ -1,8 +1,8 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { ApolloServer } from '@apollo/server';
-import fastifyApollo, {
-  type ApolloFastifyContextFunction,
+import {
   fastifyApolloDrainPlugin,
+  fastifyApolloHandler,
 } from '@as-integrations/fastify';
 
 import { config } from '~/common/config';
@@ -19,7 +19,7 @@ export async function setupGraphQL(server: ServerInstance) {
   const schema = setupSchema();
   const websocket = setupWebsocketServer(server, schema);
 
-  const graphqlServer = new ApolloServer<GraphQlContext>({
+  const apolloServer = new ApolloServer({
     schema,
     introspection: config.API_PLAYGROUND_ENABLED,
     // Protection settings for things like query depth/complexity limits
@@ -32,18 +32,39 @@ export async function setupGraphQL(server: ServerInstance) {
     ],
   });
 
-  await graphqlServer.start();
+  await apolloServer.start();
 
-  const context: ApolloFastifyContextFunction<GraphQlContext> = async (
-    request,
-    reply
-  ) => {
-    /**
-     * Just pass the context from the request to the Apollo server and
-     * expose `reply` so that we are able to set cookies in resolvers.
-     */
-    return { ...request.ctx, reply };
-  };
+  server.route({
+    url: '/graphql',
+    method: ['GET', 'POST', 'OPTIONS'],
+    handler: async (request, reply) => {
+      /**
+       * Wrap the request in a transaction so that all resolvers share the same
+       * database connection and don't overwhelm the database with connections
+       * when resolvers are running in parallel.
+       * Additionally, this allows for a single transaction to be used for the
+       * entire request which enables transaction isolation:
+       * https://www.postgresql.org/docs/current/transaction-iso.html
+       */
+      return request.ctx.db.transaction(async (tx) => {
+        const handler = fastifyApolloHandler(apolloServer, {
+          context: async () => {
+            return {
+              ...request.ctx,
+              reply,
+              /**
+               * Overwrite the `db` with the transaction `tx`.
+               * If you need to access the original database connection, you can
+               * add it to the context as `_db` or similar.
+               */
+              db: tx,
+            } satisfies GraphQlContext;
+          },
+        });
 
-  await server.register(fastifyApollo(graphqlServer), { context });
+        // Typing this is tricky and using `any` here is fine...
+        return (handler as any)(request, reply);
+      });
+    },
+  });
 }

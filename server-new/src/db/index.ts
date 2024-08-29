@@ -1,4 +1,4 @@
-import { drizzle, NodePgDatabase } from 'drizzle-orm/node-postgres';
+import { drizzle, type NodePgDatabase } from 'drizzle-orm/node-postgres';
 
 import { getDbPool } from './pool';
 
