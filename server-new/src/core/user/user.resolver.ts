@@ -11,10 +11,9 @@ export const User = builder.simpleObject('User', {
 
 export function setupResolvers() {
   builder.queryField('user', (t) =>
-    t.field({
+    t.withAuth({ authenticated: true }).field({
       type: User,
       nullable: true,
-      authScopes: { authenticated: true },
       args: { id: t.arg.string() },
       resolve: async (_, args, ctx) => {
         return userService.getUser(ctx.db, args.id);
@@ -23,9 +22,8 @@ export function setupResolvers() {
   );
 
   builder.queryField('users', (t) =>
-    t.field({
+    t.withAuth({ authenticated: true }).field({
       type: [User],
-      authScopes: { authenticated: true },
       args: { search: t.arg.string({ required: false }) },
       resolve: async (_, __, ctx) => {
         return userService.getUsers(ctx.db);

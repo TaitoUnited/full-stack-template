@@ -8,7 +8,12 @@ export const builder = new SchemaBuilder<{
   Context: GraphQlContext;
   DefaultFieldNullability: false;
   DefaultInputFieldRequiredness: true;
-  AuthScopes: { authenticated: boolean };
+  AuthScopes: {
+    authenticated: boolean;
+  };
+  AuthContexts: {
+    authenticated: NonNullableFields<GraphQlContext, 'user' | 'session'>;
+  };
 }>({
   plugins: [SimpleObjectsPlugin, ScopeAuthPlugin],
   /**
@@ -55,3 +60,7 @@ export const builder = new SchemaBuilder<{
 });
 
 export type SchemaBuilder = typeof builder;
+
+type NonNullableFields<T, K extends keyof T = keyof T> = Omit<T, K> & {
+  [P in K]: NonNullable<T[P]>;
+};

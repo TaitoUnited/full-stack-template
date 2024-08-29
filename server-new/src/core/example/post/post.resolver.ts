@@ -14,10 +14,9 @@ const Post = builder.simpleObject('Post', {
 
 export function setupResolvers() {
   builder.queryField('post', (t) =>
-    t.field({
+    t.withAuth({ authenticated: true }).field({
       type: Post,
       nullable: true,
-      authScopes: { authenticated: true },
       args: { id: t.arg.string() },
       resolve: async (_, args, ctx) => {
         return postService.getPost(ctx.db, args.id);
@@ -36,9 +35,8 @@ export function setupResolvers() {
   );
 
   builder.queryField('posts', (t) =>
-    t.field({
+    t.withAuth({ authenticated: true }).field({
       type: [Post],
-      authScopes: { authenticated: true },
       args: { search: t.arg.string({ required: false }) },
       resolve: async (_, args, ctx) => {
         return postService.getPosts(ctx.db, args);
@@ -47,9 +45,8 @@ export function setupResolvers() {
   );
 
   builder.mutationField('createPost', (t) =>
-    t.field({
+    t.withAuth({ authenticated: true }).field({
       type: Post,
-      authScopes: { authenticated: true },
       args: { title: t.arg.string(), content: t.arg.string() },
       resolve: async (_, args, ctx) => {
         return ctx.db.transaction((tx) => {
