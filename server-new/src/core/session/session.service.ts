@@ -10,17 +10,10 @@ type LoginError = {
   error: string;
 };
 
-export async function login({
-  auth,
-  db,
-  password,
-  email,
-}: {
-  auth: Lucia;
-  db: DrizzleDb;
-  email: string;
-  password: string;
-}): Promise<{ cookie: Cookie } | LoginError> {
+export async function login(
+  db: DrizzleDb,
+  { auth, password, email }: { auth: Lucia; email: string; password: string }
+): Promise<{ cookie: Cookie } | LoginError> {
   if (!isValidPassword(password)) {
     return { status: 400, error: 'Invalid password' };
   }

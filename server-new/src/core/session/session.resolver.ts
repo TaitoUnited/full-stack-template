@@ -2,6 +2,7 @@ import { builder } from '~/setup/graphql/builder';
 import { User } from '../user/user.resolver';
 import * as userService from '../user/user.service';
 import * as sessionService from './session.service';
+import { GraphQLError } from '~/common/error';
 
 export function setupResolvers() {
   builder.queryField('me', (t) =>
@@ -25,8 +26,7 @@ export function setupResolvers() {
          * if an email exists in the system based on the response time.
          */
         const [loginResult] = await Promise.all([
-          sessionService.login({
-            db: ctx.db,
+          sessionService.login(ctx.db, {
             auth: ctx.auth,
             email: args.email,
             password: args.password,
@@ -35,8 +35,13 @@ export function setupResolvers() {
         ]);
 
         if ('error' in loginResult) {
-          // TODO: throw a custom error here
-          throw new Error(loginResult.error);
+          if (loginResult.status === 401) {
+            throw GraphQLError.unauthorized(loginResult.error);
+          } else if (loginResult.status === 400) {
+            throw GraphQLError.userInput(loginResult.error);
+          } else {
+            throw GraphQLError.internal();
+          }
         }
 
         const { cookie } = loginResult;

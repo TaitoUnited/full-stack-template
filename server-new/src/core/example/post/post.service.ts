@@ -1,6 +1,7 @@
 import { eq, ilike } from 'drizzle-orm';
 
 import { type DrizzleDb } from '~/db';
+import { GraphQLError } from '~/common/error';
 import { postTable } from './post.db';
 
 export async function getPosts(
@@ -25,6 +26,6 @@ export async function createPost(
   values: { title: string; content: string; authorId: string }
 ) {
   const [post] = await db.insert(postTable).values(values).returning();
-  if (!post) throw new Error('Failed to create post');
+  if (!post) throw GraphQLError.internal();
   return post;
 }

@@ -24,8 +24,7 @@ export async function sessionRoutes(server: ServerInstance) {
        * if an email exists in the system based on the response time.
        */
       const [loginResult] = await Promise.all([
-        sessionService.login({
-          db: request.ctx.db,
+        sessionService.login(request.ctx.db, {
           auth: request.ctx.auth,
           email: request.body.email,
           password: request.body.password,
