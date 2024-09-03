@@ -2,7 +2,7 @@ import { builder } from '~/setup/graphql/builder';
 import { User } from '../user/user.resolver';
 import * as userService from '../user/user.service';
 import * as sessionService from './session.service';
-import { GraphQLError } from '~/common/error';
+import { GraphQLError } from '~/utils/error';
 
 export function setupResolvers() {
   builder.queryField('me', (t) =>

@@ -1,6 +1,6 @@
 import { Pool, PoolConfig } from 'pg';
 
-import { config, getSecrets, getDatabaseSSL } from '~/common/config';
+import { config, getSecrets, getDatabaseSSL } from '~/utils/config';
 
 let dbPool: Pool | null = null;
 

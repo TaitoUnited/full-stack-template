@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import http from 'ky';
 
-import { config } from '~/common/config';
+import { config } from '~/utils/config';
 import { getTestDb } from '~/db/testing';
 
 const baseUrl =

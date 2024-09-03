@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/node';
 
-import { config } from '~/common/config';
-import { log } from '~/common/log';
+import { config } from '~/utils/config';
+import { log } from '~/utils/log';
 
 /**
  * Initialize Sentry for error tracking.

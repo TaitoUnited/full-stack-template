@@ -2,8 +2,8 @@ import { HeadBucketCommand } from '@aws-sdk/client-s3';
 import { Type } from '@sinclair/typebox';
 import { sql } from 'drizzle-orm';
 
-import { config } from '~/common/config';
-import { getStoragesById } from '~/common/storage';
+import { config } from '~/utils/config';
+import { getStoragesById } from '~/utils/storage';
 import { type ServerInstance } from './server';
 
 export async function infraRoutes(server: ServerInstance) {

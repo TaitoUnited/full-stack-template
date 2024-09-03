@@ -2,7 +2,7 @@ import { fastifyPlugin } from 'fastify-plugin';
 import { verifyRequestOrigin } from 'lucia';
 
 import { ServerInstance } from './server';
-import { log } from '~/common/log';
+import { log } from '~/utils/log';
 
 export const csrfPlugin = fastifyPlugin(
   async (server: ServerInstance, opts: { enabled: boolean }) => {

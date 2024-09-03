@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm';
 
 import { getDb } from '.';
-import { hashPassword } from '~/common/password';
+import { hashPassword } from '~/utils/password';
 import { userTable } from '~/core/user/user.db';
 import { postTable } from '~/core/example/post/post.db';
 import { chatMessageTable, chatTable } from '~/core/example/chat/chat.db';

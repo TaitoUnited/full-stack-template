@@ -1,7 +1,7 @@
 import multipart from '@fastify/multipart';
 
-import { config } from '~/common/config';
-import { log } from '~/common/log';
+import { config } from '~/utils/config';
+import { log } from '~/utils/log';
 import { authPlugin } from './auth';
 import { contextPlugin } from './context';
 import { type ServerInstance } from './server';

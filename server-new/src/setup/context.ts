@@ -2,9 +2,9 @@ import { fastifyPlugin } from 'fastify-plugin';
 import { v4 as uuidv4 } from 'uuid';
 
 import { type ServerInstance } from './server';
-import { log } from '~/common/log';
+import { log } from '~/utils/log';
 import { getDb } from '~/db';
-import { getAuth } from '~/common/auth';
+import { getAuth } from '~/utils/auth';
 
 export const contextPlugin = fastifyPlugin(async (server: ServerInstance) => {
   server.addHook('onRequest', async (request) => {

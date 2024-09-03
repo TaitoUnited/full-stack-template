@@ -1,9 +1,9 @@
 import type { Cookie, Lucia } from 'lucia';
 
 import { type DrizzleDb } from '~/db';
-import { isValidPassword, isValidEmail } from '~/common/validation';
+import { isValidPassword, isValidEmail } from '~/utils/validation';
 import * as userService from '../user/user.service';
-import { comparePassword } from '~/common/password';
+import { comparePassword } from '~/utils/password';
 
 type LoginError = {
   status: number;

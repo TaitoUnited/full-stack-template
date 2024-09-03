@@ -1,7 +1,7 @@
 import { eq, ilike } from 'drizzle-orm';
 
 import { type DrizzleDb } from '~/db';
-import { GraphQLError } from '~/common/error';
+import { GraphQLError } from '~/utils/error';
 import { postTable } from './post.db';
 
 export async function getPosts(

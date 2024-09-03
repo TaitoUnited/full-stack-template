@@ -5,7 +5,7 @@ import {
   fastifyApolloHandler,
 } from '@as-integrations/fastify';
 
-import { config } from '~/common/config';
+import { config } from '~/utils/config';
 import { type ServerInstance } from '../server';
 import { setupWebsocketServer } from './websocket';
 import { protection } from './protection';
