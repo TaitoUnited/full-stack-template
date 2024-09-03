@@ -2,9 +2,9 @@ import { eq } from 'drizzle-orm';
 
 import { getDb } from '.';
 import { hashPassword } from '~/utils/password';
-import { userTable } from '~/core/user/user.db';
-import { postTable } from '~/core/example/post/post.db';
-import { chatMessageTable, chatTable } from '~/core/example/chat/chat.db';
+import { userTable } from '~/domain/user/user.db';
+import { postTable } from '~/domain/example/post/post.db';
+import { chatMessageTable, chatTable } from '~/domain/example/chat/chat.db';
 
 /**
  * This file is used to seed the database with initial data.

@@ -8,7 +8,7 @@ import { type ServerInstance } from './server';
 import { setupErrorHandler } from './error';
 import { setupGraphQL } from './graphql/server';
 import { infraRoutes } from './infra.routes';
-import { sessionRoutes } from '~/core/session/session.routes';
+import { sessionRoutes } from '~/domain/session/session.routes';
 import { csrfPlugin } from './csrf';
 
 export async function setupServer(server: ServerInstance) {
