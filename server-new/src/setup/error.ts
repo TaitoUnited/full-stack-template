@@ -1,21 +1,7 @@
 import * as Sentry from '@sentry/node';
 
 import { type ServerInstance } from './server';
-
-type ErrorData = {
-  status: number;
-  message: string | Record<string, any>;
-};
-
-export class ApiError extends Error {
-  data: ErrorData;
-
-  constructor(data: ErrorData) {
-    super();
-    this.name = 'ApiError';
-    this.data = data;
-  }
-}
+import { ApiRouteErrorBase } from '~/utils/error';
 
 export function setupErrorHandler(server: ServerInstance) {
   server.setErrorHandler(function (error, request, reply) {
@@ -26,17 +12,19 @@ export function setupErrorHandler(server: ServerInstance) {
 
     Sentry.captureException(error);
 
-    // TODO: handle GraphQL errors as well
-    if (error instanceof ApiError) {
+    if (error instanceof ApiRouteErrorBase && error.name === 'ApiRouteError') {
       const data = {
         requestId: request.ctx.requestId,
-        status: error.data.status ?? 500,
-        message: error.data.message ?? 'Internal Server Error',
+        status: error.status ?? 500,
+        message: error.message ?? 'Internal Server Error',
+        data: error.data,
       };
 
       reply.status(data.status).send(data);
       return;
     }
+
+    // TODO: do we need to handle GraphQL errors here?
 
     reply.status(error.statusCode ?? 500).send({
       requestId: request.ctx.requestId,

@@ -7,12 +7,16 @@ export const authPlugin = fastifyPlugin(async (server: ServerInstance) => {
   // Adds cookie helpers to the server instance
   await server.register(cookie);
 
-  /**
-   * Keep the session alive by automatically refreshing the session cookie.
-   */
   server.addHook('preHandler', async (request, reply) => {
     const { auth } = request.ctx;
-    const sessionId = auth.readSessionCookie(request.headers.cookie ?? '');
+
+    /**
+     * Read the session ID from the cookie or the Authorization header depending
+     * on whether the request is coming from a browser or a mobile app client.
+     */
+    const sessionId =
+      auth.readSessionCookie(request.headers.cookie ?? '') ||
+      auth.readBearerToken(request.headers.authorization ?? '');
 
     if (!sessionId) {
       request.ctx.user = null;
@@ -22,6 +26,12 @@ export const authPlugin = fastifyPlugin(async (server: ServerInstance) => {
 
     const { session, user } = await auth.validateSession(sessionId);
 
+    /**
+     * Extend the session cookie if the session is fresh.
+     * TODO: how do we extend the session for mobile clients?
+     * Do we for example update the `expiresAt` of the session in the database?
+     * https://github.com/lucia-auth/lucia/discussions/652
+     */
     if (session && session.fresh) {
       const cookie = auth.createSessionCookie(session.id);
       reply.setCookie(cookie.name, cookie.value, cookie.attributes);
