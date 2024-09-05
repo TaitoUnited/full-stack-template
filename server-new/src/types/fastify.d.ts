@@ -12,6 +12,8 @@ declare module 'fastify' {
       user: null | { id: string };
       session: null | Session;
       requestId: string;
+      organisationId: null | string;
+      availableOrganisations: string[];
     };
   }
 

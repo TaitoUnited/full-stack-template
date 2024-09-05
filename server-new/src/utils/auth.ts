@@ -33,10 +33,6 @@ export async function getAuth() {
     getUserAttributes: (attributes) => ({
       id: attributes.id,
     }),
-    // Include the currently selected organisation ID in the session
-    getSessionAttributes: (attributes) => ({
-      organisationId: attributes.organisationId,
-    }),
   });
 
   return lucia;

@@ -1,7 +1,6 @@
 import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
 import { userTable } from '../user/user.db';
-import { organisationTable } from '../organisation/organisation.db';
 
 /**
  * See docs for Drizzle ORM integration with Lucia Auth:
@@ -22,9 +21,6 @@ export const sessionTable = pgTable('session', {
   userId: uuid('user_id')
     .notNull()
     .references(() => userTable.id),
-  organisationId: uuid('organisation_id')
-    .notNull()
-    .references(() => organisationTable.id),
   expiresAt: timestamp('expires_at', {
     withTimezone: true,
     mode: 'date',

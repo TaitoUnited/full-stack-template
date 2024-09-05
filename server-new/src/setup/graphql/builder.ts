@@ -1,3 +1,4 @@
+import { type FastifyRequest } from 'fastify';
 import SchemaBuilder from '@pothos/core';
 import ScopeAuthPlugin from '@pothos/plugin-scope-auth';
 import SimpleObjectsPlugin from '@pothos/plugin-simple-objects';
@@ -10,9 +11,13 @@ export const builder = new SchemaBuilder<{
   DefaultInputFieldRequiredness: true;
   AuthScopes: {
     authenticated: boolean;
+    session: boolean;
+    organisation: boolean;
   };
   AuthContexts: {
-    authenticated: NonNullableFields<GraphQlContext, 'user' | 'session'>;
+    authenticated: AuthContext<'user' | 'session' | 'organisationId'>;
+    session: AuthContext<'user' | 'session'>;
+    organisation: AuthContext<'organisationId'>;
   };
 }>({
   plugins: [SimpleObjectsPlugin, ScopeAuthPlugin],
@@ -45,22 +50,47 @@ export const builder = new SchemaBuilder<{
      *
      * ```ts
      * builder.queryField('example', (t) =>
-     *   t.field({
+     *   t.withAuth({ authenticated: true }).field({
      *     type: Example,
-     *     authScopes: { authenticated: true },
      *     resolve: async () => {...},
      *   })
      * );
      * ```
      */
-    authScopes: async (context) => ({
-      authenticated: !!context.user && !!context.session,
+    authScopes: async (ctx) => ({
+      /**
+       * Note that you should mostly use the combined `authenticated` scope
+       * in your resolvers, but you can also use the individual scopes if needed
+       * eg. when a query should only be available to users with a session but
+       * they have not yet selected an active organisation.
+       */
+      authenticated: () => hasSession(ctx) && hasValidOrganisation(ctx),
+      session: hasSession(ctx),
+      organisation: hasValidOrganisation(ctx),
     }),
   },
 });
 
 export type SchemaBuilder = typeof builder;
 
+// Helpers
+
+function hasSession(ctx: FastifyRequest['ctx']) {
+  return !!ctx.user && !!ctx.session;
+}
+
+function hasValidOrganisation(ctx: FastifyRequest['ctx']) {
+  return ctx.organisationId
+    ? ctx.availableOrganisations.includes(ctx.organisationId)
+    : false;
+}
+
 type NonNullableFields<T, K extends keyof T = keyof T> = Omit<T, K> & {
   [P in K]: NonNullable<T[P]>;
 };
+
+// Mark the fields that are guaranteed to be present in the context
+type AuthContext<T extends keyof GraphQlContext> = NonNullableFields<
+  GraphQlContext,
+  T
+>;

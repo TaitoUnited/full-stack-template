@@ -16,7 +16,10 @@ export function setupResolvers() {
       nullable: true,
       args: { id: t.arg.string() },
       resolve: async (_, args, ctx) => {
-        return userService.getUser(ctx.db, args.id);
+        return userService.getUser(ctx.db, {
+          id: args.id,
+          organisationId: ctx.organisationId,
+        });
       },
     })
   );
@@ -26,7 +29,9 @@ export function setupResolvers() {
       type: [User],
       args: { search: t.arg.string({ required: false }) },
       resolve: async (_, __, ctx) => {
-        return userService.getUsers(ctx.db);
+        return userService.getUsers(ctx.db, {
+          organisationId: ctx.organisationId,
+        });
       },
     })
   );

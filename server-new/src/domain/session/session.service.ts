@@ -20,16 +20,8 @@ export async function login(
   db: DrizzleDb,
   { email, password, auth }: LoginOptions
 ): Promise<{ cookie: Cookie }> {
-  const { user, userOrganisation } = await validateLogin({
-    db,
-    email,
-    password,
-  });
-
-  const session = await auth.createSession(user.id, {
-    organisationId: userOrganisation.id,
-  });
-
+  const user = await validateLogin({ db, email, password });
+  const session = await auth.createSession(user.id, {});
   const cookie = auth.createSessionCookie(session.id);
 
   await userService.updateUserLastLogin(db, user.id);
@@ -45,15 +37,8 @@ export async function tokenLogin(
   db: DrizzleDb,
   { email, password, auth }: LoginOptions
 ) {
-  const { user, userOrganisation } = await validateLogin({
-    db,
-    email,
-    password,
-  });
-
-  const session = await auth.createSession(user.id, {
-    organisationId: userOrganisation.id,
-  });
+  const user = await validateLogin({ db, email, password });
+  const session = await auth.createSession(user.id, {});
 
   await userService.updateUserLastLogin(db, user.id);
 
@@ -104,13 +89,11 @@ async function validateLogin({
     throw new LoginError(401, 'Invalid credentials');
   }
 
-  // Automatically select the first organisation as the active one
   const userOrganisations = await orgService.getUserOrganisations(db, user.id);
-  const firstOrganisation = userOrganisations[0]?.organisation;
 
-  if (!firstOrganisation) {
+  if (userOrganisations.length === 0) {
     throw new LoginError(401, 'User does not belong to any organisation');
   }
 
-  return { user, userOrganisation: firstOrganisation };
+  return user;
 }

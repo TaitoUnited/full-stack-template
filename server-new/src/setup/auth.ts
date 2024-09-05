@@ -1,7 +1,9 @@
 import { fastifyPlugin } from 'fastify-plugin';
+import { eq } from 'drizzle-orm';
 import cookie from '@fastify/cookie';
 
 import { type ServerInstance } from './server';
+import { userOrganisationTable } from '~/domain/organisation/organisation.db';
 
 export const authPlugin = fastifyPlugin(async (server: ServerInstance) => {
   // Adds cookie helpers to the server instance
@@ -41,6 +43,18 @@ export const authPlugin = fastifyPlugin(async (server: ServerInstance) => {
     if (!session) {
       const cookie = auth.createBlankSessionCookie();
       reply.setCookie(cookie.name, cookie.value, cookie.attributes);
+    }
+
+    // Populate the available organisations for the user in the request context
+    if (user) {
+      const userOrganisations = await request.ctx.db
+        .select({ organisationId: userOrganisationTable.organisationId })
+        .from(userOrganisationTable)
+        .where(eq(userOrganisationTable.userId, user.id));
+
+      request.ctx.availableOrganisations = userOrganisations.map(
+        (row) => row.organisationId
+      );
     }
 
     request.ctx.user = user;

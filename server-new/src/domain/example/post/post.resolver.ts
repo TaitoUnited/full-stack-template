@@ -19,17 +19,23 @@ export function setupResolvers() {
       nullable: true,
       args: { id: t.arg.string() },
       resolve: async (_, args, ctx) => {
-        return postService.getPost(ctx.db, args.id);
+        return postService.getPost(ctx.db, {
+          id: args.id,
+          organisationId: ctx.organisationId,
+        });
       },
     })
   );
 
   builder.objectField(Post, 'author', (t) =>
-    t.field({
+    t.withAuth({ authenticated: true }).field({
       type: User,
       nullable: true,
       resolve: async (parent, _, ctx) => {
-        return userService.getUser(ctx.db, parent.authorId);
+        return userService.getUser(ctx.db, {
+          id: parent.authorId,
+          organisationId: ctx.organisationId,
+        });
       },
     })
   );
@@ -39,7 +45,10 @@ export function setupResolvers() {
       type: [Post],
       args: { search: t.arg.string({ required: false }) },
       resolve: async (_, args, ctx) => {
-        return postService.getPosts(ctx.db, args);
+        return postService.getPosts(ctx.db, {
+          ...args,
+          organisationId: ctx.organisationId,
+        });
       },
     })
   );
@@ -53,7 +62,7 @@ export function setupResolvers() {
           return postService.createPost(tx, {
             ...args,
             authorId: ctx.user.id,
-            organisationId: ctx.session.organisationId,
+            organisationId: ctx.organisationId,
           });
         });
       },

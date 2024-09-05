@@ -6,15 +6,14 @@ import * as sessionService from './session.service';
 
 export function setupResolvers() {
   builder.queryField('me', (t) =>
-    t.field({
+    t.withAuth({ authenticated: true }).field({
       type: User,
       nullable: true,
       resolve: async (_, __, ctx) => {
-        if (!ctx.user) {
-          return null;
-        }
-
-        return userService.getUser(ctx.db, ctx.user.id);
+        return userService.getUser(ctx.db, {
+          id: ctx.user.id,
+          organisationId: ctx.organisationId,
+        });
       },
     })
   );

@@ -23,12 +23,16 @@ export function setupResolvers() {
   );
 
   builder.objectField(Message, 'author', (t) =>
-    t.field({
+    t.withAuth({ authenticated: true }).field({
       type: User,
       nullable: true,
       resolve: async (parent, _, ctx) => {
         if (!parent.authorId) return null;
-        return userService.getUser(ctx.db, parent.authorId);
+
+        return userService.getUser(ctx.db, {
+          id: parent.authorId,
+          organisationId: ctx.organisationId,
+        });
       },
     })
   );
