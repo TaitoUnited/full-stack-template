@@ -1,7 +1,6 @@
 import { eq, ilike } from 'drizzle-orm';
 
 import { type DrizzleDb } from '~/db';
-import { GraphQLError } from '~/utils/error';
 import { postTable } from './post.db';
 
 export async function getPosts(
@@ -17,15 +16,25 @@ export async function getPosts(
 }
 
 export async function getPost(db: DrizzleDb, id: string) {
-  const [post] = await db.select().from(postTable).where(eq(postTable.id, id));
-  return post;
+  return db
+    .select()
+    .from(postTable)
+    .where(eq(postTable.id, id))
+    .then((rows) => rows[0]);
 }
 
 export async function createPost(
   db: DrizzleDb,
-  values: { title: string; content: string; authorId: string }
+  values: {
+    title: string;
+    content: string;
+    authorId: string;
+    organisationId: string;
+  }
 ) {
-  const [post] = await db.insert(postTable).values(values).returning();
-  if (!post) throw GraphQLError.internal();
-  return post;
+  return db
+    .insert(postTable)
+    .values(values)
+    .returning()
+    .then((rows) => rows[0]!);
 }

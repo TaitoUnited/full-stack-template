@@ -1,11 +1,14 @@
-import { pgTable, text, timestamp, uuid, varchar } from 'drizzle-orm/pg-core';
+import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
 import { userTable } from '../../user/user.db';
 
 export const chatTable = pgTable('chat', {
   id: uuid('id').primaryKey().defaultRandom(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at')
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
 
   // User should only have one chat
   userId: uuid('user_id')
@@ -17,8 +20,12 @@ export const chatTable = pgTable('chat', {
 export const chatMessageTable = pgTable('chatMessage', {
   id: uuid('id').primaryKey().defaultRandom(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at')
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
 
+  content: text('content').notNull(),
   chatId: uuid('chat_id')
     .notNull()
     .references(() => chatTable.id, { onDelete: 'cascade' }),
@@ -26,9 +33,8 @@ export const chatMessageTable = pgTable('chatMessage', {
   authorId: uuid('author_id').references(() => userTable.id, {
     onDelete: 'cascade',
   }),
-  authorType: varchar('author_type', { length: 50 })
+  authorType: text('author_type')
     .notNull()
     .default('ai')
     .$type<'ai' | 'user'>(),
-  content: text('content').notNull(),
 });

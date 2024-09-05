@@ -12,7 +12,7 @@
     "db:migrate": "tsx ./src/db/migrate.ts",
     "db:migrate:drop": "drizzle-kit drop",
     "db:migrate:generate": "drizzle-kit generate",
-    "db:seed": "tsx ./src/db/seed.ts",
+    "db:seed": "tsx ./src/db/seed/index.ts",
     "build:prod": "NODE_ENV=production tsc --build tsconfig.json",
     "start:prod": "NODE_ENV=production npm run build:prod && node build/index.js"
   },

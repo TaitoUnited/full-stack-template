@@ -6,7 +6,10 @@ import { organisationTable } from '~/domain/organisation/organisation.db';
 export const postTable = pgTable('post', {
   id: uuid('id').primaryKey().defaultRandom(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
-  updatedAt: timestamp('updated_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at')
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
 
   title: text('title').notNull(),
   content: text('content').notNull(),
