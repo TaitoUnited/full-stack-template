@@ -50,7 +50,11 @@ export function setupResolvers() {
       args: { title: t.arg.string(), content: t.arg.string() },
       resolve: async (_, args, ctx) => {
         return ctx.db.transaction((tx) => {
-          return postService.createPost(tx, { ...args, authorId: ctx.user.id });
+          return postService.createPost(tx, {
+            ...args,
+            authorId: ctx.user.id,
+            organisationId: ctx.session.organisationId,
+          });
         });
       },
     })

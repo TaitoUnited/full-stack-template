@@ -1,6 +1,7 @@
 import { pgTable, timestamp, text, uuid } from 'drizzle-orm/pg-core';
 
-import { userTable } from '../../user/user.db';
+import { userTable } from '~/domain/user/user.db';
+import { organisationTable } from '~/domain/organisation/organisation.db';
 
 export const postTable = pgTable('post', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -11,5 +12,8 @@ export const postTable = pgTable('post', {
   content: text('content').notNull(),
   authorId: uuid('author_id')
     .references(() => userTable.id, { onDelete: 'cascade' })
+    .notNull(),
+  organisationId: uuid('organisation_id')
+    .references(() => organisationTable.id, { onDelete: 'cascade' })
     .notNull(),
 });

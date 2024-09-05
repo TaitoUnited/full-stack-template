@@ -29,10 +29,13 @@ export async function getAuth() {
         path: '/',
       },
     },
-    // We don't want to expose the password hash!
+    // Only expose the user ID in the session
     getUserAttributes: (attributes) => ({
       id: attributes.id,
-      email: attributes.email,
+    }),
+    // Include the currently selected organisation ID in the session
+    getSessionAttributes: (attributes) => ({
+      organisationId: attributes.organisationId,
     }),
   });
 

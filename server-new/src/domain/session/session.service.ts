@@ -4,6 +4,7 @@ import { type DrizzleDb } from '~/db';
 import { comparePassword } from '~/utils/password';
 import { isValidPassword, isValidEmail } from '~/utils/validation';
 import * as userService from '../user/user.service';
+import * as orgService from '../organisation/organisation.service';
 
 type LoginOptions = {
   email: string;
@@ -11,12 +12,24 @@ type LoginOptions = {
   auth: Lucia; // Injected auth service from context
 };
 
+/**
+ * Cookie-based login with email and password.
+ * This should be used for web apps.
+ */
 export async function login(
   db: DrizzleDb,
   { email, password, auth }: LoginOptions
 ): Promise<{ cookie: Cookie }> {
-  const user = await validateLogin({ db, email, password });
-  const session = await auth.createSession(user.id, {});
+  const { user, userOrganisation } = await validateLogin({
+    db,
+    email,
+    password,
+  });
+
+  const session = await auth.createSession(user.id, {
+    organisationId: userOrganisation.id,
+  });
+
   const cookie = auth.createSessionCookie(session.id);
 
   await userService.updateUserLastLogin(db, user.id);
@@ -24,12 +37,23 @@ export async function login(
   return { cookie };
 }
 
+/**
+ * Token-based login with email and password.
+ * This should be used for mobile apps.
+ */
 export async function tokenLogin(
   db: DrizzleDb,
   { email, password, auth }: LoginOptions
 ) {
-  const user = await validateLogin({ db, email, password });
-  const session = await auth.createSession(user.id, {});
+  const { user, userOrganisation } = await validateLogin({
+    db,
+    email,
+    password,
+  });
+
+  const session = await auth.createSession(user.id, {
+    organisationId: userOrganisation.id,
+  });
 
   await userService.updateUserLastLogin(db, user.id);
 
@@ -80,5 +104,13 @@ async function validateLogin({
     throw new LoginError(401, 'Invalid credentials');
   }
 
-  return user;
+  // Automatically select the first organisation as the active one
+  const userOrganisations = await orgService.getUserOrganisations(db, user.id);
+  const firstOrganisation = userOrganisations[0]?.organisation;
+
+  if (!firstOrganisation) {
+    throw new LoginError(401, 'User does not belong to any organisation');
+  }
+
+  return { user, userOrganisation: firstOrganisation };
 }

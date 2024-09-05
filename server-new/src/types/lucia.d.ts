@@ -1,11 +1,15 @@
-import { lucia } from 'lucia';
+import { Lucia } from 'lucia';
 
 declare module 'lucia' {
   interface Register {
-    Lucia: typeof lucia;
-    DatabaseUserAttributes: {
-      id: string;
-      email: string;
-    };
+    Lucia: Lucia<DatabaseSessionAttributes, DatabaseUserAttributes>;
+    DatabaseSessionAttributes: DatabaseSessionAttributes;
+    DatabaseUserAttributes: DatabaseUserAttributes;
+  }
+  interface DatabaseSessionAttributes {
+    organisationId: string;
+  }
+  interface DatabaseUserAttributes {
+    id: string;
   }
 }
