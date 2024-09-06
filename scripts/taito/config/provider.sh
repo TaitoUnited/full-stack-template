@@ -88,7 +88,6 @@ case $taito_provider in
   gcp)
     taito_plugins="
       gcp:-local
-      gcp-secrets:-local
       ${taito_plugins}
       gcp-storage:-local
       gcp-monitoring:-local
