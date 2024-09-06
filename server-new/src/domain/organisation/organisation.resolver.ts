@@ -16,7 +16,7 @@ export function setupResolvers() {
       nullable: true,
       args: { id: t.arg.string() },
       resolve: async (_, args, ctx) => {
-        if (!ctx.availableOrganisations.includes(args.id)) {
+        if (!ctx.userOrganisations.some((org) => org.id === args.id)) {
           throw GraphQLError.forbidden(
             'You do not have access to this organisation'
           );

@@ -2,11 +2,11 @@ import {
   pgTable,
   uuid,
   text,
-  varchar,
   timestamp,
   primaryKey,
 } from 'drizzle-orm/pg-core';
 
+import { type Role } from '~/utils/authorisation';
 import { userTable } from '../user/user.db';
 
 export const organisationTable = pgTable('organisation', {
@@ -29,7 +29,7 @@ export const userOrganisationTable = pgTable(
       .defaultNow()
       .$onUpdate(() => new Date()),
 
-    role: varchar('role', { length: 50 }).notNull(),
+    role: text('role').$type<Role>().notNull(),
     userId: uuid('user_id')
       .notNull()
       .references(() => userTable.id, { onDelete: 'cascade' }),

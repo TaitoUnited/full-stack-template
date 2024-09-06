@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { type ServerInstance } from './server';
 import { getDb } from '~/db';
 import { log } from '~/utils/log';
-import { getAuth } from '~/utils/auth';
+import { getAuth } from '~/utils/authentication';
 import { getStringHeader } from '~/utils/request';
 
 export const contextPlugin = fastifyPlugin(async (server: ServerInstance) => {
@@ -19,6 +19,6 @@ export const contextPlugin = fastifyPlugin(async (server: ServerInstance) => {
     // These will be populated by the auth plugin
     request.ctx.user = null;
     request.ctx.session = null;
-    request.ctx.availableOrganisations = [];
+    request.ctx.userOrganisations = [];
   });
 });

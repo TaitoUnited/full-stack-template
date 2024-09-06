@@ -21,3 +21,16 @@ export async function getUserOrganisations(db: DrizzleDb, userId: string) {
     )
     .where(eq(userOrganisationTable.userId, userId));
 }
+
+export async function getUserOrganisationsWithRoles(
+  db: DrizzleDb,
+  userId: string
+) {
+  return db
+    .select({
+      organisationId: userOrganisationTable.organisationId,
+      role: userOrganisationTable.role,
+    })
+    .from(userOrganisationTable)
+    .where(eq(userOrganisationTable.userId, userId));
+}

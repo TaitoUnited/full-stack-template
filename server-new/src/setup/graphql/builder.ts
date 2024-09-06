@@ -1,9 +1,10 @@
-import { type FastifyRequest } from 'fastify';
 import SchemaBuilder from '@pothos/core';
 import ScopeAuthPlugin from '@pothos/plugin-scope-auth';
 import SimpleObjectsPlugin from '@pothos/plugin-simple-objects';
 
 import { type GraphQlContext } from './server';
+import { hasValidOrganisation } from '~/utils/authorisation';
+import { hasValidSession } from '~/utils/authentication';
 
 export const builder = new SchemaBuilder<{
   Context: GraphQlContext;
@@ -64,8 +65,8 @@ export const builder = new SchemaBuilder<{
        * eg. when a query should only be available to users with a session but
        * they have not yet selected an active organisation.
        */
-      authenticated: () => hasSession(ctx) && hasValidOrganisation(ctx),
-      session: hasSession(ctx),
+      authenticated: hasValidSession(ctx) && hasValidOrganisation(ctx),
+      session: hasValidSession(ctx),
       organisation: hasValidOrganisation(ctx),
     }),
   },
@@ -74,16 +75,6 @@ export const builder = new SchemaBuilder<{
 export type SchemaBuilder = typeof builder;
 
 // Helpers
-
-function hasSession(ctx: FastifyRequest['ctx']) {
-  return !!ctx.user && !!ctx.session;
-}
-
-function hasValidOrganisation(ctx: FastifyRequest['ctx']) {
-  return ctx.organisationId
-    ? ctx.availableOrganisations.includes(ctx.organisationId)
-    : false;
-}
 
 type NonNullableFields<T, K extends keyof T = keyof T> = Omit<T, K> & {
   [P in K]: NonNullable<T[P]>;

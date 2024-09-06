@@ -1,4 +1,6 @@
 import { builder } from '~/setup/graphql/builder';
+import { hasValidOrganisationRole } from '~/utils/authorisation';
+import { GraphQLError } from '~/utils/error';
 import { User } from '../../user/user.resolver';
 import * as userService from '../../user/user.service';
 import * as postService from './post.service';
@@ -58,12 +60,14 @@ export function setupResolvers() {
       type: Post,
       args: { title: t.arg.string(), content: t.arg.string() },
       resolve: async (_, args, ctx) => {
-        return ctx.db.transaction((tx) => {
-          return postService.createPost(tx, {
-            ...args,
-            authorId: ctx.user.id,
-            organisationId: ctx.organisationId,
-          });
+        if (!hasValidOrganisationRole(ctx, 'admin', 'manager')) {
+          throw GraphQLError.forbidden();
+        }
+
+        return postService.createPost(ctx.db, {
+          ...args,
+          authorId: ctx.user.id,
+          organisationId: ctx.organisationId,
         });
       },
     })

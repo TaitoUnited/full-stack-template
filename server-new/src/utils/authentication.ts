@@ -1,3 +1,4 @@
+import { type FastifyRequest } from 'fastify';
 import { Lucia, TimeSpan } from 'lucia';
 import { DrizzlePostgreSQLAdapter } from '@lucia-auth/adapter-drizzle';
 
@@ -36,4 +37,8 @@ export async function getAuth() {
   });
 
   return lucia;
+}
+
+export function hasValidSession(ctx: FastifyRequest['ctx']) {
+  return !!ctx.user && !!ctx.session;
 }

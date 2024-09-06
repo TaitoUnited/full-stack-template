@@ -1,6 +1,6 @@
 import { type DrizzleDb } from '../index';
 import { type UserSeed } from './user.seed';
-import { ROLES } from '~/domain/authorisation/roles';
+import { type Role, ROLES } from '~/utils/authorisation';
 import {
   organisationTable,
   userOrganisationTable,
@@ -86,7 +86,7 @@ async function createOrganisation(
 
 async function addUserToOrganisation(
   db: DrizzleDb,
-  options: { userId: string; organisationId: string; role: string }
+  options: { userId: string; organisationId: string; role: Role }
 ) {
   await db
     .insert(userOrganisationTable)
