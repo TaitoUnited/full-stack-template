@@ -6,6 +6,7 @@ timeout: 3000s
 # logsBucket: 'gs://my-builds' # TODO _TEMPLATE_DEFAULT for this also
 
 options:
+  logging: CLOUD_LOGGING_ONLY
   # You can give CI/CD more cpu/mem with machineType
   # machineType: E2_HIGHCPU_8
 
