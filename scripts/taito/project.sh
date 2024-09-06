@@ -90,9 +90,6 @@ taito_remote_secrets="
 taito_cicd_secrets="
   cicd-proxy-serviceaccount.key
   $db_database_mgr_secret
-  $db_database_ssl_ca_secret
-  $db_database_ssl_cert_secret
-  $db_database_ssl_key_secret
 "
 
 # Secrets required by CI/CD tests
