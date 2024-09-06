@@ -409,11 +409,21 @@ if [[ $db_database_ssl_client_cert_enabled == "true" ]]; then
     $db_database_ssl_cert_secret:copy/common
     $db_database_ssl_key_secret:copy/common
   "
+  taito_cicd_secrets="
+    $taito_cicd_secrets
+    $db_database_ssl_ca_secret
+    $db_database_ssl_cert_secret
+    $db_database_ssl_key_secret
+  "
 elif [[ $db_database_ssl_server_cert_enabled == "true" ]]; then
   db_database_ssl_ca_secret=$db_database_instance-db-ssl.ca
   taito_remote_secrets="
     $taito_remote_secrets
     $db_database_ssl_ca_secret:copy/common
+  "
+  taito_cicd_secrets="
+    $taito_cicd_secrets
+    $db_database_ssl_ca_secret
   "
 fi
 
