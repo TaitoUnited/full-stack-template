@@ -120,7 +120,8 @@ services:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       DO_API_KEY: ${DO_API_KEY}
-      GOOGLE_SQL_PROXY_CREDENTIALS: /run/secrets/CICD_PROXY_SERVICEACCOUNT_KEY # For GCP
+      # TIP: If connection halts, try to set GOOGLE_SQL_PROXY_CREDENTIALS instead # For GCP
+      GOOGLE_APPLICATION_CREDENTIALS: /run/secrets/CICD_PROXY_SERVICEACCOUNT_KEY # For GCP
       template_default_taito_image: ${template_default_taito_image}
       template_default_environments: ${template_default_environments}
       template_default_organization: ${template_default_organization}
@@ -182,6 +183,7 @@ services:
   #     AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
   #     AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
   #     DO_API_KEY: ${DO_API_KEY}
+  #     # TIP: If connection halts, try to set GOOGLE_SQL_PROXY_CREDENTIALS instead # For GCP
   #     GOOGLE_APPLICATION_CREDENTIALS: /run/secrets/CICD_PROXY_SERVICEACCOUNT_KEY # For GCP
 
 secrets:
