@@ -2,7 +2,7 @@
 
 variable "create_cicd_service_account" {
   type = bool
-  default = false # TODO: true
+  default = true
 }
 
 variable "create_kubernetes_service_account" {
