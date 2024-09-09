@@ -337,7 +337,7 @@ echo
 echo "NOTE: Often you don't need a separate worker since you can use the server implementation for jobs also."
 prune "Separate worker in addition to server? [y/N] " worker
 prune "Relational database? [Y/n] " database
-prune "Permanent object storage for files? [y/N] " storage \\/bucket
+prune "Permanent object storage for files? [Y/n] " storage \\/bucket
 prune "Redis for caching and/or queueing? [y/N] " redis
 
 function remove_empty_secrets () {
