@@ -1,3 +1,4 @@
+import { config } from '~/utils/config';
 import { builder } from '~/setup/graphql/builder';
 import { GraphQLError } from '~/utils/error';
 import { User } from '../user/user.resolver';
@@ -118,10 +119,14 @@ async function wrapLogin<T>(loginPromise: Promise<T>) {
   /**
    * Simulate a delay to prevent timing attacks where attackers can determine
    * if an email exists in the system based on the response time.
+   * Note that this is only needed in prod environment and we don't want to
+   * slow down API integration tests for non-prod environments.
    */
   const [result] = await Promise.allSettled([
     loginPromise,
-    new Promise((resolve) => setTimeout(resolve, 2000)),
+    new Promise((resolve) =>
+      setTimeout(resolve, config.COMMON_ENV === 'prod' ? 2000 : 10)
+    ),
   ]);
 
   if (result.status === 'rejected') {
