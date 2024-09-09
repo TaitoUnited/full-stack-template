@@ -27,20 +27,11 @@ beforeAll(async () => {
     'API integration test organisation'
   );
 
-  const admin = await setupUser(db, {
-    role: ROLES.ADMIN,
-    organisationId: organisation.id,
-  });
-
-  const manager = await setupUser(db, {
-    role: ROLES.MANAGER,
-    organisationId: organisation.id,
-  });
-
-  const viewer = await setupUser(db, {
-    role: ROLES.VIEWER,
-    organisationId: organisation.id,
-  });
+  const [admin, manager, viewer] = await Promise.all([
+    setupUser(db, { role: ROLES.ADMIN, organisationId: organisation.id }),
+    setupUser(db, { role: ROLES.MANAGER, organisationId: organisation.id }),
+    setupUser(db, { role: ROLES.VIEWER, organisationId: organisation.id }),
+  ]);
 
   globalThis.testData = {
     organisation,
