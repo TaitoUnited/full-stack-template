@@ -5,6 +5,7 @@ import SimpleObjectsPlugin from '@pothos/plugin-simple-objects';
 import { type GraphQlContext } from './server';
 import { hasValidOrganisation } from '~/utils/authorisation';
 import { hasValidSession } from '~/utils/authentication';
+import { GraphQLError } from '~/utils/error';
 
 export const builder = new SchemaBuilder<{
   Context: GraphQlContext;
@@ -39,10 +40,19 @@ export const builder = new SchemaBuilder<{
   defaultInputFieldRequiredness: true,
   scopeAuth: {
     /**
+     * Reply with our custom GraphQLError when a user is not authenticated.
+     * If you have more complex auth scopes, you can customize the returned
+     * error based on args: `parent`, `context`, `info`, `result`, see docs:
+     * https://pothos-graphql.dev/docs/plugins/scope-auth#customizing-error-messages
+     */
+    unauthorizedError: () => GraphQLError.unauthorized(),
+
+    /**
      * Recommended when using subscriptions. When this is not set, auth checks
      * are run when event is resolved rather than when the subscription is created.
      */
     authorizeOnSubscribe: true,
+
     /**
      * Create the scopes and scope loaders for each request.
      * You can add more nuanced scopes here, eg. based on user roles or permissions.
