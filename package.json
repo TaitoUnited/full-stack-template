@@ -36,6 +36,7 @@
     "taito-host-unit:server": "cd server && npm-run-all 'unit {@}' --",
     "taito-host-unit:worker": "cd worker && npm-run-all 'unit {@}' --",
     "taito-host-unit:www": "cd www && npm-run-all 'unit {@}' --",
+    "taito-host-db-deploy": "if [ ${taito_env} = 'local' ]; then docker exec ${taito_project}-server sh -c 'npm run db:migrate && npm run db:seed'; else docker compose -f docker-compose-cicd.yaml run --rm ${taito_project}-server-cicd sh -c 'echo Sleeping... && sleep 30 && echo Done sleeping && npm run db:migrate && npm run db:seed'; fi",
     "test": "npm-run-all test:server test:worker test:admin test:client test:www ",
     "test:admin": "taito ${taito_options} util test:admin:${taito_env}",
     "test:client": "taito ${taito_options} util test:client:${taito_env}",
@@ -49,7 +50,6 @@
     "taito-host-playwright-debug": "npm-run-all taito-host-playwright-debug:client",
     "taito-host-playwright-debug:client": "cd playwright && TEST_USER_PASSWORD=$test_all_TEST_USER_PASSWORD npm-run-all playwright:debug",
     "taito-host-playwright-ui:client": "cd playwright && TEST_USER_PASSWORD=$test_all_TEST_USER_PASSWORD npm-run-all playwright:ui",
-
     "code-check": "docker run --interactive --tty --rm --env CODECLIMATE_CODE=\"$PWD\" --volume \"$PWD\":/code --volume /var/run/docker.sock:/var/run/docker.sock --volume /tmp/cc:/tmp/cc codeclimate/codeclimate engines:install && docker run --interactive --tty --rm --env CODECLIMATE_CODE=\"$PWD\" --volume \"$PWD\":/code --volume /var/run/docker.sock:/var/run/docker.sock --volume /tmp/cc:/tmp/cc codeclimate/codeclimate analyze",
     "taito-host-code-check": "npm-run-all code-check",
     "_dep-check_comment": "TODO how to pass -u argument from dep-check to dep-check:TARGET?",
