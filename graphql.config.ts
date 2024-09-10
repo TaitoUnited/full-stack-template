@@ -15,11 +15,11 @@
 export default {
   projects: {
     server: {
-      schema: "http://localhost:9999/api/graphql",
+      schema: "./shared/schema.gql",
       documents: ["server-new/src/**/*.{graphql,js,ts,jsx,tsx}"],
     },
     client: {
-      schema: "http://localhost:9999/api/graphql",
+      schema: "./shared/schema.gql",
       documents: ["client/src/**/*.{graphql,js,ts,jsx,tsx}"],
     },
   },

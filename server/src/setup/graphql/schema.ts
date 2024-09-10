@@ -1,4 +1,9 @@
+import fs from 'fs';
+import path from 'path';
+import { printSchema, lexicographicSortSchema } from 'graphql';
+
 import { builder } from './builder';
+import { config } from '~/utils/config';
 import * as user from '~/domain/user/user.resolver';
 import * as session from '~/domain/session/session.resolver';
 import * as organisation from '~/domain/organisation/organisation.resolver';
@@ -21,5 +26,18 @@ export function setupSchema() {
   post.setupResolvers();
   chat.setupResolvers();
 
-  return builder.toSchema();
+  const schema = builder.toSchema();
+
+  /**
+   * Automatically write the schema to a file when running locally.
+   * We can use this file to generate TypeScript types for our queries and mutations.
+   */
+  if (config.COMMON_ENV === 'local') {
+    fs.writeFileSync(
+      path.join(__dirname, '../../../shared/schema.gql'),
+      printSchema(lexicographicSortSchema(schema))
+    );
+  }
+
+  return schema;
 }
