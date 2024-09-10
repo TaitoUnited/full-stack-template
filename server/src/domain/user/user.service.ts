@@ -4,16 +4,12 @@ import { type DrizzleDb } from '~/db';
 import { userTable } from './user.db';
 import { userOrganisationTable } from '../organisation/organisation.db';
 
-export async function getUsers(
+export async function getOrgUsers(
   db: DrizzleDb,
   params: { organisationId: string }
 ) {
   return db
-    .select({
-      id: userTable.id,
-      name: userTable.name,
-      email: userTable.email,
-    })
+    .select({ id: userTable.id, name: userTable.name, email: userTable.email })
     .from(userTable)
     .innerJoin(
       userOrganisationTable,
@@ -22,16 +18,12 @@ export async function getUsers(
     .where(eq(userOrganisationTable.organisationId, params.organisationId));
 }
 
-export async function getUser(
+export async function getOrgUser(
   db: DrizzleDb,
   params: { id: string; organisationId: string }
 ) {
   const [user] = await db
-    .select({
-      id: userTable.id,
-      name: userTable.name,
-      email: userTable.email,
-    })
+    .select({ id: userTable.id, name: userTable.name, email: userTable.email })
     .from(userTable)
     .innerJoin(
       userOrganisationTable,
@@ -43,6 +35,15 @@ export async function getUser(
         eq(userOrganisationTable.organisationId, params.organisationId)
       )
     );
+
+  return user;
+}
+
+export async function getUser(db: DrizzleDb, id: string) {
+  const [user] = await db
+    .select({ id: userTable.id, name: userTable.name, email: userTable.email })
+    .from(userTable)
+    .where(and(eq(userTable.id, id)));
 
   return user;
 }

@@ -29,7 +29,7 @@ export function setupResolvers() {
       resolve: async (parent, _, ctx) => {
         if (!parent.authorId) return null;
 
-        return userService.getUser(ctx.db, {
+        return userService.getOrgUser(ctx.db, {
           id: parent.authorId,
           organisationId: ctx.organisationId,
         });

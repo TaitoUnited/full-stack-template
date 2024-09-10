@@ -35,7 +35,7 @@ export function setupResolvers() {
       type: User,
       nullable: true,
       resolve: async (parent, _, ctx) => {
-        return userService.getUser(ctx.db, {
+        return userService.getOrgUser(ctx.db, {
           id: parent.authorId,
           organisationId: ctx.organisationId,
         });

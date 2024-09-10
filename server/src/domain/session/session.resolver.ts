@@ -7,14 +7,11 @@ import * as sessionService from './session.service';
 
 export function setupResolvers() {
   builder.queryField('me', (t) =>
-    t.withAuth({ authenticated: true }).field({
+    t.withAuth({ session: true }).field({
       type: User,
       nullable: true,
       resolve: async (_, __, ctx) => {
-        return userService.getUser(ctx.db, {
-          id: ctx.user.id,
-          organisationId: ctx.organisationId,
-        });
+        return userService.getUser(ctx.db, ctx.user.id);
       },
     })
   );
