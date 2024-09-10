@@ -11,6 +11,7 @@ const Post = builder.simpleObject('Post', {
     title: t.string(),
     content: t.string(),
     authorId: t.string(),
+    createdAt: t.field({ type: 'Date' }),
   }),
 });
 

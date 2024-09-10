@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { printSchema, lexicographicSortSchema } from 'graphql';
+import { DateResolver } from 'graphql-scalars';
 
 import { builder } from './builder';
 import { config } from '~/utils/config';
@@ -18,6 +19,9 @@ export function setupSchema() {
    */
   builder.queryType({});
   builder.mutationType({});
+
+  // Custom scalar types
+  builder.addScalarType('Date', DateResolver);
 
   // Add resolvers for each entity
   organisation.setupResolvers();

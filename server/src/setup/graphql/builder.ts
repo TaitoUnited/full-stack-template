@@ -21,6 +21,9 @@ export const builder = new SchemaBuilder<{
     session: AuthContext<'user' | 'session'>;
     organisation: AuthContext<'organisationId'>;
   };
+  Scalars: {
+    Date: { Input: Date; Output: Date };
+  };
 }>({
   plugins: [SimpleObjectsPlugin, ScopeAuthPlugin],
   /**
