@@ -1,16 +1,16 @@
 import { Navigate, Outlet } from 'react-router-dom';
 
 import { PageLayout } from '~components/common/PageLayout';
-import { useAuth } from '~services/auth';
+import { useAuthStore } from '~services/auth';
 
 export function ProtectedRoute() {
-  const { status } = useAuth();
+  const authStatus = useAuthStore(state => state.status);
 
-  if (status === 'undetermined' || status === 'determining') {
+  if (authStatus === 'undetermined' || authStatus === 'determining') {
     return null;
   }
 
-  return status === 'authenticated' || status === 'logging-out' ? (
+  return authStatus === 'authenticated' || authStatus === 'logging-out' ? (
     <PageLayout>
       <Outlet />
     </PageLayout>

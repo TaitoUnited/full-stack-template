@@ -1,16 +1,18 @@
+import { useEffect } from 'react';
 import { hideSplashScreen } from 'vite-plugin-splash-screen/runtime';
-import { useApolloClient } from '@apollo/client';
+import { create } from 'zustand';
+import { toast } from 'react-hot-toast';
+import { t } from '@lingui/macro';
+
+import { storage } from '~utils/storage';
 
 import {
-  createContext,
-  useState,
-  useContext,
-  ReactNode,
-  useEffect,
-} from 'react';
-
-import { sleep } from '~utils/promise';
-import { storage } from '~utils/storage';
+  LoginDocument,
+  LogoutDocument,
+  OrganisationsDocument,
+  OrganisationsQuery,
+  getApolloClient,
+} from '~graphql';
 
 type AuthStatus =
   | 'undetermined'
@@ -20,120 +22,86 @@ type AuthStatus =
   | 'authenticated'
   | 'unauthenticated';
 
-type AuthContextValue = {
-  login: (credentials: { email: string; password: string }) => Promise<void>;
-  logout: () => Promise<void>;
-  verifyAuth: () => Promise<void>;
+const store = create<{
   status: AuthStatus;
-};
+  organisation: string | null;
+}>(() => ({
+  status: 'undetermined',
+  organisation: null,
+}));
 
-const AuthContext = createContext<undefined | AuthContextValue>(undefined); // prettier-ignore
+export async function login(variables: { email: string; password: string }) {
+  const apolloClient = getApolloClient();
 
-/**
- * TODO: update auth to not use localStorage for storing tokens!
- * We should use secure cookies with the HttpOnly flag for storing tokens.
- */
-
-export function AuthProvider({ children }: { children: ReactNode }) {
-  const [status, setStatus] = useState<AuthStatus>('undetermined');
-  const apolloClient = useApolloClient();
-
-  async function login(credentials: { email: string; password: string }) {
-    try {
-      setStatus('logging-in');
-
-      const tokens = await fakeLogin(credentials);
-      if (!tokens) throw Error('Access token missing!');
-
-      storage.clearAll();
-      storage.set('@app/tokens', tokens);
-      setStatus('authenticated');
-    } catch (error) {
-      console.log('> Failed to login', error);
-      setStatus('unauthenticated');
-    }
+  try {
+    store.setState({ status: 'logging-in' });
+    await apolloClient.mutate({ mutation: LoginDocument, variables });
+    storage.clearAll();
+    store.setState({ status: 'authenticated' });
+  } catch (error) {
+    store.setState({ status: 'unauthenticated' });
+    toast.error(t`Failed to login`);
   }
-
-  async function logout() {
-    try {
-      setStatus('logging-out');
-      await fakeLogout();
-    } catch (error) {
-      console.log('> Failed to logout', error);
-    } finally {
-      // Logout the user even if the network call failed
-      setStatus('unauthenticated');
-      await apolloClient.resetStore();
-      storage.clearAll();
-    }
-  }
-
-  async function verifyAuth() {
-    setStatus('determining');
-
-    try {
-      const tokens = storage.get('@app/tokens');
-
-      if (tokens.accessToken) {
-        await fakeTestTokens(); // Test if tokens are still valid
-        setStatus('authenticated');
-      } else {
-        await logout();
-      }
-    } catch (error) {
-      setStatus('unauthenticated');
-    } finally {
-      hideSplashScreen();
-    }
-  }
-
-  return (
-    <AuthContext.Provider value={{ verifyAuth, status, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
 }
 
-export function useAuth() {
-  const context = useContext(AuthContext);
-  if (!context) throw new Error('Missing AuthProvider!');
-  return context;
+export async function logout() {
+  const apolloClient = getApolloClient();
+
+  try {
+    store.setState({ status: 'logging-out' });
+    await apolloClient.mutate({ mutation: LogoutDocument });
+    store.setState({ status: 'unauthenticated' });
+    await apolloClient.resetStore();
+    storage.clearAll();
+  } catch (error) {
+    console.log('Failed to logout', error);
+    toast.error(t`Failed to logout`);
+  }
 }
+
+async function verifyAuth() {
+  const apolloClient = getApolloClient();
+
+  try {
+    store.setState({ status: 'determining' });
+
+    // Try to get the current logged in user
+    const result = await apolloClient.query<OrganisationsQuery>({
+      query: OrganisationsDocument,
+    });
+
+    /**
+     * TODO: implement organistaions selection UI.
+     * This just automatically selects the first organisation.
+     */
+    const organisation = result.data.organisations?.[0];
+
+    if (organisation) {
+      store.setState({
+        status: 'authenticated',
+        organisation: organisation.id,
+      });
+    } else {
+      store.setState({ status: 'unauthenticated' });
+    }
+  } catch (_) {
+    store.setState({ status: 'unauthenticated' });
+  } finally {
+    hideSplashScreen();
+  }
+}
+
+export const useAuthStore = store;
+export const authStore = store;
 
 export function useVerifyAuth() {
-  const { verifyAuth, status } = useAuth();
+  const authStatus = useAuthStore(state => state.status);
 
   useEffect(() => {
-    if (status === 'undetermined') {
+    if (authStatus === 'undetermined') {
       verifyAuth();
     }
   }, []); // eslint-disable-line
 
-  return status;
-}
-
-// ----------------------------------------------------------------------------
-// TODO: remove these fake login/logout functions and implement them for real
-async function fakeLogin({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}) {
-  console.log('> Doing fake login...', email, password);
-  await sleep(2000);
-  return {
-    accessToken: 'fullstack-templete-access-token',
-    refreshToken: 'fullstack-templete-refresh-token',
-  };
-}
-
-async function fakeLogout() {
-  console.log('> Doing fake logout...');
-  await sleep(2000);
-}
-
-async function fakeTestTokens() {
-  await sleep(1000);
+  return authStatus;
 }

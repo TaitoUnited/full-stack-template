@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { PostDetails } from './PostDetails';
 import { Breadcrumbs } from '~components/navigation/Breadcrumbs';
 import { useDocumentTitle } from '~hooks/useDocumentTitle';
-import { usePostSuspenseQuery } from '~graphql';
+import { usePostSuspenseQuery, PostQuery } from '~graphql';
 import { css } from '~styled-system/css';
 
 export default function PostRoute() {
@@ -11,19 +11,28 @@ export default function PostRoute() {
   const { data } = usePostSuspenseQuery({ variables: { id } });
   const { post } = data;
 
-  useDocumentTitle(post.subject);
+  if (!post) {
+    // TODO: implement a 404 page
+    return null;
+  }
+
+  return <PostPage post={post} />;
+}
+
+function PostPage({ post }: { post: NonNullable<PostQuery['post']> }) {
+  useDocumentTitle(post.title);
 
   return (
     <div className={css({ flex: 1 })}>
       <Breadcrumbs>
         <Breadcrumbs.Link to="/blog">Blog</Breadcrumbs.Link>
-        <Breadcrumbs.Link>{post.subject}</Breadcrumbs.Link>
+        <Breadcrumbs.Link>{post.title}</Breadcrumbs.Link>
       </Breadcrumbs>
 
       <PostDetails
         createdAt={post.createdAt}
-        author={post.author}
-        subject={post.subject}
+        author={post.author?.name ?? 'Unknown'}
+        subject={post.title}
         content={post.content}
       />
     </div>

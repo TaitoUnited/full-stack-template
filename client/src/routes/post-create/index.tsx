@@ -9,12 +9,7 @@ import { TextInput, Stack, Dialog, TextArea, Button } from '~uikit';
 import { PostListDocument, useCreatePostMutation } from '~graphql';
 
 export default function PostCreateRoute() {
-  const [formValues, setFormValues] = useState({
-    subject: '',
-    author: '',
-    content: '',
-  });
-
+  const [formValues, setFormValues] = useState({ title: '', content: '' });
   const submitDisabled = Object.values(formValues).some(p => !p);
   const [createPost, createPostState] = useCreatePostMutation();
   const navigate = useNavigate();
@@ -32,11 +27,7 @@ export default function PostCreateRoute() {
 
     try {
       await createPost({
-        variables: {
-          subject: formValues.subject,
-          author: formValues.author,
-          content: formValues.content,
-        },
+        variables: { title: formValues.title, content: formValues.content },
         refetchQueries: [PostListDocument],
       });
 
@@ -59,23 +50,13 @@ export default function PostCreateRoute() {
           <form onSubmit={handleSubmit}>
             <Stack direction="column" gap="regular">
               <TextInput
-                label={t`Subject`}
-                name="subject"
+                label={t`Title`}
+                name="title"
                 data-testid="subject-field"
-                value={formValues.subject}
+                value={formValues.title}
                 onInput={handleChange}
                 minLength={5}
                 maxLength={500}
-              />
-
-              <TextInput
-                label={t`Author`}
-                name="author"
-                data-testid="author-field"
-                value={formValues.author}
-                onInput={handleChange}
-                minLength={2}
-                maxLength={100}
               />
 
               <TextArea

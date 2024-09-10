@@ -21,6 +21,7 @@
     "analyze": "ANALYZE=true npm run build && source-map-explorer 'build/assets/*.js' --no-border-checks",
     "lang:add-locale": "lingui add-locale",
     "lang:extract": "lingui extract",
+    "lang:compile": "lingui compile",
     "uikit:preview": "storybook dev -p 6006",
     "uikit:build": "storybook build",
     "design-system:sync": "npm-run-all -s design-system:tokenize design-system:codegen design-system:format",
@@ -51,7 +52,8 @@
     "react-router-dom": "6.23.1",
     "react-stately": "3.31.1",
     "react-use-measure": "2.1.1",
-    "spin-delay": "2.0.0"
+    "spin-delay": "2.0.0",
+    "zustand": "4.5.5"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "5.0.2",
@@ -99,7 +101,7 @@
     "prettier": "3.2.5",
     "source-map-explorer": "2.5.3",
     "storybook": "8.1.2",
-    "typescript": "5.4.5",
+    "typescript": "5.5.4",
     "vite": "5.2.11",
     "vite-plugin-favicon2": "1.1.5",
     "vite-plugin-splash-screen": "0.0.1",

@@ -10,6 +10,7 @@ import {
   useQuery as useApolloQuery,
   useSuspenseQuery as useApolloSuspenseQuery,
   SuspenseQueryHookOptions,
+  NoInfer,
 } from '@apollo/client';
 
 import { useWindowFocusEffect } from '~hooks/useWindowFocus';

@@ -3,12 +3,12 @@ import { t, Trans } from '@lingui/macro';
 import { UnstyledLink } from './Link';
 import { Text, Icon, IconName, Button } from '~uikit';
 import { styled } from '~styled-system/jsx';
-import { useAuth } from '~services/auth';
+import { logout, useAuthStore } from '~services/auth';
 import { stack } from '~styled-system/patterns';
 import { isFeatureEnabled } from '~services/feature-flags';
 
 export function Sidebar() {
-  const auth = useAuth();
+  const authStatus = useAuthStore(state => state.status);
   const feature3Enabled = isFeatureEnabled('feature-3');
 
   const items: Array<{
@@ -72,10 +72,10 @@ export function Sidebar() {
               color="primary"
               icon="logout"
               iconPlacement="end"
-              isLoading={auth.status === 'logging-out'}
-              onPress={auth.logout}
+              isLoading={authStatus === 'logging-out'}
+              onPress={logout}
             >
-              {auth.status === 'logging-out' ? (
+              {authStatus === 'logging-out' ? (
                 <Trans>Logging out</Trans>
               ) : (
                 <Trans>Logout</Trans>
