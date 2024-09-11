@@ -19,9 +19,7 @@ export default defineConfig({
   // The output directory for your css system
   outdir: 'styled-system/generated',
 
-  // Makse generated class names shorter and optimize css in non-dev mode
-  hash: false,
-  optimize: isProd,
+  // Minify css in non-dev mode
   minify: isProd,
 
   // Don't use non-standard CSS properties
