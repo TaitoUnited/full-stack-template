@@ -23,14 +23,6 @@ msgstr ""
 msgid "404"
 msgstr ""
 
-#: src/routes/not-found/index.tsx:11
-#~ msgid "404 - Not Found"
-#~ msgstr ""
-
-#: src/routes/not-found/index.authenticated.tsx:11
-#~ msgid "404 - Not Found (authenticated)"
-#~ msgstr ""
-
 #: src/routes/home/index.tsx:43
 msgid "A minimal design system provides a set of UI kit components that adhere to certain design principles backed by a set of design tokens. This template defines a comprehensive set of design tokens for things like colors, typography, spacing, etc. in a globally available theme object. Additionally, the design system incorporates a UI kit that is browsable in Storybook."
 msgstr ""
@@ -43,31 +35,15 @@ msgstr ""
 msgid "Authentication"
 msgstr ""
 
-#: src/routes/post-create/index.tsx:72
-msgid "Author"
-msgstr ""
-
 #: src/components/navigation/Sidebar.tsx:27
-#: src/routes/post-list/index.tsx:25
-#: src/routes/post-list/index.tsx:31
+#: src/routes/post-list/index.tsx:16
+#: src/routes/post-list/index.tsx:22
 msgid "Blog"
 msgstr ""
 
 #: src/components/common/LangMenuButton.tsx:13
 msgid "Change language"
 msgstr ""
-
-#: src/components/common/LangMenuButton.tsx:12
-#~ msgid "Change locale"
-#~ msgstr ""
-
-#: src/components/common/ColorModeButton.tsx:15
-#~ msgid "Change theme to dark mode"
-#~ msgstr ""
-
-#: src/components/common/ColorModeButton.tsx:16
-#~ msgid "Change theme to light mode"
-#~ msgstr ""
 
 #: src/components/uikit/partials/SelectActions.tsx:23
 msgid "Clear"
@@ -85,19 +61,15 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
-#: src/routes/post-create/index.tsx:82
+#: src/routes/post-create/index.tsx:63
 msgid "Content"
 msgstr ""
 
-#: src/routes/post/Post.page.tsx:35
-#~ msgid "Could not find post."
-#~ msgstr ""
-
-#: src/routes/post-create/index.tsx:102
+#: src/routes/post-create/index.tsx:83
 msgid "Create"
 msgstr ""
 
-#: src/routes/post-create/index.tsx:100
+#: src/routes/post-create/index.tsx:81
 msgid "Creating"
 msgstr ""
 
@@ -117,13 +89,17 @@ msgstr ""
 msgid "Examples"
 msgstr ""
 
-#: src/routes/post-create/index.tsx:48
+#: src/routes/post-create/index.tsx:39
 msgid "Failed to add new blog post"
 msgstr ""
 
-#: src/routes/post/Post.page.tsx:41
-#~ msgid "Failed to load blog post."
-#~ msgstr ""
+#: src/services/auth.tsx:43
+msgid "Failed to login"
+msgstr ""
+
+#: src/services/auth.tsx:58
+msgid "Failed to logout"
+msgstr ""
 
 #: src/routes/feature-flags/index.tsx:12
 msgid "Feature flags"
@@ -181,21 +157,17 @@ msgstr ""
 msgid "Most apps will require internationalization at some point in their lifetime. This template the necessary setup for multiple languages that are loaded lazily once selected. Try changing the language in the top right corner."
 msgstr ""
 
-#: src/routes/post-create/index.tsx:52
-#: src/routes/post-create/index.tsx:56
+#: src/routes/post-create/index.tsx:43
+#: src/routes/post-create/index.tsx:47
 msgid "New blog post"
 msgstr ""
 
-#: src/routes/post-create/index.tsx:45
+#: src/routes/post-create/index.tsx:36
 msgid "New blog post added"
 msgstr ""
 
-#: src/routes/post-list/index.tsx:76
+#: src/routes/post-list/index.tsx:68
 msgid "New post"
-msgstr ""
-
-#: src/routes/post-list/index.tsx:40
-msgid "Newest"
 msgstr ""
 
 #: src/components/uikit/MultiSelect/index.tsx:262
@@ -208,10 +180,6 @@ msgstr ""
 
 #: src/components/uikit/AsyncSelect/index.tsx:190
 msgid "No options found"
-msgstr ""
-
-#: src/routes/post-list/index.tsx:41
-msgid "Oldest"
 msgstr ""
 
 #: src/routes/not-found/authenticated.tsx:17
@@ -230,10 +198,6 @@ msgstr ""
 #: src/components/common/ErrorView.tsx:32
 msgid "Reload page"
 msgstr ""
-
-#: src/components/common/ErrorBoundary.tsx:72
-#~ msgid "Reload Page"
-#~ msgstr ""
 
 #: src/components/common/ErrorView.tsx:27
 msgid "Report an error"
@@ -263,10 +227,6 @@ msgstr ""
 msgid "Something went wrong!"
 msgstr ""
 
-#: src/routes/post-list/index.tsx:36
-msgid "Sort by"
-msgstr ""
-
 #: src/routes/home/index.tsx:53
 msgid "Speed is one of the most important aspects of a good UX. This template introduces a pattern for preloading route's data and code-split code in order to make page transitions feel instant."
 msgstr ""
@@ -277,10 +237,6 @@ msgstr ""
 
 #: src/routes/home/index.tsx:62
 msgid "Splash Screen"
-msgstr ""
-
-#: src/routes/post-create/index.tsx:62
-msgid "Subject"
 msgstr ""
 
 #: src/routes/login/index.tsx:67
@@ -299,6 +255,10 @@ msgstr ""
 
 #: src/routes/home/index.tsx:79
 msgid "This React app contains the necessary building blocks that you need to get your project started. You can freely alter any aspect of the template to fit your needs better."
+msgstr ""
+
+#: src/routes/post-create/index.tsx:53
+msgid "Title"
 msgstr ""
 
 #: src/routes/home/index.tsx:75
