@@ -9,7 +9,7 @@
 # Taito CLI: Project specific plugins (for the selected database, etc.)
 taito_plugins="
   ${taito_plugins}
-  postgres-db sqitch-db
+  postgres-db
 "
 
 # Environments: In the correct order (e.g. dev test uat stag canary prod)
