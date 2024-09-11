@@ -8,9 +8,9 @@ export const graphql = initGraphQLTada<{ introspection: introspection }>();
 export type { FragmentOf, ResultOf, VariablesOf } from 'gql.tada';
 export { readFragment } from 'gql.tada';
 
-const baseUrl =
-  process.env.TEST_API_URL ||
-  `http://${config.API_BINDADDR}:${config.API_PORT}/graphql`;
+const baseUrl = process.env.TEST_API_URL
+  ? `${process.env.TEST_API_URL}/graphql`
+  : `http://${config.API_BINDADDR}:${config.API_PORT}/graphql`;
 
 export const client = new GraphQLClient(baseUrl);
 

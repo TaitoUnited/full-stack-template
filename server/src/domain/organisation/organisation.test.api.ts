@@ -16,8 +16,11 @@ describe('Organisation API', () => {
     );
 
     const { organisations } = data;
-    expect(organisations).toHaveLength(1);
-    expect(organisations?.[0]?.name).toBe('API integration test organisation');
+    const testOrganisation = organisations?.find(
+      (org) => org.id === globalThis.testData.organisation.id
+    );
+    expect(testOrganisation).toBeDefined();
+    expect(testOrganisation?.name).toBe('API integration test organisation');
   });
 
   it('should return a single organisation', async () => {
