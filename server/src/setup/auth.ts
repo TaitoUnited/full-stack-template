@@ -3,6 +3,8 @@ import cookie from '@fastify/cookie';
 
 import { type ServerInstance } from './server';
 import { getUserOrganisationsWithRoles } from '~/domain/organisation/organisation.service';
+import { hasValidSession } from '~/utils/authentication';
+import { hasValidOrganisation } from '~/utils/authorisation';
 
 export const authPlugin = fastifyPlugin(async (server: ServerInstance) => {
   // Adds cookie helpers to the server instance
@@ -67,13 +69,29 @@ export const authPlugin = fastifyPlugin(async (server: ServerInstance) => {
   /**
    * Authenticate the request.
    *
-   * This will be available via `server.authenticate` and can be used to protect
-   * routes by adding a `onRequest: [server.authenticate]` option to the route
-   * definition when creating new routes with `server.route`.
+   * These will be available via `server.authenticate|etc` and can be used to
+   * protect routes by adding a `onRequest: [server.{ensureSession,authenticate,etc}]`,
+   * option to the route definition when creating new routes with `server.route`.
    */
+
+  // @ts-expect-error - `decorate` has type issues...
+  server.decorate('ensureSession', async (request, reply) => {
+    if (!hasValidSession(request.ctx)) {
+      reply.code(401).send('Unauthorized');
+    }
+  });
+
+  // @ts-expect-error - `decorate` has type issues...
+  server.decorate('ensureOrganisation', async (request, reply) => {
+    if (!hasValidOrganisation(request.ctx)) {
+      reply.code(401).send('Unauthorized');
+    }
+  });
+
   // @ts-expect-error - `decorate` has type issues...
   server.decorate('authenticate', async (request, reply) => {
-    if (!request.user || !request.session) {
+    // User is fully authenticated if they have a valid session and an organisation
+    if (!hasValidSession(request.ctx) || !hasValidOrganisation(request.ctx)) {
       reply.code(401).send('Unauthorized');
     }
   });

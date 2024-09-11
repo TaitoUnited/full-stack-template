@@ -1,15 +1,16 @@
 import multipart from '@fastify/multipart';
 
+import { sessionRoutes } from '~/domain/session/session.routes';
+import { postRoutes } from '~/domain/example/post/post.routes';
 import { config } from '~/utils/config';
 import { log } from '~/utils/log';
 import { authPlugin } from './auth';
 import { contextPlugin } from './context';
 import { type ServerInstance } from './server';
 import { setupErrorHandler } from './error';
+import { csrfPlugin } from './csrf';
 import { setupGraphQL } from './graphql/server';
 import { infraRoutes } from './infra.routes';
-import { sessionRoutes } from '~/domain/session/session.routes';
-import { csrfPlugin } from './csrf';
 
 export async function setupServer(server: ServerInstance) {
   server.register(multipart);
@@ -43,7 +44,10 @@ export async function setupServer(server: ServerInstance) {
   await setupGraphQL(server);
 
   await server.register(infraRoutes); // health checks, etc.
+
+  // NOTE: if you are using GraphQL for all your API endpoints, you can remove these:
   await server.register(sessionRoutes); // login, logout, etc.
+  await server.register(postRoutes);
 
   server.listen(
     { port: config.API_PORT, host: config.API_BINDADDR },
