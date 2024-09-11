@@ -1,5 +1,8 @@
 # full-stack-template | server
 
+Looking for the old server instructions? See the old server docs [here](../alternatives/server-old/README.md).
+You can also see all the major changes between the old and new server in the related [PR](https://github.com/TaitoUnited/full-stack-template/pull/174) description.
+
 ## Structure recommendations
 
 ### Main project structure
