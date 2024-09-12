@@ -1,5 +1,5 @@
-ARG BUILDER_IMAGE='node:20.17.0-alpine'
-ARG RUNTIME_IMAGE='node:20.17.0-alpine'
+ARG BUILDER_IMAGE='node:22.8.0-alpine'
+ARG RUNTIME_IMAGE='node:22.8.0-alpine'
 
 # Builder and tester container for production build
 FROM ${BUILDER_IMAGE} as builder
@@ -56,4 +56,4 @@ ENV BASE_PATH /api
 
 USER node
 EXPOSE 8080
-CMD ["node", "./index.js"]
+CMD ["node", "--experimental-require-module", "./index.js"]

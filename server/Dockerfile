@@ -1,4 +1,4 @@
-ARG BUILDER_IMAGE='node:20.17.0-alpine'
+ARG BUILDER_IMAGE='node:22.8.0-alpine'
 
 # Builder, tester and runtime container for local development
 # NOTE: npm libraries are installed inside container to speed up build
