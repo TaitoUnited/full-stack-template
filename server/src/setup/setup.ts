@@ -26,7 +26,7 @@ export async function setupServer(server: ServerInstance) {
    * See: https://lucia-auth.com/guides/validate-session-cookies/
    */
   await server.register(csrfPlugin, {
-    enabled: config.NODE_ENV === 'production',
+    enabled: config.COMMON_ENV !== 'local' && config.NODE_ENV === 'production',
   });
 
   /**

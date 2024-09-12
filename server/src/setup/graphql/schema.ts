@@ -36,7 +36,7 @@ export function setupSchema() {
    * Automatically write the schema to a file when running locally.
    * We can use this file to generate TypeScript types for our queries and mutations.
    */
-  if (config.COMMON_ENV === 'local') {
+  if (config.COMMON_ENV === 'local' && config.NODE_ENV === 'development') {
     fs.writeFileSync(
       path.join(__dirname, '../../../shared/schema.gql'),
       printSchema(lexicographicSortSchema(schema))
