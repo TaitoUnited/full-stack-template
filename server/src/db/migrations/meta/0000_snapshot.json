@@ -1,11 +1,11 @@
 {
-  "id": "f3e55811-9dcb-41f2-a1f5-7a119b501661",
+  "id": "72d58aac-2014-437e-8e44-7aa99a08d3bc",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.chatMessage": {
-      "name": "chatMessage",
+    "public.chat_message": {
+      "name": "chat_message",
       "schema": "",
       "columns": {
         "id": {
@@ -57,9 +57,9 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "chatMessage_chat_id_chat_id_fk": {
-          "name": "chatMessage_chat_id_chat_id_fk",
-          "tableFrom": "chatMessage",
+        "chat_message_chat_id_chat_id_fk": {
+          "name": "chat_message_chat_id_chat_id_fk",
+          "tableFrom": "chat_message",
           "tableTo": "chat",
           "columnsFrom": [
             "chat_id"
@@ -70,9 +70,9 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "chatMessage_author_id_user_id_fk": {
-          "name": "chatMessage_author_id_user_id_fk",
-          "tableFrom": "chatMessage",
+        "chat_message_author_id_user_id_fk": {
+          "name": "chat_message_author_id_user_id_fk",
+          "tableFrom": "chat_message",
           "tableTo": "user",
           "columnsFrom": [
             "author_id"
@@ -265,8 +265,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "public.userOrganisation": {
-      "name": "userOrganisation",
+    "public.user_organisation": {
+      "name": "user_organisation",
       "schema": "",
       "columns": {
         "created_at": {
@@ -304,9 +304,9 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "userOrganisation_user_id_user_id_fk": {
-          "name": "userOrganisation_user_id_user_id_fk",
-          "tableFrom": "userOrganisation",
+        "user_organisation_user_id_user_id_fk": {
+          "name": "user_organisation_user_id_user_id_fk",
+          "tableFrom": "user_organisation",
           "tableTo": "user",
           "columnsFrom": [
             "user_id"
@@ -317,9 +317,9 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "userOrganisation_organisation_id_organisation_id_fk": {
-          "name": "userOrganisation_organisation_id_organisation_id_fk",
-          "tableFrom": "userOrganisation",
+        "user_organisation_organisation_id_organisation_id_fk": {
+          "name": "user_organisation_organisation_id_organisation_id_fk",
+          "tableFrom": "user_organisation",
           "tableTo": "organisation",
           "columnsFrom": [
             "organisation_id"
@@ -332,8 +332,8 @@
         }
       },
       "compositePrimaryKeys": {
-        "userOrganisation_user_id_organisation_id_pk": {
-          "name": "userOrganisation_user_id_organisation_id_pk",
+        "user_organisation_user_id_organisation_id_pk": {
+          "name": "user_organisation_user_id_organisation_id_pk",
           "columns": [
             "user_id",
             "organisation_id"

@@ -17,7 +17,7 @@ export const chatTable = pgTable('chat', {
     .unique(),
 });
 
-export const chatMessageTable = pgTable('chatMessage', {
+export const chatMessageTable = pgTable('chat_message', {
   id: uuid('id').primaryKey().defaultRandom(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')

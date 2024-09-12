@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS "chatMessage" (
+CREATE TABLE IF NOT EXISTS "chat_message" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
@@ -33,13 +33,13 @@ CREATE TABLE IF NOT EXISTS "organisation" (
 	"name" text NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "userOrganisation" (
+CREATE TABLE IF NOT EXISTS "user_organisation" (
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
 	"role" text NOT NULL,
 	"user_id" uuid NOT NULL,
 	"organisation_id" uuid NOT NULL,
-	CONSTRAINT "userOrganisation_user_id_organisation_id_pk" PRIMARY KEY("user_id","organisation_id")
+	CONSTRAINT "user_organisation_user_id_organisation_id_pk" PRIMARY KEY("user_id","organisation_id")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "session" (
@@ -63,13 +63,13 @@ CREATE TABLE IF NOT EXISTS "user" (
 );
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "chatMessage" ADD CONSTRAINT "chatMessage_chat_id_chat_id_fk" FOREIGN KEY ("chat_id") REFERENCES "public"."chat"("id") ON DELETE cascade ON UPDATE no action;
+ ALTER TABLE "chat_message" ADD CONSTRAINT "chat_message_chat_id_chat_id_fk" FOREIGN KEY ("chat_id") REFERENCES "public"."chat"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "chatMessage" ADD CONSTRAINT "chatMessage_author_id_user_id_fk" FOREIGN KEY ("author_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+ ALTER TABLE "chat_message" ADD CONSTRAINT "chat_message_author_id_user_id_fk" FOREIGN KEY ("author_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
@@ -93,13 +93,13 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "userOrganisation" ADD CONSTRAINT "userOrganisation_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
+ ALTER TABLE "user_organisation" ADD CONSTRAINT "user_organisation_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
- ALTER TABLE "userOrganisation" ADD CONSTRAINT "userOrganisation_organisation_id_organisation_id_fk" FOREIGN KEY ("organisation_id") REFERENCES "public"."organisation"("id") ON DELETE cascade ON UPDATE no action;
+ ALTER TABLE "user_organisation" ADD CONSTRAINT "user_organisation_organisation_id_organisation_id_fk" FOREIGN KEY ("organisation_id") REFERENCES "public"."organisation"("id") ON DELETE cascade ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
