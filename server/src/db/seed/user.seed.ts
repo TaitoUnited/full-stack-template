@@ -8,34 +8,46 @@ export type User = {
 };
 
 export type UserSeed = {
+  admin: User;
+  manager: User;
+  viewer: User;
   user1: User;
   user2: User;
   user3: User;
-  user4: User;
 };
 
 export async function seed(db: DrizzleDb): Promise<UserSeed> {
+  const admin = await createUser(db, {
+    email: 'admin@test',
+    name: 'Adam Admin',
+  });
+
+  const manager = await createUser(db, {
+    email: 'manager@test',
+    name: 'Mike Manager',
+  });
+
+  const viewer = await createUser(db, {
+    email: 'viewer@test',
+    name: 'Vanessa Viewer',
+  });
+
   const user1 = await createUser(db, {
-    email: 'john@doe.com',
-    name: 'John Doe',
+    email: 'user1@test',
+    name: 'Uma User1',
   });
 
   const user2 = await createUser(db, {
-    email: 'jane@moe.com',
-    name: 'Jane Moe',
+    email: 'user2@test.com',
+    name: 'Ulysses User2',
   });
 
   const user3 = await createUser(db, {
-    email: 'alex@zoe.com',
-    name: 'Alex Zoe',
+    email: 'user3@test.com',
+    name: 'Uriah User3',
   });
 
-  const user4 = await createUser(db, {
-    email: 'mike@poe.com',
-    name: 'Mike Poe',
-  });
-
-  return { user1, user2, user3, user4 };
+  return { admin, manager, viewer, user1, user2, user3 };
 }
 
 // Helpers

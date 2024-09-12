@@ -34,18 +34,23 @@ export async function seed(
 
   await addUserToOrganisation(db, {
     organisationId: organisation1.id,
-    userId: users.user1.id,
+    userId: users.admin.id,
     role: ROLES.ADMIN,
   });
   await addUserToOrganisation(db, {
     organisationId: organisation1.id,
-    userId: users.user2.id,
+    userId: users.manager.id,
     role: ROLES.MANAGER,
   });
   await addUserToOrganisation(db, {
     organisationId: organisation1.id,
-    userId: users.user3.id,
+    userId: users.viewer.id,
     role: ROLES.VIEWER,
+  });
+  await addUserToOrganisation(db, {
+    organisationId: organisation1.id,
+    userId: users.user1.id,
+    role: ROLES.MANAGER,
   });
 
   const organisation2 = await createOrganisation(db, 'Taito Corp');

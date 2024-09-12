@@ -42,6 +42,10 @@ Make sure that everything has been initialized (e.g database, generated schemas)
 
     taito init
 
+Show user accounts and other information that you can use to log in:
+
+    taito info
+
 Open client GUI in browser:
 
     taito open client
@@ -67,10 +71,6 @@ Open www site in browser:
 Open storage bucket named 'bucket' in browser:
 
     taito open bucket   # Log in with minio / secret1234
-
-Show user accounts and other information that you can use to log in:
-
-    taito info
 
 Start and open UI kit:
 
