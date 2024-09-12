@@ -15,7 +15,7 @@
     "db:seed": "tsx ./src/db/seed/index.ts",
     "graphql:generate": "gql.tada generate output",
     "graphql:check": "gql.tada check",
-    "build:prod": "NODE_ENV=production tsc --build tsconfig.json",
+    "build:prod": "NODE_ENV=production tsc --build tsconfig.json && tsc-alias -p tsconfig.json",
     "start:prod": "NODE_ENV=production npm run build:prod && node build/index.js"
   },
   "dependencies": {
@@ -70,6 +70,7 @@
     "gql.tada": "1.8.6",
     "graphql-request": "6.1.0",
     "prettier": "3.3.3",
+    "tsc-alias": "1.8.10",
     "tsx": "4.17.0",
     "typescript": "5.5.4",
     "typescript-eslint": "8.2.0",
