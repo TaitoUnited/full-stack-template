@@ -7,7 +7,7 @@
     "moduleDetection": "force",
     "esModuleInterop": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": false, // noEmit true breaks the prod build
     "noImplicitAny": true,
     "noImplicitOverride": true,
     "noUncheckedIndexedAccess": true,
