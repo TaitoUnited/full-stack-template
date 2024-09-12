@@ -39,6 +39,10 @@ COPY --from=builder /develop/package.json .
 COPY --from=builder /develop/package-lock.json .
 COPY --from=builder /develop/node_modules ./node_modules
 
+# Add migrations just in case these are occasionally run manually
+RUN mkdir -p /service/src/db/migrations
+COPY --from=builder /develop/src/db/migrations ./src/db/migrations
+
 # Delete development libraries and create node user if it doesn't exist
 RUN npm prune --production && \
     addgroup -S -g 74839 node || \
