@@ -18,22 +18,22 @@ export type UserSeed = {
 
 export async function seed(db: DrizzleDb): Promise<UserSeed> {
   const admin = await createUser(db, {
-    email: 'admin@test',
+    email: 'admin@test.com',
     name: 'Adam Admin',
   });
 
   const manager = await createUser(db, {
-    email: 'manager@test',
+    email: 'manager@test.com',
     name: 'Mike Manager',
   });
 
   const viewer = await createUser(db, {
-    email: 'viewer@test',
+    email: 'viewer@test.com',
     name: 'Vanessa Viewer',
   });
 
   const user1 = await createUser(db, {
-    email: 'user1@test',
+    email: 'user1@test.com',
     name: 'Uma User1',
   });
 
