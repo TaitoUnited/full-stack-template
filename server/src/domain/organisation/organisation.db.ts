@@ -21,6 +21,8 @@ export const organisationTable = pgTable('organisation', {
 });
 
 export const userOrganisationTable = pgTable(
+  // TODO: use snake_case on database and camelCase in code.
+  // Should we use singular or plural database table names?
   'userOrganisation',
   {
     createdAt: timestamp('created_at').notNull().defaultNow(),
