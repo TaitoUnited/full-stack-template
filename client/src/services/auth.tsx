@@ -14,18 +14,15 @@ import {
   getApolloClient,
 } from '~graphql';
 
-type AuthStatus =
-  | 'undetermined'
-  | 'determining'
-  | 'logging-in'
-  | 'logging-out'
-  | 'authenticated'
-  | 'unauthenticated';
+type AuthState =
+  | { status: 'undetermined'; organisation: null }
+  | { status: 'determining'; organisation: null }
+  | { status: 'logging-in'; organisation: null }
+  | { status: 'logging-out'; organisation: string }
+  | { status: 'authenticated'; organisation: string }
+  | { status: 'unauthenticated'; organisation: null };
 
-const store = create<{
-  status: AuthStatus;
-  organisation: string | null;
-}>(() => ({
+const store = create<AuthState>(() => ({
   status: 'undetermined',
   organisation: null,
 }));
@@ -33,11 +30,19 @@ const store = create<{
 export async function login(variables: { email: string; password: string }) {
   const apolloClient = getApolloClient();
 
+  store.setState({ status: 'logging-in' });
+
   try {
-    store.setState({ status: 'logging-in' });
     await apolloClient.mutate({ mutation: LoginDocument, variables });
+
+    const organisation = await getUserOrganisation();
+
+    if (!organisation) {
+      throw new Error('User does not belong to any organisation');
+    }
+
     storage.clearAll();
-    store.setState({ status: 'authenticated' });
+    store.setState({ status: 'authenticated', organisation: organisation.id });
   } catch (error) {
     store.setState({ status: 'unauthenticated' });
     toast.error(t`Failed to login`);
@@ -47,48 +52,53 @@ export async function login(variables: { email: string; password: string }) {
 export async function logout() {
   const apolloClient = getApolloClient();
 
+  store.setState({ status: 'logging-out' });
+
   try {
-    store.setState({ status: 'logging-out' });
     await apolloClient.mutate({ mutation: LogoutDocument });
     store.setState({ status: 'unauthenticated' });
     await apolloClient.resetStore();
     storage.clearAll();
   } catch (error) {
     console.log('Failed to logout', error);
+    store.setState({ status: 'authenticated' });
     toast.error(t`Failed to logout`);
   }
 }
 
 async function verifyAuth() {
-  const apolloClient = getApolloClient();
+  store.setState({ status: 'determining' });
 
   try {
-    store.setState({ status: 'determining' });
+    const organisation = await getUserOrganisation();
 
-    // Try to get the current logged in user
-    const result = await apolloClient.query<OrganisationsQuery>({
-      query: OrganisationsDocument,
-    });
-
-    /**
-     * TODO: implement organistaions selection UI.
-     * This just automatically selects the first organisation.
-     */
-    const organisation = result.data.organisations?.[0];
-
-    if (organisation) {
-      store.setState({
-        status: 'authenticated',
-        organisation: organisation.id,
-      });
-    } else {
-      store.setState({ status: 'unauthenticated' });
+    if (!organisation) {
+      throw new Error('User does not belong to any organisation');
     }
+
+    store.setState({ status: 'authenticated', organisation: organisation.id });
   } catch (_) {
     store.setState({ status: 'unauthenticated' });
   } finally {
     hideSplashScreen();
   }
+}
+
+async function getUserOrganisation() {
+  const apolloClient = getApolloClient();
+
+  // Try to get the current logged in user
+  const result = await apolloClient.query<OrganisationsQuery>({
+    query: OrganisationsDocument,
+  });
+
+  /**
+   * TODO: implement organistaions selection UI.
+   * This just automatically selects the first organisation.
+   */
+  const organisation = result.data.organisations?.[0];
+
+  return organisation;
 }
 
 export const useAuthStore = store;
