@@ -1,18 +1,35 @@
 {
   "compilerOptions": {
-    "target": "es2019",
+    "lib": ["es2022"],
+    "target": "es2022",
     "module": "commonjs",
-    "strict": true,
+    "moduleResolution": "node",
+    "moduleDetection": "force",
     "esModuleInterop": true,
-    "typeRoots": ["./src/common/typings", "./node_modules/@types"],
-    "outDir": "../build",
-    "sourceMap": true,
+    "isolatedModules": true,
+    "noEmit": false, // noEmit true breaks the prod build
     "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noUncheckedIndexedAccess": true,
+    "outDir": "../build",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": false,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "skipLibCheck": true
+    "typeRoots": ["./src/types", "./node_modules/@types"],
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./src/*"]
+    },
+    "plugins": [
+      {
+        "name": "gql.tada/ts-plugin",
+        "schema": "./shared/schema.gql",
+        "tadaOutputLocation": "./src/test/graphql-test-env.d.ts"
+      }
+    ]
   },
-  "include": ["shared/**/*.ts", "src/**/*.ts", "index.ts", "test/**/*.ts"]
+  "include": ["index.ts", "shared/**/*.ts", "src/**/*.ts"]
 }

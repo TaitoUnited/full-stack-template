@@ -5,10 +5,10 @@ import { styled } from '~styled-system/jsx';
 
 type Props = {
   createdAt: string;
-  subject: string;
+  title: string;
 };
 
-export function PostListCard({ createdAt, subject }: Props) {
+export function PostListCard({ createdAt, title }: Props) {
   return (
     <Wrapper>
       <Stack
@@ -18,7 +18,7 @@ export function PostListCard({ createdAt, subject }: Props) {
         align="center"
       >
         <Stack direction="column" gap="xs">
-          <Subject variant="body">{subject}</Subject>
+          <Subject variant="body">{title}</Subject>
 
           <Text variant="bodySmall" color="neutral1">
             {format(new Date(createdAt), 'MMM d, yyyy')}

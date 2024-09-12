@@ -16,240 +16,97 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
-  /** The javascript `Date` as string. Type represents date and time as the ISO Date string. */
-  DateTime: { input: any; output: any; }
+  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.This scalar is serialized to a string in ISO 8601 format and parsed from a string in ISO 8601 format. */
+  Date: { input: any; output: any; }
 };
 
-export type Attachment = {
-  __typename?: 'Attachment';
-  contentType: Scalars['String']['output'];
-  createdAt: Scalars['DateTime']['output'];
-  description?: Maybe<Scalars['String']['output']>;
-  fileUrl?: Maybe<Scalars['String']['output']>;
-  filename?: Maybe<Scalars['String']['output']>;
+export type LoginResponse = {
+  __typename?: 'LoginResponse';
+  status: Scalars['String']['output'];
+};
+
+export type LoginTokenResponse = {
+  __typename?: 'LoginTokenResponse';
+  sessionId: Scalars['String']['output'];
+};
+
+export type LogoutResponse = {
+  __typename?: 'LogoutResponse';
+  status: Scalars['String']['output'];
+};
+
+export type LogoutTokenResponse = {
+  __typename?: 'LogoutTokenResponse';
+  status: Scalars['String']['output'];
+};
+
+export type Message = {
+  __typename?: 'Message';
+  author?: Maybe<User>;
+  authorId?: Maybe<Scalars['String']['output']>;
+  authorType: Scalars['String']['output'];
+  content: Scalars['String']['output'];
   id: Scalars['ID']['output'];
-  title?: Maybe<Scalars['String']['output']>;
-  updatedAt: Scalars['DateTime']['output'];
-};
-
-export type AttachmentFilter = {
-  attachmentType: Scalars['String']['input'];
-  contentType: Scalars['String']['input'];
-  createdAt: Scalars['DateTime']['input'];
-  description: Scalars['String']['input'];
-  filename: Scalars['String']['input'];
-  id: Scalars['String']['input'];
-  postId: Scalars['String']['input'];
-  title: Scalars['String']['input'];
-  updatedAt: Scalars['DateTime']['input'];
-};
-
-export type AttachmentUploadRequestDetails = {
-  __typename?: 'AttachmentUploadRequestDetails';
-  headers: Array<KeyValue>;
-  id: Scalars['String']['output'];
-  url: Scalars['String']['output'];
-};
-
-export type CreateAttachmentInput = {
-  contentType: Scalars['String']['input'];
-  description?: InputMaybe<Scalars['String']['input']>;
-  filename?: InputMaybe<Scalars['String']['input']>;
-  title?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type CreateAttachmentInputBase = {
-  contentType: Scalars['String']['input'];
-  filename?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type CreatePostAttachmentInput = {
-  contentType: Scalars['String']['input'];
-  description?: InputMaybe<Scalars['String']['input']>;
-  filename?: InputMaybe<Scalars['String']['input']>;
-  postId: Scalars['String']['input'];
-  title?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type CreatePostInput = {
-  author: Scalars['String']['input'];
-  content: Scalars['String']['input'];
-  subject: Scalars['String']['input'];
-};
-
-export type DeleteAttachmentInput = {
-  id: Scalars['String']['input'];
-};
-
-export type DeletePostAttachmentInput = {
-  id: Scalars['String']['input'];
-  postId: Scalars['String']['input'];
-};
-
-export type DeletePostInput = {
-  id: Scalars['String']['input'];
-};
-
-export type Filter = {
-  field: Scalars['String']['input'];
-  operator: FilterOperator;
-  value?: InputMaybe<Scalars['String']['input']>;
-  /** Determines how the value is treated */
-  valueType?: ValueType;
-};
-
-export type FilterGroup = {
-  filters: Array<Filter>;
-  operator: FilterLogicalOperator;
-};
-
-export enum FilterLogicalOperator {
-  And = 'AND',
-  Or = 'OR'
-}
-
-export enum FilterOperator {
-  Eq = 'EQ',
-  Gt = 'GT',
-  Gte = 'GTE',
-  Ilike = 'ILIKE',
-  Like = 'LIKE',
-  Lt = 'LT',
-  Lte = 'LTE',
-  Neq = 'NEQ'
-}
-
-export type FinalizePostAttachmentInput = {
-  id: Scalars['String']['input'];
-  postId: Scalars['String']['input'];
-};
-
-export type KeyValue = {
-  __typename?: 'KeyValue';
-  key: Scalars['String']['output'];
-  value: Scalars['String']['output'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  /** Creates a new post. */
   createPost: Post;
-  /**
-   *
-   *       Creates a new attachment for post.
-   *       Returns URL and HTTP headers that should be used to upload the file using HTTP PUT.
-   *
-   */
-  createPostAttachment: AttachmentUploadRequestDetails;
-  /** Deletes a post. */
-  deletePost: Post;
-  /** Deletes post attachment. Returns attachment that was deleted. */
-  deletePostAttachment: Attachment;
-  /** Finalizes uploaded post attachment. Call this after successful HTTP PUT upload. */
-  finalizePostAttachment: Attachment;
-  /** Updates a post. */
-  updatePost: Post;
-  /** Updates post attachment. */
-  updatePostAttachment: Attachment;
+  login: LoginResponse;
+  loginToken: LoginTokenResponse;
+  logout: LogoutResponse;
+  logoutToken: LogoutTokenResponse;
 };
 
 
 export type MutationCreatePostArgs = {
-  input: CreatePostInput;
+  content: Scalars['String']['input'];
+  title: Scalars['String']['input'];
 };
 
 
-export type MutationCreatePostAttachmentArgs = {
-  input: CreatePostAttachmentInput;
+export type MutationLoginArgs = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 
-export type MutationDeletePostArgs = {
-  input: DeletePostInput;
+export type MutationLoginTokenArgs = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
-
-export type MutationDeletePostAttachmentArgs = {
-  input: DeletePostAttachmentInput;
-};
-
-
-export type MutationFinalizePostAttachmentArgs = {
-  input: FinalizePostAttachmentInput;
-};
-
-
-export type MutationUpdatePostArgs = {
-  input: UpdatePostInput;
-};
-
-
-export type MutationUpdatePostAttachmentArgs = {
-  input: UpdatePostAttachmentInput;
-};
-
-export type Order = {
-  /** Determines whether to sort ascending or descending. */
-  dir?: OrderDirection;
-  field: Scalars['String']['input'];
-  /** Determines whether NULL values are ordered first or last. */
-  invertNullOrder?: Scalars['Boolean']['input'];
-};
-
-export enum OrderDirection {
-  Asc = 'ASC',
-  Desc = 'DESC'
-}
-
-export type PaginatedAttachments = {
-  __typename?: 'PaginatedAttachments';
-  data: Array<Attachment>;
-  total: Scalars['Float']['output'];
-};
-
-export type PaginatedPosts = {
-  __typename?: 'PaginatedPosts';
-  data: Array<Post>;
-  total: Scalars['Float']['output'];
-};
-
-export type Pagination = {
-  limit: Scalars['Float']['input'];
-  offset: Scalars['Float']['input'];
+export type Organisation = {
+  __typename?: 'Organisation';
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
 };
 
 export type Post = {
   __typename?: 'Post';
-  attachments: PaginatedAttachments;
-  author: Scalars['String']['output'];
+  author?: Maybe<User>;
+  authorId: Scalars['String']['output'];
   content: Scalars['String']['output'];
-  createdAt: Scalars['DateTime']['output'];
-  id: Scalars['ID']['output'];
-  subject: Scalars['String']['output'];
-  updatedAt: Scalars['DateTime']['output'];
-};
-
-
-export type PostAttachmentsArgs = {
-  attachmentOrder?: InputMaybe<Order>;
-};
-
-export type PostFilter = {
-  createdAt: Scalars['DateTime']['input'];
-  id: Scalars['String']['input'];
-  updatedAt: Scalars['DateTime']['input'];
+  createdAt: Scalars['Date']['output'];
+  id: Scalars['String']['output'];
+  title: Scalars['String']['output'];
 };
 
 export type Query = {
   __typename?: 'Query';
-  /** Returns all MIME types allowed for post attachments. */
-  allowedPostAttachmentMimeTypes: Array<Scalars['String']['output']>;
-  /** Reads a post. */
-  post: Post;
-  /** Reads a post attachment. */
-  postAttachment: Attachment;
-  /** Searches posts. */
-  posts: PaginatedPosts;
+  chat: Array<Message>;
+  me?: Maybe<User>;
+  organisation?: Maybe<Organisation>;
+  organisations?: Maybe<Array<Organisation>>;
+  post?: Maybe<Post>;
+  posts: Array<Post>;
+  user?: Maybe<User>;
+  users: Array<User>;
+};
+
+
+export type QueryOrganisationArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -258,88 +115,116 @@ export type QueryPostArgs = {
 };
 
 
-export type QueryPostAttachmentArgs = {
-  input: ReadPostAttachmentInput;
-};
-
-
 export type QueryPostsArgs = {
-  filterGroups?: Array<FilterGroup>;
-  order?: Order;
-  pagination?: Pagination;
   search?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type ReadPostAttachmentInput = {
-  id: Scalars['String']['input'];
-  postId: Scalars['String']['input'];
-};
 
-export type RequestDetails = {
-  __typename?: 'RequestDetails';
-  headers: Array<KeyValue>;
-  url: Scalars['String']['output'];
-};
-
-export type UpdateAttachmentInput = {
-  description?: InputMaybe<Scalars['String']['input']>;
-  id: Scalars['String']['input'];
-  title?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type UpdateAttachmentInputBase = {
+export type QueryUserArgs = {
   id: Scalars['String']['input'];
 };
 
-export type UpdatePostAttachmentInput = {
-  description?: InputMaybe<Scalars['String']['input']>;
-  id: Scalars['String']['input'];
-  postId: Scalars['String']['input'];
-  title?: InputMaybe<Scalars['String']['input']>;
+
+export type QueryUsersArgs = {
+  search?: InputMaybe<Scalars['String']['input']>;
 };
 
-export type UpdatePostInput = {
-  author?: InputMaybe<Scalars['String']['input']>;
-  content?: InputMaybe<Scalars['String']['input']>;
-  id: Scalars['String']['input'];
-  subject?: InputMaybe<Scalars['String']['input']>;
+export type User = {
+  __typename?: 'User';
+  email: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  name: Scalars['String']['output'];
 };
 
-export enum ValueType {
-  Date = 'DATE',
-  Number = 'NUMBER',
-  Text = 'TEXT'
-}
+export type OrganisationsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type OrganisationsQuery = { __typename?: 'Query', organisations?: Array<{ __typename?: 'Organisation', id: string }> | null };
 
 export type CreatePostMutationVariables = Exact<{
-  subject: Scalars['String']['input'];
-  author: Scalars['String']['input'];
+  title: Scalars['String']['input'];
   content: Scalars['String']['input'];
 }>;
 
 
-export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', id: string } };
+export type CreatePostMutation = { __typename?: 'Mutation', createPost: { __typename?: 'Post', id: string, title: string, content: string } };
 
-export type PostListQueryVariables = Exact<{
-  order?: InputMaybe<Order>;
-  pagination?: InputMaybe<Pagination>;
-}>;
+export type PostListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PostListQuery = { __typename?: 'Query', posts: { __typename?: 'PaginatedPosts', total: number, data: Array<{ __typename?: 'Post', id: string, subject: string, createdAt: any }> } };
+export type PostListQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', id: string, title: string, createdAt: any }> };
 
 export type PostQueryVariables = Exact<{
   id: Scalars['String']['input'];
 }>;
 
 
-export type PostQuery = { __typename?: 'Query', post: { __typename?: 'Post', id: string, createdAt: any, author: string, subject: string, content: string } };
+export type PostQuery = { __typename?: 'Query', post?: { __typename?: 'Post', id: string, title: string, content: string, createdAt: any, author?: { __typename?: 'User', id: string, name: string } | null } | null };
+
+export type LoginMutationVariables = Exact<{
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+}>;
 
 
-export const CreatePostDocument = gql`
-    mutation CreatePost($subject: String!, $author: String!, $content: String!) {
-  createPost(input: {subject: $subject, author: $author, content: $content}) {
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'LoginResponse', status: string } };
+
+export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutMutation = { __typename?: 'Mutation', logout: { __typename?: 'LogoutResponse', status: string } };
+
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string } | null };
+
+
+export const OrganisationsDocument = gql`
+    query Organisations {
+  organisations {
     id
+  }
+}
+    `;
+
+/**
+ * __useOrganisationsQuery__
+ *
+ * To run a query within a React component, call `useOrganisationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOrganisationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOrganisationsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOrganisationsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<OrganisationsQuery, OrganisationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<OrganisationsQuery, OrganisationsQueryVariables>(OrganisationsDocument, options);
+      }
+export function useOrganisationsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<OrganisationsQuery, OrganisationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<OrganisationsQuery, OrganisationsQueryVariables>(OrganisationsDocument, options);
+        }
+export function useOrganisationsSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<OrganisationsQuery, OrganisationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useSuspenseQuery<OrganisationsQuery, OrganisationsQueryVariables>(OrganisationsDocument, options);
+        }
+export type OrganisationsQueryHookResult = ReturnType<typeof useOrganisationsQuery>;
+export type OrganisationsLazyQueryHookResult = ReturnType<typeof useOrganisationsLazyQuery>;
+export type OrganisationsSuspenseQueryHookResult = ReturnType<typeof useOrganisationsSuspenseQuery>;
+export type OrganisationsQueryResult = Apollo.QueryResult<OrganisationsQuery, OrganisationsQueryVariables>;
+export const CreatePostDocument = gql`
+    mutation CreatePost($title: String!, $content: String!) {
+  createPost(title: $title, content: $content) {
+    id
+    title
+    content
   }
 }
     `;
@@ -358,8 +243,7 @@ export type CreatePostMutationFn = Apollo.MutationFunction<CreatePostMutation, C
  * @example
  * const [createPostMutation, { data, loading, error }] = useCreatePostMutation({
  *   variables: {
- *      subject: // value for 'subject'
- *      author: // value for 'author'
+ *      title: // value for 'title'
  *      content: // value for 'content'
  *   },
  * });
@@ -372,14 +256,11 @@ export type CreatePostMutationHookResult = ReturnType<typeof useCreatePostMutati
 export type CreatePostMutationResult = Apollo.MutationResult<CreatePostMutation>;
 export type CreatePostMutationOptions = Apollo.BaseMutationOptions<CreatePostMutation, CreatePostMutationVariables>;
 export const PostListDocument = gql`
-    query PostList($order: Order, $pagination: Pagination) {
-  posts(order: $order, pagination: $pagination) {
-    total
-    data {
-      id
-      subject
-      createdAt
-    }
+    query PostList {
+  posts {
+    id
+    title
+    createdAt
   }
 }
     `;
@@ -396,8 +277,6 @@ export const PostListDocument = gql`
  * @example
  * const { data, loading, error } = usePostListQuery({
  *   variables: {
- *      order: // value for 'order'
- *      pagination: // value for 'pagination'
  *   },
  * });
  */
@@ -421,10 +300,13 @@ export const PostDocument = gql`
     query Post($id: String!) {
   post(id: $id) {
     id
-    createdAt
-    author
-    subject
+    title
     content
+    createdAt
+    author {
+      id
+      name
+    }
   }
 }
     `;
@@ -461,3 +343,108 @@ export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
 export type PostLazyQueryHookResult = ReturnType<typeof usePostLazyQuery>;
 export type PostSuspenseQueryHookResult = ReturnType<typeof usePostSuspenseQuery>;
 export type PostQueryResult = Apollo.QueryResult<PostQuery, PostQueryVariables>;
+export const LoginDocument = gql`
+    mutation Login($email: String!, $password: String!) {
+  login(email: $email, password: $password) {
+    status
+  }
+}
+    `;
+export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
+
+/**
+ * __useLoginMutation__
+ *
+ * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginMutation, { data, loading, error }] = useLoginMutation({
+ *   variables: {
+ *      email: // value for 'email'
+ *      password: // value for 'password'
+ *   },
+ * });
+ */
+export function useLoginMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
+      }
+export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
+export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const LogoutDocument = gql`
+    mutation Logout {
+  logout {
+    status
+  }
+}
+    `;
+export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>;
+
+/**
+ * __useLogoutMutation__
+ *
+ * To run a mutation, you first call `useLogoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLogoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [logoutMutation, { data, loading, error }] = useLogoutMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLogoutMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, options);
+      }
+export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
+export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export const MeDocument = gql`
+    query Me {
+  me {
+    id
+  }
+}
+    `;
+
+/**
+ * __useMeQuery__
+ *
+ * To run a query within a React component, call `useMeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMeQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<MeQuery, MeQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return ApolloReactHooks.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+      }
+export function useMeLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+        }
+export function useMeSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<MeQuery, MeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return ApolloReactHooks.useSuspenseQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+        }
+export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
+export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
+export type MeSuspenseQueryHookResult = ReturnType<typeof useMeSuspenseQuery>;
+export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;

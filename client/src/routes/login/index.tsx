@@ -5,11 +5,11 @@ import { t, Trans } from '@lingui/macro';
 import { styled } from '~styled-system/jsx';
 import { Text, TextInput, Stack, Button } from '~uikit';
 import { useDocumentTitle } from '~hooks/useDocumentTitle';
-import { useAuth } from '~services/auth';
+import { login, useAuthStore } from '~services/auth';
 
 export default function LoginRoute() {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
-  const auth = useAuth();
+  const authStatus = useAuthStore(state => state.status);
 
   function handleChange(
     event: FormEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -20,12 +20,12 @@ export default function LoginRoute() {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    auth.login(credentials);
+    login(credentials);
   }
 
   useDocumentTitle(t`Login`);
 
-  if (auth.status === 'authenticated') {
+  if (authStatus === 'authenticated') {
     return <Navigate to="/" replace={true} />;
   }
 
@@ -49,7 +49,7 @@ export default function LoginRoute() {
               label={t`Password`}
               name="password"
               type="password"
-              icon="eyeOff"
+              icon="fingerprint"
               value={credentials.password}
               onInput={handleChange}
             />
@@ -58,10 +58,10 @@ export default function LoginRoute() {
               size="large"
               variant="filled"
               color="primary"
-              isLoading={auth.status === 'logging-in'}
+              isLoading={authStatus === 'logging-in'}
               data-testid="login"
             >
-              {auth.status === 'logging-in' ? (
+              {authStatus === 'logging-in' ? (
                 <Trans>Logging in</Trans>
               ) : (
                 <Trans>Submit</Trans>

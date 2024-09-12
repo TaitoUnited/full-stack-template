@@ -96,6 +96,13 @@ services:
       - DATABASE_SSL_KEY
     environment:
       taito_running_tests: "true"
+      # DB settings for running migrations using the server image
+      DATABASE_HOST: full-stack-template-database-proxy
+      DATABASE_NAME: ${db_database_name}
+      DATABASE_USER: ${db_database_mgr_username}
+      DATABASE_SSL_ENABLED: ${db_database_ssl_enabled}
+      DATABASE_SSL_CLIENT_CERT_ENABLED: ${db_database_ssl_client_cert_enabled}
+      DATABASE_SSL_SERVER_CERT_ENABLED: ${db_database_ssl_server_cert_enabled}
 
   # Taito CLI container serves as a database proxy
   full-stack-template-database-proxy:

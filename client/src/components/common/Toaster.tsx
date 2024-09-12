@@ -22,7 +22,7 @@ export function Toaster() {
   return (
     <HotToaster
       toastOptions={{
-        duration: 50000,
+        duration: 3000, // 3 seconds
         className: styles({ type: 'info' }),
         success: {
           icon: <Icon name="check" size={24} color="successContrast" />,

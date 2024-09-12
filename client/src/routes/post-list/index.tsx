@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { t, Trans } from '@lingui/macro';
 import { Outlet, useNavigate } from 'react-router-dom';
 
@@ -6,21 +5,13 @@ import { PostListCard } from './PostListCard';
 import { UnstyledLink } from '~components/navigation/Link';
 import { useDocumentTitle } from '~hooks/useDocumentTitle';
 import { stack } from '~styled-system/patterns';
-import { Text, Stack, Button, Select } from '~uikit';
-import { OrderDirection, usePostListSuspenseQuery } from '~graphql';
-import { css } from '~styled-system/css';
+import { Text, Stack, Button } from '~uikit';
+import { usePostListSuspenseQuery } from '~graphql';
 
 export default function PostListRoute() {
   const navigate = useNavigate();
-
-  // TODO: add sort to URL params
-  const [sort, setSort] = useState(OrderDirection.Desc);
-
-  const { data, suspending } = usePostListSuspenseQuery({
-    variables: { order: { field: 'createdAt', dir: sort } },
-  });
-
-  const posts = data.posts.data;
+  const { data, suspending } = usePostListSuspenseQuery();
+  const { posts } = data;
 
   useDocumentTitle(t`Blog`);
 
@@ -31,7 +22,8 @@ export default function PostListRoute() {
           <Trans>Blog</Trans>
         </Text>
 
-        <div className={css({ maxWidth: '200px' })}>
+        {/* TODO: enable ordering */}
+        {/* <div className={css({ maxWidth: '200px' })}>
           <Select
             label={t`Sort by`}
             selectedKey={sort}
@@ -41,7 +33,7 @@ export default function PostListRoute() {
               { label: t`Oldest`, value: OrderDirection.Asc },
             ]}
           />
-        </div>
+        </div> */}
 
         {suspending && <Text variant="body">Loading...</Text>}
 
@@ -55,7 +47,7 @@ export default function PostListRoute() {
                 <UnstyledLink to={post.id}>
                   <PostListCard
                     createdAt={post.createdAt}
-                    subject={post.subject || ''}
+                    title={post.title || ''}
                   />
                 </UnstyledLink>
               </li>

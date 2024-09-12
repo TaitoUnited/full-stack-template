@@ -1,6 +1,6 @@
 # This file is used to run your application locally with Docker Compose
 
-version: '3.8'
+version: "3.8"
 services:
   full-stack-template-ingress:
     container_name: full-stack-template-ingress
@@ -27,7 +27,7 @@ services:
     ports:
       - "8080"
       # WARNING: Do not ever remove the 127.0.0.1 as on some systems Docker host ports are exposed outside the Firewall!
-      - "127.0.0.1:9997:9997"     # For lazy compilation
+      - "127.0.0.1:9997:9997" # For lazy compilation
     volumes:
       - "./admin:/develop:delegated"
       - "./shared:/develop/shared:delegated"
@@ -36,15 +36,15 @@ services:
     environment:
       # Paths
       BASE_PATH: /admin
-      REPLACE_BASE_PATH: /admin   # For Dockerfile.build
+      REPLACE_BASE_PATH: /admin # For Dockerfile.build
       ASSETS_PATH: /admin
       REPLACE_ASSETS_PATH: /admin # For Dockerfile.build
-      ASSETS_DOMAIN: ''
-      REPLACE_ASSETS_DOMAIN: ''   # For Dockerfile.build
-      API_ROOT: ''
+      ASSETS_DOMAIN: ""
+      REPLACE_ASSETS_DOMAIN: "" # For Dockerfile.build
+      API_ROOT: ""
       API_URL: /api
       COMMON_PUBLIC_PORT: 9999
-      COMPILE_PORT: 9997          # For lazy compilation
+      COMPILE_PORT: 9997 # For lazy compilation
       # Host specific variables
       DOCKER_HOST: ${DOCKER_HOST}
 
@@ -69,16 +69,16 @@ services:
       - DATABASE_PASSWORD
     environment:
       # Paths
-      BASE_PATH: ''
-      REPLACE_BASE_PATH: ''       # For Dockerfile.build
-      ASSETS_PATH: ''
-      REPLACE_ASSETS_PATH: ''     # For Dockerfile.build
-      ASSETS_DOMAIN: ''
-      REPLACE_ASSETS_DOMAIN: ''   # For Dockerfile.build
-      API_ROOT: ''
+      BASE_PATH: ""
+      REPLACE_BASE_PATH: "" # For Dockerfile.build
+      ASSETS_PATH: ""
+      REPLACE_ASSETS_PATH: "" # For Dockerfile.build
+      ASSETS_DOMAIN: ""
+      REPLACE_ASSETS_DOMAIN: "" # For Dockerfile.build
+      API_ROOT: ""
       API_URL: /api
       COMMON_PUBLIC_PORT: 9999
-      COMPILE_PORT: 9998          # For lazy compilation
+      COMPILE_PORT: 9998 # For lazy compilation
       # Host specific variables
       DOCKER_HOST: ${DOCKER_HOST}
       # Services
@@ -121,18 +121,19 @@ services:
       # Common variables
       COMMON_COMPANY: companyname
       COMMON_PROJECT: full-stack-template
-      COMMON_DEBUG: 'false'
+      COMMON_DEBUG: "false"
       COMMON_LOG_FORMAT: text
-      COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
+      COMMON_LOG_LEVEL: info # trace, debug, info, warn, error, fatal
       COMMON_ENV: local
+      COMMON_URL: http://localhost:9999
       # Services
       SENTRY_DSN: #sentryDSN
       DATABASE_HOST: full-stack-template-database
       DATABASE_PORT: ${db_database_port}
       DATABASE_NAME: ${db_database_name}
       DATABASE_USER: ${db_database_app_username}
-      DATABASE_POOL_MIN: '1'
-      DATABASE_POOL_MAX: '10'
+      DATABASE_POOL_MIN: "1"
+      DATABASE_POOL_MAX: "10"
       DATABASE_SSL_ENABLED: "${db_database_ssl_enabled}"
       DATABASE_SSL_CLIENT_CERT_ENABLED: "${db_database_ssl_client_cert_enabled}"
       DATABASE_SSL_SERVER_CERT_ENABLED: "${db_database_ssl_server_cert_enabled}"
@@ -141,7 +142,7 @@ services:
       BUCKET_BUCKET: bucket
       BUCKET_REGION: milkyway
       BUCKET_ENDPOINT: http://full-stack-template-storage:9000/
-      BUCKET_FORCE_PATH_STYLE: 'true'
+      BUCKET_FORCE_PATH_STYLE: "true"
       BUCKET_KEY_ID: minio
       BUCKET_KEY_SECRET: ${taito_default_password}
       # Enable api docs and GraphQL/Swagger playground in local environment
@@ -179,9 +180,9 @@ services:
       # Common variables
       COMMON_COMPANY: companyname
       COMMON_PROJECT: full-stack-template
-      COMMON_DEBUG: 'false'
+      COMMON_DEBUG: "false"
       COMMON_LOG_FORMAT: text
-      COMMON_LOG_LEVEL: info      # trace, debug, info, warn, error, fatal
+      COMMON_LOG_LEVEL: info # trace, debug, info, warn, error, fatal
       COMMON_ENV: local
       COMMON_DOMAIN: localhost
       # Services
@@ -190,8 +191,8 @@ services:
       DATABASE_PORT: ${db_database_port}
       DATABASE_NAME: ${db_database_name}
       DATABASE_USER: ${db_database_app_username}
-      DATABASE_POOL_MIN: '1'
-      DATABASE_POOL_MAX: '10'
+      DATABASE_POOL_MIN: "1"
+      DATABASE_POOL_MAX: "10"
       DATABASE_SSL_ENABLED: "${db_database_ssl_enabled}"
       DATABASE_SSL_CLIENT_CERT_ENABLED: "${db_database_ssl_client_cert_enabled}"
       DATABASE_SSL_SERVER_CERT_ENABLED: "${db_database_ssl_server_cert_enabled}"
@@ -200,7 +201,7 @@ services:
       BUCKET_BUCKET: bucket
       BUCKET_REGION: milkyway
       BUCKET_ENDPOINT: http://full-stack-template-storage:9000/
-      BUCKET_FORCE_PATH_STYLE: 'true'
+      BUCKET_FORCE_PATH_STYLE: "true"
       BUCKET_KEY_ID: minio
       BUCKET_KEY_SECRET: ${taito_default_password}
 
@@ -227,11 +228,11 @@ services:
     environment:
       # Paths
       BASE_PATH: /docs
-      REPLACE_BASE_PATH: /docs    # For Dockerfile.build
+      REPLACE_BASE_PATH: /docs # For Dockerfile.build
       ASSETS_PATH: /docs
-      REPLACE_ASSETS_PATH: /docs  # For Dockerfile.build
-      ASSETS_DOMAIN: ''
-      REPLACE_ASSETS_DOMAIN: ''   # For Dockerfile.build
+      REPLACE_ASSETS_PATH: /docs # For Dockerfile.build
+      ASSETS_DOMAIN: ""
+      REPLACE_ASSETS_DOMAIN: "" # For Dockerfile.build
       COMMON_PUBLIC_PORT: 9999
 
   full-stack-template-redis:
@@ -245,14 +246,14 @@ services:
     secrets:
       - REDIS_PASSWORD
     environment:
-      REDIS_PASSWORD_FILE: '/run/secrets/REDIS_PASSWORD'
-      REDIS_AOF_ENABLED: 'no'
+      REDIS_PASSWORD_FILE: "/run/secrets/REDIS_PASSWORD"
+      REDIS_AOF_ENABLED: "no"
 
   # "EXTERNAL RESOURCES"
 
   full-stack-template-database:
     container_name: full-stack-template-database
-    image: postgres:14
+    image: postgres:15
     restart: unless-stopped
     networks:
       - default
@@ -266,8 +267,6 @@ services:
       POSTGRES_USER: ${db_database_app_username}
       POSTGRES_PASSWORD_FILE: /run/secrets/DATABASE_PASSWORD
       MYSQL_ROOT_PASSWORD: ${taito_default_password}
-    volumes:
-      - "./database:/docker-entrypoint-initdb.d:delegated"
 
   full-stack-template-storage:
     container_name: full-stack-template-storage
@@ -305,8 +304,8 @@ services:
   #   container_name: full-stack-template-pgweb
   #   image: sosedoff/pgweb
   #   restart: unless-stopped
-  #   ports: 
-  #     - "8081:8081" 
+  #   ports:
+  #     - "8081:8081"
   #   command: pgweb --bind=0.0.0.0 --listen=8080 --prefix pgweb --url postgres://${db_database_app_username}:${taito_default_password}@full-stack-template-database:${db_database_port}/${db_database_name}?sslmode=disable
 
 secrets:
