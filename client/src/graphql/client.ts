@@ -28,7 +28,7 @@ const cache = new InMemoryCache();
 let __client__: ApolloClient<NormalizedCacheObject>;
 
 export async function setupApolloClient() {
-  const httpLink = new HttpLink({ uri: config.API_URL });
+  const httpLink = new HttpLink({ uri: `${config.API_URL}/graphql` });
 
   // If you need to use subscriptions, uncomment the following block:
   /*
@@ -122,7 +122,7 @@ type ClientQueryParams = Parameters<
 
 export function query<
   Data = any,
-  Variables extends OperationVariables = OperationVariables,
+  Variables extends OperationVariables = OperationVariables
 >(query: ClientQueryParams['query'], variables?: Variables) {
   return __client__.query<Data, Variables>({
     query,
