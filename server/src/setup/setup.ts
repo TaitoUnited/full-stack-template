@@ -22,12 +22,10 @@ export async function setupServer(server: ServerInstance) {
   await server.register(contextPlugin);
 
   /**
-   * Cross-Site Request Forgery (CSRF) protection for production environments.
+   * Cross-Site Request Forgery (CSRF) protection.
    * See: https://lucia-auth.com/guides/validate-session-cookies/
    */
-  await server.register(csrfPlugin, {
-    enabled: config.COMMON_ENV !== 'local' && config.NODE_ENV === 'production',
-  });
+  await server.register(csrfPlugin);
 
   /**
    * Parse and validate the session from cookies and expose `fastify.authenticate`

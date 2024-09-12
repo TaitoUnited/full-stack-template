@@ -83,6 +83,7 @@ export const config = {
   COMMON_DOMAIN: process.env.COMMON_DOMAIN,
   COMMON_IMAGE_TAG: process.env.COMMON_IMAGE_TAG,
   COMMON_ENV: process.env.COMMON_ENV || 'local', // local | dev | test | stag | prod
+  COMMON_URL: process.env.COMMON_URL,
   COMMON_PUBLIC_PORT: process.env.COMMON_PUBLIC_PORT
     ? parseInt(process.env.COMMON_PUBLIC_PORT, 10)
     : null,
