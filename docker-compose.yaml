@@ -252,7 +252,7 @@ services:
 
   full-stack-template-database:
     container_name: full-stack-template-database
-    image: postgres:14
+    image: postgres:15
     restart: unless-stopped
     networks:
       - default
