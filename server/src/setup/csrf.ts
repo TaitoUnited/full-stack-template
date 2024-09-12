@@ -22,7 +22,7 @@ export const csrfPlugin = fastifyPlugin(
         !verifyRequestOrigin(originHeader, [hostHeader])
       ) {
         log.error('Invalid origin', { originHeader, hostHeader });
-        return reply.status(403);
+        return reply.status(403).send('Invalid origin');
       }
     });
   }
