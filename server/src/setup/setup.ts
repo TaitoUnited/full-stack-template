@@ -11,6 +11,7 @@ import { setupErrorHandler } from './error';
 import { csrfPlugin } from './csrf';
 import { setupGraphQL } from './graphql/server';
 import { infraRoutes } from './infra.routes';
+import { organisationRoutes } from '~/domain/organisation/organisation.routes';
 
 export async function setupServer(server: ServerInstance) {
   server.register(multipart);
@@ -46,6 +47,7 @@ export async function setupServer(server: ServerInstance) {
   // NOTE: if you are using GraphQL for all your API endpoints, you can remove these:
   await server.register(sessionRoutes); // login, logout, etc.
   await server.register(postRoutes);
+  await server.register(organisationRoutes);
 
   server.listen(
     { port: config.API_PORT, host: config.API_BINDADDR },

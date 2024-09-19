@@ -7,7 +7,7 @@ export async function postRoutes(server: ServerInstance) {
   server.route({
     method: 'GET',
     url: '/posts',
-    onRequest: [server.authenticate],
+    preHandler: [server.authenticate],
     schema: {
       response: {
         200: Type.Array(
