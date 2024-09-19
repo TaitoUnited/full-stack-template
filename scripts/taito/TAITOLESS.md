@@ -75,7 +75,7 @@ If you would like to use some of the additional commands provided by Taito CLI a
 
 ## Testing
 
-You may run Cypress against any remote environment without Taito CLI or docker. See `client/test/README.md` for more instructions.
+**OUT OF DATE:** You may run Playwright against any remote environment without Taito CLI or docker. See `client/test/README.md` for more instructions.
 
 ## Configuration
 

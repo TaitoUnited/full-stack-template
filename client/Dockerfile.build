@@ -5,9 +5,6 @@
 # to do e2e testing. Otherwise keep the ARGs commented out so that the browsers
 # are not installed unnecessarily.
 
-# Make sure you have the same cypress version specified in package.json!
-# ARG CYPRESS_VERSION='12.16.0'
-
 # Also keep in mind that the browser versions need to be exact versions!
 # Check available versions here: https://github.com/cypress-io/cypress-docker-images/tree/master/factory#api
 # ARG CHROME_VERSION='114.0.5735.198-1'

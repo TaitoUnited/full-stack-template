@@ -5,6 +5,6 @@ export test_name="${2:-*}"
 
 case $suite_name in
   cypress)
-    npm run cypress:run
+    echo "No cypress tests"
     ;;
 esac

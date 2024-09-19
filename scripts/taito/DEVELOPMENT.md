@@ -90,22 +90,23 @@ Run tests:
     taito unit:server                       # run unit tests of server
     taito unit:server format                # run 'format' unit tests of server
 
+> TODO: test naming is out of date
+
     taito test                              # run all integration and end-to-end tests
     taito test:server - post/queries        # run 'post/queries' tests of server default test suite
-    taito test:server jest post/mutations   # run the 'post/mutations' tests of server jest test suite
+    taito test:server integration post/mutations   # run the 'post/mutations' tests of server jest test suite
     taito test:client                       # run all integration and end-to-end tests of client
     taito test:client - posts               # run the 'posts' test of client default test suite
-    taito test:client cypress 'car*'        # run all 'car*' tests of client cypress test suite
 
 > TIP: Use the already existing tests as an example.
 
-Open Cypress user interface:
+Run Playwright:
 
-    taito cypress                           # open cypress for default target (client)
-    taito cypress:client                    # open cypress for client
-    taito cypress:admin                     # open cypress for admin
+    taito playwright                        # run tests in headless mode
+    taito playwright-ui                     # run tests in ui mode to see what is going on in browser
+    taito playwright-debug                  # run tests with debugger
 
-> TIP: Testing personnel may run Cypress against any remote environment without Taito CLI or docker. See `client/test/README.md` for more instructions.
+> TODO: target container and env with playwright
 
 Start shell on a container:
 
@@ -183,7 +184,6 @@ The commands mentioned above work also for server environments (`f-NAME`, `dev`,
     taito open bucket:dev                   # Open storage bucket named 'bucket' on browser
     taito shell:server:dev                  # Start a shell on server container
     taito test:dev                          # Run integration and e2e tests
-    taito cypress:client:dev                # Open cypress for client
     taito init:dev --clean                  # Clean reinit for dev environment
     taito db connect:dev                    # Access database on command line
     taito db proxy:dev                      # Start a proxy for database access

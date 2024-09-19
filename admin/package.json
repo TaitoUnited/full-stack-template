@@ -5,9 +5,7 @@
     "install:clean": "rm -rf node_modules && npm install",
     "lint": "tsc -p . --noEmit && eslint './src/**/*.{ts,tsx}' --ignore-path .eslintignore --quiet",
     "unit": "BABEL_ENV=test jest src/ --passWithNoTests -t",
-    "test": "echo TODO run tests but not cypress",
-    "cypress:run": "echo NOTE: Cypress disabled for admin by default. Add cypress to dockerfiles and run \\'cypress run\\' here. See client as an example.",
-    "cypress:open": "echo NOTE: Cypress disabled for admin by default. Add cypress to dockerfiles and run \\'cypress open\\' here. See client as an example.",
+    "test": "echo TODO run tests",
     "start": "NODE_ENV=development webpack serve --mode development",
     "build": "NODE_ENV=production webpack --mode production --progress",
     "analyze": "ANALYZE_BUNDLE=true npm run build"

@@ -1,7 +1,0 @@
-{
-  "DATABASE_HOST": "127.0.0.1",
-  "DATABASE_PORT": "5001",
-  "DATABASE_NAME": "full_stack_template_dev",
-  "DATABASE_USER": "full_stack_template_dev_app",
-  "DATABASE_PASSWORD": "get dev or test environment db password from Kubernetes"
-}

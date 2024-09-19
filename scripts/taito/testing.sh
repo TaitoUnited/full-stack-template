@@ -29,26 +29,25 @@ else
 fi
 
 # URLs for tests
-test_admin_CYPRESS_baseUrl=$ci_test_base_url/admin
-test_client_CYPRESS_baseUrl=$ci_test_base_url
 test_server_TEST_API_URL=$ci_test_base_url/api
 
+# TODO: Find out if these are useful for playwright or not
 # URLs for running Cypress on local host outside Docker
-if [[ $taito_target_env == "local" ]]; then
-  CYPRESS_baseUrl=$taito_app_url
-  if [[ $taito_target == "admin" ]]; then
-    CYPRESS_baseUrl=$taito_app_url/admin
-    :
-  fi
-  :
-else
-  CYPRESS_baseUrl=$ci_test_base_url
-  if [[ $taito_target == "admin" ]]; then
-    CYPRESS_baseUrl=$ci_test_base_url/admin
-    :
-  fi
-  :
-fi
+# if [[ $taito_target_env == "local" ]]; then
+#   CYPRESS_baseUrl=$taito_app_url
+#   if [[ $taito_target == "admin" ]]; then
+#     CYPRESS_baseUrl=$taito_app_url/admin
+#     :
+#   fi
+#   :
+# else
+#   CYPRESS_baseUrl=$ci_test_base_url
+#   if [[ $taito_target == "admin" ]]; then
+#     CYPRESS_baseUrl=$ci_test_base_url/admin
+#     :
+#   fi
+#   :
+# fi
 
 # Database connection for tests
 if [[ $taito_mode == "ci" ]] && [[ ${ci_disable_db_proxy} == "true" ]]; then

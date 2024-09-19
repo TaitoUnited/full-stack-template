@@ -130,6 +130,7 @@ function prune () {
       sed -i "s/ \\/uptimez / /" scripts/taito/project.sh
       sed -i "/CYPRESS/d" scripts/taito/testing.sh
       sed -i "/cypress/d" scripts/taito/testing.sh
+      # TODO: remove these and implement pruning for playwright
     fi
 
     if [[ $name == "server" ]]; then

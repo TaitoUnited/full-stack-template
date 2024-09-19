@@ -2,8 +2,6 @@ ARG BUILDER_IMAGE='node:20.9.0-alpine'
 ARG RUNTIME_IMAGE='nginx:stable-alpine'
 
 # Builder and tester container for production build
-# NOTE: Use the same cypress version both in Dockerfile and package.json to
-#       avoid unnecessary cypress download
 FROM ${BUILDER_IMAGE} as builder
 
 RUN mkdir -p /develop

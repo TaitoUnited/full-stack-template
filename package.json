@@ -49,7 +49,7 @@
     "taito-host-playwright:client": "cd playwright && TEST_USER_PASSWORD=$test_all_TEST_USER_PASSWORD npm-run-all playwright:test",
     "taito-host-playwright-debug": "npm-run-all taito-host-playwright-debug:client",
     "taito-host-playwright-debug:client": "cd playwright && TEST_USER_PASSWORD=$test_all_TEST_USER_PASSWORD npm-run-all playwright:debug",
-    "taito-host-playwright-ui:client": "cd playwright && TEST_USER_PASSWORD=$test_all_TEST_USER_PASSWORD npm-run-all playwright:ui",
+    "taito-host-playwright-ui": "cd playwright && TEST_USER_PASSWORD=$test_all_TEST_USER_PASSWORD npm-run-all playwright:ui",
     "code-check": "docker run --interactive --tty --rm --env CODECLIMATE_CODE=\"$PWD\" --volume \"$PWD\":/code --volume /var/run/docker.sock:/var/run/docker.sock --volume /tmp/cc:/tmp/cc codeclimate/codeclimate engines:install && docker run --interactive --tty --rm --env CODECLIMATE_CODE=\"$PWD\" --volume \"$PWD\":/code --volume /var/run/docker.sock:/var/run/docker.sock --volume /tmp/cc:/tmp/cc codeclimate/codeclimate analyze",
     "taito-host-code-check": "npm-run-all code-check",
     "_dep-check_comment": "TODO how to pass -u argument from dep-check to dep-check:TARGET?",
