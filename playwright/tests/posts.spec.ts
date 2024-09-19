@@ -1,51 +1,45 @@
-import { test, expect } from '@playwright/test';
+import { test as base, expect } from '@playwright/test';
+
+/**
+ * How to pass needed variables by fixtures
+ */
+const test = base.extend<{ organisation: { id: string; name: string } }>({
+  organisation: async ({ request }, use) => {
+    const res = await request.get('http://localhost:9999/api/organisations');
+
+    const orgs = await res.json();
+
+    await use(orgs[0]);
+  },
+});
 
 test.describe('Posts', () => {
-  test.beforeEach(async ({ request, page }) => {
-    // REST API call example
-    // TODO: Add GraphQL example
-    const req = await request.post('/api/posts?offset=0&limit=1');
-
-    const res = await req.json();
-
-    // Do something with data res.data.at(0) == First post
-
-    // TODO: This example was in cypress tests, might be possible in playwright too
-    // Database call example
-    // NOTE: Prefer API calls.
-    // cy.task('sql', 'select * from post limit 1').then(data => {
-    //   cy.log(JSON.stringify(data));
-    // });
-
-    // Navigate to posts and clear the form
-    await page.goto('/');
-    await page.getByTestId('navigate-to-blog').click();
-    await page.getByTestId('navigate-to-create-post').click();
-    await page.getByLabel('Subject').clear();
-    await page.getByLabel('Author').clear();
-    await page.getByLabel('Content').clear({ force: true });
-  });
-
-  test('Submits a new post', async ({ request, page }) => {
+  test('should submit new post', async ({ request, page, organisation }) => {
     const random = Math.floor(Math.random() * 100000000);
 
-    await page.getByLabel('Subject').fill(`subject-${random}`);
-    await page.getByLabel('Author').fill(`author-${random}`);
+    await page.getByLabel('Title').fill(`subject-${random}`);
     await page.getByLabel('Content').fill(`content-${random}`);
     await page.getByTestId('submit-post').click();
 
-    // Assert
+    // Assert that new post has appeared
     await expect(page.getByTestId('post-list')).toContainText(
       `subject-${random}`
     );
 
     // Assert: API call example
-    // TODO: Add GraphQL example
-    const req = await request.get('/api/posts?offset=0&limit=20');
+    // TODO: Add GraphQL example and fix graphql cors
+    // TODO: Move org id to extraHTTPHeaders if possible
+    const req = await request.get('/api/posts?offset=0&limit=20', {
+      headers: {
+        'x-organisation-id': organisation.id,
+      },
+    });
     const res = await req.json();
-    const post = res.data.at(0);
-    expect(post).toHaveProperty('subject', `subject-${random}`);
-    expect(post).toHaveProperty('author', `author-${random}`);
+    // TODO: fragile if two browsers manage to submit posts right after each other
+    const post = res.at(0);
+    expect(post).toHaveProperty('title', `subject-${random}`);
     expect(post).toHaveProperty('content', `content-${random}`);
+
+    // TODO: delete post or wipe db
   });
 });
