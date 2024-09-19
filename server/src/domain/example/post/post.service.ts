@@ -1,4 +1,4 @@
-import { and, eq, ilike } from 'drizzle-orm';
+import { and, eq, ilike, desc } from 'drizzle-orm';
 
 import { type DrizzleDb } from '~/db';
 import { postTable } from './post.db';
@@ -21,7 +21,8 @@ export async function getPosts(
   return db
     .select()
     .from(postTable)
-    .where(and(organisationCondition, searchCondition));
+    .where(and(organisationCondition, searchCondition))
+    .orderBy(desc(postTable.createdAt));
 }
 
 export async function getPost(
