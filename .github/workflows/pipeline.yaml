@@ -25,10 +25,13 @@ jobs:
         taito_ci_phases:
         IMAGE_TAG: ${{ github.sha }}
         DOCKER_HOST_PATH: /home/runner/work/full-stack-template/full-stack-template
+        # NOTE: Cloud credentials can and should be overridden with env prefix (e.g. DEV_GOOGLE_APPLICATION_CREDENTIALS)
+        # TODO: Use GitHub actions environments instead of prefix
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} # For AWS
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # For AWS
         AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }} # For Azure
         AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }} # For Azure
+        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }} # For GCP
     steps:
       # NOTE: GitHub actions runs all jobs on separate virtual machines by
       # default. Currently all steps are run in a single job to avoid pulling
@@ -41,7 +44,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Set environment
         run: echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
-      - name: Set authentication
+      - name: Set authentication based on environment
         run: |
           if [ ! -z "${{ secrets[format('{0}_AWS_ACCESS_KEY_ID', env.BRANCH)] }}" ]; then # For AWS
             echo "AWS_ACCESS_KEY_ID=${{ secrets[format('{0}_AWS_ACCESS_KEY_ID', env.BRANCH)] }}" >> $GITHUB_ENV # For AWS
@@ -51,6 +54,9 @@ jobs:
             echo "AZURE_CLIENT_ID=${{ secrets[format('{0}_AZURE_CLIENT_ID', env.BRANCH)] }}" >> $GITHUB_ENV # For Azure
             echo "AZURE_CLIENT_SECRET=${{ secrets[format('{0}_AZURE_CLIENT_SECRET', env.BRANCH)] }}" >> $GITHUB_ENV # For Azure
           fi # For Azure
+          if [ ! -z "${{ secrets[format('{0}_GOOGLE_APPLICATION_CREDENTIALS', env.BRANCH)] }}" ]; then # For GCP
+            echo "GOOGLE_APPLICATION_CREDENTIALS=${{ secrets[format('{0}_GOOGLE_APPLICATION_CREDENTIALS', env.BRANCH)] }}" >> $GITHUB_ENV # For GCP
+          fi # For GCP
 
       # GitHub Container Registry login
       - name: Login to GitHub Container Registry
