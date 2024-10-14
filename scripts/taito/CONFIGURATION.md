@@ -311,7 +311,7 @@ import { Storage } from '@google-cloud/storage';
 ```
 
 taito_buckets="... archive ..."
-st_archive_name="${taito_random_name}-archive-${taito_env}"
+st_archive_name="${taito_project}-archive-${taito_env}"
 
 ```
 

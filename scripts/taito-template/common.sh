@@ -133,7 +133,7 @@ if [[ $template_default_provider != "azure" ]] &&
 else
   # Use non-random bucket names on Azure
   # TODO: some configurable flag instead?
-  sed -i 's/st_bucket_name="$taito_random_name-$taito_env"/st_bucket_name="$taito_project-$taito_env"/' scripts/taito/project.sh
+  sed -i 's/st_bucket_name="$taito_project-$taito_env"/st_bucket_name="$taito_project-$taito_env"/' scripts/taito/project.sh
 fi
 
 # Remove DigitalOcean specific settings

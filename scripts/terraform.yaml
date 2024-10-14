@@ -72,7 +72,7 @@ settings:
         DATABASE_POOL_MIN: "5"
         DATABASE_POOL_MAX: "10"
         DATABASE_STATEMENT_TIMEOUT: "28000" # 28s to timeout before AWS API Gateway
-        REDIS_HOST: ${taito_random_name}-${taito_env}-001.${taito_random_name}-${taito_env}.nde1c2.use1.cache.amazonaws.com
+        REDIS_HOST: ${taito_project}-${taito_env}-001.${taito_project}-${taito_env}.nde1c2.use1.cache.amazonaws.com
         REDIS_PORT: 6379
         BUCKET_BUCKET: ${st_bucket_name}
         BUCKET_REGION: ${taito_provider_region}
@@ -92,7 +92,7 @@ settings:
 
     redis:
       type: redis
-      name: ${taito_random_name}-${taito_env}
+      name: ${taito_project}-${taito_env}
       replicas: 1
       machineType: cache.t2.small
       zones:

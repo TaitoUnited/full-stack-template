@@ -143,9 +143,6 @@ db_database_type=${taito_default_db_type:-pg}
 if [[ $db_database_type == "pg" ]]; then
   db_database_instance=${default_postgres}
   db_database_name=${taito_project//-/_}_${taito_env//-/_}
-  if [[ ${taito_default_db_shared:-false} == true ]]; then
-    db_database_name=${taito_random_name//-/_}_${taito_env}
-  fi
   db_database_master_username=${default_postgres_master_username}
   db_database_master_password_hint=${default_postgres_master_password_hint}
   db_database_username_suffix=${default_postgres_username_suffix}
