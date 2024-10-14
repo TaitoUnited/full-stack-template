@@ -31,7 +31,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # For AWS
         AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }} # For Azure
         AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }} # For Azure
-        GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }} # For GCP
+        GOOGLE_APPLICATION_CREDENTIALS: ./tmp/GOOGLE_APPLICATION_CREDENTIALS # For GCP
     steps:
       # NOTE: GitHub actions runs all jobs on separate virtual machines by
       # default. Currently all steps are run in a single job to avoid pulling
@@ -46,6 +46,7 @@ jobs:
         run: echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
       - name: Set authentication based on environment
         run: |
+          mkdir -p ./tmp
           if [ ! -z "${{ secrets[format('{0}_AWS_ACCESS_KEY_ID', env.BRANCH)] }}" ]; then # For AWS
             echo "AWS_ACCESS_KEY_ID=${{ secrets[format('{0}_AWS_ACCESS_KEY_ID', env.BRANCH)] }}" >> $GITHUB_ENV # For AWS
             echo "AWS_SECRET_ACCESS_KEY=${{ secrets[format('{0}_AWS_SECRET_ACCESS_KEY', env.BRANCH)] }}" >> $GITHUB_ENV # For AWS
@@ -54,8 +55,9 @@ jobs:
             echo "AZURE_CLIENT_ID=${{ secrets[format('{0}_AZURE_CLIENT_ID', env.BRANCH)] }}" >> $GITHUB_ENV # For Azure
             echo "AZURE_CLIENT_SECRET=${{ secrets[format('{0}_AZURE_CLIENT_SECRET', env.BRANCH)] }}" >> $GITHUB_ENV # For Azure
           fi # For Azure
-          if [ ! -z "${{ secrets[format('{0}_GOOGLE_APPLICATION_CREDENTIALS', env.BRANCH)] }}" ]; then # For GCP
-            echo "GOOGLE_APPLICATION_CREDENTIALS=${{ secrets[format('{0}_GOOGLE_APPLICATION_CREDENTIALS', env.BRANCH)] }}" >> $GITHUB_ENV # For GCP
+          printf "%s" '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_SECRET }}' >> $GOOGLE_APPLICATION_CREDENTIALS # For GCP
+          if [ ! -z "${{ secrets[format('{0}_GOOGLE_APPLICATION_CREDENTIALS_SECRET', env.BRANCH)] }}" ]; then # For GCP
+            echo "${{ secrets[format('{0}_GOOGLE_APPLICATION_CREDENTIALS_SECRET', env.BRANCH)] }}" >> $GOOGLE_APPLICATION_CREDENTIALS # For GCP
           fi # For GCP
 
       # GitHub Container Registry login
