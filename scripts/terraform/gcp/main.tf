@@ -146,7 +146,9 @@ locals {
 
 module "gcp" {
   source  = "TaitoUnited/project-resources/google"
-  version = "3.11.1"
+  version = "3.13.0"
+
+  create_container_image_repositories = var.taito_env == "dev"
 
   create_cicd_service_account    = var.create_cicd_service_account
   create_storage_buckets         = true
@@ -156,6 +158,9 @@ module "gcp" {
   create_service_accounts        = true
   create_service_account_roles   = true
   create_api_keys                = true
+
+  # Infra
+  infra_project_id               = var.taito_zone
 
   # Project
   project                        = var.taito_project

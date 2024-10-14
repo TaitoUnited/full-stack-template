@@ -24,6 +24,10 @@ variable "taito_namespace" {
   type = string
 }
 
+variable "taito_zone" {
+  type = string
+}
+
 # Cloud provider
 
 variable "taito_resource_namespace_id" {
