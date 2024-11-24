@@ -55,9 +55,9 @@ jobs:
             echo "AZURE_CLIENT_ID=${{ secrets[format('{0}_AZURE_CLIENT_ID', env.BRANCH)] }}" >> $GITHUB_ENV # For Azure
             echo "AZURE_CLIENT_SECRET=${{ secrets[format('{0}_AZURE_CLIENT_SECRET', env.BRANCH)] }}" >> $GITHUB_ENV # For Azure
           fi # For Azure
-          printf "%s" '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_SECRET }}' >> $GOOGLE_APPLICATION_CREDENTIALS # For GCP
-          if [ ! -z "${{ secrets[format('{0}_GOOGLE_APPLICATION_CREDENTIALS_SECRET', env.BRANCH)] }}" ]; then # For GCP
-            echo "${{ secrets[format('{0}_GOOGLE_APPLICATION_CREDENTIALS_SECRET', env.BRANCH)] }}" >> $GOOGLE_APPLICATION_CREDENTIALS # For GCP
+          printf "%s" '${{ secrets[format('{0}_GOOGLE_APPLICATION_CREDENTIALS_SECRET', env.BRANCH)] }}' > "$GOOGLE_APPLICATION_CREDENTIALS" # For GCP
+          if [ ! -s "$GOOGLE_APPLICATION_CREDENTIALS" ]; then # For GCP
+            printf "%s" '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_SECRET }}' > "$GOOGLE_APPLICATION_CREDENTIALS" # For GCP
           fi # For GCP
 
       # GitHub Container Registry login
