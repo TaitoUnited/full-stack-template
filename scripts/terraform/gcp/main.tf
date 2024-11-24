@@ -16,6 +16,10 @@ provider "helm" {
   }
 }
 
+provider "kubernetes" {
+  config_path = "~/.kube/config"
+}
+
 locals {
   taito_uptime_channels = (var.taito_uptime_channels == "" ? [] :
     split(" ", trimspace(replace(var.taito_uptime_channels, "/\\s+/", " "))))
@@ -202,11 +206,31 @@ resource "helm_release" "namespace" {
   namespace  = var.taito_namespace
   repository = "https://taitounited.github.io/taito-charts/"
   chart      = "namespace"
-  version    = "1.2.0"
+  version    = "1.3.0"
 
   values = [
     jsonencode(local.namespace)
   ]
+}
+
+resource "kubernetes_labels" "namespace" {
+  depends_on  = [ helm_release.namespace ]
+  count       = var.kubernetes_name != "" ? 1 : 0
+
+  api_version = "v1"
+  kind        = "Namespace"
+
+  metadata {
+    name      = var.taito_namespace
+  }
+  labels = {
+    "pod-security.kubernetes.io/enforce" = "restricted"
+    "pod-security.kubernetes.io/enforce-version" = "latest"
+    "pod-security.kubernetes.io/warn" = "restricted"
+    "pod-security.kubernetes.io/warn-version" = "latest"
+    "pod-security.kubernetes.io/audit" = "restricted"
+    "pod-security.kubernetes.io/audit-version" = "latest"
+  }
 }
 
 /* SENDGRID
