@@ -20,7 +20,8 @@ RUN cp -rp /develop /preview && \
 
 # Build preview
 # TODO: do full build?
-USER node
+# Run as "node" user. Numeric user id required for pod security admission.
+USER 1000
 RUN ( cd /preview && npm run publish:preview )
 
 # Move orig build (/build is replaced with a shared mount)
@@ -30,7 +31,8 @@ RUN mv /build /build-orig && \
     chown -R node:root /build
 
 # Start webhook
-USER node
+# Run as "node" user. Numeric user id required for pod security admission.
+USER 1000
 EXPOSE 9000
 CMD . ~/.bashrc && \
     ./webhook.sh deployment && \

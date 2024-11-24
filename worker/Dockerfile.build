@@ -49,6 +49,7 @@ ENV BUILD_VERSION ${BUILD_VERSION}
 ENV NODE_ENV production
 ENV BASE_PATH /api
 
-USER node
+# Run as "node" user. Numeric user id required for pod security admission.
+USER 1000
 EXPOSE 8080
 CMD ["node", "./index.js"]

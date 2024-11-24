@@ -21,7 +21,8 @@ RUN mkdir -p /build && \
     chown -R node:root /build && \
     chown -R node:root /develop
 
-USER node
+# Run as "node" user. Numeric user id required for pod security admission.
+USER 1000
 RUN . ~/.bashrc && npm ci --loglevel warn --no-audit
 
 # Install site
@@ -68,7 +69,8 @@ RUN find . -name '*.html' -exec chown nginx:nginx {} \; && \
     find . -name 'manifest.json' -exec chown nginx:nginx {} \;
 
 # Startup
-USER nginx
+# Run as "nginx" user. Numeric user id required for pod security admission.
+USER 101
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
 EXPOSE 8080

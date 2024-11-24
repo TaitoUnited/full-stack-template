@@ -25,7 +25,8 @@ RUN npm run build
 
 
 # TODO: Proper production runtime container image
-USER node
+# Run as "node" user. Numeric user id required for pod security admission.
+USER 1000
 ENV NODE_ENV production
 ENV PORT 8080
 EXPOSE 8080

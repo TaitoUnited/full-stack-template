@@ -127,6 +127,7 @@ RUN sed -i '/application\/json/a\    application/wasm wasm;' \
 COPY docker/nginx/nginx.conf /etc/nginx
 COPY --from=php /service/public .
 
-USER nginx
+# Run as "nginx" user. Numeric user id required for pod security admission.
+USER 101
 CMD ["nginx", "-g", "daemon off;"]
 EXPOSE 8080

@@ -31,7 +31,8 @@ RUN find . -name '*.html' -exec chown nginx:nginx {} \; && \
     find . -name 'manifest.json' -exec chown nginx:nginx {} \;
 
 # Startup
-USER nginx
+# Run as "nginx" user. Numeric user id required for pod security admission.
+USER 101
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
 EXPOSE 8080
