@@ -212,7 +212,7 @@ resource "helm_release" "namespace" {
   namespace  = var.taito_namespace
   repository = "https://taitounited.github.io/taito-charts/"
   chart      = "namespace"
-  version    = "1.3.0"
+  version    = "1.4.0"
 
   values = [
     jsonencode(local.namespace)
