@@ -1,0 +1,241 @@
+# Tips for PR environments:
+#
+# - By default PR environment uses all the same settings as dev, but you can
+#   override them on `scripts/helm-pr.yaml`.
+# - Furthermore, you can use custom suffix on your PR branch name (e.g. 'db')
+#   and then add overrides on `scripts/helm-pr-SUFFIX.yaml`. This way you can,
+#   for example, run database in container for all pull-requests that include
+#   database migrations, and use the dev database directly for all the rest.
+# - You can use '-no-env' as PR branch name suffix to skip setting up the PR
+#   environment altogether.
+
+name: CI/CD Pipeline
+on:
+  push:
+    branches: ['dev', 'test', 'qa', 'demo', 'stag', 'canary', 'prod']
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  init:
+    name: Initialize
+    runs-on: ubuntu-latest
+    # GitHub Actions environment is determined based on branch name.
+    # The base_ref contains the target branch (= dev) for pull-requests.
+    environment: ${{ github.base_ref || github.ref_name }}
+    steps:
+      - run: echo "Exposing vars"
+    outputs:
+      # Determine application environment
+      env: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.ref_name }}
+      # TIP: By setting DEPLOYMENT_RUNS_ON variable for your github actions environment,
+      # you can execute the deployment jobs on the same infrastructure that the
+      # application will deployed on.
+      build-runs-on: ${{ vars.BUILD_RUNS_ON || 'gcp-proto-vm' }}
+      deployment-runs-on: ${{ vars.DEPLOYMENT_RUNS_ON || 'gcp-proto-vm' }}
+      test-runs-on: ${{ vars.TEST_RUNS_ON || 'gcp-proto-vm' }}
+
+  prepare-client:
+    name: Prepare client
+    needs: init
+    runs-on: ${{ needs.init.outputs.build-runs-on }}
+    timeout-minutes: 15
+    environment: ${{ github.base_ref || github.ref_name }}
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: ./tmp/GOOGLE_APPLICATION_CREDENTIALS
+      taito_ci_no_env: ${{ endsWith(github.head_ref, '-no-env') }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # TODO: Remove this hack
+      - name: Set Google credentials
+        run: |
+          mkdir -p ./tmp
+          printf "%s" '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_SECRET }}' > "$GOOGLE_APPLICATION_CREDENTIALS"
+
+      - name: Prepare client container image for deployment
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: artifact prepare:client:${{ needs.init.outputs.env }} ${{ github.sha }}
+
+  prepare-server:
+    name: Prepare server
+    needs: init
+    runs-on: ${{ needs.init.outputs.build-runs-on }}
+    timeout-minutes: 15
+    environment: ${{ github.base_ref || github.ref_name }}
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: ./tmp/GOOGLE_APPLICATION_CREDENTIALS
+      taito_ci_no_env: ${{ endsWith(github.head_ref, '-no-env') }}
+      # Server image always needed when running db migrations
+      taito_ci_pull_always: ${{ ! endsWith(github.head_ref, '-no-env') }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: echo env vars
+        run: |
+          echo taito_ci_no_env $taito_ci_no_env
+          echo taito_ci_pull_always $taito_ci_pull_always
+          echo ${{ github.head_ref }}
+          echo ${{ endsWith(github.head_ref, '-no-env') }}
+
+      # TODO: Remove this hack
+      - name: Set Google credentials
+        run: |
+          mkdir -p ./tmp
+          printf "%s" '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_SECRET }}' > "$GOOGLE_APPLICATION_CREDENTIALS"
+
+      - name: Prepare server container image for deployment
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: artifact prepare:server:${{ needs.init.outputs.env }} ${{ github.sha }}
+
+  deploy:
+    name: Deploy
+    if: ${{ ! endsWith(github.head_ref, '-no-env') }}
+    needs: [init, prepare-client, prepare-server]
+    runs-on: ${{ needs.init.outputs.deployment-runs-on }}
+    timeout-minutes: 7
+    environment: ${{ github.base_ref || github.ref_name }}
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: ./tmp/GOOGLE_APPLICATION_CREDENTIALS
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # TODO: Remove this hack
+      - name: Set Google credentials
+        run: |
+          mkdir -p ./tmp
+          printf "%s" '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_SECRET }}' > "$GOOGLE_APPLICATION_CREDENTIALS"
+
+      - name: Create a database for PR if it doesn't already exist
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: db create:${{ needs.init.outputs.env }}
+
+      - name: Deploy database migrations
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: db deploy:${{ needs.init.outputs.env }}
+        env:
+          taito_image: ghcr.io/taitounited/taito-cli:ci-gcp-dev
+          DOCKER_HOST_PATH: ${{ runner.workspace }}/./${{ github.event.repository.name }}
+          COMPOSE_PROJECT_NAME: ${{ runner.name }}
+
+      - name: Deploy the application
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: deployment deploy:${{ needs.init.outputs.env }} ${{ github.sha }} ${{ github.head_ref }}
+
+      - name: Wait for application to start after deployment
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: deployment wait:${{ needs.init.outputs.env }}
+
+  test-client:
+    name: Test client
+    if: ${{ ! endsWith(github.head_ref, '-no-env') }}
+    needs: [init, deploy]
+    runs-on: ${{ needs.init.outputs.test-runs-on }}
+    timeout-minutes: 15
+    environment: ${{ github.base_ref || github.ref_name }}
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: ./tmp/GOOGLE_APPLICATION_CREDENTIALS
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # TODO: Remove this hack
+      - name: Set Google credentials
+        run: |
+          mkdir -p ./tmp
+          printf "%s" '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_SECRET }}' > "$GOOGLE_APPLICATION_CREDENTIALS"
+
+      - name: Run tests
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: test:client:${{ needs.init.outputs.env }}
+        env:
+          taito_image: ghcr.io/taitounited/taito-cli:ci-gcp-dev
+          DOCKER_HOST_PATH: ${{ runner.workspace }}/./${{ github.event.repository.name }}
+          COMPOSE_PROJECT_NAME: ${{ runner.name }}
+
+  test-server:
+    name: Test server
+    if: ${{ ! endsWith(github.head_ref, '-no-env') }}
+    needs: [init, deploy]
+    runs-on: ${{ needs.init.outputs.test-runs-on }}
+    timeout-minutes: 15
+    environment: ${{ github.base_ref || github.ref_name }}
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: ./tmp/GOOGLE_APPLICATION_CREDENTIALS
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # TODO: Remove this hack
+      - name: Set Google credentials
+        run: |
+          mkdir -p ./tmp
+          printf "%s" '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_SECRET }}' > "$GOOGLE_APPLICATION_CREDENTIALS"
+
+      - name: Run tests
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: test:server:${{ needs.init.outputs.env }}
+        env:
+          taito_image: ghcr.io/taitounited/taito-cli:ci-gcp-dev
+          DOCKER_HOST_PATH: ${{ runner.workspace }}/./${{ github.event.repository.name }}
+          COMPOSE_PROJECT_NAME: ${{ runner.name }}
+
+  release:
+    name: Release
+    if: ${{ ! endsWith(github.head_ref, '-no-env') }}
+    needs: [init, test-client, test-server]
+    runs-on: ${{ needs.init.outputs.build-runs-on }}
+    timeout-minutes: 7
+    environment: ${{ github.base_ref || github.ref_name }}
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: ./tmp/GOOGLE_APPLICATION_CREDENTIALS
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # TODO: Remove this hack
+      - name: Set Google credentials
+        run: |
+          mkdir -p ./tmp
+          printf "%s" '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_SECRET }}' > "$GOOGLE_APPLICATION_CREDENTIALS"
+
+      - name: Release client image artifact
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: artifact release:client:${{ needs.init.outputs.env }} ${{ github.sha }}
+
+      - name: Release server image artifact
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: artifact release:server:${{ needs.init.outputs.env }} ${{ github.sha }}
+
+      - name: Release build
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: build release:${{ needs.init.outputs.env }}
+
+  # TODO: notify
+  # notify:
+  # - name: Notify slack fail
+  #   if: failure()
+  #   timeout-minutes: 2
+  #   uses: voxmedia/github-action-slack-notify-build@v1
+  #   with:
+  #     channel_id: builds # TODO: project channel name
+  #     status: FAILED
+  #     color: danger
+  #   env:
+  #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}

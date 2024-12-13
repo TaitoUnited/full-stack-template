@@ -80,8 +80,8 @@ taito_functions_bucket=${default_functions_bucket}
 taito_static_assets_bucket=${default_static_assets_bucket}
 
 # URLs
-taito_domain=$taito_project-$taito_target_env.${default_domain}
-taito_default_domain=$taito_project-$taito_target_env.${default_domain}
+taito_domain=$taito_project-$taito_deployment_suffix.${default_domain}
+taito_default_domain=$taito_project-$taito_deployment_suffix.${default_domain}
 taito_cdn_domain=${default_cdn_domain}
 taito_app_url=
 
@@ -389,8 +389,8 @@ case $taito_env in
     taito_cicd_secrets_path=${default_cicd_secrets_path_prod}
 
     # Domain
-    taito_domain=$taito_project-$taito_target_env.${default_domain_prod}
-    taito_default_domain=$taito_project-$taito_target_env.${default_domain_prod}
+    taito_domain=$taito_project-$taito_deployment_suffix.${default_domain_prod}
+    taito_default_domain=$taito_project-$taito_deployment_suffix.${default_domain_prod}
     taito_cdn_domain=${default_cdn_domain_prod}
     taito_host="${default_host_prod}"
 
@@ -507,6 +507,11 @@ case $taito_env in
       ci_exec_build=true        # allow build of a new container
       # shellcheck disable=SC1091
       if [[ -f scripts/taito/env-dev.sh ]]; then . scripts/taito/env-dev.sh; fi
+    fi
+    # pr overrides
+    if [[ $taito_deployment_suffix == "pr-"* ]]; then
+      # shellcheck disable=SC1091
+      if [[ -f scripts/taito/env-pr.sh ]]; then . scripts/taito/env-pr.sh; fi
     fi
     # demo branch
     if [[ $taito_env == "demo" ]]; then
@@ -631,6 +636,9 @@ else
     db_database_default_secret=GIVE_YOUR_PERSONAL_USERNAME_AS_COMMAND_LINE_ARGUMENT
   fi
 fi
+
+# Database name override
+db_database_name=${db_database_name_override:-$db_database_name}
 
 # ------ All environments config ------
 

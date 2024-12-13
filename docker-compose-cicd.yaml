@@ -15,7 +15,6 @@
 version: '3.8'
 services:
   full-stack-template-admin-cicd:
-    container_name: full-stack-template-admin-cicd
     image: full-stack-template-admin-builder:latest
     restart: 'no'
     networks:
@@ -37,7 +36,6 @@ services:
       taito_running_tests: "true"
 
   full-stack-template-client-cicd:
-    container_name: full-stack-template-client-cicd
     image: full-stack-template-client-builder:latest
     restart: 'no'
     networks:
@@ -62,7 +60,6 @@ services:
       taito_running_tests: "true"
 
   full-stack-template-playwright-cicd:
-    container_name: full-stack-template-playwright
     build:
       context: ./playwright
       dockerfile: Dockerfile
@@ -71,7 +68,6 @@ services:
       - "/playwright/node_modules"
 
   full-stack-template-server-cicd:
-    container_name: full-stack-template-server-cicd
     image: full-stack-template-server-builder:latest
     restart: 'no'
     networks:
@@ -106,7 +102,6 @@ services:
 
   # Taito CLI container serves as a database proxy
   full-stack-template-database-proxy:
-    container_name: full-stack-template-database-proxy
     image: ${taito_image}
     restart: 'no'
     user: taito
@@ -166,7 +161,6 @@ services:
 
   # Taito CLI container serves as a tcp proxy for redis, etc.
   # full-stack-template-services-proxy:
-  #   container_name: full-stack-template-services-proxy
   #   image: ${taito_image}
   #   restart: 'no'
   #   user: taito

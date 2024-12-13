@@ -89,9 +89,8 @@ full-stack:
           limitRpm: 5
       egress:
         - ip: "${db_database_real_host}/32"
-        - fullname: ${taito_project}-${taito_env}-redis
-        - fullname: ${taito_project}-${taito_env}-storage
-      livenessInitialDelay: 120
+        - fullname: ${taito_project}-${taito_deployment_suffix}-redis
+        - fullname: ${taito_project}-${taito_deployment_suffix}-storage
       db: # For old gcp environments
         useProxy: ${gcp_db_proxy_enabled} # For old gcp environments
         instance: ${taito_zone}:${taito_provider_region}:${db_database_instance} # For old gcp environments
@@ -122,7 +121,7 @@ full-stack:
         DATABASE_USER: ${db_database_app_username}
         DATABASE_POOL_MIN: "0"
         DATABASE_POOL_MAX: "5"
-        REDIS_HOST: ${taito_project}-${taito_env}-redis
+        REDIS_HOST: ${taito_project}-${taito_deployment_suffix}-redis
         REDIS_PORT: 6379
         BUCKET_BUCKET: ${st_bucket_name}
         BUCKET_REGION: ${taito_provider_region}
@@ -133,8 +132,8 @@ full-stack:
     worker:
       egress:
         - ip: "${db_database_real_host}/32"
-        - fullname: ${taito_project}-${taito_env}-redis
-        - fullname: ${taito_project}-${taito_env}-storage
+        - fullname: ${taito_project}-${taito_deployment_suffix}-redis
+        - fullname: ${taito_project}-${taito_deployment_suffix}-storage
       livenessCommand:
         - sh
         - -c
@@ -169,7 +168,7 @@ full-stack:
         DATABASE_USER: ${db_database_app_username}
         DATABASE_POOL_MIN: "0"
         DATABASE_POOL_MAX: "5"
-        REDIS_HOST: ${taito_project}-${taito_env}-redis
+        REDIS_HOST: ${taito_project}-${taito_deployment_suffix}-redis
         REDIS_PORT: 6379
         BUCKET_BUCKET: ${st_bucket_name}
         BUCKET_REGION: ${taito_provider_region}
