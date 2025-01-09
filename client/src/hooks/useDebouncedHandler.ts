@@ -10,7 +10,7 @@ type AnyFunction<T> = (...args: T[]) => void;
  * @returns The debounced function, which will run only if the debounced function has not been called in the last (delay) ms
  */
 export function useDebouncedHandler<T>(func: AnyFunction<T>, delay: number) {
-  const timer = useRef<Timer>();
+  const timer = useRef<Timer>(undefined);
 
   useEffect(() => {
     return () => {
