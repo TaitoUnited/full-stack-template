@@ -297,6 +297,10 @@ full-stack:
         - name: examplejob
           schedule: "30 2 * * *"
           concurrencyPolicy: Replace # Forbid, Replace, or Allow
+          cpuRequest: 400m
+          cpuLimit: 800m
+          memoryRequest: 512Mi
+          memoryLimit: 1024Mi
           args:
             - ./cli.sh
             - createPost
