@@ -42,6 +42,10 @@
     worker:
       # Use the server image also for worker
       image: ${taito_container_registry}/server:${taito_build_image_tag}
+      # ... but use specific command on start instead of the default.
+      command:
+        - ./cli.sh
+        - startWorker
       egress:
         - ip: '${db_database_real_host}/32'
       livenessInitialDelay: 120
