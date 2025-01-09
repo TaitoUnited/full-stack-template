@@ -1,4 +1,4 @@
-import { forwardRef, useContext, useState } from 'react';
+import { type Ref, useContext, useState } from 'react';
 import { Trans, t } from '@lingui/macro';
 import { useFilter } from 'react-aria';
 import useMeasure from 'react-use-measure';
@@ -42,6 +42,7 @@ export type MultiSelectOption = {
 };
 
 type CommonProps = {
+  ref?: Ref<HTMLButtonElement>;
   items: MultiSelectOption[];
   /**
    * Whether to show the actions footer with buttons to confirm or clear the selection.
@@ -72,104 +73,98 @@ type Props = ButtonProps &
  * need to load options asynchronously, use the `AsyncSelect` component instead.
  * The `AsyncSelect` component supports both single and multiple selection modes.
  */
-export const MultiSelect = forwardRef<HTMLButtonElement, Props>(
-  (
-    {
-      label,
-      icon,
-      isRequired,
-      actions,
-      errorMessage,
-      description,
-      placeholder = '',
-      items,
-      selected,
-      onSelect,
-      ...rest
-    },
-    ref
-  ) => {
-    const [measureRef, dimensions] = useMeasure();
+export function MultiSelect({
+  ref,
+  label,
+  icon,
+  isRequired,
+  actions,
+  errorMessage,
+  description,
+  placeholder = '',
+  items,
+  selected,
+  onSelect,
+  ...rest
+}: Props) {
+  const [measureRef, dimensions] = useMeasure();
 
-    return (
-      <DialogTrigger>
-        <div className={inputWrapperStyles}>
-          <Label
-            className={labelStyles}
-            data-required={isRequired}
-            data-testid="multi-select-label"
-          >
-            {label}
-          </Label>
+  return (
+    <DialogTrigger>
+      <div className={inputWrapperStyles}>
+        <Label
+          className={labelStyles}
+          data-required={isRequired}
+          data-testid="multi-select-label"
+        >
+          {label}
+        </Label>
 
-          <MultiSelectButton ref={measureRef}>
-            {!!icon && (
-              <Icon
-                name={icon}
-                size={20}
-                color="neutral1"
-                className={inputIconLeftStyles}
-              />
-            )}
-
-            <AriaButton
-              {...rest}
-              ref={ref}
-              data-invalid={!!errorMessage}
-              data-has-icon={!!icon}
-              data-has-selected={selected.size > 0}
-              data-testid="multi-select-button"
-              className={cx(
-                inputBaseStyles,
-                css({
-                  paddingRight: '$xl!',
-                  color: '$textMuted',
-                  $truncate: true,
-                  '&[data-has-icon="true"]': { paddingLeft: '$xl' },
-                  '&[data-has-selected="true"]': { color: '$text' },
-                })
-              )}
-            >
-              {selected.size === 0 ? placeholder : t`${selected.size} selected`}
-            </AriaButton>
-
+        <MultiSelectButton ref={measureRef}>
+          {!!icon && (
             <Icon
-              name="arrowDropDown"
-              size={24}
-              color="text"
-              className={cx(inputIconRightStyles, css({ right: '$xs!' }))}
+              name={icon}
+              size={20}
+              color="neutral1"
+              className={inputIconLeftStyles}
             />
-          </MultiSelectButton>
+          )}
 
-          {!!description && <DescriptionText>{description}</DescriptionText>}
-          {!!errorMessage && <ErrorText>{errorMessage}</ErrorText>}
-
-          <Popover
-            data-testid="multi-select-popover"
-            placement="bottom start"
-            /**
-             * With some components React Aria would automatically provide this
-             * CSS variable, but since we're using a custom component we need to
-             * provide it ourselves.
-             */
-            style={{ '--trigger-width': `${dimensions.width}px` }}
-            offset={4}
+          <AriaButton
+            {...rest}
+            ref={ref}
+            data-invalid={!!errorMessage}
+            data-has-icon={!!icon}
+            data-has-selected={selected.size > 0}
+            data-testid="multi-select-button"
+            className={cx(
+              inputBaseStyles,
+              css({
+                paddingRight: '$xl!',
+                color: '$textMuted',
+                $truncate: true,
+                '&[data-has-icon="true"]': { paddingLeft: '$xl' },
+                '&[data-has-selected="true"]': { color: '$text' },
+              })
+            )}
           >
-            <MultiSelectOptions
-              items={items}
-              actions={actions}
-              errorMessage={errorMessage}
-              selected={selected}
-              onSelect={onSelect}
-            />
-          </Popover>
-        </div>
-      </DialogTrigger>
-    );
-  }
-);
+            {selected.size === 0 ? placeholder : t`${selected.size} selected`}
+          </AriaButton>
 
-MultiSelect.displayName = 'MultiSelect';
+          <Icon
+            name="arrowDropDown"
+            size={24}
+            color="text"
+            className={cx(inputIconRightStyles, css({ right: '$xs!' }))}
+          />
+        </MultiSelectButton>
+
+        {!!description && <DescriptionText>{description}</DescriptionText>}
+        {!!errorMessage && <ErrorText>{errorMessage}</ErrorText>}
+
+        <Popover
+          data-testid="multi-select-popover"
+          placement="bottom start"
+          /**
+           * With some components React Aria would automatically provide this
+           * CSS variable, but since we're using a custom component we need to
+           * provide it ourselves.
+           */
+          style={{ '--trigger-width': `${dimensions.width}px` }}
+          offset={4}
+        >
+          <MultiSelectOptions
+            items={items}
+            actions={actions}
+            errorMessage={errorMessage}
+            selected={selected}
+            onSelect={onSelect}
+          />
+        </Popover>
+      </div>
+    </DialogTrigger>
+  );
+}
 
 function MultiSelectOptions({
   actions,

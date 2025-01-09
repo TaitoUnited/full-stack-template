@@ -1,4 +1,4 @@
-import { forwardRef, ComponentProps, useRef, useEffect } from 'react';
+import { ComponentProps, type Ref, useRef, useEffect } from 'react';
 import mergeRefs from 'react-merge-refs';
 
 import {
@@ -18,6 +18,7 @@ import {
 import { cx } from '~styled-system/css';
 
 type Props = ComponentProps<typeof TextField> & {
+  ref?: Ref<HTMLTextAreaElement>;
   label: string;
   description?: string;
   /** Passing an `errorMessage` as prop toggles the input as invalid. */
@@ -32,60 +33,56 @@ type Props = ComponentProps<typeof TextField> & {
 /**
  * Ref: https://react-spectrum.adobe.com/react-aria/TextField.html#textarea
  */
-export const TextArea = forwardRef<HTMLTextAreaElement, Props>(
-  (
-    {
-      id,
-      label,
-      description,
-      errorMessage,
-      placeholder,
-      autoResize = false,
-      rows,
-      ...rest
-    },
-    ref
-  ) => {
-    const innerRef = useRef<HTMLTextAreaElement>(null);
+export function TextArea({
+  ref,
+  id,
+  label,
+  description,
+  errorMessage,
+  placeholder,
+  autoResize = false,
+  rows,
+  ...rest
+}: Props) {
+  const innerRef = useRef<HTMLTextAreaElement>(null);
 
-    function resizeTextArea() {
-      if (innerRef.current && autoResize) {
-        innerRef.current.style.height = 'auto';
-        innerRef.current.style.height = innerRef.current.scrollHeight + 'px';
-      }
+  function resizeTextArea() {
+    if (innerRef.current && autoResize) {
+      innerRef.current.style.height = 'auto';
+      innerRef.current.style.height = innerRef.current.scrollHeight + 'px';
     }
-
-    // Resize the textarea on mount if autoResize is enabled
-    useEffect(() => {
-      if (autoResize) {
-        resizeTextArea();
-      }
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-    return (
-      <TextField
-        {...rest}
-        className={cx(inputWrapperStyles, rest.className)}
-        isInvalid={!!errorMessage}
-      >
-        <Label className={labelStyles} data-required={rest.isRequired}>
-          {label}
-        </Label>
-
-        <AriaTextArea
-          id={id}
-          rows={rows}
-          ref={mergeRefs([innerRef, ref])}
-          placeholder={placeholder}
-          className={inputBaseStyles}
-          onChange={resizeTextArea}
-        />
-
-        {!!description && <DescriptionText>{description}</DescriptionText>}
-        {!!errorMessage && <ErrorText>{errorMessage}</ErrorText>}
-      </TextField>
-    );
   }
-);
+
+  // Resize the textarea on mount if autoResize is enabled
+  useEffect(() => {
+    if (autoResize) {
+      resizeTextArea();
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  return (
+    <TextField
+      {...rest}
+      className={cx(inputWrapperStyles, rest.className)}
+      isInvalid={!!errorMessage}
+    >
+      <Label className={labelStyles} data-required={rest.isRequired}>
+        {label}
+      </Label>
+
+      <AriaTextArea
+        id={id}
+        rows={rows}
+        ref={ref ? mergeRefs([innerRef, ref]) : innerRef}
+        placeholder={placeholder}
+        className={inputBaseStyles}
+        onChange={resizeTextArea}
+      />
+
+      {!!description && <DescriptionText>{description}</DescriptionText>}
+      {!!errorMessage && <ErrorText>{errorMessage}</ErrorText>}
+    </TextField>
+  );
+}
 
 TextArea.displayName = 'TextArea';
