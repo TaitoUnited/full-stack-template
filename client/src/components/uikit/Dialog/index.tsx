@@ -70,7 +70,7 @@ function DialogHeader({
   title?: string;
   children?: ReactElement;
 }) {
-  const { close } = useContext(OverlayTriggerStateContext);
+  const triggerState = useContext(OverlayTriggerStateContext);
 
   if (!title && !children) {
     throw new Error(
@@ -89,7 +89,12 @@ function DialogHeader({
           children
         )}
       </Heading>
-      <IconButton label={t`Close`} icon="close" size={32} onPress={close} />
+      <IconButton
+        label={t`Close`}
+        icon="close"
+        size={32}
+        onPress={() => triggerState?.close()}
+      />
     </DialogHeaderContainer>
   );
 }

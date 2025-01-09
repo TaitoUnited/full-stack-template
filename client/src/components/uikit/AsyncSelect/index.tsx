@@ -266,12 +266,12 @@ function AsyncSelectOptionsList({
 
   function handleClear() {
     onSelect(new Set());
-    triggerState.close();
+    triggerState?.close();
   }
 
   function handleConfirm() {
     onSelect(internalSelected);
-    triggerState.close();
+    triggerState?.close();
   }
 
   return (
