@@ -9,13 +9,13 @@
       cpuRequest: 2m
       memoryRequest: 2Mi
 
-    lab:
+    server:
       paths:
-        - path: /lab
+        - path: /api
           clientMaxBodySize: 10m
       egress:
         - ip: '${db_database_real_host}/32'
-        - ip: public
+        - domain: mystorageaccount.blob.core.windows.net
       livenessInitialDelay: 120
       livenessCommand:
         - python3
@@ -38,6 +38,29 @@
         STORAGE_TYPE: azure
         STORAGE_ENDPOINT:
         STORAGE_BUCKET: ${st_bucket_name}
+
+    worker:
+      # Use the server image also for worker
+      image: ${taito_container_registry}/server:${taito_build_image_tag}
+      egress:
+        - ip: '${db_database_real_host}/32'
+      livenessInitialDelay: 120
+      livenessCommand:
+        - python3
+        - --version
+      tty: true
+      secretEnv:
+        DATABASE_PASSWORD: ${db_database_app_secret}
+      env:
+        DATABASE_HOST: '${db_database_real_host}'
+        DATABASE_PORT: '${db_database_real_port}'
+        DATABASE_NAME: ${db_database_name}
+        DATABASE_USER: ${db_database_app_username}
+        DATABASE_POOL_MIN: '0'
+        DATABASE_POOL_MAX: '5'
+        DATABASE_SSL_ENABLED: "${db_database_ssl_enabled}"
+        DATABASE_SSL_CLIENT_CERT_ENABLED: "${db_database_ssl_client_cert_enabled}"
+        DATABASE_SSL_SERVER_CERT_ENABLED: "${db_database_ssl_server_cert_enabled}"
 
 # ----------------------------------------------------------
 # Path attributes
