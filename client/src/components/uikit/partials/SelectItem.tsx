@@ -1,6 +1,6 @@
 import { SelectedIcon } from './common';
-import { Text } from '../Text';
 import { Stack } from '../Stack';
+import { Text } from '../Text';
 
 type Props = {
   label: string;

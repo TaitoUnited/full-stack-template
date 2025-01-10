@@ -59,15 +59,18 @@ export function transformColorsWithScheme(tokens: {
   light: Record<string, string>;
   dark: Record<string, string>;
 }) {
-  return Object.entries(tokens.light).reduce((acc, [key, value]) => {
-    acc[key] = {
-      value: {
-        _light: value,
-        _dark: tokens.dark[key] || value,
-      },
-    };
-    return acc;
-  }, {} as Record<string, { value: { _light: string; _dark: string } }>);
+  return Object.entries(tokens.light).reduce(
+    (acc, [key, value]) => {
+      acc[key] = {
+        value: {
+          _light: value,
+          _dark: tokens.dark[key] || value,
+        },
+      };
+      return acc;
+    },
+    {} as Record<string, { value: { _light: string; _dark: string } }>
+  );
 }
 
 type Shadow = {
@@ -79,11 +82,14 @@ type Shadow = {
 };
 
 export function transformShadows(tokens: Record<string, Shadow>) {
-  return Object.entries(tokens).reduce((acc, [key, value]) => {
-    // Due to the way shadows are named in Figma we need to remove the leading
-    // "shadow" from the key: "shadowLarge" -> "large"
-    const name = key.replace('shadow', '').toLowerCase();
-    acc[name] = { value: value.boxShadow };
-    return acc;
-  }, {} as Record<string, { value: string }>);
+  return Object.entries(tokens).reduce(
+    (acc, [key, value]) => {
+      // Due to the way shadows are named in Figma we need to remove the leading
+      // "shadow" from the key: "shadowLarge" -> "large"
+      const name = key.replace('shadow', '').toLowerCase();
+      acc[name] = { value: value.boxShadow };
+      return acc;
+    },
+    {} as Record<string, { value: string }>
+  );
 }

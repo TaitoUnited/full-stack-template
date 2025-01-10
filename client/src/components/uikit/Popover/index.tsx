@@ -1,17 +1,16 @@
-import { CSSProperties, ReactNode, Ref } from 'react';
-
+import { type CSSProperties, type ReactNode, type Ref } from 'react';
 import {
   Button as AriaButton,
   Popover as AriaPopover,
   Dialog,
   DialogTrigger,
   OverlayArrow,
-  PopoverProps,
+  type PopoverProps,
 } from 'react-aria-components';
 
-import './styles.css';
 import { cva, cx } from '~styled-system/css';
 import { styled } from '~styled-system/jsx';
+import './styles.css';
 
 type Props = PopoverProps & {
   ref?: Ref<HTMLDivElement>;

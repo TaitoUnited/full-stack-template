@@ -1,10 +1,10 @@
 import loadable from '@loadable/component';
 import { RouterProvider } from 'react-router-dom';
 
-import { router } from '~routes/router';
-import { RouteSpinner } from '~routes/RouteSpinner';
 import { Providers } from '~components/common/Providers';
 import { config } from '~constants/config';
+import { router } from '~routes/router';
+import { RouteSpinner } from '~routes/RouteSpinner';
 import { useVerifyAuth } from '~services/auth';
 
 const FeatureFlagManager = loadable(

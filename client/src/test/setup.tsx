@@ -1,7 +1,10 @@
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
 
 // Mock translation component since we don't care about translation in tests
 vitest.mock('@lingui/react/macro', () => {
-  const Trans = (props: any) => <span>{props.children}</span>;
+  function Trans(props: any) {
+    return <span>{props.children}</span>;
+  }
+
   return { Trans };
 });

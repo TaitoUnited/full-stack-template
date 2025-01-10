@@ -1,12 +1,19 @@
-import { useState } from 'react';
-import { orderBy, random, range } from 'lodash';
 import { Trans, useLingui } from '@lingui/react/macro';
+import { orderBy, random, range } from 'lodash';
+import { useState } from 'react';
 
-import { Text, Stack, Icon, SortDescriptor, Table, IconName } from '~uikit';
-import { useDocumentTitle } from '~hooks/useDocumentTitle';
-import { styled } from '~styled-system/jsx';
-import { isFeatureEnabled } from '~services/feature-flags';
 import { FeatureGate } from '~components/feature-flags/FeatureGate';
+import { useDocumentTitle } from '~hooks/useDocumentTitle';
+import { isFeatureEnabled } from '~services/feature-flags';
+import { styled } from '~styled-system/jsx';
+import {
+  Icon,
+  type IconName,
+  type SortDescriptor,
+  Stack,
+  Table,
+  Text,
+} from '~uikit';
 
 export default function HomeRoute() {
   const { t } = useLingui();

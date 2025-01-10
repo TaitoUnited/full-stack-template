@@ -1,30 +1,29 @@
-import { ComponentProps } from 'react';
-
+import { type ComponentProps } from 'react';
 import {
-  Button,
-  Popover,
   Select as AriaSelect,
-  SelectValue,
-  ListBoxItem,
+  Button,
   Label,
   ListBox,
+  ListBoxItem,
+  Popover,
+  SelectValue,
 } from 'react-aria-components';
 
+import { css, cx } from '~styled-system/css';
+
+import { Icon, type IconName } from '../Icon';
 import {
-  inputBaseStyles,
   DescriptionText,
   ErrorText,
+  inputBaseStyles,
   inputIconLeftStyles,
   inputIconRightStyles,
   inputWrapperStyles,
   labelStyles,
-  listBoxStyles,
   listBoxItemStyles,
+  listBoxStyles,
 } from '../partials/common';
-
 import { SelectItem } from '../partials/SelectItem';
-import { Icon, IconName } from '../Icon';
-import { css, cx } from '~styled-system/css';
 
 export type SelectOption = {
   value: string;

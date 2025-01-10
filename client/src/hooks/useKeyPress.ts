@@ -6,13 +6,13 @@ export function useKeyPressState(key: string): boolean {
   const [pressed, setPressed] = useState(false);
 
   useEffect(() => {
-    const downHandler = (event: KeyboardEvent) => {
+    function downHandler(event: KeyboardEvent) {
       if (event.key === key) setPressed(true);
-    };
+    }
 
-    const upHandler = (event: KeyboardEvent) => {
+    function upHandler(event: KeyboardEvent) {
       if (event.key === key) setPressed(false);
-    };
+    }
 
     window.addEventListener('keydown', downHandler);
     window.addEventListener('keyup', upHandler);
@@ -33,12 +33,12 @@ export function useKeyPressEvent(
   const stableHandler = useEffectEvent(handler);
 
   useEffect(() => {
-    const eventHandler = (event: KeyboardEvent) => {
+    function eventHandler(event: KeyboardEvent) {
       if (event.key === key) stableHandler(event);
-    };
+    }
 
     window.addEventListener('keydown', eventHandler);
 
     return () => window.removeEventListener('keydown', eventHandler);
-  }, [key]); // eslint-disable-line react-hooks/exhaustive-deps -- stable handler
+  }, [key]);
 }

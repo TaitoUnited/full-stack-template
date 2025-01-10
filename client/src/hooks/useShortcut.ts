@@ -37,5 +37,5 @@ export function useShortcut(shortcut: string, callback: () => any) {
       document.removeEventListener('keydown', down);
       document.removeEventListener('keyup', up);
     };
-  }, [shortcut]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [shortcut]);
 }

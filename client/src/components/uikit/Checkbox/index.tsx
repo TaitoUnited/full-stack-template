@@ -1,8 +1,9 @@
-import { ComponentProps, ReactNode } from 'react';
+import { type ComponentProps, type ReactNode } from 'react';
 import { Checkbox as AriaCheckbox } from 'react-aria-components';
 
-import { Icon } from '../Icon';
 import { styled } from '~styled-system/jsx';
+
+import { Icon } from '../Icon';
 
 type CommonProps = ComponentProps<typeof AriaCheckbox>;
 

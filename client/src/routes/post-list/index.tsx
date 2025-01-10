@@ -1,12 +1,13 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 import { Outlet, useNavigate } from 'react-router-dom';
 
-import { PostListCard } from './PostListCard';
 import { UnstyledLink } from '~components/navigation/Link';
+import { usePostListSuspenseQuery } from '~graphql';
 import { useDocumentTitle } from '~hooks/useDocumentTitle';
 import { stack } from '~styled-system/patterns';
-import { Text, Stack, Button } from '~uikit';
-import { usePostListSuspenseQuery } from '~graphql';
+import { Button, Stack, Text } from '~uikit';
+
+import { PostListCard } from './PostListCard';
 
 export default function PostListRoute() {
   const { t } = useLingui();

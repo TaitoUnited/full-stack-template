@@ -1,10 +1,9 @@
-import { ComponentProps } from 'react';
-
+import { type ComponentProps } from 'react';
 import {
+  Table as AriaTable,
   Cell,
   Column,
   Row,
-  Table as AriaTable,
   TableBody,
   TableHeader,
 } from 'react-aria-components';

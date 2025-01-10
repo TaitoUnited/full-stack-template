@@ -1,21 +1,20 @@
-import { ComponentProps, type Ref, useRef, useEffect } from 'react';
-import { mergeRefs } from 'react-merge-refs';
-
+import { type ComponentProps, type Ref, useEffect, useRef } from 'react';
 import {
   TextArea as AriaTextArea,
-  TextField,
   Label,
+  TextField,
 } from 'react-aria-components';
-
-import {
-  inputWrapperStyles,
-  labelStyles,
-  inputBaseStyles,
-  DescriptionText,
-  ErrorText,
-} from '../partials/common';
+import { mergeRefs } from 'react-merge-refs';
 
 import { cx } from '~styled-system/css';
+
+import {
+  DescriptionText,
+  ErrorText,
+  inputBaseStyles,
+  inputWrapperStyles,
+  labelStyles,
+} from '../partials/common';
 
 type Props = ComponentProps<typeof TextField> & {
   ref?: Ref<HTMLTextAreaElement>;
@@ -58,7 +57,7 @@ export function TextArea({
     if (autoResize) {
       resizeTextArea();
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <TextField
@@ -73,6 +72,7 @@ export function TextArea({
       <AriaTextArea
         id={id}
         rows={rows}
+        // eslint-disable-next-line react-compiler/react-compiler
         ref={ref ? mergeRefs([innerRef, ref]) : innerRef}
         placeholder={placeholder}
         className={inputBaseStyles}

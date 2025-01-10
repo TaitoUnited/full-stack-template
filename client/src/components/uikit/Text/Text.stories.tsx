@@ -1,6 +1,6 @@
+import * as typography from '~design-tokens/typography';
 import { Stack, Text } from '~uikit';
 import { capitalize } from '~utils/string';
-import * as typography from '~design-tokens/typography';
 
 export default {
   title: 'Text',

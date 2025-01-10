@@ -1,7 +1,8 @@
-import logoImg from '../../images/logo.svg';
-import { Stack, Text } from '~uikit';
-import { styled } from '~styled-system/jsx';
 import { LangMenuButton } from '~components/common/LangMenuButton';
+import { styled } from '~styled-system/jsx';
+import { Stack, Text } from '~uikit';
+
+import logoImg from '../../images/logo.svg';
 
 export function Toolbar() {
   return (

@@ -1,8 +1,8 @@
-import { capitalize } from 'lodash';
-import { ComponentProps, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { capitalize } from 'lodash';
+import { type ComponentProps, useState } from 'react';
 
-import { Stack, Dialog, Text, Icon, Button, TextInput } from '~uikit';
+import { Button, Dialog, Icon, Stack, Text, TextInput } from '~uikit';
 
 export default {
   title: 'Dialog',

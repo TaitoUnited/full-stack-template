@@ -1,11 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
 import { truncate } from 'lodash';
-import { useBreadcrumbs, useBreadcrumbItem } from 'react-aria';
+import React from 'react';
+import { useBreadcrumbItem, useBreadcrumbs } from 'react-aria';
+import ReactDOM from 'react-dom';
+
+import { styled } from '~styled-system/jsx';
+import { Icon } from '~uikit';
 
 import { Link } from './Link';
-import { Icon } from '~uikit';
-import { styled } from '~styled-system/jsx';
 
 type Props = {
   children: any;

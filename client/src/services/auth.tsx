@@ -2,15 +2,14 @@ import { useEffect } from 'react';
 import { hideSplashScreen } from 'vite-plugin-splash-screen/runtime';
 import { create } from 'zustand';
 
-import { storage } from '~utils/storage';
-
 import {
+  getApolloClient,
   LoginDocument,
   LogoutDocument,
   OrganisationsDocument,
-  OrganisationsQuery,
-  getApolloClient,
+  type OrganisationsQuery,
 } from '~graphql';
+import { storage } from '~utils/storage';
 
 type AuthState =
   | { status: 'undetermined'; organisation: null }
@@ -41,7 +40,7 @@ export async function login(variables: { email: string; password: string }) {
 
     storage.clearAll();
     store.setState({ status: 'authenticated', organisation: organisation.id });
-  } catch (error) {
+  } catch {
     store.setState({ status: 'unauthenticated' });
   }
 }
@@ -56,7 +55,7 @@ export async function logout() {
     store.setState({ status: 'unauthenticated' });
     await apolloClient.resetStore();
     storage.clearAll();
-  } catch (error) {
+  } catch {
     store.setState({ status: 'authenticated' });
   }
 }
@@ -106,7 +105,7 @@ export function useVerifyAuth() {
     if (authStatus === 'undetermined') {
       verifyAuth();
     }
-  }, []); // eslint-disable-line
+  }, []);
 
   return authStatus;
 }

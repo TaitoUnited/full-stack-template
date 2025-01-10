@@ -1,4 +1,5 @@
-import { RefObject, useEffect } from 'react';
+import { type RefObject, useEffect } from 'react';
+
 import { useEffectEvent } from './useEffectEvent';
 
 /**
@@ -21,5 +22,5 @@ export function useScrollEvent(
     return () => {
       element.removeEventListener('scroll', stableCallback);
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 }

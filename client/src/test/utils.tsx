@@ -1,9 +1,9 @@
 /* eslint-disable import/export */
-import { ReactElement } from 'react';
-import { RenderOptions, cleanup, render } from '@testing-library/react';
-import { afterEach } from 'vitest';
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
+import { cleanup, render, type RenderOptions } from '@testing-library/react';
+import { type ReactElement } from 'react';
+import { afterEach } from 'vitest';
 
 import { storage } from '~utils/storage';
 
@@ -11,7 +11,7 @@ afterEach(() => {
   cleanup();
 });
 
-const locale = storage.get('@app/locale') || 'en';
+const locale = storage.get('locale') || 'en';
 i18n.load(locale, {});
 i18n.activate(locale);
 

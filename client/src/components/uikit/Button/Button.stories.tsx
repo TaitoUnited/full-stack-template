@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { capitalize } from 'lodash';
-import { ComponentProps, useState } from 'react';
+import { type ComponentProps, useState } from 'react';
 
 import { Button, Checkbox, Stack, Text } from '~uikit';
 

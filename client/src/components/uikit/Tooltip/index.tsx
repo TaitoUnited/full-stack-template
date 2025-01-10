@@ -1,11 +1,10 @@
-import { HTMLAttributes, ReactNode } from 'react';
-
+import { type HTMLAttributes, type ReactNode } from 'react';
 import {
   Button as AriaButton,
   Tooltip as AriaTooltip,
   TooltipTrigger as AriaTooltipTrigger,
   OverlayArrow,
-  TooltipTriggerComponentProps,
+  type TooltipTriggerComponentProps,
 } from 'react-aria-components';
 
 import { styled } from '~styled-system/jsx';
@@ -19,7 +18,7 @@ type Props = Omit<HTMLAttributes<HTMLDivElement>, 'content'> &
 
 const ARROW_OFFSET = 8;
 
-const TooltipBase = ({
+function TooltipBase({
   children,
   content,
   placement = 'top',
@@ -28,7 +27,7 @@ const TooltipBase = ({
   className,
   style,
   ...rest
-}: Props) => {
+}: Props) {
   return (
     <AriaTooltipTrigger
       {...rest}
@@ -53,7 +52,7 @@ const TooltipBase = ({
       </TooltipContent>
     </AriaTooltipTrigger>
   );
-};
+}
 
 const TooltipContent = styled(AriaTooltip, {
   base: {

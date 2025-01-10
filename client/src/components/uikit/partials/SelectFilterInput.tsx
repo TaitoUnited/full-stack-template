@@ -1,10 +1,11 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 import { VisuallyHidden } from 'react-aria';
 
-import { Icon } from '../Icon';
-import { Spinner } from '../Spinner';
-import { IconButton } from '../IconButton';
 import { styled } from '~styled-system/jsx';
+
+import { Icon } from '../Icon';
+import { IconButton } from '../IconButton';
+import { Spinner } from '../Spinner';
 
 type Props = {
   isLoading: boolean;
@@ -27,6 +28,7 @@ export function SelectFilterInput({
       <Icon name="search" size={20} color="textMuted" />
 
       <Input
+        // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus
         value={inputValue}
         onChange={e => onInputChange(e.target.value)}

@@ -1,19 +1,24 @@
 import { useLingui } from '@lingui/react/macro';
-import { ComponentProps, ReactElement, ReactNode, useContext } from 'react';
-
+import {
+  type ComponentProps,
+  type ReactElement,
+  type ReactNode,
+  useContext,
+} from 'react';
 import {
   Dialog as AriaDialog,
-  ModalOverlay as AriaModalOverlay,
   Modal as AriaModal,
-  OverlayTriggerStateContext,
+  ModalOverlay as AriaModalOverlay,
   Heading,
+  OverlayTriggerStateContext,
 } from 'react-aria-components';
 
-import './styles.css';
-import { Text } from '../Text';
-import { IconButton } from '../IconButton';
-import { styled } from '~styled-system/jsx';
 import { cva } from '~styled-system/css';
+import { styled } from '~styled-system/jsx';
+
+import { IconButton } from '../IconButton';
+import { Text } from '../Text';
+import './styles.css';
 
 function DialogBase({
   children,

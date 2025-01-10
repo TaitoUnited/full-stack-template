@@ -1,8 +1,9 @@
-import { ComponentProps } from 'react';
 import { Trans } from '@lingui/react/macro';
+import { type ComponentProps } from 'react';
+
+import { styled } from '~styled-system/jsx';
 
 import { Button } from '../Button';
-import { styled } from '~styled-system/jsx';
 
 type Props = {
   onConfirm?: ComponentProps<typeof Button>['onPress'];

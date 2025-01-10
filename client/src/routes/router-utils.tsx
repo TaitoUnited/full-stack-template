@@ -1,15 +1,20 @@
 import { lazy } from '@loadable/component';
-import { ComponentType, Suspense, useContext, useEffect, useRef } from 'react';
-
+import {
+  type ComponentType,
+  Suspense,
+  useContext,
+  useEffect,
+  useRef,
+} from 'react';
 import {
   matchRoutes,
-  RouteObject,
-  useNavigation,
+  type RouteObject,
   UNSAFE_DataRouterContext,
+  useNavigation,
 } from 'react-router-dom';
 
-import { RouteSpinner } from './RouteSpinner';
 import { RouteError } from './RouteError';
+import { RouteSpinner } from './RouteSpinner';
 
 type PreloadableRoute = RouteObject & {
   preload?: () => void;
@@ -112,5 +117,5 @@ export function useRoutePreloading() {
       document.removeEventListener('mousedown', handleMouseDown);
       document.removeEventListener('touchstart', handleMouseDown);
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps -- Routes are static
+  }, []);
 }

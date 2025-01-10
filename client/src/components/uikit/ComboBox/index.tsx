@@ -1,31 +1,29 @@
-import { ComponentProps, type Ref } from 'react';
-
+import { type ComponentProps, type Ref } from 'react';
 import {
-  Button,
-  Popover,
   ComboBox as AriaComboBox,
-  ListBoxItem,
+  Button,
   Input,
   Label,
   ListBox,
+  ListBoxItem,
+  Popover,
 } from 'react-aria-components';
 
-import { Icon, IconName } from '../Icon';
+import { css, cx } from '~styled-system/css';
+import { styled } from '~styled-system/jsx';
 
+import { Icon, type IconName } from '../Icon';
 import {
-  inputBaseStyles,
   DescriptionText,
   ErrorText,
+  inputBaseStyles,
   inputIconLeftStyles,
   inputWrapperStyles,
   labelStyles,
   listBoxItemStyles,
   listBoxStyles,
 } from '../partials/common';
-
 import { SelectItem } from '../partials/SelectItem';
-import { css, cx } from '~styled-system/css';
-import { styled } from '~styled-system/jsx';
 
 export type ComboBoxOption = {
   value: string;

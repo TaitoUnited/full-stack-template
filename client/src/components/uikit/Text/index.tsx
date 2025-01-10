@@ -1,16 +1,15 @@
 import {
-  memo,
   type ComponentProps,
   type CSSProperties,
   type HTMLAttributes,
+  memo,
 } from 'react';
-
 import { Text as AriaText } from 'react-aria-components';
 
-import { token, ColorToken } from '~styled-system/tokens';
-import { StyledSystemToken } from '~utils/styled-system';
-import { cx, cva } from '~styled-system/css';
-import { Typography } from '~design-tokens/types';
+import { type Typography } from '~design-tokens/types';
+import { cva, cx } from '~styled-system/css';
+import { type ColorToken, token } from '~styled-system/tokens';
+import { type StyledSystemToken } from '~utils/styled-system';
 
 type AllowedElement =
   | 'h1'
