@@ -13,35 +13,36 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/uikit/AsyncSelect/index.tsx:145
-#: src/components/uikit/MultiSelect/index.tsx:133
+#. placeholder {0}: selected.size
+#: src/components/uikit/MultiSelect/index.tsx:132
+#: src/components/uikit/AsyncSelect/index.tsx:144
 msgid "{0} selected"
 msgstr ""
 
-#: src/routes/not-found/authenticated.tsx:13
 #: src/routes/not-found/unauthenticated.tsx:13
+#: src/routes/not-found/authenticated.tsx:13
 msgid "404"
 msgstr ""
 
-#: src/routes/home/index.tsx:43
+#: src/routes/home/index.tsx:44
 msgid "A minimal design system provides a set of UI kit components that adhere to certain design principles backed by a set of design tokens. This template defines a comprehensive set of design tokens for things like colors, typography, spacing, etc. in a globally available theme object. Additionally, the design system incorporates a UI kit that is browsable in Storybook."
 msgstr ""
 
-#: src/routes/home/index.tsx:27
+#: src/routes/home/index.tsx:28
 msgid "Accessibility"
 msgstr ""
 
-#: src/routes/home/index.tsx:32
+#: src/routes/home/index.tsx:33
 msgid "Authentication"
 msgstr ""
 
-#: src/components/navigation/Sidebar.tsx:27
-#: src/routes/post-list/index.tsx:16
-#: src/routes/post-list/index.tsx:22
+#: src/routes/post-list/index.tsx:17
+#: src/routes/post-list/index.tsx:23
+#: src/components/navigation/Sidebar.tsx:29
 msgid "Blog"
 msgstr ""
 
-#: src/components/common/LangMenuButton.tsx:13
+#: src/components/common/LangMenuButton.tsx:15
 msgid "Change language"
 msgstr ""
 
@@ -49,11 +50,11 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: src/components/uikit/partials/SelectFilterInput.tsx:43
+#: src/components/uikit/partials/SelectFilterInput.tsx:44
 msgid "Clear search filter"
 msgstr ""
 
-#: src/components/uikit/Dialog/index.tsx:92
+#: src/components/uikit/Dialog/index.tsx:91
 msgid "Close"
 msgstr ""
 
@@ -61,137 +62,137 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
-#: src/routes/post-create/index.tsx:63
+#: src/routes/post-create/index.tsx:64
 msgid "Content"
 msgstr ""
 
-#: src/routes/post-create/index.tsx:83
+#: src/routes/post-create/index.tsx:84
 msgid "Create"
 msgstr ""
 
-#: src/routes/post-create/index.tsx:81
+#: src/routes/post-create/index.tsx:82
 msgid "Creating"
 msgstr ""
 
-#: src/routes/home/index.tsx:37
+#: src/routes/home/index.tsx:38
 msgid "Dark Mode"
 msgstr ""
 
-#: src/routes/home/index.tsx:42
+#: src/routes/home/index.tsx:43
 msgid "Design System"
 msgstr ""
 
-#: src/routes/login/index.tsx:42
+#: src/routes/login/index.tsx:49
 msgid "Email"
 msgstr ""
 
-#: src/routes/home/index.tsx:89
+#: src/routes/home/index.tsx:90
 msgid "Examples"
 msgstr ""
 
-#: src/routes/post-create/index.tsx:39
+#: src/routes/post-create/index.tsx:40
 msgid "Failed to add new blog post"
 msgstr ""
 
-#: src/services/auth.tsx:43
+#: src/routes/login/index.tsx:29
 msgid "Failed to login"
 msgstr ""
 
-#: src/services/auth.tsx:58
+#: src/components/navigation/Sidebar.tsx:56
 msgid "Failed to logout"
 msgstr ""
 
-#: src/routes/feature-flags/index.tsx:12
+#: src/routes/feature-flags/index.tsx:13
 msgid "Feature flags"
 msgstr ""
 
-#: src/components/navigation/Sidebar.tsx:42
-#: src/routes/feature-flags/index.tsx:7
+#: src/routes/feature-flags/index.tsx:8
+#: src/components/navigation/Sidebar.tsx:44
 msgid "Feature Flags"
 msgstr ""
 
-#: src/routes/home/index.tsx:102
+#: src/routes/home/index.tsx:103
 msgid "Features"
 msgstr ""
 
-#: src/routes/home/index.tsx:28
+#: src/routes/home/index.tsx:29
 msgid "Good accessibility is a something that should be expected from every app. The building blocks for creating accessible components are provided by React Aria. This template has pre-built UI kit components, such as Button, Text, TextInput, etc., that have accessibility baked into them. You can use and extend this UI kit to fit your needs."
 msgstr ""
 
-#: src/routes/home/index.tsx:38
+#: src/routes/home/index.tsx:39
 msgid "Having dark mode support is a common ask from users nowadays. This template has a ready-to-use theming setup with light and dark themes that can be easily modified to conform to the client's branding. Try to toggle the theme in the top right corner."
 msgstr ""
 
-#: src/components/navigation/Sidebar.tsx:21
-#: src/routes/home/index.tsx:12
-#: src/routes/home/index.tsx:71
+#: src/routes/home/index.tsx:13
+#: src/routes/home/index.tsx:72
+#: src/components/navigation/Sidebar.tsx:23
 msgid "Home"
 msgstr ""
 
-#: src/routes/home/index.tsx:93
+#: src/routes/home/index.tsx:94
 msgid "In the sidebar you can browse through some example pages. (TODO: add more examples)"
 msgstr ""
 
-#: src/routes/home/index.tsx:47
+#: src/routes/home/index.tsx:48
 msgid "Internationalization"
 msgstr ""
 
-#: src/routes/login/index.tsx:65
+#: src/routes/login/index.tsx:72
 msgid "Logging in"
 msgstr ""
 
-#: src/components/navigation/Sidebar.tsx:79
+#: src/components/navigation/Sidebar.tsx:90
 msgid "Logging out"
 msgstr ""
 
-#: src/routes/login/index.tsx:26
-#: src/routes/login/index.tsx:37
+#: src/routes/login/index.tsx:33
+#: src/routes/login/index.tsx:44
 msgid "Login"
 msgstr ""
 
-#: src/components/navigation/Sidebar.tsx:81
+#: src/components/navigation/Sidebar.tsx:92
 msgid "Logout"
 msgstr ""
 
-#: src/routes/home/index.tsx:48
+#: src/routes/home/index.tsx:49
 msgid "Most apps will require internationalization at some point in their lifetime. This template the necessary setup for multiple languages that are loaded lazily once selected. Try changing the language in the top right corner."
 msgstr ""
 
-#: src/routes/post-create/index.tsx:43
-#: src/routes/post-create/index.tsx:47
+#: src/routes/post-create/index.tsx:44
+#: src/routes/post-create/index.tsx:48
 msgid "New blog post"
 msgstr ""
 
-#: src/routes/post-create/index.tsx:36
+#: src/routes/post-create/index.tsx:37
 msgid "New blog post added"
 msgstr ""
 
-#: src/routes/post-list/index.tsx:68
+#: src/routes/post-list/index.tsx:69
 msgid "New post"
 msgstr ""
 
-#: src/components/uikit/MultiSelect/index.tsx:262
+#: src/components/uikit/MultiSelect/index.tsx:258
 msgid "No matching options."
 msgstr ""
 
-#: src/routes/home/index.tsx:63
+#: src/routes/home/index.tsx:64
 msgid "No one likes looking at a blank screen. This template implements a traditional Single-Page-Application which means that the initial JS bundle has to downloaded before the app can render. A nice looking splash screen can be shown until the app is ready to render making the app loading UX more pleasant."
 msgstr ""
 
-#: src/components/uikit/AsyncSelect/index.tsx:190
+#: src/components/uikit/AsyncSelect/index.tsx:171
 msgid "No options found"
 msgstr ""
 
-#: src/routes/not-found/authenticated.tsx:17
 #: src/routes/not-found/unauthenticated.tsx:17
+#: src/routes/not-found/authenticated.tsx:17
 msgid "Page not found"
 msgstr ""
 
-#: src/routes/login/index.tsx:49
+#: src/routes/login/index.tsx:56
 msgid "Password"
 msgstr ""
 
-#: src/routes/home/index.tsx:33
+#: src/routes/home/index.tsx:34
 msgid "Practically every app needs to have a way to log in the user. This template provides a barebones authentication setup that should be extended to have a real way to log in the user either with a cookie or JWT based authentication method."
 msgstr ""
 
@@ -203,23 +204,23 @@ msgstr ""
 msgid "Report an error"
 msgstr ""
 
-#: src/routes/home/index.tsx:52
+#: src/routes/home/index.tsx:53
 msgid "Route Preloading"
 msgstr ""
 
-#: src/components/uikit/partials/SelectFilterInput.tsx:23
+#: src/components/uikit/partials/SelectFilterInput.tsx:24
 msgid "Search options"
 msgstr ""
 
-#: src/components/uikit/TextInput/index.tsx:76
+#: src/components/uikit/TextInput/index.tsx:81
 msgid "Show password"
 msgstr ""
 
-#: src/routes/home/index.tsx:57
+#: src/routes/home/index.tsx:58
 msgid "Skeleton Placeholders"
 msgstr ""
 
-#: src/components/uikit/AsyncSelect/index.tsx:189
+#: src/components/uikit/AsyncSelect/index.tsx:172
 msgid "Something went wrong"
 msgstr ""
 
@@ -227,44 +228,44 @@ msgstr ""
 msgid "Something went wrong!"
 msgstr ""
 
-#: src/routes/home/index.tsx:53
+#: src/routes/home/index.tsx:54
 msgid "Speed is one of the most important aspects of a good UX. This template introduces a pattern for preloading route's data and code-split code in order to make page transitions feel instant."
 msgstr ""
 
-#: src/routes/home/index.tsx:58
+#: src/routes/home/index.tsx:59
 msgid "Spinners, so many spinners, everywhere. Traditional Single-Page-Applications usually show spinners while loading data for a given page. Instead of showing simple spinners this template offers a way to implement skeleton placeholders for pages with a cool shimmering effect."
 msgstr ""
 
-#: src/routes/home/index.tsx:62
+#: src/routes/home/index.tsx:63
 msgid "Splash Screen"
 msgstr ""
 
-#: src/routes/login/index.tsx:67
+#: src/routes/login/index.tsx:74
 msgid "Submit"
 msgstr ""
 
-#: src/components/navigation/Sidebar.tsx:33
-#: src/routes/theming/index.tsx:9
-#: src/routes/theming/index.tsx:15
+#: src/routes/theming/index.tsx:10
+#: src/routes/theming/index.tsx:16
+#: src/components/navigation/Sidebar.tsx:35
 msgid "Theming"
 msgstr ""
 
-#: src/routes/feature-flags/index.tsx:17
+#: src/routes/feature-flags/index.tsx:18
 msgid "This page is only accessible when <0>feature-3</0> is enabled in session."
 msgstr ""
 
-#: src/routes/home/index.tsx:79
+#: src/routes/home/index.tsx:80
 msgid "This React app contains the necessary building blocks that you need to get your project started. You can freely alter any aspect of the template to fit your needs better."
 msgstr ""
 
-#: src/routes/post-create/index.tsx:53
+#: src/routes/post-create/index.tsx:54
 msgid "Title"
 msgstr ""
 
-#: src/routes/home/index.tsx:75
+#: src/routes/home/index.tsx:76
 msgid "Welcome to Taito Fullstack Template!"
 msgstr ""
 
-#: src/routes/feature-flags/index.tsx:24
+#: src/routes/feature-flags/index.tsx:25
 msgid "You can enable features via the feature flag manager widget."
 msgstr ""

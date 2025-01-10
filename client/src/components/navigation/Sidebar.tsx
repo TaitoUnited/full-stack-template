@@ -1,5 +1,6 @@
-import { t, Trans } from '@lingui/macro';
+import { Trans, useLingui } from '@lingui/react/macro';
 
+import { toast } from 'react-hot-toast';
 import { UnstyledLink } from './Link';
 import { Text, Icon, IconName, Button } from '~uikit';
 import { styled } from '~styled-system/jsx';
@@ -8,6 +9,7 @@ import { stack } from '~styled-system/patterns';
 import { isFeatureEnabled } from '~services/feature-flags';
 
 export function Sidebar() {
+  const { t } = useLingui();
   const authStatus = useAuthStore(state => state.status);
   const feature3Enabled = isFeatureEnabled('feature-3');
 
@@ -46,6 +48,15 @@ export function Sidebar() {
     });
   }
 
+  async function handleLogout() {
+    try {
+      await logout();
+    } catch (error) {
+      console.error('Failed to logout', error);
+      toast(t`Failed to logout`, { icon: 'error' });
+    }
+  }
+
   return (
     <Wrapper>
       <Nav>
@@ -73,7 +84,7 @@ export function Sidebar() {
               icon="logout"
               iconPlacement="end"
               isLoading={authStatus === 'logging-out'}
-              onPress={logout}
+              onPress={handleLogout}
             >
               {authStatus === 'logging-out' ? (
                 <Trans>Logging out</Trans>

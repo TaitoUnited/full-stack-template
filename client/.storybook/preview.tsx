@@ -1,9 +1,11 @@
 import './preview.css';
 import React, { type ReactNode } from 'react';
 import { type Preview } from '@storybook/react';
+import { I18nProvider as AriaI18nProvider } from 'react-aria-components';
 import { OverlayProvider } from 'react-aria';
-import { I18nProvider } from '@lingui/react';
 import { i18n } from '@lingui/core';
+import { I18nProvider } from '@lingui/react';
+import { useLingui } from '@lingui/react/macro';
 
 i18n.load('fi', {});
 i18n.activate('fi');
@@ -11,7 +13,9 @@ i18n.activate('fi');
 function StoryDecorator({ children }: { children: ReactNode }) {
   return (
     <I18nProvider i18n={i18n}>
-      <OverlayProvider>{children}</OverlayProvider>
+      <AriaLocaleProvider>
+        <OverlayProvider>{children}</OverlayProvider>
+      </AriaLocaleProvider>
     </I18nProvider>
   );
 }
@@ -26,5 +30,10 @@ const preview: Preview = {
     ),
   ],
 };
+
+function AriaLocaleProvider({ children }: { children: ReactNode }) {
+  const { i18n } = useLingui();
+  return <AriaI18nProvider locale={i18n.locale}>{children}</AriaI18nProvider>;
+}
 
 export default preview;

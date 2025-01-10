@@ -1,4 +1,4 @@
-import { t, Trans } from '@lingui/macro';
+import { Trans, useLingui } from '@lingui/react/macro';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import { PostListCard } from './PostListCard';
@@ -9,6 +9,7 @@ import { Text, Stack, Button } from '~uikit';
 import { usePostListSuspenseQuery } from '~graphql';
 
 export default function PostListRoute() {
+  const { t } = useLingui();
   const navigate = useNavigate();
   const { data, suspending } = usePostListSuspenseQuery();
   const { posts } = data;

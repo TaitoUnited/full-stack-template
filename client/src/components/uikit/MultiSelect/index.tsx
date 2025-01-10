@@ -1,5 +1,5 @@
 import { type Ref, useContext, useState } from 'react';
-import { Trans, t } from '@lingui/macro';
+import { Trans, useLingui } from '@lingui/react/macro';
 import { useFilter } from 'react-aria';
 import useMeasure from 'react-use-measure';
 
@@ -87,6 +87,7 @@ export function MultiSelect({
   onSelect,
   ...rest
 }: Props) {
+  const { t } = useLingui();
   const [measureRef, dimensions] = useMeasure();
 
   return (

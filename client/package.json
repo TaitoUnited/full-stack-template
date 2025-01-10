@@ -19,7 +19,6 @@
     "analyze": "ANALYZE=true npm run build && source-map-explorer 'build/assets/*.js' --no-border-checks",
     "lang:add-locale": "lingui add-locale",
     "lang:extract": "lingui extract",
-    "lang:compile": "lingui compile",
     "uikit:preview": "storybook dev -p 6006",
     "uikit:build": "storybook build",
     "design-system:sync": "npm-run-all -s design-system:tokenize design-system:codegen design-system:format",
@@ -27,14 +26,12 @@
     "design-system:codegen": "figmage codegen --env ./styled-system/.env",
     "design-system:format": "prettier --write \"styled-system/tokens/*.ts\"",
     "generate": "npm-run-all -p generate:*",
-    "generate:lang": "lingui compile",
     "generate:graphql": "graphql-codegen --config codegen.yml",
     "generate:styled-system": "panda codegen --clean --config ./styled-system/setup/config.ts"
   },
   "dependencies": {
     "@apollo/client": "3.12.4",
-    "@lingui/macro": "4.2.1",
-    "@lingui/react": "4.2.1",
+    "@lingui/react": "5.1.2",
     "@loadable/component": "5.16.4",
     "@sentry/browser": "8.48.0",
     "@wry/equality": "0.5.7",
@@ -58,8 +55,8 @@
     "@graphql-codegen/typescript": "4.1.2",
     "@graphql-codegen/typescript-operations": "4.4.0",
     "@graphql-codegen/typescript-react-apollo": "4.3.2",
-    "@lingui/cli": "4.2.1",
-    "@lingui/vite-plugin": "4.2.1",
+    "@lingui/cli": "5.1.2",
+    "@lingui/vite-plugin": "5.1.2",
     "@optimize-lodash/rollup-plugin": "5.0.0",
     "@pandacss/dev": "0.51.1",
     "@rollup/plugin-strip": "3.0.4",
@@ -111,6 +108,7 @@
     "npm": ">=9.5"
   },
   "lingui": {
+    "sourceLocale": "en",
     "locales": [
       "en",
       "fi"
@@ -123,8 +121,7 @@
         ]
       }
     ],
-    "format": "po",
-    "compileNamespace": "ts"
+    "format": "po"
   },
   "figmage": {
     "outDir": "styled-system/tokens",

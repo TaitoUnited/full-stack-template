@@ -1,4 +1,4 @@
-import { Trans, t } from '@lingui/macro';
+import { Trans, useLingui } from '@lingui/react/macro';
 import { VisuallyHidden } from 'react-aria';
 
 import { Icon } from '../Icon';
@@ -17,6 +17,7 @@ export function SelectFilterInput({
   inputValue,
   onInputChange,
 }: Props) {
+  const { t } = useLingui();
   return (
     <Wrapper>
       <VisuallyHidden>

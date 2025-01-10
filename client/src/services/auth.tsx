@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 import { hideSplashScreen } from 'vite-plugin-splash-screen/runtime';
 import { create } from 'zustand';
-import { toast } from 'react-hot-toast';
-import { t } from '@lingui/macro';
 
 import { storage } from '~utils/storage';
 
@@ -45,7 +43,6 @@ export async function login(variables: { email: string; password: string }) {
     store.setState({ status: 'authenticated', organisation: organisation.id });
   } catch (error) {
     store.setState({ status: 'unauthenticated' });
-    toast.error(t`Failed to login`);
   }
 }
 
@@ -60,9 +57,7 @@ export async function logout() {
     await apolloClient.resetStore();
     storage.clearAll();
   } catch (error) {
-    console.log('Failed to logout', error);
     store.setState({ status: 'authenticated' });
-    toast.error(t`Failed to logout`);
   }
 }
 

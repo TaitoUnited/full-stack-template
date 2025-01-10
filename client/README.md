@@ -159,7 +159,7 @@ This client template is initialized with [LinguiJS](https://lingui.dev/) for int
 The easiest way to add translation support for a piece of text is to use the `Trans` component.
 
 ```js
-import { Trans } from '@lingui/macro';
+import { Trans } from '@lingui/react/macro';
 
 function Example() {
   return (
@@ -173,11 +173,10 @@ function Example() {
 In some cases it's not possible to use a React component so need to use the `t` macro with `useLingui` hook.
 
 ```js
-import { t } from '@lingui/macro';
-import { useLingui } from '@lingui/react';
+import { useLingui } from '@lingui/react/macro';
 
 function Example() {
-  useLingui();
+  const { t } = useLingui();
 
   function handleClick() {
     window.alert(t`I need to translate this too!`);
