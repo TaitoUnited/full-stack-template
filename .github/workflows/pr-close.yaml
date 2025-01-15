@@ -6,25 +6,15 @@ on:
       - dev
 
 jobs:
-  init:
-    name: Initialize
-    runs-on: ubuntu-latest
-    environment: ${{ github.base_ref }}
-    steps:
-      - run: echo "Exposing vars"
-    outputs:
-      env: ${{ format('pr-{0}', github.event.pull_request.number) }}
-      deployment-runs-on: ${{ vars.DEPLOYMENT_RUNS_ON || 'gcp-proto-vm' }}
-
   stop:
     name: Stop
-    needs: [init]
-    runs-on: ${{ needs.init.outputs.deployment-runs-on }}
+    runs-on: ${{ vars.DEPLOYMENT_RUNS_ON || 'TODO_DEFAULT_RUNNER' }}
     timeout-minutes: 10
     environment: ${{ github.base_ref }}
     if: ${{ ! endsWith(github.head_ref, '-no-env') }}
     env:
       GOOGLE_APPLICATION_CREDENTIALS: ./tmp/GOOGLE_APPLICATION_CREDENTIALS
+      ENV: ${{ format('pr-{0}', github.event.pull_request.number) }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -35,12 +25,20 @@ jobs:
           mkdir -p ./tmp
           printf "%s" '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_SECRET }}' > "$GOOGLE_APPLICATION_CREDENTIALS"
 
+      # NOTE: It would be better to execute this on the pipeline that deploys to dev, but I guess
+      # it cannot access the pull-request labels
+      - name: Recreate target (dev) database if requested
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: db recreate:${{ github.base_ref }}
+        if: ${{ github.base_ref == 'dev' && contains(github.event.pull_request.labels.*.name, 'PR - db recreate') }}
+
       - name: Stop the PR environment
         uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
         with:
-          args: stop:${{ needs.init.outputs.env }}
+          args: stop:${{env.ENV}}
 
       - name: Drop the database
         uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
         with:
-          args: db drop:${{ needs.init.outputs.env }}
+          args: db drop:${{env.ENV}}

@@ -70,6 +70,7 @@ taito_secrets="
   $taito_project-$taito_env-redis.password:random
   $taito_project-$taito_env-session.secret:random
   $taito_project-$taito_env-example.secret:manual
+  $taito_project-$taito_env-test-user-password.secret:manual
 "
 
 # Secrets for local environment only
@@ -97,6 +98,7 @@ taito_cicd_secrets="
 # Secrets required by CI/CD tests
 taito_testing_secrets="
   $taito_project-$taito_env-basic-auth.auth
+  $taito_project-$taito_env-test-user-password.secret
 "
 
 # Secret hints and descriptions

@@ -1,9 +1,0 @@
-# Overrides for pull-request environments with -db as branch name suffix
-
-full-stack:
-  services:
-    server:
-      env:
-        # Forces PR specific database to be used for all PRs that have
-        # a branch name that ends with -db
-        DATABASE_NAME: ${db_database_name}

@@ -8,11 +8,13 @@ export const graphql = initGraphQLTada<{ introspection: introspection }>();
 export type { FragmentOf, ResultOf, VariablesOf } from 'gql.tada';
 export { readFragment } from 'gql.tada';
 
-const baseUrl = process.env.TEST_API_URL
-  ? `${process.env.TEST_API_URL}/graphql`
+const baseUrl = process.env.TEST_BASE_URL
+  ? `${process.env.TEST_BASE_URL}/api/graphql`
   : `http://${config.API_BINDADDR}:${config.API_PORT}/graphql`;
 
-export const client = new GraphQLClient(baseUrl);
+export const client = new GraphQLClient(baseUrl, {
+  headers: { origin: process.env.TEST_BASE_URL || config.COMMON_URL! },
+});
 
 export function clientWithUser(
   user: keyof (typeof globalThis.testData)['users']
@@ -23,6 +25,7 @@ export function clientWithUser(
     headers: {
       Authorization: `Bearer ${sessionId}`,
       'x-organisation-id': globalThis.testData.organisation.id,
+      origin: process.env.TEST_BASE_URL || config.COMMON_URL!,
     },
   });
 }
