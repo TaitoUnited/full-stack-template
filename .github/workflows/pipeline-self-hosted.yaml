@@ -149,6 +149,9 @@ jobs:
     runs-on: ${{ vars.DEPLOYMENT_RUNS_ON || 'TODO_DEFAULT_RUNNER' }}
     timeout-minutes: 7
     environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
+    permissions:
+      contents: read
+      pull-requests: write
     env:
       GOOGLE_APPLICATION_CREDENTIALS: ./tmp/GOOGLE_APPLICATION_CREDENTIALS
       ENV: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.ref_name }}
@@ -188,6 +191,13 @@ jobs:
         uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
         with:
           args: deployment wait:${{env.ENV}}
+
+      - name: Add PR environment url on PR as comment
+        if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'PR - has env')}}
+        uses: mshick/add-pr-comment@v2
+        with:
+          message: |
+            Your application is now running at https://TODO-${{env.ENV}}.mydomain.com
 
   test-playwright:
     name: Test playwright
