@@ -10,7 +10,7 @@ jobs:
     name: Stop
     runs-on: ${{ vars.DEPLOYMENT_RUNS_ON || 'TODO_DEFAULT_RUNNER' }}
     timeout-minutes: 10
-    environment: ${{ github.base_ref }}
+    environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
     if: ${{ ! endsWith(github.head_ref, '-no-env') }}
     env:
       GOOGLE_APPLICATION_CREDENTIALS: ./tmp/GOOGLE_APPLICATION_CREDENTIALS
