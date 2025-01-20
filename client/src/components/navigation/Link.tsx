@@ -1,4 +1,4 @@
-import { forwardRef, ReactNode } from 'react';
+import { ReactNode, type Ref } from 'react';
 import { FocusRing } from 'react-aria';
 
 /* eslint-disable no-restricted-imports */
@@ -11,68 +11,78 @@ import {
 import { css, cx } from '~styled-system/css';
 
 type Props = LinkProps & {
+  ref?: Ref<HTMLAnchorElement>;
   children: ReactNode;
   preload?: boolean;
 };
 
-export const Link = forwardRef<HTMLAnchorElement, Props>(
-  ({ children, to, className, preload = true, ...rest }, ref) => {
-    return (
-      <FocusRing focusRingClass="link-focus">
-        <RRLink
-          {...rest}
-          data-preload={preload}
-          className={cx(linkStyles, className)}
-          to={to}
-          ref={ref}
-        >
-          {children}
-        </RRLink>
-      </FocusRing>
-    );
-  }
-);
-
-Link.displayName = 'Link';
-
-export const UnstyledLink = forwardRef<HTMLAnchorElement, Props>(
-  ({ children, to, className, preload = true, ...rest }, ref) => {
-    return (
+export function Link({
+  ref,
+  children,
+  to,
+  className,
+  preload = true,
+  ...rest
+}: Props) {
+  return (
+    <FocusRing focusRingClass="link-focus">
       <RRLink
         {...rest}
         data-preload={preload}
-        className={cx(unstyledLinkStyles, className)}
+        className={cx(linkStyles, className)}
         to={to}
         ref={ref}
       >
         {children}
       </RRLink>
-    );
-  }
-);
+    </FocusRing>
+  );
+}
 
-UnstyledLink.displayName = 'UnstyledLink';
+export function UnstyledLink({
+  ref,
+  children,
+  to,
+  className,
+  preload = true,
+  ...rest
+}: Props) {
+  return (
+    <RRLink
+      {...rest}
+      data-preload={preload}
+      className={cx(unstyledLinkStyles, className)}
+      to={to}
+      ref={ref}
+    >
+      {children}
+    </RRLink>
+  );
+}
 
 // Nav link knows whether it is active or not based on the current url
-export const NavLink = forwardRef<HTMLAnchorElement, Props>(
-  ({ children, to, className, preload = true, ...rest }, ref) => {
-    return (
-      <FocusRing focusRingClass="link-focus">
-        <RRNavLink
-          {...rest}
-          data-preload={preload}
-          className={cx(linkStyles, className)}
-          to={to}
-          ref={ref}
-        >
-          {children}
-        </RRNavLink>
-      </FocusRing>
-    );
-  }
-);
-
-NavLink.displayName = 'NavLink';
+export function NavLink({
+  ref,
+  children,
+  to,
+  className,
+  preload = true,
+  ...rest
+}: Props) {
+  return (
+    <FocusRing focusRingClass="link-focus">
+      <RRNavLink
+        {...rest}
+        data-preload={preload}
+        className={cx(linkStyles, className)}
+        to={to}
+        ref={ref}
+      >
+        {children}
+      </RRNavLink>
+    </FocusRing>
+  );
+}
 
 const linkStyles = css({
   textDecoration: 'none',

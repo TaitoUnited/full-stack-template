@@ -1,4 +1,4 @@
-import { forwardRef, ComponentProps } from 'react';
+import { ComponentProps, type Ref } from 'react';
 
 import {
   Button,
@@ -34,6 +34,7 @@ export type ComboBoxOption = {
 };
 
 type Props = ComponentProps<typeof AriaComboBox<ComboBoxOption>> & {
+  ref?: Ref<HTMLInputElement>;
   label: string;
   description?: string;
   /** Passing an `errorMessage` as prop toggles the input as invalid. */
@@ -47,8 +48,16 @@ type Props = ComponentProps<typeof AriaComboBox<ComboBoxOption>> & {
  *
  * Ref: https://react-spectrum.adobe.com/react-aria/ComboBox.html
  */
-export const ComboBox = forwardRef<HTMLInputElement, Props>(
-  ({ label, description, errorMessage, placeholder, icon, ...rest }, ref) => (
+export function ComboBox({
+  ref,
+  label,
+  description,
+  errorMessage,
+  placeholder,
+  icon,
+  ...rest
+}: Props) {
+  return (
     <AriaComboBox
       {...rest}
       ref={ref}
@@ -102,8 +111,8 @@ export const ComboBox = forwardRef<HTMLInputElement, Props>(
         </ListBox>
       </Popover>
     </AriaComboBox>
-  )
-);
+  );
+}
 
 const InputWrapper = styled('div', {
   base: {
@@ -124,5 +133,3 @@ const ChevronButton = styled(Button, {
     alignItems: 'center',
   },
 });
-
-ComboBox.displayName = 'ComboBox';

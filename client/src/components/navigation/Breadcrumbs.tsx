@@ -48,7 +48,7 @@ function BreadcrumbLink({
   isCurrent?: boolean;
   children: string;
 }) {
-  const ref = React.useRef<any>();
+  const ref = React.useRef<any>(undefined);
   const { itemProps } = useBreadcrumbItem({ children, isCurrent }, ref);
 
   return (

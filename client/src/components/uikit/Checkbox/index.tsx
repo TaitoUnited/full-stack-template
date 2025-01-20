@@ -1,4 +1,4 @@
-import { forwardRef, ComponentProps, ReactNode } from 'react';
+import { ComponentProps, ReactNode } from 'react';
 import { Checkbox as AriaCheckbox } from 'react-aria-components';
 
 import { Icon } from '../Icon';
@@ -35,8 +35,14 @@ type Props = PropsWithLabel | PropsWithLabelledBy | PropsWithHiddenLabel;
  *
  * Ref: https://react-spectrum.adobe.com/react-aria/Checkbox.html
  */
-export const Checkbox = forwardRef<HTMLLabelElement, Props>(
-  ({ label, labelledby, hiddenLabel, ...rest }, ref) => (
+export function Checkbox({
+  ref,
+  label,
+  labelledby,
+  hiddenLabel,
+  ...rest
+}: Props) {
+  return (
     <Wrapper
       aria-labelledby={labelledby}
       aria-label={hiddenLabel}
@@ -71,8 +77,8 @@ export const Checkbox = forwardRef<HTMLLabelElement, Props>(
         </>
       )}
     </Wrapper>
-  )
-);
+  );
+}
 
 const Wrapper = styled(AriaCheckbox, {
   base: {
@@ -143,5 +149,3 @@ const Checkmark = styled('div', {
     $fadeScaleIn: 200,
   },
 });
-
-Checkbox.displayName = 'Checkbox';

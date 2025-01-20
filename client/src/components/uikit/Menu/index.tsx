@@ -1,10 +1,4 @@
-import {
-  CSSProperties,
-  ReactNode,
-  Ref,
-  RefAttributes,
-  forwardRef,
-} from 'react';
+import { CSSProperties, ReactNode, type Ref, RefAttributes } from 'react';
 
 import {
   Menu as AriaMenu,
@@ -28,6 +22,7 @@ import { styled } from '~styled-system/jsx';
 import { cva } from '~styled-system/css';
 
 type Props = Omit<MenuTriggerProps, 'trigger'> & {
+  ref?: Ref<HTMLDivElement>;
   children: ReactNode;
   trigger: ReactNode;
   className?: string;
@@ -40,59 +35,55 @@ type Props = Omit<MenuTriggerProps, 'trigger'> & {
   selectionMode?: MenuProps<string>['selectionMode'];
 };
 
-const MenuBase = forwardRef(
-  (
-    {
-      trigger,
-      children,
-      className,
-      style,
-      offset = 8,
-      placement = 'bottom start',
-      selected,
-      selectionMode,
-      ...rest
-    }: Props,
-    ref: Ref<HTMLDivElement>
-  ) => {
-    return (
-      <MenuTrigger data-testid="menu" {...rest}>
-        {trigger}
-        <Popover
-          data-testid="menu-popover"
-          offset={offset}
-          placement={placement}
-          className={({ isEntering, isExiting }) =>
-            popoverStyles({ isEntering, isExiting })
-          }
+function MenuBase({
+  ref,
+  trigger,
+  children,
+  className,
+  style,
+  offset = 8,
+  placement = 'bottom start',
+  selected,
+  selectionMode,
+  ...rest
+}: Props) {
+  return (
+    <MenuTrigger data-testid="menu" {...rest}>
+      {trigger}
+      <Popover
+        data-testid="menu-popover"
+        offset={offset}
+        placement={placement}
+        className={({ isEntering, isExiting }) =>
+          popoverStyles({ isEntering, isExiting })
+        }
+      >
+        <MenuItems
+          selectedKeys={selected}
+          selectionMode={selectionMode}
+          ref={ref}
+          style={style}
+          className={className}
+          data-testid="menu-items"
         >
-          <MenuItems
-            selectedKeys={selected}
-            selectionMode={selectionMode}
-            ref={ref}
-            style={style}
-            className={className}
-            data-testid="menu-items"
-          >
-            {children}
-          </MenuItems>
-        </Popover>
-      </MenuTrigger>
-    );
-  }
-);
+          {children}
+        </MenuItems>
+      </Popover>
+    </MenuTrigger>
+  );
+}
 
-MenuBase.displayName = 'Menu';
-
-const Item = forwardRef<
-  HTMLDivElement,
-  Omit<MenuItemProps, 'id' | 'onAction' | 'children'> & {
-    // Make some props required
-    id: string;
-    children: ReactNode;
-    onAction: () => void;
-  }
->(({ children, ...rest }, ref) => {
+const Item = ({
+  ref,
+  children,
+  ...rest
+}: Omit<MenuItemProps, 'id' | 'onAction' | 'children'> & {
+  // Make some props required
+  ref?: Ref<HTMLDivElement>;
+  id: string;
+  children: ReactNode;
+  onAction: () => void;
+}) => {
   return (
     <MenuItem ref={ref} data-testid="menu-item" {...rest}>
       <Stack direction="row" gap="small" align="center" justify="space-between">
@@ -101,9 +92,7 @@ const Item = forwardRef<
       </Stack>
     </MenuItem>
   );
-});
-
-Item.displayName = 'MenuItem';
+};
 
 type SectionProps = AriaSectionProps<any> &
   RefAttributes<HTMLElement> & {
@@ -111,20 +100,16 @@ type SectionProps = AriaSectionProps<any> &
     children: ReactNode;
   };
 
-const Section = forwardRef<HTMLElement, SectionProps>(
-  ({ title, children, ...rest }, ref) => {
-    return (
-      <MenuSection data-testid="menu-section" ref={ref} {...rest}>
-        <MenuSectionHeader data-testid="menu-section-title">
-          {title}
-        </MenuSectionHeader>
-        {children}
-      </MenuSection>
-    );
-  }
-);
-
-Section.displayName = 'MenuSection';
+const Section = ({ ref, title, children, ...rest }: SectionProps) => {
+  return (
+    <MenuSection data-testid="menu-section" ref={ref} {...rest}>
+      <MenuSectionHeader data-testid="menu-section-title">
+        {title}
+      </MenuSectionHeader>
+      {children}
+    </MenuSection>
+  );
+};
 
 const popoverStyles = cva({
   base: {

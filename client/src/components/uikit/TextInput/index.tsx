@@ -1,4 +1,4 @@
-import { useState, forwardRef, ComponentProps } from 'react';
+import { useState, ComponentProps, Ref } from 'react';
 import { t } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
 import { TextField, Input, Label, ToggleButton } from 'react-aria-components';
@@ -17,6 +17,7 @@ import { cx } from '~styled-system/css';
 import { styled } from '~styled-system/jsx';
 
 type Props = ComponentProps<typeof TextField> & {
+  ref?: Ref<HTMLInputElement>;
   label: string;
   icon?: IconName;
   description?: string;
@@ -29,67 +30,71 @@ type Props = ComponentProps<typeof TextField> & {
 /**
  * Ref: https://react-spectrum.adobe.com/react-aria/TextField.html
  */
-export const TextInput = forwardRef<HTMLInputElement, Props>(
-  (
-    { label, icon, description, errorMessage, placeholder, id, ...rest },
-    ref
-  ) => {
-    useLingui();
-    const [passwordVisible, setPasswordVisible] = useState(false);
-    const isPassword = rest.type === 'password';
+export function TextInput({
+  ref,
+  label,
+  icon,
+  description,
+  errorMessage,
+  placeholder,
+  id,
+  ...rest
+}: Props) {
+  useLingui();
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const isPassword = rest.type === 'password';
 
-    return (
-      <TextField
-        {...rest}
-        className={cx(inputWrapperStyles, rest.className)}
-        isInvalid={!!errorMessage}
-      >
-        <Label className={labelStyles} data-required={rest.isRequired}>
-          {label}
-        </Label>
+  return (
+    <TextField
+      {...rest}
+      className={cx(inputWrapperStyles, rest.className)}
+      isInvalid={!!errorMessage}
+    >
+      <Label className={labelStyles} data-required={rest.isRequired}>
+        {label}
+      </Label>
 
-        <InputContent>
-          {!!icon && (
+      <InputContent>
+        {!!icon && (
+          <Icon
+            className={inputIconLeftStyles}
+            name={icon}
+            size={20}
+            color="neutral1"
+          />
+        )}
+
+        <Input
+          ref={ref}
+          id={id}
+          placeholder={placeholder}
+          className={inputBaseStyles}
+          data-password={isPassword || undefined}
+          type={
+            isPassword ? (passwordVisible ? 'text' : 'password') : rest.type
+          }
+        />
+
+        {isPassword && (
+          <PasswordToggleButton
+            isSelected={passwordVisible}
+            onChange={setPasswordVisible}
+            aria-label={t`Show password`}
+          >
             <Icon
-              className={inputIconLeftStyles}
-              name={icon}
+              name={passwordVisible ? 'eye' : 'eyeOff'}
               size={20}
               color="neutral1"
             />
-          )}
+          </PasswordToggleButton>
+        )}
+      </InputContent>
 
-          <Input
-            ref={ref}
-            id={id}
-            placeholder={placeholder}
-            className={inputBaseStyles}
-            data-password={isPassword || undefined}
-            type={
-              isPassword ? (passwordVisible ? 'text' : 'password') : rest.type
-            }
-          />
-
-          {isPassword && (
-            <PasswordToggleButton
-              isSelected={passwordVisible}
-              onChange={setPasswordVisible}
-              aria-label={t`Show password`}
-            >
-              <Icon
-                name={passwordVisible ? 'eye' : 'eyeOff'}
-                size={20}
-                color="neutral1"
-              />
-            </PasswordToggleButton>
-          )}
-        </InputContent>
-
-        {!!description && <DescriptionText>{description}</DescriptionText>}
-        {!!errorMessage && <ErrorText>{errorMessage}</ErrorText>}
-      </TextField>
-    );
-  }
-);
+      {!!description && <DescriptionText>{description}</DescriptionText>}
+      {!!errorMessage && <ErrorText>{errorMessage}</ErrorText>}
+    </TextField>
+  );
+}
 
 const InputContent = styled('div', {
   base: {
@@ -113,5 +118,3 @@ const PasswordToggleButton = styled(ToggleButton, {
     $focusRing: true,
   },
 });
-
-TextInput.displayName = 'TextInput';

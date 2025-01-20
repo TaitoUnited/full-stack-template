@@ -1,10 +1,21 @@
-import { CSSProperties, ReactNode } from 'react';
+import { memo, type CSSProperties, type ReactNode, type Ref } from 'react';
+import { type SpacingToken, token } from '~styled-system/tokens';
+import { type StyledSystemToken } from '~utils/styled-system';
 
-import { SpacingToken, token } from '~styled-system/tokens';
-import { polymorphicForwardRef } from '~utils/polymorphic';
-import { StyledSystemToken } from '~utils/styled-system';
+type AllowedElement =
+  | 'div'
+  | 'section'
+  | 'article'
+  | 'aside'
+  | 'header'
+  | 'footer'
+  | 'nav'
+  | 'ul'
+  | 'ol'
+  | 'li';
 
-type OwnProps = {
+type Props = {
+  ref?: Ref<any>;
   gap: StyledSystemToken<SpacingToken>;
   direction?: CSSProperties['flexDirection'];
   align?: CSSProperties['alignItems'];
@@ -13,33 +24,40 @@ type OwnProps = {
   children: ReactNode;
   className?: string;
   style?: CSSProperties;
+  as?: AllowedElement;
 };
 
-export const Stack = polymorphicForwardRef<'div', OwnProps>(
-  (
-    { as, children, style, gap, direction, align, justify, wrap, ...rest },
-    ref
-  ) => {
-    const Element = as || 'div';
+function StackBase({
+  as,
+  children,
+  style,
+  gap,
+  direction,
+  align,
+  justify,
+  wrap,
+  ref,
+  ...rest
+}: Props) {
+  const Element = as || 'div';
 
-    return (
-      <Element
-        {...rest}
-        ref={ref}
-        style={{
-          gap: token.var(`$spacing.${gap}`),
-          display: 'flex',
-          flexDirection: direction,
-          alignItems: align,
-          justifyContent: justify,
-          flexWrap: wrap,
-          ...style,
-        }}
-      >
-        {children}
-      </Element>
-    );
-  }
-);
+  return (
+    <Element
+      {...rest}
+      ref={ref}
+      style={{
+        gap: token.var(`$spacing.${gap}`),
+        display: 'flex',
+        flexDirection: direction,
+        alignItems: align,
+        justifyContent: justify,
+        flexWrap: wrap,
+        ...style,
+      }}
+    >
+      {children}
+    </Element>
+  );
+}
 
-Stack.displayName = 'Stack';
+export const Stack = memo(StackBase);

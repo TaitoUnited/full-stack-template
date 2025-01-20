@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, forwardRef } from 'react';
+import { CSSProperties, ReactNode, type Ref } from 'react';
 
 import {
   Button as AriaButton,
@@ -27,71 +27,59 @@ type OwnProps = {
 
 type ButtonProps = AriaButtonProps &
   RecipeVariantProps<typeof buttonStyle> &
-  OwnProps;
+  OwnProps & {
+    ref?: Ref<HTMLButtonElement>;
+  };
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      children,
-      className,
-      color = 'primary',
-      icon,
-      iconPlacement = 'start',
-      isLoading,
-      isDisabled,
-      size = 'normal',
-      style,
-      variant,
-      ...rest
-    },
-    ref
-  ) => {
-    const _className = cx(
-      buttonStyle({ size, variant, isDisabled }),
-      className
-    );
+export function Button({
+  ref,
+  children,
+  className,
+  color = 'primary',
+  icon,
+  iconPlacement = 'start',
+  isLoading,
+  isDisabled,
+  size = 'normal',
+  style,
+  variant,
+  ...rest
+}: ButtonProps) {
+  const _className = cx(buttonStyle({ size, variant, isDisabled }), className);
 
-    const _style = {
-      ...style,
-      '--color-muted': token.var(`$colors.${color}Muted`),
-      '--color-text': token.var(`$colors.${color}Contrast`),
-      '--color': token.var(`$colors.${color}`),
-      // Visually balance the horizontal padding when an icon is present.
-      '--padding-start-factor': icon && iconPlacement === 'start' ? 0.75 : 1,
-      '--padding-end-factor': icon && iconPlacement === 'end' ? 0.75 : 1,
-    } as CSSProperties;
+  const _style = {
+    ...style,
+    '--color-muted': token.var(`$colors.${color}Muted`),
+    '--color-text': token.var(`$colors.${color}Contrast`),
+    '--color': token.var(`$colors.${color}`),
+    // Visually balance the horizontal padding when an icon is present.
+    '--padding-start-factor': icon && iconPlacement === 'start' ? 0.75 : 1,
+    '--padding-end-factor': icon && iconPlacement === 'end' ? 0.75 : 1,
+  } as CSSProperties;
 
-    const iconComp = icon && (
-      <Icon
-        name={icon}
-        color="currentColor"
-        size={buttonSizeToIconSize[size]}
-      />
-    );
+  const iconComp = icon && (
+    <Icon name={icon} color="currentColor" size={buttonSizeToIconSize[size]} />
+  );
 
-    return (
-      <AriaButton
-        {...rest}
-        ref={ref}
-        style={_style}
-        className={_className}
-        isDisabled={isDisabled}
-      >
-        {icon && iconPlacement === 'start' && iconComp}
-        <span>{children}</span>
-        {icon && iconPlacement === 'end' && iconComp}
-        {isLoading && (
-          <SpinnerWrapper>
-            <Spinner
-              color="currentColor"
-              size={buttonSizeToSpinnerSize[size]}
-            />
-          </SpinnerWrapper>
-        )}
-      </AriaButton>
-    );
-  }
-);
+  return (
+    <AriaButton
+      {...rest}
+      ref={ref}
+      style={_style}
+      className={_className}
+      isDisabled={isDisabled}
+    >
+      {icon && iconPlacement === 'start' && iconComp}
+      <span>{children}</span>
+      {icon && iconPlacement === 'end' && iconComp}
+      {isLoading && (
+        <SpinnerWrapper>
+          <Spinner color="currentColor" size={buttonSizeToSpinnerSize[size]} />
+        </SpinnerWrapper>
+      )}
+    </AriaButton>
+  );
+}
 
 const buttonSizeToIconSize: { [size in ButtonSize]: number } = {
   small: 14,
@@ -230,5 +218,3 @@ const SpinnerWrapper = styled('div', {
     backgroundColor: 'inherit',
   },
 });
-
-Button.displayName = 'Button';
