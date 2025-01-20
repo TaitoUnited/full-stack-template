@@ -118,5 +118,3 @@ const PasswordToggleButton = styled(ToggleButton, {
     $focusRing: true,
   },
 });
-
-TextInput.displayName = 'TextInput';

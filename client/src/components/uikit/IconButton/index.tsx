@@ -86,8 +86,6 @@ export function IconButton({
   );
 }
 
-IconButton.displayName = 'IconButton';
-
 const styles = cva({
   base: {
     position: 'relative',

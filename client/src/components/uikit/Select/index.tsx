@@ -125,5 +125,3 @@ export function Select({
     </AriaSelect>
   );
 }
-
-Select.displayName = 'Select';

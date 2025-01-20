@@ -133,5 +133,3 @@ const ChevronButton = styled(Button, {
     alignItems: 'center',
   },
 });
-
-ComboBox.displayName = 'ComboBox';
