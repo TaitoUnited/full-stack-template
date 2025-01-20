@@ -1,9 +1,14 @@
 import { Trans, useLingui } from '@lingui/react/macro';
+import { createFileRoute } from '@tanstack/react-router';
 
 import { AlertMessage } from '~components/common/AlertMessage';
 import { useDocumentTitle } from '~hooks/useDocumentTitle';
 import { styled } from '~styled-system/jsx';
 import { Stack, Text } from '~uikit';
+
+export const Route = createFileRoute('/_app/$workspaceId/theming')({
+  component: ThemingRoute,
+});
 
 export default function ThemingRoute() {
   const { t } = useLingui();

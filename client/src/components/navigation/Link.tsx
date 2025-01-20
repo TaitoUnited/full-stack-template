@@ -1,106 +1,72 @@
-import { type ReactNode, type Ref } from 'react';
-import { FocusRing } from 'react-aria';
+import type { LinkComponent } from '@tanstack/react-router';
+import { createLink } from '@tanstack/react-router';
 import {
-  type LinkProps,
-  Link as RRLink,
-  NavLink as RRNavLink,
-} from 'react-router-dom';
+  type AnchorHTMLAttributes,
+  type CSSProperties,
+  type ReactNode,
+  type Ref,
+} from 'react';
+import {
+  mergeProps,
+  useFocusRing,
+  useHover,
+  useLink,
+  useObjectRef,
+} from 'react-aria';
 
 import { css, cx } from '~styled-system/css';
+import { mapToAriaProps } from '~utils/aria';
 
-type Props = LinkProps & {
+type LinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   ref?: Ref<HTMLAnchorElement>;
-  children: ReactNode;
-  preload?: boolean;
+  children?: ReactNode;
+  className?: string;
+  style?: CSSProperties;
 };
 
-export function Link({
-  ref,
-  children,
-  to,
-  className,
-  preload = true,
-  ...rest
-}: Props) {
+function LinkBase({ ref, ...props }: LinkProps) {
+  const objectRef = useObjectRef(ref);
+
+  /**
+   * Tanstack Router passes regular DOM event handler props, eg. `onClick`,
+   * to this component so we need to map them to React Aria supported props,
+   * eg. `onPress` (otherwise React Aria will complain).
+   */
+  const ariaProps = mapToAriaProps(props);
+  const { isPressed, linkProps } = useLink(ariaProps, objectRef);
+  const { isHovered, hoverProps } = useHover(ariaProps);
+  const { isFocusVisible, isFocused, focusProps } = useFocusRing(ariaProps);
+
   return (
-    <FocusRing focusRingClass="link-focus">
-      <RRLink
-        {...rest}
-        data-preload={preload}
-        className={cx(linkStyles, className)}
-        to={to}
-        ref={ref}
-      >
-        {children}
-      </RRLink>
-    </FocusRing>
+    // eslint-disable-next-line jsx-a11y/anchor-has-content
+    <a
+      {...mergeProps(linkProps, hoverProps, focusProps, props)}
+      ref={objectRef}
+      data-hovered={isHovered || undefined}
+      data-pressed={isPressed || undefined}
+      data-focus-visible={isFocusVisible || undefined}
+      data-focused={isFocused || undefined}
+      className={cx(linkStyles, props.className)}
+      style={props.style}
+    />
   );
 }
 
-Link.displayName = 'Link';
+const CreatedLinkComponent = createLink(LinkBase);
 
-export function UnstyledLink({
-  ref,
-  children,
-  to,
-  className,
-  preload = true,
-  ...rest
-}: Props) {
-  return (
-    <RRLink
-      {...rest}
-      data-preload={preload}
-      className={cx(unstyledLinkStyles, className)}
-      to={to}
-      ref={ref}
-    >
-      {children}
-    </RRLink>
-  );
-}
-
-UnstyledLink.displayName = 'UnstyledLink';
-
-// Nav link knows whether it is active or not based on the current url
-export function NavLink({
-  ref,
-  children,
-  to,
-  className,
-  preload = true,
-  ...rest
-}: Props) {
-  return (
-    <FocusRing focusRingClass="link-focus">
-      <RRNavLink
-        {...rest}
-        data-preload={preload}
-        className={cx(linkStyles, className)}
-        to={to}
-        ref={ref}
-      >
-        {children}
-      </RRNavLink>
-    </FocusRing>
-  );
-}
-
-NavLink.displayName = 'NavLink';
+// eslint-disable-next-line func-style
+export const Link: LinkComponent<typeof LinkBase> = props => {
+  return <CreatedLinkComponent preload={'intent'} {...props} />;
+};
 
 const linkStyles = css({
   textDecoration: 'none',
   outline: 'none',
 
-  '&.link-focus': {
+  '&[data-focus-visible="true"]': {
     textDecoration: 'underline',
     textDecorationColor: '$primary',
     textDecorationSkipInk: 'auto',
     textDecorationThickness: '2px',
   },
-});
-
-const unstyledLinkStyles = css({
-  textDecoration: 'none',
-  outline: 'none',
 });

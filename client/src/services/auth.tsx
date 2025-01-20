@@ -1,98 +1,81 @@
 import { useEffect } from 'react';
-import { hideSplashScreen } from 'vite-plugin-splash-screen/runtime';
 import { create } from 'zustand';
 
 import {
   getApolloClient,
   LoginDocument,
   LogoutDocument,
-  OrganisationsDocument,
-  type OrganisationsQuery,
+  MeDocument,
+  type MeQuery,
 } from '~graphql';
+import { getRouter } from '~route-setup';
 import { storage } from '~utils/storage';
 
 type AuthState =
-  | { status: 'undetermined'; organisation: null }
-  | { status: 'determining'; organisation: null }
-  | { status: 'logging-in'; organisation: null }
-  | { status: 'logging-out'; organisation: string }
-  | { status: 'authenticated'; organisation: string }
-  | { status: 'unauthenticated'; organisation: null };
+  | { status: 'undetermined' }
+  | { status: 'determining' }
+  | { status: 'logging-in' }
+  | { status: 'logging-out' }
+  | { status: 'authenticated' }
+  | { status: 'unauthenticated' };
 
-const store = create<AuthState>(() => ({
-  status: 'undetermined',
-  organisation: null,
-}));
+const store = create<AuthState>(() => ({ status: 'undetermined' }));
 
 export async function login(variables: { email: string; password: string }) {
-  const apolloClient = getApolloClient();
-
   store.setState({ status: 'logging-in' });
+
+  const apolloClient = getApolloClient();
+  const router = getRouter();
 
   try {
     await apolloClient.mutate({ mutation: LoginDocument, variables });
 
-    const organisation = await getUserOrganisation();
-
-    if (!organisation) {
-      throw new Error('User does not belong to any organisation');
-    }
-
     storage.clearAll();
-    store.setState({ status: 'authenticated', organisation: organisation.id });
+    store.setState({ status: 'authenticated' });
+    router.navigate({ to: '/' });
   } catch {
     store.setState({ status: 'unauthenticated' });
   }
 }
 
 export async function logout() {
-  const apolloClient = getApolloClient();
-
   store.setState({ status: 'logging-out' });
 
+  const apolloClient = getApolloClient();
+  const router = getRouter();
+
   try {
+    store.setState({ status: 'unauthenticated' });
+    await router.invalidate(); // this will cause redirect to /login
     await apolloClient.mutate({ mutation: LogoutDocument });
-    store.setState({ status: 'unauthenticated' });
-    await apolloClient.resetStore();
+    await apolloClient.clearStore();
     storage.clearAll();
-  } catch {
+  } catch (e) {
     store.setState({ status: 'authenticated' });
+    console.error('> Error logging out', e);
   }
 }
 
-async function verifyAuth() {
-  store.setState({ status: 'determining' });
+export async function verifyAuth() {
+  // If we know the user is authenticated or unauthenticated, return early
+  if (authStore.getState().status !== 'undetermined') return;
 
-  try {
-    const organisation = await getUserOrganisation();
-
-    if (!organisation) {
-      throw new Error('User does not belong to any organisation');
-    }
-
-    store.setState({ status: 'authenticated', organisation: organisation.id });
-  } catch (_) {
-    store.setState({ status: 'unauthenticated' });
-  } finally {
-    hideSplashScreen();
-  }
-}
-
-async function getUserOrganisation() {
   const apolloClient = getApolloClient();
 
-  // Try to get the current logged in user
-  const result = await apolloClient.query<OrganisationsQuery>({
-    query: OrganisationsDocument,
+  const { data } = await apolloClient.query<MeQuery>({
+    query: MeDocument,
+    fetchPolicy: 'cache-first',
   });
 
-  /**
-   * TODO: implement organistaions selection UI.
-   * This just automatically selects the first organisation.
-   */
-  const organisation = result.data.organisations?.[0];
+  let authenticated = false;
 
-  return organisation;
+  if (data.me) {
+    authenticated = !!data.me.id;
+  }
+
+  authStore.setState({
+    status: authenticated ? 'authenticated' : 'unauthenticated',
+  });
 }
 
 export const useAuthStore = store;
@@ -100,7 +83,7 @@ export const authStore = store;
 
 export function useVerifyAuth() {
   const authStatus = useAuthStore(state => state.status);
-
+  console.log('authStatus', authStatus);
   useEffect(() => {
     if (authStatus === 'undetermined') {
       verifyAuth();

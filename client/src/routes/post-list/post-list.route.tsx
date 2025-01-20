@@ -1,19 +1,34 @@
+import { useReadQuery } from '@apollo/client';
 import { Trans, useLingui } from '@lingui/react/macro';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { createFileRoute, Outlet } from '@tanstack/react-router';
 
-import { UnstyledLink } from '~components/navigation/Link';
-import { usePostListSuspenseQuery } from '~graphql';
+import { Link } from '~components/navigation/Link';
+import { LinkButton } from '~components/uikit/Button';
+import { type PostListQuery } from '~graphql';
+import { POST_LIST } from '~graphql/post/queries.gql';
 import { useDocumentTitle } from '~hooks/useDocumentTitle';
+import { RouteError } from '~routes/RouteError';
+import { RouteSpinner } from '~routes/RouteSpinner';
 import { stack } from '~styled-system/patterns';
-import { Button, Stack, Text } from '~uikit';
+import { Stack, Text } from '~uikit';
 
 import { PostListCard } from './PostListCard';
 
+export const Route = createFileRoute('/_app/$workspaceId/posts')({
+  component: PostListRoute,
+  errorComponent: () => <RouteError />,
+  pendingComponent: () => <RouteSpinner />,
+  loader: async ({ context }) => ({
+    queryRef: context.preloadQuery<PostListQuery>(POST_LIST),
+  }),
+});
+
 export default function PostListRoute() {
   const { t } = useLingui();
-  const navigate = useNavigate();
-  const { data, suspending } = usePostListSuspenseQuery();
-  const { posts } = data;
+  const { queryRef } = Route.useLoaderData();
+  const {
+    data: { posts },
+  } = useReadQuery(queryRef);
 
   useDocumentTitle(t`Blog`);
 
@@ -37,7 +52,7 @@ export default function PostListRoute() {
           />
         </div> */}
 
-        {suspending && <Text variant="body">Loading...</Text>}
+        {/* {suspending && <Text variant="body">Loading...</Text>} TODO: enable loading */}
 
         {posts.length > 0 ? (
           <ul
@@ -46,12 +61,12 @@ export default function PostListRoute() {
           >
             {posts.map(post => (
               <li key={post.id}>
-                <UnstyledLink to={post.id}>
+                <Link to={post.id}>
                   <PostListCard
                     createdAt={post.createdAt}
                     title={post.title || ''}
                   />
-                </UnstyledLink>
+                </Link>
               </li>
             ))}
           </ul>
@@ -60,15 +75,14 @@ export default function PostListRoute() {
         )}
 
         <div>
-          <Button
-            color="primary"
+          <LinkButton
+            to="/$workspaceId/posts/create"
             variant="filled"
-            icon="pen"
-            data-testid="navigate-to-create-post"
-            onPress={() => navigate('create')}
+            icon="add"
+            data-testid="post-create-link"
           >
             <Trans>New post</Trans>
-          </Button>
+          </LinkButton>
         </div>
       </Stack>
 

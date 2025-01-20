@@ -1,28 +1,38 @@
 import './index.css';
 
 import { ApolloProvider } from '@apollo/client';
+import loadable from '@loadable/component';
+import { RouterProvider } from '@tanstack/react-router';
 import { createRoot } from 'react-dom/client';
 
+import { Providers } from '~components/common/Providers';
+import { config, loadRemoteConfig } from '~constants/config';
 import { setupApolloClient } from '~graphql';
 import { setupFeatureFlags } from '~services/feature-flags';
 import { setupMessages } from '~services/i18n';
 import { setupErrorReporting } from '~services/reporting';
 
-import { App } from './App';
+import { setupRouter } from './route-setup';
+
+const FeatureFlagManager = loadable(
+  () => import('~components/feature-flags/FeatureFlagManager')
+);
 
 async function init() {
   setupErrorReporting();
   setupFeatureFlags();
-  await setupMessages();
 
-  const apolloClient = await setupApolloClient();
+  const apolloClient = setupApolloClient();
+  const router = setupRouter(apolloClient);
 
-  // TODO: consider adding StrictMode
-  // It's important to note that it will cause double effects in dev mode!
+  await Promise.allSettled([loadRemoteConfig(), setupMessages()]);
 
   createRoot(document.getElementById('app')!).render(
     <ApolloProvider client={apolloClient}>
-      <App />
+      <Providers>
+        <RouterProvider router={router} />
+        {config.ENV !== 'prod' && <FeatureFlagManager />}
+      </Providers>
     </ApolloProvider>
   );
 }
