@@ -1,10 +1,12 @@
-import { t } from '@lingui/macro';
+import { useLingui } from '@lingui/react/macro';
+import { i18n } from '@lingui/core';
 
 import { useI18n, SUPPORTED_LOCALES, LOCALE_LABEL } from '~services/i18n';
 import { Menu, IconButton } from '~uikit';
 
 export function LangMenuButton() {
-  const { i18n, changeLocale } = useI18n();
+  const { t } = useLingui();
+  const { changeLocale } = useI18n();
 
   return (
     <Menu

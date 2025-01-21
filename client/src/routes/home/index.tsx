@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { orderBy, random, range } from 'lodash';
-import { t, Trans } from '@lingui/macro';
+import { Trans, useLingui } from '@lingui/react/macro';
 
 import { Text, Stack, Icon, SortDescriptor, Table, IconName } from '~uikit';
 import { useDocumentTitle } from '~hooks/useDocumentTitle';
@@ -9,6 +9,7 @@ import { isFeatureEnabled } from '~services/feature-flags';
 import { FeatureGate } from '~components/feature-flags/FeatureGate';
 
 export default function HomeRoute() {
+  const { t } = useLingui();
   useDocumentTitle(t`Home`);
 
   const featureEnabled = isFeatureEnabled('feature-1');

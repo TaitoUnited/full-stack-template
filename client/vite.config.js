@@ -88,7 +88,9 @@ export default defineConfig(({ mode }) => ({
     tsconfigPaths(),
     react({
       exclude: /\.stories\.(t|j)sx?$/, // Exclude Storybook stories
-      babel: { plugins: ['macros'] },
+      babel: {
+        plugins: ['@lingui/babel-plugin-lingui-macro', 'macros'],
+      },
     }),
     lingui(),
   ].filter(Boolean),

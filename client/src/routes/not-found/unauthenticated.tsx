@@ -1,4 +1,4 @@
-import { Trans } from '@lingui/macro';
+import { Trans } from '@lingui/react/macro';
 
 import { Stack, Text } from '~uikit';
 import { Link } from '~components/navigation/Link';

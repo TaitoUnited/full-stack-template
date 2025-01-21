@@ -1,4 +1,4 @@
-import { t } from '@lingui/macro';
+import { useLingui } from '@lingui/react/macro';
 import { type Ref, useContext, useState } from 'react';
 import { useAsyncList } from 'react-stately';
 import useMeasure from 'react-use-measure';
@@ -99,6 +99,7 @@ export function AsyncSelect({
   loadItems,
   ...rest
 }: Props) {
+  const { t } = useLingui();
   const [measureRef, dimensions] = useMeasure();
 
   return (
@@ -167,8 +168,8 @@ export function AsyncSelect({
         >
           <AsyncSelectOptions
             actions={actions}
-            emptyMessage={emptyMessage}
-            errorMessage={errorMessage}
+            emptyMessage={emptyMessage ?? t`No options found`}
+            errorMessage={errorMessage ?? t`Something went wrong`}
             selectionMode={selectionMode}
             selected={selected}
             onSelect={onSelect}
@@ -181,8 +182,8 @@ export function AsyncSelect({
 }
 
 function AsyncSelectOptions({
-  errorMessage = t`Something went wrong`,
-  emptyMessage = t`No options found`,
+  errorMessage,
+  emptyMessage,
   actions,
   selectionMode,
   selected,

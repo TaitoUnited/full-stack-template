@@ -1,5 +1,4 @@
-import { t } from '@lingui/macro';
-import { useLingui } from '@lingui/react';
+import { useLingui } from '@lingui/react/macro';
 import { ComponentProps, ReactElement, ReactNode, useContext } from 'react';
 
 import {
@@ -37,8 +36,6 @@ function DialogBase({
   placement?: 'top' | 'middle' | 'bottom' | 'drawer';
   onOpenChange: (isOpen: boolean) => void;
 }) {
-  useLingui();
-
   return (
     <AriaModalOverlay
       isDismissable={isDismissable}
@@ -70,6 +67,7 @@ function DialogHeader({
   title?: string;
   children?: ReactElement;
 }) {
+  const { t } = useLingui();
   const triggerState = useContext(OverlayTriggerStateContext);
 
   if (!title && !children) {

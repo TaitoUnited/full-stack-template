@@ -1,6 +1,5 @@
 import { useState, ComponentProps, Ref } from 'react';
-import { t } from '@lingui/macro';
-import { useLingui } from '@lingui/react';
+import { useLingui } from '@lingui/react/macro';
 import { TextField, Input, Label, ToggleButton } from 'react-aria-components';
 
 import {
@@ -40,7 +39,7 @@ export function TextInput({
   id,
   ...rest
 }: Props) {
-  useLingui();
+  const { t } = useLingui();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const isPassword = rest.type === 'password';
 

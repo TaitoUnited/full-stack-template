@@ -1,7 +1,7 @@
 import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { t, Trans } from '@lingui/macro';
+import { Trans, useLingui } from '@lingui/react/macro';
 
 import { styled } from '~styled-system/jsx';
 import { useDocumentTitle } from '~hooks/useDocumentTitle';
@@ -9,6 +9,7 @@ import { TextInput, Stack, Dialog, TextArea, Button } from '~uikit';
 import { PostListDocument, useCreatePostMutation } from '~graphql';
 
 export default function PostCreateRoute() {
+  const { t } = useLingui();
   const [formValues, setFormValues] = useState({ title: '', content: '' });
   const submitDisabled = Object.values(formValues).some(p => !p);
   const [createPost, createPostState] = useCreatePostMutation();

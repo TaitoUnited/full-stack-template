@@ -1,4 +1,4 @@
-import { Trans } from '@lingui/macro';
+import { Trans } from '@lingui/react/macro';
 import { showReportDialog } from '@sentry/browser';
 
 import { config } from '~constants/config';

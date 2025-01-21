@@ -1,13 +1,15 @@
 import { FormEvent, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { t, Trans } from '@lingui/macro';
+import { Trans, useLingui } from '@lingui/react/macro';
 
+import { toast } from 'react-hot-toast';
 import { styled } from '~styled-system/jsx';
 import { Text, TextInput, Stack, Button } from '~uikit';
 import { useDocumentTitle } from '~hooks/useDocumentTitle';
 import { login, useAuthStore } from '~services/auth';
 
 export default function LoginRoute() {
+  const { t } = useLingui();
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const authStatus = useAuthStore(state => state.status);
 
@@ -18,9 +20,14 @@ export default function LoginRoute() {
     setCredentials(p => ({ ...p, [name]: value }));
   }
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    login(credentials);
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    try {
+      event.preventDefault();
+      await login(credentials);
+    } catch (error) {
+      console.error('Failed to login', error);
+      toast.error(t`Failed to login`);
+    }
   }
 
   useDocumentTitle(t`Login`);

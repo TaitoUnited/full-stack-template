@@ -1,4 +1,4 @@
-import { t, Trans } from '@lingui/macro';
+import { Trans, useLingui } from '@lingui/react/macro';
 
 import { AlertMessage } from '~components/common/AlertMessage';
 import { styled } from '~styled-system/jsx';
@@ -6,6 +6,7 @@ import { Stack, Text } from '~uikit';
 import { useDocumentTitle } from '~hooks/useDocumentTitle';
 
 export default function ThemingRoute() {
+  const { t } = useLingui();
   useDocumentTitle(t`Theming`);
 
   return (
