@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 type Timer = ReturnType<typeof setTimeout>;
 type AnyFunction<T> = (...args: T[]) => void;

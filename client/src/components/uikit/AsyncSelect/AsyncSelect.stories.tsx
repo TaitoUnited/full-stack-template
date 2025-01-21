@@ -1,8 +1,9 @@
-import { ComponentProps, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { type ComponentProps, useState } from 'react';
+
+import { AsyncSelect } from '~uikit';
 
 import { fetchStarWarsCharacter } from '../helpers';
-import { AsyncSelect } from '~uikit';
 
 export default {
   title: 'AsyncSelect',
@@ -58,7 +59,7 @@ export const WithClearAndConfirm: Story = {
 };
 
 function AsyncSelectExample(props: ComponentProps<typeof AsyncSelect>) {
-  const [selected, setSelected] = useState(new Set<string>());
+  const [selected, setSelected] = useState(() => new Set<string>());
 
   return (
     <AsyncSelect

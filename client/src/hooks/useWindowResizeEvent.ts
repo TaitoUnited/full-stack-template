@@ -17,5 +17,5 @@ export function useWindowResizeEvent({
   useEffect(() => {
     window.addEventListener('resize', debouncedHandler);
     return () => window.removeEventListener('resize', debouncedHandler);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps -- debounced callback is stable
+  }, []);
 }

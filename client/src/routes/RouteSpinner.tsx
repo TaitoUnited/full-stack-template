@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
+import { css } from '~styled-system/css';
 import { styled } from '~styled-system/jsx';
 import { Spinner } from '~uikit';
-import { css } from '~styled-system/css';
 
 export function RouteSpinner() {
   const [showSpinner, setShowSpinner] = useState(false);

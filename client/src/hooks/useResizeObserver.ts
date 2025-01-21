@@ -1,4 +1,5 @@
-import { RefObject, useEffect } from 'react';
+import { type RefObject, useEffect } from 'react';
+
 import { useEffectEvent } from './useEffectEvent';
 
 export function useResizeObserver(
@@ -17,5 +18,5 @@ export function useResizeObserver(
     return () => {
       observer.disconnect();
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 }

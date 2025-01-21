@@ -1,10 +1,11 @@
 import { useParams } from 'react-router-dom';
 
-import { PostDetails } from './PostDetails';
 import { Breadcrumbs } from '~components/navigation/Breadcrumbs';
+import { type PostQuery, usePostSuspenseQuery } from '~graphql';
 import { useDocumentTitle } from '~hooks/useDocumentTitle';
-import { usePostSuspenseQuery, PostQuery } from '~graphql';
 import { css } from '~styled-system/css';
+
+import { PostDetails } from './PostDetails';
 
 export default function PostRoute() {
   const { id = '' } = useParams();

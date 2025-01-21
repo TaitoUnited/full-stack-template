@@ -1,12 +1,13 @@
 import { Trans, useLingui } from '@lingui/react/macro';
-
 import { toast } from 'react-hot-toast';
-import { UnstyledLink } from './Link';
-import { Text, Icon, IconName, Button } from '~uikit';
-import { styled } from '~styled-system/jsx';
+
 import { logout, useAuthStore } from '~services/auth';
-import { stack } from '~styled-system/patterns';
 import { isFeatureEnabled } from '~services/feature-flags';
+import { styled } from '~styled-system/jsx';
+import { stack } from '~styled-system/patterns';
+import { Button, Icon, type IconName, Text } from '~uikit';
+
+import { UnstyledLink } from './Link';
 
 export function Sidebar() {
   const { t } = useLingui();

@@ -1,15 +1,15 @@
-import { CSSProperties, ReactNode, type Ref } from 'react';
-
+import { type CSSProperties, type ReactNode, type Ref } from 'react';
 import {
   Button as AriaButton,
-  ButtonProps as AriaButtonProps,
+  type ButtonProps as AriaButtonProps,
 } from 'react-aria-components';
 
-import { Icon, IconName } from '../Icon';
-import { Spinner, SpinnerSize } from '../Spinner';
-import { RecipeVariantProps, cva, cx } from '~styled-system/css';
+import { cva, cx, type RecipeVariantProps } from '~styled-system/css';
 import { styled } from '~styled-system/jsx';
 import { token } from '~styled-system/tokens';
+
+import { Icon, type IconName } from '../Icon';
+import { Spinner, type SpinnerSize } from '../Spinner';
 
 type ButtonSize = 'small' | 'normal' | 'large';
 

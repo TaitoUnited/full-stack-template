@@ -1,11 +1,8 @@
 import { useLingui } from '@lingui/react/macro';
 import { type Ref, useContext, useState } from 'react';
-import { useAsyncList } from 'react-stately';
-import useMeasure from 'react-use-measure';
-
 import {
   Button as AriaButton,
-  ButtonProps,
+  type ButtonProps,
   Dialog,
   DialogTrigger,
   Label,
@@ -14,7 +11,13 @@ import {
   OverlayTriggerStateContext,
   Popover,
 } from 'react-aria-components';
+import { useAsyncList } from 'react-stately';
+import useMeasure from 'react-use-measure';
 
+import { css, cx } from '~styled-system/css';
+import { styled } from '~styled-system/jsx';
+
+import { Icon, type IconName } from '../Icon';
 import {
   DescriptionText,
   ErrorText,
@@ -26,15 +29,11 @@ import {
   listBoxItemStyles,
   listBoxStyles,
 } from '../partials/common';
-
 import { SelectActions } from '../partials/SelectActions';
 import { SelectFilterInput } from '../partials/SelectFilterInput';
 import { SelectItem } from '../partials/SelectItem';
-import { Icon, IconName } from '../Icon';
-import { Text } from '../Text';
 import { Spinner } from '../Spinner';
-import { styled } from '~styled-system/jsx';
-import { css, cx } from '~styled-system/css';
+import { Text } from '../Text';
 
 export type AsyncSelectOption = {
   value: string;

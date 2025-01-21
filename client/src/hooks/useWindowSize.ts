@@ -20,14 +20,14 @@ export function useWindowSize() {
   });
 
   useEffect(() => {
-    const handler = () => {
+    function handler() {
       setDimensions({
         innerWidth: window.innerWidth,
         innerHeight: window.innerHeight,
         outerWidth: window.outerWidth,
         outerHeight: window.outerHeight,
       });
-    };
+    }
 
     window.addEventListener('resize', handler);
     return () => window.removeEventListener('resize', handler);

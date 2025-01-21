@@ -1,4 +1,4 @@
-import { PropertyConfig } from '@pandacss/types';
+import { type PropertyConfig } from '@pandacss/types';
 
 /**
  * NOTE: Utilities should be prefixed with $ to make it clear that they are

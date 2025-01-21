@@ -1,18 +1,17 @@
 import { useState } from 'react';
 
-import { Button, Checkbox, IconButton, Text, Stack } from '~uikit';
-import { styled } from '~styled-system/jsx';
-import { stack } from '~styled-system/patterns';
 import { useShortcut } from '~hooks/useShortcut';
-
 import {
-  Feature,
-  features as featureNames,
+  disableFeatureInSession,
   enableFeatureInSession,
+  type Feature,
+  features as featureNames,
   isFeatureEnabledInConfig,
   isFeatureEnabledInSession,
-  disableFeatureInSession,
 } from '~services/feature-flags';
+import { styled } from '~styled-system/jsx';
+import { stack } from '~styled-system/patterns';
+import { Button, Checkbox, IconButton, Stack, Text } from '~uikit';
 
 export default function FeatureFlagManager() {
   const [visible, setVisible] = useState(false);

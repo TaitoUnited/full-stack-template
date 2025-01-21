@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Stack, SkeletonPlaceholder } from '~uikit';
+import { SkeletonPlaceholder, Stack } from '~uikit';
 
 export default {
   title: 'SkeletonPlaceholder',

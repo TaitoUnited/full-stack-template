@@ -1,12 +1,12 @@
-import { FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-hot-toast';
 import { Trans, useLingui } from '@lingui/react/macro';
+import { type FormEvent, useState } from 'react';
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
-import { styled } from '~styled-system/jsx';
-import { useDocumentTitle } from '~hooks/useDocumentTitle';
-import { TextInput, Stack, Dialog, TextArea, Button } from '~uikit';
 import { PostListDocument, useCreatePostMutation } from '~graphql';
+import { useDocumentTitle } from '~hooks/useDocumentTitle';
+import { styled } from '~styled-system/jsx';
+import { Button, Dialog, Stack, TextArea, TextInput } from '~uikit';
 
 export default function PostCreateRoute() {
   const { t } = useLingui();

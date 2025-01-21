@@ -8,7 +8,7 @@ export function useVirtualKeyboard() {
     const visualViewport = window.visualViewport;
 
     if (visualViewport) {
-      const onResize = () => {
+      function onResize() {
         const focusedElement = document.activeElement as HTMLElement | null;
 
         // Bail if no element is focused as that also means no input is focused
@@ -19,7 +19,11 @@ export function useVirtualKeyboard() {
           focusedElement.tagName === 'TEXTAREA';
 
         // Virtual keyboard should only be visible if an input is focused
-        if (isInputFocused && visualViewport.height < window.innerHeight) {
+        if (
+          isInputFocused &&
+          visualViewport &&
+          visualViewport.height < window.innerHeight
+        ) {
           setKeyboardOpen(true);
           setKeyboardHeight(window.innerHeight - visualViewport.height);
         } else if (isKeyboardOpen) {
@@ -27,7 +31,7 @@ export function useVirtualKeyboard() {
           setKeyboardOpen(false);
           setKeyboardHeight(0);
         }
-      };
+      }
 
       visualViewport.addEventListener('resize', onResize);
 

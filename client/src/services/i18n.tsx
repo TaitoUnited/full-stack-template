@@ -1,8 +1,9 @@
-import { type ReactNode } from 'react';
 import { i18n } from '@lingui/core';
 import { I18nProvider as LinguiProvider } from '@lingui/react';
-import { I18nProvider as AriaProvider } from 'react-aria-components';
 import { useLingui } from '@lingui/react/macro';
+import { type ReactNode } from 'react';
+import { I18nProvider as AriaProvider } from 'react-aria-components';
+
 import { storage } from '~utils/storage';
 
 export type Locale = 'fi' | 'en';
@@ -21,7 +22,7 @@ async function loadMessages(locale: Locale) {
 }
 
 export async function setupMessages() {
-  const persistedLocale = storage.get('@app/locale');
+  const persistedLocale = storage.get('locale');
 
   const locale: Locale = SUPPORTED_LOCALES.includes(persistedLocale)
     ? persistedLocale
@@ -42,7 +43,7 @@ export function useI18n() {
       const newMessages = await loadMessages(locale);
       i18n.load(locale, newMessages);
       i18n.activate(locale);
-      storage.set('@app/locale', locale);
+      storage.set('locale', locale);
     } catch (error) {
       console.log(`> Failed to load messages for locale: ${locale}`, error);
     }

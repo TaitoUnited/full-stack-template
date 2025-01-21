@@ -1,15 +1,15 @@
 import { defineConfig } from '@pandacss/dev';
 
-import * as helpers from './helpers';
-import * as utilities from './utilities';
-import * as shadows from '../tokens/shadows';
-import * as colors from '../tokens/colors';
-import * as spacing from '../tokens/spacing.json';
-import * as sizes from '../tokens/sizes';
-import * as radii from '../tokens/radii';
-import * as typography from '../tokens/typography';
-import { keyframes } from './keyframes';
 import { globalCss } from './global';
+import * as helpers from './helpers';
+import { keyframes } from './keyframes';
+import * as utilities from './utilities';
+import * as colors from '../tokens/colors';
+import * as radii from '../tokens/radii';
+import * as shadows from '../tokens/shadows';
+import * as sizes from '../tokens/sizes';
+import * as spacing from '../tokens/spacing.json';
+import * as typography from '../tokens/typography';
 
 const isProd = process.env.NODE_ENV === 'production';
 

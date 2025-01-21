@@ -1,7 +1,7 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 
-import { Text, Stack } from '~uikit';
 import { useDocumentTitle } from '~hooks/useDocumentTitle';
+import { Stack, Text } from '~uikit';
 
 export default function FeatureFlagsRoute() {
   const { t } = useLingui();

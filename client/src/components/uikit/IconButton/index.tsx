@@ -1,10 +1,11 @@
-import { CSSProperties, Ref } from 'react';
-import { Button, ButtonProps } from 'react-aria-components';
+import { type CSSProperties, type Ref } from 'react';
+import { Button, type ButtonProps } from 'react-aria-components';
 
-import { Tooltip } from '../Tooltip';
-import { Icon, IconName } from '../Icon';
-import { RecipeVariantProps, cva, cx } from '~styled-system/css';
+import { cva, cx, type RecipeVariantProps } from '~styled-system/css';
 import { token } from '~styled-system/tokens';
+
+import { Icon, type IconName } from '../Icon';
+import { Tooltip } from '../Tooltip';
 
 type IconButtonSize = 'small' | 'medium' | 'large';
 

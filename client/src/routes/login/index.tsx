@@ -1,12 +1,12 @@
-import { FormEvent, useState } from 'react';
-import { Navigate } from 'react-router-dom';
 import { Trans, useLingui } from '@lingui/react/macro';
-
+import { type FormEvent, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { styled } from '~styled-system/jsx';
-import { Text, TextInput, Stack, Button } from '~uikit';
+import { Navigate } from 'react-router-dom';
+
 import { useDocumentTitle } from '~hooks/useDocumentTitle';
 import { login, useAuthStore } from '~services/auth';
+import { styled } from '~styled-system/jsx';
+import { Button, Stack, Text, TextInput } from '~uikit';
 
 export default function LoginRoute() {
   const { t } = useLingui();

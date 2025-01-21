@@ -91,5 +91,5 @@ export function useParsedSearchParams<T extends ParseConfig>(config: T) {
       setSearchParams,
     };
     // The `config` object is not expected to change during the component lifecycle
-  }, [searchParams]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 }

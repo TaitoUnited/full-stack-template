@@ -1,17 +1,16 @@
-import { startTransition, useDeferredValue, useRef } from 'react';
-import { useSpinDelay } from 'spin-delay';
-import { equal } from '@wry/equality';
-
 import {
-  DocumentNode,
-  OperationVariables,
-  QueryHookOptions,
-  TypedDocumentNode,
+  type DocumentNode,
+  type NoInfer,
+  type OperationVariables,
+  type QueryHookOptions,
+  type SuspenseQueryHookOptions,
+  type TypedDocumentNode,
   useQuery as useApolloQuery,
   useSuspenseQuery as useApolloSuspenseQuery,
-  SuspenseQueryHookOptions,
-  NoInfer,
 } from '@apollo/client';
+import { equal } from '@wry/equality';
+import { startTransition, useDeferredValue, useRef } from 'react';
+import { useSpinDelay } from 'spin-delay';
 
 import { useWindowFocusEffect } from '~hooks/useWindowFocus';
 
@@ -98,6 +97,7 @@ function useWindowFocusRefetching(refetch: () => Promise<any>) {
 
     // Using `startTransition` prevents suspending the component
     startTransition(() => {
+      // eslint-disable-next-line promise/catch-or-return
       refetch()
         .catch(error => {
           console.log('Failed to refetch query', error);

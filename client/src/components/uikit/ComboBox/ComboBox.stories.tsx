@@ -1,8 +1,9 @@
-import { useAsyncList } from 'react-stately';
 import type { Meta, StoryObj } from '@storybook/react';
+import { useAsyncList } from 'react-stately';
+
+import { ComboBox, type ComboBoxOption } from '~uikit';
 
 import { fetchStarWarsCharacter } from '../helpers';
-import { ComboBox, ComboBoxOption } from '~uikit';
 
 export default {
   title: 'ComboBox',

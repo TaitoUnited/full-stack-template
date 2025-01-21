@@ -1,25 +1,30 @@
-import { CSSProperties, ReactNode, type Ref, RefAttributes } from 'react';
-
 import {
+  type CSSProperties,
+  type ReactNode,
+  type Ref,
+  type RefAttributes,
+} from 'react';
+import {
+  Header as AriaHeader,
   Menu as AriaMenu,
   MenuItem as AriaMenuItem,
-  MenuTrigger,
-  MenuTriggerProps,
-  MenuItemProps,
-  MenuProps,
-  Popover,
-  PopoverProps,
-  Header as AriaHeader,
-  Separator as AriaSeparator,
   Section as AriaSection,
-  SectionProps as AriaSectionProps,
+  type SectionProps as AriaSectionProps,
+  Separator as AriaSeparator,
+  type MenuItemProps,
+  type MenuProps,
+  MenuTrigger,
+  type MenuTriggerProps,
+  Popover,
+  type PopoverProps,
 } from 'react-aria-components';
 
-import './styles.css';
+import { cva } from '~styled-system/css';
+import { styled } from '~styled-system/jsx';
+
 import { SelectedIcon } from '../partials/common';
 import { Stack } from '../Stack';
-import { styled } from '~styled-system/jsx';
-import { cva } from '~styled-system/css';
+import './styles.css';
 
 type Props = Omit<MenuTriggerProps, 'trigger'> & {
   ref?: Ref<HTMLDivElement>;
@@ -73,7 +78,7 @@ function MenuBase({
   );
 }
 
-const Item = ({
+function Item({
   ref,
   children,
   ...rest
@@ -83,7 +88,7 @@ const Item = ({
   id: string;
   children: ReactNode;
   onAction: () => void;
-}) => {
+}) {
   return (
     <MenuItem ref={ref} data-testid="menu-item" {...rest}>
       <Stack direction="row" gap="small" align="center" justify="space-between">
@@ -92,7 +97,7 @@ const Item = ({
       </Stack>
     </MenuItem>
   );
-};
+}
 
 type SectionProps = AriaSectionProps<any> &
   RefAttributes<HTMLElement> & {
@@ -100,7 +105,7 @@ type SectionProps = AriaSectionProps<any> &
     children: ReactNode;
   };
 
-const Section = ({ ref, title, children, ...rest }: SectionProps) => {
+function Section({ ref, title, children, ...rest }: SectionProps) {
   return (
     <MenuSection data-testid="menu-section" ref={ref} {...rest}>
       <MenuSectionHeader data-testid="menu-section-title">
@@ -109,7 +114,7 @@ const Section = ({ ref, title, children, ...rest }: SectionProps) => {
       {children}
     </MenuSection>
   );
-};
+}
 
 const popoverStyles = cva({
   base: {

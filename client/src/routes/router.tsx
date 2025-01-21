@@ -1,9 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import { lazyRoute } from './router-utils';
+import { ProtectedRoute } from './ProtectedRoute';
 import { RootRoute } from './RootRoute';
 import { RouteError } from './RouteError';
-import { ProtectedRoute } from './ProtectedRoute';
+import { lazyRoute } from './router-utils';
 
 export const router = createBrowserRouter([
   {

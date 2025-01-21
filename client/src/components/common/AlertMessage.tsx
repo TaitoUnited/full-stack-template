@@ -1,5 +1,5 @@
 import { styled } from '~styled-system/jsx';
-import { Stack, Text, Icon } from '~uikit';
+import { Icon, Stack, Text } from '~uikit';
 import type { IconName } from '~uikit';
 
 export function AlertMessage({

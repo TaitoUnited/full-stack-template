@@ -1,11 +1,9 @@
-import { ReactNode, type Ref } from 'react';
+import { type ReactNode, type Ref } from 'react';
 import { FocusRing } from 'react-aria';
-
-/* eslint-disable no-restricted-imports */
 import {
-  NavLink as RRNavLink,
+  type LinkProps,
   Link as RRLink,
-  LinkProps,
+  NavLink as RRNavLink,
 } from 'react-router-dom';
 
 import { css, cx } from '~styled-system/css';

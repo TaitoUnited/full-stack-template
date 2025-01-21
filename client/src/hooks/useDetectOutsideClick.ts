@@ -1,4 +1,5 @@
-import { RefObject, useEffect } from 'react';
+import { type RefObject, useEffect } from 'react';
+
 import { useEffectEvent } from './useEffectEvent';
 
 /**
@@ -11,17 +12,17 @@ export function useDetectOutsideClick(
   const stableCallback = useEffectEvent(callback);
 
   useEffect(() => {
-    const handleClickOutside = (event: any) => {
+    function handleClickOutside(event: any) {
       if (ref.current && !ref.current.contains(event.target)) {
         event.stopPropagation();
         stableCallback();
       }
-    };
+    }
 
     document.addEventListener('click', handleClickOutside, true);
 
     return () => {
       document.removeEventListener('click', handleClickOutside, true);
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 }

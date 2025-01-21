@@ -7,20 +7,19 @@ import { getMainDefinition } from '@apollo/client/utilities';
 */
 
 import {
-  // split,
   ApolloClient,
   ApolloLink,
   from,
   HttpLink,
   InMemoryCache,
-  NormalizedCacheObject,
-  OperationVariables,
+  type NormalizedCacheObject,
+  type OperationVariables,
 } from '@apollo/client';
 
 import { config } from '~constants/config';
-import { storage } from '~utils/storage';
-import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '~services/i18n';
 import { authStore } from '~services/auth';
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '~services/i18n';
+import { storage } from '~utils/storage';
 
 const cache = new InMemoryCache();
 
@@ -41,7 +40,7 @@ export async function setupApolloClient() {
 
   const headersLink = new ApolloLink((operation, forward) => {
     const locales = SUPPORTED_LOCALES;
-    const locale = storage.get('@app/locale');
+    const locale = storage.get('locale');
     const { organisation } = authStore.getState();
 
     operation.setContext((context: any) => {
@@ -122,7 +121,7 @@ type ClientQueryParams = Parameters<
 
 export function query<
   Data = any,
-  Variables extends OperationVariables = OperationVariables
+  Variables extends OperationVariables = OperationVariables,
 >(query: ClientQueryParams['query'], variables?: Variables) {
   return __client__.query<Data, Variables>({
     query,

@@ -34,5 +34,5 @@ export function useWindowFocusEffect(callback: () => void) {
     return () => {
       window.removeEventListener('visibilitychange', handler);
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 }

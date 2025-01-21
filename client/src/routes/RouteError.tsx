@@ -1,10 +1,10 @@
+import { captureException } from '@sentry/browser';
 import { useEffect } from 'react';
 import { useRouteError } from 'react-router-dom';
-import { captureException } from '@sentry/browser';
 
+import { ErrorView } from '~components/common/ErrorView';
 import { config } from '~constants/config';
 import { styled } from '~styled-system/jsx';
-import { ErrorView } from '~components/common/ErrorView';
 
 // See: https://reactrouter.com/en/main/route/error-element
 export function RouteError() {

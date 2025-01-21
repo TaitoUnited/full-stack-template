@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ComponentProps, useState } from 'react';
+import { type ComponentProps, useState } from 'react';
 
 import { MultiSelect } from '~uikit';
 
@@ -108,7 +108,7 @@ export const WithFiltering: Story = {
 };
 
 function MultiSelectExample(props: ComponentProps<typeof MultiSelect>) {
-  const [selected, setSelected] = useState(new Set<string>());
+  const [selected, setSelected] = useState(() => new Set<string>());
 
   return (
     <MultiSelect

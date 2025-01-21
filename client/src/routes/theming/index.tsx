@@ -1,9 +1,9 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 
 import { AlertMessage } from '~components/common/AlertMessage';
+import { useDocumentTitle } from '~hooks/useDocumentTitle';
 import { styled } from '~styled-system/jsx';
 import { Stack, Text } from '~uikit';
-import { useDocumentTitle } from '~hooks/useDocumentTitle';
 
 export default function ThemingRoute() {
   const { t } = useLingui();

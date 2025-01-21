@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import { styled } from '~styled-system/jsx';
 
-import { Menu, IconButton, Stack, Icon } from '~uikit';
+import { styled } from '~styled-system/jsx';
+import { Icon, IconButton, Menu, Stack } from '~uikit';
 
 export default {
   title: 'Menu',

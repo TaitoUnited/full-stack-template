@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { ids } from '~design-tokens/icon-sprite-ids';
-import { Tooltip, Icon } from '~uikit';
+import { Icon, Tooltip } from '~uikit';
 
 export default {
   title: 'Icon',
@@ -21,6 +21,7 @@ export const All: Story = {
       }}
     >
       {ids.map((name, i) => (
+        // eslint-disable-next-line @eslint-react/no-array-index-key
         <Tooltip content={name} key={i}>
           <Tooltip.Trigger>
             <div

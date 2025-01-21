@@ -1,19 +1,19 @@
-import { useState, ComponentProps, Ref } from 'react';
 import { useLingui } from '@lingui/react/macro';
-import { TextField, Input, Label, ToggleButton } from 'react-aria-components';
+import { type ComponentProps, type Ref, useState } from 'react';
+import { Input, Label, TextField, ToggleButton } from 'react-aria-components';
 
-import {
-  inputWrapperStyles,
-  inputIconLeftStyles,
-  labelStyles,
-  inputBaseStyles,
-  DescriptionText,
-  ErrorText,
-} from '../partials/common';
-
-import { Icon, IconName } from '../Icon';
 import { cx } from '~styled-system/css';
 import { styled } from '~styled-system/jsx';
+
+import { Icon, type IconName } from '../Icon';
+import {
+  DescriptionText,
+  ErrorText,
+  inputBaseStyles,
+  inputIconLeftStyles,
+  inputWrapperStyles,
+  labelStyles,
+} from '../partials/common';
 
 type Props = ComponentProps<typeof TextField> & {
   ref?: Ref<HTMLInputElement>;
