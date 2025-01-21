@@ -211,8 +211,8 @@ export function useOrganisationsLazyQuery(baseOptions?: ApolloReactHooks.LazyQue
           const options = {...defaultOptions, ...baseOptions}
           return ApolloReactHooks.useLazyQuery<OrganisationsQuery, OrganisationsQueryVariables>(OrganisationsDocument, options);
         }
-export function useOrganisationsSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<OrganisationsQuery, OrganisationsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useOrganisationsSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<OrganisationsQuery, OrganisationsQueryVariables>) {
+          const options = baseOptions === ApolloReactHooks.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return ApolloReactHooks.useSuspenseQuery<OrganisationsQuery, OrganisationsQueryVariables>(OrganisationsDocument, options);
         }
 export type OrganisationsQueryHookResult = ReturnType<typeof useOrganisationsQuery>;
@@ -288,8 +288,8 @@ export function usePostListLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHoo
           const options = {...defaultOptions, ...baseOptions}
           return ApolloReactHooks.useLazyQuery<PostListQuery, PostListQueryVariables>(PostListDocument, options);
         }
-export function usePostListSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<PostListQuery, PostListQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function usePostListSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<PostListQuery, PostListQueryVariables>) {
+          const options = baseOptions === ApolloReactHooks.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return ApolloReactHooks.useSuspenseQuery<PostListQuery, PostListQueryVariables>(PostListDocument, options);
         }
 export type PostListQueryHookResult = ReturnType<typeof usePostListQuery>;
@@ -335,8 +335,8 @@ export function usePostLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOpt
           const options = {...defaultOptions, ...baseOptions}
           return ApolloReactHooks.useLazyQuery<PostQuery, PostQueryVariables>(PostDocument, options);
         }
-export function usePostSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<PostQuery, PostQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function usePostSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<PostQuery, PostQueryVariables>) {
+          const options = baseOptions === ApolloReactHooks.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return ApolloReactHooks.useSuspenseQuery<PostQuery, PostQueryVariables>(PostDocument, options);
         }
 export type PostQueryHookResult = ReturnType<typeof usePostQuery>;
@@ -440,8 +440,8 @@ export function useMeLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptio
           const options = {...defaultOptions, ...baseOptions}
           return ApolloReactHooks.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
         }
-export function useMeSuspenseQuery(baseOptions?: ApolloReactHooks.SuspenseQueryHookOptions<MeQuery, MeQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
+export function useMeSuspenseQuery(baseOptions?: ApolloReactHooks.SkipToken | ApolloReactHooks.SuspenseQueryHookOptions<MeQuery, MeQueryVariables>) {
+          const options = baseOptions === ApolloReactHooks.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
           return ApolloReactHooks.useSuspenseQuery<MeQuery, MeQueryVariables>(MeDocument, options);
         }
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;

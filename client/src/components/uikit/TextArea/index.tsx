@@ -1,5 +1,5 @@
 import { ComponentProps, type Ref, useRef, useEffect } from 'react';
-import mergeRefs from 'react-merge-refs';
+import { mergeRefs } from 'react-merge-refs';
 
 import {
   TextArea as AriaTextArea,
