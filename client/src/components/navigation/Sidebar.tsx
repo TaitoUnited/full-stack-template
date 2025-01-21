@@ -1,53 +1,43 @@
 import { Trans, useLingui } from '@lingui/react/macro';
+import { type LinkProps } from '@tanstack/react-router';
 import { toast } from 'react-hot-toast';
 
 import { logout, useAuthStore } from '~services/auth';
-import { isFeatureEnabled } from '~services/feature-flags';
 import { styled } from '~styled-system/jsx';
 import { stack } from '~styled-system/patterns';
 import { Button, Icon, type IconName, Text } from '~uikit';
 
-import { UnstyledLink } from './Link';
+import { Link } from './Link';
 
 export function Sidebar() {
   const { t } = useLingui();
   const authStatus = useAuthStore(state => state.status);
-  const feature3Enabled = isFeatureEnabled('feature-3');
 
   const items: Array<{
     label: string;
     icon: IconName;
-    to: string;
+    to: LinkProps['to'];
     testId: string;
   }> = [
     {
       label: t`Home`,
       icon: 'homeFilled',
-      to: '/',
+      to: '/$workspaceId',
       testId: 'navigate-to-home',
     },
     {
       label: t`Blog`,
       icon: 'document',
-      to: '/blog',
+      to: '/$workspaceId/posts',
       testId: 'navigate-to-blog',
     },
     {
       label: t`Theming`,
       icon: 'eye',
-      to: '/theming',
+      to: '/$workspaceId/theming',
       testId: 'navigate-to-theming',
     },
   ];
-
-  if (feature3Enabled) {
-    items.push({
-      label: t`Feature Flags`,
-      icon: 'save',
-      to: '/feature-flags',
-      testId: 'navigate-to-feature-flags',
-    });
-  }
 
   async function handleLogout() {
     try {
@@ -68,7 +58,7 @@ export function Sidebar() {
                 to={to}
                 data-testid={testId}
                 className={stack({ direction: 'row', gap: '$small' })}
-                preload // preload route on mouse down
+                preload="intent"
               >
                 <Icon name={icon} size={24} color="text" />
                 <Text variant="body">{label}</Text>
@@ -123,7 +113,7 @@ const NavList = styled('ul', {
   },
 });
 
-const NavItemLink = styled(UnstyledLink, {
+const NavItemLink = styled(Link, {
   base: {
     position: 'relative',
     display: 'flex',

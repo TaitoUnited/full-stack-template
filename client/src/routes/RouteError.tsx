@@ -1,6 +1,5 @@
 import { captureException } from '@sentry/browser';
 import { useEffect } from 'react';
-import { useRouteError } from 'react-router-dom';
 
 import { ErrorView } from '~components/common/ErrorView';
 import { config } from '~constants/config';
@@ -8,7 +7,7 @@ import { styled } from '~styled-system/jsx';
 
 // See: https://reactrouter.com/en/main/route/error-element
 export function RouteError() {
-  const error = useRouteError();
+  const error = null;
 
   useEffect(() => {
     if (error) {

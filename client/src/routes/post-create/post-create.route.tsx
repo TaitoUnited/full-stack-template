@@ -1,15 +1,25 @@
 import { Trans, useLingui } from '@lingui/react/macro';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { type FormEvent, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
 
-import { PostListDocument, useCreatePostMutation } from '~graphql';
+import { useCreatePostMutation } from '~graphql';
+import { POST_LIST } from '~graphql/post/queries.gql';
 import { useDocumentTitle } from '~hooks/useDocumentTitle';
+import { RouteError } from '~routes/RouteError';
+import { RouteSpinner } from '~routes/RouteSpinner';
 import { styled } from '~styled-system/jsx';
 import { Button, Dialog, Stack, TextArea, TextInput } from '~uikit';
 
+export const Route = createFileRoute('/_app/$workspaceId/posts_/create')({
+  component: PostCreateRoute,
+  errorComponent: () => <RouteError />,
+  pendingComponent: () => <RouteSpinner />,
+});
+
 export default function PostCreateRoute() {
   const { t } = useLingui();
+  const params = Route.useParams();
   const [formValues, setFormValues] = useState({ title: '', content: '' });
   const submitDisabled = Object.values(formValues).some(p => !p);
   const [createPost, createPostState] = useCreatePostMutation();
@@ -29,10 +39,15 @@ export default function PostCreateRoute() {
     try {
       await createPost({
         variables: { title: formValues.title, content: formValues.content },
-        refetchQueries: [PostListDocument],
+        refetchQueries: [{ query: POST_LIST }],
       });
 
-      navigate('/blog');
+      navigate({
+        to: `/$workspaceId/posts`,
+        params: {
+          workspaceId: params.workspaceId,
+        },
+      });
 
       toast.success(t`New blog post added`);
     } catch (error) {
@@ -44,7 +59,18 @@ export default function PostCreateRoute() {
   useDocumentTitle(t`New blog post`);
 
   return (
-    <Dialog placement="middle" isOpen onOpenChange={() => navigate('/blog')}>
+    <Dialog
+      placement="middle"
+      isOpen
+      onOpenChange={() =>
+        navigate({
+          to: `/$workspaceId/posts`,
+          params: {
+            workspaceId: params.workspaceId,
+          },
+        })
+      }
+    >
       <Dialog.Header title={t`New blog post`} />
       <Dialog.Body>
         <Wrapper>

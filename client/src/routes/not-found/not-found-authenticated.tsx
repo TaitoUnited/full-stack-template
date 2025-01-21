@@ -4,7 +4,7 @@ import { Link } from '~components/navigation/Link';
 import { useDocumentTitle } from '~hooks/useDocumentTitle';
 import { Stack, Text } from '~uikit';
 
-export default function NotFoundUnauthenticatedRoute() {
+export function NotFoundAuthenticated() {
   useDocumentTitle('404');
 
   return (
@@ -17,7 +17,7 @@ export default function NotFoundUnauthenticatedRoute() {
         <Trans>Page not found</Trans>
       </Text>
 
-      <Link to="/login">Go to login</Link>
+      <Link to="/">Back to home</Link>
     </Stack>
   );
 }

@@ -30,10 +30,12 @@
     "generate:styled-system": "panda codegen --clean --config ./styled-system/setup/config.ts"
   },
   "dependencies": {
-    "@apollo/client": "3.12.4",
+    "@apollo/client": "3.12.6",
     "@lingui/react": "5.1.2",
     "@loadable/component": "5.16.4",
     "@sentry/browser": "8.48.0",
+    "@tanstack/react-router": "1.97.1",
+    "@tanstack/zod-adapter": "1.97.1",
     "@wry/equality": "0.5.7",
     "date-fns": "2.29.3",
     "graphql": "16.10.0",
@@ -44,10 +46,10 @@
     "react-dom": "19.0.0",
     "react-hot-toast": "2.5.1",
     "react-merge-refs": "2.1.1",
-    "react-router-dom": "6.23.1",
     "react-stately": "3.34.0",
     "react-use-measure": "2.1.1",
     "spin-delay": "2.0.1",
+    "zod": "3.24.1",
     "zustand": "5.0.3"
   },
   "devDependencies": {
@@ -67,6 +69,8 @@
     "@storybook/addon-links": "8.4.7",
     "@storybook/react-vite": "8.4.7",
     "@storybook/theming": "8.4.7",
+    "@tanstack/router-devtools": "1.97.1",
+    "@tanstack/router-plugin": "1.97.1",
     "@testing-library/dom": "10.4.0",
     "@testing-library/jest-dom": "6.6.3",
     "@testing-library/react": "16.1.0",

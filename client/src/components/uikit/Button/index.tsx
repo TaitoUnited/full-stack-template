@@ -1,9 +1,11 @@
-import { type CSSProperties, type ReactNode, type Ref } from 'react';
+import { type LinkProps } from '@tanstack/react-router';
+import { type CSSProperties, memo, type ReactNode, type Ref } from 'react';
 import {
   Button as AriaButton,
   type ButtonProps as AriaButtonProps,
 } from 'react-aria-components';
 
+import { Link } from '~components/navigation/Link';
 import { cva, cx, type RecipeVariantProps } from '~styled-system/css';
 import { styled } from '~styled-system/jsx';
 import { token } from '~styled-system/tokens';
@@ -15,18 +17,20 @@ type ButtonSize = 'small' | 'normal' | 'large';
 
 type ButtonColor = 'primary' | 'success' | 'error';
 
-type OwnProps = {
+type ButtonIconPlacement = 'start' | 'end';
+
+type OwnProps = RecipeVariantProps<typeof buttonStyle> & {
   children: ReactNode;
   icon?: IconName;
-  iconPlacement?: 'start' | 'end';
+  iconPlacement?: ButtonIconPlacement;
   color?: ButtonColor;
   isLoading?: boolean;
   isDisabled?: boolean;
   className?: string;
+  style?: CSSProperties;
 };
 
 type ButtonProps = AriaButtonProps &
-  RecipeVariantProps<typeof buttonStyle> &
   OwnProps & {
     ref?: Ref<HTMLButtonElement>;
   };
@@ -45,21 +49,12 @@ export function Button({
   variant,
   ...rest
 }: ButtonProps) {
-  const _className = cx(buttonStyle({ size, variant, isDisabled }), className);
-
   const _style = {
     ...style,
-    '--color-muted': token.var(`$colors.${color}Muted`),
-    '--color-text': token.var(`$colors.${color}Contrast`),
-    '--color': token.var(`$colors.${color}`),
-    // Visually balance the horizontal padding when an icon is present.
-    '--padding-start-factor': icon && iconPlacement === 'start' ? 0.75 : 1,
-    '--padding-end-factor': icon && iconPlacement === 'end' ? 0.75 : 1,
-  } as CSSProperties;
+    ...getButtonStyles({ color, icon, iconPlacement }),
+  };
 
-  const iconComp = icon && (
-    <Icon name={icon} color="currentColor" size={buttonSizeToIconSize[size]} />
-  );
+  const _className = cx(buttonStyle({ size, variant, isDisabled }), className);
 
   return (
     <AriaButton
@@ -68,16 +63,144 @@ export function Button({
       style={_style}
       className={_className}
       isDisabled={isDisabled}
+      // Disable the onPress but don't apply disable styles to the button
+      onPress={isLoading ? undefined : rest.onPress}
     >
+      <ButtonContent
+        icon={icon}
+        iconPlacement={iconPlacement}
+        isLoading={isLoading}
+        size={size}
+      >
+        {children}
+      </ButtonContent>
+    </AriaButton>
+  );
+}
+
+// TODO: Discriminating union type for externalTo | to ?
+type LinkButtonProps = LinkProps &
+  OwnProps & {
+    /**
+     * "externalTo" can be used to link outside of the app, which "to" doesn't allow
+     */
+    externalTo?: string;
+    rel?: string;
+    ref?: Ref<HTMLAnchorElement>;
+  };
+
+function LinkButtonBase({
+  children,
+  className,
+  color = 'primary',
+  icon,
+  iconPlacement = 'start',
+  isLoading,
+  isDisabled,
+  size = 'normal',
+  style,
+  variant,
+  externalTo,
+  to,
+  ref,
+  ...rest
+}: LinkButtonProps) {
+  const _style = {
+    ...style,
+    ...getButtonStyles({ color, icon, iconPlacement }),
+  };
+
+  const _className = cx(buttonStyle({ size, variant, isDisabled }), className);
+
+  const buttonContent = (
+    <ButtonContent
+      icon={icon}
+      iconPlacement={iconPlacement}
+      isLoading={isLoading}
+      size={size}
+    >
+      {children}
+    </ButtonContent>
+  );
+
+  if (externalTo) {
+    return (
+      <a
+        ref={ref}
+        href={externalTo}
+        style={_style}
+        className={_className}
+        {...rest}
+      >
+        {buttonContent}
+      </a>
+    );
+  }
+
+  // TODO: figure out how to fix the type mismatch issue
+  return (
+    <Link
+      ref={ref}
+      to={to}
+      style={_style}
+      className={_className}
+      {...(rest as any)}
+    >
+      {buttonContent}
+    </Link>
+  );
+}
+
+// Memo `LinkButton` as it most often has primitive props that don't change
+export const LinkButton = memo(LinkButtonBase);
+
+function getButtonStyles({
+  color,
+  icon,
+  iconPlacement,
+}: {
+  color: ButtonColor;
+  icon?: IconName;
+  iconPlacement: ButtonIconPlacement;
+}) {
+  return {
+    '--color-muted': token.var(`$colors.${color}Muted`),
+    '--color-text': token.var(`$colors.${color}Contrast`),
+    '--color': token.var(`$colors.${color}`),
+    // Visually balance the horizontal padding when an icon is present.
+    '--padding-start-factor': icon && iconPlacement === 'start' ? 0.75 : 1,
+    '--padding-end-factor': icon && iconPlacement === 'end' ? 0.75 : 1,
+  } as CSSProperties;
+}
+
+function ButtonContent({
+  children,
+  isLoading,
+  icon,
+  iconPlacement,
+  size,
+}: {
+  children: ReactNode;
+  isLoading?: boolean;
+  icon?: IconName;
+  iconPlacement: ButtonIconPlacement;
+  size: ButtonSize;
+}) {
+  const iconComp = icon && (
+    <Icon name={icon} color="currentColor" size={buttonSizeToIconSize[size]} />
+  );
+
+  return (
+    <>
       {icon && iconPlacement === 'start' && iconComp}
-      <span>{children}</span>
+      <ButtonText>{children}</ButtonText>
       {icon && iconPlacement === 'end' && iconComp}
       {isLoading && (
         <SpinnerWrapper>
           <Spinner color="currentColor" size={buttonSizeToSpinnerSize[size]} />
         </SpinnerWrapper>
       )}
-    </AriaButton>
+    </>
   );
 }
 
@@ -102,11 +225,11 @@ export const buttonStyle = cva({
     justifyContent: 'center',
     margin: 0,
     paddingBlock: '$xs',
-    borderRadius: '$full',
+    borderRadius: '$regular',
     overflow: 'hidden',
     textDecoration: 'none',
     outlineOffset: '2px',
-    cursor: 'pointer',
+    cursor: 'default',
     transition: 'background 50ms linear, opacity 100ms linear',
     userSelect: 'none',
     lineHeight: 1,
@@ -216,5 +339,11 @@ const SpinnerWrapper = styled('div', {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'inherit',
+  },
+});
+
+const ButtonText = styled('span', {
+  base: {
+    transform: 'translateY(1px)', // vertically align
   },
 });

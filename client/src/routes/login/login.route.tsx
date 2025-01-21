@@ -1,15 +1,26 @@
 import { Trans, useLingui } from '@lingui/react/macro';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 import { type FormEvent, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { Navigate } from 'react-router-dom';
 
 import { useDocumentTitle } from '~hooks/useDocumentTitle';
 import { login, useAuthStore } from '~services/auth';
 import { styled } from '~styled-system/jsx';
 import { Button, Stack, Text, TextInput } from '~uikit';
 
-export default function LoginRoute() {
+export const Route = createFileRoute('/login')({
+  component: LoginRoute,
+  beforeLoad: async ({ context }) => {
+    if (context.authenticated) {
+      throw redirect({ to: '/' });
+    }
+  },
+});
+
+function LoginRoute() {
   const { t } = useLingui();
+  useDocumentTitle(t`Login`);
+
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const authStatus = useAuthStore(state => state.status);
 
@@ -28,12 +39,6 @@ export default function LoginRoute() {
       console.error('Failed to login', error);
       toast.error(t`Failed to login`);
     }
-  }
-
-  useDocumentTitle(t`Login`);
-
-  if (authStatus === 'authenticated') {
-    return <Navigate to="/" replace={true} />;
   }
 
   return (

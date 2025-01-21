@@ -8,6 +8,9 @@ import { defineConfig } from 'vite';
 import { ViteFaviconsPlugin } from 'vite-plugin-favicon2';
 import { optimizeLodashImports } from '@optimize-lodash/rollup-plugin';
 import { splashScreen } from 'vite-plugin-splash-screen';
+import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
+
+import { routeConfig } from './src/route-config';
 import { iconSpritesheet } from './plugins/icon-spritesheet-plugin';
 
 const ANALYZE = !!process.env.ANALYZE;
@@ -58,6 +61,13 @@ export default defineConfig(({ mode }) => ({
       loaderBg: '#009a48',
       loaderType: 'line',
       minDurationMs: 500,
+    }),
+    TanStackRouterVite({
+      virtualRouteConfig: routeConfig,
+      generatedRouteTree: './src/route-tree.gen.ts',
+      autoCodeSplitting: true,
+      quoteStyle: 'single',
+      semicolons: true,
     }),
     iconSpritesheet(),
     // Generate favicons only on production since it slows down the dev build

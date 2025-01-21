@@ -29,3 +29,14 @@ export const config = {
     !!process.env.SENTRY_DSN &&
     process.env.SENTRY_DSN.startsWith('https'),
 };
+
+/**
+ * Load remote config from a remote server
+ */
+export async function loadRemoteConfig() {
+  try {
+    return null;
+  } catch (error) {
+    console.error('Failed to load remote config', error);
+  }
+}

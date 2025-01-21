@@ -1,107 +1,131 @@
-import { truncate } from 'lodash';
-import React from 'react';
-import { useBreadcrumbItem, useBreadcrumbs } from 'react-aria';
-import ReactDOM from 'react-dom';
+import { type LinkProps } from '@tanstack/react-router';
+import {
+  Children,
+  cloneElement,
+  isValidElement,
+  type ReactNode,
+  type Ref,
+} from 'react';
+import {
+  Breadcrumb as AriaBreadcrumb,
+  Breadcrumbs as AriaBreadcrumbs,
+  type BreadcrumbProps,
+  type BreadcrumbsProps,
+} from 'react-aria-components';
 
 import { styled } from '~styled-system/jsx';
 import { Icon } from '~uikit';
 
 import { Link } from './Link';
 
-type Props = {
-  children: any;
+type Props = BreadcrumbsProps<any> & {
+  ref?: Ref<HTMLOListElement>;
+  children?: ReactNode;
 };
 
-export function Breadcrumbs({ children }: Props) {
-  const { navProps } = useBreadcrumbs({});
-  const [breadcrumbsElement, setBreadcrumbsElement] = React.useState<HTMLElement | null>(null); // prettier-ignore
-  const childrenArray = React.Children.toArray(children);
-
-  const content = (
-    <nav {...navProps}>
-      <BreadcrumbList>
-        {childrenArray.map((child: any, i) =>
-          React.cloneElement(child, {
-            isCurrent: i === childrenArray.length - 1,
-          })
-        )}
-      </BreadcrumbList>
-    </nav>
-  );
-
-  React.useLayoutEffect(() => {
-    setBreadcrumbsElement(document.getElementById('breadcrumbs-slot'));
-  }, []);
-
-  if (!breadcrumbsElement) return null;
-
-  return ReactDOM.createPortal(content, breadcrumbsElement as any);
-}
-
-Breadcrumbs.Link = BreadcrumbLink;
-
-function BreadcrumbLink({
-  to = '',
-  isCurrent = false,
-  children,
-}: {
-  to?: string;
-  isCurrent?: boolean;
-  children: string;
-}) {
-  const ref = React.useRef<any>(undefined);
-  const { itemProps } = useBreadcrumbItem({ children, isCurrent }, ref);
-
+function BreadcrumbList({ ref, children, onAction, ...rest }: Props) {
   return (
-    <BreadcrumbItem current={!!isCurrent}>
-      <Link {...itemProps} ref={ref} to={to}>
-        {truncate(children, { length: 15 })}
-      </Link>
-
-      {!isCurrent && (
-        <Icon
-          name="chevronRight"
-          size={16}
-          color="neutral1"
-          aria-hidden="true"
-          className="breadcrumb-separator"
-        />
-      )}
-    </BreadcrumbItem>
+    <BreadcrumbContainer
+      data-testid="breadcrumbs-list"
+      ref={ref}
+      onAction={onAction}
+      {...rest}
+    >
+      {Children.map(children, (child, index) => {
+        if (isValidElement(child)) {
+          return cloneElement(child, {
+            // We use this prop to determine if we should render a separator
+            isLast: index === Children.count(children) - 1,
+          } as any); // TODO: fix type?
+        }
+        return null;
+      })}
+    </BreadcrumbContainer>
   );
 }
 
-const BreadcrumbList = styled('ol', {
+BreadcrumbList.displayName = 'Breadcrumbs';
+
+type BreadcrumbItemProps = BreadcrumbProps & {
+  ref?: Ref<HTMLLIElement>;
+  to?: LinkProps['to'];
+  target?: string;
+  children?: ReactNode;
+};
+
+function BreadcrumbItem({
+  ref,
+  children,
+  to,
+  target,
+  // @ts-expect-error This prop is only used internally and passed down from
+  // the Breadcrumbs component to determine if we should render a separator
+  isLast = false,
+  ...rest
+}: BreadcrumbItemProps) {
+  return (
+    <Breadcrumb data-testid="breadcrumbs-item" ref={ref} {...rest}>
+      <BreadcrumbLink data-testid="breadcrumbs-link" to={to} target={target}>
+        {children}
+      </BreadcrumbLink>
+      {!isLast && (
+        <Icon name="chevronRight" size={16} color="neutral1" aria-hidden />
+      )}
+    </Breadcrumb>
+  );
+}
+
+BreadcrumbItem.displayName = 'Breadcrumb';
+
+const BreadcrumbContainer = styled(AriaBreadcrumbs, {
   base: {
     display: 'flex',
-    padding: '$regular',
+    flexWrap: 'wrap',
+    gap: '$xs',
+    listStyle: 'none',
+    padding: 0,
+    margin: 0,
   },
 });
 
-const BreadcrumbItem = styled('li', {
+const Breadcrumb = styled(AriaBreadcrumb, {
   base: {
+    textStyle: '$bodySmallSemiBold',
+    lineHeight: 1,
     display: 'flex',
     alignItems: 'center',
+    gap: '$xs',
+  },
+});
 
-    '& a': {
-      textStyle: '$body',
+const BreadcrumbLink = styled(Link, {
+  base: {
+    textStyle: '$bodySmallSemiBold',
+    lineHeight: 1,
+    color: '$textMuted',
+    outline: 'none',
+    textDecoration: 'none',
+    cursor: 'default',
+
+    // Only links with href attribute should look clickable
+    '&[href]': {
       cursor: 'pointer',
-      color: '$textMuted',
     },
 
-    '& .breadcrumb-separator': {
-      margin: '0px token(spacing.$xxs)',
+    // Apply hover styles if has href attribute and is not last child
+    '&:hover[href]:not(:last-child)': {
+      textDecoration: 'underline',
+      color: '$text',
     },
-  },
 
-  variants: {
-    current: {
-      true: {
-        '& a': {
-          cursor: 'default',
-          color: '$text',
-        },
-      },
+    '&[data-focus-visible="true"]': {
+      borderRadius: '$regular',
+      $focusRing: true,
     },
   },
+});
+
+// Add compound components to Breadcrumbs
+export const Breadcrumbs = Object.assign(BreadcrumbList, {
+  Item: BreadcrumbItem,
 });

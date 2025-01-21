@@ -1,4 +1,5 @@
 import { Trans, useLingui } from '@lingui/react/macro';
+import { createFileRoute } from '@tanstack/react-router';
 import { orderBy, random, range } from 'lodash';
 import { useState } from 'react';
 
@@ -14,6 +15,10 @@ import {
   Table,
   Text,
 } from '~uikit';
+
+export const Route = createFileRoute('/_app/$workspaceId/')({
+  component: HomeRoute,
+});
 
 export default function HomeRoute() {
   const { t } = useLingui();

@@ -23,8 +23,6 @@
     "strictPropertyInitialization": false,
     "types": ["vitest/globals"],
     "paths": {
-      "~constants/*": ["src/constants/*"],
-      "~services/*": ["src/services/*"],
       "~shared/*": ["shared/*"],
       "~graphql": ["src/graphql/index.ts"],
       "~uikit": ["src/components/uikit/index.ts"],
@@ -32,9 +30,7 @@
       "~routes/*": ["src/routes/*"],
       "~design-tokens/*": ["styled-system/tokens/*"],
       "~styled-system/*": ["styled-system/generated/*"],
-      "~utils/*": ["src/utils/*"],
-      "~hooks/*": ["src/hooks/*"],
-      "~test/*": ["src/test/*"]
+      "~*": ["src/*"]
     }
   },
   "include": ["shared", "src", "styled-system"],

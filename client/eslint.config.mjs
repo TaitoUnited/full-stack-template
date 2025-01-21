@@ -120,6 +120,11 @@ export default pluginTS.config(
       'no-restricted-imports': [
         'error',
         {
+          name: '@tanstack/react-router',
+          importNames: ['Link'],
+          message: 'Please use custom Link instead.',
+        },
+        {
           name: 'react-aria-components',
           importNames: ['Link'],
           message: 'Please use custom Link instead.',

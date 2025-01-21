@@ -1,11 +1,3 @@
-// The following imports are only needed if you are using subscriptions or cache persistence.
-/*
-import { LocalStorageWrapper, CachePersistor } from 'apollo3-cache-persist';
-import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
-import { createClient } from 'graphql-ws';
-import { getMainDefinition } from '@apollo/client/utilities';
-*/
-
 import {
   ApolloClient,
   ApolloLink,
@@ -13,45 +5,37 @@ import {
   HttpLink,
   InMemoryCache,
   type NormalizedCacheObject,
-  type OperationVariables,
 } from '@apollo/client';
+import { onError } from '@apollo/client/link/error';
+import { toast } from 'react-hot-toast';
 
 import { config } from '~constants/config';
-import { authStore } from '~services/auth';
+import { logout } from '~services/auth';
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '~services/i18n';
+import { workspaceIdStore } from '~stores/workspace-id-store';
 import { storage } from '~utils/storage';
 
-const cache = new InMemoryCache();
+let __apolloClient__: ApolloClient<NormalizedCacheObject>;
 
-// This is used for querying data outside of React
-let __client__: ApolloClient<NormalizedCacheObject>;
+export function getApolloClient() {
+  return __apolloClient__;
+}
 
-export async function setupApolloClient() {
+export function setupApolloClient() {
+  const cache = new InMemoryCache();
+
   const httpLink = new HttpLink({ uri: `${config.API_URL}/graphql` });
-
-  // If you need to use subscriptions, uncomment the following block:
-  /*
-  const wsUri = `${config.ENV === 'localhost' ? 'ws' : 'wss'}://${
-    location.host
-  }${config.API_URL}/subscriptions`;
-
-  const wsLink = new GraphQLWsLink(createClient({ url: wsUri }));
-  */
 
   const headersLink = new ApolloLink((operation, forward) => {
     const locales = SUPPORTED_LOCALES;
     const locale = storage.get('locale');
-    const { organisation } = authStore.getState();
 
     operation.setContext((context: any) => {
       const headers = {
         ...context.headers,
         'Accept-Language': locales.includes(locale) ? locale : DEFAULT_LOCALE,
+        'x-organisation-id': workspaceIdStore.getState().workspaceId,
       };
-
-      if (organisation) {
-        headers['X-Organisation-Id'] = organisation;
-      }
 
       return { headers };
     });
@@ -59,91 +43,40 @@ export async function setupApolloClient() {
     return forward(operation);
   });
 
-  // If you want to persist the cache, uncomment the following block:
-  /*
-  const persistor = new CachePersistor({
-    cache,
-    storage: new LocalStorageWrapper(window.localStorage),
+  const requestLinks = from([headersLink, httpLink]);
+
+  // https://www.apollographql.com/docs/react/networking/advanced-http-networking#customizing-response-logic
+  const logoutLink = onError(({ graphQLErrors, networkError }) => {
+    const isNetworkAuthError =
+      networkError &&
+      'statusCode' in networkError &&
+      networkError.statusCode === 401;
+
+    const isGraphQLAuthError =
+      graphQLErrors &&
+      graphQLErrors.some(error => error.extensions?.code === 'UNAUTHORIZED');
+
+    /**
+     * Automatically log out the user if the session has expired and session
+     * refreshing has failed on the server for some reason.
+     */
+    if (isNetworkAuthError || isGraphQLAuthError) {
+      logout()
+        .then(() => toast(`Your session has expired!`)) // TODO: Translate?
+        .catch(e => console.log('Failed to logout', e)); // this should never happen...
+    }
   });
 
-  const shouldPurge = await shouldPurgeStorage();
-
-  if (shouldPurge) {
-    await persistor.purge();
-  } else {
-    await persistor.restore();
-  }
-  */
-
-  // If you need to use subscriptions, uncomment the following block
-  /*
-  const splitLink = split(
-    ({ query }) => {
-      const definition = getMainDefinition(query);
-      return (
-        definition.kind === 'OperationDefinition' &&
-        definition.operation === 'subscription'
-      );
-    },
-    wsLink,
-    httpLink
-  );
-  */
-
-  const client = new ApolloClient({
-    // If you need to use subscriptions, change the following line to:
-    // link: from([headersLink, splitLink]),
-    link: from([headersLink, httpLink]),
+  const apolloClient = new ApolloClient({
+    link: logoutLink.concat(requestLinks),
     cache,
-    defaultOptions: {
-      query: {
-        fetchPolicy: 'cache-first',
-      },
-      watchQuery: {
-        fetchPolicy: 'cache-first',
-        nextFetchPolicy: 'cache-first',
-      },
+    connectToDevTools: process.env.NODE_ENV === 'development',
+    devtools: {
+      enabled: process.env.NODE_ENV === 'development',
     },
   });
 
-  __client__ = client;
+  __apolloClient__ = apolloClient;
 
-  return client;
+  return apolloClient;
 }
-
-export function getApolloClient() {
-  return __client__;
-}
-
-type ClientQueryParams = Parameters<
-  ApolloClient<NormalizedCacheObject>['query']
->[0];
-
-export function query<
-  Data = any,
-  Variables extends OperationVariables = OperationVariables,
->(query: ClientQueryParams['query'], variables?: Variables) {
-  return __client__.query<Data, Variables>({
-    query,
-    variables,
-    fetchPolicy: 'network-only',
-  });
-}
-
-// The following function is only needed if you are using cache persistence:
-/* 
-// https://github.com/apollographql/apollo-cache-persist/blob/master/docs/faq.md#ive-had-a-breaking-schema-change-how-do-i-migrate-or-purge-my-cache
-const SCHEMA_VERSION = '1';
-const SCHEMA_VERSION_KEY = 'apollo-schema-version';
-
-async function shouldPurgeStorage() {
-  const currentVersion = localStorage.getItem(SCHEMA_VERSION_KEY);
-
-  if (currentVersion === SCHEMA_VERSION) {
-    return false;
-  } else {
-    localStorage.setItem(SCHEMA_VERSION_KEY, SCHEMA_VERSION);
-    return true;
-  }
-}
-*/
