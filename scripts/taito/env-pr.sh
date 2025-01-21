@@ -10,4 +10,4 @@
 ##########################################################################
 
 # Database name override for PR specific database
-db_database_name_override=${taito_project//-/_}_${taito_deployment_suffix//-/_}
+db_database_name_override=${taito_project//-/_}_${taito_target_env//-/_}

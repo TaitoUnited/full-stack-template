@@ -37,8 +37,6 @@ export function Link({
   );
 }
 
-Link.displayName = 'Link';
-
 export function UnstyledLink({
   ref,
   children,
@@ -59,8 +57,6 @@ export function UnstyledLink({
     </RRLink>
   );
 }
-
-UnstyledLink.displayName = 'UnstyledLink';
 
 // Nav link knows whether it is active or not based on the current url
 export function NavLink({
@@ -85,8 +81,6 @@ export function NavLink({
     </FocusRing>
   );
 }
-
-NavLink.displayName = 'NavLink';
 
 const linkStyles = css({
   textDecoration: 'none',

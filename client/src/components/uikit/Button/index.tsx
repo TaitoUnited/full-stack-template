@@ -218,5 +218,3 @@ const SpinnerWrapper = styled('div', {
     backgroundColor: 'inherit',
   },
 });
-
-Button.displayName = 'Button';

@@ -78,8 +78,6 @@ function MenuBase({
   );
 }
 
-MenuBase.displayName = 'Menu';
-
 function Item({
   ref,
   children,
@@ -101,8 +99,6 @@ function Item({
   );
 }
 
-Item.displayName = 'MenuItem';
-
 type SectionProps = AriaSectionProps<any> &
   RefAttributes<HTMLElement> & {
     title: ReactNode;
@@ -119,8 +115,6 @@ function Section({ ref, title, children, ...rest }: SectionProps) {
     </MenuSection>
   );
 }
-
-Section.displayName = 'MenuSection';
 
 const popoverStyles = cva({
   base: {

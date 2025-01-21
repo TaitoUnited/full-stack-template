@@ -1,11 +1,1 @@
-# Overrides for pull-request environments
-
-# NOTE: Uncomment DATABASE_NAME to use dev database for your PRs by default.
-# This may be useful if you want to do manual testing in PR environments.
-# See also helm-pr-db.yaml.
-
-# full-stack:
-#   services:
-#     server:
-#       env:
-#         DATABASE_NAME: ${taito_project}-${taito_env}
+# Overrides for all pull-request environments
