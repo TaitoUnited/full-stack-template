@@ -1,13 +1,9 @@
 import { useEffect } from 'react';
 import { create } from 'zustand';
 
-import {
-  getApolloClient,
-  LoginDocument,
-  LogoutDocument,
-  MeDocument,
-  type MeQuery,
-} from '~graphql';
+import { getApolloClient } from '~graphql';
+import { LoginMutation, LogoutMutation } from '~graphql/session/mutations';
+import { MeQuery } from '~graphql/session/queries';
 import { getRouter } from '~route-setup';
 import { storage } from '~utils/storage';
 
@@ -28,7 +24,7 @@ export async function login(variables: { email: string; password: string }) {
   const router = getRouter();
 
   try {
-    await apolloClient.mutate({ mutation: LoginDocument, variables });
+    await apolloClient.mutate({ mutation: LoginMutation, variables });
 
     storage.clearAll();
     store.setState({ status: 'authenticated' });
@@ -47,7 +43,7 @@ export async function logout() {
   try {
     store.setState({ status: 'unauthenticated' });
     await router.invalidate(); // this will cause redirect to /login
-    await apolloClient.mutate({ mutation: LogoutDocument });
+    await apolloClient.mutate({ mutation: LogoutMutation });
     await apolloClient.clearStore();
     storage.clearAll();
   } catch (e) {
@@ -62,8 +58,8 @@ export async function verifyAuth() {
 
   const apolloClient = getApolloClient();
 
-  const { data } = await apolloClient.query<MeQuery>({
-    query: MeDocument,
+  const { data } = await apolloClient.query({
+    query: MeQuery,
     fetchPolicy: 'cache-first',
   });
 

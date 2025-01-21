@@ -1,2 +1,3 @@
+export * from './gql';
 export * from './client';
-export * from './generated';
+export * from './hooks';

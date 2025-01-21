@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
 import { PageLayout } from '~components/common/PageLayout';
-import { OrganisationsDocument, type OrganisationsQuery } from '~graphql';
+import { OrganisationsQuery } from '~graphql/organisation/queries';
 import { logout } from '~services/auth';
 import { workspaceIdStore } from '~stores/workspace-id-store';
 
@@ -21,8 +21,8 @@ export const Route = createFileRoute('/_app')({
      * Note: root layout is run on every navigation so we don't want to fetch
      * the workspaces every time but instead read them from the cache.
      */
-    const { data } = await context.apolloClient.query<OrganisationsQuery>({
-      query: OrganisationsDocument,
+    const { data } = await context.apolloClient.query({
+      query: OrganisationsQuery,
       fetchPolicy: 'cache-first',
     });
 

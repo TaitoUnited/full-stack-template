@@ -1,15 +1,15 @@
+import pluginReact from '@eslint-react/eslint-plugin';
 import eslint from '@eslint/js';
-import globals from 'globals';
 import tsParser from '@typescript-eslint/parser';
 import pluginImport from 'eslint-plugin-import';
 import pluginJsxA11y from 'eslint-plugin-jsx-a11y';
+import pluginLingui from 'eslint-plugin-lingui';
 import pluginPrettier from 'eslint-plugin-prettier/recommended';
 import pluginPromise from 'eslint-plugin-promise';
-import pluginReactHooks from 'eslint-plugin-react-hooks';
-import pluginReact from '@eslint-react/eslint-plugin';
 import pluginReactCompiler from 'eslint-plugin-react-compiler';
+import pluginReactHooks from 'eslint-plugin-react-hooks';
+import globals from 'globals';
 import pluginTS from 'typescript-eslint';
-import pluginLingui from 'eslint-plugin-lingui';
 
 export default pluginTS.config(
   eslint.configs.recommended,
@@ -39,7 +39,7 @@ export default pluginTS.config(
       'eslint.config.*',
       '.storybook/vite.config.*',
       // Ignore generated files
-      'src/graphql/generated.ts',
+      'src/graphql/generated.d.ts',
       'src/locales/',
       'styled-system/generated/',
       'styled-system/tokens/',
@@ -140,10 +140,22 @@ export default pluginTS.config(
           message: 'Please use the @lingui/react/macro instead.',
         },
         {
+          name: '@apollo/client',
+          importNames: ['useQuery', 'useSuspenseQuery', 'gql'],
+          message:
+            'Please use GraphQL related hooks and utils from ~graphql alias.',
+        },
+        {
+          name: 'gql.tada',
+          importNames: ['graphql'],
+          message:
+            'Please use GraphQL related hooks and utils from ~graphql alias.',
+        },
+        {
           name: 'graphql',
           importNames: ['graphql'],
           message:
-            'Please use GraphQL related hooks and utils from ~/graphql alias.',
+            'Please use GraphQL related hooks and utils from ~graphql alias.',
         },
       ],
       '@typescript-eslint/consistent-type-imports': [

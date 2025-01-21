@@ -6,8 +6,9 @@ import pandaCss from '@pandacss/dev/postcss';
 import { lingui } from '@lingui/vite-plugin';
 import { defineConfig } from 'vite';
 import { ViteFaviconsPlugin } from 'vite-plugin-favicon2';
-import { optimizeLodashImports } from '@optimize-lodash/rollup-plugin';
 import { splashScreen } from 'vite-plugin-splash-screen';
+import { watchAndRun } from 'vite-plugin-watch-and-run';
+import { optimizeLodashImports } from '@optimize-lodash/rollup-plugin';
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 
 import { routeConfig } from './src/route-config';
@@ -55,6 +56,15 @@ export default defineConfig(({ mode }) => ({
     },
   },
   plugins: [
+    watchAndRun([
+      {
+        name: 'Watch GraphQL schema',
+        watchKind: ['change'],
+        watch: path.resolve('shared/schema.gql'),
+        run: 'npm run generate:graphql',
+        delay: 300,
+      },
+    ]),
     splashScreen({
       logoSrc: 'logo.svg',
       splashBg: '#ffffff',

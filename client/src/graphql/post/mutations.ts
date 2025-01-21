@@ -1,6 +1,6 @@
-import { gql } from '@apollo/client';
+import { graphql } from '~graphql';
 
-export const CREATE_POST = gql`
+export const CreatePostMutation = graphql(`
   mutation CreatePost($title: String!, $content: String!) {
     createPost(title: $title, content: $content) {
       id
@@ -8,4 +8,4 @@ export const CREATE_POST = gql`
       content
     }
   }
-`;
+`);
