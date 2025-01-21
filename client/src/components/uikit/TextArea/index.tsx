@@ -84,5 +84,3 @@ export function TextArea({
     </TextField>
   );
 }
-
-TextArea.displayName = 'TextArea';

@@ -1,0 +1,58 @@
+# Builder and tester container for production build
+ARG BUILDER_IMAGE='node:22.12.0-bookworm-slim'
+ARG RUNTIME_IMAGE='nginx:stable-alpine'
+
+FROM ${BUILDER_IMAGE} as builder
+
+RUN mkdir -p /develop
+WORKDIR /develop
+
+ARG SERVICE_DIR=.
+COPY ${SERVICE_DIR}/package.json \
+    ${SERVICE_DIR}/package-lock.* \
+    ${SERVICE_DIR}/.npmrc \
+    /develop/
+
+ENV NODE_ENV development
+RUN npm ci --loglevel warn --no-audit
+
+COPY ${SERVICE_DIR} /develop
+
+ENV BASE_PATH BASE_PATH
+ENV ASSETS_PATH ASSETS_PATH
+ENV ASSETS_DOMAIN ASSETS_DOMAIN
+ENV SENTRY_DSN #sentryDSN
+
+RUN npm run generate
+RUN npm run uikit:build
+
+# Production runtime
+FROM ${RUNTIME_IMAGE}
+ARG BUILD_VERSION
+LABEL version=${BUILD_VERSION} \
+    company=gs1 \
+    project=gs1-ursa \
+    role=storybook
+RUN mkdir -p /service
+WORKDIR /service
+RUN chown -R nginx:nginx /service && \
+    mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
+RUN sed -i '/application\/json/a\    application/wasm wasm;' \
+    /etc/nginx/mime.types
+
+# Copy
+COPY ./nginx.conf /etc/nginx
+COPY --from=builder /develop/storybook-static .
+
+# Move source maps to /meta by default
+RUN mkdir /meta && find . -name '*.map' -exec mv {} /meta \;
+
+# Give nginx modify rights to some files that are modified at startup
+RUN find . -name '*.html' -exec chown nginx:nginx {} \; && \
+    find . -name 'manifest.json' -exec chown nginx:nginx {} \;
+
+# Startup
+# Run as "nginx" user. Numeric user id required for pod security admission.
+USER 101
+CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 8080

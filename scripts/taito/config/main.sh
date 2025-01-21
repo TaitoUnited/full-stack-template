@@ -21,6 +21,15 @@ taito_plugins="
   semantic-release:prod
 "
 
+# Environment mappings
+if [[ ${taito_target_env} == "pr-"* ]]; then
+  # For PRs we use dev environment and use the pr-XX only as a suffix for containers
+  taito_env="dev"
+elif [[ ${taito_target_env} == "canary" ]]; then
+  # For canary we use prod environment resources and use the canary only as a suffix for containers
+  taito_env="prod"
+fi
+
 # Zone defaults
 # shellcheck disable=SC1091
 . scripts/taito/config/defaults.sh
@@ -35,9 +44,6 @@ taito_organization_abbr=${default_organization_abbr}
 
 # Assets
 taito_project_icon=$taito_project-dev.${default_domain}/favicon.ico
-
-# Environment mappings
-taito_env=${taito_target_env/canary/prod} # canary -> prod
 
 # Cloud provider
 taito_provider=${default_provider}
@@ -80,8 +86,8 @@ taito_functions_bucket=${default_functions_bucket}
 taito_static_assets_bucket=${default_static_assets_bucket}
 
 # URLs
-taito_domain=$taito_project-$taito_deployment_suffix.${default_domain}
-taito_default_domain=$taito_project-$taito_deployment_suffix.${default_domain}
+taito_domain=$taito_project-$taito_target_env.${default_domain}
+taito_default_domain=$taito_project-$taito_target_env.${default_domain}
 taito_cdn_domain=${default_cdn_domain}
 taito_app_url=
 
@@ -104,6 +110,9 @@ taito_ci_provider=${default_ci_provider}
 taito_ci_organization=${default_ci_organization}
 taito_ci_image=${default_taito_image}
 taito_ci_cache_all_targets_with_docker=true
+
+# TODO: proper configuration
+taito_ci_pull_docker_cache=false
 
 # Container registry provider
 taito_container_registry_provider=${default_container_registry_provider}
@@ -205,6 +214,7 @@ kubernetes_name=${default_kubernetes}
 kubernetes_regional=${default_kubernetes_regional}
 kubernetes_network_policy_provider=${default_kubernetes_network_policy_provider}
 kubernetes_replicas=1
+# TODO: should be set based on defaults.sh
 kubernetes_db_proxy_enabled=true
 
 # Binary authorization
@@ -389,8 +399,8 @@ case $taito_env in
     taito_cicd_secrets_path=${default_cicd_secrets_path_prod}
 
     # Domain
-    taito_domain=$taito_project-$taito_deployment_suffix.${default_domain_prod}
-    taito_default_domain=$taito_project-$taito_deployment_suffix.${default_domain_prod}
+    taito_domain=$taito_project-$taito_target_env.${default_domain_prod}
+    taito_default_domain=$taito_project-$taito_target_env.${default_domain_prod}
     taito_cdn_domain=${default_cdn_domain_prod}
     taito_host="${default_host_prod}"
 
@@ -509,7 +519,7 @@ case $taito_env in
       if [[ -f scripts/taito/env-dev.sh ]]; then . scripts/taito/env-dev.sh; fi
     fi
     # pr overrides
-    if [[ $taito_deployment_suffix == "pr-"* ]]; then
+    if [[ $taito_target_env == "pr-"* ]]; then
       # shellcheck disable=SC1091
       if [[ -f scripts/taito/env-pr.sh ]]; then . scripts/taito/env-pr.sh; fi
     fi
@@ -659,8 +669,12 @@ fi
 
 # ------ Test suite settings ------
 
-# shellcheck disable=SC1091
-. scripts/taito/testing.sh
+# Enable CI/CD tests only for dev and PR environments
+if [[ $taito_env == "dev" ]]; then
+  ci_exec_test=true              # enable this to execute test suites
+  ci_exec_test_init=false        # enable to run 'init --clean' before each test suite
+  ci_exec_test_init_after=false  # enable to run 'init --clean' after all tests
+fi
 
 # ------ Custom terraform mappings ------
 

@@ -150,5 +150,3 @@ const Checkmark = styled('div', {
     $fadeScaleIn: 200,
   },
 });
-
-Checkbox.displayName = 'Checkbox';

@@ -1,0 +1,8 @@
+# Overrides for pull-request environments with "PR - use dev db" label.
+
+full-stack:
+  services:
+    server:
+      env:
+        # Use database of dev environment instead of PR specific database
+        DATABASE_NAME: ${taito_project}-${taito_env}

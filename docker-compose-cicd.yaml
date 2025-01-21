@@ -14,61 +14,23 @@
 
 version: '3.8'
 services:
-  full-stack-template-admin-cicd:
-    image: full-stack-template-admin-builder:latest
-    restart: 'no'
-    networks:
-      - cicd
-    volumes:
-      - "${DOCKER_HOST_PATH:-.}/admin:/develop:delegated"
-      - "${DOCKER_HOST_PATH:-.}/shared:/develop/shared:delegated"
-      - "/develop/node_modules"
-      - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_mgr_secret}:/run/secrets/DATABASE_PASSWORD" # For GitHub Actions
-      - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_ssl_ca_secret}:/run/secrets/DATABASE_SSL_CA" # For GitHub Actions
-      - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_ssl_cert_secret}:/run/secrets/DATABASE_SSL_CERT" # For GitHub Actions
-      - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_ssl_key_secret}:/run/secrets/DATABASE_SSL_KEY" # For GitHub Actions
-    secrets:
-      - DATABASE_PASSWORD
-      - DATABASE_SSL_CA
-      - DATABASE_SSL_CERT
-      - DATABASE_SSL_KEY
-    environment:
-      taito_running_tests: "true"
-
-  full-stack-template-client-cicd:
-    image: full-stack-template-client-builder:latest
-    restart: 'no'
-    networks:
-      - cicd
-    depends_on:
-      full-stack-template-database-proxy:
-        condition: service_healthy
-    volumes:
-      - "${DOCKER_HOST_PATH:-.}/client:/develop:delegated"
-      - "${DOCKER_HOST_PATH:-.}/shared:/develop/shared:delegated"
-      - "/develop/node_modules"
-      - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_mgr_secret}:/run/secrets/DATABASE_PASSWORD" # For GitHub Actions
-      - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_ssl_ca_secret}:/run/secrets/DATABASE_SSL_CA" # For GitHub Actions
-      - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_ssl_cert_secret}:/run/secrets/DATABASE_SSL_CERT" # For GitHub Actions
-      - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_ssl_key_secret}:/run/secrets/DATABASE_SSL_KEY" # For GitHub Actions
-    secrets:
-      - DATABASE_PASSWORD
-      - DATABASE_SSL_CA
-      - DATABASE_SSL_CERT
-      - DATABASE_SSL_KEY
-    environment:
-      taito_running_tests: "true"
-
+  # TODO: update also playwright setup located in the playwright folder
   full-stack-template-playwright-cicd:
-    build:
-      context: ./playwright
-      dockerfile: Dockerfile
+    image: full-stack-template-playwright-builder:${IMAGE_TAG}
+    restart: "no"
     volumes:
       - "${DOCKER_HOST_PATH}/playwright:/playwright:delegated"
       - "/playwright/node_modules"
+    secrets:
+      - TEST_USER_PASSWORD
+    environment:
+      CI: "true"
+      TEST_ENV: ${taito_target_env}
+      TEST_BASE_URL: https://${taito_domain}
+      TEST_USER_EMAIL: username@mydomain.com
 
   full-stack-template-server-cicd:
-    image: full-stack-template-server-builder:latest
+    image: full-stack-template-server-builder:${IMAGE_TAG}
     restart: 'no'
     networks:
       - cicd
@@ -90,10 +52,13 @@ services:
       - DATABASE_SSL_CA
       - DATABASE_SSL_CERT
       - DATABASE_SSL_KEY
+      - TEST_USER_PASSWORD      
     environment:
-      taito_running_tests: "true"
-      # DB settings for running migrations using the server image
+      TEST_ENV: ${taito_target_env}
+      TEST_BASE_URL: https://${taito_domain}
+      TEST_USER_EMAIL: username@mydomain.com
       DATABASE_HOST: full-stack-template-database-proxy
+      DATABASE_PORT: ${db_database_real_port}
       DATABASE_NAME: ${db_database_name}
       DATABASE_USER: ${db_database_mgr_username}
       DATABASE_SSL_ENABLED: ${db_database_ssl_enabled}
@@ -207,6 +172,8 @@ secrets:
     file: ${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_ssl_cert_secret}
   DATABASE_SSL_KEY:
     file: ${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${db_database_ssl_key_secret}
+  TEST_USER_PASSWORD:
+    file: ${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/${taito_project}-${taito_env}-test-user-password.secret
 
 networks:
   cicd:

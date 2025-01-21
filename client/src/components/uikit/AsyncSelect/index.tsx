@@ -180,8 +180,6 @@ export function AsyncSelect({
   );
 }
 
-AsyncSelect.displayName = 'AsyncSelect';
-
 function AsyncSelectOptions({
   errorMessage,
   emptyMessage,
