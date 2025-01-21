@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/react/macro';
 
-import { Link } from '~components/navigation/Link';
-import { useDocumentTitle } from '~hooks/useDocumentTitle';
+import { Link } from '~components/navigation/link';
+import { useDocumentTitle } from '~hooks/use-document-title';
 import { Stack, Text } from '~uikit';
 
 export function NotFoundUnauthenticated() {

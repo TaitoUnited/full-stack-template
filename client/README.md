@@ -267,7 +267,7 @@ Then there are three ways to check whether a feature is enabled.
 #### `<FeatureGate>`
 
 ```tsx
-import FeatureGate from '~components/feature-flags/FeatureGate';
+import FeatureGate from '~components/feature-flags/feature-gate';
 
 function Example() {
   return (

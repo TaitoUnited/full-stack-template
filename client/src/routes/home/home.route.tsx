@@ -3,8 +3,8 @@ import { createFileRoute } from '@tanstack/react-router';
 import { orderBy, random, range } from 'lodash';
 import { useState } from 'react';
 
-import { FeatureGate } from '~components/feature-flags/FeatureGate';
-import { useDocumentTitle } from '~hooks/useDocumentTitle';
+import { FeatureGate } from '~components/feature-flags/feature-gate';
+import { useDocumentTitle } from '~hooks/use-document-title';
 import { isFeatureEnabled } from '~services/feature-flags';
 import { styled } from '~styled-system/jsx';
 import {

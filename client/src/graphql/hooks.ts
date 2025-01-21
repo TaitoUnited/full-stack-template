@@ -15,7 +15,7 @@ import { equal } from '@wry/equality';
 import { startTransition, useDeferredValue, useRef } from 'react';
 import { useSpinDelay } from 'spin-delay';
 
-import { useWindowFocusEffect } from '~hooks/useWindowFocus';
+import { useWindowFocusEffect } from '~hooks/use-window-focus';
 
 /**
  * Enhance `useQuery` hook to add support for refetching data on window focus.

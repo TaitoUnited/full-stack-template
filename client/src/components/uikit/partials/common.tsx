@@ -2,9 +2,9 @@ import { type ComponentProps } from 'react';
 
 import { css, cx } from '~styled-system/css';
 
-import { Icon } from '../Icon';
-import { Stack } from '../Stack';
-import { Text } from '../Text';
+import { Icon } from '../icon';
+import { Stack } from '../stack';
+import { Text } from '../text';
 
 // Common input sub-components
 

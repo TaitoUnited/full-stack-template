@@ -1,8 +1,8 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 import { createFileRoute } from '@tanstack/react-router';
 
-import { AlertMessage } from '~components/common/AlertMessage';
-import { useDocumentTitle } from '~hooks/useDocumentTitle';
+import { AlertMessage } from '~components/common/alert-message';
+import { useDocumentTitle } from '~hooks/use-document-title';
 import { styled } from '~styled-system/jsx';
 import { Stack, Text } from '~uikit';
 

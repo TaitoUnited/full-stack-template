@@ -1,6 +1,6 @@
 import { Trans } from '@lingui/react/macro';
 
-import { useDocumentTitle } from '~hooks/useDocumentTitle';
+import { useDocumentTitle } from '~hooks/use-document-title';
 import { styled } from '~styled-system/jsx';
 import { Stack, Text } from '~uikit';
 

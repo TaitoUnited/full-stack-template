@@ -1,25 +1,25 @@
-export { Stack } from './Stack';
-export { Menu } from './Menu';
-export { Dialog } from './Dialog';
-export { Popover } from './Popover';
-export { Select, type SelectOption } from './Select';
+export { Stack } from './stack';
+export { Menu } from './menu';
+export { Dialog } from './dialog';
+export { Popover } from './popover';
+export { Select, type SelectOption } from './select';
 export {
   AsyncSelect,
   type AsyncSelectOption,
   type AsyncSelectLoadOptions,
-} from './AsyncSelect';
-export { MultiSelect, type MultiSelectOption } from './MultiSelect';
-export { SkeletonPlaceholder } from './SkeletonPlaceholder';
-export { Spinner } from './Spinner';
-export { Text } from './Text';
-export { TextInput } from './TextInput';
-export { TextArea } from './TextArea';
-export { Checkbox } from './Checkbox';
-export { Tooltip } from './Tooltip';
-export { Icon } from './Icon';
-export { Button } from './Button';
-export { IconButton } from './IconButton';
-export { Table } from './Table';
-export { ComboBox, type ComboBoxOption } from './ComboBox';
-export type { SortDescriptor } from './Table';
-export type { IconName } from './Icon';
+} from './async-select';
+export { MultiSelect, type MultiSelectOption } from './multi-select';
+export { SkeletonPlaceholder } from './skeleton-placeholder';
+export { Spinner } from './spinner';
+export { Text } from './text';
+export { TextInput } from './text-input';
+export { TextArea } from './text-area';
+export { Checkbox } from './checkbox';
+export { Tooltip } from './tooltip';
+export { Icon } from './icon';
+export { Button } from './button';
+export { IconButton } from './icon-button';
+export { Table } from './table';
+export { ComboBox, type ComboBoxOption } from './combo-box';
+export type { SortDescriptor } from './table';
+export type { IconName } from './icon';
