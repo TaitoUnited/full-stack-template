@@ -59,7 +59,7 @@ Read more about the benefits of Panda [here](https://panda-css.com/docs/overview
 
 ### Setup
 
-Panda CSS works by generating the styling library, called **styled system**, from a [configuration file](https://panda-css.com/docs/references/config) (`/styled-system/setup/config.ts`). This styled system is what is used in the client app code instead of importing things from the Panda CSS package directly.
+Panda CSS works by generating the styling library, called **styled system**, from a [configuration file](https://panda-css.com/docs/references/config) (`panda.config.ts`). This styled system is what is used in the client app code instead of importing things from the Panda CSS package directly.
 
 > ⚠️ Whenever you make changes to the Panda CSS setup (any file under `/styled-system/setup/`) you need regenerate the styled system with `npm run generate:styled-system`!
 >

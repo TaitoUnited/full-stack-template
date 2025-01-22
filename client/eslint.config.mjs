@@ -41,8 +41,8 @@ export default pluginTS.config(
       // Ignore generated files
       'src/graphql/generated.d.ts',
       'src/locales/',
-      'styled-system/generated/',
-      'styled-system/tokens/',
+      'src/styled-system/generated/',
+      'src/styled-system/tokens/',
     ],
   },
   {

@@ -28,8 +28,8 @@
       "~uikit": ["src/components/uikit/index.ts"],
       "~components/*": ["src/components/*"],
       "~routes/*": ["src/routes/*"],
-      "~design-tokens/*": ["styled-system/tokens/*"],
-      "~styled-system/*": ["styled-system/generated/*"],
+      "~design-tokens/*": ["src/styled-system/tokens/*"],
+      "~styled-system/*": ["src/styled-system/generated/*"],
       "~*": ["src/*"]
     },
     "plugins": [
