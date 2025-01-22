@@ -1,15 +1,15 @@
 import { Trans } from '@lingui/react/macro';
 import { createFileRoute } from '@tanstack/react-router';
 
-import { Breadcrumbs } from '~components/navigation/Breadcrumbs';
+import { Breadcrumbs } from '~components/navigation/breadcrumbs';
 import { type ResultOf, useReadQuery } from '~graphql';
 import { PostQuery } from '~graphql/post/queries';
-import { useDocumentTitle } from '~hooks/useDocumentTitle';
-import { RouteError } from '~routes/RouteError';
-import { RouteSpinner } from '~routes/RouteSpinner';
+import { useDocumentTitle } from '~hooks/use-document-title';
+import { RouteError } from '~routes/route-error';
+import { RouteSpinner } from '~routes/route-spinner';
 import { css } from '~styled-system/css';
 
-import { PostDetails } from './PostDetails';
+import { PostDetails } from './post-details';
 
 export const Route = createFileRoute('/_app/$workspaceId/posts_/$id')({
   component: PostRoute,

@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
-import { PageLayout } from '~components/common/PageLayout';
+import { PageLayout } from '~components/common/page-layout';
 import { OrganisationsQuery } from '~graphql/organisation/queries';
 import { logout } from '~services/auth';
 import { workspaceIdStore } from '~stores/workspace-id-store';

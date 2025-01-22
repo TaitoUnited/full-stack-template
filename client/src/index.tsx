@@ -5,7 +5,7 @@ import loadable from '@loadable/component';
 import { RouterProvider } from '@tanstack/react-router';
 import { createRoot } from 'react-dom/client';
 
-import { Providers } from '~components/common/Providers';
+import { Providers } from '~components/common/providers';
 import { config, loadRemoteConfig } from '~constants/config';
 import { setupApolloClient } from '~graphql';
 import { setupFeatureFlags } from '~services/feature-flags';
@@ -15,7 +15,7 @@ import { setupErrorReporting } from '~services/reporting';
 import { setupRouter } from './route-setup';
 
 const FeatureFlagManager = loadable(
-  () => import('~components/feature-flags/FeatureFlagManager')
+  () => import('~components/feature-flags/feature-flag-manager')
 );
 
 async function init() {
