@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { type ComponentProps, useState } from 'react';
 
-import { MultiSelect } from '~uikit';
+import { MultiSelect } from '~uikit/multi-select';
 
 export default {
   title: 'MultiSelect',

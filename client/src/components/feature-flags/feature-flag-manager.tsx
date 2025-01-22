@@ -11,7 +11,11 @@ import {
 } from '~services/feature-flags';
 import { styled } from '~styled-system/jsx';
 import { stack } from '~styled-system/patterns';
-import { Button, Checkbox, IconButton, Stack, Text } from '~uikit';
+import { Button } from '~uikit/button';
+import { Checkbox } from '~uikit/checkbox';
+import { IconButton } from '~uikit/icon-button';
+import { Stack } from '~uikit/stack';
+import { Text } from '~uikit/text';
 
 export default function FeatureFlagManager() {
   const [visible, setVisible] = useState(false);

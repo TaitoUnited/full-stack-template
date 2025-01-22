@@ -9,7 +9,11 @@ import { useDocumentTitle } from '~hooks/use-document-title';
 import { RouteError } from '~routes/route-error';
 import { RouteSpinner } from '~routes/route-spinner';
 import { styled } from '~styled-system/jsx';
-import { Button, Dialog, Stack, TextArea, TextInput } from '~uikit';
+import { Button } from '~uikit/button';
+import { Dialog } from '~uikit/dialog';
+import { Stack } from '~uikit/stack';
+import { TextArea } from '~uikit/text-area';
+import { TextInput } from '~uikit/text-input';
 
 export const Route = createFileRoute('/_app/$workspaceId/posts_/create')({
   component: PostCreateRoute,

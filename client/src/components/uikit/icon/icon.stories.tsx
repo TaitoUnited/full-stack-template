@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { ids } from '~design-tokens/icon-sprite-ids';
-import { Icon, Tooltip } from '~uikit';
+import { Icon } from '~uikit/icon';
+import { Tooltip } from '~uikit/tooltip';
 
 export default {
   title: 'Icon',

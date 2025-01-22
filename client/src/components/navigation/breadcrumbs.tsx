@@ -14,7 +14,7 @@ import {
 } from 'react-aria-components';
 
 import { styled } from '~styled-system/jsx';
-import { Icon } from '~uikit';
+import { Icon } from '~uikit/icon';
 
 import { Link } from './link';
 

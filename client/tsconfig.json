@@ -25,7 +25,7 @@
     "paths": {
       "~shared/*": ["shared/*"],
       "~graphql": ["src/graphql/index.ts"],
-      "~uikit": ["src/components/uikit/index.ts"],
+      "~uikit/*": ["src/components/uikit/*"],
       "~components/*": ["src/components/*"],
       "~routes/*": ["src/routes/*"],
       "~design-tokens/*": ["src/styled-system/tokens/*"],

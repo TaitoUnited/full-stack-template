@@ -1,5 +1,7 @@
 import { styled } from '~styled-system/jsx';
-import { Icon, type IconName, Stack, Text } from '~uikit';
+import { Icon, type IconName } from '~uikit/icon';
+import { Stack } from '~uikit/stack';
+import { Text } from '~uikit/text';
 
 export function AlertMessage({
   variant,

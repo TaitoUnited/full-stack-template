@@ -1,7 +1,9 @@
 import { format } from 'date-fns';
 
 import { styled } from '~styled-system/jsx';
-import { Icon, Stack, Text } from '~uikit';
+import { Icon } from '~uikit/icon';
+import { Stack } from '~uikit/stack';
+import { Text } from '~uikit/text';
 
 type Props = {
   createdAt: string;

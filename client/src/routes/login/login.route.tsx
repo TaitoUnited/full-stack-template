@@ -6,7 +6,10 @@ import { toast } from 'react-hot-toast';
 import { useDocumentTitle } from '~hooks/use-document-title';
 import { login, useAuthStore } from '~services/auth';
 import { styled } from '~styled-system/jsx';
-import { Button, Stack, Text, TextInput } from '~uikit';
+import { Button } from '~uikit/button';
+import { Stack } from '~uikit/stack';
+import { Text } from '~uikit/text';
+import { TextInput } from '~uikit/text-input';
 
 export const Route = createFileRoute('/login')({
   component: LoginRoute,

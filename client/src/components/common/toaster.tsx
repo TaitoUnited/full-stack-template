@@ -1,7 +1,7 @@
 import { Toaster as HotToaster } from 'react-hot-toast';
 
 import { cva } from '~styled-system/css';
-import { Icon } from '~uikit';
+import { Icon } from '~uikit/icon';
 
 export function Toaster() {
   const styles = cva({

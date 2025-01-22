@@ -9,7 +9,8 @@ import { useDocumentTitle } from '~hooks/use-document-title';
 import { RouteError } from '~routes/route-error';
 import { RouteSpinner } from '~routes/route-spinner';
 import { stack } from '~styled-system/patterns';
-import { Stack, Text } from '~uikit';
+import { Stack } from '~uikit/stack';
+import { Text } from '~uikit/text';
 
 import { PostListCard } from './post-list-card';
 
