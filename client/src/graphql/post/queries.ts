@@ -1,6 +1,6 @@
-import { gql } from '@apollo/client';
+import { graphql } from '~graphql';
 
-export const POST_LIST = gql`
+export const PostListQuery = graphql(`
   query PostList {
     posts {
       id
@@ -8,9 +8,9 @@ export const POST_LIST = gql`
       createdAt
     }
   }
-`;
+`);
 
-export const POST = gql`
+export const PostQuery = graphql(`
   query Post($id: String!) {
     post(id: $id) {
       id
@@ -23,4 +23,4 @@ export const POST = gql`
       }
     }
   }
-`;
+`);

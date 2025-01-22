@@ -1,11 +1,10 @@
-import { useReadQuery } from '@apollo/client';
 import { Trans, useLingui } from '@lingui/react/macro';
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 
 import { Link } from '~components/navigation/Link';
 import { LinkButton } from '~components/uikit/Button';
-import { type PostListQuery } from '~graphql';
-import { POST_LIST } from '~graphql/post/queries.gql';
+import { useReadQuery } from '~graphql';
+import { PostListQuery } from '~graphql/post/queries';
 import { useDocumentTitle } from '~hooks/useDocumentTitle';
 import { RouteError } from '~routes/RouteError';
 import { RouteSpinner } from '~routes/RouteSpinner';
@@ -19,7 +18,7 @@ export const Route = createFileRoute('/_app/$workspaceId/posts')({
   errorComponent: () => <RouteError />,
   pendingComponent: () => <RouteSpinner />,
   loader: async ({ context }) => ({
-    queryRef: context.preloadQuery<PostListQuery>(POST_LIST),
+    queryRef: context.preloadQuery(PostListQuery),
   }),
 });
 

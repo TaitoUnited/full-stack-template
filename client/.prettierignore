@@ -1,4 +1,4 @@
-src/graphql/generated.ts
+src/graphql/generated.d.ts
 src/styled-system/generated/**/*
 src/styled-system/tokens/**/*
 src/route-tree.gen.ts

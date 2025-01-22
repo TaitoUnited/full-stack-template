@@ -1,11 +1,14 @@
+/* eslint-disable no-restricted-imports */
 import {
   type DocumentNode,
   type NoInfer,
   type OperationVariables,
   type QueryHookOptions,
+  type QueryRef,
   type SuspenseQueryHookOptions,
   type TypedDocumentNode,
   useQuery as useApolloQuery,
+  useReadQuery as useApolloReadQuery,
   useSuspenseQuery as useApolloSuspenseQuery,
 } from '@apollo/client';
 import { equal } from '@wry/equality';
@@ -14,13 +17,9 @@ import { useSpinDelay } from 'spin-delay';
 
 import { useWindowFocusEffect } from '~hooks/useWindowFocus';
 
-// Re-export all hooks so that they can be used by graphql-codegen
-export * from '@apollo/client'; // eslint-disable-line import/export
-
 /**
  * Enhance `useQuery` hook to add support for refetching data on window focus.
  */
-// eslint-disable-next-line import/export
 export function useQuery<
   TData = any,
   TVariables extends OperationVariables = OperationVariables,
@@ -44,7 +43,6 @@ export function useQuery<
  * More info: https://www.teemutaskula.com/blog/exploring-query-suspense#deferring-with-usedeferredvalue
  * (the article is written for React Query but the same concept applies to Apollo)
  */
-// eslint-disable-next-line import/export
 export function useSuspenseQuery<
   TData = unknown,
   TVariables extends OperationVariables = OperationVariables,
@@ -67,6 +65,25 @@ export function useSuspenseQuery<
   const suspending = useSpinDelay(!equal(variables, options?.variables));
 
   useWindowFocusRefetching(result.refetch);
+
+  return { ...result, suspending };
+}
+
+/**
+ * Enhance `useReadQuery` hook to stop the hook from suspending when `queryRef`
+ * changes and instead return a `suspending` flag that can be used to shown
+ * an inline loading indicator.
+ */
+export function useReadQuery<TData>(queryRef: QueryRef<TData>) {
+  const deferredQueryRef = useDeferredValue(queryRef);
+  const result = useApolloReadQuery(deferredQueryRef);
+
+  /**
+   * Add smart delay to prevent spinner flickering when variables change,
+   * and tell when the query is suspending so that we can show an inline
+   * loading indicator.
+   */
+  const suspending = useSpinDelay(deferredQueryRef !== queryRef);
 
   return { ...result, suspending };
 }

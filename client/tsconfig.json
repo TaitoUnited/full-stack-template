@@ -31,7 +31,14 @@
       "~design-tokens/*": ["styled-system/tokens/*"],
       "~styled-system/*": ["styled-system/generated/*"],
       "~*": ["src/*"]
-    }
+    },
+    "plugins": [
+      {
+        "name": "gql.tada/ts-plugin",
+        "schema": "./shared/schema.gql",
+        "tadaOutputLocation": "./src/graphql/generated.d.ts"
+      }
+    ]
   },
   "include": ["shared", "src", "styled-system"],
   "exclude": [

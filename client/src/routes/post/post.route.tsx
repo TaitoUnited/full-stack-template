@@ -1,10 +1,9 @@
-import { useReadQuery } from '@apollo/client';
 import { Trans } from '@lingui/react/macro';
 import { createFileRoute } from '@tanstack/react-router';
 
 import { Breadcrumbs } from '~components/navigation/Breadcrumbs';
-import { type PostQuery } from '~graphql';
-import { POST } from '~graphql/post/queries.gql';
+import { type ResultOf, useReadQuery } from '~graphql';
+import { PostQuery } from '~graphql/post/queries';
 import { useDocumentTitle } from '~hooks/useDocumentTitle';
 import { RouteError } from '~routes/RouteError';
 import { RouteSpinner } from '~routes/RouteSpinner';
@@ -17,7 +16,7 @@ export const Route = createFileRoute('/_app/$workspaceId/posts_/$id')({
   errorComponent: () => <RouteError />,
   pendingComponent: () => <RouteSpinner />,
   loader: async ({ context, params }) => ({
-    postQueryRef: context.preloadQuery<PostQuery>(POST, {
+    postQueryRef: context.preloadQuery(PostQuery, {
       variables: { id: params.id },
     }),
   }),
@@ -34,7 +33,11 @@ export default function PostRoute() {
   return <PostPage post={post} />;
 }
 
-function PostPage({ post }: { post: NonNullable<PostQuery['post']> }) {
+function PostPage({
+  post,
+}: {
+  post: NonNullable<ResultOf<typeof PostQuery>['post']>;
+}) {
   useDocumentTitle(post.title);
 
   return (

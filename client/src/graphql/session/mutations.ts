@@ -1,17 +1,17 @@
-import { gql } from '@apollo/client';
+import { graphql } from '~graphql';
 
-export const LOGIN = gql`
+export const LoginMutation = graphql(`
   mutation Login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       status
     }
   }
-`;
+`);
 
-export const LOGOUT = gql`
+export const LogoutMutation = graphql(`
   mutation Logout {
     logout {
       status
     }
   }
-`;
+`);

@@ -1,10 +1,10 @@
+import { useMutation } from '@apollo/client';
 import { Trans, useLingui } from '@lingui/react/macro';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { type FormEvent, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
-import { useCreatePostMutation } from '~graphql';
-import { POST_LIST } from '~graphql/post/queries.gql';
+import { CreatePostMutation } from '~graphql/post/mutations';
 import { useDocumentTitle } from '~hooks/useDocumentTitle';
 import { RouteError } from '~routes/RouteError';
 import { RouteSpinner } from '~routes/RouteSpinner';
@@ -22,7 +22,7 @@ export default function PostCreateRoute() {
   const params = Route.useParams();
   const [formValues, setFormValues] = useState({ title: '', content: '' });
   const submitDisabled = Object.values(formValues).some(p => !p);
-  const [createPost, createPostState] = useCreatePostMutation();
+  const [createPost, createPostState] = useMutation(CreatePostMutation);
   const navigate = useNavigate();
 
   function handleChange(
@@ -39,7 +39,7 @@ export default function PostCreateRoute() {
     try {
       await createPost({
         variables: { title: formValues.title, content: formValues.content },
-        refetchQueries: [{ query: POST_LIST }],
+        refetchQueries: ['PostList'],
       });
 
       navigate({
