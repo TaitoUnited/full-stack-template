@@ -5,7 +5,6 @@ import { type FormEvent, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
 import { CreatePostMutation } from '~graphql/post/mutations';
-import { PostListQuery } from '~graphql/post/queries';
 import { useDocumentTitle } from '~hooks/useDocumentTitle';
 import { RouteError } from '~routes/RouteError';
 import { RouteSpinner } from '~routes/RouteSpinner';
@@ -40,7 +39,7 @@ export default function PostCreateRoute() {
     try {
       await createPost({
         variables: { title: formValues.title, content: formValues.content },
-        refetchQueries: [{ query: PostListQuery }],
+        refetchQueries: ['PostList'],
       });
 
       navigate({
