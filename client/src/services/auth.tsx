@@ -42,8 +42,8 @@ export async function logout() {
 
   try {
     store.setState({ status: 'unauthenticated' });
-    await router.invalidate(); // this will cause redirect to /login
     await apolloClient.mutate({ mutation: LogoutMutation });
+    await router.invalidate(); // this will cause redirect to /login
     await apolloClient.clearStore();
     storage.clearAll();
   } catch (e) {
