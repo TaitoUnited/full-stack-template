@@ -10,9 +10,9 @@ import { onError } from '@apollo/client/link/error';
 import { toast } from 'react-hot-toast';
 
 import { config } from '~/constants/config';
-import { logout } from '~/services/auth';
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '~/services/i18n';
-import { workspaceIdStore } from '~/stores/workspace-id-store';
+import { logout } from '~/stores/auth-store';
+import { workspaceIdStore } from '~/stores/workspace-store';
 import { storage } from '~/utils/storage';
 
 let __apolloClient__: ApolloClient<NormalizedCacheObject>;

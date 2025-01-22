@@ -2,8 +2,8 @@ import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
 import { PageLayout } from '~/components/common/page-layout';
 import { OrganisationsQuery } from '~/graphql/organisation/queries';
-import { logout } from '~/services/auth';
-import { workspaceIdStore } from '~/stores/workspace-id-store';
+import { logout } from '~/stores/auth-store';
+import { workspaceIdStore } from '~/stores/workspace-store';
 
 /**
  * Root layout is responsible for redirecting the user to the login page if

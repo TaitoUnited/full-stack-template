@@ -4,7 +4,7 @@ import { type FormEvent, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
 import { useDocumentTitle } from '~/hooks/use-document-title';
-import { login, useAuthStore } from '~/services/auth';
+import { login, useAuthStore } from '~/stores/auth-store';
 import { styled } from '~/styled-system/jsx';
 import { Button } from '~/uikit/button';
 import { Stack } from '~/uikit/stack';
