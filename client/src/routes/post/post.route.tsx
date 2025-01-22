@@ -1,9 +1,8 @@
-import { useReadQuery } from '@apollo/client';
 import { Trans } from '@lingui/react/macro';
 import { createFileRoute } from '@tanstack/react-router';
 
-import type { ResultOf } from '~/graphql';
 import { Breadcrumbs } from '~components/navigation/Breadcrumbs';
+import { type ResultOf, useReadQuery } from '~graphql';
 import { PostQuery } from '~graphql/post/queries';
 import { useDocumentTitle } from '~hooks/useDocumentTitle';
 import { RouteError } from '~routes/RouteError';
