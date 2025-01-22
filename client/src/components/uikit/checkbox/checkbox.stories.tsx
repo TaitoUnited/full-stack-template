@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { css } from '~styled-system/css';
-import { Checkbox } from '~uikit/checkbox';
-import { Stack } from '~uikit/stack';
-import { Text } from '~uikit/text';
+import { css } from '~/styled-system/css';
+import { Checkbox } from '~/uikit/checkbox';
+import { Stack } from '~/uikit/stack';
+import { Text } from '~/uikit/text';
 
 export default {
   title: 'Checkbox',

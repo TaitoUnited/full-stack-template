@@ -1,7 +1,7 @@
 import { Trans } from '@lingui/react/macro';
 import { type ComponentProps } from 'react';
 
-import { styled } from '~styled-system/jsx';
+import { styled } from '~/styled-system/jsx';
 
 import { Button } from '../button';
 

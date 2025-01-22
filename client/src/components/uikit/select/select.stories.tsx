@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Select } from '~uikit/select';
+import { Select } from '~/uikit/select';
 
 export default {
   title: 'Select',

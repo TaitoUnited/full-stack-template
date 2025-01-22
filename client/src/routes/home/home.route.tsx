@@ -3,14 +3,14 @@ import { createFileRoute } from '@tanstack/react-router';
 import { orderBy, random, range } from 'lodash';
 import { useState } from 'react';
 
-import { FeatureGate } from '~components/feature-flags/feature-gate';
-import { useDocumentTitle } from '~hooks/use-document-title';
-import { isFeatureEnabled } from '~services/feature-flags';
-import { styled } from '~styled-system/jsx';
-import { Icon, type IconName } from '~uikit/icon';
-import { Stack } from '~uikit/stack';
-import { type SortDescriptor, Table } from '~uikit/table';
-import { Text } from '~uikit/text';
+import { FeatureGate } from '~/components/feature-flags/feature-gate';
+import { useDocumentTitle } from '~/hooks/use-document-title';
+import { isFeatureEnabled } from '~/services/feature-flags';
+import { styled } from '~/styled-system/jsx';
+import { Icon, type IconName } from '~/uikit/icon';
+import { Stack } from '~/uikit/stack';
+import { type SortDescriptor, Table } from '~/uikit/table';
+import { Text } from '~/uikit/text';
 
 export const Route = createFileRoute('/_app/$workspaceId/')({
   component: HomeRoute,

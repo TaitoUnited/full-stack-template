@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { IconButton } from '~uikit/icon-button';
-import { Stack } from '~uikit/stack';
+import { IconButton } from '~/uikit/icon-button';
+import { Stack } from '~/uikit/stack';
 
 export default {
   title: 'IconButton',

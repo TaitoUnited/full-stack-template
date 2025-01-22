@@ -5,7 +5,7 @@ import { cleanup, render, type RenderOptions } from '@testing-library/react';
 import { type ReactElement } from 'react';
 import { afterEach } from 'vitest';
 
-import { storage } from '~utils/storage';
+import { storage } from '~/utils/storage';
 
 afterEach(() => {
   cleanup();

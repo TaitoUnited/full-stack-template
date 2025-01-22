@@ -14,8 +14,8 @@ import {
   useObjectRef,
 } from 'react-aria';
 
-import { css, cx } from '~styled-system/css';
-import { mapToAriaProps } from '~utils/aria';
+import { css, cx } from '~/styled-system/css';
+import { mapToAriaProps } from '~/utils/aria';
 
 type LinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   ref?: Ref<HTMLAnchorElement>;

@@ -2,9 +2,9 @@ import { type CSSProperties } from 'react';
 
 import './styles.css';
 
-import type { Color, Radii, Spacing } from '~design-tokens/types';
-import { styled } from '~styled-system/jsx';
-import { token } from '~styled-system/tokens';
+import type { Color, Radii, Spacing } from '~/design-tokens/types';
+import { styled } from '~/styled-system/jsx';
+import { token } from '~/styled-system/tokens';
 
 type Props = {
   marginTop?: Spacing | number;

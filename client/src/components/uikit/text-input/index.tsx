@@ -2,8 +2,8 @@ import { useLingui } from '@lingui/react/macro';
 import { type ComponentProps, type Ref, useState } from 'react';
 import { Input, Label, TextField, ToggleButton } from 'react-aria-components';
 
-import { cx } from '~styled-system/css';
-import { styled } from '~styled-system/jsx';
+import { cx } from '~/styled-system/css';
+import { styled } from '~/styled-system/jsx';
 
 import { Icon, type IconName } from '../icon';
 import {

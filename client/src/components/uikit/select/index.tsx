@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from 'react-aria-components';
 
-import { css, cx } from '~styled-system/css';
+import { css, cx } from '~/styled-system/css';
 
 import { Icon, type IconName } from '../icon';
 import {

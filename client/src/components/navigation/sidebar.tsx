@@ -2,12 +2,12 @@ import { Trans, useLingui } from '@lingui/react/macro';
 import { type LinkProps } from '@tanstack/react-router';
 import { toast } from 'react-hot-toast';
 
-import { logout, useAuthStore } from '~services/auth';
-import { styled } from '~styled-system/jsx';
-import { stack } from '~styled-system/patterns';
-import { Button } from '~uikit/button';
-import { Icon, type IconName } from '~uikit/icon';
-import { Text } from '~uikit/text';
+import { logout, useAuthStore } from '~/services/auth';
+import { styled } from '~/styled-system/jsx';
+import { stack } from '~/styled-system/patterns';
+import { Button } from '~/uikit/button';
+import { Icon, type IconName } from '~/uikit/icon';
+import { Text } from '~/uikit/text';
 
 import { Link } from './link';
 

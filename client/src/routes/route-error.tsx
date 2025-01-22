@@ -1,9 +1,9 @@
 import { captureException } from '@sentry/browser';
 import { useEffect } from 'react';
 
-import { ErrorView } from '~components/common/error-view';
-import { config } from '~constants/config';
-import { styled } from '~styled-system/jsx';
+import { ErrorView } from '~/components/common/error-view';
+import { config } from '~/constants/config';
+import { styled } from '~/styled-system/jsx';
 
 // See: https://reactrouter.com/en/main/route/error-element
 export function RouteError() {

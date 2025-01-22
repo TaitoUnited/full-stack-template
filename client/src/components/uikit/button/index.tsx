@@ -5,10 +5,10 @@ import {
   type ButtonProps as AriaButtonProps,
 } from 'react-aria-components';
 
-import { Link } from '~components/navigation/link';
-import { cva, cx, type RecipeVariantProps } from '~styled-system/css';
-import { styled } from '~styled-system/jsx';
-import { token } from '~styled-system/tokens';
+import { Link } from '~/components/navigation/link';
+import { cva, cx, type RecipeVariantProps } from '~/styled-system/css';
+import { styled } from '~/styled-system/jsx';
+import { token } from '~/styled-system/tokens';
 
 import { Icon, type IconName } from '../icon';
 import { Spinner, type SpinnerSize } from '../spinner';

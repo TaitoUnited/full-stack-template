@@ -1,13 +1,13 @@
 import { Trans } from '@lingui/react/macro';
 import { createFileRoute } from '@tanstack/react-router';
 
-import { Breadcrumbs } from '~components/navigation/breadcrumbs';
-import { type ResultOf, useReadQuery } from '~graphql';
-import { PostQuery } from '~graphql/post/queries';
-import { useDocumentTitle } from '~hooks/use-document-title';
-import { RouteError } from '~routes/route-error';
-import { RouteSpinner } from '~routes/route-spinner';
-import { css } from '~styled-system/css';
+import { Breadcrumbs } from '~/components/navigation/breadcrumbs';
+import { type ResultOf, useReadQuery } from '~/graphql';
+import { PostQuery } from '~/graphql/post/queries';
+import { useDocumentTitle } from '~/hooks/use-document-title';
+import { RouteError } from '~/routes/route-error';
+import { RouteSpinner } from '~/routes/route-spinner';
+import { css } from '~/styled-system/css';
 
 import { PostDetails } from './post-details';
 

@@ -6,7 +6,7 @@ import {
 } from 'react-aria-components';
 import { mergeRefs } from 'react-merge-refs';
 
-import { cx } from '~styled-system/css';
+import { cx } from '~/styled-system/css';
 
 import {
   DescriptionText,

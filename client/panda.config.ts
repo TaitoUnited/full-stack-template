@@ -14,7 +14,7 @@ import * as typography from './src/styled-system/tokens/typography';
 const isProd = process.env.NODE_ENV === 'production';
 
 export default defineConfig({
-  importMap: '~styled-system',
+  importMap: '~/styled-system',
 
   // The output directory for your css system
   outdir: './src/styled-system/generated',

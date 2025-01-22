@@ -1,7 +1,7 @@
-import * as typography from '~design-tokens/typography';
-import { Stack } from '~uikit/stack';
-import { Text } from '~uikit/text';
-import { capitalize } from '~utils/string';
+import * as typography from '~/design-tokens/typography';
+import { Stack } from '~/uikit/stack';
+import { Text } from '~/uikit/text';
+import { capitalize } from '~/utils/string';
 
 export default {
   title: 'Text',

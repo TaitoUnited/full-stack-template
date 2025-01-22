@@ -1,6 +1,6 @@
 import { init } from '@sentry/browser';
 
-import { config } from '~constants/config';
+import { config } from '~/constants/config';
 
 export function setupErrorReporting() {
   if (config.ERROR_REPORTING_ENABLED) {

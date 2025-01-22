@@ -14,8 +14,8 @@ import {
 } from 'react-aria-components';
 import useMeasure from 'react-use-measure';
 
-import { css, cx } from '~styled-system/css';
-import { styled } from '~styled-system/jsx';
+import { css, cx } from '~/styled-system/css';
+import { styled } from '~/styled-system/jsx';
 
 import { Icon, type IconName } from '../icon';
 import {

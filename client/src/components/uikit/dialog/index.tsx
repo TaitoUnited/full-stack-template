@@ -13,8 +13,8 @@ import {
   OverlayTriggerStateContext,
 } from 'react-aria-components';
 
-import { cva } from '~styled-system/css';
-import { styled } from '~styled-system/jsx';
+import { cva } from '~/styled-system/css';
+import { styled } from '~/styled-system/jsx';
 
 import { IconButton } from '../icon-button';
 import { Text } from '../text';

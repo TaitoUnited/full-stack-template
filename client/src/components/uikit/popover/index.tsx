@@ -8,8 +8,8 @@ import {
   type PopoverProps,
 } from 'react-aria-components';
 
-import { cva, cx } from '~styled-system/css';
-import { styled } from '~styled-system/jsx';
+import { cva, cx } from '~/styled-system/css';
+import { styled } from '~/styled-system/jsx';
 import './styles.css';
 
 type Props = PopoverProps & {

@@ -1,8 +1,8 @@
 import { memo, type SVGAttributes } from 'react';
 
-import { type ids } from '~design-tokens/icon-sprite-ids';
-import { type ColorToken, token } from '~styled-system/tokens';
-import { type StyledSystemToken } from '~utils/styled-system';
+import { type ids } from '~/design-tokens/icon-sprite-ids';
+import { type ColorToken, token } from '~/styled-system/tokens';
+import { type StyledSystemToken } from '~/utils/styled-system';
 
 export type IconName = (typeof ids)[number];
 

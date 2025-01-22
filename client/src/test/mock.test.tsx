@@ -1,5 +1,5 @@
-import { render, screen } from '~test/utils';
-import { Text } from '~uikit/text';
+import { render, screen } from '~/test/utils';
+import { Text } from '~/uikit/text';
 
 describe('Mock test', () => {
   it('should render Text component', () => {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useShortcut } from '~hooks/use-shortcut';
+import { useShortcut } from '~/hooks/use-shortcut';
 import {
   disableFeatureInSession,
   enableFeatureInSession,
@@ -8,14 +8,14 @@ import {
   features as featureNames,
   isFeatureEnabledInConfig,
   isFeatureEnabledInSession,
-} from '~services/feature-flags';
-import { styled } from '~styled-system/jsx';
-import { stack } from '~styled-system/patterns';
-import { Button } from '~uikit/button';
-import { Checkbox } from '~uikit/checkbox';
-import { IconButton } from '~uikit/icon-button';
-import { Stack } from '~uikit/stack';
-import { Text } from '~uikit/text';
+} from '~/services/feature-flags';
+import { styled } from '~/styled-system/jsx';
+import { stack } from '~/styled-system/patterns';
+import { Button } from '~/uikit/button';
+import { Checkbox } from '~/uikit/checkbox';
+import { IconButton } from '~/uikit/icon-button';
+import { Stack } from '~/uikit/stack';
+import { Text } from '~/uikit/text';
 
 export default function FeatureFlagManager() {
   const [visible, setVisible] = useState(false);

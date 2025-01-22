@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Button } from '~uikit/button';
-import { Popover } from '~uikit/popover';
-import { Stack } from '~uikit/stack';
-import { Text } from '~uikit/text';
+import { Button } from '~/uikit/button';
+import { Popover } from '~/uikit/popover';
+import { Stack } from '~/uikit/stack';
+import { Text } from '~/uikit/text';
 
 export default {
   title: 'Popover',

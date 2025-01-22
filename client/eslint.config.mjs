@@ -84,7 +84,7 @@ export default pluginTS.config(
       'import/no-unresolved': [
         'error',
         {
-          ignore: ['~shared'],
+          ignore: ['~/shared'],
         },
       ],
       // Enforce sorting of import members within a single import statement
@@ -130,7 +130,7 @@ export default pluginTS.config(
           message: 'Please use custom Link instead.',
         },
         {
-          name: '~styled-system/jsx',
+          name: '~/styled-system/jsx',
           importNames: ['Stack'],
           message: 'Please use custom Stack from uikit instead.',
         },
@@ -143,19 +143,19 @@ export default pluginTS.config(
           name: '@apollo/client',
           importNames: ['useQuery', 'useSuspenseQuery', 'useReadQuery', 'gql'],
           message:
-            'Please use GraphQL related hooks and utils from ~graphql alias.',
+            'Please use GraphQL related hooks and utils from ~/graphql alias.',
         },
         {
           name: 'gql.tada',
           importNames: ['graphql'],
           message:
-            'Please use GraphQL related hooks and utils from ~graphql alias.',
+            'Please use GraphQL related hooks and utils from ~/graphql alias.',
         },
         {
           name: 'graphql',
           importNames: ['graphql'],
           message:
-            'Please use GraphQL related hooks and utils from ~graphql alias.',
+            'Please use GraphQL related hooks and utils from ~/graphql alias.',
         },
       ],
       '@typescript-eslint/consistent-type-imports': [

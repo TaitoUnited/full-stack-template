@@ -19,8 +19,8 @@ import {
   type PopoverProps,
 } from 'react-aria-components';
 
-import { cva } from '~styled-system/css';
-import { styled } from '~styled-system/jsx';
+import { cva } from '~/styled-system/css';
+import { styled } from '~/styled-system/jsx';
 
 import { SelectedIcon } from '../partials/common';
 import { Stack } from '../stack';

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { TextInput } from '~uikit/text-input';
+import { TextInput } from '~/uikit/text-input';
 
 export default {
   title: 'TextInput',

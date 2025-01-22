@@ -4,7 +4,7 @@ import { useLingui } from '@lingui/react/macro';
 import { type ReactNode } from 'react';
 import { I18nProvider as AriaProvider } from 'react-aria-components';
 
-import { storage } from '~utils/storage';
+import { storage } from '~/utils/storage';
 
 export type Locale = 'fi' | 'en';
 
