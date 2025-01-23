@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
-import { Toaster } from '~/components/common/toaster';
 import { I18nProvider } from '~/services/i18n';
+import { Toaster } from '~/uikit/toaster';
 
 export function Providers({ children }: { children: ReactNode }) {
   return (

@@ -2,7 +2,6 @@ import { useMutation } from '@apollo/client';
 import { Trans, useLingui } from '@lingui/react/macro';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { type FormEvent, useState } from 'react';
-import { toast } from 'react-hot-toast';
 
 import { CreatePostMutation } from '~/graphql/post/mutations';
 import { useDocumentTitle } from '~/hooks/use-document-title';
@@ -14,6 +13,7 @@ import { Dialog } from '~/uikit/dialog';
 import { Stack } from '~/uikit/stack';
 import { TextArea } from '~/uikit/text-area';
 import { TextInput } from '~/uikit/text-input';
+import { toast } from '~/uikit/toaster';
 
 export const Route = createFileRoute('/_app/$workspaceId/posts_/create')({
   component: PostCreateRoute,

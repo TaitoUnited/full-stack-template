@@ -1,7 +1,6 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { type FormEvent, useState } from 'react';
-import { toast } from 'react-hot-toast';
 
 import { useDocumentTitle } from '~/hooks/use-document-title';
 import { login, useAuthStore } from '~/stores/auth-store';
@@ -10,6 +9,7 @@ import { Button } from '~/uikit/button';
 import { Stack } from '~/uikit/stack';
 import { Text } from '~/uikit/text';
 import { TextInput } from '~/uikit/text-input';
+import { toast } from '~/uikit/toaster';
 
 export const Route = createFileRoute('/login')({
   component: LoginRoute,
