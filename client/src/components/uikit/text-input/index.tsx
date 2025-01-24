@@ -1,29 +1,25 @@
 import { useLingui } from '@lingui/react/macro';
-import { type ComponentProps, type Ref, useState } from 'react';
+import { type Ref, useState } from 'react';
+import { type TextFieldProps } from 'react-aria-components';
 import { Input, Label, TextField, ToggleButton } from 'react-aria-components';
 
 import { cx } from '~/styled-system/css';
 import { styled } from '~/styled-system/jsx';
 
 import { Icon, type IconName } from '../icon';
+import { type FormComponentProps } from '../partials/common';
 import {
-  DescriptionText,
-  ErrorText,
+  FormInputContainer,
   inputBaseStyles,
   inputIconLeftStyles,
   inputWrapperStyles,
   labelStyles,
+  useInputContext,
 } from '../partials/common';
 
-type Props = ComponentProps<typeof TextField> & {
+type Props = FormComponentProps<TextFieldProps> & {
   ref?: Ref<HTMLInputElement>;
-  label: string;
   icon?: IconName;
-  description?: string;
-  /** Passing an `errorMessage` as prop toggles the input as invalid. */
-  errorMessage?: string;
-  placeholder?: string;
-  className?: string;
 };
 
 /**
@@ -32,6 +28,9 @@ type Props = ComponentProps<typeof TextField> & {
 export function TextInput({
   ref,
   label,
+  labelledby,
+  hiddenLabel,
+  labelPosition: labelPositionProp,
   icon,
   description,
   errorMessage,
@@ -40,57 +39,66 @@ export function TextInput({
   ...rest
 }: Props) {
   const { t } = useLingui();
+  const inputContext = useInputContext();
+  const labelPosition = labelPositionProp ?? inputContext.labelPosition;
   const [passwordVisible, setPasswordVisible] = useState(false);
   const isPassword = rest.type === 'password';
 
+  // TODO: implement character count with max length clipping
   return (
     <TextField
       {...rest}
-      className={cx(inputWrapperStyles, rest.className)}
+      aria-labelledby={labelledby}
+      aria-label={hiddenLabel}
+      className={cx(inputWrapperStyles({ labelPosition }), rest.className)}
       isInvalid={!!errorMessage}
     >
-      <Label className={labelStyles} data-required={rest.isRequired}>
-        {label}
-      </Label>
+      {!!label && (
+        <Label
+          className={labelStyles({ labelPosition })}
+          data-required={rest.isRequired}
+        >
+          {label}
+        </Label>
+      )}
 
-      <InputContent>
-        {!!icon && (
-          <Icon
-            className={inputIconLeftStyles}
-            name={icon}
-            size={20}
-            color="neutral1"
-          />
-        )}
-
-        <Input
-          ref={ref}
-          id={id}
-          placeholder={placeholder}
-          className={inputBaseStyles}
-          data-password={isPassword || undefined}
-          type={
-            isPassword ? (passwordVisible ? 'text' : 'password') : rest.type
-          }
-        />
-
-        {isPassword && (
-          <PasswordToggleButton
-            isSelected={passwordVisible}
-            onChange={setPasswordVisible}
-            aria-label={t`Show password`}
-          >
+      <FormInputContainer description={description} errorMessage={errorMessage}>
+        <InputContent>
+          {!!icon && (
             <Icon
-              name={passwordVisible ? 'eye' : 'eyeOff'}
+              className={inputIconLeftStyles}
+              name={icon}
               size={20}
               color="neutral1"
             />
-          </PasswordToggleButton>
-        )}
-      </InputContent>
+          )}
 
-      {!!description && <DescriptionText>{description}</DescriptionText>}
-      {!!errorMessage && <ErrorText>{errorMessage}</ErrorText>}
+          <Input
+            ref={ref}
+            id={id}
+            placeholder={placeholder}
+            className={inputBaseStyles}
+            data-password={isPassword || undefined}
+            type={
+              isPassword ? (passwordVisible ? 'text' : 'password') : rest.type
+            }
+          />
+
+          {isPassword && (
+            <PasswordToggleButton
+              isSelected={passwordVisible}
+              onChange={setPasswordVisible}
+              aria-label={t`Show password`}
+            >
+              <Icon
+                name={passwordVisible ? 'eye' : 'eyeOff'}
+                size={20}
+                color="neutral1"
+              />
+            </PasswordToggleButton>
+          )}
+        </InputContent>
+      </FormInputContainer>
     </TextField>
   );
 }
@@ -98,7 +106,7 @@ export function TextInput({
 const InputContent = styled('div', {
   base: {
     position: 'relative',
-    '& > svg + input': { paddingLeft: '$xl' },
+    '& > svg + input': { paddingLeft: '$2xl' },
     '& > input[data-password]': { paddingRight: '$xl' },
   },
 });
@@ -114,6 +122,10 @@ const PasswordToggleButton = styled(ToggleButton, {
     display: 'flex',
     alignItems: 'center',
     borderRadius: '$regular',
-    $focusRing: true,
+
+    '&:focus-visible': {
+      $focusRing: true,
+      outlineOffset: '-2px',
+    },
   },
 });

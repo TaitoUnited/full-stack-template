@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { TextInput } from '~/uikit/text-input';
+import { TextInput } from '.';
 
 export default {
   title: 'TextInput',
@@ -19,6 +19,21 @@ type Story = StoryObj<typeof TextInput>;
 export const Regular: Story = {
   args: {
     label: 'Regular input',
+    placeholder: 'Type something',
+  },
+};
+
+export const LabelPosition: Story = {
+  args: {
+    label: 'Regular input',
+    labelPosition: 'left',
+    placeholder: 'Type something',
+  },
+};
+
+export const HiddenLabel: Story = {
+  args: {
+    hiddenLabel: 'Hidden label',
     placeholder: 'Type something',
   },
 };

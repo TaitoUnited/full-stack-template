@@ -1,4 +1,5 @@
-import { type ComponentProps, type Ref, useEffect, useRef } from 'react';
+import { type Ref, useEffect, useRef } from 'react';
+import { type TextFieldProps } from 'react-aria-components';
 import {
   TextArea as AriaTextArea,
   Label,
@@ -8,22 +9,17 @@ import { mergeRefs } from 'react-merge-refs';
 
 import { cx } from '~/styled-system/css';
 
+import { type FormComponentProps } from '../partials/common';
 import {
-  DescriptionText,
-  ErrorText,
+  FormInputContainer,
   inputBaseStyles,
   inputWrapperStyles,
   labelStyles,
+  useInputContext,
 } from '../partials/common';
 
-type Props = ComponentProps<typeof TextField> & {
+type Props = FormComponentProps<TextFieldProps> & {
   ref?: Ref<HTMLTextAreaElement>;
-  label: string;
-  description?: string;
-  /** Passing an `errorMessage` as prop toggles the input as invalid. */
-  errorMessage?: string;
-  placeholder?: string;
-  className?: string;
   /** If true, the textarea will resize automatically based on its content. */
   autoResize?: boolean;
   rows?: number;
@@ -36,6 +32,9 @@ export function TextArea({
   ref,
   id,
   label,
+  labelledby,
+  hiddenLabel,
+  labelPosition: labelPositionProp,
   description,
   errorMessage,
   placeholder,
@@ -43,6 +42,8 @@ export function TextArea({
   rows,
   ...rest
 }: Props) {
+  const inputContext = useInputContext();
+  const labelPosition = labelPositionProp ?? inputContext.labelPosition;
   const innerRef = useRef<HTMLTextAreaElement>(null);
 
   function resizeTextArea() {
@@ -62,25 +63,31 @@ export function TextArea({
   return (
     <TextField
       {...rest}
-      className={cx(inputWrapperStyles, rest.className)}
+      className={cx(inputWrapperStyles({ labelPosition }), rest.className)}
       isInvalid={!!errorMessage}
+      aria-labelledby={labelledby}
+      aria-label={hiddenLabel}
     >
-      <Label className={labelStyles} data-required={rest.isRequired}>
-        {label}
-      </Label>
+      {!!label && (
+        <Label
+          className={labelStyles({ labelPosition })}
+          data-required={rest.isRequired}
+        >
+          {label}
+        </Label>
+      )}
 
-      <AriaTextArea
-        id={id}
-        rows={rows}
-        // eslint-disable-next-line react-compiler/react-compiler
-        ref={ref ? mergeRefs([innerRef, ref]) : innerRef}
-        placeholder={placeholder}
-        className={inputBaseStyles}
-        onChange={resizeTextArea}
-      />
-
-      {!!description && <DescriptionText>{description}</DescriptionText>}
-      {!!errorMessage && <ErrorText>{errorMessage}</ErrorText>}
+      <FormInputContainer description={description} errorMessage={errorMessage}>
+        <AriaTextArea
+          id={id}
+          rows={rows}
+          // eslint-disable-next-line react-compiler/react-compiler
+          ref={mergeRefs([innerRef, ref])}
+          placeholder={placeholder}
+          className={inputBaseStyles}
+          onChange={resizeTextArea}
+        />
+      </FormInputContainer>
     </TextField>
   );
 }

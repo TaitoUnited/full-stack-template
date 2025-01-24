@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { TextArea } from '~/uikit/text-area';
+import { TextArea } from '.';
 
 export default {
   title: 'TextArea',
@@ -19,6 +19,23 @@ type Story = StoryObj<typeof TextArea>;
 export const Regular: Story = {
   args: {
     label: 'Regular textarea',
+    placeholder: 'Hello there',
+    rows: 4,
+  },
+};
+
+export const LabelPosition: Story = {
+  args: {
+    label: 'Regular textarea',
+    labelPosition: 'left',
+    placeholder: 'Hello there',
+    rows: 4,
+  },
+};
+
+export const HiddenLabel: Story = {
+  args: {
+    hiddenLabel: 'Hidden label',
     placeholder: 'Hello there',
     rows: 4,
   },
