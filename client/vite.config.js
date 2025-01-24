@@ -23,7 +23,6 @@ const PUBLIC_PORT = process.env.COMMON_PUBLIC_PORT || DEV_PORT;
 
 export default defineConfig(({ mode }) => ({
   publicDir: 'assets',
-  cacheDir: '.vite',
   define: {
     'process.env.API_URL': JSON.stringify(process.env.API_URL || '/api'),
     'process.env.SENTRY_DSN': JSON.stringify(process.env.SENTRY_DSN), // prettier-ignore

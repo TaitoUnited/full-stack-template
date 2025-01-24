@@ -14,6 +14,12 @@ const config: StorybookConfig = {
       },
     },
   },
+  async viteFinal(config) {
+    const { mergeConfig } = await import('vite');
+    return mergeConfig(config, {
+      cacheDir: '.vite/storybook-cache',
+    });
+  },
   docs: {
     autodocs: 'tag',
     defaultName: 'Docs',
