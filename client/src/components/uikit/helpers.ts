@@ -15,5 +15,5 @@ export async function fetchStarWarsCharacter({
     .then(res => res.json())
     .then(data => data.results as { name: string; url: string }[]);
 
-  return result.map(pokemon => ({ value: pokemon.url, label: pokemon.name }));
+  return result.map(item => ({ value: item.url, label: item.name }));
 }

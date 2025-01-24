@@ -1,8 +1,8 @@
 import { useLingui } from '@lingui/react/macro';
 import { type Ref, useContext, useState } from 'react';
+import { type ButtonProps } from 'react-aria-components';
 import {
   Button as AriaButton,
-  type ButtonProps,
   Dialog,
   DialogTrigger,
   Label,
@@ -18,9 +18,9 @@ import { css, cx } from '~/styled-system/css';
 import { styled } from '~/styled-system/jsx';
 
 import { Icon, type IconName } from '../icon';
+import { type FormComponentProps } from '../partials/common';
 import {
-  DescriptionText,
-  ErrorText,
+  FormInputContainer,
   inputBaseStyles,
   inputIconLeftStyles,
   inputIconRightStyles,
@@ -28,6 +28,7 @@ import {
   labelStyles,
   listBoxItemStyles,
   listBoxStyles,
+  useInputContext,
 } from '../partials/common';
 import { SelectActions } from '../partials/select-actions';
 import { SelectFilterInput } from '../partials/select-filter-input';
@@ -46,7 +47,7 @@ export type AsyncSelectLoadOptions = (state: {
   signal: AbortSignal;
 }) => Promise<{ items: AsyncSelectOption[] }>;
 
-type CommonProps = {
+type Props = Omit<FormComponentProps<ButtonProps>, 'onChange' | 'value'> & {
   ref?: Ref<HTMLButtonElement>;
   /**
    * Function to load options asynchronously. This function should return a
@@ -64,27 +65,18 @@ type CommonProps = {
    * Text to display when no options are found for the current search value.
    */
   emptyMessage?: string;
-  /**
-   * Passing an `errorMessage` as prop toggles the input as invalid.
-   */
-  errorMessage?: string;
-  description?: string;
   icon?: IconName;
   selectionMode?: 'single' | 'multiple';
-  selected: Set<string>;
-  onSelect: (value: Set<string>) => void;
+  value: Set<string>;
+  onChange: (value: Set<string>) => void;
 };
-
-type Props = ButtonProps &
-  CommonProps & {
-    label?: string;
-    isRequired?: boolean;
-    placeholder?: string;
-  };
 
 export function AsyncSelect({
   ref,
   label,
+  hiddenLabel,
+  labelledby,
+  labelPosition: labelPositionProp,
   icon,
   isRequired,
   actions,
@@ -93,66 +85,73 @@ export function AsyncSelect({
   description,
   placeholder = '',
   selectionMode,
-  selected,
-  onSelect,
+  value,
+  onChange,
   loadItems,
   ...rest
 }: Props) {
   const { t } = useLingui();
   const [measureRef, dimensions] = useMeasure();
+  const inputContext = useInputContext();
+  const labelPosition = labelPositionProp ?? inputContext.labelPosition;
+  const numSelected = value.size;
 
   return (
     <DialogTrigger>
-      <div className={inputWrapperStyles}>
-        <Label
-          className={labelStyles}
-          data-required={isRequired}
-          data-testid="async-select-label"
-        >
-          {label}
-        </Label>
-
-        <AsyncSelectButton ref={measureRef}>
-          {!!icon && (
-            <Icon
-              name={icon}
-              size={20}
-              color="neutral1"
-              className={inputIconLeftStyles}
-            />
-          )}
-
-          <AriaButton
-            {...rest}
-            ref={ref}
-            data-invalid={!!errorMessage}
-            data-has-icon={!!icon}
-            data-has-selected={selected.size > 0}
-            data-testid="async-select-button"
-            className={cx(
-              inputBaseStyles,
-              css({
-                paddingRight: '$xl!',
-                color: '$textMuted',
-                $truncate: true,
-                '&[data-has-icon="true"]': { paddingLeft: '$xl' },
-                '&[data-has-selected="true"]': { color: '$text' },
-              })
-            )}
+      <div className={inputWrapperStyles({ labelPosition })}>
+        {!!label && (
+          <Label
+            className={labelStyles({ labelPosition })}
+            data-required={isRequired}
+            data-testid="async-select-label"
           >
-            {selected.size === 0 ? placeholder : t`${selected.size} selected`}
-          </AriaButton>
+            {label}
+          </Label>
+        )}
 
-          <Icon
-            name="arrowDropDown"
-            size={24}
-            color="text"
-            className={cx(inputIconRightStyles, css({ right: '$xs!' }))}
-          />
-        </AsyncSelectButton>
+        <FormInputContainer
+          description={description}
+          errorMessage={errorMessage}
+        >
+          <AsyncSelectButton ref={measureRef}>
+            {!!icon && (
+              <Icon
+                name={icon}
+                size={18}
+                color="neutral1"
+                className={inputIconLeftStyles}
+              />
+            )}
 
-        {!!description && <DescriptionText>{description}</DescriptionText>}
-        {!!errorMessage && <ErrorText>{errorMessage}</ErrorText>}
+            <AriaButton
+              {...rest}
+              ref={ref}
+              data-invalid={!!errorMessage}
+              data-has-icon={!!icon}
+              data-has-selected={numSelected > 0}
+              data-testid="async-select-button"
+              className={cx(
+                inputBaseStyles,
+                css({
+                  paddingRight: '$xl!',
+                  color: '$textMuted',
+                  $truncate: true,
+                  '&[data-has-icon="true"]': { paddingLeft: '$2xl' },
+                  '&[data-has-selected="true"]': { color: '$text' },
+                })
+              )}
+            >
+              {numSelected === 0 ? placeholder : t`${numSelected} selected`}
+            </AriaButton>
+
+            <Icon
+              name="arrowDropDown"
+              size={24}
+              color="text"
+              className={cx(inputIconRightStyles, css({ right: '$xs!' }))}
+            />
+          </AsyncSelectButton>
+        </FormInputContainer>
 
         <Popover
           data-testid="async-select-popover"
@@ -170,9 +169,11 @@ export function AsyncSelect({
             emptyMessage={emptyMessage ?? t`No options found`}
             errorMessage={errorMessage ?? t`Something went wrong`}
             selectionMode={selectionMode}
-            selected={selected}
-            onSelect={onSelect}
+            value={value}
+            onChange={onChange}
             loadItems={loadItems}
+            hiddenLabel={hiddenLabel}
+            labelledby={labelledby}
           />
         </Popover>
       </div>
@@ -185,10 +186,23 @@ function AsyncSelectOptions({
   emptyMessage,
   actions,
   selectionMode,
-  selected,
-  onSelect,
+  value,
+  hiddenLabel,
+  labelledby,
+  onChange,
   loadItems,
-}: CommonProps) {
+}: Pick<
+  Props,
+  | 'actions'
+  | 'selectionMode'
+  | 'value'
+  | 'onChange'
+  | 'loadItems'
+  | 'emptyMessage'
+  | 'errorMessage'
+  | 'hiddenLabel'
+  | 'labelledby'
+>) {
   const list = useAsyncList<AsyncSelectOption>({ load: loadItems });
 
   return (
@@ -216,11 +230,12 @@ function AsyncSelectOptions({
       ) : list.items ? (
         <AsyncSelectOptionsList
           items={list.items}
-          emptyMessage={emptyMessage}
           actions={actions}
           selectionMode={selectionMode}
-          selected={selected}
-          onSelect={onSelect}
+          value={value}
+          onChange={onChange}
+          hiddenLabel={hiddenLabel}
+          labelledby={labelledby}
         />
       ) : null}
     </AsyncSelectDialog>
@@ -236,39 +251,49 @@ function AsyncSelectOptionsList({
   actions,
   selectionMode = 'multiple',
   items,
-  selected,
-  onSelect,
-}: Omit<CommonProps, 'loadItems'> & {
+  value,
+  hiddenLabel,
+  labelledby,
+  onChange,
+}: Pick<
+  Props,
+  | 'actions'
+  | 'selectionMode'
+  | 'value'
+  | 'onChange'
+  | 'hiddenLabel'
+  | 'labelledby'
+> & {
   items: AsyncSelectOption[];
 }) {
   const triggerState = useContext(OverlayTriggerStateContext);
-  const [internalSelected, setInternalSelected] = useState(selected);
+  const [internalSelected, setInternalSelected] = useState(value);
   const isConfirmationRequired = Boolean(actions?.confirm);
-  const selectedOptions = isConfirmationRequired ? internalSelected : selected;
+  const selectedOptions = isConfirmationRequired ? internalSelected : value;
 
   // It only makes sense to show the clear button when there are selected options
   const isClearable = Boolean(actions?.clear && selectedOptions.size > 0);
 
   // Only show the confirm button when there are selected options
   const isConfirmable = Boolean(
-    actions?.confirm && (internalSelected.size > 0 || selected.size > 0)
+    actions?.confirm && (internalSelected.size > 0 || value.size > 0)
   );
 
-  function handleSelect(value: CommonProps['selected']) {
+  function handleSelect(value: Props['value']) {
     if (isConfirmationRequired) {
       setInternalSelected(value);
     } else {
-      onSelect(value);
+      onChange(value);
     }
   }
 
   function handleClear() {
-    onSelect(new Set());
+    onChange(new Set<string>());
     triggerState?.close();
   }
 
   function handleConfirm() {
-    onSelect(internalSelected);
+    onChange(internalSelected);
     triggerState?.close();
   }
 
@@ -282,6 +307,8 @@ function AsyncSelectOptionsList({
         onSelectionChange={selection => handleSelect(selection as Set<string>)}
         className={asyncSelectListBoxStyles}
         data-testid="async-select-options"
+        aria-labelledby={labelledby}
+        aria-label={hiddenLabel}
       >
         {option => (
           <ListBoxItem
