@@ -1,7 +1,7 @@
 import { type RefObject, useState } from 'react';
 
+import { useEventListener } from './use-event-listener';
 import { useResizeObserver } from './use-resize-observer';
-import { useScrollEvent } from './use-scroll-event';
 
 // NOTE: `none` means that the element is not scrollable in the given axis
 type ScrollPosition = 'none' | 'start' | 'middle' | 'end';
@@ -13,7 +13,7 @@ type ScrollPosition = 'none' | 'start' | 'middle' | 'end';
  * indicators based on that or load more content etc.
  */
 export function useScrollPosition(
-  ref: RefObject<HTMLElement>,
+  ref: RefObject<HTMLElement | null>,
   axis: 'horizontal' | 'vertical' = 'vertical'
 ) {
   const [scrollPosition, setScrollPosition] = useState<ScrollPosition>('none');
@@ -29,12 +29,19 @@ export function useScrollPosition(
     }
   }
 
-  useResizeObserver(ref, () => {
-    determineScrollPosition();
+  useResizeObserver({
+    ref,
+    handler: () => {
+      determineScrollPosition();
+    },
   });
 
-  useScrollEvent(ref, () => {
-    determineScrollPosition();
+  useEventListener({
+    ref,
+    event: 'scroll',
+    handler: () => {
+      determineScrollPosition();
+    },
   });
 
   return scrollPosition;
