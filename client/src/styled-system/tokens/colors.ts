@@ -34,7 +34,7 @@ export const neutral = {
   "neutral2": "#92969d",
   "neutral3": "#d4d6db",
   "neutral4": "#e4e5e9",
-  "neutral5": "#f0f1f5",
+  "neutral5": "#f5f5f5",
   "surface": "#ffffff",
   "surfaceHover": "#f5f6fa"
 };
@@ -56,7 +56,7 @@ export const success = {
   "successMutedHover": "#c1e6d9"
 };
 export const text = {
-  "text": "#000000",
+  "text": "#1a1a1a",
   "textDisabled": "#7d7f85",
   "textMuted": "#55575e",
   "textOnContrastingBg": "#ffffff"

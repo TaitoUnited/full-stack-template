@@ -131,7 +131,7 @@
     "format": "po"
   },
   "figmage": {
-    "outDir": "styled-system/tokens",
+    "outDir": "src/styled-system/tokens",
     "tokenize": {
       "tokens": [
         {
