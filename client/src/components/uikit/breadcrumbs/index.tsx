@@ -13,10 +13,10 @@ import {
   type BreadcrumbsProps,
 } from 'react-aria-components';
 
+import { Link } from '~/components/navigation/link';
 import { styled } from '~/styled-system/jsx';
-import { Icon } from '~/uikit/icon';
 
-import { Link } from './link';
+import { Icon } from '../icon';
 
 type Props = BreadcrumbsProps<any> & {
   ref?: Ref<HTMLOListElement>;
@@ -43,8 +43,6 @@ function BreadcrumbList({ ref, children, onAction, ...rest }: Props) {
     </BreadcrumbContainer>
   );
 }
-
-BreadcrumbList.displayName = 'Breadcrumbs';
 
 type BreadcrumbItemProps = BreadcrumbProps & {
   ref?: Ref<HTMLLIElement>;
@@ -74,8 +72,6 @@ function BreadcrumbItem({
     </Breadcrumb>
   );
 }
-
-BreadcrumbItem.displayName = 'Breadcrumb';
 
 const BreadcrumbContainer = styled(AriaBreadcrumbs, {
   base: {
