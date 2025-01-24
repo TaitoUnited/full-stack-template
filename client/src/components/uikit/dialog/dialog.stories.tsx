@@ -3,11 +3,12 @@ import { capitalize } from 'lodash';
 import { type ComponentProps, useState } from 'react';
 
 import { Button } from '~/uikit/button';
-import { Dialog } from '~/uikit/dialog';
 import { Icon } from '~/uikit/icon';
 import { Stack } from '~/uikit/stack';
 import { Text } from '~/uikit/text';
 import { TextInput } from '~/uikit/text-input';
+
+import { Dialog } from '.';
 
 export default {
   title: 'Dialog',

@@ -4,8 +4,9 @@ import { useState } from 'react';
 import { styled } from '~/styled-system/jsx';
 import { Icon } from '~/uikit/icon';
 import { IconButton } from '~/uikit/icon-button';
-import { Menu } from '~/uikit/menu';
 import { Stack } from '~/uikit/stack';
+
+import { Menu } from '.';
 
 export default {
   title: 'Menu',

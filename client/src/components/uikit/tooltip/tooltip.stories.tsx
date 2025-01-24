@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Button } from '~/uikit/button';
-import { Tooltip } from '~/uikit/tooltip';
+
+import { Tooltip } from '.';
 
 export default {
   title: 'Tooltip',
