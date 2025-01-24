@@ -1,4 +1,5 @@
-import { type ComponentProps, type Ref } from 'react';
+import { type Ref } from 'react';
+import { type ComboBoxProps } from 'react-aria-components';
 import {
   ComboBox as AriaComboBox,
   Button,
@@ -13,15 +14,16 @@ import { css, cx } from '~/styled-system/css';
 import { styled } from '~/styled-system/jsx';
 
 import { Icon, type IconName } from '../icon';
+import { type FormComponentProps } from '../partials/common';
 import {
-  DescriptionText,
-  ErrorText,
+  FormInputContainer,
   inputBaseStyles,
   inputIconLeftStyles,
   inputWrapperStyles,
   labelStyles,
   listBoxItemStyles,
   listBoxStyles,
+  useInputContext,
 } from '../partials/common';
 import { SelectItem } from '../partials/select-item';
 
@@ -31,13 +33,8 @@ export type ComboBoxOption = {
   description?: string;
 };
 
-type Props = ComponentProps<typeof AriaComboBox<ComboBoxOption>> & {
+type Props = FormComponentProps<ComboBoxProps<ComboBoxOption>> & {
   ref?: Ref<HTMLInputElement>;
-  label: string;
-  description?: string;
-  /** Passing an `errorMessage` as prop toggles the input as invalid. */
-  errorMessage?: string;
-  placeholder?: string;
   icon?: IconName;
 };
 
@@ -49,47 +46,63 @@ type Props = ComponentProps<typeof AriaComboBox<ComboBoxOption>> & {
 export function ComboBox({
   ref,
   label,
+  labelledby,
+  hiddenLabel,
+  labelPosition: labelPositionProp,
   description,
   errorMessage,
   placeholder,
   icon,
+  value,
+  onChange,
   ...rest
 }: Props) {
+  const inputContext = useInputContext();
+  const labelPosition = labelPositionProp ?? inputContext.labelPosition;
+
   return (
     <AriaComboBox
       {...rest}
-      ref={ref}
+      aria-labelledby={labelledby}
+      aria-label={hiddenLabel}
       isInvalid={!!errorMessage}
-      className={cx(inputWrapperStyles, rest.className as string)}
+      className={cx(inputWrapperStyles({ labelPosition }), rest.className)}
+      selectedKey={value}
+      onSelectionChange={val => onChange?.(val as string)}
     >
-      <Label className={labelStyles} data-required={rest.isRequired}>
-        {label}
-      </Label>
+      {!!label && (
+        <Label
+          className={labelStyles({ labelPosition })}
+          data-required={rest.isRequired}
+        >
+          {label}
+        </Label>
+      )}
 
-      <InputWrapper>
-        {!!icon && (
-          <Icon
-            name={icon}
-            size={20}
-            color="neutral1"
-            className={inputIconLeftStyles}
+      <FormInputContainer description={description} errorMessage={errorMessage}>
+        <InputWrapper>
+          {!!icon && (
+            <Icon
+              name={icon}
+              size={20}
+              color="neutral1"
+              className={inputIconLeftStyles}
+            />
+          )}
+
+          <Input
+            ref={ref}
+            placeholder={placeholder}
+            className={cx(inputBaseStyles, css({ paddingRight: '$large' }))}
           />
-        )}
 
-        <Input
-          placeholder={placeholder}
-          className={cx(inputBaseStyles, css({ paddingRight: '$large' }))}
-        />
+          <ChevronButton>
+            <Icon name="arrowDropDown" size={24} color="text" />
+          </ChevronButton>
+        </InputWrapper>
+      </FormInputContainer>
 
-        <ChevronButton>
-          <Icon name="arrowDropDown" size={24} color="text" />
-        </ChevronButton>
-      </InputWrapper>
-
-      {!!description && <DescriptionText>{description}</DescriptionText>}
-      {!!errorMessage && <ErrorText>{errorMessage}</ErrorText>}
-
-      <Popover>
+      <Popover data-testid="combobox-popover">
         <ListBox className={listBoxStyles}>
           {/* In cases like these, render props are preferred for perf reasons.
            * Ref: https://react-spectrum.adobe.com/react-stately/collections.html#why-not-array-map
@@ -115,7 +128,7 @@ export function ComboBox({
 const InputWrapper = styled('div', {
   base: {
     position: 'relative',
-    '& > svg + input': { paddingLeft: '$xl' },
+    '& > svg + input': { paddingLeft: '$2xl' },
   },
 });
 
