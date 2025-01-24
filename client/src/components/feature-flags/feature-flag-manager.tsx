@@ -155,7 +155,7 @@ const Widget = styled('div', {
     borderWidth: '1px',
     borderColor: '$line3',
     maxWidth: '400px',
-    $fadeScaleIn: 100,
+    $fadeScaleIn: '100ms',
   },
 });
 
