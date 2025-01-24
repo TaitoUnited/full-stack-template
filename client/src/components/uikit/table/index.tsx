@@ -1,14 +1,18 @@
-import { type ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
+import type { ColumnProps } from 'react-aria-components';
 import {
+  Column as AriaColumn,
   Table as AriaTable,
   Cell,
-  Column,
   Row,
   TableBody,
   TableHeader,
 } from 'react-aria-components';
 
 import { css, cva, cx } from '~/styled-system/css';
+
+import { Icon } from '../icon';
+import { Stack } from '../stack';
 
 type RowStyle = 'default' | 'striped';
 
@@ -18,8 +22,6 @@ type Props = ComponentProps<typeof AriaTable> & {
 };
 
 export type SortDescriptor = NonNullable<Props['sortDescriptor']>;
-
-// TODO: figure out how to render the sort icon
 
 export function Table({
   label,
@@ -44,6 +46,30 @@ export function Table({
   );
 }
 
+function Column({
+  children,
+  ...props
+}: Omit<ColumnProps, 'children'> & { children?: React.ReactNode }) {
+  return (
+    <AriaColumn {...props}>
+      {({ allowsSorting, sortDirection }) => (
+        <Stack direction="row" gap="xxs">
+          {children}
+          {allowsSorting && (
+            <span aria-hidden="true" className="sort-indicator">
+              {sortDirection === 'ascending' ? (
+                <Icon name="chevronDown" color="text" size={16} />
+              ) : (
+                <Icon name="chevronUp" color="text" size={16} />
+              )}
+            </span>
+          )}
+        </Stack>
+      )}
+    </AriaColumn>
+  );
+}
+
 const wrapperStyles = css({
   width: '100%',
   borderWidth: '1px',
@@ -56,6 +82,9 @@ const tableStyles = cva({
   base: {
     width: '100%',
     borderCollapse: 'collapse',
+    '& * :not([data-focus-visible])': {
+      outline: 'none',
+    },
 
     '& .react-aria-TableHeader': {
       borderBottom: '1px solid',
@@ -68,6 +97,10 @@ const tableStyles = cva({
       textAlign: 'left',
       paddingBlock: '$small',
       paddingInline: '$regular',
+
+      '&:not([data-sort-direction]) .sort-indicator': {
+        visibility: 'hidden',
+      },
     },
 
     '& .react-aria-Row': {
