@@ -80,7 +80,13 @@ export function IconButton({
 
   return (
     <Tooltip content={label} placement={tooltipPlacement}>
-      <Button ref={ref} style={_style} className={_className} {...rest}>
+      <Button
+        ref={ref}
+        style={_style}
+        className={_className}
+        aria-label={label}
+        {...rest}
+      >
         <Icon name={icon} size={_size * 0.6} color="currentColor" />
       </Button>
     </Tooltip>
@@ -93,11 +99,12 @@ const styles = cva({
     margin: 0,
     borderRadius: '50%',
     textDecoration: 'none',
-    cursor: 'pointer',
+    cursor: 'default',
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
     outlineOffset: '2px',
+    flexShrink: 0,
 
     '&[data-pressed="true"]': {
       opacity: 0.8,
@@ -135,9 +142,7 @@ const styles = cva({
       plain: {
         backgroundColor: 'transparent',
         color: 'var(--color-text)',
-        '&[data-hovered="true"]': {
-          backgroundColor: 'var(--color-muted)',
-        },
+        $hoverHighlight: true,
       },
     },
   },
