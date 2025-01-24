@@ -1,9 +1,9 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 import { type Ref, useContext, useState } from 'react';
 import { useFilter } from 'react-aria';
+import { type ButtonProps } from 'react-aria-components';
 import {
   Button as AriaButton,
-  type ButtonProps,
   Dialog,
   DialogTrigger,
   Label,
@@ -17,10 +17,11 @@ import useMeasure from 'react-use-measure';
 import { css, cx } from '~/styled-system/css';
 import { styled } from '~/styled-system/jsx';
 
-import { Icon, type IconName } from '../icon';
+import { type IconName } from '../icon';
+import { Icon } from '../icon';
 import {
-  DescriptionText,
-  ErrorText,
+  type FormComponentProps,
+  FormInputContainer,
   inputBaseStyles,
   inputIconLeftStyles,
   inputIconRightStyles,
@@ -28,6 +29,7 @@ import {
   labelStyles,
   listBoxItemStyles,
   listBoxStyles,
+  useInputContext,
 } from '../partials/common';
 import { SelectActions } from '../partials/select-actions';
 import { SelectFilterInput } from '../partials/select-filter-input';
@@ -40,29 +42,17 @@ export type MultiSelectOption = {
   description?: string;
 };
 
-type CommonProps = {
+type Props = Omit<FormComponentProps<ButtonProps>, 'value' | 'onChange'> & {
   ref?: Ref<HTMLButtonElement>;
   items: MultiSelectOption[];
   /**
    * Whether to show the actions footer with buttons to confirm or clear the selection.
    */
   actions?: { confirm?: boolean; clear?: boolean };
-  /**
-   * Passing an `errorMessage` as prop toggles the input as invalid.
-   */
-  errorMessage?: string;
-  description?: string;
   icon?: IconName;
-  selected: Set<string>;
-  onSelect: (value: Set<string>) => void;
+  value: Set<string>;
+  onChange: (value: Set<string>) => void;
 };
-
-type Props = ButtonProps &
-  CommonProps & {
-    label?: string;
-    isRequired?: boolean;
-    placeholder?: string;
-  };
 
 /**
  * This `MultiSelect` component can be used to select multiple options from
@@ -75,6 +65,9 @@ type Props = ButtonProps &
 export function MultiSelect({
   ref,
   label,
+  labelledby,
+  hiddenLabel,
+  labelPosition: labelPositionProp,
   icon,
   isRequired,
   actions,
@@ -82,65 +75,72 @@ export function MultiSelect({
   description,
   placeholder = '',
   items,
-  selected,
-  onSelect,
+  value,
+  onChange,
   ...rest
 }: Props) {
   const { t } = useLingui();
+  const inputContext = useInputContext();
+  const labelPosition = labelPositionProp ?? inputContext.labelPosition;
   const [measureRef, dimensions] = useMeasure();
+  const numSelected = value.size;
 
   return (
     <DialogTrigger>
-      <div className={inputWrapperStyles}>
-        <Label
-          className={labelStyles}
-          data-required={isRequired}
-          data-testid="multi-select-label"
-        >
-          {label}
-        </Label>
-
-        <MultiSelectButton ref={measureRef}>
-          {!!icon && (
-            <Icon
-              name={icon}
-              size={20}
-              color="neutral1"
-              className={inputIconLeftStyles}
-            />
-          )}
-
-          <AriaButton
-            {...rest}
-            ref={ref}
-            data-invalid={!!errorMessage}
-            data-has-icon={!!icon}
-            data-has-selected={selected.size > 0}
-            data-testid="multi-select-button"
-            className={cx(
-              inputBaseStyles,
-              css({
-                paddingRight: '$xl!',
-                color: '$textMuted',
-                $truncate: true,
-                '&[data-has-icon="true"]': { paddingLeft: '$xl' },
-                '&[data-has-selected="true"]': { color: '$text' },
-              })
-            )}
+      <div className={inputWrapperStyles({ labelPosition })}>
+        {!!label && (
+          <Label
+            className={labelStyles({ labelPosition })}
+            data-required={isRequired}
+            data-testid="multi-select-label"
           >
-            {selected.size === 0 ? placeholder : t`${selected.size} selected`}
-          </AriaButton>
+            {label}
+          </Label>
+        )}
 
-          <Icon
-            name="arrowDropDown"
-            size={24}
-            color="text"
-            className={cx(inputIconRightStyles, css({ right: '$xs!' }))}
-          />
-        </MultiSelectButton>
+        <FormInputContainer
+          description={description}
+          errorMessage={errorMessage}
+        >
+          <MultiSelectButton ref={measureRef}>
+            {!!icon && (
+              <Icon
+                name={icon}
+                size={20}
+                color="neutral1"
+                className={inputIconLeftStyles}
+              />
+            )}
 
-        {!!description && <DescriptionText>{description}</DescriptionText>}
-        {!!errorMessage && <ErrorText>{errorMessage}</ErrorText>}
+            <AriaButton
+              {...rest}
+              ref={ref}
+              data-invalid={!!errorMessage}
+              data-has-icon={!!icon}
+              data-has-selected={numSelected > 0}
+              data-testid="multi-select-button"
+              className={cx(
+                inputBaseStyles,
+                css({
+                  paddingRight: '$xl!',
+                  color: '$textMuted',
+                  $truncate: true,
+                  '&[data-has-icon="true"]': { paddingLeft: '$xl' },
+                  '&[data-has-selected="true"]': { color: '$text' },
+                })
+              )}
+            >
+              {numSelected === 0 ? placeholder : t`${numSelected} selected`}
+            </AriaButton>
+
+            <Icon
+              name="arrowDropDown"
+              size={24}
+              color="text"
+              className={cx(inputIconRightStyles, css({ right: '$xs!' }))}
+            />
+          </MultiSelectButton>
+        </FormInputContainer>
 
         <Popover
           data-testid="multi-select-popover"
@@ -156,9 +156,10 @@ export function MultiSelect({
           <MultiSelectOptions
             items={items}
             actions={actions}
-            errorMessage={errorMessage}
-            selected={selected}
-            onSelect={onSelect}
+            value={value}
+            onChange={onChange}
+            hiddenLabel={hiddenLabel}
+            labelledby={labelledby}
           />
         </Popover>
       </div>
@@ -169,9 +170,14 @@ export function MultiSelect({
 function MultiSelectOptions({
   actions,
   items,
-  selected,
-  onSelect,
-}: CommonProps) {
+  value,
+  hiddenLabel,
+  labelledby,
+  onChange,
+}: Pick<
+  Props,
+  'items' | 'actions' | 'value' | 'onChange' | 'hiddenLabel' | 'labelledby'
+>) {
   const [inputValue, setInputValue] = useState('');
   const allowFiltering = items.length > 10;
   const { contains } = useFilter({ sensitivity: 'base' });
@@ -192,8 +198,10 @@ function MultiSelectOptions({
       <MultiSelectOptionsList
         items={visibleItems}
         actions={actions}
-        selected={selected}
-        onSelect={onSelect}
+        value={value}
+        onChange={onChange}
+        hiddenLabel={hiddenLabel}
+        labelledby={labelledby}
       />
     </MultiSelectDialog>
   );
@@ -207,37 +215,42 @@ function MultiSelectOptions({
 function MultiSelectOptionsList({
   actions,
   items,
-  selected,
-  onSelect,
-}: CommonProps) {
+  value,
+  hiddenLabel,
+  labelledby,
+  onChange,
+}: Pick<
+  Props,
+  'items' | 'actions' | 'value' | 'onChange' | 'hiddenLabel' | 'labelledby'
+>) {
   const triggerState = useContext(OverlayTriggerStateContext);
-  const [internalSelected, setInternalSelected] = useState(selected);
+  const [internalSelected, setInternalSelected] = useState(value);
   const isConfirmationRequired = Boolean(actions?.confirm);
-  const selectedOptions = isConfirmationRequired ? internalSelected : selected;
+  const selectedOptions = isConfirmationRequired ? internalSelected : value;
 
   // It only makes sense to show the clear button when there are selected options
   const isClearable = Boolean(actions?.clear && selectedOptions.size > 0);
 
   // Only show the confirm button when there are selected options
   const isConfirmable = Boolean(
-    actions?.confirm && (internalSelected.size > 0 || selected.size > 0)
+    actions?.confirm && (internalSelected.size > 0 || value.size > 0)
   );
 
-  function handleSelect(value: CommonProps['selected']) {
+  function handleSelect(value: Props['value']) {
     if (isConfirmationRequired) {
       setInternalSelected(value);
     } else {
-      onSelect(value);
+      onChange(value);
     }
   }
 
   function handleClear() {
-    onSelect(new Set());
+    onChange(new Set());
     triggerState?.close();
   }
 
   function handleConfirm() {
-    onSelect(internalSelected);
+    onChange(internalSelected);
     triggerState?.close();
   }
 
@@ -250,6 +263,8 @@ function MultiSelectOptionsList({
         // We don't support the `'all'` selection value
         onSelectionChange={selection => handleSelect(selection as Set<string>)}
         data-testid="multi-select-options"
+        aria-labelledby={labelledby}
+        aria-label={hiddenLabel}
         className={multiSelectListBoxStyles}
         renderEmptyState={() => (
           <MultiSelectEmpty>

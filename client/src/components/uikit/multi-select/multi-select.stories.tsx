@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { type ComponentProps, useState } from 'react';
 
-import { MultiSelect } from '~/uikit/multi-select';
+import { MultiSelect } from '.';
 
 export default {
   title: 'MultiSelect',
@@ -28,6 +28,23 @@ const options = [
 export const Regular: Story = {
   args: {
     label: 'Regular select',
+    items: options,
+  },
+  render: args => <MultiSelectExample {...args} />,
+};
+
+export const LabelPosition: Story = {
+  args: {
+    label: 'Regular select',
+    labelPosition: 'left',
+    items: options,
+  },
+  render: args => <MultiSelectExample {...args} />,
+};
+
+export const HiddenLabel: Story = {
+  args: {
+    hiddenLabel: 'Hidden label',
     items: options,
   },
   render: args => <MultiSelectExample {...args} />,
@@ -108,15 +125,14 @@ export const WithFiltering: Story = {
 };
 
 function MultiSelectExample(props: ComponentProps<typeof MultiSelect>) {
-  const [selected, setSelected] = useState(() => new Set<string>());
+  const [value, setValue] = useState(() => new Set<string>());
 
   return (
     <MultiSelect
-      label="This is an example"
       placeholder="Select options"
       {...props}
-      selected={selected}
-      onSelect={setSelected}
+      value={value}
+      onChange={setValue}
     />
   );
 }
