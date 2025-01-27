@@ -20,10 +20,11 @@ const DEV_HOST = process.env.DEV_BINDADDR || '127.0.0.1';
 const DEV_PORT = process.env.DEV_PORT || '3000';
 const PUBLIC_HOST = process.env.DOCKER_HOST ? '192.168.99.100' : 'localhost';
 const PUBLIC_PORT = process.env.COMMON_PUBLIC_PORT || DEV_PORT;
+const CACHE_DIR = process.env.CI ? '.vite' : '.vite/ci';
 
 export default defineConfig(({ mode }) => ({
   publicDir: 'assets',
-  cacheDir: '.vite',
+  cacheDir: CACHE_DIR,
   define: {
     'process.env.API_URL': JSON.stringify(process.env.API_URL || '/api'),
     'process.env.SENTRY_DSN': JSON.stringify(process.env.SENTRY_DSN), // prettier-ignore

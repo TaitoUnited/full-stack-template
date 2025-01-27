@@ -30,7 +30,7 @@ type OwnProps = RecipeVariantProps<typeof buttonStyle> & {
   style?: CSSProperties;
 };
 
-type ButtonProps = AriaButtonProps &
+export type ButtonProps = AriaButtonProps &
   OwnProps & {
     ref?: Ref<HTMLButtonElement>;
   };

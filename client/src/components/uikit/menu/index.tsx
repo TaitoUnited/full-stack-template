@@ -83,7 +83,6 @@ function Item({
   children,
   ...rest
 }: Omit<MenuItemProps, 'id' | 'onAction' | 'children'> & {
-  // Make some props required
   ref?: Ref<HTMLDivElement>;
   id: string;
   children: ReactNode;
@@ -157,7 +156,7 @@ const MenuItem = styled(AriaMenuItem, {
     padding: '$xs',
     textStyle: '$bodySmall',
     borderRadius: '$small',
-    cursor: 'pointer',
+    cursor: 'default',
 
     '&[data-hovered="true"], &[data-focused="true"], &[data-selected="true"]': {
       backgroundColor: '$primaryMuted',

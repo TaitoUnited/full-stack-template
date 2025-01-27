@@ -1,11 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { useLocation } from '@tanstack/react-router';
 import { capitalize } from 'lodash';
 import { type ComponentProps, useState } from 'react';
 
-import { Button } from '~/uikit/button';
 import { Checkbox } from '~/uikit/checkbox';
 import { Stack } from '~/uikit/stack';
 import { Text } from '~/uikit/text';
+import { Tooltip } from '~/uikit/tooltip';
+
+import { Button, LinkButton } from '.';
 
 export default {
   title: 'Button',
@@ -49,6 +52,61 @@ export const Sizes: Story = {
     </Stack>
   ),
 };
+
+export const Links: Story = {
+  render: () => <LinksExample />,
+};
+
+function LinksExample() {
+  const location = useLocation();
+
+  return (
+    <Stack direction="column" gap="large" align="start">
+      <Text variant="headingM">Current location: {location.pathname}</Text>
+
+      <LinkButton
+        to="/login"
+        variant="filled"
+        color="primary"
+        icon="login"
+        iconPlacement="end"
+      >
+        Login
+      </LinkButton>
+      <LinkButton
+        //@ts-expect-error - This route does not really exist
+        to="/signup"
+        variant="outlined"
+        color="primary"
+        icon="personAdd"
+      >
+        Signup
+      </LinkButton>
+      <LinkButton
+        //@ts-expect-error - This route does not really exist
+        to="/logout"
+        variant="soft"
+        color="primary"
+        icon="logout"
+        iconPlacement="end"
+      >
+        Logout
+      </LinkButton>
+      <Tooltip content="Test tooltip" placement="bottom">
+        <LinkButton
+          //@ts-expect-error - This route does not really exist
+          to="/details"
+          variant="plain"
+          color="primary"
+          icon="chevronRight"
+          iconPlacement="end"
+        >
+          View details
+        </LinkButton>
+      </Tooltip>
+    </Stack>
+  );
+}
 
 export const WithIcon: Story = {
   render: () => (

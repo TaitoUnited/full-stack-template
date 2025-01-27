@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@apollo/client": "3.12.6",
+    "@internationalized/date": "3.7.0",
     "@lingui/react": "5.1.2",
     "@loadable/component": "5.16.4",
     "@sentry/browser": "8.48.0",
@@ -43,7 +44,7 @@
     "lodash": "4.17.21",
     "react": "19.0.0",
     "react-aria": "3.36.0",
-    "react-aria-components": "1.5.0",
+    "react-aria-components": "1.6.0",
     "react-dom": "19.0.0",
     "react-merge-refs": "2.1.1",
     "react-stately": "3.34.0",
@@ -131,7 +132,7 @@
     "format": "po"
   },
   "figmage": {
-    "outDir": "styled-system/tokens",
+    "outDir": "src/styled-system/tokens",
     "tokenize": {
       "tokens": [
         {

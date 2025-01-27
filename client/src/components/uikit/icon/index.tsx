@@ -19,6 +19,7 @@ function IconBase({ name, size, color, style, ...rest }: Props) {
         ...style,
         width: size,
         height: size,
+        flexShrink: 0,
         color:
           color === 'currentColor'
             ? 'currentColor'

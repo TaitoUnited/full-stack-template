@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Select } from '~/uikit/select';
+import { Select } from '.';
 
 export default {
   title: 'Select',
@@ -27,6 +27,21 @@ const options = [
 export const Regular: Story = {
   args: {
     label: 'Regular select',
+    items: options,
+  },
+};
+
+export const LabelPosition: Story = {
+  args: {
+    label: 'Regular select',
+    labelPosition: 'left',
+    items: options,
+  },
+};
+
+export const HiddenLabel: Story = {
+  args: {
+    hiddenLabel: 'Hidden label',
     items: options,
   },
 };

@@ -7,6 +7,7 @@ import { FeatureGate } from '~/components/feature-flags/feature-gate';
 import { useDocumentTitle } from '~/hooks/use-document-title';
 import { isFeatureEnabled } from '~/services/feature-flags';
 import { styled } from '~/styled-system/jsx';
+import { Card } from '~/uikit/card';
 import { Icon, type IconName } from '~/uikit/icon';
 import { Stack } from '~/uikit/stack';
 import { type SortDescriptor, Table } from '~/uikit/table';
@@ -199,14 +200,5 @@ const Cards = styled('div', {
     display: 'grid',
     gridGap: '$regular',
     gridTemplateColumns: '50% 50%',
-  },
-});
-
-const Card = styled('div', {
-  base: {
-    backgroundColor: '$surface',
-    borderRadius: '$regular',
-    padding: '$large',
-    boxShadow: '$medium',
   },
 });

@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { type ComponentProps, useState } from 'react';
 
-import { AsyncSelect } from '~/uikit/async-select';
-
+import { AsyncSelect } from '.';
 import { fetchStarWarsCharacter } from '../helpers';
 
 export default {
@@ -25,6 +24,16 @@ export const WithMultiSelect: Story = {
 
 export const WithSingleSelect: Story = {
   args: { selectionMode: 'single' },
+  render: args => <AsyncSelectExample {...args} />,
+};
+
+export const LabelPosition: Story = {
+  args: { labelPosition: 'left' },
+  render: args => <AsyncSelectExample {...args} />,
+};
+
+export const HiddenLabel: Story = {
+  args: { hiddenLabel: 'Hidden label' },
   render: args => <AsyncSelectExample {...args} />,
 };
 
@@ -59,16 +68,16 @@ export const WithClearAndConfirm: Story = {
 };
 
 function AsyncSelectExample(props: ComponentProps<typeof AsyncSelect>) {
-  const [selected, setSelected] = useState(() => new Set<string>());
+  const [value, setValue] = useState(() => new Set<string>());
 
   return (
     <AsyncSelect
       {...props}
-      label="Star Wars characters"
+      label={props.hiddenLabel ? undefined : 'Star Wars characters'}
       placeholder="Select characters"
       emptyMessage="These aren't the droids you're looking for"
-      selected={selected}
-      onSelect={setSelected}
+      value={value}
+      onChange={setValue}
       loadItems={params =>
         fetchStarWarsCharacter(params).then(items => ({ items }))
       }

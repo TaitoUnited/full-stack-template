@@ -2,25 +2,28 @@ import { type RefObject, useEffect } from 'react';
 
 import { useEffectEvent } from './use-effect-event';
 
-/**
- * Hook to add a scroll event listener to an element and execute a callback
- * on every scroll event.
- */
-export function useScrollEvent(
-  ref: RefObject<HTMLElement>,
-  callback: (event: Event) => void
-) {
-  const stableCallback = useEffectEvent(callback);
+export function useResizeObserver({
+  ref,
+  enabled = true,
+  handler,
+}: {
+  ref: RefObject<HTMLElement | null>;
+  enabled?: boolean;
+  handler: (entry: ResizeObserverEntry) => void;
+}) {
+  const stableHandler = useEffectEvent(handler);
 
-  // TODO: add throttling if needed
   useEffect(() => {
-    const element = ref.current;
-    if (!element) return;
+    if (!enabled) return;
 
-    element.addEventListener('scroll', stableCallback);
+    const observer = new ResizeObserver(([entry]) => stableHandler(entry));
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
 
     return () => {
-      element.removeEventListener('scroll', stableCallback);
+      observer.disconnect();
     };
-  }, []);
+  }, [enabled]);
 }

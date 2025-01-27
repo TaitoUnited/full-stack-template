@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useAsyncList } from 'react-stately';
 
-import { ComboBox, type ComboBoxOption } from '~/uikit/combo-box';
-
+import { ComboBox, type ComboBoxOption } from '.';
 import { fetchStarWarsCharacter } from '../helpers';
 
 export default {
@@ -31,6 +30,21 @@ export const Regular: Story = {
   args: {
     defaultItems: options,
     label: 'Regular combobox',
+  },
+};
+
+export const LabelPosition: Story = {
+  args: {
+    defaultItems: options,
+    label: 'Regular combobox',
+    labelPosition: 'left',
+  },
+};
+
+export const HiddenLabel: Story = {
+  args: {
+    defaultItems: options,
+    hiddenLabel: 'Hidden label',
   },
 };
 

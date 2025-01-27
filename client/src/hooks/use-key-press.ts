@@ -26,19 +26,35 @@ export function useKeyPressState(key: string): boolean {
   return pressed;
 }
 
-export function useKeyPressEvent(
-  key: string,
-  handler: (event: KeyboardEvent) => void
-) {
+export function useKeyPressEvent({
+  key,
+  enabled = true,
+  capture = false,
+  handler,
+}: {
+  key: string;
+  enabled?: boolean;
+  /**
+   * Whether to listen for the event in the capture phase and stop propagation.
+   * Useful for overriding React Aria default behavior.
+   *
+   * @ref https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#capture
+   */
+  capture?: boolean;
+  handler: (event: KeyboardEvent) => void;
+}) {
   const stableHandler = useEffectEvent(handler);
 
   useEffect(() => {
+    if (!enabled) return;
+
     function eventHandler(event: KeyboardEvent) {
       if (event.key === key) stableHandler(event);
     }
 
-    window.addEventListener('keydown', eventHandler);
+    window.addEventListener('keydown', eventHandler, { capture });
 
-    return () => window.removeEventListener('keydown', eventHandler);
-  }, [key]);
+    return () =>
+      window.removeEventListener('keydown', eventHandler, { capture });
+  }, [key, enabled, capture]);
 }

@@ -37,7 +37,7 @@ export const bodyLarge = {
   "fontSize": 18,
   "textTransform": "none",
   "letterSpacing": 0,
-  "lineHeight": 1.556
+  "lineHeight": 1.5
 };
 export const bodyLargeBold = {
   "fontFamily": "Inter",
@@ -45,7 +45,7 @@ export const bodyLargeBold = {
   "fontSize": 18,
   "textTransform": "none",
   "letterSpacing": 0,
-  "lineHeight": 1.556
+  "lineHeight": 1.5
 };
 export const bodySemiBold = {
   "fontFamily": "Inter",

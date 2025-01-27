@@ -27,9 +27,7 @@ export const $focusRing: PropertyConfig = {
       return {};
     }
     return {
-      '&:focus-visible': {
-        'box-shadow': `0px 0px 0px 2px ${token('colors.$focusRing')}`,
-      },
+      outline: `2px solid ${token('$colors.focusRing')}`,
     };
   },
 };
@@ -140,16 +138,46 @@ export const $fadeIn: PropertyConfig = {
   },
 };
 
-export const $fadeScaleIn: PropertyConfig = {
-  className: 'fade-scale-in',
-  values: { type: 'number' },
-  transform(duration: number) {
-    if (typeof duration !== 'number') {
-      return {};
-    }
+export const $fadeOut: PropertyConfig = {
+  className: 'fade-out',
+  values: { type: 'string' },
+  transform(options) {
     return {
       opacity: 0,
-      animation: `fadeScaleIn ${duration}ms forwards`,
+      animation: `fadeOut ${options} forwards`,
+    };
+  },
+};
+
+export const $fadeScaleIn: PropertyConfig = {
+  className: 'fade-scale-in',
+  values: { type: 'string' },
+  transform(options: number) {
+    return {
+      opacity: 0,
+      animation: `fadeScaleIn ${options} forwards`,
+    };
+  },
+};
+
+export const $fadeFromBottom: PropertyConfig = {
+  className: 'fade-from-bottom',
+  values: { type: 'string' },
+  transform(options: string) {
+    return {
+      opacity: 0,
+      animation: `fadeFromBottom ${options} forwards`,
+    };
+  },
+};
+
+export const $fadeFromTop: PropertyConfig = {
+  className: 'fade-from-top',
+  values: { type: 'string' },
+  transform(options: string) {
+    return {
+      opacity: 0,
+      animation: `fadeFromTop ${options} forwards`,
     };
   },
 };

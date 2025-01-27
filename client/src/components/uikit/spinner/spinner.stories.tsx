@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Spinner } from '~/uikit/spinner';
 import { Stack } from '~/uikit/stack';
+
+import { Spinner } from '.';
 
 export default {
   title: 'Spinner',
