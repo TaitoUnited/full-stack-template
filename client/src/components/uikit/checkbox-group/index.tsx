@@ -84,5 +84,3 @@ const CheckboxGroupItem = styled('div', {
     padding: '$xxs',
   },
 });
-
-CheckboxGroup.displayName = 'CheckboxGroup';
