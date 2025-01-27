@@ -7,12 +7,12 @@ import {
   type NormalizedCacheObject,
 } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
-import { toast } from 'react-hot-toast';
 
 import { config } from '~/constants/config';
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '~/services/i18n';
 import { logout } from '~/stores/auth-store';
 import { workspaceIdStore } from '~/stores/workspace-store';
+import { toast } from '~/uikit/toaster';
 import { storage } from '~/utils/storage';
 
 let __apolloClient__: ApolloClient<NormalizedCacheObject>;
@@ -62,7 +62,7 @@ export function setupApolloClient() {
      */
     if (isNetworkAuthError || isGraphQLAuthError) {
       logout()
-        .then(() => toast(`Your session has expired!`)) // TODO: Translate?
+        .then(() => toast.info(`Your session has expired!`)) // TODO: Translate?
         .catch(e => console.log('Failed to logout', e)); // this should never happen...
     }
   });

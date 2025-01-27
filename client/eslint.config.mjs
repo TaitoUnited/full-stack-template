@@ -135,6 +135,12 @@ export default pluginTS.config(
           message: 'Please use custom Stack from uikit instead.',
         },
         {
+          name: 'sonner',
+          importNames: ['toast', 'Toaster'],
+          message:
+            'Please use the custom toast function from uikit/toaster instead.',
+        },
+        {
           name: '@lingui/react',
           importNames: ['Trans', 'useLingui'],
           message: 'Please use the @lingui/react/macro instead.',
