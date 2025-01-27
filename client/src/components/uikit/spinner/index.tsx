@@ -2,9 +2,9 @@ import { type CSSProperties } from 'react';
 
 import './styles.css';
 
-import { styled } from '~styled-system/jsx';
-import { type ColorToken, token } from '~styled-system/tokens';
-import { type StyledSystemToken } from '~utils/styled-system';
+import { styled } from '~/styled-system/jsx';
+import { type ColorToken, token } from '~/styled-system/tokens';
+import { type StyledSystemToken } from '~/utils/styled-system';
 
 export type SpinnerSize = 'small' | 'normal' | 'medium' | 'large';
 

@@ -1,8 +1,9 @@
 import { Trans } from '@lingui/react/macro';
 
-import { Link } from '~components/navigation/link';
-import { useDocumentTitle } from '~hooks/use-document-title';
-import { Stack, Text } from '~uikit';
+import { Link } from '~/components/navigation/link';
+import { useDocumentTitle } from '~/hooks/use-document-title';
+import { Stack } from '~/uikit/stack';
+import { Text } from '~/uikit/text';
 
 export function NotFoundAuthenticated() {
   useDocumentTitle('404');

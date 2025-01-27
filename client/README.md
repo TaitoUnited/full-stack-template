@@ -59,7 +59,7 @@ Read more about the benefits of Panda [here](https://panda-css.com/docs/overview
 
 ### Setup
 
-Panda CSS works by generating the styling library, called **styled system**, from a [configuration file](https://panda-css.com/docs/references/config) (`/styled-system/setup/config.ts`). This styled system is what is used in the client app code instead of importing things from the Panda CSS package directly.
+Panda CSS works by generating the styling library, called **styled system**, from a [configuration file](https://panda-css.com/docs/references/config) (`panda.config.ts`). This styled system is what is used in the client app code instead of importing things from the Panda CSS package directly.
 
 > ⚠️ Whenever you make changes to the Panda CSS setup (any file under `/styled-system/setup/`) you need regenerate the styled system with `npm run generate:styled-system`!
 >
@@ -70,8 +70,8 @@ Panda CSS works by generating the styling library, called **styled system**, fro
 The generated styled system exposes a few styling utilities from which `css` and `styled` are the most commonly useful.
 
 ```tsx
-import { css } from '~styled-system/css';
-import { styled } from '~styled-system/jsx';
+import { css } from '~/styled-system/css';
+import { styled } from '~/styled-system/jsx';
 
 function Example() {
   return (
@@ -106,7 +106,7 @@ const Comp = styled('div', {
 If you want to define styles without having to name things you can prefer using the `css()` inline to apply the generated classname directly to the element:
 
 ```tsx
-import { css } from '~styled-system/css';
+import { css } from '~/styled-system/css';
 
 function Example() {
   return (
@@ -123,7 +123,7 @@ Panda also exposes other utilities like [`cx`](https://panda-css.com/docs/concep
 > ℹ️ Panda CSS allows you to use the `styled` helper in another way which however is not recommended due to how it negatively affects the JS bundle size:
 
 ```tsx
-import { styled } from '~styled-system/jsx';
+import { styled } from '~/styled-system/jsx';
 
 function Example() {
   return (
@@ -225,7 +225,7 @@ So, instead of having long lived feature branches, that you have to continuously
 Feature flags are defined in `src/utils/feature-flags.ts` file where you can enable features per environment (note that types are removed from the example).
 
 ```ts
-import { appEnvironments } from '~constants/config';
+import { appEnvironments } from '~/constants/config';
 
 const features = ['feature-1', 'feature-2', 'feature-3'];
 
@@ -267,7 +267,7 @@ Then there are three ways to check whether a feature is enabled.
 #### `<FeatureGate>`
 
 ```tsx
-import FeatureGate from '~components/feature-flags/feature-gate';
+import FeatureGate from '~/components/feature-flags/feature-gate';
 
 function Example() {
   return (
@@ -285,7 +285,7 @@ function Example() {
 #### `isFeatureEnabled`
 
 ```tsx
-import { isFeatureEnabled } from '~utils/feature-flags';
+import { isFeatureEnabled } from '~/utils/feature-flags';
 
 function Example() {
   const featureEnabled = isFeatureEnabled('feature-1');

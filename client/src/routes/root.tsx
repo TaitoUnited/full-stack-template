@@ -13,7 +13,7 @@ import { lazy } from 'react';
 import { RouterProvider as AriaRouterProvider } from 'react-aria-components';
 import { hideSplashScreen } from 'vite-plugin-splash-screen/runtime';
 
-import { authStore, verifyAuth } from '~services/auth';
+import { authStore, verifyAuth } from '~/stores/auth-store';
 
 import { InternalErrorUnauthenticated } from './internal-error/internal-error-unauthenticated';
 import { NotFoundUnauthenticated } from './not-found/not-found-unauthenticated';

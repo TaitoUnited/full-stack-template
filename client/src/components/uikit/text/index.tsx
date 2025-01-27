@@ -6,10 +6,10 @@ import {
 } from 'react';
 import { Text as AriaText } from 'react-aria-components';
 
-import { type Typography } from '~design-tokens/types';
-import { cva, cx } from '~styled-system/css';
-import { type ColorToken, token } from '~styled-system/tokens';
-import { type StyledSystemToken } from '~utils/styled-system';
+import { type Typography } from '~/design-tokens/types';
+import { cva, cx } from '~/styled-system/css';
+import { type ColorToken, token } from '~/styled-system/tokens';
+import { type StyledSystemToken } from '~/utils/styled-system';
 
 type AllowedElement =
   | 'h1'

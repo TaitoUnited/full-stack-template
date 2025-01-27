@@ -1,7 +1,7 @@
 import { type CSSProperties, memo, type ReactNode, type Ref } from 'react';
 
-import { type SpacingToken, token } from '~styled-system/tokens';
-import { type StyledSystemToken } from '~utils/styled-system';
+import { type SpacingToken, token } from '~/styled-system/tokens';
+import { type StyledSystemToken } from '~/utils/styled-system';
 
 type AllowedElement =
   | 'div'

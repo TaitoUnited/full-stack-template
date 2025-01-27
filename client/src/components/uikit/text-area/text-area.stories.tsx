@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { TextArea } from '~uikit';
+import { TextArea } from '~/uikit/text-area';
 
 export default {
   title: 'TextArea',

@@ -22,12 +22,12 @@
     "uikit:preview": "storybook dev -p 6006",
     "uikit:build": "storybook build",
     "design-system:sync": "npm-run-all -s design-system:tokenize design-system:codegen design-system:format",
-    "design-system:tokenize": "figmage tokenize --env ./styled-system/.env",
-    "design-system:codegen": "figmage codegen --env ./styled-system/.env",
-    "design-system:format": "prettier --write \"styled-system/tokens/*.ts\"",
+    "design-system:tokenize": "figmage tokenize --env ./src/styled-system/.env",
+    "design-system:codegen": "figmage codegen --env ./src/styled-system/.env",
+    "design-system:format": "prettier --write \"src/styled-system/tokens/*.ts\"",
     "generate": "npm-run-all -p generate:*",
     "generate:graphql": "gql-tada generate-output",
-    "generate:styled-system": "panda codegen --clean --config ./styled-system/setup/config.ts"
+    "generate:styled-system": "panda codegen --clean"
   },
   "dependencies": {
     "@apollo/client": "3.12.6",

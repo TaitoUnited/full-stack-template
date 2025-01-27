@@ -1,7 +1,7 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 import { VisuallyHidden } from 'react-aria';
 
-import { styled } from '~styled-system/jsx';
+import { styled } from '~/styled-system/jsx';
 
 import { Icon } from '../icon';
 import { IconButton } from '../icon-button';

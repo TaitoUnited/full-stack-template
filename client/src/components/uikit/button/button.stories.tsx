@@ -2,7 +2,10 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { capitalize } from 'lodash';
 import { type ComponentProps, useState } from 'react';
 
-import { Button, Checkbox, Stack, Text } from '~uikit';
+import { Button } from '~/uikit/button';
+import { Checkbox } from '~/uikit/checkbox';
+import { Stack } from '~/uikit/stack';
+import { Text } from '~/uikit/text';
 
 export default {
   title: 'Button',

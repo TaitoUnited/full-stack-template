@@ -4,12 +4,16 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { type FormEvent, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
-import { CreatePostMutation } from '~graphql/post/mutations';
-import { useDocumentTitle } from '~hooks/use-document-title';
-import { RouteError } from '~routes/route-error';
-import { RouteSpinner } from '~routes/route-spinner';
-import { styled } from '~styled-system/jsx';
-import { Button, Dialog, Stack, TextArea, TextInput } from '~uikit';
+import { CreatePostMutation } from '~/graphql/post/mutations';
+import { useDocumentTitle } from '~/hooks/use-document-title';
+import { RouteError } from '~/routes/route-error';
+import { RouteSpinner } from '~/routes/route-spinner';
+import { styled } from '~/styled-system/jsx';
+import { Button } from '~/uikit/button';
+import { Dialog } from '~/uikit/dialog';
+import { Stack } from '~/uikit/stack';
+import { TextArea } from '~/uikit/text-area';
+import { TextInput } from '~/uikit/text-input';
 
 export const Route = createFileRoute('/_app/$workspaceId/posts_/create')({
   component: PostCreateRoute,

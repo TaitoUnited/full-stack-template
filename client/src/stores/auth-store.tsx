@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { create } from 'zustand';
 
-import { getApolloClient } from '~graphql';
-import { LoginMutation, LogoutMutation } from '~graphql/session/mutations';
-import { MeQuery } from '~graphql/session/queries';
-import { getRouter } from '~route-setup';
-import { storage } from '~utils/storage';
+import { getApolloClient } from '~/graphql';
+import { LoginMutation, LogoutMutation } from '~/graphql/session/mutations';
+import { MeQuery } from '~/graphql/session/queries';
+import { getRouter } from '~/route-setup';
+import { storage } from '~/utils/storage';
 
 type AuthState =
   | { status: 'undetermined' }

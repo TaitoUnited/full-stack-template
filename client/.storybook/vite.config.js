@@ -12,7 +12,7 @@ export default defineConfig(() => ({
   },
   css: {
     postcss: {
-      plugins: [pandaCss({ configPath: './styled-system/setup/config.ts' })],
+      plugins: [pandaCss()],
     },
   },
   plugins: [

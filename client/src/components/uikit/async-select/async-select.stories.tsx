@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { type ComponentProps, useState } from 'react';
 
-import { AsyncSelect } from '~uikit';
+import { AsyncSelect } from '~/uikit/async-select';
 
 import { fetchStarWarsCharacter } from '../helpers';
 

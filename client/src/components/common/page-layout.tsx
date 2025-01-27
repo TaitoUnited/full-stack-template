@@ -1,8 +1,8 @@
 import { type ReactNode } from 'react';
 
-import { Sidebar } from '~components/navigation/sidebar';
-import { Toolbar } from '~components/navigation/toolbar';
-import { styled } from '~styled-system/jsx';
+import { Sidebar } from '~/components/navigation/sidebar';
+import { Toolbar } from '~/components/navigation/toolbar';
+import { styled } from '~/styled-system/jsx';
 
 export function PageLayout({ children }: { children: ReactNode }) {
   return (

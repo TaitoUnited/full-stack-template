@@ -13,8 +13,8 @@ import {
   type BreadcrumbsProps,
 } from 'react-aria-components';
 
-import { styled } from '~styled-system/jsx';
-import { Icon } from '~uikit';
+import { styled } from '~/styled-system/jsx';
+import { Icon } from '~/uikit/icon';
 
 import { Link } from './link';
 

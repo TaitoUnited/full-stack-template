@@ -1,15 +1,16 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 
-import { Link } from '~components/navigation/link';
-import { LinkButton } from '~components/uikit/button';
-import { useReadQuery } from '~graphql';
-import { PostListQuery } from '~graphql/post/queries';
-import { useDocumentTitle } from '~hooks/use-document-title';
-import { RouteError } from '~routes/route-error';
-import { RouteSpinner } from '~routes/route-spinner';
-import { stack } from '~styled-system/patterns';
-import { Stack, Text } from '~uikit';
+import { Link } from '~/components/navigation/link';
+import { LinkButton } from '~/components/uikit/button';
+import { useReadQuery } from '~/graphql';
+import { PostListQuery } from '~/graphql/post/queries';
+import { useDocumentTitle } from '~/hooks/use-document-title';
+import { RouteError } from '~/routes/route-error';
+import { RouteSpinner } from '~/routes/route-spinner';
+import { stack } from '~/styled-system/patterns';
+import { Stack } from '~/uikit/stack';
+import { Text } from '~/uikit/text';
 
 import { PostListCard } from './post-list-card';
 

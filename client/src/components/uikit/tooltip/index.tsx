@@ -7,7 +7,7 @@ import {
   type TooltipTriggerComponentProps,
 } from 'react-aria-components';
 
-import { styled } from '~styled-system/jsx';
+import { styled } from '~/styled-system/jsx';
 
 type Props = Omit<HTMLAttributes<HTMLDivElement>, 'content'> &
   TooltipTriggerComponentProps & {

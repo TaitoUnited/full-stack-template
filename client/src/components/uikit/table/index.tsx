@@ -8,7 +8,7 @@ import {
   TableHeader,
 } from 'react-aria-components';
 
-import { css, cva, cx } from '~styled-system/css';
+import { css, cva, cx } from '~/styled-system/css';
 
 type RowStyle = 'default' | 'striped';
 

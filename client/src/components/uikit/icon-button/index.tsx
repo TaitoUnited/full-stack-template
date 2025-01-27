@@ -1,8 +1,8 @@
 import { type CSSProperties, type Ref } from 'react';
 import { Button, type ButtonProps } from 'react-aria-components';
 
-import { cva, cx, type RecipeVariantProps } from '~styled-system/css';
-import { token } from '~styled-system/tokens';
+import { cva, cx, type RecipeVariantProps } from '~/styled-system/css';
+import { token } from '~/styled-system/tokens';
 
 import { Icon, type IconName } from '../icon';
 import { Tooltip } from '../tooltip';

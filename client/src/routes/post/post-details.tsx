@@ -1,6 +1,7 @@
 import { format } from 'date-fns';
 
-import { Stack, Text } from '~uikit';
+import { Stack } from '~/uikit/stack';
+import { Text } from '~/uikit/text';
 
 type Props = {
   createdAt: string;

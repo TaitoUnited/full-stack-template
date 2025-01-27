@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
-import { logout } from '~services/auth';
-import { workspaceIdStore } from '~stores/workspace-id-store';
+import { logout } from '~/stores/auth-store';
+import { workspaceIdStore } from '~/stores/workspace-store';
 
 export const Route = createFileRoute('/_app/')({
   beforeLoad: async () => {

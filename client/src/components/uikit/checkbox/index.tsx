@@ -1,7 +1,7 @@
 import { type ComponentProps, type ReactNode } from 'react';
 import { Checkbox as AriaCheckbox } from 'react-aria-components';
 
-import { styled } from '~styled-system/jsx';
+import { styled } from '~/styled-system/jsx';
 
 import { Icon } from '../icon';
 

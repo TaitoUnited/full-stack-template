@@ -1,23 +1,23 @@
 import { defineConfig } from '@pandacss/dev';
 
-import { globalCss } from './global';
-import * as helpers from './helpers';
-import { keyframes } from './keyframes';
-import * as utilities from './utilities';
-import * as colors from '../tokens/colors';
-import * as radii from '../tokens/radii';
-import * as shadows from '../tokens/shadows';
-import * as sizes from '../tokens/sizes';
-import * as spacing from '../tokens/spacing.json';
-import * as typography from '../tokens/typography';
+import { keyframes } from './src/styled-system/setup/keyframes';
+import { globalCss } from './src/styled-system/setup/global';
+import * as helpers from './src/styled-system/setup/helpers';
+import * as utilities from './src/styled-system/setup/utilities';
+import * as shadows from './src/styled-system/tokens/shadows';
+import * as colors from './src/styled-system/tokens/colors';
+import * as spacing from './src/styled-system/tokens/spacing.json';
+import * as sizes from './src/styled-system/tokens/sizes';
+import * as radii from './src/styled-system/tokens/radii';
+import * as typography from './src/styled-system/tokens/typography';
 
 const isProd = process.env.NODE_ENV === 'production';
 
 export default defineConfig({
-  importMap: '~styled-system',
+  importMap: '~/styled-system',
 
   // The output directory for your css system
-  outdir: 'styled-system/generated',
+  outdir: './src/styled-system/generated',
 
   // Minify css in non-dev mode
   minify: isProd,

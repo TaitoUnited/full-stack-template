@@ -1,6 +1,7 @@
-import { LangMenuButton } from '~components/common/lang-menu-button';
-import { styled } from '~styled-system/jsx';
-import { Stack, Text } from '~uikit';
+import { LangMenuButton } from '~/components/common/lang-menu-button';
+import { styled } from '~/styled-system/jsx';
+import { Stack } from '~/uikit/stack';
+import { Text } from '~/uikit/text';
 
 import logoImg from '../../images/logo.svg';
 
