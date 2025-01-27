@@ -41,13 +41,16 @@ export const Route = createFileRoute('/_app')({
       await logout();
       workspaceIdStore.setState({ workspaceId: '' });
       throw redirect({ to: '/login' });
-    } else if (!workspaceId) {
+    } else if (!workspaceId && workspaceIdFallback) {
       /**
        * If workspace from URL params was not found but the user has workspaces,
        * redirect to the first workspace as a fallback.
        */
       workspaceIdStore.setState({ workspaceId: workspaceIdFallback });
-      throw redirect({ to: `/${workspaceIdFallback}` });
+      throw redirect({
+        to: `/$workspaceId`,
+        params: { workspaceId: workspaceIdFallback },
+      });
     } else if (workspaceId !== workspaceIdStored) {
       /**
        * Otherwise if the workspace from URL params is different from

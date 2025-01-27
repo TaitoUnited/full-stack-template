@@ -8,7 +8,7 @@ export const Route = createFileRoute('/_app/')({
     const workspaceId = workspaceIdStore.getState().workspaceId;
 
     if (workspaceId) {
-      throw redirect({ to: `/${workspaceId}` });
+      throw redirect({ to: `/$workspaceId`, params: { workspaceId } });
     } else {
       await logout();
       throw redirect({ to: '/login' });
