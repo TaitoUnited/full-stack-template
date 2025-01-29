@@ -37,7 +37,7 @@ full-stack:
     minReplicas: ${kubernetes_replicas}
     # Environment variables
     env:
-      COMMON_ENV: ${taito_env}
+      COMMON_ENV: ${taito_target_env}
 
   services:
     admin:
