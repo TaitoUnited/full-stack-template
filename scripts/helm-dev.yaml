@@ -21,9 +21,6 @@ full-stack:
       memoryRequest: 120Mi
       memoryLimit: 256Mi
       env:
-        # More resources needed to avoid additional latency on concurrent tests
-        # that are run immediately after server startup.
-        DATABASE_POOL_MIN: "4"
         # Set true to enable API docs and GraphQL/Swagger playground on dev
         API_DOCS_ENABLED: false
         API_PLAYGROUND_ENABLED: false
