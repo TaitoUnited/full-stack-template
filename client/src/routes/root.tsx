@@ -29,7 +29,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   errorComponent: InternalErrorUnauthenticated,
   beforeLoad: async () => {
     await verifyAuth();
-    await hideSplashScreen();
+    hideSplashScreen();
     // This will be available in the context of all routes
     return {
       authenticated: authStore.getState().status === 'authenticated',
