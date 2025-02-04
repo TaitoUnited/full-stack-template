@@ -23,9 +23,4 @@ test.describe.serial('Main pages', () => {
     await page.getByRole('link', { name: 'Blog' }).click();
     await expect(page.getByText('New post')).toBeVisible();
   });
-
-  test('cycle base subpages', async () => {
-    await page.getByRole('link', { name: 'Theming' }).click();
-    await expect(page.getByText('Success alert message')).toBeVisible();
-  });
 });

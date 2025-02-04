@@ -15,7 +15,6 @@ import { Route as layoutImport } from './routes/layout';
 import { Route as loginLoginrouteImport } from './routes/login/login.route';
 import { Route as indexImport } from './routes/index';
 import { Route as workspaceWorkspacerouteImport } from './routes/workspace/workspace.route';
-import { Route as themingThemingrouteImport } from './routes/theming/theming.route';
 import { Route as postListPostListrouteImport } from './routes/post-list/post-list.route';
 import { Route as feature3routeImport } from './routes/feature-3.route';
 import { Route as homeHomerouteImport } from './routes/home/home.route';
@@ -45,12 +44,6 @@ const workspaceWorkspacerouteRoute = workspaceWorkspacerouteImport.update({
   id: '/$workspaceId',
   path: '/$workspaceId',
   getParentRoute: () => layoutRoute,
-} as any);
-
-const themingThemingrouteRoute = themingThemingrouteImport.update({
-  id: '/theming',
-  path: '/theming',
-  getParentRoute: () => workspaceWorkspacerouteRoute,
 } as any);
 
 const postListPostListrouteRoute = postListPostListrouteImport.update({
@@ -136,13 +129,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof postListPostListrouteImport;
       parentRoute: typeof workspaceWorkspacerouteImport;
     };
-    '/_app/$workspaceId/theming': {
-      id: '/_app/$workspaceId/theming';
-      path: '/theming';
-      fullPath: '/$workspaceId/theming';
-      preLoaderRoute: typeof themingThemingrouteImport;
-      parentRoute: typeof workspaceWorkspacerouteImport;
-    };
     '/_app/$workspaceId/posts_/$id': {
       id: '/_app/$workspaceId/posts_/$id';
       path: '/posts/$id';
@@ -166,7 +152,6 @@ interface workspaceWorkspacerouteRouteChildren {
   homeHomerouteRoute: typeof homeHomerouteRoute;
   feature3routeRoute: typeof feature3routeRoute;
   postListPostListrouteRoute: typeof postListPostListrouteRoute;
-  themingThemingrouteRoute: typeof themingThemingrouteRoute;
   postPostrouteRoute: typeof postPostrouteRoute;
   postCreatePostCreaterouteRoute: typeof postCreatePostCreaterouteRoute;
 }
@@ -176,7 +161,6 @@ const workspaceWorkspacerouteRouteChildren: workspaceWorkspacerouteRouteChildren
     homeHomerouteRoute: homeHomerouteRoute,
     feature3routeRoute: feature3routeRoute,
     postListPostListrouteRoute: postListPostListrouteRoute,
-    themingThemingrouteRoute: themingThemingrouteRoute,
     postPostrouteRoute: postPostrouteRoute,
     postCreatePostCreaterouteRoute: postCreatePostCreaterouteRoute,
   };
@@ -207,7 +191,6 @@ export interface FileRoutesByFullPath {
   '/$workspaceId/': typeof homeHomerouteRoute;
   '/$workspaceId/feature-3': typeof feature3routeRoute;
   '/$workspaceId/posts': typeof postListPostListrouteRoute;
-  '/$workspaceId/theming': typeof themingThemingrouteRoute;
   '/$workspaceId/posts/$id': typeof postPostrouteRoute;
   '/$workspaceId/posts/create': typeof postCreatePostCreaterouteRoute;
 }
@@ -218,7 +201,6 @@ export interface FileRoutesByTo {
   '/$workspaceId': typeof homeHomerouteRoute;
   '/$workspaceId/feature-3': typeof feature3routeRoute;
   '/$workspaceId/posts': typeof postListPostListrouteRoute;
-  '/$workspaceId/theming': typeof themingThemingrouteRoute;
   '/$workspaceId/posts/$id': typeof postPostrouteRoute;
   '/$workspaceId/posts/create': typeof postCreatePostCreaterouteRoute;
 }
@@ -232,7 +214,6 @@ export interface FileRoutesById {
   '/_app/$workspaceId/': typeof homeHomerouteRoute;
   '/_app/$workspaceId/feature-3': typeof feature3routeRoute;
   '/_app/$workspaceId/posts': typeof postListPostListrouteRoute;
-  '/_app/$workspaceId/theming': typeof themingThemingrouteRoute;
   '/_app/$workspaceId/posts_/$id': typeof postPostrouteRoute;
   '/_app/$workspaceId/posts_/create': typeof postCreatePostCreaterouteRoute;
 }
@@ -247,7 +228,6 @@ export interface FileRouteTypes {
     | '/$workspaceId/'
     | '/$workspaceId/feature-3'
     | '/$workspaceId/posts'
-    | '/$workspaceId/theming'
     | '/$workspaceId/posts/$id'
     | '/$workspaceId/posts/create';
   fileRoutesByTo: FileRoutesByTo;
@@ -257,7 +237,6 @@ export interface FileRouteTypes {
     | '/$workspaceId'
     | '/$workspaceId/feature-3'
     | '/$workspaceId/posts'
-    | '/$workspaceId/theming'
     | '/$workspaceId/posts/$id'
     | '/$workspaceId/posts/create';
   id:
@@ -269,7 +248,6 @@ export interface FileRouteTypes {
     | '/_app/$workspaceId/'
     | '/_app/$workspaceId/feature-3'
     | '/_app/$workspaceId/posts'
-    | '/_app/$workspaceId/theming'
     | '/_app/$workspaceId/posts_/$id'
     | '/_app/$workspaceId/posts_/create';
   fileRoutesById: FileRoutesById;
@@ -316,7 +294,6 @@ export const routeTree = rootRoute
         "/_app/$workspaceId/",
         "/_app/$workspaceId/feature-3",
         "/_app/$workspaceId/posts",
-        "/_app/$workspaceId/theming",
         "/_app/$workspaceId/posts_/$id",
         "/_app/$workspaceId/posts_/create"
       ]
@@ -335,10 +312,6 @@ export const routeTree = rootRoute
     },
     "/_app/$workspaceId/posts": {
       "filePath": "post-list/post-list.route.tsx",
-      "parent": "/_app/$workspaceId"
-    },
-    "/_app/$workspaceId/theming": {
-      "filePath": "theming/theming.route.tsx",
       "parent": "/_app/$workspaceId"
     },
     "/_app/$workspaceId/posts_/$id": {

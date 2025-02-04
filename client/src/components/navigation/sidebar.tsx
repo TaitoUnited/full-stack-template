@@ -35,12 +35,6 @@ export function Sidebar() {
       to: '/$workspaceId/posts',
       testId: 'navigate-to-blog',
     },
-    {
-      label: t`Theming`,
-      icon: 'eye',
-      to: '/$workspaceId/theming',
-      testId: 'navigate-to-theming',
-    },
   ];
 
   if (feature3Enabled) {
