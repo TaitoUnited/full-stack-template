@@ -1,16 +1,12 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 import { createFileRoute } from '@tanstack/react-router';
-import { orderBy, random, range } from 'lodash';
-import { useState } from 'react';
 
-import { FeatureGate } from '~/components/feature-flags/feature-gate';
 import { useDocumentTitle } from '~/hooks/use-document-title';
 import { isFeatureEnabled } from '~/services/feature-flags';
 import { styled } from '~/styled-system/jsx';
 import { Card } from '~/uikit/card';
 import { Icon, type IconName } from '~/uikit/icon';
 import { Stack } from '~/uikit/stack';
-import { type SortDescriptor, Table } from '~/uikit/table';
 import { Text } from '~/uikit/text';
 
 export const Route = createFileRoute('/_app/$workspaceId/')({
@@ -42,11 +38,11 @@ export default function HomeRoute() {
       title: t`Authentication`,
       description: t`Practically every app needs to have a way to log in the user. This template provides a barebones authentication setup that should be extended to have a real way to log in the user either with a cookie or JWT based authentication method.`,
     },
-    {
-      icon: 'moon',
-      title: t`Dark Mode`,
-      description: t`Having dark mode support is a common ask from users nowadays. This template has a ready-to-use theming setup with light and dark themes that can be easily modified to conform to the client's branding. Try to toggle the theme in the top right corner.`,
-    },
+    // {
+    //   icon: 'moon',
+    //   title: t`Dark Mode`,
+    //   description: t`Having dark mode support is a common ask from users nowadays. This template has a ready-to-use theming setup with light and dark themes that can be easily modified to conform to the client's branding. Try to toggle the theme in the top right corner.`,
+    // },
     {
       icon: 'star',
       title: t`Design System`,
@@ -73,6 +69,14 @@ export default function HomeRoute() {
       description: t`No one likes looking at a blank screen. This template implements a traditional Single-Page-Application which means that the initial JS bundle has to downloaded before the app can render. A nice looking splash screen can be shown until the app is ready to render making the app loading UX more pleasant.`,
     },
   ];
+
+  if (featureEnabled) {
+    features.push({
+      icon: 'save',
+      title: t`Feature Flags`,
+      description: t`Feature flags enable true continuous deployment by making it possible to ship incomplete features to production without negatively affecting normal app usage.`,
+    });
+  }
 
   return (
     <Stack direction="column" gap="xl">
@@ -129,69 +133,7 @@ export default function HomeRoute() {
           ))}
         </Cards>
       </Stack>
-
-      <Card>
-        <SortableTable />
-      </Card>
-
-      <FeatureGate feature="feature-1">Hello from feature 1!</FeatureGate>
     </Stack>
-  );
-}
-
-const SORT_DIRECTION = {
-  ascending: 'asc' as const,
-  descending: 'desc' as const,
-};
-
-const data = range(100).map(i => ({
-  id: i,
-  name: `Name ${i + 1}`,
-  age: random(10, 60),
-  location: `Address ${i + 1}, Espoo`,
-}));
-
-function SortableTable() {
-  const [sort, setSort] = useState<SortDescriptor>({
-    column: 'name',
-    direction: 'ascending',
-  });
-
-  const sorted = orderBy(
-    data,
-    sort?.column || 'name',
-    sort?.direction ? SORT_DIRECTION[sort.direction] : 'asc'
-  );
-
-  return (
-    <Table
-      label="Home table example"
-      rowStyle="striped"
-      sortDescriptor={sort}
-      onSortChange={setSort}
-    >
-      <Table.Header>
-        <Table.Column key="name" allowsSorting isRowHeader>
-          Name
-        </Table.Column>
-        <Table.Column key="age" allowsSorting>
-          Age
-        </Table.Column>
-        <Table.Column key="location" allowsSorting>
-          Location
-        </Table.Column>
-      </Table.Header>
-
-      <Table.Body>
-        {sorted.map(d => (
-          <Table.Row key={d.id}>
-            <Table.Cell key="name">{d.name}</Table.Cell>
-            <Table.Cell key="age">{d.age}</Table.Cell>
-            <Table.Cell key="location">{d.location}</Table.Cell>
-          </Table.Row>
-        ))}
-      </Table.Body>
-    </Table>
   );
 }
 
