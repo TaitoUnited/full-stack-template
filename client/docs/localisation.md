@@ -29,7 +29,7 @@ The Lingui setup can be found in the [package.json](../package.json) file:
 
 The easiest way to add translation support for a piece of text is to use the `Trans` component.
 
-```js
+```tsx
 import { Trans } from '@lingui/react/macro';
 
 function Example() {
@@ -43,7 +43,7 @@ function Example() {
 
 In some cases it's not possible to use a React component so need to use the `t` macro with `useLingui` hook.
 
-```js
+```tsx
 import { useLingui } from '@lingui/react/macro';
 
 function Example() {

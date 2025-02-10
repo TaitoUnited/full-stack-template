@@ -17,11 +17,9 @@ We use [Figmage](https://github.com/Temzasse/figmage#readme) to generate our des
    FIGMA_FILE_ID="xxxxxxxxxxxxxxxxxxxxxx"
    ```
 
-   > Note: Feel free to delete the `.env.example` file after you have created the `.env` file.
-
 ## How to generate the design system
 
-You can generate the design system by running the script `design-system:sync` in the root of your project.
+You can generate the design system by running the script `design-system:sync` from the client folder.
 
 This command runs the following scripts, that you can run individually if you want to:
 
@@ -39,9 +37,10 @@ For more details on how to customize it, check the [Figmage README](https://gith
 
 ### How to add a new token
 
-> Note: Tokens should be created and updated by designers. What is safe to create without designer approval are the icons.
+> [!NOTE]
+> Tokens should be created and updated by designers. What is safe to create without designer approval are the icons.
 
-1. Add the token in Figma. Make sure it is a component and that it is named correctly. The name of the token will be used as the name of the variable in the code.
+1. Add the token in Figma. If the token is represented with a component, make sure it is named correctly as the component name will be used as the token name.
 2. Run the `design-system:sync` command.
 3. Use the token in your component.
 

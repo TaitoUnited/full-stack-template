@@ -1,10 +1,10 @@
 # GraphQL
 
-This project uses [Apollo Server](https://www.apollographql.com/docs/apollo-server/) for the GraphQL API and [gql.tada](https://gql-tada.0no.co/) for generating TypeScript types and enhancing the developer experience.
+This project uses [Apollo Client](https://www.apollographql.com/docs/) for the GraphQL API and [gql.tada](https://gql-tada.0no.co/) for generating TypeScript types and enhancing the developer experience.
 
-## Apollo Server
+## Apollo Client
 
-Apollo Server is a community-driven, open-source GraphQL server that works with any GraphQL schema. It provides a robust, production-ready GraphQL API with features like schema stitching, subscriptions, and more.
+Apollo Client is a comprehensive state management library for JavaScript that enables you to manage both local and remote data with GraphQL. It provides a powerful and flexible API for fetching, caching, and updating data.
 
 ### Client Setup
 
@@ -74,8 +74,7 @@ const GET_KITTENS = graphql(/* GraphQL */ `
 `);
 
 const KittensComponent = () => {
-  const { data, loading, error } =
-    useQuery<ResultOf<typeof GET_KITTENS>>(GET_KITTENS);
+  const { data, loading, error } = useQuery(GET_KITTENS);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -128,4 +127,4 @@ The [`graphql.config.ts`](/graphql.config.ts) file specifies the configuration f
 
 ## Conclusion
 
-By using **Apollo Server** and **gql.tada**, you can create a robust, type-safe GraphQL API and client with enhanced developer experience.
+By using **Apollo Client** and **gql.tada**, you can create a robust, type-safe GraphQL API and client with enhanced developer experience.

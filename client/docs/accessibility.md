@@ -6,27 +6,20 @@ Creating accessible web applications is not just a technical task—it’s about
 
 1. **Inclusivity**: Accessibility ensures people with visual, auditory, motor, or cognitive disabilities can use your application.
 2. **Broader Audience**: An accessible app reaches a larger audience, including users with temporary impairments or situational limitations.
-3. **Legal and Ethical Standards**: Compliance with laws like the [Americans with Disabilities Act (ADA)](https://www.ada.gov/) and guidelines like the [Web Content Accessibility Guidelines (WCAG)](https://www.w3.org/TR/WCAG21/) helps avoid legal issues and fosters ethical development.
+3. **Legal and Ethical Standards**: Compliance with laws like the [Saavutettavuusdirektiivi](https://www.saavutettavuusvaatimukset.fi/en) and guidelines like the [Web Content Accessibility Guidelines (WCAG)](https://www.w3.org/TR/WCAG21/) helps avoid legal issues and fosters ethical development.
 
 By prioritizing accessibility, you create a better experience for everyone.
-
----
 
 ## Accessibility in React
 
 React provides a strong foundation for building accessible applications, and with intentional coding practices, you can ensure a great user experience. Leveraging semantic HTML, ARIA roles, and attributes in React enables your application to be usable by assistive technologies.
 
-### Core Concepts for Accessibility in React
-
-Our template includes a pre-built UI kit featuring accessible components like `Button`, `Text`, and `TextInput`. These components are designed with accessibility in mind, leveraging React Aria to provide a solid foundation for inclusivity. We strongly recommend using these components wherever possible to ensure consistent and reliable accessibility standards across your application.
-
-- **Semantic HTML**: Use meaningful HTML elements (e.g., `<button>`, `<input>`, `<header>`) instead of generic elements like `<div>` or `<span>` for interactive content.
-- **React Accessibility Features**: React automatically includes certain accessibility optimizations, such as setting default roles for elements like `<button>` and `<input>`.
-- **State Management**: Use React’s state to dynamically control accessibility features, such as toggling ARIA attributes.
-
----
-
 ## Best Practices for Accessible React Development
+
+Our template includes a pre-built [UI Kit](/client/src/components/uikit/) featuring accessible components like `Button`, `Text`, or `TextInput`. These components are designed with accessibility in mind, leveraging [React Aria](https://react-spectrum.adobe.com/react-aria/index.html) to provide a solid foundation for inclusivity. We strongly recommend using these components wherever possible to ensure consistent and reliable accessibility standards across your application.
+
+> [!TIP]
+> The following tips mostly apply when you are not able to use React Aria and have to implement something from scratch.
 
 ### 1. Use Semantic HTML
 
@@ -49,12 +42,7 @@ Our template includes a pre-built UI kit featuring accessible components like `B
 ### 4. Provide Visual Feedback for Focus
 
 - Ensure that focused elements are clearly highlighted.
-- Example CSS:
-  ```css
-  '&:focus': {
-      $focusRing: true,
-    },
-  ```
+- Use [Panda CSS utilities](/client/src/styled-system/setup/utilities.ts) like `$focusRing` to create visual feedback for focus.
 
 ### 5. Maintain Sufficient Color Contrast
 
@@ -63,15 +51,14 @@ Our template includes a pre-built UI kit featuring accessible components like `B
   - Normal text: 4.5:1
   - Large text: 3:1
 
-> Note: this should be handled by the design system, but it is important to be aware of it.
+> [!NOTE]
+> This should be handled by the design system, but it is important to be aware of it.
 
 ### 6. Support Keyboard Navigation and Shortcuts
 
 - Provide full functionality using only the keyboard.
 - Example: Use `onKeyDown` or `onKeyUp` handlers to support shortcuts.
 - Ensure shortcuts are intuitive and do not conflict with assistive technologies.
-
----
 
 ## How to Test Accessibility
 
@@ -105,8 +92,6 @@ Accessibility testing ensures your app meets WCAG standards and works with assis
 
 3. **Color Contrast Testing**
    - Use contrast checker tools to validate that your color scheme meets WCAG guidelines.
-
----
 
 ## Accessibility Checklist
 

@@ -28,44 +28,39 @@ export const config = {
 
 ### Sentry Initialization
 
-The Sentry SDK is initialized in the `setupErrorReporting` function from the [`reporting.ts`](/client/src/services/reporting.ts) file, which is called in the [`index.tsx`](/client/src/index.tsx) file. The initialization is conditionally executed based on the `ERROR_REPORTING_ENABLED` flag.
-
-```jsx
-import { init } from '@sentry/browser';
-
-import { config } from '~/constants/config';
-
-export function setupErrorReporting() {
-  if (config.ERROR_REPORTING_ENABLED) {
-    init({ dsn: config.SENTRY_DSN });
-  } else {
-    console.log('Ignoring error reporting setup for this environment');
-  }
-}
-```
+The Sentry SDK is initialized in the [`setupErrorReporting`](/client/src/services/reporting.ts). The initialization is conditionally executed based on the `ERROR_REPORTING_ENABLED` flag, which should be disabled in development environments.
 
 ### Usage
 
 By default, any routing errors are captured and reported using Sentry. The [`RouteError`](/client/src/routes/route-error.tsx) component is responsible for capturing and reporting route errors, while the [`ErrorView`](/client/src/components/common/error-view.tsx) component displays an error message and provides options to report the error or reload the page.
 
-As in `ErrorView`, you can add Sentry error reporting to other components by calling `captureException` with the error object. The following example demonstrates how to capture an error in a component:
+You can add Sentry error reporting to other components by calling `captureException` with the error object. The following example demonstrates how to capture an exception in a component:
 
 ```jsx
 import { captureException } from '@sentry/browser';
 
 function MyComponent() {
-  try {
-    // Code that may throw an error
-  } catch (error) {
-    console.error('Error occurred:', error);
-    if (config.ERROR_REPORTING_ENABLED) {
-      captureException(error);
+  const handleClick = () => {
+    try {
+      // Code that may throw an error
+    } catch (error) {
+      console.error('Error occurred:', error);
+      if (config.ERROR_REPORTING_ENABLED) {
+        captureException(error);
+      }
     }
-  }
+  };
+
+  return (
+    <div>
+      <button onClick={handleClick}>Click me</button>
+    </div>
+  );
 }
 ```
 
-> Note: The `ERROR_REPORTING_ENABLED` flag is used to conditionally enable Sentry error reporting in production environments. Ensure that you set the flag to `true` in your production environment.
+> [!NOTE]
+> The `ERROR_REPORTING_ENABLED` flag is used to conditionally enable Sentry error reporting in production environments. Ensure that you set the flag to `true` in your production environment.
 
 ## Summary
 
