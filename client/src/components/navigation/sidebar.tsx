@@ -1,6 +1,7 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 import { type LinkProps } from '@tanstack/react-router';
 
+import { isFeatureEnabled } from '~/services/feature-flags';
 import { logout, useAuthStore } from '~/stores/auth-store';
 import { styled } from '~/styled-system/jsx';
 import { stack } from '~/styled-system/patterns';
@@ -14,6 +15,7 @@ import { Link } from './link';
 export function Sidebar() {
   const { t } = useLingui();
   const authStatus = useAuthStore(state => state.status);
+  const feature3Enabled = isFeatureEnabled('feature-3');
 
   const items: Array<{
     label: string;
@@ -40,6 +42,15 @@ export function Sidebar() {
       testId: 'navigate-to-theming',
     },
   ];
+
+  if (feature3Enabled) {
+    items.push({
+      label: t`Feature Flags`,
+      icon: 'save',
+      to: '/$workspaceId/feature-3',
+      testId: 'navigate-to-feature-flags',
+    });
+  }
 
   async function handleLogout() {
     try {

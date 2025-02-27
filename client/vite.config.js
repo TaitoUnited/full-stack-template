@@ -120,6 +120,7 @@ export default defineConfig(({ mode }) => ({
     },
   },
   test: {
+    dir: 'src',
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/test/setup.tsx',

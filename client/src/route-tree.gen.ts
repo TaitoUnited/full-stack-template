@@ -17,6 +17,7 @@ import { Route as indexImport } from './routes/index';
 import { Route as workspaceWorkspacerouteImport } from './routes/workspace/workspace.route';
 import { Route as themingThemingrouteImport } from './routes/theming/theming.route';
 import { Route as postListPostListrouteImport } from './routes/post-list/post-list.route';
+import { Route as feature3routeImport } from './routes/feature-3.route';
 import { Route as homeHomerouteImport } from './routes/home/home.route';
 import { Route as postCreatePostCreaterouteImport } from './routes/post-create/post-create.route';
 import { Route as postPostrouteImport } from './routes/post/post.route';
@@ -55,6 +56,12 @@ const themingThemingrouteRoute = themingThemingrouteImport.update({
 const postListPostListrouteRoute = postListPostListrouteImport.update({
   id: '/posts',
   path: '/posts',
+  getParentRoute: () => workspaceWorkspacerouteRoute,
+} as any);
+
+const feature3routeRoute = feature3routeImport.update({
+  id: '/feature-3',
+  path: '/feature-3',
   getParentRoute: () => workspaceWorkspacerouteRoute,
 } as any);
 
@@ -115,6 +122,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof homeHomerouteImport;
       parentRoute: typeof workspaceWorkspacerouteImport;
     };
+    '/_app/$workspaceId/feature-3': {
+      id: '/_app/$workspaceId/feature-3';
+      path: '/feature-3';
+      fullPath: '/$workspaceId/feature-3';
+      preLoaderRoute: typeof feature3routeImport;
+      parentRoute: typeof workspaceWorkspacerouteImport;
+    };
     '/_app/$workspaceId/posts': {
       id: '/_app/$workspaceId/posts';
       path: '/posts';
@@ -150,6 +164,7 @@ declare module '@tanstack/react-router' {
 
 interface workspaceWorkspacerouteRouteChildren {
   homeHomerouteRoute: typeof homeHomerouteRoute;
+  feature3routeRoute: typeof feature3routeRoute;
   postListPostListrouteRoute: typeof postListPostListrouteRoute;
   themingThemingrouteRoute: typeof themingThemingrouteRoute;
   postPostrouteRoute: typeof postPostrouteRoute;
@@ -159,6 +174,7 @@ interface workspaceWorkspacerouteRouteChildren {
 const workspaceWorkspacerouteRouteChildren: workspaceWorkspacerouteRouteChildren =
   {
     homeHomerouteRoute: homeHomerouteRoute,
+    feature3routeRoute: feature3routeRoute,
     postListPostListrouteRoute: postListPostListrouteRoute,
     themingThemingrouteRoute: themingThemingrouteRoute,
     postPostrouteRoute: postPostrouteRoute,
@@ -189,6 +205,7 @@ export interface FileRoutesByFullPath {
   '/$workspaceId': typeof workspaceWorkspacerouteRouteWithChildren;
   '/': typeof indexRoute;
   '/$workspaceId/': typeof homeHomerouteRoute;
+  '/$workspaceId/feature-3': typeof feature3routeRoute;
   '/$workspaceId/posts': typeof postListPostListrouteRoute;
   '/$workspaceId/theming': typeof themingThemingrouteRoute;
   '/$workspaceId/posts/$id': typeof postPostrouteRoute;
@@ -199,6 +216,7 @@ export interface FileRoutesByTo {
   '/login': typeof loginLoginrouteRoute;
   '/': typeof indexRoute;
   '/$workspaceId': typeof homeHomerouteRoute;
+  '/$workspaceId/feature-3': typeof feature3routeRoute;
   '/$workspaceId/posts': typeof postListPostListrouteRoute;
   '/$workspaceId/theming': typeof themingThemingrouteRoute;
   '/$workspaceId/posts/$id': typeof postPostrouteRoute;
@@ -212,6 +230,7 @@ export interface FileRoutesById {
   '/_app/$workspaceId': typeof workspaceWorkspacerouteRouteWithChildren;
   '/_app/': typeof indexRoute;
   '/_app/$workspaceId/': typeof homeHomerouteRoute;
+  '/_app/$workspaceId/feature-3': typeof feature3routeRoute;
   '/_app/$workspaceId/posts': typeof postListPostListrouteRoute;
   '/_app/$workspaceId/theming': typeof themingThemingrouteRoute;
   '/_app/$workspaceId/posts_/$id': typeof postPostrouteRoute;
@@ -226,6 +245,7 @@ export interface FileRouteTypes {
     | '/$workspaceId'
     | '/'
     | '/$workspaceId/'
+    | '/$workspaceId/feature-3'
     | '/$workspaceId/posts'
     | '/$workspaceId/theming'
     | '/$workspaceId/posts/$id'
@@ -235,6 +255,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/'
     | '/$workspaceId'
+    | '/$workspaceId/feature-3'
     | '/$workspaceId/posts'
     | '/$workspaceId/theming'
     | '/$workspaceId/posts/$id'
@@ -246,6 +267,7 @@ export interface FileRouteTypes {
     | '/_app/$workspaceId'
     | '/_app/'
     | '/_app/$workspaceId/'
+    | '/_app/$workspaceId/feature-3'
     | '/_app/$workspaceId/posts'
     | '/_app/$workspaceId/theming'
     | '/_app/$workspaceId/posts_/$id'
@@ -292,6 +314,7 @@ export const routeTree = rootRoute
       "parent": "/_app",
       "children": [
         "/_app/$workspaceId/",
+        "/_app/$workspaceId/feature-3",
         "/_app/$workspaceId/posts",
         "/_app/$workspaceId/theming",
         "/_app/$workspaceId/posts_/$id",
@@ -304,6 +327,10 @@ export const routeTree = rootRoute
     },
     "/_app/$workspaceId/": {
       "filePath": "home/home.route.tsx",
+      "parent": "/_app/$workspaceId"
+    },
+    "/_app/$workspaceId/feature-3": {
+      "filePath": "feature-3.route.tsx",
       "parent": "/_app/$workspaceId"
     },
     "/_app/$workspaceId/posts": {

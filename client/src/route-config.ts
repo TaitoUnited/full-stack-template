@@ -9,6 +9,7 @@ export const routeConfig = rootRoute('root.tsx', [
       route('/posts_/create', 'post-create/post-create.route.tsx'),
       route('/posts_/$id', 'post/post.route.tsx'),
       route('/theming', 'theming/theming.route.tsx'),
+      route('/feature-3', 'feature-3.route.tsx'), // Example of a feature flag.
     ]),
   ]),
   route('/login', 'login/login.route.tsx'),
