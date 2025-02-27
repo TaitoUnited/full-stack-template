@@ -60,7 +60,7 @@ export async function verifyAuth() {
 
   const { data } = await apolloClient.query({
     query: MeQuery,
-    fetchPolicy: 'cache-first',
+    fetchPolicy: 'network-only',
   });
 
   let authenticated = false;
