@@ -1,10 +1,4 @@
-import {
-  type ComponentProps,
-  type CSSProperties,
-  type HTMLAttributes,
-  memo,
-} from 'react';
-import { Text as AriaText } from 'react-aria-components';
+import { type CSSProperties, type HTMLAttributes, memo } from 'react';
 
 import { type Typography } from '~/design-tokens/types';
 import { cva, cx } from '~/styled-system/css';
@@ -26,14 +20,13 @@ type AllowedElement =
   | 'strong'
   | 'sub';
 
-type Props = HTMLAttributes<HTMLSpanElement> &
-  ComponentProps<typeof AriaText> & {
-    variant: Typography;
-    color?: StyledSystemToken<ColorToken>;
-    align?: CSSProperties['textAlign'];
-    lineHeight?: CSSProperties['lineHeight'];
-    as?: AllowedElement;
-  };
+type Props = HTMLAttributes<HTMLSpanElement> & {
+  variant: Typography;
+  color?: StyledSystemToken<ColorToken>;
+  align?: CSSProperties['textAlign'];
+  lineHeight?: CSSProperties['lineHeight'];
+  as?: AllowedElement;
+};
 
 function TextBase({
   as,
@@ -46,12 +39,11 @@ function TextBase({
   color = 'text',
   ...rest
 }: Props) {
-  const elementType = as || variantToElement[variant];
+  const Element = as || variantToElement[variant];
 
   return (
-    <AriaText
+    <Element
       {...rest}
-      elementType={elementType}
       className={cx(styles({ variant }), className)}
       style={{
         ...style,
@@ -61,7 +53,7 @@ function TextBase({
       }}
     >
       {children}
-    </AriaText>
+    </Element>
   );
 }
 
@@ -97,6 +89,7 @@ const styles = cva({
   base: {
     margin: '0px',
     maxWidth: '100%',
+    lineHeight: 1, // don't let text line height contribute to the whitespace
   },
   variants: {
     variant: {

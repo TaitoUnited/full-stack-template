@@ -5,30 +5,31 @@ import {
 } from '@internationalized/date';
 import type { Meta, StoryObj } from '@storybook/react';
 import { type ComponentProps, useState } from 'react';
+import { type DateRange } from 'react-aria';
 
-import { DatePicker } from '.';
+import { DateRangePicker } from '.';
 import { Toaster } from '../toaster';
 
 export default {
-  title: 'DatePicker',
-  component: DatePicker,
-} satisfies Meta<typeof DatePicker>;
+  title: 'DateRangePicker',
+  component: DateRangePicker,
+} satisfies Meta<typeof DateRangePicker>;
 
-type Story = StoryObj<typeof DatePicker>;
+type Story = StoryObj<typeof DateRangePicker>;
 
 const now = today(getLocalTimeZone());
 
 export const Basic: Story = {
   args: {
-    label: 'Pick date',
-    defaultValue: now.subtract({ days: 1 }),
+    label: 'Pick date range',
+    defaultValue: { start: now.subtract({ days: 7 }), end: now },
   },
   render: args => <Example {...args} />,
 };
 
 export const Required: Story = {
   args: {
-    label: 'Pick date',
+    label: 'Pick date range',
     isRequired: true,
   },
   render: args => <Example {...args} />,
@@ -36,18 +37,8 @@ export const Required: Story = {
 
 export const Clear: Story = {
   args: {
-    label: 'Pick date',
-    defaultValue: now,
-    clearable: true,
-  },
-  render: args => <Example {...args} />,
-};
-
-export const ClearAndCopy: Story = {
-  args: {
-    label: 'Pick date',
-    defaultValue: now,
-    copiable: true,
+    label: 'Pick date range',
+    defaultValue: { start: now.subtract({ days: 7 }), end: now },
     clearable: true,
   },
   render: args => <Example {...args} />,
@@ -55,7 +46,7 @@ export const ClearAndCopy: Story = {
 
 export const LabelPosition: Story = {
   args: {
-    label: 'Pick date (label on the left side of the input)',
+    label: 'Pick date range (label on the left side of the input)',
     labelPosition: 'left',
     isRequired: true,
   },
@@ -71,7 +62,7 @@ export const HiddenLabel: Story = {
 
 export const UnavailableDates: Story = {
   args: {
-    label: 'Pick date',
+    label: 'Pick date range',
     isDateUnavailable,
   },
   render: args => <Example {...args} />,
@@ -80,16 +71,19 @@ export const UnavailableDates: Story = {
 function Example({
   defaultValue,
   ...props
-}: ComponentProps<typeof DatePicker>) {
-  const [date, setDate] = useState(
-    defaultValue ? defaultValue.toString() : undefined
+}: ComponentProps<typeof DateRangePicker>) {
+  const [date, setDate] = useState<DateRange | null>(
+    defaultValue ?? {
+      start: now.subtract({ days: 7 }),
+      end: now,
+    }
   );
 
   return (
     <div
-      style={{ maxWidth: props.labelPosition === 'left' ? '500px' : '220px' }}
+      style={{ maxWidth: props.labelPosition === 'left' ? '500px' : '250px' }}
     >
-      <DatePicker {...props} value={date} onChange={setDate} />
+      <DateRangePicker {...props} value={date} onChange={setDate} />
       <Toaster />
     </div>
   );

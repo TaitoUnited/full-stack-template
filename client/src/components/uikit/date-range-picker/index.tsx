@@ -1,4 +1,3 @@
-import { parseDate } from '@internationalized/date';
 import { useLingui } from '@lingui/react/macro';
 import { capitalize } from 'lodash';
 import { type Ref, useState } from 'react';
@@ -7,23 +6,25 @@ import {
   CalendarGrid as AriaCalendarGrid,
   CalendarHeaderCell as AriaCalendarHeaderCell,
   DateInput as AriaDateInput,
-  DatePicker as AriaDatePicker,
-  Calendar,
+  DateRangePicker as AriaDateRangePicker,
   CalendarGridBody,
   CalendarGridHeader,
-  type DatePickerProps,
+  type DateRange,
+  type DateRangePickerProps,
   DateSegment,
   type DateValue,
   Dialog,
   Group,
   Popover,
+  RangeCalendar,
 } from 'react-aria-components';
 
-import { useEventListener } from '~/hooks/use-event-listener';
 import { cx } from '~/styled-system/css';
 import { styled } from '~/styled-system/jsx';
 
 import { Button } from '../button';
+import { CalendarMonthGrid } from '../date-picker/calendar-month-grid';
+import { CalendarYearGrid } from '../date-picker/calendar-year-grid';
 import { Icon } from '../icon';
 import { IconButton } from '../icon-button';
 import {
@@ -36,25 +37,26 @@ import { InputLayout } from '../partials/input-layout';
 import { getValidationParams } from '../partials/validation';
 import { Stack } from '../stack';
 import { Text } from '../text';
-import { toast } from '../toaster';
-import { CalendarMonthGrid } from './calendar-month-grid';
-import { CalendarYearGrid } from './calendar-year-grid';
 
-type Props = FormComponentProps<DatePickerProps<DateValue>> & {
+type Props<T extends DateValue> = Omit<
+  FormComponentProps<DateRangePickerProps<T>>,
+  'value' | 'onChange'
+> & {
   ref?: Ref<HTMLDivElement>;
   clearable?: boolean;
-  copiable?: boolean;
+  value: DateRange | null;
+  onChange?: (value: DateRange | null) => void;
 };
 
 /**
  * Date picker component
  *
- * @ref https://react-spectrum.adobe.com/react-aria/DatePicker.html
+ * @ref https://react-spectrum.adobe.com/react-aria/DateRangePicker.html
  *
  * @prop value - Date string in format: yyyy-mm-dd
  * @prop onChange - Callback for new value, format: yyyy-mm-dd
  */
-export function DatePicker({
+export function DateRangePicker<T extends DateValue>({
   ref,
   label,
   labelledby,
@@ -63,84 +65,30 @@ export function DatePicker({
   description,
   validationMessage,
   clearable,
-  copiable,
   value,
   onChange,
   ...rest
-}: Props) {
+}: Props<T>) {
   const { t, i18n } = useLingui();
   const inputContext = useInputContext();
   const labelPosition = labelPositionProp ?? inputContext.labelPosition;
   const validation = getValidationParams(validationMessage);
   const [state, setState] = useState<'day' | 'month' | 'year'>('day');
-  const [focused, setFocused] = useState(false);
-  const [copied, setCopied] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
-  function handleCopyToClipboard() {
-    setCopied(true);
-    try {
-      const valueInCopyFormat = valueToCopyFormat(value ?? '');
-      navigator.clipboard.writeText(valueInCopyFormat);
-    } catch (e) {
-      console.error(e);
-      toast(t`Could not copy date`, { icon: 'error' });
-    } finally {
-      setTimeout(() => setCopied(false), 2000);
-    }
-  }
-
-  useEventListener({
-    event: 'paste',
-    handler: (e: ClipboardEvent) => {
-      let clipboardText: string | undefined;
-      try {
-        clipboardText = e.clipboardData?.getData('text');
-        if (!clipboardText) throw new Error();
-
-        const parsed = parseInputDate(clipboardText);
-        if (!parsed) throw new Error();
-
-        onChange?.(parsed);
-      } catch (e) {
-        console.error(e);
-        toast(t`Could not paste "${clipboardText}" as a date`, {
-          icon: 'error',
-        });
-      }
-    },
-    enabled: focused,
-    ref: window.document,
-  });
-
-  useEventListener({
-    event: 'copy',
-    handler: () => {
-      handleCopyToClipboard();
-    },
-    enabled: focused,
-    ref: window.document,
-  });
-
   return (
-    <AriaDatePicker
+    <AriaDateRangePicker
       {...rest}
       aria-labelledby={labelledby}
       aria-label={hiddenLabel}
       ref={ref}
       isInvalid={validation.type === 'error'}
       granularity="day"
-      value={value ? parseDate(value) : null}
-      onChange={date => {
-        if (date) onChange?.(date.toString());
+      value={value}
+      onChange={dateRange => {
+        if (dateRange) onChange?.(dateRange);
         setState('day');
         setIsOpen(false);
-      }}
-      onFocus={() => {
-        setFocused(true);
-      }}
-      onBlur={() => {
-        setFocused(false);
       }}
       className={cx(inputWrapperStyles({ labelPosition }), rest.className)}
     >
@@ -156,9 +104,17 @@ export function DatePicker({
             invalidVisible: validation.position === 'below',
           })}
         >
-          <DateInput data-testid="date-picker-input">
-            {segment => <DateInputSegment segment={segment} />}
-          </DateInput>
+          <Stack gap="xxs" align="center">
+            <DateInput data-testid="date-range-picker-input-start" slot="start">
+              {segment => <DateInputSegment segment={segment} />}
+            </DateInput>
+            <Text variant="body" as="span">
+              {' - '}
+            </Text>
+            <DateInput data-testid="date-range-picker-input-end" slot="end">
+              {segment => <DateInputSegment segment={segment} />}
+            </DateInput>
+          </Stack>
           {clearable && value && (
             <IconButton
               icon="close"
@@ -166,19 +122,7 @@ export function DatePicker({
               size={24}
               slot={null} // Explicit null slot disables RAC props from parent -> doesn't open the dialog
               onPress={() => {
-                onChange?.('');
-              }}
-            />
-          )}
-          {copiable && value && (
-            <IconButton
-              icon={copied ? 'check' : 'copy'}
-              color={copied ? 'success' : 'neutral'}
-              label={copied ? t`Copied to clipboard` : t`Copy date`}
-              size={24}
-              slot={null} // Explicit null slot disables RAC props from parent -> doesn't open the dialog
-              onPress={() => {
-                handleCopyToClipboard();
+                onChange?.(null);
               }}
             />
           )}
@@ -192,7 +136,7 @@ export function DatePicker({
         </DateInputContainer>
       </InputLayout>
 
-      <DatePickerPopover
+      <DateRangePickerPopover
         data-testid="date-picker-popover"
         isOpen={isOpen}
         onOpenChange={isOpen => {
@@ -200,8 +144,8 @@ export function DatePicker({
           if (!isOpen) setState('day');
         }}
       >
-        <DatePickerDialog>
-          <Calendar data-testid="date-picker-calendar">
+        <DateRangePickerDialog>
+          <RangeCalendar data-testid="date-range-picker-calendar">
             {date => (
               <>
                 <CalendarHeader>
@@ -302,55 +246,11 @@ export function DatePicker({
                 )}
               </>
             )}
-          </Calendar>
-        </DatePickerDialog>
-      </DatePickerPopover>
-    </AriaDatePicker>
+          </RangeCalendar>
+        </DateRangePickerDialog>
+      </DateRangePickerPopover>
+    </AriaDateRangePicker>
   );
-}
-
-function parseInputDate(input: string): string | null {
-  const patterns = [
-    /^(\d{1,2})[./](\d{1,2})[./](\d{4})$/, // 1.3.2024 or 1/3/2024
-    /^(\d{4})-(\d{2})-(\d{2})$/, // 2024-03-01
-    /^(\d{4})(\d{2})(\d{2})$/, // 20240301
-  ];
-
-  for (const pattern of patterns) {
-    const match = input.match(pattern);
-    if (match) {
-      let day: string | undefined;
-      let month: string | undefined;
-      let year: string | undefined;
-
-      /**
-       * The first return value of .match() is the input string.
-       * All other values are mapped to corresponding variables based on the pattern.
-       */
-      if (pattern === patterns[0]) {
-        [, day, month, year] = match;
-      } else if (pattern === patterns[1]) {
-        [, year, month, day] = match;
-      } else if (pattern === patterns[2]) {
-        [, year, month, day] = match;
-      }
-
-      if (!year || !month || !day) return null;
-
-      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-    }
-  }
-  return null;
-}
-
-// Parses value (2024-01-01) to copy format (1.1.2024)
-function valueToCopyFormat(value: string) {
-  const [year, month, day] = value.split('-');
-
-  const formattedMonth = Number(month) < 10 ? month?.slice(1) : month;
-  const formattedDay = Number(day) < 10 ? day?.slice(1) : day;
-
-  return `${formattedDay}.${formattedMonth}.${year}`;
 }
 
 const CalendarStateButton = styled('button', {
@@ -370,7 +270,8 @@ const CalendarStateButton = styled('button', {
 const DateInputContainer = styled(Group, {
   base: {
     display: 'flex',
-    alignItems: 'center',
+    gap: '$xxs',
+    justifyContent: 'space-between',
 
     '&:has([data-focused])': {
       $focusRing: true,
@@ -391,7 +292,6 @@ const DateInput = styled(AriaDateInput, {
 
 const DateInputSegment = styled(DateSegment, {
   base: {
-    padding: '0px 1px',
     textStyle: '$body',
     color: '$text',
     lineHeight: 1,
@@ -409,7 +309,7 @@ const DateInputSegment = styled(DateSegment, {
   },
 });
 
-const DatePickerPopover = styled(Popover, {
+const DateRangePickerPopover = styled(Popover, {
   base: {
     '&[data-entering]': {
       $fadeFromTop: '150ms ease-out',
@@ -420,7 +320,7 @@ const DatePickerPopover = styled(Popover, {
   },
 });
 
-const DatePickerDialog = styled(Dialog, {
+const DateRangePickerDialog = styled(Dialog, {
   base: {
     backgroundColor: '$surface',
     padding: '$regular',
@@ -506,6 +406,10 @@ const CalendarCell = styled(AriaCalendarCell, {
     },
 
     '&[data-selected]': {
+      backgroundColor: '$primaryMuted',
+    },
+
+    '&[data-selection-start], &[data-selection-end]': {
       backgroundColor: '$primary',
       color: '$textOnContrastingBg',
       textStyle: '$bodySemiBold',
