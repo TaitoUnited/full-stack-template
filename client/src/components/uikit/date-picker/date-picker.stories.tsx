@@ -7,7 +7,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { type ComponentProps, useState } from 'react';
 
 import { DatePicker } from '.';
-import { Toaster } from '../toaster';
 
 export default {
   title: 'DatePicker',
@@ -30,25 +29,6 @@ export const Required: Story = {
   args: {
     label: 'Pick date',
     isRequired: true,
-  },
-  render: args => <Example {...args} />,
-};
-
-export const Clear: Story = {
-  args: {
-    label: 'Pick date',
-    defaultValue: now,
-    clearable: true,
-  },
-  render: args => <Example {...args} />,
-};
-
-export const ClearAndCopy: Story = {
-  args: {
-    label: 'Pick date',
-    defaultValue: now,
-    copiable: true,
-    clearable: true,
   },
   render: args => <Example {...args} />,
 };
@@ -87,10 +67,9 @@ function Example({
 
   return (
     <div
-      style={{ maxWidth: props.labelPosition === 'left' ? '500px' : '220px' }}
+      style={{ maxWidth: props.labelPosition === 'left' ? '500px' : '200px' }}
     >
       <DatePicker {...props} value={date} onChange={setDate} />
-      <Toaster />
     </div>
   );
 }
@@ -103,10 +82,7 @@ function isDateUnavailable(date: DateValue) {
   ];
 
   return disabledRanges.some(
-    interval =>
-      interval[0] &&
-      interval[1] &&
-      date.compare(interval[0]) >= 0 &&
-      date.compare(interval[1]) <= 0
+    ([start, end]) =>
+      start && end && date.compare(start) >= 0 && date.compare(end) <= 0
   );
 }

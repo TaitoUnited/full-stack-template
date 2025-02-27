@@ -111,75 +111,73 @@ export const inputWrapperStyles = cva({
   },
 });
 
-export const inputBaseStyles = cva({
-  base: {
-    /**
-     * Expose some variables so that they can be used inside the input base
-     * component, eg. in `LanguageTextField` component.
-     */
-    '--outline-width': '1px',
-    '--padding-vertical': 'token($spacing.xs)',
-    '--padding-horizontal': 'token($spacing.small)',
+export const inputBaseStyles = css({
+  /**
+   * Expose some variables so that they can be used inside the input base
+   * component, eg. in `LanguageTextField` component.
+   */
+  '--outline-width': '1px',
+  '--padding-vertical': 'token($spacing.xs)',
+  '--padding-horizontal': 'token($spacing.small)',
 
-    textStyle: '$body',
-    textAlign: 'left',
-    paddingTop: 'var(--padding-vertical)',
-    paddingBottom: 'var(--padding-vertical)',
-    paddingLeft: 'var(--padding-horizontal)',
-    paddingRight: 'var(--padding-horizontal)',
-    minHeight: '40px',
-    width: '100%',
-    color: '$text',
-    borderRadius: '$regular',
-    borderWidth: '1px',
-    borderColor: '$line1',
-    outlineOffset: 'calc(0px - var(--outline-width))',
-    backgroundColor: '$surface',
-    textOverflow: 'ellipsis',
+  textStyle: '$body',
+  textAlign: 'left',
+  paddingTop: 'var(--padding-vertical)',
+  paddingBottom: 'var(--padding-vertical)',
+  paddingLeft: 'var(--padding-horizontal)',
+  paddingRight: 'var(--padding-horizontal)',
+  minHeight: '40px',
+  width: '100%',
+  color: '$text',
+  borderRadius: '$regular',
+  borderWidth: '1px',
+  borderColor: '$line1',
+  outlineOffset: 'calc(0px - var(--outline-width))',
+  backgroundColor: '$surface',
 
-    /**
-     * Use `focus-within` so that components that use these styles for a wrapper
-     * component gets the correct focus styles when the inner input is focused.
-     */
-    '&:focus-within': {
-      '--outline-width': '2px',
-      borderColor: 'transparent',
-      outline: 'var(--outline-width) solid token($colors.focusRing)',
-    },
-
-    '&[disabled], &:has([disabled])': {
-      backgroundColor: '$neutral5',
-      cursor: 'not-allowed',
-      borderColor: '$line2',
-    },
+  /**
+   * Use `focus-within` so that components that use these styles for a wrapper
+   * component gets the correct focus styles when the inner input is focused.
+   */
+  '&:focus-within': {
+    '--outline-width': '2px',
+    borderColor: 'transparent',
+    outline: 'var(--outline-width) solid token($colors.focusRing)',
   },
-  variants: {
-    invalidVisible: {
-      false: {},
-      true: {
-        /**
-         * Use `:has()` to allow using these styles on a wrapper component instead
-         * of the input itself, eg. in `LanguageTextField` component.
-         */
-        '&[aria-invalid="true"],\
-         &[data-invalid="true"],\
-         &:has([aria-invalid="true"]),\
-         &:has([data-invalid="true"])': {
-          borderColor: 'transparent',
-          outline: 'var(--outline-width) solid token($colors.error)',
-        },
-      },
-    },
+
+  /**
+   * Use `:has()` to allow using these styles on a wrapper component instead
+   * of the input itself, eg. in `LanguageTextField` component.
+   */
+  '&[aria-invalid="true"],\
+   &[data-invalid="true"],\
+   &:has([aria-invalid="true"]),\
+   &:has([data-invalid="true"])': {
+    borderColor: 'transparent',
+    outline: 'var(--outline-width) solid token($colors.error)',
   },
-  defaultVariants: {
-    invalidVisible: true,
+  '&[disabled], &:has([disabled])': {
+    backgroundColor: '$neutral5',
+    cursor: 'not-allowed',
+    borderColor: '$line2',
   },
 });
 
-export const labelContainerStyles = cva({
+/**
+ * Add a `data-required` attribute to render an `*` after the label
+ */
+export const labelStyles = cva({
   base: {
-    display: 'flex',
-    gap: '$xs',
+    textStyle: '$label',
+    textWrap: 'balance', // prettier multilines
+    color: '$text',
+
+    '&[data-required="true"]': {
+      '&:after': {
+        content: '" *"',
+        color: '$error',
+      },
+    },
   },
   variants: {
     labelPosition: {
@@ -187,8 +185,6 @@ export const labelContainerStyles = cva({
         lineHeight: 1.4,
         paddingTop: '$xxs',
         width: 'var(--label-width, auto)',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
         textAlign: 'right',
       },
       top: {
@@ -198,23 +194,6 @@ export const labelContainerStyles = cva({
   },
   defaultVariants: {
     labelPosition: defaultLabelPosition,
-  },
-});
-
-/**
- * Add a `data-required` attribute to render an `*` after the label
- */
-export const labelStyles = css({
-  textStyle: '$label',
-  textWrap: 'balance', // prettier multilines
-  color: '$text',
-  lineHeight: 'inherit',
-
-  '&[data-required="true"]': {
-    '&:after': {
-      content: '" *"',
-      color: '$error',
-    },
   },
 });
 
@@ -273,20 +252,14 @@ export const listBoxItemStyles = css({
 
 // Common input types for consistent form component API
 
-export type ValidationMessageOptions = {
-  message: ReactNode;
-  type: 'error' | 'warning';
-  position: 'below' | 'popover';
-};
-
 /**
  * Common form component props for components that do not use React Aria
  */
-export type CommonFormProps = {
+type CommonFormProps = {
   labelPosition?: LabelPosition;
   placeholder?: string;
-  validationMessage?: string | ValidationMessageOptions;
-  infoMessage?: string;
+  /** Passing an `errorMessage` as prop toggles the input as invalid. */
+  errorMessage?: string;
   description?: string;
   className?: string;
   style?: CSSProperties;
