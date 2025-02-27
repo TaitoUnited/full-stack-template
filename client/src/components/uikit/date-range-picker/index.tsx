@@ -1,6 +1,6 @@
 import { useLingui } from '@lingui/react/macro';
 import { capitalize } from 'lodash';
-import { type Ref, useState } from 'react';
+import { type Ref, useCallback, useState } from 'react';
 import {
   CalendarCell as AriaCalendarCell,
   CalendarGrid as AriaCalendarGrid,
@@ -21,6 +21,7 @@ import {
 
 import { cx } from '~/styled-system/css';
 import { styled } from '~/styled-system/jsx';
+import { sleep } from '~/utils/promise';
 
 import { Button } from '../button';
 import { CalendarMonthGrid } from '../date-picker/calendar-month-grid';
@@ -37,24 +38,28 @@ import { InputLayout } from '../partials/input-layout';
 import { getValidationParams } from '../partials/validation';
 import { Stack } from '../stack';
 import { Text } from '../text';
+import { PredefinedRanges } from './predefined-ranges';
 
-type Props<T extends DateValue> = Omit<
+type DateRangePicker<T extends DateValue> = Omit<
   FormComponentProps<DateRangePickerProps<T>>,
   'value' | 'onChange'
 > & {
   ref?: Ref<HTMLDivElement>;
   clearable?: boolean;
+  preDefinable?: boolean;
   value: DateRange | null;
   onChange?: (value: DateRange | null) => void;
 };
 
 /**
- * Date picker component
+ * DateRangePicker component
  *
  * @ref https://react-spectrum.adobe.com/react-aria/DateRangePicker.html
  *
- * @prop value - Date string in format: yyyy-mm-dd
- * @prop onChange - Callback for new value, format: yyyy-mm-dd
+ * @template T - The type of the date value.
+ *
+ * @prop {DateRange | null} value - The current value of the date range picker, format of the dates: yyyy-mm-dd
+ * @prop {(value: DateRange | null) => void} onChange - Callback for when the date range changes, format of the dates: yyyy-mm-dd
  */
 export function DateRangePicker<T extends DateValue>({
   ref,
@@ -64,17 +69,43 @@ export function DateRangePicker<T extends DateValue>({
   labelPosition: labelPositionProp,
   description,
   validationMessage,
-  clearable,
+  clearable = false,
+  preDefinable = false,
   value,
   onChange,
   ...rest
-}: Props<T>) {
+}: DateRangePicker<T>) {
   const { t, i18n } = useLingui();
   const inputContext = useInputContext();
   const labelPosition = labelPositionProp ?? inputContext.labelPosition;
   const validation = getValidationParams(validationMessage);
-  const [state, setState] = useState<'day' | 'month' | 'year'>('day');
+  const [viewMode, setViewMode] = useState<'day' | 'month' | 'year'>('day');
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleDateChange = useCallback(
+    (dateRange: DateRange | null) => {
+      if (dateRange) {
+        onChange?.(dateRange);
+      }
+      setViewMode('day');
+      setIsOpen(false);
+    },
+    [onChange]
+  );
+
+  const handlePopoverStateChange = useCallback((isOpen: boolean) => {
+    setIsOpen(isOpen);
+    if (!isOpen) setViewMode('day');
+  }, []);
+
+  const onSelectRange = useCallback(
+    async (range: DateRange) => {
+      onChange?.(range);
+      await sleep(250);
+      setIsOpen(false);
+    },
+    [onChange]
+  );
 
   return (
     <AriaDateRangePicker
@@ -85,11 +116,7 @@ export function DateRangePicker<T extends DateValue>({
       isInvalid={validation.type === 'error'}
       granularity="day"
       value={value}
-      onChange={dateRange => {
-        if (dateRange) onChange?.(dateRange);
-        setState('day');
-        setIsOpen(false);
-      }}
+      onChange={handleDateChange}
       className={cx(inputWrapperStyles({ labelPosition }), rest.className)}
     >
       <InputLayout
@@ -117,9 +144,7 @@ export function DateRangePicker<T extends DateValue>({
               label={t`Clear date`}
               size={24}
               slot={null} // Explicit null slot disables RAC props from parent -> doesn't open the dialog
-              onPress={() => {
-                onChange?.(null);
-              }}
+              onPress={() => onChange?.(null)}
             />
           )}
           <IconButton
@@ -135,114 +160,133 @@ export function DateRangePicker<T extends DateValue>({
       <DateRangePickerPopover
         data-testid="date-picker-popover"
         isOpen={isOpen}
-        onOpenChange={isOpen => {
-          setIsOpen(isOpen);
-          if (!isOpen) setState('day');
-        }}
+        onOpenChange={handlePopoverStateChange}
       >
         <DateRangePickerDialog>
-          <RangeCalendar data-testid="date-range-picker-calendar">
-            {date => (
-              <>
-                <CalendarHeader>
-                  <Stack gap="$xxs">
-                    <CalendarStateButton
-                      onClick={() =>
-                        setState(p => (p === 'month' ? 'day' : 'month'))
-                      }
-                    >
-                      <Stack gap="$xxs" align="center">
-                        <Text variant="headingM">
-                          {capitalize(
-                            new Date(
-                              0,
-                              date.state.focusedDate.month - 1
-                            ).toLocaleDateString(i18n.locale, {
-                              month: 'long',
-                            })
-                          )}
-                        </Text>
-                        <Icon
-                          name={
-                            state === 'month' ? 'arrowDropUp' : 'arrowDropDown'
-                          }
-                          size={20}
-                          color="text"
-                        />
-                      </Stack>
-                    </CalendarStateButton>
-                    <CalendarStateButton
-                      onClick={() => {
-                        setState(p => (p === 'year' ? 'day' : 'year'));
-                      }}
-                    >
-                      <Stack gap="$xxs" align="center">
-                        <Text variant="headingM">
-                          {new Date(
-                            date.state.focusedDate.year,
-                            0
-                          ).toLocaleDateString(i18n.locale, {
-                            year: 'numeric',
-                          })}
-                        </Text>
-                        <Icon
-                          name={
-                            state === 'year' ? 'arrowDropUp' : 'arrowDropDown'
-                          }
-                          size={20}
-                          color="text"
-                        />
-                      </Stack>
-                    </CalendarStateButton>
-                  </Stack>
-                  {state === 'day' && (
-                    <Stack direction="row" gap="$xxs">
-                      <CalendarHeaderButton
-                        slot="previous"
-                        data-testid="date-picker-calendar-previous"
-                      >
-                        <Icon name="chevronLeft" color="text" size={22} />
-                      </CalendarHeaderButton>
-                      <CalendarHeaderButton
-                        slot="next"
-                        data-testid="date-picker-calendar-next"
-                      >
-                        <Icon name="chevronRight" color="text" size={22} />
-                      </CalendarHeaderButton>
-                    </Stack>
-                  )}
-                </CalendarHeader>
-
-                {state === 'day' && (
-                  <CalendarGrid>
-                    <CalendarGridHeader>
-                      {day => <CalendarHeaderCell>{day}</CalendarHeaderCell>}
-                    </CalendarGridHeader>
-                    <CalendarGridBody>
-                      {date => (
-                        <CalendarCell
-                          date={date}
-                          data-testid="date-picker-calendar-cell"
-                        />
-                      )}
-                    </CalendarGridBody>
-                  </CalendarGrid>
-                )}
-                {state === 'month' && (
-                  <CalendarMonthGrid
-                    state={date.state}
-                    onChange={() => setState('day')}
-                  />
-                )}
-                {state === 'year' && (
-                  <CalendarYearGrid
-                    state={date.state}
-                    onChange={() => setState('day')}
-                  />
-                )}
-              </>
+          <Stack
+            direction={{ base: 'column', sm: 'row' }}
+            gap={{ base: '$xxs', sm: '$regular' }}
+          >
+            {preDefinable && (
+              <PredefinedRanges
+                currentRange={value}
+                onSelectRange={onSelectRange}
+              />
             )}
-          </RangeCalendar>
+            <RangeCalendar
+              data-testid="date-range-picker-calendar"
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+              }}
+            >
+              {date => (
+                <>
+                  <CalendarHeader>
+                    <Stack gap="$xxs">
+                      <CalendarStateButton
+                        onClick={() =>
+                          setViewMode(p => (p === 'month' ? 'day' : 'month'))
+                        }
+                      >
+                        <Stack gap="$xxs" align="center">
+                          <Text variant="headingM">
+                            {capitalize(
+                              new Date(
+                                0,
+                                date.state.focusedDate.month - 1
+                              ).toLocaleDateString(i18n.locale, {
+                                month: 'long',
+                              })
+                            )}
+                          </Text>
+                          <Icon
+                            name={
+                              viewMode === 'month'
+                                ? 'arrowDropUp'
+                                : 'arrowDropDown'
+                            }
+                            size={20}
+                            color="text"
+                          />
+                        </Stack>
+                      </CalendarStateButton>
+                      <CalendarStateButton
+                        onClick={() => {
+                          setViewMode(p => (p === 'year' ? 'day' : 'year'));
+                        }}
+                      >
+                        <Stack gap="$xxs" align="center">
+                          <Text variant="headingM">
+                            {new Date(
+                              date.state.focusedDate.year,
+                              0
+                            ).toLocaleDateString(i18n.locale, {
+                              year: 'numeric',
+                            })}
+                          </Text>
+                          <Icon
+                            name={
+                              viewMode === 'year'
+                                ? 'arrowDropUp'
+                                : 'arrowDropDown'
+                            }
+                            size={20}
+                            color="text"
+                          />
+                        </Stack>
+                      </CalendarStateButton>
+                    </Stack>
+                    {viewMode === 'day' && (
+                      <Stack direction="row" gap="$xxs">
+                        <CalendarHeaderButton
+                          slot="previous"
+                          data-testid="date-picker-calendar-previous"
+                        >
+                          <Icon name="chevronLeft" color="text" size={22} />
+                        </CalendarHeaderButton>
+                        <CalendarHeaderButton
+                          slot="next"
+                          data-testid="date-picker-calendar-next"
+                        >
+                          <Icon name="chevronRight" color="text" size={22} />
+                        </CalendarHeaderButton>
+                      </Stack>
+                    )}
+                  </CalendarHeader>
+
+                  {viewMode === 'day' && (
+                    <CalendarGrid>
+                      <CalendarGridHeader>
+                        {day => <CalendarHeaderCell>{day}</CalendarHeaderCell>}
+                      </CalendarGridHeader>
+                      <CalendarGridBody>
+                        {date => (
+                          <CalendarCell
+                            date={date}
+                            data-testid="date-picker-calendar-cell"
+                          />
+                        )}
+                      </CalendarGridBody>
+                    </CalendarGrid>
+                  )}
+                  {viewMode === 'month' && (
+                    <CalendarMonthGrid
+                      state={date.state}
+                      onChange={() => setViewMode('day')}
+                    />
+                  )}
+                  {viewMode === 'year' && (
+                    <CalendarYearGrid
+                      state={date.state}
+                      onChange={() => setViewMode('day')}
+                    />
+                  )}
+                </>
+              )}
+            </RangeCalendar>
+          </Stack>
         </DateRangePickerDialog>
       </DateRangePickerPopover>
     </AriaDateRangePicker>
