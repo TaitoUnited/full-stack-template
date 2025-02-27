@@ -299,13 +299,13 @@ the unit tests for all user related testable units like utility functions.
 You can run unit tests with the following command:
 
 ```sh
-npm run unit
+npm run test:unit
 
 # Or with watch mode
-npm run unit:watch
+npm run test:unit:watch
 
 # Or with taito-cli
-taito unit:server
+taito test:unit:server
 ```
 
 ### API integration tests

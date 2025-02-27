@@ -19,21 +19,20 @@ else
   taito_project_short="${taito_vc_repository}"
 fi
 taito_project_short="${taito_project_short//-/}"
-if [[ ! ${taito_project_short} ]] || \
-   [[ "${#taito_project_short}" -lt 5 ]] || \
-   [[ "${#taito_project_short}" -gt 10 ]] || \
-   [[ ! "${taito_project_short}" =~ ^[a-zA-Z0-9]*$ ]]; then
+if [[ ! ${taito_project_short} ]] ||
+  [[ "${#taito_project_short}" -lt 5 ]] ||
+  [[ "${#taito_project_short}" -gt 10 ]] ||
+  [[ ! "${taito_project_short}" =~ ^[a-zA-Z0-9]*$ ]]; then
   echo "Give a short version of the project name '${taito_vc_repository}'."
   echo "It should be unique but also descriptive as it might be used"
   echo "as a database name and as a database username for some databases."
   echo "No special characters."
   echo
   export taito_project_short=""
-  while [[ ! ${taito_project_short} ]] || \
-    [[ "${#taito_project_short}" -lt 5 ]] || \
-    [[ "${#taito_project_short}" -gt 10 ]] || \
-    [[ ! "${taito_project_short}" =~ ^[a-zA-Z0-9]*$ ]]
-  do
+  while [[ ! ${taito_project_short} ]] ||
+    [[ "${#taito_project_short}" -lt 5 ]] ||
+    [[ "${#taito_project_short}" -gt 10 ]] ||
+    [[ ! "${taito_project_short}" =~ ^[a-zA-Z0-9]*$ ]]; do
     echo "Short project name (5-10 characters)?"
     read -r taito_project_short
   done
@@ -48,7 +47,7 @@ echo
 echo "If you are unsure, just accept the defaults."
 echo
 
-function prune () {
+function prune() {
   local message=$1
   local name=$2
   local path=$3
@@ -62,8 +61,8 @@ function prune () {
   echo
   read -r -t 1 -n 1000 || :
   read -p "$message" -n 1 -r confirm
-  if ( [[ "$message" == *"[y/N]"* ]] && ! [[ "${confirm}" =~ ^[Yy]$ ]] ) || \
-     ( [[ "$message" == *"[Y/n]"* ]] && ! [[ "${confirm}" =~ ^[Yy]*$ ]] ); then
+  if ([[ "$message" == *"[y/N]"* ]] && ! [[ "${confirm}" =~ ^[Yy]$ ]]) ||
+    ([[ "$message" == *"[Y/n]"* ]] && ! [[ "${confirm}" =~ ^[Yy]*$ ]]); then
     echo
     echo "  Removing ${name}..."
     if [[ $path ]]; then
@@ -100,7 +99,7 @@ function prune () {
     sed -i "s/install-all:$name //g" package.json
     sed -i "s/generate:$name //g" package.json
     sed -i "s/taito-host-lint:$name //g" package.json
-    sed -i "s/taito-host-unit:$name //g" package.json
+    sed -i "s/taito-host-test-unit:$name //g" package.json
     sed -i "s/taito-host-test:$name //g" package.json
     sed -i "s/lint:$name //g" package.json
     sed -i "s/unit:$name //g" package.json
@@ -161,13 +160,13 @@ function prune () {
       # Remove database from server implementation
       # TODO: works only for the default Node.js server implementation
       if [[ -d ./server ]] && [[ -f ./server/src/server.ts ]]; then
-        sed -i '/pg-promise/d' ./server/package.json &> /dev/null || :
-        sed -i '/types\\pg/d' ./server/package.json &> /dev/null || :
-        sed -i '/db/d' ./server/src/server.ts &> /dev/null || :
-        sed -i '/Db/d' ./server/src/common/setup/types.ts &> /dev/null || :
-        sed -i '/Database/d' ./server/src/common/setup/types.ts &> /dev/null || :
-        sed -i '/state.tx/d' ./server/src/infra/InfraRouter.ts &> /dev/null || :
-        rm -f ./server/src/common/setup/db.ts &> /dev/null || :
+        sed -i '/pg-promise/d' ./server/package.json &>/dev/null || :
+        sed -i '/types\\pg/d' ./server/package.json &>/dev/null || :
+        sed -i '/db/d' ./server/src/server.ts &>/dev/null || :
+        sed -i '/Db/d' ./server/src/common/setup/types.ts &>/dev/null || :
+        sed -i '/Database/d' ./server/src/common/setup/types.ts &>/dev/null || :
+        sed -i '/state.tx/d' ./server/src/infra/InfraRouter.ts &>/dev/null || :
+        rm -f ./server/src/common/setup/db.ts &>/dev/null || :
       fi
     fi
 
@@ -183,9 +182,9 @@ function prune () {
       # Remove redis from server implementation
       # TODO: works only for the default Node.js server implementation
       if [[ -f ./server/src/common/setup/config.ts ]]; then
-        sed -i '/Redis/d' ./server/src/common/setup/config.ts &> /dev/null || :
-        sed -i '/REDIS_/d' ./server/src/common/setup/config.ts &> /dev/null || :
-        sed -i '/6379/d' ./server/src/common/setup/config.ts &> /dev/null || :
+        sed -i '/Redis/d' ./server/src/common/setup/config.ts &>/dev/null || :
+        sed -i '/REDIS_/d' ./server/src/common/setup/config.ts &>/dev/null || :
+        sed -i '/6379/d' ./server/src/common/setup/config.ts &>/dev/null || :
       fi
     fi
 
@@ -207,15 +206,15 @@ function prune () {
       # TODO: works only for the default Node.js server implementation
       if [[ -d ./server ]] && [[ -f ./server/src/server.ts ]]; then
         if [[ ${taito_provider} != "aws" ]]; then
-          sed -i '/aws-sdk/d' ./server/package.json &> /dev/null || :
+          sed -i '/aws-sdk/d' ./server/package.json &>/dev/null || :
         fi
-        sed -i '/storage/d' ./server/src/server.ts &> /dev/null || :
-        sed -i '/storage/d' ./server/src/common/setup/types.ts &> /dev/null || :
-        sed -i '/Storage/d' ./server/src/common/setup/config.ts &> /dev/null || :
-        sed -i '/BUCKET_/d' ./server/src/common/setup/config.ts &> /dev/null || :
-        sed -i '/storage/d' ./server/src/infra/InfraRouter.ts &> /dev/null || :
-        sed -i '/storage/d' ./server/src/types/koa.d.ts &> /dev/null || :
-        rm -f ./server/src/common/setup/storage.ts &> /dev/null || :
+        sed -i '/storage/d' ./server/src/server.ts &>/dev/null || :
+        sed -i '/storage/d' ./server/src/common/setup/types.ts &>/dev/null || :
+        sed -i '/Storage/d' ./server/src/common/setup/config.ts &>/dev/null || :
+        sed -i '/BUCKET_/d' ./server/src/common/setup/config.ts &>/dev/null || :
+        sed -i '/storage/d' ./server/src/infra/InfraRouter.ts &>/dev/null || :
+        sed -i '/storage/d' ./server/src/types/koa.d.ts &>/dev/null || :
+        rm -f ./server/src/common/setup/storage.ts &>/dev/null || :
       fi
     fi
 
@@ -223,15 +222,15 @@ function prune () {
   else
     # Remove target from terraform.yaml if Kubernetes is enabled
     if [[ "admin client redis server worker www" == *"$terraform_name"* ]] && (
-         [[ ${template_default_kubernetes:-} ]] ||
-         [[ ${kubernetes_name:-} ]]
-       ); then
+      [[ ${template_default_kubernetes:-} ]] ||
+        [[ ${kubernetes_name:-} ]]
+    ); then
       sed -i "/^    $terraform_name:\r*\$/,/^\r*$/d" ./scripts/terraform.yaml
 
       # Leave the uptime path and container type however
       if [[ "admin client server www" == *"$terraform_name"* ]]; then
         path_f="${path//\\/}"
-        echo -e "    $terraform_name:\n      type: container\n      uptimePath: ${path_f%/}/uptimez\n" >> scripts/terraform.yaml
+        echo -e "    $terraform_name:\n      type: container\n      uptimePath: ${path_f%/}/uptimez\n" >>scripts/terraform.yaml
       fi
     fi
 
@@ -340,7 +339,7 @@ prune "Relational database? [Y/n] " database
 prune "Permanent object storage for files? [Y/n] " storage \\/bucket
 prune "Redis for caching and/or queueing? [y/N] " redis
 
-function remove_empty_secrets () {
+function remove_empty_secrets() {
   sed -i -n '1h;1!H;${g;s/    secrets:\n    environment:/    environment:/;p;}' "$1"
 }
 
@@ -393,15 +392,15 @@ fi
 echo
 echo "Replacing project and company names in files. Please wait..."
 find . -type f -exec sed -i \
-  -e "s/fstemplate/${taito_project_short}/g" 2> /dev/null {} \;
+  -e "s/fstemplate/${taito_project_short}/g" {} \; 2>/dev/null
 find . -type f -exec sed -i \
-  -e "s/full_stack_template/${taito_vc_repository_alt}/g" 2> /dev/null {} \;
+  -e "s/full_stack_template/${taito_vc_repository_alt}/g" {} \; 2>/dev/null
 find . -type f -exec sed -i \
-  -e "s/full-stack-template/${taito_vc_repository}/g" 2> /dev/null {} \;
+  -e "s/full-stack-template/${taito_vc_repository}/g" {} \; 2>/dev/null
 find . -type f -exec sed -i \
-  -e "s/companyname/${taito_company}/g" 2> /dev/null {} \;
+  -e "s/companyname/${taito_company}/g" {} \; 2>/dev/null
 find . -type f -exec sed -i \
-  -e "s/FULL-STACK-TEMPLATE/full-stack-template/g" 2> /dev/null {} \;
+  -e "s/FULL-STACK-TEMPLATE/full-stack-template/g" {} \; 2>/dev/null
 
 echo "Generating unique random ports (avoid conflicts with other projects)..."
 if [[ ! $ingress_port ]]; then ingress_port=$(shuf -i 8000-9999 -n 1); fi
@@ -412,35 +411,35 @@ if [[ ! $client_free_port ]]; then client_free_port=$(shuf -i 3000-3990 -n 1); f
 if [[ ! $storage_port ]]; then storage_port=$(shuf -i 2000-2999 -n 1); fi
 if [[ ! $uikit_port ]]; then uikit_port=$(shuf -i 1000-1999 -n 1); fi
 sed -i "s/6006/${uikit_port}/g" \
-  client/package.json &> /dev/null || :
+  client/package.json &>/dev/null || :
 sed -i "s/8888/${storage_port}/g" \
   docker-compose.yaml \
   scripts/taito/env-local.sh \
-  scripts/taito/TAITOLESS.md &> /dev/null || :
-sed -i "s/9996/$((client_free_port+0))/g" \
-  docker-compose.yaml &> /dev/null || :
-sed -i "s/9997/$((client_free_port+1))/g" \
-  docker-compose.yaml &> /dev/null || :
-sed -i "s/9998/$((client_free_port+2))/g" \
-  docker-compose.yaml &> /dev/null || :
+  scripts/taito/TAITOLESS.md &>/dev/null || :
+sed -i "s/9996/$((client_free_port + 0))/g" \
+  docker-compose.yaml &>/dev/null || :
+sed -i "s/9997/$((client_free_port + 1))/g" \
+  docker-compose.yaml &>/dev/null || :
+sed -i "s/9998/$((client_free_port + 2))/g" \
+  docker-compose.yaml &>/dev/null || :
 sed -i "s/4229/${server_debug_port}/g" \
   docker-compose.yaml \
   .vscode/launch.json \
   scripts/taito/project.sh scripts/taito/env-local.sh \
-  scripts/taito/TAITOLESS.md www/README.md &> /dev/null || :
+  scripts/taito/TAITOLESS.md www/README.md &>/dev/null || :
 sed -i "s/7463/${www_port}/g" \
   docker-compose.yaml \
   scripts/taito/project.sh scripts/taito/env-local.sh \
-  scripts/taito/TAITOLESS.md www/README.md &> /dev/null || :
+  scripts/taito/TAITOLESS.md www/README.md &>/dev/null || :
 sed -i "s/6000/${db_port}/g" \
   docker-compose.yaml \
   scripts/taito/project.sh scripts/taito/env-local.sh \
-  scripts/taito/TAITOLESS.md www/README.md &> /dev/null || :
+  scripts/taito/TAITOLESS.md www/README.md &>/dev/null || :
 sed -i "s/9999/${ingress_port}/g" \
   docker-compose.yaml \
   scripts/terraform-dev.yaml \
   scripts/taito/project.sh scripts/taito/env-local.sh \
-  scripts/taito/TAITOLESS.md www/README.md &> /dev/null || :
+  scripts/taito/TAITOLESS.md www/README.md &>/dev/null || :
 
 ./scripts/taito-template/common.sh
 echo init done

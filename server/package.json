@@ -2,8 +2,8 @@
   "name": "full-stack-template-server",
   "private": true,
   "scripts": {
-    "unit": "MODE=unit vitest run",
-    "unit:watch": "MODE=unit vitest watch",
+    "test:unit": "MODE=unit vitest run",
+    "test:unit:watch": "MODE=unit vitest watch",
     "test": "MODE=api vitest run",
     "start": "npm run start:dev",
     "start:dev": "NODE_ENV=development tsx watch index.ts --inspect=0.0.0.0:9229 | bunyan -o short -l debug",

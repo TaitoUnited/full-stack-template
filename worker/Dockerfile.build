@@ -20,7 +20,7 @@ RUN npm ci --loglevel warn --no-audit
 COPY ${SERVICE_DIR} /develop
 
 RUN npm run lint
-RUN npm run unit
+RUN npm run test:unit
 RUN npm run build:prod
 
 # Production runtime container
