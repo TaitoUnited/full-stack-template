@@ -72,7 +72,7 @@ export function DatePicker({
   const inputContext = useInputContext();
   const labelPosition = labelPositionProp ?? inputContext.labelPosition;
   const validation = getValidationParams(validationMessage);
-  const [state, setState] = useState<'day' | 'month' | 'year'>('day');
+  const [viewMode, setViewMode] = useState<'day' | 'month' | 'year'>('day');
   const [focused, setFocused] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -133,7 +133,7 @@ export function DatePicker({
       value={value ? parseDate(value) : null}
       onChange={date => {
         if (date) onChange?.(date.toString());
-        setState('day');
+        setViewMode('day');
         setIsOpen(false);
       }}
       onFocus={() => {
@@ -197,7 +197,7 @@ export function DatePicker({
         isOpen={isOpen}
         onOpenChange={isOpen => {
           setIsOpen(isOpen);
-          if (!isOpen) setState('day');
+          if (!isOpen) setViewMode('day');
         }}
       >
         <DatePickerDialog>
@@ -208,7 +208,7 @@ export function DatePicker({
                   <Stack gap="xxs">
                     <CalendarStateButton
                       onClick={() =>
-                        setState(p => (p === 'month' ? 'day' : 'month'))
+                        setViewMode(p => (p === 'month' ? 'day' : 'month'))
                       }
                     >
                       <Stack gap="xxs" align="center">
@@ -224,7 +224,9 @@ export function DatePicker({
                         </Text>
                         <Icon
                           name={
-                            state === 'month' ? 'arrowDropUp' : 'arrowDropDown'
+                            viewMode === 'month'
+                              ? 'arrowDropUp'
+                              : 'arrowDropDown'
                           }
                           size={20}
                           color="text"
@@ -233,7 +235,7 @@ export function DatePicker({
                     </CalendarStateButton>
                     <CalendarStateButton
                       onClick={() => {
-                        setState(p => (p === 'year' ? 'day' : 'year'));
+                        setViewMode(p => (p === 'year' ? 'day' : 'year'));
                       }}
                     >
                       <Stack gap="xxs" align="center">
@@ -247,7 +249,9 @@ export function DatePicker({
                         </Text>
                         <Icon
                           name={
-                            state === 'year' ? 'arrowDropUp' : 'arrowDropDown'
+                            viewMode === 'year'
+                              ? 'arrowDropUp'
+                              : 'arrowDropDown'
                           }
                           size={20}
                           color="text"
@@ -255,7 +259,7 @@ export function DatePicker({
                       </Stack>
                     </CalendarStateButton>
                   </Stack>
-                  {state === 'day' && (
+                  {viewMode === 'day' && (
                     <Stack direction="row" gap="xxs">
                       <CalendarHeaderButton
                         slot="previous"
@@ -273,7 +277,7 @@ export function DatePicker({
                   )}
                 </CalendarHeader>
 
-                {state === 'day' && (
+                {viewMode === 'day' && (
                   <CalendarGrid>
                     <CalendarGridHeader>
                       {day => <CalendarHeaderCell>{day}</CalendarHeaderCell>}
@@ -288,16 +292,16 @@ export function DatePicker({
                     </CalendarGridBody>
                   </CalendarGrid>
                 )}
-                {state === 'month' && (
+                {viewMode === 'month' && (
                   <CalendarMonthGrid
                     state={date.state}
-                    onChange={() => setState('day')}
+                    onChange={() => setViewMode('day')}
                   />
                 )}
-                {state === 'year' && (
+                {viewMode === 'year' && (
                   <CalendarYearGrid
                     state={date.state}
-                    onChange={() => setState('day')}
+                    onChange={() => setViewMode('day')}
                   />
                 )}
               </>

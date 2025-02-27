@@ -44,6 +44,15 @@ export const Clear: Story = {
   render: args => <Example {...args} />,
 };
 
+export const PreDefinedRange: Story = {
+  args: {
+    label: 'Pick date range',
+    defaultValue: { start: now.subtract({ days: 7 }), end: now },
+    preDefinable: true,
+  },
+  render: args => <Example {...args} />,
+};
+
 export const LabelPosition: Story = {
   args: {
     label: 'Pick date range (label on the left side of the input)',
