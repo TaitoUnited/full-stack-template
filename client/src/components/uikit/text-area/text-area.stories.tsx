@@ -65,7 +65,7 @@ export const WithDescription: Story = {
 export const WithError: Story = {
   args: {
     label: 'Erroring textarea',
-    errorMessage: "Please don't do this",
+    validationMessage: "Please don't do this",
   },
 };
 

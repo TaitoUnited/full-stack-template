@@ -2,20 +2,19 @@ import { type Ref } from 'react';
 import {
   CheckboxGroup as AriaCheckboxGroup,
   type CheckboxGroupProps,
-  Label,
 } from 'react-aria-components';
 
 import { cx } from '~/styled-system/css';
 import { styled } from '~/styled-system/jsx';
+import { InputLayout } from '~/uikit/partials/input-layout';
 
 import { Checkbox } from '../checkbox';
-import { type FormComponentProps } from '../partials/common';
 import {
-  FormInputContainer,
+  type FormComponentProps,
   inputWrapperStyles,
-  labelStyles,
   useInputContext,
 } from '../partials/common';
+import { getValidationParams } from '../partials/validation';
 import { Stack } from '../stack';
 
 type Option = {
@@ -41,32 +40,30 @@ export function CheckboxGroup({
   labelledby,
   hiddenLabel,
   labelPosition: labelPositionProp,
-  errorMessage,
+  validationMessage,
   description,
   ...rest
 }: Props) {
   const inputContext = useInputContext();
   const labelPosition = labelPositionProp ?? inputContext.labelPosition;
+  const validation = getValidationParams(validationMessage);
 
   return (
     <AriaCheckboxGroup
       ref={ref}
       className={cx(inputWrapperStyles({ labelPosition }), rest.className)}
-      isInvalid={!!errorMessage}
+      isInvalid={validation.type === 'error'}
       aria-labelledby={labelledby}
       aria-label={hiddenLabel}
       {...rest}
     >
-      {!!label && (
-        <Label
-          data-required={rest.isRequired}
-          className={labelStyles({ labelPosition })}
-        >
-          {label}
-        </Label>
-      )}
-
-      <FormInputContainer description={description} errorMessage={errorMessage}>
+      <InputLayout
+        label={label}
+        labelPosition={labelPosition}
+        isRequired={rest.isRequired}
+        description={description}
+        validation={validation}
+      >
         <Stack direction="column" gap="xs">
           {options.map(option => (
             <CheckboxGroupItem key={option.label}>
@@ -74,7 +71,7 @@ export function CheckboxGroup({
             </CheckboxGroupItem>
           ))}
         </Stack>
-      </FormInputContainer>
+      </InputLayout>
     </AriaCheckboxGroup>
   );
 }

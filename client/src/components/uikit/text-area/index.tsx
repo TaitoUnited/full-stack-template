@@ -1,22 +1,21 @@
 import { type Ref, useEffect, useRef } from 'react';
-import { type TextFieldProps } from 'react-aria-components';
 import {
   TextArea as AriaTextArea,
-  Label,
   TextField,
+  type TextFieldProps,
 } from 'react-aria-components';
 import { mergeRefs } from 'react-merge-refs';
 
 import { cx } from '~/styled-system/css';
 
-import { type FormComponentProps } from '../partials/common';
 import {
-  FormInputContainer,
+  type FormComponentProps,
   inputBaseStyles,
   inputWrapperStyles,
-  labelStyles,
   useInputContext,
 } from '../partials/common';
+import { InputLayout } from '../partials/input-layout';
+import { getValidationParams } from '../partials/validation';
 
 type Props = FormComponentProps<TextFieldProps> & {
   ref?: Ref<HTMLTextAreaElement>;
@@ -36,7 +35,7 @@ export function TextArea({
   hiddenLabel,
   labelPosition: labelPositionProp,
   description,
-  errorMessage,
+  validationMessage,
   placeholder,
   autoResize = false,
   rows,
@@ -45,6 +44,7 @@ export function TextArea({
   const inputContext = useInputContext();
   const labelPosition = labelPositionProp ?? inputContext.labelPosition;
   const innerRef = useRef<HTMLTextAreaElement>(null);
+  const validation = getValidationParams(validationMessage);
 
   function resizeTextArea() {
     if (innerRef.current && autoResize) {
@@ -64,30 +64,29 @@ export function TextArea({
     <TextField
       {...rest}
       className={cx(inputWrapperStyles({ labelPosition }), rest.className)}
-      isInvalid={!!errorMessage}
+      isInvalid={validation.type === 'error'}
       aria-labelledby={labelledby}
       aria-label={hiddenLabel}
     >
-      {!!label && (
-        <Label
-          className={labelStyles({ labelPosition })}
-          data-required={rest.isRequired}
-        >
-          {label}
-        </Label>
-      )}
-
-      <FormInputContainer description={description} errorMessage={errorMessage}>
+      <InputLayout
+        label={label}
+        labelPosition={labelPosition}
+        isRequired={rest.isRequired}
+        description={description}
+        validation={validation}
+      >
         <AriaTextArea
           id={id}
           rows={rows}
           // eslint-disable-next-line react-compiler/react-compiler
           ref={mergeRefs([innerRef, ref])}
           placeholder={placeholder}
-          className={inputBaseStyles}
+          className={inputBaseStyles({
+            invalidVisible: validation.position === 'below',
+          })}
           onChange={resizeTextArea}
         />
-      </FormInputContainer>
+      </InputLayout>
     </TextField>
   );
 }

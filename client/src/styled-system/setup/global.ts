@@ -4,12 +4,13 @@ export const globalCss = defineGlobalStyles({
   'html, body': {
     margin: 0,
     padding: 0,
-    fontSize: '16px',
+    fontSize: '14px',
     wordWrap: 'break-word',
     width: '100%',
     height: '100%',
     minHeight: '100%',
     fontFamily: "'Inter', sans-serif",
+    fontOpticalSizing: 'auto',
     backgroundColor: '$surface',
     WebkitFontSmoothing: 'antialiased',
     MozOsxFontSmoothing: 'grayscale',
@@ -30,7 +31,8 @@ export const globalCss = defineGlobalStyles({
     background: 'transparent',
     WebkitTapHighlightColor: 'transparent',
     fontFamily: "'Inter', sans-serif",
-    fontSize: '16px',
+    fontOpticalSizing: 'auto',
+    fontSize: '14px',
   },
 
   img: {
@@ -54,6 +56,6 @@ export const globalCss = defineGlobalStyles({
   },
 
   button: {
-    cursor: 'pointer',
+    cursor: 'default',
   },
 });

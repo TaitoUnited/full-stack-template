@@ -53,7 +53,7 @@ export const WithDescription: Story = {
 };
 
 export const WithError: Story = {
-  args: { errorMessage: 'May the force NOT be with you' },
+  args: { validationMessage: 'May the force NOT be with you' },
   render: args => <AsyncSelectExample {...args} />,
 };
 

@@ -7,6 +7,7 @@ import { SkeletonPlaceholder } from '.';
 export default {
   title: 'SkeletonPlaceholder',
   component: SkeletonPlaceholder,
+  tags: ['!autodocs', '!dev'],
   decorators: [
     Story => (
       <div style={{ maxWidth: '600px' }}>

@@ -21,16 +21,16 @@ import { Icon, type IconName } from '../icon';
 import { IconButton } from '../icon-button';
 import type { FormComponentProps } from '../partials/common';
 import {
-  FormInputContainer,
   inputBaseStyles,
   inputIconLeftStyles,
   inputWrapperStyles,
-  labelStyles,
   listBoxItemStyles,
   listBoxStyles,
   useInputContext,
 } from '../partials/common';
+import { InputLayout } from '../partials/input-layout';
 import { SelectItem } from '../partials/select-item';
+import { getValidationParams } from '../partials/validation';
 
 type Option = {
   value: string;
@@ -45,7 +45,7 @@ type Props = Pick<
   | 'labelledby'
   | 'hiddenLabel'
   | 'description'
-  | 'errorMessage'
+  | 'validationMessage'
   | 'placeholder'
   | 'isRequired'
   | 'isDisabled'
@@ -71,7 +71,7 @@ export function MultiSelectCombobox({
   labelledby,
   hiddenLabel,
   description,
-  errorMessage,
+  validationMessage,
   placeholder,
   icon,
   value,
@@ -90,9 +90,9 @@ export function MultiSelectCombobox({
   const wrapperRef = useRef<HTMLDivElement>(null);
   const listBoxRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
   const [dialogOpen, setDialogOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const validation = getValidationParams(validationMessage);
 
   function onKeyDown(event: KeyboardEvent<HTMLInputElement>) {
     switch (event.code) {
@@ -158,23 +158,21 @@ export function MultiSelectCombobox({
 
   return (
     <div className={cx(inputWrapperStyles({ labelPosition }), className)}>
-      {!!label && (
-        <label
-          className={labelStyles({ labelPosition })}
-          data-required={isRequired}
-          htmlFor={id ?? inputId}
-        >
-          {label}
-        </label>
-      )}
-
-      <FormInputContainer description={description} errorMessage={errorMessage}>
+      <InputLayout
+        label={label}
+        labelPosition={labelPosition}
+        isRequired={isRequired}
+        description={description}
+        validation={validation}
+      >
         <InputBase
-          className={inputBaseStyles}
+          className={inputBaseStyles({
+            invalidVisible: validation.position === 'below',
+          })}
           // eslint-disable-next-line react-compiler/react-compiler
           ref={mergeRefs([measureRef, wrapperRef])}
           hasIcon={!!icon}
-          aria-invalid={!!errorMessage}
+          aria-invalid={validation.type === 'error'}
           onClick={() => {
             if (!isDisabled) {
               setDialogOpen(true);
@@ -243,7 +241,7 @@ export function MultiSelectCombobox({
             </ChevronButton>
           </InputDecorations>
         </InputBase>
-      </FormInputContainer>
+      </InputLayout>
 
       <Popover
         isOpen={dialogOpen}

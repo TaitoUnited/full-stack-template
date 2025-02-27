@@ -3,7 +3,7 @@ import {
   type ComponentProps,
   type ReactElement,
   type ReactNode,
-  useContext,
+  use,
 } from 'react';
 import {
   Dialog as AriaDialog,
@@ -15,10 +15,10 @@ import {
 
 import { cva } from '~/styled-system/css';
 import { styled } from '~/styled-system/jsx';
+import './styles.css';
 
 import { IconButton } from '../icon-button';
 import { Text } from '../text';
-import './styles.css';
 
 function DialogBase({
   children,
@@ -73,7 +73,7 @@ function DialogHeader({
   children?: ReactElement;
 }) {
   const { t } = useLingui();
-  const triggerState = useContext(OverlayTriggerStateContext);
+  const triggerState = use(OverlayTriggerStateContext);
 
   if (!title && !children) {
     throw new Error(

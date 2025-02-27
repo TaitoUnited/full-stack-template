@@ -81,7 +81,7 @@ export const WithDescription: Story = {
 export const WithError: Story = {
   args: {
     label: 'Some invalid choice',
-    errorMessage: 'This is really bad',
+    validationMessage: 'This is really bad',
     items: options,
   },
 };

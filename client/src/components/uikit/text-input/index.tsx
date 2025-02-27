@@ -1,21 +1,25 @@
 import { useLingui } from '@lingui/react/macro';
 import { type Ref, useState } from 'react';
-import { type TextFieldProps } from 'react-aria-components';
-import { Input, Label, TextField, ToggleButton } from 'react-aria-components';
+import {
+  Input,
+  TextField,
+  type TextFieldProps,
+  ToggleButton,
+} from 'react-aria-components';
 
 import { cx } from '~/styled-system/css';
 import { styled } from '~/styled-system/jsx';
 
 import { Icon, type IconName } from '../icon';
-import { type FormComponentProps } from '../partials/common';
 import {
-  FormInputContainer,
+  type FormComponentProps,
   inputBaseStyles,
   inputIconLeftStyles,
   inputWrapperStyles,
-  labelStyles,
   useInputContext,
 } from '../partials/common';
+import { InputLayout } from '../partials/input-layout';
+import { getValidationParams } from '../partials/validation';
 
 type Props = FormComponentProps<TextFieldProps> & {
   ref?: Ref<HTMLInputElement>;
@@ -33,7 +37,7 @@ export function TextInput({
   labelPosition: labelPositionProp,
   icon,
   description,
-  errorMessage,
+  validationMessage,
   placeholder,
   id,
   ...rest
@@ -43,6 +47,7 @@ export function TextInput({
   const labelPosition = labelPositionProp ?? inputContext.labelPosition;
   const [passwordVisible, setPasswordVisible] = useState(false);
   const isPassword = rest.type === 'password';
+  const validation = getValidationParams(validationMessage);
 
   // TODO: implement character count with max length clipping
   return (
@@ -51,18 +56,15 @@ export function TextInput({
       aria-labelledby={labelledby}
       aria-label={hiddenLabel}
       className={cx(inputWrapperStyles({ labelPosition }), rest.className)}
-      isInvalid={!!errorMessage}
+      isInvalid={validation.type === 'error'}
     >
-      {!!label && (
-        <Label
-          className={labelStyles({ labelPosition })}
-          data-required={rest.isRequired}
-        >
-          {label}
-        </Label>
-      )}
-
-      <FormInputContainer description={description} errorMessage={errorMessage}>
+      <InputLayout
+        label={label}
+        labelPosition={labelPosition}
+        isRequired={rest.isRequired}
+        description={description}
+        validation={validation}
+      >
         <InputContent>
           {!!icon && (
             <Icon
@@ -77,7 +79,9 @@ export function TextInput({
             ref={ref}
             id={id}
             placeholder={placeholder}
-            className={inputBaseStyles}
+            className={inputBaseStyles({
+              invalidVisible: validation.position === 'below',
+            })}
             data-password={isPassword || undefined}
             type={
               isPassword ? (passwordVisible ? 'text' : 'password') : rest.type
@@ -98,7 +102,7 @@ export function TextInput({
             </PasswordToggleButton>
           )}
         </InputContent>
-      </FormInputContainer>
+      </InputLayout>
     </TextField>
   );
 }

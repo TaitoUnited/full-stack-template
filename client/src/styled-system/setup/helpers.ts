@@ -43,7 +43,7 @@ export function transformTypography(tokens: Record<string, TextStyle>) {
         value: {
           fontFamily: value.fontFamily,
           fontWeight: value.fontWeight,
-          fontSize: `${value.fontSize / 16}rem`,
+          fontSize: `${value.fontSize / 14}rem`,
           textTransform: value.textTransform,
           letterSpacing: value.letterSpacing,
           lineHeight: value.lineHeight,

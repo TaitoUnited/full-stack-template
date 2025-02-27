@@ -6,6 +6,7 @@ import { MultiSelect } from '.';
 export default {
   title: 'MultiSelect',
   component: MultiSelect,
+  tags: ['!autodocs', '!dev'],
   decorators: [
     Story => (
       <div style={{ maxWidth: '300px' }}>
@@ -89,7 +90,7 @@ export const WithDescription: Story = {
 export const WithError: Story = {
   args: {
     label: 'Some invalid choice',
-    errorMessage: 'This is really bad',
+    validationMessage: 'This is really bad',
     items: options,
   },
   render: args => <MultiSelectExample {...args} />,

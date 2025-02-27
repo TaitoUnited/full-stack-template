@@ -1,6 +1,5 @@
 import { parseDate } from '@internationalized/date';
 import { type Ref } from 'react';
-import { type DatePickerProps, type DateValue } from 'react-aria-components';
 import {
   CalendarCell as AriaCalendarCell,
   CalendarGrid as AriaCalendarGrid,
@@ -11,7 +10,9 @@ import {
   Calendar,
   CalendarGridBody,
   CalendarGridHeader,
+  type DatePickerProps,
   DateSegment,
+  type DateValue,
   Dialog,
   Group,
   Heading,
@@ -23,14 +24,15 @@ import { cx } from '~/styled-system/css';
 import { styled } from '~/styled-system/jsx';
 
 import { Icon } from '../icon';
-import { type FormComponentProps } from '../partials/common';
 import {
-  FormInputContainer,
+  type FormComponentProps,
   inputBaseStyles,
   inputWrapperStyles,
-  labelStyles,
+  labelContainerStyles,
   useInputContext,
 } from '../partials/common';
+import { InputLayout } from '../partials/input-layout';
+import { getValidationParams } from '../partials/validation';
 import { Stack } from '../stack';
 
 type Props = FormComponentProps<DatePickerProps<DateValue>> & {
@@ -52,13 +54,14 @@ export function DatePicker({
   hiddenLabel,
   labelPosition: labelPositionProp,
   description,
-  errorMessage,
+  validationMessage,
   value,
   onChange,
   ...rest
 }: Props) {
   const inputContext = useInputContext();
   const labelPosition = labelPositionProp ?? inputContext.labelPosition;
+  const validation = getValidationParams(validationMessage);
 
   return (
     <AriaDatePicker
@@ -66,7 +69,7 @@ export function DatePicker({
       aria-labelledby={labelledby}
       aria-label={hiddenLabel}
       ref={ref}
-      isInvalid={!!errorMessage}
+      isInvalid={!!validationMessage}
       granularity="day"
       value={value ? parseDate(value) : null}
       onChange={date => date && onChange?.(date.toString())}
@@ -74,15 +77,15 @@ export function DatePicker({
     >
       {!!label && (
         <Label
-          className={labelStyles({ labelPosition })}
+          className={labelContainerStyles({ labelPosition })}
           data-required={rest.isRequired}
         >
           {label}
         </Label>
       )}
 
-      <FormInputContainer description={description} errorMessage={errorMessage}>
-        <DateInputContainer className={inputBaseStyles}>
+      <InputLayout description={description} validation={validation}>
+        <DateInputContainer className={inputBaseStyles()}>
           <DateInput data-testid="date-picker-input">
             {segment => <DateInputSegment segment={segment} />}
           </DateInput>
@@ -90,7 +93,7 @@ export function DatePicker({
             <Icon name="calendarMonth" color="textMuted" size={18} />
           </DateInputButton>
         </DateInputContainer>
-      </FormInputContainer>
+      </InputLayout>
 
       <DatePickerPopover data-testid="date-picker-popover">
         <DatePickerDialog>
