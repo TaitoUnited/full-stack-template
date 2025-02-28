@@ -4,7 +4,7 @@
   "scripts": {
     "install:clean": "rm -rf node_modules && npm install",
     "lint": "tsc -p . --noEmit && eslint './src/**/*.{ts,tsx}' --ignore-path .eslintignore --quiet",
-    "unit": "BABEL_ENV=test jest src/ --passWithNoTests -t",
+    "test:unit": "BABEL_ENV=test jest src/ --passWithNoTests -t",
     "test": "echo TODO run tests",
     "start": "NODE_ENV=development webpack serve --mode development",
     "build": "NODE_ENV=production webpack --mode production --progress",

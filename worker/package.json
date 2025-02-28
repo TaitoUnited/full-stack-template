@@ -2,7 +2,7 @@
   "name": "full-stack-template-worker",
   "private": true,
   "scripts": {
-    "unit": "jest --rootDir=src --passWithNoTests -t",
+    "test:unit": "jest --rootDir=src --passWithNoTests -t",
     "test": "jest --rootDir=test --passWithNoTests -t",
     "start": "npm run start:dev",
     "start:dev": "NODE_ENV=development ts-node-dev --respawn --inspect=0.0.0.0:9229 -- index.ts | bunyan -l debug",

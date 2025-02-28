@@ -38,7 +38,7 @@ RUN echo "${BUILD_IMAGE_TAG}"
 
 # Build and test site
 RUN npm run build && \
-    npm run unit
+    npm run test:unit
 
 
 # Production runtime

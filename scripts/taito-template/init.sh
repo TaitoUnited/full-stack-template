@@ -100,10 +100,10 @@ function prune () {
     sed -i "s/install-all:$name //g" package.json
     sed -i "s/generate:$name //g" package.json
     sed -i "s/taito-host-lint:$name //g" package.json
-    sed -i "s/taito-host-unit:$name //g" package.json
+    sed -i "s/taito-host-test-unit:$name //g" package.json
     sed -i "s/taito-host-test:$name //g" package.json
     sed -i "s/lint:$name //g" package.json
-    sed -i "s/unit:$name //g" package.json
+    sed -i "s/test:unit:$name //g" package.json
     sed -i "s/test:$name //g" package.json
     sed -i "s/\\\\\"dep-check:$name {@}\\\\\" //g" package.json
     sed -i "s/\\\\\"size-check:$name {@}\\\\\" //g" package.json
