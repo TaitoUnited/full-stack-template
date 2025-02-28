@@ -291,7 +291,7 @@ import { Storage } from '@google-cloud/storage';
 **Additional microservices:** Add a new microservice with the following steps. You can skip the IMPLEMENTATION steps if you are using a prebuilt Docker image (e.g. Redis).
 
 1. IMPLEMENTATION OR DATABASE: Create a new directory for your service implementation or database migration scripts. Look [FULL-STACK-TEMPLATE](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/) and [alternatives](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/tree/master/alternatives) for examples.
-2. IMPLEMENTATION: Add the service to `package.json` scripts: `install-all`, `lint`, `unit`, `test`, `dep-check`, `size-check`.
+2. IMPLEMENTATION: Add the service to `package.json` scripts: `install-all`, `lint`, `test:unit`, `test`, `dep-check`, `size-check`.
 3. IMPLEMENTATION: Add the service to your CI/CD script (`.yml/.yaml` or `Jenkinsfile` in project root or `.github/main.workflow`).
 4. OPTIONAL: In case of a database, you may want to enable the corresponding Taito CLI plugins in `scripts/taito/project.sh`. For example `postgres-db` and `sqitch-db` for PostgreSQL with Sqitch.
 5. Add the service to `taito_containers`, `taito_functions`, or `taito_databases` variable in `scripts/taito/project.sh` depending on its type. If it is a database running in container, you may add it to both `taito_containers` and `taito_databases`.
