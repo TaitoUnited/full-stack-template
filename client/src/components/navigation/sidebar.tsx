@@ -103,8 +103,9 @@ export function Sidebar() {
   );
 }
 
-const Wrapper = styled('aside', {
+const Wrapper = styled('div', {
   base: {
+    height: '100%',
     minWidth: '300px',
     backgroundColor: '$surface',
     borderRight: '1px solid $line3',
