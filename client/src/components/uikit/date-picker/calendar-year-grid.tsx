@@ -14,13 +14,14 @@ export function CalendarYearGrid({
   state: CalendarState | RangeCalendarState;
   onChange: () => void;
 }) {
-  const selectedYearButtonRef = useRef<HTMLTableRowElement>(null);
-  const yearContainerRef = useRef<HTMLTableSectionElement>(null);
+  const selectedYearButtonRef = useRef<HTMLButtonElement | null>(null);
+  const yearContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    function handleScrollToYear() {
-      if (!selectedYearButtonRef.current || !yearContainerRef.current) return;
+    if (selectedYearButtonRef.current && yearContainerRef.current) {
+      selectedYearButtonRef.current.focus(); // Ensures the current year is focused when tabbing in
 
+      // Scroll selected year into view
       const offset = selectedYearButtonRef.current.offsetTop;
       const selectedButtonHeight =
         selectedYearButtonRef.current.getBoundingClientRect().height;
@@ -31,40 +32,31 @@ export function CalendarYearGrid({
         top: offset - containerHeight / 2 + selectedButtonHeight / 2,
       });
     }
-    handleScrollToYear();
   }, []);
 
   return (
     <CalendarGrid>
       <YearGrid ref={yearContainerRef}>
         {Array.from(Array(150), (_, i) => i + 1900).map(year => (
-          <tr
+          <YearButton
             key={year}
-            ref={
-              state.focusedDate.year === year
-                ? selectedYearButtonRef
-                : undefined
-            }
+            ref={state.focusedDate.year === year ? selectedYearButtonRef : null}
+            selected={state.focusedDate.year === year}
+            onClick={() => {
+              state.setFocusedDate(state.focusedDate.set({ year }));
+              onChange();
+            }}
+            onKeyDown={e => e.stopPropagation()} // Prevent event bubbling
           >
-            <td>
-              <YearButton
-                selected={state.focusedDate.year === year}
-                onClick={() => {
-                  state.setFocusedDate(state.focusedDate.set({ year }));
-                  onChange();
-                }}
-              >
-                {year}
-              </YearButton>
-            </td>
-          </tr>
+            {year}
+          </YearButton>
         ))}
       </YearGrid>
     </CalendarGrid>
   );
 }
 
-const YearGrid = styled('tbody', {
+const YearGrid = styled('div', {
   base: {
     display: 'grid',
     gridTemplateColumns: `repeat(5, 1fr)`,
@@ -72,7 +64,8 @@ const YearGrid = styled('tbody', {
     rowGap: '$xs',
     height: '200px',
     overflowY: 'scroll',
-    // $customScrollbar: true,
+    padding: '$xs',
+    $customScrollbar: true,
   },
 });
 
@@ -88,6 +81,9 @@ const YearButton = styled('button', {
     color: '$text',
     '&:hover': {
       backgroundColor: '$neutral5',
+    },
+    '&:focus-visible': {
+      $focusRing: true,
     },
   },
   variants: {
