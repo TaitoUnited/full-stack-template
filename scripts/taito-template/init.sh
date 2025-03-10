@@ -94,7 +94,6 @@ function prune () {
     sed -i "s/ \\/$name\\/uptimez / /" scripts/taito/project.sh
 
     sed -i "/\\* $name/d" scripts/taito/project.sh
-    sed -i "/test_$name/d" scripts/taito/testing.sh
 
     sed -i "/:$name\":/d" package.json
     sed -i "s/install-all:$name //g" package.json
@@ -128,8 +127,6 @@ function prune () {
 
     if [[ $name == "client" ]]; then
       sed -i "s/ \\/uptimez / /" scripts/taito/project.sh
-      sed -i "/CYPRESS/d" scripts/taito/testing.sh
-      sed -i "/cypress/d" scripts/taito/testing.sh
       # TODO: remove these and implement pruning for playwright
     fi
 
@@ -147,7 +144,6 @@ function prune () {
     if [[ $name == "database" ]]; then
       sed -i '/postgres-db/d' scripts/taito/project.sh
       sed -i '/db_/d' scripts/taito/project.sh
-      sed -i "/DATABASE/d" scripts/taito/testing.sh
       sed -i '/Database/d' docker-compose.yaml
       sed -i '/Database/d' docker-compose-remote.yaml
       sed -i '/DATABASE_/d' docker-compose.yaml

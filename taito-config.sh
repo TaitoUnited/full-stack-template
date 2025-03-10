@@ -7,7 +7,6 @@
 #
 # - project.sh:  Project specific settings
 # - env-*.sh:    Environment specific settings
-# - testing.sh:  Testing settings
 #
 ##########################################################################
 

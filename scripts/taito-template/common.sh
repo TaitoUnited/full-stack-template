@@ -43,8 +43,7 @@ rm -f scripts/terraform/.gitignore
 
 sed -i "/# TEMPLATE-REMOVE/d" \
   scripts/taito/env-prod.sh \
-  scripts/taito/project.sh \
-  scripts/taito/testing.sh
+  scripts/taito/project.sh
 
 # Template MIT license
 # TODO leave a reference to the original?
@@ -188,7 +187,6 @@ if [[ $template_default_provider != "gcp" ]] &&
   fi
 
   sed -i '/-serviceaccount/d' scripts/taito/project.sh 2> /dev/null || :
-  sed -i '/-serviceaccount/d' scripts/taito/testing.sh 2> /dev/null || :
 fi
 
 # Disable network policy for now as it doesn't work correctly (TODO: remove)
@@ -227,10 +225,6 @@ if [[ ${template_default_postgres_ssl_enabled} != "true" ]] ||
     sed -i '/DATABASE_SSL_CERT/d' docker-compose-cicd.yaml
     sed -i '/database_ssl_cert/d' docker-compose-cicd.yaml
   fi
-  if [[ -f scripts/taito/testing.sh ]]; then
-    sed -i '/database_ssl_key/d' scripts/taito/project.sh
-    sed -i '/database_ssl_cert/d' scripts/taito/project.sh
-  fi
 fi
 if [[ ${template_default_postgres_ssl_enabled} != "true" ]] ||
    [[ ${template_default_postgres_ssl_server_cert_enabled} != "true" ]]; then
@@ -243,9 +237,6 @@ if [[ ${template_default_postgres_ssl_enabled} != "true" ]] ||
   if [[ -f docker-compose-cicd.yaml ]]; then
     sed -i '/DATABASE_SSL_CA/d' docker-compose-cicd.yaml
     sed -i '/database_ssl_ca/d' docker-compose-cicd.yaml
-  fi
-  if [[ -f scripts/taito/testing.sh ]]; then
-    sed -i '/database_ssl_ca/d' scripts/taito/project.sh
   fi
 fi
 
@@ -343,7 +334,6 @@ fi
 # azure
 if [[ $ci != "azure" ]] && [[ $template_default_ci_provider_prod != "azure" ]]; then
   rm -f azure-pipelines.yml
-  sed -i "/^# Tests disabled on Azure DevOps\r*\$/,/^\r*$/d" scripts/taito/testing.sh
 fi
 
 # bitbucket
