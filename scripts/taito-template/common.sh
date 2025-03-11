@@ -61,9 +61,11 @@ fi
 
 # Remove empty attributes from terraform.yaml
 sed -i '/^  [^[:space:]]*:$/!b;N;/:\n$/d' ./scripts/terraform.yaml
-sed -i '/^  [^[:space:]]*:$/!b;N;/:\n$/d' ./scripts/terraform-prod.yaml
 sed -i '/^# END$/d' ./scripts/terraform.yaml
-sed -i '/^# END$/d' ./scripts/terraform-prod.yaml
+if [[ -f ./scripts/terraform-prod.yaml ]]; then
+  sed -i '/^  [^[:space:]]*:$/!b;N;/:\n$/d' ./scripts/terraform-prod.yaml
+  sed -i '/^# END$/d' ./scripts/terraform-prod.yaml
+fi
 if [[ -f ./scripts/terraform-dev.yaml ]]; then
   sed -i '/^  [^[:space:]]*:$/!b;N;/:\n$/d' ./scripts/terraform-dev.yaml
   sed -i '/^# END$/d' ./scripts/terraform-dev.yaml
