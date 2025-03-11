@@ -72,7 +72,7 @@ steps:
     env:
       - taito_mode=ci
       - taito_ci_phases=${_TAITO_CI_PHASES}
-   
+
   - id: artifact-prepare-playwright
     waitFor: ["build-prepare"]
     name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
@@ -88,6 +88,7 @@ steps:
     env:
       - taito_mode=ci
       - taito_ci_phases=${_TAITO_CI_PHASES}
+      - taito_ci_pull_always=true # Server image is always needed for deploying db migrations
 
   - id: artifact-prepare-worker
     waitFor: ["build-prepare"]
@@ -114,6 +115,7 @@ steps:
       - taito_mode=ci
       - taito_ci_phases=${_TAITO_CI_PHASES}
       - taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+      - IMAGE_TAG=$COMMIT_SHA
 
   - id: deployment-deploy
     name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
@@ -138,6 +140,7 @@ steps:
       - taito_mode=ci
       - taito_ci_phases=${_TAITO_CI_PHASES}
       - taito_image=${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+      - IMAGE_TAG=$COMMIT_SHA
 
   - id: deployment-verify
     name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
