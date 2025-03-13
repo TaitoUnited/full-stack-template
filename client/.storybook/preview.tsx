@@ -1,5 +1,4 @@
 import { i18n } from '@lingui/core';
-import { I18nProvider } from '@lingui/react';
 import { useLingui } from '@lingui/react/macro';
 import { type Preview } from '@storybook/react';
 import type { NotFoundRouteProps } from '@tanstack/react-router';
@@ -12,16 +11,24 @@ import {
   useRouter,
   useRouterState,
 } from '@tanstack/react-router';
-import React, { createContext, type ReactNode, useContext } from 'react';
+import React, {
+  createContext,
+  type ReactNode,
+  useContext,
+  useEffect,
+} from 'react';
 import { OverlayProvider } from 'react-aria';
 import {
   I18nProvider as AriaI18nProvider,
   RouterProvider as ReactAriaRouterProvider,
 } from 'react-aria-components';
+import { type Globals } from 'storybook/internal/types';
 import './preview.css';
 
-i18n.load('fi', {});
-i18n.activate('fi');
+import { I18nProvider, type Locale, useI18n } from '../src/services/i18n';
+
+i18n.load('en', {});
+i18n.activate('en');
 
 function RenderStory() {
   const storyFn = useContext(CurrentStoryContext);
@@ -62,28 +69,72 @@ export const storyRouter = createRouter({
   routeTree: rootRoute,
 });
 
-function StoryDecorator({ children }: { children: ReactNode }) {
+function LocaleProvider({
+  children,
+  locale,
+}: {
+  children: ReactNode;
+  locale: Locale;
+}) {
+  const { changeLocale } = useI18n();
+
+  useEffect(() => {
+    changeLocale(locale);
+  }, [locale]);
+
+  return <>{children}</>;
+}
+
+function StoryDecorator({
+  children,
+  globals,
+}: {
+  children: ReactNode;
+  globals: Globals;
+}) {
+  const { locale } = globals;
+
   return (
     <RouterContextProvider router={storyRouter}>
       <AriaRouterProvider>
-        <I18nProvider i18n={i18n}>
-          <AriaLocaleProvider>
-            <OverlayProvider>{children}</OverlayProvider>
-          </AriaLocaleProvider>
+        <I18nProvider>
+          <LocaleProvider locale={locale}>
+            <AriaLocaleProvider>
+              <OverlayProvider>{children}</OverlayProvider>
+            </AriaLocaleProvider>
+          </LocaleProvider>
         </I18nProvider>
       </AriaRouterProvider>
     </RouterContextProvider>
   );
 }
 
+export const globalTypes = {
+  locale: {
+    name: 'Locale',
+    description: 'Internationalization locale',
+    toolbar: {
+      icon: 'globe',
+      items: [
+        { value: 'en', title: 'English' },
+        { value: 'fi', title: 'Finnish' },
+      ],
+      showName: true,
+    },
+  },
+};
+
 const preview: Preview = {
   tags: ['autodocs'],
+  globalTypes,
   decorators: [
-    Story => (
-      <StoryDecorator>
-        <Story />
-      </StoryDecorator>
-    ),
+    (Story, context) => {
+      return (
+        <StoryDecorator globals={context.globals}>
+          <Story />
+        </StoryDecorator>
+      );
+    },
   ],
 };
 
