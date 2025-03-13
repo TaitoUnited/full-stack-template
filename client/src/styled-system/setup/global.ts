@@ -4,7 +4,7 @@ export const globalCss = defineGlobalStyles({
   'html, body': {
     margin: 0,
     padding: 0,
-    fontSize: '14px',
+    fontSize: '16px',
     wordWrap: 'break-word',
     width: '100%',
     height: '100%',
@@ -32,7 +32,7 @@ export const globalCss = defineGlobalStyles({
     WebkitTapHighlightColor: 'transparent',
     fontFamily: "'Inter', sans-serif",
     fontOpticalSizing: 'auto',
-    fontSize: '14px',
+    fontSize: '16px',
   },
 
   img: {
