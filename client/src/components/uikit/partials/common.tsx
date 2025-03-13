@@ -134,27 +134,18 @@ export const inputBaseStyles = cva({
       cursor: 'not-allowed',
       borderColor: '$line2',
     },
-  },
-  variants: {
-    invalidVisible: {
-      false: {},
-      true: {
-        /**
-         * Use `:has()` to allow using these styles on a wrapper component instead
-         * of the input itself, eg. in `LanguageTextField` component.
-         */
-        '&[aria-invalid="true"],\
+
+    /**
+     * Use `:has()` to allow using these styles on a wrapper component instead
+     * of the input itself, eg. in `LanguageTextField` component.
+     */
+    '&[aria-invalid="true"],\
          &[data-invalid="true"],\
          &:has([aria-invalid="true"]),\
          &:has([data-invalid="true"])': {
-          borderColor: 'transparent',
-          outline: 'var(--outline-width) solid {$colors.error}',
-        },
-      },
+      borderColor: 'transparent',
+      outline: 'var(--outline-width) solid {$colors.error}',
     },
-  },
-  defaultVariants: {
-    invalidVisible: true,
   },
 });
 
@@ -261,7 +252,6 @@ export const listBoxItemStyles = css({
 export type ValidationMessageOptions = {
   message: ReactNode;
   type: 'error' | 'warning';
-  position: 'below' | 'popover';
 };
 
 /**

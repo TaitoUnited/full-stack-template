@@ -99,9 +99,7 @@ export function Select({
             data-invalid={isInvalid}
             data-has-icon={!!icon}
             className={cx(
-              inputBaseStyles({
-                invalidVisible: validation.position === 'below',
-              }),
+              inputBaseStyles(),
               css({
                 paddingRight: '$xl!',
                 '&[data-has-icon="true"]': { paddingLeft: '$xl' },

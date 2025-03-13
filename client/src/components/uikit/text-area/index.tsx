@@ -81,9 +81,7 @@ export function TextArea({
           // eslint-disable-next-line react-compiler/react-compiler
           ref={mergeRefs([innerRef, ref])}
           placeholder={placeholder}
-          className={inputBaseStyles({
-            invalidVisible: validation.position === 'below',
-          })}
+          className={inputBaseStyles()}
           onChange={resizeTextArea}
         />
       </InputLayout>

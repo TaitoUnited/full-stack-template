@@ -124,9 +124,7 @@ export function AsyncSelect({
               data-has-selected={numSelected > 0}
               data-testid="async-select-button"
               className={cx(
-                inputBaseStyles({
-                  invalidVisible: validation.position === 'below',
-                }),
+                inputBaseStyles(),
                 css({
                   paddingRight: '$xl!',
                   color: '$textMuted',

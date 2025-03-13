@@ -79,9 +79,7 @@ export function TextInput({
             ref={ref}
             id={id}
             placeholder={placeholder}
-            className={inputBaseStyles({
-              invalidVisible: validation.position === 'below',
-            })}
+            className={inputBaseStyles()}
             data-password={isPassword || undefined}
             type={
               isPassword ? (passwordVisible ? 'text' : 'password') : rest.type

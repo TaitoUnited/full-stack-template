@@ -97,11 +97,7 @@ function ErrorPopoverExample() {
       onChange={setValue}
       validationMessage={
         !value
-          ? {
-              message: 'This field is required',
-              position: 'popover',
-              type: 'error',
-            }
+          ? { message: 'This field is required', type: 'error' }
           : undefined
       }
     />

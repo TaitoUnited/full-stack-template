@@ -112,9 +112,7 @@ export function MultiSelect({
               data-has-selected={numSelected > 0}
               data-testid="multi-select-button"
               className={cx(
-                inputBaseStyles({
-                  invalidVisible: validation.position === 'below',
-                }),
+                inputBaseStyles(),
                 css({
                   paddingRight: '$xl!',
                   color: '$textMuted',

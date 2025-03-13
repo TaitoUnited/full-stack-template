@@ -166,9 +166,7 @@ export function MultiSelectCombobox({
         validation={validation}
       >
         <InputBase
-          className={inputBaseStyles({
-            invalidVisible: validation.position === 'below',
-          })}
+          className={inputBaseStyles()}
           // eslint-disable-next-line react-compiler/react-compiler
           ref={mergeRefs([measureRef, wrapperRef])}
           hasIcon={!!icon}

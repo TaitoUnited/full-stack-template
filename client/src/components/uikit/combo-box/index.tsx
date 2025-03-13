@@ -97,12 +97,7 @@ export function ComboBox({
           <Input
             ref={ref}
             placeholder={placeholder}
-            className={cx(
-              inputBaseStyles({
-                invalidVisible: validation.position === 'below',
-              }),
-              css({ paddingRight: '!$large' })
-            )}
+            className={cx(inputBaseStyles(), css({ paddingRight: '!$large' }))}
           />
 
           <ChevronButton>

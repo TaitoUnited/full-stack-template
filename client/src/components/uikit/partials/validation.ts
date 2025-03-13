@@ -5,7 +5,6 @@ export function getValidationParams(
 ) {
   return {
     message: getValidationMessage(validationMessage),
-    position: getValidationPosition(validationMessage),
     type: getValidationType(validationMessage),
   };
 }
@@ -18,14 +17,6 @@ function getValidationMessage(
   if (!validation) return;
   if (typeof validation === 'string') return validation;
   return validation.message;
-}
-
-function getValidationPosition(
-  validation?: CommonFormProps['validationMessage']
-): 'below' | 'popover' {
-  if (!validation) return 'below';
-  if (typeof validation === 'string') return 'below';
-  return validation.position;
 }
 
 function getValidationType(
