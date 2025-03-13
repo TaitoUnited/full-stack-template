@@ -6,7 +6,6 @@ import { MultiSelect } from '.';
 export default {
   title: 'MultiSelect',
   component: MultiSelect,
-  tags: ['!autodocs', '!dev'],
   decorators: [
     Story => (
       <div style={{ maxWidth: '300px' }}>
