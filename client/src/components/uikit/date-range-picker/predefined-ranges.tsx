@@ -1,4 +1,5 @@
 import { getLocalTimeZone, today } from '@internationalized/date';
+import { useLingui } from '@lingui/react/macro';
 import { Fragment } from 'react';
 import { type DateRange } from 'react-aria';
 
@@ -15,7 +16,7 @@ export function PredefinedRanges({
   currentRange,
   onSelectRange,
 }: PredefinedRangesProps) {
-  const predefinedRanges = getPredefinedDateRanges();
+  const predefinedRanges = usePredefinedDateRanges();
 
   return (
     <Fragment>
@@ -38,54 +39,55 @@ export function PredefinedRanges({
   );
 }
 
-function getPredefinedDateRanges() {
+function usePredefinedDateRanges() {
+  const { t } = useLingui();
   const now = today(getLocalTimeZone());
 
   return [
     {
-      label: 'Today',
+      label: t`Today`,
       range: {
         start: now,
         end: now,
       },
     },
     {
-      label: 'Yesterday',
+      label: t`Yesterday`,
       range: {
         start: now.subtract({ days: 1 }),
         end: now.subtract({ days: 1 }),
       },
     },
     {
-      label: 'Last 7 Days',
+      label: t`Last 7 Days`,
       range: {
         start: now.subtract({ days: 7 }),
         end: now,
       },
     },
     {
-      label: 'Last 14 Days',
+      label: t`Last 14 Days`,
       range: {
         start: now.subtract({ days: 14 }),
         end: now,
       },
     },
     {
-      label: 'Last 30 Days',
+      label: t`Last 30 Days`,
       range: {
         start: now.subtract({ days: 30 }),
         end: now,
       },
     },
     {
-      label: 'This Year',
+      label: t`This Year`,
       range: {
         start: now.set({ month: 1, day: 1 }),
         end: now.set({ month: 12, day: 31 }),
       },
     },
     {
-      label: 'Last Year',
+      label: t`Last Year`,
       range: {
         start: now.subtract({ years: 1 }).set({ month: 1, day: 1 }),
         end: now.subtract({ years: 1 }).set({ month: 12, day: 31 }),
