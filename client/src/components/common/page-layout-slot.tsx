@@ -105,7 +105,7 @@ const RightAsideContent = styled('div', {
     height: '100%',
     maxWidth: '300px',
     overflowY: 'auto',
-    backgroundColor: 'transparent',
+    backgroundColor: '$surface',
     borderLeft: '1px solid token($colors.line3)',
   },
 });
