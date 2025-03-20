@@ -23,9 +23,9 @@ const sizes = ['small', 'normal', 'large'] as const;
 
 export const Variations: Story = {
   render: () => (
-    <Stack direction="column" gap="medium">
+    <Stack direction="column" gap="$medium">
       {variants.map(variant => (
-        <Stack key={variant} direction="row" gap="regular" align="flex-start">
+        <Stack key={variant} direction="row" gap="$regular" align="flex-start">
           {colors.map(color => (
             <Button key={color} variant={variant} color={color}>
               {`${capitalize(variant)} ${color}`}
@@ -39,9 +39,9 @@ export const Variations: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <Stack direction="column" gap="medium">
+    <Stack direction="column" gap="$medium">
       {variants.map(variant => (
-        <Stack key={variant} direction="row" gap="regular" align="flex-start">
+        <Stack key={variant} direction="row" gap="$regular" align="flex-start">
           {sizes.map(size => (
             <Button key={size} size={size} variant={variant} color="primary">
               {capitalize(size)}
@@ -61,7 +61,7 @@ function LinksExample() {
   const location = useLocation();
 
   return (
-    <Stack direction="column" gap="large" align="start">
+    <Stack direction="column" gap="$large" align="start">
       <Text variant="headingM">Current location: {location.pathname}</Text>
 
       <LinkButton
@@ -110,13 +110,13 @@ function LinksExample() {
 
 export const WithIcon: Story = {
   render: () => (
-    <Stack direction="column" gap="large">
-      <Stack direction="column" gap="small">
+    <Stack direction="column" gap="$large">
+      <Stack direction="column" gap="$small">
         <Text variant="headingM">Start icon</Text>
         <ButtonIconExample icon="bellFilled" />
       </Stack>
 
-      <Stack direction="column" gap="small">
+      <Stack direction="column" gap="$small">
         <Text variant="headingM">End icon</Text>
         <ButtonIconExample icon="addCircle" iconPlacement="end" />
       </Stack>
@@ -132,9 +132,9 @@ function ButtonIconExample({
   iconPlacement?: ComponentProps<typeof Button>['iconPlacement'];
 }) {
   return (
-    <Stack direction="column" gap="medium">
+    <Stack direction="column" gap="$medium">
       {sizes.map(size => (
-        <Stack key={size} direction="row" gap="medium">
+        <Stack key={size} direction="row" gap="$medium">
           {variants.map(variant => (
             <Button
               key={variant}
@@ -159,13 +159,13 @@ export const Loading: Story = {
     const [isLoading, setLoading] = useState(false);
 
     return (
-      <Stack direction="column" gap="medium">
+      <Stack direction="column" gap="$medium">
         <Checkbox
           label="Toggle loading"
           isSelected={isLoading}
           onChange={() => setLoading(p => !p)}
         />
-        <Stack direction="row" gap="medium" align="flex-start">
+        <Stack direction="row" gap="$medium" align="flex-start">
           {sizes.map(size => (
             <Button
               key={size}
@@ -185,7 +185,7 @@ export const Loading: Story = {
 
 export const Disabled: Story = {
   render: () => (
-    <Stack direction="row" gap="medium">
+    <Stack direction="row" gap="$medium">
       {variants.map(variant => (
         <Button key={variant} variant={variant} color="primary" isDisabled>
           {capitalize(variant)}

@@ -58,7 +58,7 @@ export function RadioGroup({
         description={description}
         validation={validation}
       >
-        <Stack direction="column" gap="xs">
+        <Stack direction="column" gap="$xs">
           {options.map(option => (
             <Radio
               key={option.value}

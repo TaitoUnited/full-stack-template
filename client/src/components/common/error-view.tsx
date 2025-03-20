@@ -14,12 +14,12 @@ export function ErrorView() {
 
   return (
     <Wrapper>
-      <Stack direction="column" gap="large" justify="center" align="center">
+      <Stack direction="column" gap="$large" justify="center" align="center">
         <Text variant="headingL">
           <Trans>Something went wrong!</Trans>
         </Text>
 
-        <Stack direction="row" gap="regular">
+        <Stack direction="row" gap="$regular">
           {config.ERROR_REPORTING_ENABLED && (
             <Button
               variant="outlined"

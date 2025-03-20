@@ -75,8 +75,8 @@ export default function HomeRoute() {
   ];
 
   return (
-    <Stack direction="column" gap="xl">
-      <Stack direction="column" gap="regular">
+    <Stack direction="column" gap="$xl">
+      <Stack direction="column" gap="$regular">
         <Text variant="headingXl">
           <Trans>Home</Trans>
         </Text>
@@ -94,7 +94,7 @@ export default function HomeRoute() {
         </Text>
       </Stack>
 
-      <Stack direction="column" gap="medium">
+      <Stack direction="column" gap="$medium">
         <Text variant="headingL">
           <Trans>Examples</Trans>
         </Text>
@@ -107,7 +107,7 @@ export default function HomeRoute() {
         </Text>
       </Stack>
 
-      <Stack direction="column" gap="medium">
+      <Stack direction="column" gap="$medium">
         <Text variant="headingL">
           <Trans>Features</Trans>
         </Text>
@@ -115,8 +115,8 @@ export default function HomeRoute() {
         <Cards>
           {features.map(feature => (
             <Card key={feature.title}>
-              <Stack direction="column" gap="regular">
-                <Stack direction="row" gap="xs" align="center">
+              <Stack direction="column" gap="$regular">
+                <Stack direction="row" gap="$xs" align="center">
                   <Icon name={feature.icon} size={24} color="text" />
                   <Text variant="headingM">{feature.title}</Text>
                 </Stack>

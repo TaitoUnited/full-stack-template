@@ -17,9 +17,9 @@ const tooltipPlacements = ['top', 'bottom', 'left', 'right'] as const;
 
 export const Variant: Story = {
   render: () => (
-    <Stack direction="column" gap="medium">
+    <Stack direction="column" gap="$medium">
       {colors.map(color => (
-        <Stack key={color} direction="row" gap="regular">
+        <Stack key={color} direction="row" gap="$regular">
           {variants.map(variant => (
             <IconButton
               key={variant}
@@ -37,7 +37,7 @@ export const Variant: Story = {
 
 export const Color: Story = {
   render: () => (
-    <Stack direction="row" gap="regular">
+    <Stack direction="row" gap="$regular">
       {colors.map(color => (
         <IconButton
           key={color}
@@ -53,9 +53,9 @@ export const Color: Story = {
 
 export const Size: Story = {
   render: () => (
-    <Stack direction="column" gap="medium">
+    <Stack direction="column" gap="$medium">
       {sizes.map(size => (
-        <Stack key={size} direction="row" gap="regular">
+        <Stack key={size} direction="row" gap="$regular">
           {variants.map(variant => (
             <IconButton
               key={variant}
@@ -73,9 +73,9 @@ export const Size: Story = {
 
 export const Tooltip: Story = {
   render: () => (
-    <Stack direction="column" gap="medium">
+    <Stack direction="column" gap="$medium">
       {tooltipPlacements.map(tooltipPlacement => (
-        <Stack key={tooltipPlacement} direction="row" gap="regular">
+        <Stack key={tooltipPlacement} direction="row" gap="$regular">
           {variants.map(variant => (
             <IconButton
               key={variant}

@@ -25,13 +25,13 @@ type Story = StoryObj<typeof Card>;
 export const Example: Story = {
   render: () => (
     <Card>
-      <Stack direction="column" gap="large">
-        <Stack direction="column" gap="small">
+      <Stack direction="column" gap="$large">
+        <Stack direction="column" gap="$small">
           <Text variant="headingM">Title</Text>
           <Text variant="body">Card content can be anything</Text>
         </Stack>
 
-        <Stack direction="column" gap="regular">
+        <Stack direction="column" gap="$regular">
           <TextInput label="Input label" placeholder="Input placeholder" />
           <Select
             label="Select label"

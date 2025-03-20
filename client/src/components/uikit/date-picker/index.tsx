@@ -100,7 +100,7 @@ export function DatePicker({
           <Calendar data-testid="date-picker-calendar">
             <CalendarHeader>
               <CalendarHeading />
-              <Stack direction="row" gap="xs">
+              <Stack direction="row" gap="$xs">
                 <CalendarHeaderButton
                   slot="previous"
                   data-testid="date-picker-calendar-previous"

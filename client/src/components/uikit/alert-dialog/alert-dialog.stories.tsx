@@ -37,7 +37,7 @@ function Example() {
     alertDialog.show({
       title: 'Are you sure?',
       content: (
-        <Stack direction="column" gap="xs">
+        <Stack direction="column" gap="$xs">
           <Text variant="body">
             Dropping the database can be fun but dangerous.
           </Text>

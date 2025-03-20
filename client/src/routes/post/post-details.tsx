@@ -13,7 +13,7 @@ type Props = {
 export function PostDetails({ createdAt, author, subject, content }: Props) {
   return (
     <article>
-      <Stack direction="column" gap="medium">
+      <Stack direction="column" gap="$medium">
         <Text variant="headingXl">{subject}</Text>
 
         <Text variant="bodySmall" color="neutral1">

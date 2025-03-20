@@ -34,7 +34,7 @@ export default function PostListRoute() {
 
   return (
     <>
-      <Stack direction="column" gap="large">
+      <Stack direction="column" gap="$large">
         <Text variant="headingXl">
           <Trans>Blog</Trans>
         </Text>

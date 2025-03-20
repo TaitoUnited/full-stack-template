@@ -41,12 +41,12 @@ export function InputLayout({
         </Label>
       </div>
 
-      <Stack direction="column" gap="xs">
+      <Stack direction="column" gap="$xs">
         {children}
 
         {(description ||
           (validation.message && validation.type !== 'valid')) && (
-          <Stack direction="column" gap="xxs">
+          <Stack direction="column" gap="$xxs">
             {!!description && <DescriptionText>{description}</DescriptionText>}
             {!!validation.message && (
               <ErrorText>{validation.message}</ErrorText>

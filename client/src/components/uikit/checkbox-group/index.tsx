@@ -64,7 +64,7 @@ export function CheckboxGroup({
         description={description}
         validation={validation}
       >
-        <Stack direction="column" gap="xs">
+        <Stack direction="column" gap="$xs">
           {options.map(option => (
             <CheckboxGroupItem key={option.label}>
               <Checkbox {...option} />

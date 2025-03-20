@@ -14,8 +14,8 @@ type Props = {
 
 export function SelectItem({ label, description, render }: Props) {
   return (
-    <Stack direction="row" gap="small" align="center" justify="space-between">
-      <Stack direction="column" gap="xxs">
+    <Stack direction="row" gap="$small" align="center" justify="space-between">
+      <Stack direction="column" gap="$xxs">
         {render ? (
           render(<LabelWrapper>{label}</LabelWrapper>)
         ) : (

@@ -25,7 +25,7 @@ const descriptionTextStyles = css({
 
 export function ErrorText({ children }: { children: ReactNode }) {
   return (
-    <Stack direction="row" gap="xxs" align="center">
+    <Stack direction="row" gap="$xxs" align="center">
       <Icon name="error" size={16} color="error" style={{ flexShrink: 0 }} />
       <AriaText slot="errorMessage" className={errorTextStyles}>
         {children}

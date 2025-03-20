@@ -15,11 +15,11 @@ export function PostListCard({ createdAt, title }: Props) {
     <Wrapper>
       <Stack
         direction="row"
-        gap="regular"
+        gap="$regular"
         justify="space-between"
         align="center"
       >
-        <Stack direction="column" gap="xs">
+        <Stack direction="column" gap="$xs">
           <Subject variant="body">{title}</Subject>
 
           <Text variant="bodySmall" color="neutral1">

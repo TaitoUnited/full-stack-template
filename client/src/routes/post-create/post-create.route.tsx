@@ -79,7 +79,7 @@ export default function PostCreateRoute() {
       <Dialog.Body>
         <Wrapper>
           <form onSubmit={handleSubmit}>
-            <Stack direction="column" gap="regular">
+            <Stack direction="column" gap="$regular">
               <TextInput
                 label={t`Title`}
                 name="title"

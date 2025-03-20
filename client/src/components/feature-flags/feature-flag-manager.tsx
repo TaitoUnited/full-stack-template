@@ -63,7 +63,7 @@ function FeatureFlagManagerWidget({ onClose }: { onClose: () => void }) {
   return (
     <Wrapper>
       <Widget>
-        <Stack direction="column" gap="regular">
+        <Stack direction="column" gap="$regular">
           <Text variant="headingM">Feature flags</Text>
 
           <Text variant="body" lineHeight={1.5}>
