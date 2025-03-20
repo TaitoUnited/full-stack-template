@@ -1,6 +1,10 @@
 import { type CSSProperties, memo, type ReactNode, type Ref } from 'react';
 
-import { type SpacingToken, token } from '~/styled-system/tokens';
+import { css } from '~/styled-system/css';
+import {
+  type BreakpointToken,
+  type SpacingToken,
+} from '~/styled-system/tokens';
 import { type StyledSystemToken } from '~/utils/styled-system';
 
 type AllowedElement =
@@ -15,13 +19,16 @@ type AllowedElement =
   | 'ol'
   | 'li';
 
+type Breakpoint = 'base' | StyledSystemToken<BreakpointToken>;
+type ResponsiveValue<T> = T | { [key in Breakpoint]?: T };
+
 type Props = {
   ref?: Ref<any>;
-  gap: StyledSystemToken<SpacingToken>;
-  direction?: CSSProperties['flexDirection'];
-  align?: CSSProperties['alignItems'];
-  justify?: CSSProperties['justifyContent'];
-  wrap?: CSSProperties['flexWrap'];
+  gap: ResponsiveValue<SpacingToken>;
+  direction?: ResponsiveValue<CSSProperties['flexDirection']>;
+  align?: ResponsiveValue<CSSProperties['alignItems']>;
+  justify?: ResponsiveValue<CSSProperties['justifyContent']>;
+  wrap?: ResponsiveValue<CSSProperties['flexWrap']>;
   children: ReactNode;
   className?: string;
   style?: CSSProperties;
@@ -42,20 +49,17 @@ function StackBase({
 }: Props) {
   const Element = as || 'div';
 
+  const className = css({
+    gap,
+    display: 'flex',
+    flexDirection: direction,
+    alignItems: align,
+    justifyContent: justify,
+    flexWrap: wrap,
+  });
+
   return (
-    <Element
-      {...rest}
-      ref={ref}
-      style={{
-        gap: token.var(`$spacing.${gap}`),
-        display: 'flex',
-        flexDirection: direction,
-        alignItems: align,
-        justifyContent: justify,
-        flexWrap: wrap,
-        ...style,
-      }}
-    >
+    <Element {...rest} ref={ref} className={className} style={style}>
       {children}
     </Element>
   );
