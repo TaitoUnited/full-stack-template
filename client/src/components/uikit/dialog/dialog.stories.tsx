@@ -19,7 +19,7 @@ type Story = StoryObj<typeof Dialog>;
 
 export const Full: Story = {
   render: () => (
-    <Stack direction="row" gap="regular">
+    <Stack direction="row" gap="$regular">
       <DialogExample kind="full" placement="middle" />
       <DialogExample kind="full" placement="top" />
       <DialogExample kind="full" placement="bottom" />
@@ -30,7 +30,7 @@ export const Full: Story = {
 
 export const Basic: Story = {
   render: () => (
-    <Stack direction="row" gap="regular">
+    <Stack direction="row" gap="$regular">
       <DialogExample kind="basic" placement="middle" />
       <DialogExample kind="basic" placement="top" />
       <DialogExample kind="basic" placement="bottom" />
@@ -41,7 +41,7 @@ export const Basic: Story = {
 
 export const CustomHeader: Story = {
   render: () => (
-    <Stack direction="row" gap="regular">
+    <Stack direction="row" gap="$regular">
       <DialogExample kind="custom-header" placement="middle" />
       <DialogExample kind="custom-header" placement="top" />
       <DialogExample kind="custom-header" placement="bottom" />
@@ -69,9 +69,9 @@ function DialogExample({
       <Dialog placement={placement} isOpen={isOpen} onOpenChange={setOpen}>
         {kind === 'custom-header' ? (
           <Dialog.Header>
-            <Stack direction="row" gap="small" align="center">
+            <Stack direction="row" gap="$small" align="center">
               <Icon name="calendarMonth" size={32} color="text" aria-hidden />
-              <Stack direction="column" gap="none">
+              <Stack direction="column" gap="$none">
                 <Text variant="headingL" as="span">
                   Custom dialog title!
                 </Text>
@@ -86,7 +86,7 @@ function DialogExample({
         )}
 
         <Dialog.Body>
-          <Stack direction="column" gap="regular">
+          <Stack direction="column" gap="$regular">
             <TextInput
               label="Random input"
               value={inputValue}
@@ -106,7 +106,7 @@ function DialogExample({
 
         {kind === 'full' && (
           <Dialog.Footer>
-            <Stack direction="row" gap="xs">
+            <Stack direction="row" gap="$xs">
               <Button
                 variant="outlined"
                 color="primary"

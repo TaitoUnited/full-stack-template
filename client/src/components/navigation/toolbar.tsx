@@ -8,7 +8,7 @@ import logoImg from '../../images/logo.svg';
 export function Toolbar() {
   return (
     <Wrapper>
-      <Stack direction="row" gap="regular" align="center">
+      <Stack direction="row" gap="$regular" align="center">
         <LogoWrapper>
           <LogoImg src={logoImg} />
         </LogoWrapper>

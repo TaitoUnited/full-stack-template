@@ -10,6 +10,7 @@ export const globalCss = defineGlobalStyles({
     height: '100%',
     minHeight: '100%',
     fontFamily: "'Inter', sans-serif",
+    fontOpticalSizing: 'auto',
     backgroundColor: '$surface',
     WebkitFontSmoothing: 'antialiased',
     MozOsxFontSmoothing: 'grayscale',
@@ -30,6 +31,7 @@ export const globalCss = defineGlobalStyles({
     background: 'transparent',
     WebkitTapHighlightColor: 'transparent',
     fontFamily: "'Inter', sans-serif",
+    fontOpticalSizing: 'auto',
     fontSize: '16px',
   },
 
@@ -54,6 +56,6 @@ export const globalCss = defineGlobalStyles({
   },
 
   button: {
-    cursor: 'pointer',
+    cursor: 'default',
   },
 });

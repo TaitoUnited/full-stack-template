@@ -181,3 +181,47 @@ export const $fadeFromTop: PropertyConfig = {
     };
   },
 };
+
+export const $customScrollbar: PropertyConfig = {
+  className: 'custom-scrollbar',
+  values: { type: 'boolean' },
+  transform(value: string) {
+    if (!value) {
+      return {};
+    }
+    return {
+      /**
+       * Use transparent grey colors so that the scrollbar is also visible
+       * against darker color backgrounds.
+       */
+      '--thumb-color': 'rgba(150, 150, 150, 0.5)',
+      '--track-color': 'rgba(150, 150, 150, 0.1)',
+
+      WebkitOverflowScrolling: 'auto', // don't do momentum scrolling
+      scrollbarGutter: 'auto', // don't reserve space for scrollbar if not needed
+      scrollbarWidth: 'thin', // no way to pass px value...
+      scrollbarColor: 'var(--thumb-color) var(--track-color)',
+
+      '@supports selector(::-webkit-scrollbar)': {
+        /**
+         * Modern syntax doesn't allow border-radius on scrollbar so unset it
+         * and use webkit scrollbar styles instead if possible.
+         */
+        scrollbarWidth: 'unset',
+        scrollbarColor: 'unset',
+
+        '&::-webkit-scrollbar': {
+          width: '6px',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          background: 'var(--thumb-color)',
+          borderRadius: '99px',
+        },
+        '&::-webkit-scrollbar-track': {
+          background: 'var(--track-color)',
+          borderRadius: '99px',
+        },
+      },
+    };
+  },
+};

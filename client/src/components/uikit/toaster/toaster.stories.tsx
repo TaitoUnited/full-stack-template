@@ -100,7 +100,7 @@ function ToastOptions({
   const { toasts } = useSonner();
 
   return (
-    <Stack direction="column" gap="medium">
+    <Stack direction="column" gap="$medium">
       {toastVariants.map(variant => (
         <Button
           key={variant}

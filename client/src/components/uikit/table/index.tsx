@@ -53,7 +53,7 @@ function Column({
   return (
     <AriaColumn {...props}>
       {({ allowsSorting, sortDirection }) => (
-        <Stack direction="row" gap="xxs">
+        <Stack direction="row" gap="$xxs">
           {children}
           {allowsSorting && (
             <span aria-hidden="true" className="sort-indicator">

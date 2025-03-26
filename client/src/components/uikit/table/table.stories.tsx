@@ -102,13 +102,13 @@ export function Sortable() {
         onSortChange={setSort}
       >
         <Table.Header>
-          <Table.Column id="name" allowsSorting isRowHeader>
+          <Table.Column key="name" allowsSorting isRowHeader>
             Name
           </Table.Column>
-          <Table.Column id="age" allowsSorting>
+          <Table.Column key="age" allowsSorting>
             Age
           </Table.Column>
-          <Table.Column id="location" allowsSorting>
+          <Table.Column key="location" allowsSorting>
             Location
           </Table.Column>
         </Table.Header>

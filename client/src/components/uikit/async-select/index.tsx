@@ -1,11 +1,10 @@
-import { useLingui } from '@lingui/react/macro';
-import { type Ref, useContext, useState } from 'react';
-import { type ButtonProps } from 'react-aria-components';
+import { Trans, useLingui } from '@lingui/react/macro';
+import { type Ref, use, useState } from 'react';
 import {
   Button as AriaButton,
+  type ButtonProps,
   Dialog,
   DialogTrigger,
-  Label,
   ListBox,
   ListBoxItem,
   OverlayTriggerStateContext,
@@ -16,16 +15,15 @@ import useMeasure from 'react-use-measure';
 
 import { css, cx } from '~/styled-system/css';
 import { styled } from '~/styled-system/jsx';
+import { InputLayout } from '~/uikit/partials/input-layout';
 
 import { Icon, type IconName } from '../icon';
-import { type FormComponentProps } from '../partials/common';
 import {
-  FormInputContainer,
+  type FormComponentProps,
   inputBaseStyles,
   inputIconLeftStyles,
   inputIconRightStyles,
   inputWrapperStyles,
-  labelStyles,
   listBoxItemStyles,
   listBoxStyles,
   useInputContext,
@@ -33,6 +31,7 @@ import {
 import { SelectActions } from '../partials/select-actions';
 import { SelectFilterInput } from '../partials/select-filter-input';
 import { SelectItem } from '../partials/select-item';
+import { getValidationParams } from '../partials/validation';
 import { Spinner } from '../spinner';
 import { Text } from '../text';
 
@@ -81,7 +80,7 @@ export function AsyncSelect({
   isRequired,
   actions,
   emptyMessage,
-  errorMessage,
+  validationMessage,
   description,
   placeholder = '',
   selectionMode,
@@ -95,23 +94,17 @@ export function AsyncSelect({
   const inputContext = useInputContext();
   const labelPosition = labelPositionProp ?? inputContext.labelPosition;
   const numSelected = value.size;
+  const validation = getValidationParams(validationMessage);
 
   return (
     <DialogTrigger>
       <div className={inputWrapperStyles({ labelPosition })}>
-        {!!label && (
-          <Label
-            className={labelStyles({ labelPosition })}
-            data-required={isRequired}
-            data-testid="async-select-label"
-          >
-            {label}
-          </Label>
-        )}
-
-        <FormInputContainer
+        <InputLayout
+          label={label}
+          labelPosition={labelPosition}
+          isRequired={isRequired}
           description={description}
-          errorMessage={errorMessage}
+          validation={validation}
         >
           <AsyncSelectButton ref={measureRef}>
             {!!icon && (
@@ -126,12 +119,12 @@ export function AsyncSelect({
             <AriaButton
               {...rest}
               ref={ref}
-              data-invalid={!!errorMessage}
+              data-invalid={validation.type === 'error'}
               data-has-icon={!!icon}
               data-has-selected={numSelected > 0}
               data-testid="async-select-button"
               className={cx(
-                inputBaseStyles,
+                inputBaseStyles(),
                 css({
                   paddingRight: '$xl!',
                   color: '$textMuted',
@@ -151,7 +144,7 @@ export function AsyncSelect({
               className={cx(inputIconRightStyles, css({ right: '$xs!' }))}
             />
           </AsyncSelectButton>
-        </FormInputContainer>
+        </InputLayout>
 
         <Popover
           data-testid="async-select-popover"
@@ -167,7 +160,6 @@ export function AsyncSelect({
           <AsyncSelectOptions
             actions={actions}
             emptyMessage={emptyMessage ?? t`No options found`}
-            errorMessage={errorMessage ?? t`Something went wrong`}
             selectionMode={selectionMode}
             value={value}
             onChange={onChange}
@@ -182,7 +174,6 @@ export function AsyncSelect({
 }
 
 function AsyncSelectOptions({
-  errorMessage,
   emptyMessage,
   actions,
   selectionMode,
@@ -199,7 +190,6 @@ function AsyncSelectOptions({
   | 'onChange'
   | 'loadItems'
   | 'emptyMessage'
-  | 'errorMessage'
   | 'hiddenLabel'
   | 'labelledby'
 >) {
@@ -219,7 +209,9 @@ function AsyncSelectOptions({
         </AsyncSelectEmpty>
       ) : list.loadingState === 'error' ? (
         <AsyncSelectEmpty>
-          <Text variant="body">{errorMessage}</Text>
+          <Text variant="body">
+            <Trans>Something went wrong</Trans>
+          </Text>
         </AsyncSelectEmpty>
       ) : list.loadingState === 'idle' &&
         list.filterText &&
@@ -266,7 +258,7 @@ function AsyncSelectOptionsList({
 > & {
   items: AsyncSelectOption[];
 }) {
-  const triggerState = useContext(OverlayTriggerStateContext);
+  const triggerState = use(OverlayTriggerStateContext);
   const [internalSelected, setInternalSelected] = useState(value);
   const isConfirmationRequired = Boolean(actions?.confirm);
   const selectedOptions = isConfirmationRequired ? internalSelected : value;

@@ -17,7 +17,7 @@ export default function ThemingRoute() {
 
   return (
     <Wrapper>
-      <Stack direction="column" gap="large">
+      <Stack direction="column" gap="$large">
         <Text variant="headingXl">
           <Trans>Theming</Trans>
         </Text>

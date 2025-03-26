@@ -9,7 +9,7 @@ export function NotFoundAuthenticated() {
   useDocumentTitle('404');
 
   return (
-    <Stack direction="column" gap="medium">
+    <Stack direction="column" gap="$medium">
       <Text variant="headingXl">
         <Trans>404</Trans>
       </Text>

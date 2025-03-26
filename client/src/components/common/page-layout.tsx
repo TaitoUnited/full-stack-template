@@ -1,22 +1,34 @@
 import { type ReactNode } from 'react';
 
-import { Sidebar } from '~/components/navigation/sidebar';
-import { Toolbar } from '~/components/navigation/toolbar';
 import { styled } from '~/styled-system/jsx';
+
+import { Sidebar } from '../navigation/sidebar';
+import { Toolbar } from '../navigation/toolbar';
 
 export function PageLayout({ children }: { children: ReactNode }) {
   return (
-    <Layout>
-      <Toolbar />
-      <Main>
+    <Layout data-testid="page-layout">
+      <Topbar data-page-layout-slot="topbar" data-testid="page-topbar">
+        <Toolbar />
+      </Topbar>
+
+      <LeftAside
+        data-page-layout-slot="left-aside"
+        data-testid="page-left-aside"
+      >
         <Sidebar />
-        <Scroller>
-          <div id="breadcrumbs-slot">
-            {/* Breadcrumbs are rendered in here via React portal */}
-          </div>
-          <Content>{children}</Content>
-        </Scroller>
-      </Main>
+      </LeftAside>
+
+      <ContentScroller>
+        <Content data-testid="page-content">{children}</Content>
+      </ContentScroller>
+
+      <RightAside
+        data-page-layout-slot="right-aside"
+        data-testid="page-right-aside"
+      />
+
+      <Footer data-page-layout-slot="footer" data-testid="page-footer" />
     </Layout>
   );
 }
@@ -24,34 +36,57 @@ export function PageLayout({ children }: { children: ReactNode }) {
 const Layout = styled('div', {
   base: {
     position: 'relative',
-    overflow: 'hidden',
     height: '100vh',
     width: '100vw',
-    display: 'flex',
-    flexDirection: 'column',
     backgroundColor: '$neutral5',
-
-    '@supports (-webkit-touch-callout: none)': {
-      height: '-webkit-fill-available',
-    },
+    display: 'grid',
+    gridTemplateColumns: 'auto auto 1fr auto',
+    gridTemplateRows: 'auto 1fr auto',
+    gridTemplateAreas: `
+      'sidebar topbar topbar topbar'
+      'sidebar left-aside content right-aside'
+      'sidebar footer footer footer'
+    `,
   },
 });
 
-const Main = styled('div', {
+const Topbar = styled('div', {
   base: {
-    flex: 1,
-    display: 'flex',
-    minHeight: '0px',
+    gridArea: 'topbar',
+    zIndex: 1,
   },
 });
 
-const Scroller = styled('div', {
+const LeftAside = styled('aside', {
   base: {
+    gridArea: 'left-aside',
+  },
+});
+
+const RightAside = styled('aside', {
+  base: {
+    gridArea: 'right-aside',
+  },
+});
+
+const Footer = styled('footer', {
+  base: {
+    gridArea: 'footer',
+    zIndex: 1,
+  },
+});
+
+const ContentScroller = styled('div', {
+  base: {
+    gridArea: 'content',
     flexGrow: 1,
     display: 'flex',
     flexDirection: 'column',
     overflowY: 'auto',
     overflowX: 'hidden',
+    $customScrollbar: true,
+    // Ensure the width doesn't jump around when the scrollbar appears/disappears
+    scrollbarGutter: 'stable both-edges',
   },
 });
 

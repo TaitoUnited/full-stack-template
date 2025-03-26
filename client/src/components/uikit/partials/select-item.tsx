@@ -1,22 +1,29 @@
-import { SelectedIcon } from './common';
+import type { ReactNode } from 'react';
+import { Text } from 'react-aria-components';
+
+import { css } from '~/styled-system/css';
+
 import { Stack } from '../stack';
-import { Text } from '../text';
+import { SelectedIcon } from './common';
 
 type Props = {
   label: string;
+  render?: (label: ReactNode) => ReactNode;
   description?: string;
 };
 
-export function SelectItem({ label, description }: Props) {
+export function SelectItem({ label, description, render }: Props) {
   return (
-    <Stack direction="row" gap="small" align="center" justify="space-between">
-      <Stack direction="column" gap="xxs">
-        <Text slot="label" variant="body">
-          {label}
-        </Text>
+    <Stack direction="row" gap="$small" align="center" justify="space-between">
+      <Stack direction="column" gap="$xxs">
+        {render ? (
+          render(<LabelWrapper>{label}</LabelWrapper>)
+        ) : (
+          <LabelWrapper>{label}</LabelWrapper>
+        )}
 
         {!!description && (
-          <Text slot="description" variant="bodyExtraSmall" color="textMuted">
+          <Text slot="description" className={descriptionStyles}>
             {description}
           </Text>
         )}
@@ -25,3 +32,21 @@ export function SelectItem({ label, description }: Props) {
     </Stack>
   );
 }
+
+function LabelWrapper({ children }: { children: ReactNode }) {
+  return (
+    <Text slot="label" className={labelStyles}>
+      {children}
+    </Text>
+  );
+}
+
+const labelStyles = css({
+  textStyle: '$label',
+  lineHeight: '1.4',
+});
+
+const descriptionStyles = css({
+  textStyle: 'bodyExtraSmall',
+  color: '$textMuted',
+});

@@ -84,7 +84,7 @@ export const WithErrorMessage: Story = {
   args: {
     defaultItems: options,
     label: 'Some invalid choice',
-    errorMessage: 'This is really bad',
+    validationMessage: 'This is really bad',
   },
 };
 

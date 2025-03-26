@@ -1,12 +1,11 @@
 import { Trans, useLingui } from '@lingui/react/macro';
-import { type Ref, useContext, useState } from 'react';
+import { type Ref, use, useState } from 'react';
 import { useFilter } from 'react-aria';
-import { type ButtonProps } from 'react-aria-components';
 import {
   Button as AriaButton,
+  type ButtonProps,
   Dialog,
   DialogTrigger,
-  Label,
   ListBox,
   ListBoxItem,
   OverlayTriggerStateContext,
@@ -17,23 +16,22 @@ import useMeasure from 'react-use-measure';
 import { css, cx } from '~/styled-system/css';
 import { styled } from '~/styled-system/jsx';
 
-import { type IconName } from '../icon';
-import { Icon } from '../icon';
+import { Icon, type IconName } from '../icon';
 import {
   type FormComponentProps,
-  FormInputContainer,
   inputBaseStyles,
   inputIconLeftStyles,
   inputIconRightStyles,
   inputWrapperStyles,
-  labelStyles,
   listBoxItemStyles,
   listBoxStyles,
   useInputContext,
 } from '../partials/common';
+import { InputLayout } from '../partials/input-layout';
 import { SelectActions } from '../partials/select-actions';
 import { SelectFilterInput } from '../partials/select-filter-input';
 import { SelectItem } from '../partials/select-item';
+import { getValidationParams } from '../partials/validation';
 import { Text } from '../text';
 
 export type MultiSelectOption = {
@@ -71,7 +69,7 @@ export function MultiSelect({
   icon,
   isRequired,
   actions,
-  errorMessage,
+  validationMessage,
   description,
   placeholder = '',
   items,
@@ -84,23 +82,17 @@ export function MultiSelect({
   const labelPosition = labelPositionProp ?? inputContext.labelPosition;
   const [measureRef, dimensions] = useMeasure();
   const numSelected = value.size;
+  const validation = getValidationParams(validationMessage);
 
   return (
     <DialogTrigger>
       <div className={inputWrapperStyles({ labelPosition })}>
-        {!!label && (
-          <Label
-            className={labelStyles({ labelPosition })}
-            data-required={isRequired}
-            data-testid="multi-select-label"
-          >
-            {label}
-          </Label>
-        )}
-
-        <FormInputContainer
+        <InputLayout
+          label={label}
+          labelPosition={labelPosition}
+          isRequired={isRequired}
           description={description}
-          errorMessage={errorMessage}
+          validation={validation}
         >
           <MultiSelectButton ref={measureRef}>
             {!!icon && (
@@ -115,12 +107,12 @@ export function MultiSelect({
             <AriaButton
               {...rest}
               ref={ref}
-              data-invalid={!!errorMessage}
+              data-invalid={validation.type === 'error'}
               data-has-icon={!!icon}
               data-has-selected={numSelected > 0}
               data-testid="multi-select-button"
               className={cx(
-                inputBaseStyles,
+                inputBaseStyles(),
                 css({
                   paddingRight: '$xl!',
                   color: '$textMuted',
@@ -140,7 +132,7 @@ export function MultiSelect({
               className={cx(inputIconRightStyles, css({ right: '$xs!' }))}
             />
           </MultiSelectButton>
-        </FormInputContainer>
+        </InputLayout>
 
         <Popover
           data-testid="multi-select-popover"
@@ -223,7 +215,7 @@ function MultiSelectOptionsList({
   Props,
   'items' | 'actions' | 'value' | 'onChange' | 'hiddenLabel' | 'labelledby'
 >) {
-  const triggerState = useContext(OverlayTriggerStateContext);
+  const triggerState = use(OverlayTriggerStateContext);
   const [internalSelected, setInternalSelected] = useState(value);
   const isConfirmationRequired = Boolean(actions?.confirm);
   const selectedOptions = isConfirmationRequired ? internalSelected : value;

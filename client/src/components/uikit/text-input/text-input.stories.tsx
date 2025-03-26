@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { useState } from 'react';
 
 import { TextInput } from '.';
 
@@ -7,7 +8,7 @@ export default {
   component: TextInput,
   decorators: [
     Story => (
-      <div style={{ maxWidth: '300px' }}>
+      <div style={{ maxWidth: '500px' }}>
         <Story />
       </div>
     ),
@@ -62,8 +63,12 @@ export const WithDescription: Story = {
 export const WithError: Story = {
   args: {
     label: 'Erroring input',
-    errorMessage: "Please don't do this",
+    validationMessage: "Please don't do this",
   },
+};
+
+export const WithErrorPopover: Story = {
+  render: () => <ErrorPopoverExample />,
 };
 
 export const WithIcon: Story = {
@@ -79,3 +84,22 @@ export const Password: Story = {
     type: 'password',
   },
 };
+
+function ErrorPopoverExample() {
+  const [value, setValue] = useState('');
+
+  return (
+    <TextInput
+      style={{ '--label-width': '150px' }}
+      label="This needs a value"
+      labelPosition="left"
+      value={value}
+      onChange={setValue}
+      validationMessage={
+        !value
+          ? { message: 'This field is required', type: 'error' }
+          : undefined
+      }
+    />
+  );
+}

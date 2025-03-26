@@ -1,10 +1,9 @@
-import { type Ref } from 'react';
-import { type ComboBoxProps } from 'react-aria-components';
+import type { ComponentProps, Ref } from 'react';
 import {
   ComboBox as AriaComboBox,
   Button,
+  type ComboBoxProps,
   Input,
-  Label,
   ListBox,
   ListBoxItem,
   Popover,
@@ -12,30 +11,33 @@ import {
 
 import { css, cx } from '~/styled-system/css';
 import { styled } from '~/styled-system/jsx';
+import { InputLayout } from '~/uikit/partials/input-layout';
 
 import { Icon, type IconName } from '../icon';
-import { type FormComponentProps } from '../partials/common';
 import {
-  FormInputContainer,
+  type FormComponentProps,
   inputBaseStyles,
   inputIconLeftStyles,
   inputWrapperStyles,
-  labelStyles,
   listBoxItemStyles,
   listBoxStyles,
   useInputContext,
 } from '../partials/common';
 import { SelectItem } from '../partials/select-item';
+import { getValidationParams } from '../partials/validation';
+import { Virtualizer } from '../partials/virtualizer';
 
 export type ComboBoxOption = {
   value: string;
   label: string;
+  render?: ComponentProps<typeof SelectItem>['render'];
   description?: string;
 };
 
 type Props = FormComponentProps<ComboBoxProps<ComboBoxOption>> & {
   ref?: Ref<HTMLInputElement>;
   icon?: IconName;
+  virtualize?: boolean;
 };
 
 /**
@@ -50,36 +52,38 @@ export function ComboBox({
   hiddenLabel,
   labelPosition: labelPositionProp,
   description,
-  errorMessage,
+  validationMessage,
   placeholder,
   icon,
   value,
   onChange,
+  items,
+  virtualize,
   ...rest
 }: Props) {
   const inputContext = useInputContext();
   const labelPosition = labelPositionProp ?? inputContext.labelPosition;
+  const validation = getValidationParams(validationMessage);
 
   return (
     <AriaComboBox
       {...rest}
+      defaultItems={items}
       aria-labelledby={labelledby}
       aria-label={hiddenLabel}
-      isInvalid={!!errorMessage}
+      isInvalid={validation.type === 'error'}
       className={cx(inputWrapperStyles({ labelPosition }), rest.className)}
       selectedKey={value}
       onSelectionChange={val => onChange?.(val as string)}
+      menuTrigger="focus"
     >
-      {!!label && (
-        <Label
-          className={labelStyles({ labelPosition })}
-          data-required={rest.isRequired}
-        >
-          {label}
-        </Label>
-      )}
-
-      <FormInputContainer description={description} errorMessage={errorMessage}>
+      <InputLayout
+        label={label}
+        labelPosition={labelPosition}
+        isRequired={rest.isRequired}
+        description={description}
+        validation={validation}
+      >
         <InputWrapper>
           {!!icon && (
             <Icon
@@ -93,33 +97,36 @@ export function ComboBox({
           <Input
             ref={ref}
             placeholder={placeholder}
-            className={cx(inputBaseStyles, css({ paddingRight: '$large' }))}
+            className={cx(inputBaseStyles(), css({ paddingRight: '!$large' }))}
           />
 
           <ChevronButton>
             <Icon name="arrowDropDown" size={24} color="text" />
           </ChevronButton>
         </InputWrapper>
-      </FormInputContainer>
+      </InputLayout>
 
       <Popover data-testid="combobox-popover">
-        <ListBox className={listBoxStyles}>
-          {/* In cases like these, render props are preferred for perf reasons.
-           * Ref: https://react-spectrum.adobe.com/react-stately/collections.html#why-not-array-map
-           */}
-          {(option: ComboBoxOption) => (
-            <ListBoxItem
-              id={option.value}
-              textValue={option.label}
-              className={listBoxItemStyles}
-            >
-              <SelectItem
-                label={option.label}
-                description={option.description}
-              />
-            </ListBoxItem>
-          )}
-        </ListBox>
+        <Virtualizer enabled={!!virtualize}>
+          <ListBox className={listBoxStyles}>
+            {/* In cases like these, render props are preferred for perf reasons.
+             * Ref: https://react-spectrum.adobe.com/react-stately/collections.html#why-not-array-map
+             */}
+            {(option: ComboBoxOption) => (
+              <ListBoxItem
+                id={option.value}
+                textValue={option.label}
+                className={listBoxItemStyles}
+              >
+                <SelectItem
+                  label={option.label}
+                  render={option.render}
+                  description={option.description}
+                />
+              </ListBoxItem>
+            )}
+          </ListBox>
+        </Virtualizer>
       </Popover>
     </AriaComboBox>
   );

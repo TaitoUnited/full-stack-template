@@ -3,7 +3,6 @@ import { type AriaSelectProps } from 'react-aria';
 import {
   Select as AriaSelect,
   Button,
-  Label,
   ListBox,
   ListBoxItem,
   Popover,
@@ -13,19 +12,20 @@ import {
 import { css, cx } from '~/styled-system/css';
 
 import { Icon, type IconName } from '../icon';
-import { type FormComponentProps } from '../partials/common';
 import {
-  FormInputContainer,
+  type FormComponentProps,
   inputBaseStyles,
   inputIconLeftStyles,
   inputIconRightStyles,
   inputWrapperStyles,
-  labelStyles,
   listBoxItemStyles,
   listBoxStyles,
   useInputContext,
 } from '../partials/common';
+import { InputLayout } from '../partials/input-layout';
 import { SelectItem } from '../partials/select-item';
+import { getValidationParams } from '../partials/validation';
+import { Virtualizer } from '../partials/virtualizer';
 
 export type SelectOption = {
   value: string;
@@ -39,6 +39,7 @@ type Props = FormComponentProps<
   ref?: Ref<HTMLDivElement>;
   items: SelectOption[];
   icon?: IconName;
+  virtualize?: boolean;
 };
 
 /**
@@ -53,15 +54,18 @@ export function Select({
   hiddenLabel,
   labelPosition: labelPositionProp,
   description,
-  errorMessage,
+  validationMessage,
   icon,
   items,
   value,
   onChange,
+  virtualize,
   ...rest
 }: Props) {
   const inputContext = useInputContext();
   const labelPosition = labelPositionProp ?? inputContext.labelPosition;
+  const validation = getValidationParams(validationMessage);
+  const isInvalid = validation.type !== 'valid';
 
   return (
     <AriaSelect
@@ -69,21 +73,18 @@ export function Select({
       aria-labelledby={labelledby}
       aria-label={hiddenLabel}
       ref={ref}
-      isInvalid={!!errorMessage}
+      isInvalid={isInvalid}
       className={cx(inputWrapperStyles({ labelPosition }), rest.className)}
       selectedKey={value}
       onSelectionChange={val => onChange?.(val as string)}
     >
-      {!!label && (
-        <Label
-          className={labelStyles({ labelPosition })}
-          data-required={rest.isRequired}
-        >
-          {label}
-        </Label>
-      )}
-
-      <FormInputContainer description={description} errorMessage={errorMessage}>
+      <InputLayout
+        label={label}
+        labelPosition={labelPosition}
+        isRequired={rest.isRequired}
+        description={description}
+        validation={validation}
+      >
         <div className={css({ position: 'relative' })}>
           {!!icon && (
             <Icon
@@ -95,10 +96,10 @@ export function Select({
           )}
 
           <Button
-            data-invalid={!!errorMessage}
+            data-invalid={isInvalid}
             data-has-icon={!!icon}
             className={cx(
-              inputBaseStyles,
+              inputBaseStyles(),
               css({
                 paddingRight: '$xl!',
                 '&[data-has-icon="true"]': { paddingLeft: '$xl' },
@@ -116,27 +117,29 @@ export function Select({
             className={cx(inputIconRightStyles, css({ right: '$xs!' }))}
           />
         </div>
-      </FormInputContainer>
+      </InputLayout>
 
       <Popover offset={4}>
-        <ListBox className={listBoxStyles} items={items}>
-          {/* In cases like these, render props are preferred for perf reasons.
-           * Ref: https://react-spectrum.adobe.com/react-stately/collections.html#why-not-array-map
-           */}
-          {(option: SelectOption) => (
-            <ListBoxItem
-              id={option.value}
-              textValue={option.label}
-              className={listBoxItemStyles}
-              data-testid="select-option"
-            >
-              <SelectItem
-                label={option.label}
-                description={option.description}
-              />
-            </ListBoxItem>
-          )}
-        </ListBox>
+        <Virtualizer enabled={!!virtualize}>
+          <ListBox className={listBoxStyles} items={items}>
+            {/* In cases like these, render props are preferred for perf reasons.
+             * Ref: https://react-spectrum.adobe.com/react-stately/collections.html#why-not-array-map
+             */}
+            {(option: SelectOption) => (
+              <ListBoxItem
+                id={option.value}
+                textValue={option.label}
+                className={listBoxItemStyles}
+                data-testid="select-option"
+              >
+                <SelectItem
+                  label={option.label}
+                  description={option.description}
+                />
+              </ListBoxItem>
+            )}
+          </ListBox>
+        </Virtualizer>
       </Popover>
     </AriaSelect>
   );

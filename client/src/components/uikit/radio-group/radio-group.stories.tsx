@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { CheckboxGroup } from '.';
+import { RadioGroup } from '.';
 
 export default {
-  title: 'CheckboxGroup',
-  component: CheckboxGroup,
+  title: 'RadioGroup',
+  component: RadioGroup,
   decorators: [
     Story => (
       <div style={{ maxWidth: '600px' }}>
@@ -14,15 +14,15 @@ export default {
   ],
   args: {
     options: [
-      { label: 'Checkbox 1', value: '1' },
-      { label: 'Checkbox 2', value: '2' },
-      { label: 'Checkbox 3', value: '3' },
-      { label: 'Checkbox 4', value: '4' },
+      { label: 'Option 1', value: '1' },
+      { label: 'Option 2', value: '2' },
+      { label: 'Option 3', value: '3' },
+      { label: 'Option 4', value: '4' },
     ],
   },
-} satisfies Meta<typeof CheckboxGroup>;
+} satisfies Meta<typeof RadioGroup>;
 
-type Story = StoryObj<typeof CheckboxGroup>;
+type Story = StoryObj<typeof RadioGroup>;
 
 export const Regular: Story = {
   args: {
@@ -45,28 +45,28 @@ export const HiddenLabel: Story = {
 
 export const Disabled: Story = {
   args: {
-    label: 'Disabled checkbox group',
+    label: 'Disabled radio group',
     isDisabled: true,
   },
 };
 
 export const Required: Story = {
   args: {
-    label: 'Required checkbox group',
+    label: 'Required radio group',
     isRequired: true,
   },
 };
 
 export const Invalid: Story = {
   args: {
-    label: 'Invalid checkbox group',
+    label: 'Invalid radio group',
     validationMessage: 'This is really bad',
   },
 };
 
 export const Description: Story = {
   args: {
-    label: 'checkbox group with description',
+    label: 'Radio group with description',
     description: 'This is a description',
   },
 };
