@@ -42,7 +42,7 @@ function LabelWrapper({ children }: { children: ReactNode }) {
 }
 
 const labelStyles = css({
-  textStyle: 'body',
+  textStyle: '$label',
   lineHeight: '1.4',
 });
 
