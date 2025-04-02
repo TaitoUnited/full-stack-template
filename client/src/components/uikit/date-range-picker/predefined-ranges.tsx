@@ -83,7 +83,7 @@ function usePredefinedDateRanges() {
       label: t`This Year`,
       range: {
         start: now.set({ month: 1, day: 1 }),
-        end: now.set({ month: 12, day: 31 }),
+        end: now, // We want to select this year up to today
       },
     },
     {

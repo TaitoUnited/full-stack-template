@@ -48,7 +48,7 @@ type DateRangePicker<T extends DateValue> = Omit<
   clearable?: boolean;
   preDefinable?: boolean;
   value: DateRange | null;
-  onChange?: (value: DateRange | null) => void;
+  onChange: (value: DateRange | null) => void;
 };
 
 /**
@@ -72,6 +72,8 @@ export function DateRangePicker<T extends DateValue>({
   clearable = false,
   preDefinable = false,
   value,
+  minValue,
+  maxValue,
   onChange,
   ...rest
 }: DateRangePicker<T>) {
@@ -175,6 +177,10 @@ export function DateRangePicker<T extends DateValue>({
             )}
             <RangeCalendar
               data-testid="date-range-picker-calendar"
+              firstDayOfWeek="mon"
+              maxValue={maxValue}
+              minValue={minValue}
+              defaultFocusedValue={value?.end}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -443,6 +449,11 @@ const CalendarCell = styled(AriaCalendarCell, {
 
     '&[data-disabled]': {
       color: '$neutral2',
+      cursor: 'not-allowed',
+    },
+
+    '&[data-outside-month]': {
+      display: 'none',
     },
 
     '&[data-selected]': {
