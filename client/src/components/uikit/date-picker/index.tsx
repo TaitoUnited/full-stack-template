@@ -197,7 +197,7 @@ export function DatePicker({
         }}
       >
         <DatePickerDialog>
-          <Calendar data-testid="date-picker-calendar">
+          <Calendar firstDayOfWeek="mon" data-testid="date-picker-calendar">
             {date => (
               <>
                 <CalendarHeader>
@@ -503,6 +503,11 @@ const CalendarCell = styled(AriaCalendarCell, {
 
     '&[data-disabled]': {
       color: '$neutral2',
+      cursor: 'not-allowed',
+    },
+
+    '&[data-outside-month]': {
+      display: 'none',
     },
 
     '&[data-selected]': {
