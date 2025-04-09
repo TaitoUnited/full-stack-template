@@ -38,18 +38,14 @@ Short and concise is the key, for example:
 
 <!-- If no tests are added, tell us why. -->
 
-## 📋 Added documentation?
+## 📄 Is documentation up-to-date?
 
-> [!TIP]
-> Based on the changes introduced in this PR, you might need to update inline code documentation, the README, or any related Wiki/Confluence pages.
+<!-- Have you added or updated documentation related to the changes? -->
 
 - [ ] 👍 Yes
 - [ ] 🙅 No, why not?
 
-<!-- 
-If documentation updates were skipped, briefly explain why it wasn’t necessary.  
-Examples: minor UI tweak, refactoring, etc.  
--->
+<!-- If changes don't affect documentation, remove this section. -->
 
 ## ✔️ Checklist
 
