@@ -38,6 +38,15 @@ Short and concise is the key, for example:
 
 <!-- If no tests are added, tell us why. -->
 
+## 📄 Is documentation up-to-date?
+
+<!-- Have you added or updated documentation related to the changes? -->
+
+- [ ] 👍 Yes
+- [ ] 🙅 No, why not?
+
+<!-- If changes don't affect documentation, remove this section. -->
+
 ## ✔️ Checklist
 
 ### General
