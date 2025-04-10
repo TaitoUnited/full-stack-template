@@ -14,7 +14,6 @@ This repository provides a client-side template for building full-stack applicat
 - [Internationalization](./localisation.md)
 - [Routing](./routing.md)
 - [Styling](./styling.md)
-- [Testing](./testing.md)
 
 ---
 
