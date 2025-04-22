@@ -1,0 +1,46 @@
+# Taito infrastructure
+
+## Infrastructure settings
+
+The infrastructure settings for your application are found under `scripts/taito/config`. These files are updated automatically on `taito project upgrade` and there is rarely need to modify them manually. All application specific configurations are located in `../*.sh` files.
+
+## Project creating and upgrading
+
+The scripts that are run when a project is created or upgraded
+based on the full-stack-template are found under `scripts/taito/taito-template`.
+
+## Helm
+
+The [Helm](https://helm.sh/) chart for your application are found under `scripts/helm`. These files are updated automatically on `taito project upgrade` and there is rarely need to modify them manually. All application specific configurations are located in `../helm*.yaml` files.
+
+## Terraform
+
+The [Terraform](https://www.terraform.io/) modules for your application are found under `scripts/terraform`. These files are updated automatically on `taito project upgrade` and there is rarely need to modify them manually. All application specific configurations are located in `../terraform*.yaml` files.
+
+You can add additional Terraform modules here, if you like:
+
+- All `project-*` modules will be run on `taito project apply`
+- All `env-*` modules will be run on `taito env apply:ENV`
+- All `deploy-*` modules will be run on `taito deployment deploy:ENV`.
+
+Do not forget to define backend for your modules. For example:
+
+```
+# Store state to AWS S3 bucket
+terraform {
+  backend "s3" {
+  }
+}
+
+# Store state to Azure storage bucket
+terraform {
+  backend "azurerm" {
+  }
+}
+
+# Store state to Google Cloud storage bucket
+terraform {
+  backend "gcs" {
+  }
+}
+```
