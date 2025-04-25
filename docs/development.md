@@ -178,7 +178,7 @@ taito db diff:dev test                  # Show diff between dev and test schemas
 taito db copy between:test:dev          # Copy test database to dev
 ```
 
-Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to show command help (e.g `taito db -h`, `taito db import -h`). For troubleshooting run `taito trouble`. See [README.md](../../README.md) for project specific conventions and documentation.
+Run `taito -h` to get detailed instructions for all commands. Run `taito COMMAND -h` to show command help (e.g `taito db -h`, `taito db import -h`). For troubleshooting run `taito trouble`. See [README.md](README.md) for project specific conventions and documentation.
 
 > [!TIP]
 > If you run into authorization errors, authenticate with the `taito auth:ENV` command.

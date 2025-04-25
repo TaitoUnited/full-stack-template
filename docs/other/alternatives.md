@@ -208,7 +208,7 @@ On root package.json:
     "taito-host-db-deploy": "if [ ${taito_env} = 'local' ]; then docker exec ${taito_project}-server bin/console doctrine:migrations:migrate --no-interaction; else docker compose -f docker-compose-cicd.yaml run --rm ${taito_project}-server-cicd sh -c 'echo Sleeping... && sleep 30 && echo Done sleeping && bin/console doctrine:migrations:migrate --no-interaction'; fi",
 ```
 
-### GraphQL (old)
+### full-stack-template | server (old)
 
 Found under `alternatives/server-old`.
 

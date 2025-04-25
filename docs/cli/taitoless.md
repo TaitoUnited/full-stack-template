@@ -79,7 +79,7 @@ If you would like to use some of the additional commands provided by Taito CLI a
 
 ## Configuration
 
-Instructions defined in [CONFIGURATION.md](CONFIGURATION.md) apply. You just need to run commands with `npm` or `docker-compose` directly instead of Taito CLI.
+Instructions defined in [configuration.md](configuration.md) apply. You just need to run commands with `npm` or `docker-compose` directly instead of Taito CLI.
 
 If you want to setup the application environments or run CI/CD steps without Taito CLI, see the following instructions.
 

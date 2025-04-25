@@ -11,11 +11,11 @@ This file has been copied from [FULL-STACK-TEMPLATE](https://github.com/TaitoUni
 
 ## Local development environment
 
-Start your local development environment by running `taito develop`. Once the command starts to install libraries, you can leave it on the background while you continue with configuration. Once the application has started, open the web application GUI with `taito open client`. NOTE: If your project includes a static website instead of web application GUI, you need to configure it first (see [/www/README.md](/www/README.md)), and then you can open it with `taito open www`.
+Start your local development environment by running `taito develop`. Once the command starts to install libraries, you can leave it on the background while you continue with configuration. Once the application has started, open the web application GUI with `taito open client`. NOTE: If your project includes a static website instead of web application GUI, you need to configure it first (see [other/optionals.md](/docs/other/optionals.md#static-site-generation)), and then you can open it with `taito open www`.
 
-> HINT: You usually start your development with [Database migrations](DEVELOPMENT.md#database-migrations) and [Code generation](DEVELOPMENT.md#code-generation).
+> HINT: You usually start your development with [Database migrations](/docs/database/migration.md) and [Code generation](/docs/development.md).
 
-> If the application fails to start, run `taito trouble` to see troubleshooting. More information on local development you can find from [DEVELOPMENT.md](DEVELOPMENT.md).
+> If the application fails to start, run `taito trouble` to see troubleshooting. More information on local development you can find from [development.md](/docs/development.md).
 
 ## Basic settings
 
@@ -346,7 +346,7 @@ objectViewers:
 7. Check that the bucket works ok by running the uptime check with `taito open server`.
 8. Create the storage bucket for remote environments with `taito env apply:ENV`. You most likely need to run only the terraform step.
 
-**Static site generator (www):** See [/www/README.md](/www/README.md) for configuration instructions. You can use static site generator e.g. for user guides, API documentation, or application website.
+**Static site generator (www):** See [other/optionals.md](/docs/other/optionals.md#static-site-generation) for configuration instructions. You can use static site generator e.g. for user guides, API documentation, or application website.
 
 **Custom deployment:** If you cannot use Docker containers on your remote environments, you can customize the deployment. Instead of deploying the application as docker container images, you can, for example, deploy the application as WAR or EAR packages on a Java application server, or install everything directly on the remote host. You can enable the custom provider by setting `taito_provider=custom` (TODO: use taito_deployment_platforms instead) in `scripts/taito/config/main.sh` and by implementing [custom deployment scripts](https://github.com/TaitoUnited/FULL-STACK-TEMPLATE/blob/master/scripts/taito/deploy-custom) yourself.
 

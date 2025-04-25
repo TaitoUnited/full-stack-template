@@ -4,7 +4,7 @@ This client template is initialized with [LinguiJS](https://lingui.dev/) for int
 
 ## Setup
 
-The Lingui setup can be found in the [package.json](../package.json) file:
+The Lingui setup can be found in the [package.json](/client/package.json) file:
 
 ```json
   "lingui": {
@@ -83,4 +83,4 @@ Send the `.po` files to customer for translation.
 
 ### Compile messages
 
-The compilation of messages is done with the vite **lingui** plugin set in [`vite.config.js`](../vite.config.js) file, so we do not need to run any additional commands to compile messages.
+The compilation of messages is done with the vite **lingui** plugin set in [`vite.config.js`](/client/vite.config.js) file, so we do not need to run any additional commands to compile messages.
