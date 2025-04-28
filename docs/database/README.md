@@ -26,4 +26,14 @@ export const userTable = pgTable("user", {
 > In particular, your DB connection should be defined separately.
 > Otherwise, that logic will be executed whenever you run any drizzle-kit commands.
 
-<!-- TODO: Table of content... -->
+---
+
+## Table of Contents
+
+- [Migrations](./migration.md)
+- [Operations](./operations.md)
+- [Seeding](./seeding.md)
+
+---
+
+For detailed explanations on specific topics, refer to the individual documentation files linked above.
