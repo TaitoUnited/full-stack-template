@@ -47,6 +47,8 @@ taito open www
 
 ### Gatsby
 
+⚠️ Gatsby is no longer actively maintained, use other stack components instead!
+
 1. Start a shell inside the www Docker container:
 
 ```sh
