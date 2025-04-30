@@ -20,13 +20,13 @@ Serve static files with nginx.
 
 Pip packages are managed with pip-tools by running `pip-compile requirements-[dev/prod].in` which outputs `requirements-[dev/prod].txt` with specific package versions including dependencies.
 
-* requirements.in
-  * Common packages for dev and prod.
-  * Contains `python-json-logger` for logging.
-* requirements-dev.in
-  * Packages for local environment: flake8, mypy, pytest...
-* requirements-prod.in
-  * Packages for non-local environment: stackdriver, uwsgi...
+- requirements.in
+  - Common packages for dev and prod.
+  - Contains `python-json-logger` for logging.
+- requirements-dev.in
+  - Packages for local environment: flake8, mypy, pytest...
+- requirements-prod.in
+  - Packages for non-local environment: stackdriver, uwsgi...
 
 NOTE that some script is required to run the `pip-compile` inside the server container to ensure correct python and pip versions.
 
@@ -71,10 +71,10 @@ If you would like to use Drizzle ORM instead of plain SQL and Sqitch, execute th
 4. Disable Sqitch Taito CLI plugin by removing `sqitch-db` from **scripts/taito/project.sh**.
 5. Enable Drizzle ORM migrations for Taito CLI and CI/CD by adding the following script on the package.json file located on project root:
 
-```
-    "taito-host-db-deploy": "if [ ${taito_env} = 'local' ]; then docker exec ${taito_project}-server npx ts-node src/db/migrate.ts; else docker compose -f docker-compose-cicd.yaml run --rm ${taito_project}-server-cicd sh -c 'echo Sleeping... && sleep 30 && echo Done sleeping && npm run db-migrate'; fi",
-    "taito-host-db-revert": "echo 'db revert not implemented'; exit 1;",
-    "taito-host-db-rebase": "echo 'db rebase not implemented'; exit 1;",
+```sh
+"taito-host-db-deploy": "if [ ${taito_env} = 'local' ]; then docker exec ${taito_project}-server npx ts-node src/db/migrate.ts; else docker compose -f docker-compose-cicd.yaml run --rm ${taito_project}-server-cicd sh -c 'echo Sleeping... && sleep 30 && echo Done sleeping && npm run db-migrate'; fi",
+"taito-host-db-revert": "echo 'db revert not implemented'; exit 1;",
+"taito-host-db-rebase": "echo 'db rebase not implemented'; exit 1;",
 ```
 
 > TIP: Even though you are no longer using Sqitch for database migrations, you can still define database extensions in `database/db.sql` and test data for different environments in `database/data/`. The data defined in `database/data/local.sql` will be deployed automatically to local database on `taito develop` and `taito init [--clean]`.
@@ -87,7 +87,7 @@ This template is work in progress. At least the following need to be configured 
 
 On docker-nginx.conf:
 
-```
+```nginx
   location /api {
       client_max_body_size 1m;
       proxy_pass http://full-stack-template-nginx:8080;
@@ -98,7 +98,7 @@ On docker-nginx.conf:
 
 On docker-compose.yaml:
 
-```
+```yaml
   full-stack-template-server:
     container_name: full-stack-template-server
     build:
@@ -123,7 +123,7 @@ On docker-compose.yaml:
 
 On helm.yaml:
 
-```
+```yaml
   server:
     ... no path here ...
     livenessCommand:
@@ -145,13 +145,13 @@ On helm.yaml:
 
 On project.sh:
 
-```
-  taito_containers=" ... nginx server ... "
+```sh
+taito_containers=" ... nginx server ... "
 ```
 
 On cloudbuild.yaml:
 
-```
+```yaml
   - id: artifact-prepare-nginx
     waitFor: ["build-prepare"]
     name: "ghcr.io/taitounited/taito-cli:ci-gcp-dev"
@@ -195,17 +195,16 @@ On cloudbuild.yaml:
     env:
       - taito_mode=ci
       - taito_ci_phases=${_TAITO_CI_PHASES}
-
 ```
 
 3. Configure database migrations for Taito CLI:
 
 On root package.json:
 
-```
-    "taito-host-init": "taito -z ${taito_options} init:${taito_env} && npm run taito-host-db-deploy && npm-run-all import-db-data generate",
-    "taito-host-init:clean": "taito -z ${taito_options} init:${taito_env} --clean && npm run taito-host-db-deploy && npm-run-all import-db-data clean:storage generate",
-    "taito-host-db-deploy": "if [ ${taito_env} = 'local' ]; then docker exec ${taito_project}-server bin/console doctrine:migrations:migrate --no-interaction; else docker compose -f docker-compose-cicd.yaml run --rm ${taito_project}-server-cicd sh -c 'echo Sleeping... && sleep 30 && echo Done sleeping && bin/console doctrine:migrations:migrate --no-interaction'; fi",
+```json
+"taito-host-init": "taito -z ${taito_options} init:${taito_env} && npm run taito-host-db-deploy && npm-run-all import-db-data generate",
+"taito-host-init:clean": "taito -z ${taito_options} init:${taito_env} --clean && npm run taito-host-db-deploy && npm-run-all import-db-data clean:storage generate",
+"taito-host-db-deploy": "if [ ${taito_env} = 'local' ]; then docker exec ${taito_project}-server bin/console doctrine:migrations:migrate --no-interaction; else docker compose -f docker-compose-cicd.yaml run --rm ${taito_project}-server-cicd sh -c 'echo Sleeping... && sleep 30 && echo Done sleeping && bin/console doctrine:migrations:migrate --no-interaction'; fi",
 ```
 
 ### full-stack-template | server (old)

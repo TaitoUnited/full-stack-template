@@ -25,7 +25,7 @@ You can add additional Terraform modules here, if you like:
 
 Do not forget to define backend for your modules. For example:
 
-```
+```hcl
 # Store state to AWS S3 bucket
 terraform {
   backend "s3" {

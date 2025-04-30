@@ -32,28 +32,38 @@ Start your local development environment by running `taito develop`. Once the co
 
 Make sure your authentication is in effect:
 
-    taito auth:dev
+```sh
+taito auth:dev
+```
 
 Create the environment:
 
-    taito env apply:dev
+```sh
+taito env apply:dev
+```
 
 OPTIONAL: If the git repository is private, you may choose to write down the basic auth credentials to [README.md#links](../../README.md#links):
 
-    EDIT README.md                # Edit the links section
+```text
+EDIT README.md                # Edit the links section
+```
 
 Push some changes to dev branch with a [Conventional Commits](http://conventionalcommits.org/) commit message (e.g. `chore: configuration`):
 
-    taito stage                   # Or just: git add .
-    taito commit                  # Or just: git commit -m 'chore: configuration'
-    taito push                    # Or just: git push
+```sh
+taito stage                   # Or just: git add .
+taito commit                  # Or just: git commit -m 'chore: configuration'
+taito push                    # Or just: git push
+```
 
 See it build and deploy:
 
-    taito open builds:dev
-    taito status:dev
-    taito open client:dev
-    taito open server:dev
+```sh
+taito open builds:dev
+taito status:dev
+taito open client:dev
+taito open server:dev
+```
 
 > The first CI/CD run takes some time as build cache is empty. Subsequent runs should be faster.
 
@@ -120,7 +130,7 @@ Changes you have made to containers or functions will be deployed automatically 
 
 Create a cli command (see server/cli.sh and server/src/cli.ts) that you can execute manually on local development with `taito exec:server ./cli.sh createPost`. Then schedule the cli command on helm.yaml to make it run on Kubernetes as a cron job:
 
-```
+```yaml
   server:
     ...
     cronJobs:
@@ -134,7 +144,7 @@ Create a cli command (see server/cli.sh and server/src/cli.ts) that you can exec
 
 If you are using serverless functions instead of Kubernetes, add command handler in server/src/function.ts, and schedule it on terraform.yaml:
 
-```
+```yaml
   server:
     type: function
     ...
@@ -154,64 +164,64 @@ Instead of having a separate worker implementation, you can also use the server 
 
 **docker-compose.yaml:**
 
-```
-  full-stack-template-worker:
-    container_name: full-stack-template-worker
-    build:
-      context: ./server
-    environment:
-      MODE: worker
+```yaml
+full-stack-template-worker:
+  container_name: full-stack-template-worker
+  build:
+    context: ./server
+  environment:
+    MODE: worker
 ```
 
 **scripts/helm.yaml:**
 
-```
-    worker:
-      image: ${taito_container_registry}/server:${taito_build_image_tag}
-      env:
-        MODE: worker
+```yaml
+worker:
+  image: ${taito_container_registry}/server:${taito_build_image_tag}
+  env:
+    MODE: worker
 ```
 
 If you are using AWS Lambda instead of Kubernetes, define worker function on **scripts/terraform.yaml** and also use AWS SQS instead of Redis. Consider supporting both Redis and AWS SQS in your implementation, as it's only a few lines of extra code and this way your implementation will work ok also on local development.
 
-```
-    worker:
-      type: function
-      image: server
-      env:
-        MODE: worker
-      sources:
-        - type: queue
-          name: ${taito_project}-${taito_env}-jobs
-          batchSize: 1
-      awsPolicy:
-        Version: '2012-10-17'
-        Statement:
-          # Allow jobs queue hadling
-          - Effect: Allow
-            Action:
-              - sqs:ReceiveMessage
-              - sqs:DeleteMessage
-              - sqs:GetQueueAttributes
-            Resource: "arn:aws:sqs:${taito_provider_region}:${taito_provider_org_id}:${taito_project}-${taito_env}-jobs"
-
-    jobsQueue:
-      type: queue
+```yaml
+worker:
+  type: function
+  image: server
+  env:
+    MODE: worker
+  sources:
+    - type: queue
       name: ${taito_project}-${taito_env}-jobs
-      visibilityTimeout: 5400 # 6x function timeout
+      batchSize: 1
+  awsPolicy:
+    Version: "2012-10-17"
+    Statement:
+      # Allow jobs queue hadling
+      - Effect: Allow
+        Action:
+          - sqs:ReceiveMessage
+          - sqs:DeleteMessage
+          - sqs:GetQueueAttributes
+        Resource: "arn:aws:sqs:${taito_provider_region}:${taito_provider_org_id}:${taito_project}-${taito_env}-jobs"
+
+jobsQueue:
+  type: queue
+  name: ${taito_project}-${taito_env}-jobs
+  visibilityTimeout: 5400 # 6x function timeout
 ```
 
 ## Object storage
 
 This template includes S3 compatible object storage. [Minio](https://min.io) is being used to provide S3 compatibility on non-AWS environments. You use it with **aws-sdk** library like this:
 
-```
+```ts
 // Get s3 handle of the default bucket
 const storagesById = await getStoragesById();
 const { s3 } = storagesById.bucket;
 
 // Get object from the bucket
-const fileObject = await s3.getObject({ Key: 'folder/file.pdf' }).promise();
+const fileObject = await s3.getObject({ Key: "folder/file.pdf" }).promise();
 ```
 
 ### Handling object storage files on API
@@ -226,7 +236,7 @@ You have 3 options:
 
 If your implementation handles large files, it's better to use signed urls for uploading and downloading files directly from object storage instead of client making uploads/downloads through server. Typically you would implement a field resolver on your GraphQL API that returns the signed url, for example:
 
-```
+```ts
 @FieldResolver(() => String)
 async imageUrl(@Ctx() ctx: Context, @Root() root: Car) {
   const { s3 } = ...
@@ -241,7 +251,7 @@ Unfortunately, if some of your environments are located on Azure or Google Cloud
 
 **storage.ts**
 
-```
+```ts
 import { Storage } from '@google-cloud/storage';
     ...
     storagesById = {
@@ -260,30 +270,30 @@ import { Storage } from '@google-cloud/storage';
 
 **sign url**
 
-```
-  const storagesById = await getStoragesById();
-  const { s3, gcs } = storagesById.bucket;
+```ts
+const storagesById = await getStoragesById();
+const { s3, gcs } = storagesById.bucket;
 
-  return gcs
-    ? gcs.file(path).getSignedUrl({
-        version: 'v4',
-        action: 'read',
-        expires: Date.now() + 3600,
-      })
-    : s3.getSignedUrl('getObject', {
-        Key: path,
-        Expires: 3600,
-      };
+return gcs
+  ? gcs.file(path).getSignedUrl({
+      version: 'v4',
+      action: 'read',
+      expires: Date.now() + 3600,
+    })
+  : s3.getSignedUrl('getObject', {
+      Key: path,
+      Expires: 3600,
+    };
 ```
 
 **helm.yaml**
 
-```
-    server:
-      serviceAccount:
-        secret: ${taito_project}-${taito_env}-server-serviceaccount.key
-      env:
-        GCP_PROJECT_ID: my-google-project
+```yaml
+server:
+  serviceAccount:
+    secret: ${taito_project}-${taito_env}-server-serviceaccount.key
+  env:
+    GCP_PROJECT_ID: my-google-project
 ```
 
 ## Stack
@@ -308,35 +318,31 @@ import { Storage } from '@google-cloud/storage';
 
 1. Add the storage bucket configuration to `scripts/taito/project.sh`. For example:
 
-```
-
+```sh
 taito_buckets="... archive ..."
 st_archive_name="${taito_project}-archive-${taito_env}"
-
 ```
 
 2. Add the storage bucket configuration to `terraform.yaml`. For example:
 
-```
-
+```yaml
 archive:
 type: bucket
 name: ${st_archive_name}
-     location: ${taito_default_storage_location}
-     storageClass: ${taito_default_storage_class}
-     cors:
-       - domain: https://${taito_domain} # Object lifecycle
+  location: ${taito_default_storage_location}
+  storageClass: ${taito_default_storage_class}
+  cors:
+    - domain: https://${taito_domain} # Object lifecycle
 versioning: true
 versioningRetainDays: ${taito_default_storage_days}
-     # Backup (TODO: implement)
-     backupRetainDays: ${taito_default_storage_backup_days}
-     backupLocation: ${taito_default_storage_backup_location}
-     # User rights
-     admins:
-       - id: serviceAccount:${taito_project}-${taito_env}-server@${taito_resource_namespace_id}.iam.gserviceaccount.com
+  # Backup (TODO: implement)
+  backupRetainDays: ${taito_default_storage_backup_days}
+  backupLocation: ${taito_default_storage_backup_location}
+  # User rights
+  admins:
+    - id: serviceAccount:${taito_project}-${taito_env}-server@${taito_resource_namespace_id}.iam.gserviceaccount.com
 objectAdmins:
 objectViewers:
-
 ```
 
 3. Add the storage bucket to `storage/` and `storage/.minio.sys/buckets/`.
@@ -360,8 +366,7 @@ objectViewers:
 
 4. Add a new `taito-config.sh` to the project root dir that refers to the scripts located on the another repository:
 
-```
-
+```sh
 # Mount `scripts/` and `database/` from environment repository
 
 taito_mounts="
@@ -374,7 +379,6 @@ taito_mounts="
 if [[-f scripts/taito/config/main.sh]]; then
 . scripts/taito/config/main.sh
 fi
-
 ```
 
 ## Automated tests
