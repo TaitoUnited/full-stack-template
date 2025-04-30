@@ -33,13 +33,12 @@ Table of contents:
 
 > TODO: List all the environments here (e.g. dev, test, stag, prod).
 
-**Dev**: The dev application is running here: https://`XX`-dev.taitodev.com// (`taito open client:dev`)
-
-**Test**: The test application is running here: https://`XX`-test.taitodev.com// (`taito open client:test`)
-
-**Stag**: The stag application is running here: https://`XX`-stag.taitodev.com// (`taito open client:stag`)
-
-**Production**: The application is running here: `url` (`taito open client:prod`)
+| **Environment** | **Links**                           | **CLI**                  |
+| --------------- | ----------------------------------- | ------------------------ |
+| Dev             | [App](https://xx-dev.taitodev.com)  | `taito open client:dev`  |
+| Test            | [App](https://xx-test.taitodev.com) | `taito open client:test` |
+| Staging         | [App](https://xx-stag.taitodev.com) | `taito open client:stag` |
+| Production      | [App](https://xx.taitodev.com)      | `taito open client:prod` |
 
 ## Contacts
 
