@@ -21,15 +21,21 @@ Table of contents:
 
 Install mandatory libraries on host:
 
-    npm install
+```sh
+npm install
+```
 
 Install additional libraries on host for autocompletion/linting on editor (optional):
 
-    npm run install-dev
+```sh
+npm run install-dev
+```
 
 Set up environment variables required by `docker-compose.yaml`:
 
-    . ./taito-config.sh
+```sh
+. ./taito-config.sh
+```
 
 Setup secrets required by `docker-compose.yaml`:
 
@@ -37,37 +43,45 @@ Setup secrets required by `docker-compose.yaml`:
 
 Start containers defined in `docker-compose.yaml`:
 
-    docker compose up
+```sh
+docker compose up
+```
 
 Deploy database migrations with Sqitch:
 
-    . ./taito-config.sh   # Set environment variables, if not already set for this shell
-    (cd database; SQITCH_PASSWORD=secret1234 sqitch -h localhost -p 6000 -d $db_database_name -u $db_database_app_username deploy)
+```sh
+. ./taito-config.sh   # Set environment variables, if not already set for this shell
+(cd database; SQITCH_PASSWORD=secret1234 sqitch -h localhost -p 6000 -d $db_database_name -u $db_database_app_username deploy)
+```
 
 Import development data to database:
 
-    . ./taito-config.sh   # Set environment variables, if not already set for this shell
-    PGPASSWORD=secret1234 psql -h localhost -p 6000 -d $db_database_name -U $db_database_app_username -f database/data/local.sql
+```sh
+. ./taito-config.sh   # Set environment variables, if not already set for this shell
+PGPASSWORD=secret1234 psql -h localhost -p 6000 -d $db_database_name -U $db_database_app_username -f database/data/local.sql
+```
 
 Open the application on browser:
 
-    http://localhost:9999
+http://localhost:9999
 
 Open admin GUI in browser:
 
-    http://localhost:9999/admin
+http://localhost:9999/admin
 
 Open server API in browser:
 
-    http://localhost:9999/api/healthz
+http://localhost:9999/api/healthz
 
 Open www site in browser:
 
-    http://localhost:7463/docs
+http://localhost:7463/docs
 
 Connect to database using password `secret1234`:
 
-    psql -h localhost -p 6000 -d $db_database_name -U $db_database_app_username
+```sh
+psql -h localhost -p 6000 -d $db_database_name -U $db_database_app_username
+```
 
 Use `npm`, `docker-compose` and `docker` normally to run commands and operate containers.
 
@@ -79,7 +93,7 @@ If you would like to use some of the additional commands provided by Taito CLI a
 
 ## Configuration
 
-Instructions defined in [CONFIGURATION.md](CONFIGURATION.md) apply. You just need to run commands with `npm` or `docker-compose` directly instead of Taito CLI.
+Instructions defined in [configuration.md](configuration.md) apply. You just need to run commands with `npm` or `docker-compose` directly instead of Taito CLI.
 
 If you want to setup the application environments or run CI/CD steps without Taito CLI, see the following instructions.
 
@@ -89,21 +103,21 @@ If you want to setup the application environments or run CI/CD steps without Tai
 
 1. **Create database(s):** Create database with name _full-stack-template_ENV_ and grant access to two user accounts: _full-stack-template_ENV_ for deploying the database migrations (broad rights), and _full-stack-template_ENV_app_ for the application (concise rights). Configure also database extensions if required by the application (see `database/db.sql`). You can see additional database information with:
 
-   ```
-   # Export environment variables (ENV = dev, test, uat, stag, or prod)
-   export taito_target_env=ENV
-   . taito-config.sh
+```sh
+# Export environment variables (ENV = dev, test, uat, stag, or prod)
+export taito_target_env=ENV
+. taito-config.sh
 
-   # Show database variables
-   env | grep ^db_
-   ```
+# Show database variables
+env | grep ^db_
+```
 
 2. **Set secret values:** Secrets are defined by `${taito_secrets}` and `${taito_remote_secrets}` environment variables, and the naming conventions is **name.property[/namespace]:method**. Use `${taito_namespace}` as namespace unless specified otherwise. Platform specific instructions:
 
    - **Kubernetes:** Create secrets in the correct namespace. Use **name** as secret name and **property** as data field attribute name. The secret value should be stored as base64 encoded string.
    - **AWS SSM Property Store:** Use `/${taito_zone}/namespace/name.property` as name, and `SecureString` as type. If the secret method is something else than `manual` or `random`, the value should be stored as base64 encoded string
 
-   ```
+   ```sh
    # Export environment variables (ENV = dev, test, uat, stag, or prod)
    export taito_target_env=ENV
    . taito-config.sh
@@ -123,7 +137,7 @@ If you want to setup the application environments or run CI/CD steps without Tai
 
    > NOTE: Google Cloud (gcp) scripts assume that a google cloud project defined by `taito_resource_namespace` and `taito_resource_namespace_id` environment variables already exists, since it is usually shared among multiple taito projects.
 
-   ```
+   ```sh
    # Export environment variables (ENV = dev, test, uat, stag, or prod)
    export taito_target_env=ENV
    . taito-config.sh

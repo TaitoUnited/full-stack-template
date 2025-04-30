@@ -27,3 +27,4 @@ To test other apps than client add relevant commands to root `package.json`.
 Test recorder from the Playwright [vscode plugin](https://playwright.dev/docs/getting-started-vscode) is great help in writing tests.
 
 Same plugin is also useful for running tests while debugging them.
+
