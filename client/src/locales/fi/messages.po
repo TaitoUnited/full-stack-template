@@ -13,342 +13,337 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/uikit/MultiSelect/index.tsx:132
-#: src/components/uikit/AsyncSelect/index.tsx:144
-#~ msgid "{0} selected"
-#~ msgstr ""
-
-#: src/components/uikit/multi-select/index.tsx:127
-#: src/components/uikit/async-select/index.tsx:139
+#: src/components/uikit/multi-select/index.tsx
+#: src/components/uikit/async-select/index.tsx
 msgid "{numSelected} selected"
 msgstr ""
 
-#: src/routes/not-found/not-found-unauthenticated.tsx:14
-#: src/routes/not-found/not-found-authenticated.tsx:14
+#: src/routes/not-found/not-found-unauthenticated.tsx
+#: src/routes/not-found/not-found-authenticated.tsx
 msgid "404"
 msgstr ""
 
-#: src/routes/home/home.route.tsx:53
+#: src/routes/home/home.route.tsx
 msgid "A minimal design system provides a set of UI kit components that adhere to certain design principles backed by a set of design tokens. This template defines a comprehensive set of design tokens for things like colors, typography, spacing, etc. in a globally available theme object. Additionally, the design system incorporates a UI kit that is browsable in Storybook."
 msgstr "Minimaalinen design-systeemi tarjoaa kokoelman UI-komponentteja, jotka noudattavat tiettyjä design periaatteita nojaten erinäisiin design tokeneihin. Tässä templatessa on määritelty design tokenit esimerkiksi väreille, typografialle, ja tilalle globaalin teeman avulla. Lisäksi design-systeemi sisältää UI-komponentit, joita voi selailla Storybookin sisällä."
 
-#: src/routes/home/home.route.tsx:37
+#: src/routes/home/home.route.tsx
 msgid "Accessibility"
 msgstr "Saavutettvasuus"
 
-#: src/routes/home/home.route.tsx:42
+#: src/routes/home/home.route.tsx
 msgid "Authentication"
 msgstr "Autentikaatio"
 
-#: src/routes/post-list/post-list.route.tsx:33
-#: src/routes/post-list/post-list.route.tsx:39
-#: src/routes/post/post.route.tsx:47
-#: src/components/navigation/sidebar.tsx:33
+#: src/routes/post-list/post-list.route.tsx
+#: src/routes/post-list/post-list.route.tsx
+#: src/routes/post/post.route.tsx
+#: src/components/navigation/sidebar.tsx
 msgid "Blog"
 msgstr "Blogi"
 
-#: src/components/common/lang-menu-button.tsx:16
+#: src/components/common/lang-menu-button.tsx
 msgid "Change language"
 msgstr ""
 
-#: src/components/uikit/partials/select-actions.tsx:24
-#: src/components/uikit/multi-select-combobox/index.tsx:220
+#: src/components/uikit/partials/select-actions.tsx
+#: src/components/uikit/multi-select-combobox/index.tsx
 msgid "Clear"
 msgstr ""
 
-#: src/components/uikit/date-range-picker/index.tsx:148
-#: src/components/uikit/date-picker/index.tsx:165
+#: src/components/uikit/date-range-picker/index.tsx
+#: src/components/uikit/date-picker/index.tsx
 msgid "Clear date"
 msgstr ""
 
-#: src/components/uikit/partials/select-filter-input.tsx:46
+#: src/components/uikit/partials/select-filter-input.tsx
 msgid "Clear search filter"
 msgstr ""
 
-#: src/components/uikit/dialog/index.tsx:96
+#: src/components/uikit/dialog/index.tsx
 msgid "Close"
 msgstr ""
 
-#: src/components/uikit/partials/select-actions.tsx:36
+#: src/components/uikit/partials/select-actions.tsx
 msgid "Confirm"
 msgstr ""
 
-#: src/routes/post-create/post-create.route.tsx:94
+#: src/routes/post-create/post-create.route.tsx
 msgid "Content"
 msgstr "Sisältö"
 
-#: src/components/uikit/date-picker/index.tsx:177
+#: src/components/uikit/date-picker/index.tsx
 msgid "Copied to clipboard"
 msgstr ""
 
-#: src/components/uikit/date-picker/index.tsx:177
+#: src/components/uikit/date-picker/index.tsx
 msgid "Copy date"
 msgstr ""
 
-#: src/components/uikit/date-picker/index.tsx:87
+#: src/components/uikit/date-picker/index.tsx
 msgid "Could not copy date"
 msgstr ""
 
-#: src/components/uikit/date-picker/index.tsx:107
+#: src/components/uikit/date-picker/index.tsx
 msgid "Could not paste \"{clipboardText}\" as a date"
 msgstr ""
 
-#: src/routes/post-create/post-create.route.tsx:114
+#: src/routes/post-create/post-create.route.tsx
 msgid "Create"
 msgstr "Luo"
 
-#: src/routes/post-create/post-create.route.tsx:112
+#: src/routes/post-create/post-create.route.tsx
 msgid "Creating"
 msgstr "Luodaan"
 
-#: src/routes/home/home.route.tsx:47
+#: src/routes/home/home.route.tsx
 msgid "Dark Mode"
 msgstr "Tumma tila"
 
-#: src/routes/home/home.route.tsx:52
+#: src/routes/home/home.route.tsx
 msgid "Design System"
 msgstr "Design-systeemi"
 
-#: src/routes/login/login.route.tsx:57
+#: src/routes/login/login.route.tsx
 msgid "Email"
 msgstr "Sähköposti"
 
-#: src/routes/home/home.route.tsx:99
+#: src/routes/home/home.route.tsx
 msgid "Examples"
 msgstr "Esimerkit"
 
-#: src/routes/post-create/post-create.route.tsx:59
+#: src/routes/post-create/post-create.route.tsx
 msgid "Failed to add new blog post"
 msgstr "Blogikirjoituksen luominen epäonnistui"
 
-#: src/routes/login/login.route.tsx:43
+#: src/routes/login/login.route.tsx
 msgid "Failed to login"
 msgstr ""
 
-#: src/components/navigation/sidebar.tsx:60
+#: src/components/navigation/sidebar.tsx
 msgid "Failed to logout"
 msgstr ""
 
-#: src/routes/feature-3.route.tsx:19
+#: src/routes/feature-3.route.tsx
 msgid "Feature flags"
 msgstr ""
 
-#: src/routes/feature-3.route.tsx:14
-#: src/components/navigation/sidebar.tsx:48
+#: src/routes/feature-3.route.tsx
+#: src/components/navigation/sidebar.tsx
 msgid "Feature Flags"
 msgstr ""
 
-#: src/routes/home/home.route.tsx:112
+#: src/routes/home/home.route.tsx
 msgid "Features"
 msgstr "Ominaisuudet"
 
-#: src/routes/home/home.route.tsx:38
+#: src/routes/home/home.route.tsx
 msgid "Good accessibility is a something that should be expected from every app. The building blocks for creating accessible components are provided by React Aria. This template has pre-built UI kit components, such as Button, Text, TextInput, etc., that have accessibility baked into them. You can use and extend this UI kit to fit your needs."
 msgstr "Riittävää saavutettavuutta tulisi vaatia jokaiselta sovellukselta. Tämän templaten saavutettavuuden legopalikat tarjoaa React Aria. Tässä templatessa on myös tarjolla UI-komponenttikirjasto, jossa on valmiiksi saavutettavia komponentteja, kuten Button, Text, ja TextInput. Voit vapaasti lisätä uusia komponentteja tai muokata olemassa olevia."
 
-#: src/routes/home/home.route.tsx:48
+#: src/routes/home/home.route.tsx
 msgid "Having dark mode support is a common ask from users nowadays. This template has a ready-to-use theming setup with light and dark themes that can be easily modified to conform to the client's branding. Try to toggle the theme in the top right corner."
 msgstr "Nykyaikana monet käyttäjät odottavat sovelluksen tukevan tummaa tilaa. Tässä templatessa on määriteltynä valmiiksi sekä vaalea että tumma teema, joita pystyy helposti muokkamaan sopimaan asikkaan brändiin. Yritä vaihta teemaa oikeasta yläkulmasta."
 
-#: src/routes/home/home.route.tsx:22
-#: src/routes/home/home.route.tsx:81
-#: src/components/navigation/sidebar.tsx:27
+#: src/routes/home/home.route.tsx
+#: src/routes/home/home.route.tsx
+#: src/components/navigation/sidebar.tsx
 msgid "Home"
 msgstr "Koti"
 
-#: src/routes/home/home.route.tsx:103
+#: src/routes/home/home.route.tsx
 msgid "In the sidebar you can browse through some example pages. (TODO: add more examples)"
 msgstr "Sivuvalikosta voit selata erinäisiä esimerkkisivuja läpi. (TODO: lisää enemmän esimerkkejä)"
 
-#: src/routes/home/home.route.tsx:57
+#: src/routes/home/home.route.tsx
 msgid "Internationalization"
 msgstr "Kielistys"
 
-#: src/components/uikit/date-range-picker/predefined-ranges.tsx:70
+#: src/components/uikit/date-range-picker/predefined-ranges.tsx
 msgid "Last 14 Days"
 msgstr "Viimeiset 14 päivää"
 
-#: src/components/uikit/date-range-picker/predefined-ranges.tsx:77
+#: src/components/uikit/date-range-picker/predefined-ranges.tsx
 msgid "Last 30 Days"
 msgstr "Viimeiset 30 päivää"
 
-#: src/components/uikit/date-range-picker/predefined-ranges.tsx:63
+#: src/components/uikit/date-range-picker/predefined-ranges.tsx
 msgid "Last 7 Days"
 msgstr "Viimeiset 7 päivää"
 
-#: src/components/uikit/date-range-picker/predefined-ranges.tsx:91
+#: src/components/uikit/date-range-picker/predefined-ranges.tsx
 msgid "Last Year"
 msgstr "Viime vuosi"
 
-#: src/routes/login/login.route.tsx:80
+#: src/routes/login/login.route.tsx
 msgid "Logging in"
 msgstr "Kirjaudutaan sisään"
 
-#: src/components/navigation/sidebar.tsx:94
+#: src/components/navigation/sidebar.tsx
 msgid "Logging out"
 msgstr "Kirjaudutaan ulos"
 
-#: src/routes/login/login.route.tsx:25
-#: src/routes/login/login.route.tsx:52
+#: src/routes/login/login.route.tsx
+#: src/routes/login/login.route.tsx
 msgid "Login"
 msgstr "Kirjaudu sisään"
 
-#: src/components/navigation/sidebar.tsx:96
+#: src/components/navigation/sidebar.tsx
 msgid "Logout"
 msgstr "Kirjaudu ulos"
 
-#: src/routes/home/home.route.tsx:58
+#: src/routes/home/home.route.tsx
 msgid "Most apps will require internationalization at some point in their lifetime. This template the necessary setup for multiple languages that are loaded lazily once selected. Try changing the language in the top right corner."
 msgstr "Useimmat sovellukset tarvitsevat kielistystä jossain vaiheessa elinkaartaan. Tämä template tarjoaa tarvittavan perustan laiskasti ladattaville kielistysmääritelmille. Yritä vaihtaa kieltä oikeasta yläkulmasta."
 
-#: src/routes/post-create/post-create.route.tsx:63
-#: src/routes/post-create/post-create.route.tsx:78
+#: src/routes/post-create/post-create.route.tsx
+#: src/routes/post-create/post-create.route.tsx
 msgid "New blog post"
 msgstr "Uusi blogikirjoitus"
 
-#: src/routes/post-create/post-create.route.tsx:56
+#: src/routes/post-create/post-create.route.tsx
 msgid "New blog post added"
 msgstr "Uusi blogikirjoitus lisätty"
 
-#: src/routes/post-list/post-list.route.tsx:84
+#: src/routes/post-list/post-list.route.tsx
 msgid "New post"
 msgstr ""
 
-#: src/components/uikit/multi-select/index.tsx:266
+#: src/components/uikit/multi-select/index.tsx
 msgid "No matching options."
 msgstr ""
 
-#: src/routes/home/home.route.tsx:73
+#: src/routes/home/home.route.tsx
 msgid "No one likes looking at a blank screen. This template implements a traditional Single-Page-Application which means that the initial JS bundle has to downloaded before the app can render. A nice looking splash screen can be shown until the app is ready to render making the app loading UX more pleasant."
 msgstr "Kukaan ei tykkää katsoa tyhjää ruutua. Tämä template toteuttaa perinteisen Single-Page-Application sovelluksen, missä sivuston alustava koodi täytyy ladata ennen kuin sovellus voidaan renderöidä. Hyvän näköinen aloitusruut parantaa käyttökokemusta, kun se näytetään tyhjän ruudun sijaan sillä aikaa, kun sovelluksen tarvitsema koodi latautuu."
 
-#: src/components/uikit/async-select/index.tsx:164
+#: src/components/uikit/async-select/index.tsx
 msgid "No options found"
 msgstr ""
 
-#: src/components/uikit/multi-select-combobox/index.tsx:270
+#: src/components/uikit/multi-select-combobox/index.tsx
 msgid "No results found."
 msgstr ""
 
-#: src/components/uikit/date-range-picker/index.tsx:157
-#: src/components/uikit/date-picker/index.tsx:188
+#: src/components/uikit/date-range-picker/index.tsx
+#: src/components/uikit/date-picker/index.tsx
 msgid "Open date picker"
 msgstr ""
 
-#: src/routes/not-found/not-found-unauthenticated.tsx:18
-#: src/routes/not-found/not-found-authenticated.tsx:18
+#: src/routes/not-found/not-found-unauthenticated.tsx
+#: src/routes/not-found/not-found-authenticated.tsx
 msgid "Page not found"
 msgstr ""
 
-#: src/routes/login/login.route.tsx:64
+#: src/routes/login/login.route.tsx
 msgid "Password"
 msgstr "Salasana"
 
-#: src/routes/internal-error/internal-error-unauthenticated.tsx:19
-#: src/routes/internal-error/internal-error-authenticated.tsx:19
+#: src/routes/internal-error/internal-error-unauthenticated.tsx
+#: src/routes/internal-error/internal-error-authenticated.tsx
 msgid "Please try to refresh the page"
 msgstr ""
 
-#: src/routes/home/home.route.tsx:43
+#: src/routes/home/home.route.tsx
 msgid "Practically every app needs to have a way to log in the user. This template provides a barebones authentication setup that should be extended to have a real way to log in the user either with a cookie or JWT based authentication method."
 msgstr "Lähestulkoon jokainen sovellus tarvitsee tavan kirjata käyttäjän sisään sovellukseen. Tässä templatessa on valmiina yksinkertainen perusta autentikaatiolle, mitä täytyy jatkokehittää sovelluksen tarpeiden perusteella."
 
-#: src/components/common/error-view.tsx:34
+#: src/components/common/error-view.tsx
 msgid "Reload page"
 msgstr ""
 
-#: src/components/uikit/chip/index.tsx:84
+#: src/components/uikit/chip/index.tsx
 msgid "Remove"
 msgstr ""
 
-#: src/components/common/error-view.tsx:29
+#: src/components/common/error-view.tsx
 msgid "Report an error"
 msgstr "Raportoi virhe"
 
-#: src/routes/home/home.route.tsx:62
+#: src/routes/home/home.route.tsx
 msgid "Route Preloading"
 msgstr "Sivujen esilataus"
 
-#: src/components/uikit/partials/select-filter-input.tsx:25
+#: src/components/uikit/partials/select-filter-input.tsx
 msgid "Search options"
 msgstr ""
 
-#: src/components/uikit/multi-select-combobox/index.tsx:258
+#: src/components/uikit/multi-select-combobox/index.tsx
 msgid "Search results"
 msgstr ""
 
-#: src/components/uikit/text-input/index.tsx:95
+#: src/components/uikit/text-input/index.tsx
 msgid "Show password"
 msgstr ""
 
-#: src/routes/home/home.route.tsx:67
+#: src/routes/home/home.route.tsx
 msgid "Skeleton Placeholders"
 msgstr "Luurankosisältö"
 
-#: src/routes/internal-error/internal-error-unauthenticated.tsx:15
-#: src/routes/internal-error/internal-error-authenticated.tsx:15
-#: src/components/uikit/async-select/index.tsx:215
+#: src/routes/internal-error/internal-error-unauthenticated.tsx
+#: src/routes/internal-error/internal-error-authenticated.tsx
+#: src/components/uikit/async-select/index.tsx
 msgid "Something went wrong"
 msgstr ""
 
-#: src/components/common/error-view.tsx:19
+#: src/components/common/error-view.tsx
 msgid "Something went wrong!"
 msgstr ""
 
-#: src/routes/home/home.route.tsx:63
+#: src/routes/home/home.route.tsx
 msgid "Speed is one of the most important aspects of a good UX. This template introduces a pattern for preloading route's data and code-split code in order to make page transitions feel instant."
 msgstr "Nopeus on yksi tärkeimmistä osa-aluista hyvän käyttökokemuksen luomiseksi. Tämä template mahdollistaa sivujen ja niiden datan esilatauksen mahdollistaen erittäin nopealta tuntuvan sivun vaihdoksen"
 
-#: src/routes/home/home.route.tsx:68
+#: src/routes/home/home.route.tsx
 msgid "Spinners, so many spinners, everywhere. Traditional Single-Page-Applications usually show spinners while loading data for a given page. Instead of showing simple spinners this template offers a way to implement skeleton placeholders for pages with a cool shimmering effect."
 msgstr "Spinnereitä, spinnereitä kaikkialla. Perinteiset Single-Page-Application sovellukset usein näyttävät latausindikaattoreita sillä aikaa, kun dataa ladataan, Tämä template tarjoaa mahdollisuuden näyttää ns. luurankosisältöä tylsien spinnereiden sijaan hienon shimmer efektin kera."
 
-#: src/routes/home/home.route.tsx:72
+#: src/routes/home/home.route.tsx
 msgid "Splash Screen"
 msgstr "Aloitusruutu"
 
-#: src/routes/login/login.route.tsx:82
+#: src/routes/login/login.route.tsx
 msgid "Submit"
 msgstr "Lähetä"
 
-#: src/routes/theming/theming.route.tsx:16
-#: src/routes/theming/theming.route.tsx:22
-#: src/components/navigation/sidebar.tsx:39
+#: src/routes/theming/theming.route.tsx
+#: src/routes/theming/theming.route.tsx
+#: src/components/navigation/sidebar.tsx
 msgid "Theming"
 msgstr "Teemoitus"
 
-#: src/routes/feature-3.route.tsx:24
+#: src/routes/feature-3.route.tsx
 msgid "This page is only accessible when <0>feature-3</0> is enabled in session."
 msgstr ""
 
-#: src/routes/home/home.route.tsx:89
+#: src/routes/home/home.route.tsx
 msgid "This React app contains the necessary building blocks that you need to get your project started. You can freely alter any aspect of the template to fit your needs better."
 msgstr "Tämä React sovellus toimii alkupisteenä sovelluksesi kehittämiselle. Voit vapaasti muokata tätä templatea sopimaan paremmin omiin tarpeisiisi."
 
-#: src/components/uikit/date-range-picker/predefined-ranges.tsx:84
+#: src/components/uikit/date-range-picker/predefined-ranges.tsx
 msgid "This Year"
 msgstr "Tämä vuosi"
 
-#: src/routes/post-create/post-create.route.tsx:84
+#: src/routes/post-create/post-create.route.tsx
 msgid "Title"
 msgstr ""
 
-#: src/components/uikit/date-range-picker/predefined-ranges.tsx:49
+#: src/components/uikit/date-range-picker/predefined-ranges.tsx
 msgid "Today"
 msgstr "Tämä päivä"
 
-#: src/components/uikit/multi-select-combobox/index.tsx:203
+#: src/components/uikit/multi-select-combobox/index.tsx
 msgid "Type to search"
 msgstr ""
 
-#: src/routes/home/home.route.tsx:85
+#: src/routes/home/home.route.tsx
 msgid "Welcome to Taito Fullstack Template!"
 msgstr "Tervetuloa Taito Fullstack Templateen"
 
-#: src/components/uikit/date-range-picker/predefined-ranges.tsx:56
+#: src/components/uikit/date-range-picker/predefined-ranges.tsx
 msgid "Yesterday"
 msgstr "Eilinen"
 
-#: src/routes/feature-3.route.tsx:31
+#: src/routes/feature-3.route.tsx
 msgid "You can enable features via the feature flag manager widget."
 msgstr ""

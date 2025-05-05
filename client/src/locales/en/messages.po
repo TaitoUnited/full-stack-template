@@ -13,342 +13,337 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/uikit/MultiSelect/index.tsx:132
-#: src/components/uikit/AsyncSelect/index.tsx:144
-#~ msgid "{0} selected"
-#~ msgstr ""
-
-#: src/components/uikit/multi-select/index.tsx:127
-#: src/components/uikit/async-select/index.tsx:139
+#: src/components/uikit/multi-select/index.tsx
+#: src/components/uikit/async-select/index.tsx
 msgid "{numSelected} selected"
 msgstr "{numSelected} selected"
 
-#: src/routes/not-found/not-found-unauthenticated.tsx:14
-#: src/routes/not-found/not-found-authenticated.tsx:14
+#: src/routes/not-found/not-found-unauthenticated.tsx
+#: src/routes/not-found/not-found-authenticated.tsx
 msgid "404"
 msgstr ""
 
-#: src/routes/home/home.route.tsx:53
+#: src/routes/home/home.route.tsx
 msgid "A minimal design system provides a set of UI kit components that adhere to certain design principles backed by a set of design tokens. This template defines a comprehensive set of design tokens for things like colors, typography, spacing, etc. in a globally available theme object. Additionally, the design system incorporates a UI kit that is browsable in Storybook."
 msgstr ""
 
-#: src/routes/home/home.route.tsx:37
+#: src/routes/home/home.route.tsx
 msgid "Accessibility"
 msgstr ""
 
-#: src/routes/home/home.route.tsx:42
+#: src/routes/home/home.route.tsx
 msgid "Authentication"
 msgstr ""
 
-#: src/routes/post-list/post-list.route.tsx:33
-#: src/routes/post-list/post-list.route.tsx:39
-#: src/routes/post/post.route.tsx:47
-#: src/components/navigation/sidebar.tsx:33
+#: src/routes/post-list/post-list.route.tsx
+#: src/routes/post-list/post-list.route.tsx
+#: src/routes/post/post.route.tsx
+#: src/components/navigation/sidebar.tsx
 msgid "Blog"
 msgstr ""
 
-#: src/components/common/lang-menu-button.tsx:16
+#: src/components/common/lang-menu-button.tsx
 msgid "Change language"
 msgstr ""
 
-#: src/components/uikit/partials/select-actions.tsx:24
-#: src/components/uikit/multi-select-combobox/index.tsx:220
+#: src/components/uikit/partials/select-actions.tsx
+#: src/components/uikit/multi-select-combobox/index.tsx
 msgid "Clear"
 msgstr ""
 
-#: src/components/uikit/date-range-picker/index.tsx:148
-#: src/components/uikit/date-picker/index.tsx:165
+#: src/components/uikit/date-range-picker/index.tsx
+#: src/components/uikit/date-picker/index.tsx
 msgid "Clear date"
 msgstr "Clear date"
 
-#: src/components/uikit/partials/select-filter-input.tsx:46
+#: src/components/uikit/partials/select-filter-input.tsx
 msgid "Clear search filter"
 msgstr ""
 
-#: src/components/uikit/dialog/index.tsx:96
+#: src/components/uikit/dialog/index.tsx
 msgid "Close"
 msgstr ""
 
-#: src/components/uikit/partials/select-actions.tsx:36
+#: src/components/uikit/partials/select-actions.tsx
 msgid "Confirm"
 msgstr ""
 
-#: src/routes/post-create/post-create.route.tsx:94
+#: src/routes/post-create/post-create.route.tsx
 msgid "Content"
 msgstr ""
 
-#: src/components/uikit/date-picker/index.tsx:177
+#: src/components/uikit/date-picker/index.tsx
 msgid "Copied to clipboard"
 msgstr "Copied to clipboard"
 
-#: src/components/uikit/date-picker/index.tsx:177
+#: src/components/uikit/date-picker/index.tsx
 msgid "Copy date"
 msgstr "Copy date"
 
-#: src/components/uikit/date-picker/index.tsx:87
+#: src/components/uikit/date-picker/index.tsx
 msgid "Could not copy date"
 msgstr "Could not copy date"
 
-#: src/components/uikit/date-picker/index.tsx:107
+#: src/components/uikit/date-picker/index.tsx
 msgid "Could not paste \"{clipboardText}\" as a date"
 msgstr "Could not paste \"{clipboardText}\" as a date"
 
-#: src/routes/post-create/post-create.route.tsx:114
+#: src/routes/post-create/post-create.route.tsx
 msgid "Create"
 msgstr ""
 
-#: src/routes/post-create/post-create.route.tsx:112
+#: src/routes/post-create/post-create.route.tsx
 msgid "Creating"
 msgstr ""
 
-#: src/routes/home/home.route.tsx:47
+#: src/routes/home/home.route.tsx
 msgid "Dark Mode"
 msgstr ""
 
-#: src/routes/home/home.route.tsx:52
+#: src/routes/home/home.route.tsx
 msgid "Design System"
 msgstr ""
 
-#: src/routes/login/login.route.tsx:57
+#: src/routes/login/login.route.tsx
 msgid "Email"
 msgstr ""
 
-#: src/routes/home/home.route.tsx:99
+#: src/routes/home/home.route.tsx
 msgid "Examples"
 msgstr ""
 
-#: src/routes/post-create/post-create.route.tsx:59
+#: src/routes/post-create/post-create.route.tsx
 msgid "Failed to add new blog post"
 msgstr ""
 
-#: src/routes/login/login.route.tsx:43
+#: src/routes/login/login.route.tsx
 msgid "Failed to login"
 msgstr ""
 
-#: src/components/navigation/sidebar.tsx:60
+#: src/components/navigation/sidebar.tsx
 msgid "Failed to logout"
 msgstr ""
 
-#: src/routes/feature-3.route.tsx:19
+#: src/routes/feature-3.route.tsx
 msgid "Feature flags"
 msgstr ""
 
-#: src/routes/feature-3.route.tsx:14
-#: src/components/navigation/sidebar.tsx:48
+#: src/routes/feature-3.route.tsx
+#: src/components/navigation/sidebar.tsx
 msgid "Feature Flags"
 msgstr ""
 
-#: src/routes/home/home.route.tsx:112
+#: src/routes/home/home.route.tsx
 msgid "Features"
 msgstr ""
 
-#: src/routes/home/home.route.tsx:38
+#: src/routes/home/home.route.tsx
 msgid "Good accessibility is a something that should be expected from every app. The building blocks for creating accessible components are provided by React Aria. This template has pre-built UI kit components, such as Button, Text, TextInput, etc., that have accessibility baked into them. You can use and extend this UI kit to fit your needs."
 msgstr ""
 
-#: src/routes/home/home.route.tsx:48
+#: src/routes/home/home.route.tsx
 msgid "Having dark mode support is a common ask from users nowadays. This template has a ready-to-use theming setup with light and dark themes that can be easily modified to conform to the client's branding. Try to toggle the theme in the top right corner."
 msgstr ""
 
-#: src/routes/home/home.route.tsx:22
-#: src/routes/home/home.route.tsx:81
-#: src/components/navigation/sidebar.tsx:27
+#: src/routes/home/home.route.tsx
+#: src/routes/home/home.route.tsx
+#: src/components/navigation/sidebar.tsx
 msgid "Home"
 msgstr ""
 
-#: src/routes/home/home.route.tsx:103
+#: src/routes/home/home.route.tsx
 msgid "In the sidebar you can browse through some example pages. (TODO: add more examples)"
 msgstr ""
 
-#: src/routes/home/home.route.tsx:57
+#: src/routes/home/home.route.tsx
 msgid "Internationalization"
 msgstr ""
 
-#: src/components/uikit/date-range-picker/predefined-ranges.tsx:70
+#: src/components/uikit/date-range-picker/predefined-ranges.tsx
 msgid "Last 14 Days"
 msgstr "Last 14 Days"
 
-#: src/components/uikit/date-range-picker/predefined-ranges.tsx:77
+#: src/components/uikit/date-range-picker/predefined-ranges.tsx
 msgid "Last 30 Days"
 msgstr "Last 30 Days"
 
-#: src/components/uikit/date-range-picker/predefined-ranges.tsx:63
+#: src/components/uikit/date-range-picker/predefined-ranges.tsx
 msgid "Last 7 Days"
 msgstr "Last 7 Days"
 
-#: src/components/uikit/date-range-picker/predefined-ranges.tsx:91
+#: src/components/uikit/date-range-picker/predefined-ranges.tsx
 msgid "Last Year"
 msgstr "Last Year"
 
-#: src/routes/login/login.route.tsx:80
+#: src/routes/login/login.route.tsx
 msgid "Logging in"
 msgstr ""
 
-#: src/components/navigation/sidebar.tsx:94
+#: src/components/navigation/sidebar.tsx
 msgid "Logging out"
 msgstr ""
 
-#: src/routes/login/login.route.tsx:25
-#: src/routes/login/login.route.tsx:52
+#: src/routes/login/login.route.tsx
+#: src/routes/login/login.route.tsx
 msgid "Login"
 msgstr ""
 
-#: src/components/navigation/sidebar.tsx:96
+#: src/components/navigation/sidebar.tsx
 msgid "Logout"
 msgstr ""
 
-#: src/routes/home/home.route.tsx:58
+#: src/routes/home/home.route.tsx
 msgid "Most apps will require internationalization at some point in their lifetime. This template the necessary setup for multiple languages that are loaded lazily once selected. Try changing the language in the top right corner."
 msgstr ""
 
-#: src/routes/post-create/post-create.route.tsx:63
-#: src/routes/post-create/post-create.route.tsx:78
+#: src/routes/post-create/post-create.route.tsx
+#: src/routes/post-create/post-create.route.tsx
 msgid "New blog post"
 msgstr ""
 
-#: src/routes/post-create/post-create.route.tsx:56
+#: src/routes/post-create/post-create.route.tsx
 msgid "New blog post added"
 msgstr ""
 
-#: src/routes/post-list/post-list.route.tsx:84
+#: src/routes/post-list/post-list.route.tsx
 msgid "New post"
 msgstr ""
 
-#: src/components/uikit/multi-select/index.tsx:266
+#: src/components/uikit/multi-select/index.tsx
 msgid "No matching options."
 msgstr ""
 
-#: src/routes/home/home.route.tsx:73
+#: src/routes/home/home.route.tsx
 msgid "No one likes looking at a blank screen. This template implements a traditional Single-Page-Application which means that the initial JS bundle has to downloaded before the app can render. A nice looking splash screen can be shown until the app is ready to render making the app loading UX more pleasant."
 msgstr ""
 
-#: src/components/uikit/async-select/index.tsx:164
+#: src/components/uikit/async-select/index.tsx
 msgid "No options found"
 msgstr ""
 
-#: src/components/uikit/multi-select-combobox/index.tsx:270
+#: src/components/uikit/multi-select-combobox/index.tsx
 msgid "No results found."
 msgstr "No results found."
 
-#: src/components/uikit/date-range-picker/index.tsx:157
-#: src/components/uikit/date-picker/index.tsx:188
+#: src/components/uikit/date-range-picker/index.tsx
+#: src/components/uikit/date-picker/index.tsx
 msgid "Open date picker"
 msgstr "Open date picker"
 
-#: src/routes/not-found/not-found-unauthenticated.tsx:18
-#: src/routes/not-found/not-found-authenticated.tsx:18
+#: src/routes/not-found/not-found-unauthenticated.tsx
+#: src/routes/not-found/not-found-authenticated.tsx
 msgid "Page not found"
 msgstr ""
 
-#: src/routes/login/login.route.tsx:64
+#: src/routes/login/login.route.tsx
 msgid "Password"
 msgstr ""
 
-#: src/routes/internal-error/internal-error-unauthenticated.tsx:19
-#: src/routes/internal-error/internal-error-authenticated.tsx:19
+#: src/routes/internal-error/internal-error-unauthenticated.tsx
+#: src/routes/internal-error/internal-error-authenticated.tsx
 msgid "Please try to refresh the page"
 msgstr "Please try to refresh the page"
 
-#: src/routes/home/home.route.tsx:43
+#: src/routes/home/home.route.tsx
 msgid "Practically every app needs to have a way to log in the user. This template provides a barebones authentication setup that should be extended to have a real way to log in the user either with a cookie or JWT based authentication method."
 msgstr ""
 
-#: src/components/common/error-view.tsx:34
+#: src/components/common/error-view.tsx
 msgid "Reload page"
 msgstr ""
 
-#: src/components/uikit/chip/index.tsx:84
+#: src/components/uikit/chip/index.tsx
 msgid "Remove"
 msgstr "Remove"
 
-#: src/components/common/error-view.tsx:29
+#: src/components/common/error-view.tsx
 msgid "Report an error"
 msgstr ""
 
-#: src/routes/home/home.route.tsx:62
+#: src/routes/home/home.route.tsx
 msgid "Route Preloading"
 msgstr ""
 
-#: src/components/uikit/partials/select-filter-input.tsx:25
+#: src/components/uikit/partials/select-filter-input.tsx
 msgid "Search options"
 msgstr ""
 
-#: src/components/uikit/multi-select-combobox/index.tsx:258
+#: src/components/uikit/multi-select-combobox/index.tsx
 msgid "Search results"
 msgstr "Search results"
 
-#: src/components/uikit/text-input/index.tsx:95
+#: src/components/uikit/text-input/index.tsx
 msgid "Show password"
 msgstr ""
 
-#: src/routes/home/home.route.tsx:67
+#: src/routes/home/home.route.tsx
 msgid "Skeleton Placeholders"
 msgstr ""
 
-#: src/routes/internal-error/internal-error-unauthenticated.tsx:15
-#: src/routes/internal-error/internal-error-authenticated.tsx:15
-#: src/components/uikit/async-select/index.tsx:215
+#: src/routes/internal-error/internal-error-unauthenticated.tsx
+#: src/routes/internal-error/internal-error-authenticated.tsx
+#: src/components/uikit/async-select/index.tsx
 msgid "Something went wrong"
 msgstr ""
 
-#: src/components/common/error-view.tsx:19
+#: src/components/common/error-view.tsx
 msgid "Something went wrong!"
 msgstr ""
 
-#: src/routes/home/home.route.tsx:63
+#: src/routes/home/home.route.tsx
 msgid "Speed is one of the most important aspects of a good UX. This template introduces a pattern for preloading route's data and code-split code in order to make page transitions feel instant."
 msgstr ""
 
-#: src/routes/home/home.route.tsx:68
+#: src/routes/home/home.route.tsx
 msgid "Spinners, so many spinners, everywhere. Traditional Single-Page-Applications usually show spinners while loading data for a given page. Instead of showing simple spinners this template offers a way to implement skeleton placeholders for pages with a cool shimmering effect."
 msgstr ""
 
-#: src/routes/home/home.route.tsx:72
+#: src/routes/home/home.route.tsx
 msgid "Splash Screen"
 msgstr ""
 
-#: src/routes/login/login.route.tsx:82
+#: src/routes/login/login.route.tsx
 msgid "Submit"
 msgstr ""
 
-#: src/routes/theming/theming.route.tsx:16
-#: src/routes/theming/theming.route.tsx:22
-#: src/components/navigation/sidebar.tsx:39
+#: src/routes/theming/theming.route.tsx
+#: src/routes/theming/theming.route.tsx
+#: src/components/navigation/sidebar.tsx
 msgid "Theming"
 msgstr ""
 
-#: src/routes/feature-3.route.tsx:24
+#: src/routes/feature-3.route.tsx
 msgid "This page is only accessible when <0>feature-3</0> is enabled in session."
 msgstr ""
 
-#: src/routes/home/home.route.tsx:89
+#: src/routes/home/home.route.tsx
 msgid "This React app contains the necessary building blocks that you need to get your project started. You can freely alter any aspect of the template to fit your needs better."
 msgstr ""
 
-#: src/components/uikit/date-range-picker/predefined-ranges.tsx:84
+#: src/components/uikit/date-range-picker/predefined-ranges.tsx
 msgid "This Year"
 msgstr "This Year"
 
-#: src/routes/post-create/post-create.route.tsx:84
+#: src/routes/post-create/post-create.route.tsx
 msgid "Title"
 msgstr ""
 
-#: src/components/uikit/date-range-picker/predefined-ranges.tsx:49
+#: src/components/uikit/date-range-picker/predefined-ranges.tsx
 msgid "Today"
 msgstr "Today"
 
-#: src/components/uikit/multi-select-combobox/index.tsx:203
+#: src/components/uikit/multi-select-combobox/index.tsx
 msgid "Type to search"
 msgstr "Type to search"
 
-#: src/routes/home/home.route.tsx:85
+#: src/routes/home/home.route.tsx
 msgid "Welcome to Taito Fullstack Template!"
 msgstr ""
 
-#: src/components/uikit/date-range-picker/predefined-ranges.tsx:56
+#: src/components/uikit/date-range-picker/predefined-ranges.tsx
 msgid "Yesterday"
 msgstr "Yesterday"
 
-#: src/routes/feature-3.route.tsx:31
+#: src/routes/feature-3.route.tsx
 msgid "You can enable features via the feature flag manager widget."
 msgstr ""
