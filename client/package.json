@@ -17,7 +17,6 @@
     "build": "vite build",
     "preview": "vite preview",
     "analyze": "ANALYZE=true npm run build && source-map-explorer 'build/assets/*.js' --no-border-checks",
-    "i18n:add-locale": "lingui add-locale",
     "i18n:extract": "lingui extract --clean",
     "uikit:preview": "storybook dev -p 6006",
     "uikit:build": "storybook build",
