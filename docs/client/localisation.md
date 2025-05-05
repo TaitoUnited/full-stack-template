@@ -1,86 +1,182 @@
-# Localisation
+# Localisation Guide
 
-This client template is initialized with [LinguiJS](https://lingui.dev/) for internationalization.
+This guide walks you through managing translations in your project using [LinguiJS](https://lingui.dev), including how to update translations, add new strings and manage dynamic and pluralized text.
+
+---
 
 ## Setup
 
-The Lingui setup can be found in the [package.json](/client/package.json) file:
+You can find the LinguiJS configuration in [`lingui.config.js`](/client/lingui.config.js). This file contains the locales and other settings for your project.
 
-```json
-  "lingui": {
-    "sourceLocale": "en",
-    "locales": [
-      "en",
-      "fi"
-    ],
-    "catalogs": [
-      {
-        "path": "src/locales/{locale}/messages",
-        "include": [
-          "src"
-        ]
-      }
-    ],
-    "format": "po"
-  },
-```
+---
 
-## Usage
+## Translation Management
 
-The easiest way to add translation support for a piece of text is to use the `Trans` component.
+### Updating Existing Translations
+
+1. Run the following command to extract all translatable strings from your source code:
+
+   ```bash
+   npm run i18n:extract
+   ```
+
+   This updates each language’s `messages.po` file with new or modified strings.
+
+2. Open the relevant `messages.po` file in a text editor and add your translations. For example:
+
+   ```po
+   #: src/app/(auth)/landing.tsx:74
+   #: src/app/(auth)/signup.tsx:55
+   msgid "Create an account"
+   msgstr "Luo tili"
+   ```
+
+3. Re-run the extract command to validate your translations and ensure files are properly updated:
+
+   ```bash
+   npm run i18n:extract
+   ```
+
+---
+
+### Compiling Translations
+
+Compilation is done automatically by the [Vite](/client/vite.config.js) Lingui plugin. It compiles `.po` files into `.js` files for use in your app.
+
+---
+
+### Adding a New Translatable String
+
+To mark a static string as translatable in your code:
 
 ```tsx
-import { Trans } from '@lingui/react/macro';
+import { Trans } from "@lingui/react/macro";
 
-function Example() {
-  return (
-    <span>
-      <Trans>I want to translate this text</Trans>
-    </span>
-  );
-}
+<Trans>Create an account</Trans>;
 ```
 
-In some cases it's not possible to use a React component so need to use the `t` macro with `useLingui` hook.
+Then run:
+
+```bash
+npm run i18n:extract
+```
+
+This updates all `messages.po` files with the new string.
+
+---
+
+### Translating Dynamic Content
+
+For dynamic values like props or alt attributes:
 
 ```tsx
-import { useLingui } from '@lingui/react/macro';
+import { useLingui } from "@lingui/react/macro";
 
-function Example() {
+export default function ImageWithCaption() {
   const { t } = useLingui();
-
-  function handleClick() {
-    window.alert(t`I need to translate this too!`);
-  }
-
-  return <button onClick={handleClick}>Click me</button>;
+  return <img src="..." alt={t`Image caption`} />;
 }
 ```
 
-## Translation process
+If you're outside of a React component or can't use hooks:
 
-### Add a new locale _(optional)_
+```tsx
+import { t } from "@lingui/core/macro";
 
-By default, our applications have two locales: `fi` and `en`. To add a new locale, run the following command:
-
-```sh
-npm run lang:add-locale <locale>
+export function SearchInput({
+  placeholder = t`Search`,
+  ...
+}) {
+  ...
+}
 ```
 
-### Extract messages
+Then extract the translations:
 
-To extract messages from the source code, run the following command:
-
-```sh
-npm run lang:extract
+```bash
+npm run i18n:extract
 ```
 
-This command will generate `.po` files in the `src/locales/{locale}/messages` directory.
+---
 
-### Translate message
+### Handling Plurals
 
-Send the `.po` files to customer for translation.
+To localize pluralized content:
 
-### Compile messages
+```tsx
+import { plural } from "@lingui/core/macro";
 
-The compilation of messages is done with the vite **lingui** plugin set in [`vite.config.js`](/client/vite.config.js) file, so we do not need to run any additional commands to compile messages.
+const message = plural(numBooks, {
+  one: "# Book",
+  other: "# Books",
+});
+```
+
+- If `numBooks = 1` → "1 Book"
+- If `numBooks = 2` → "2 Books"
+
+📘 [Plurals Guide](https://lingui.dev/guides/plurals)
+
+---
+
+### Handling Nested Components
+
+Use nested components within `<Trans>` blocks for rich formatting:
+
+```tsx
+<Trans>
+  <Text style={{ fontSize: 20 }}>
+    <Text>Concert of </Text>
+    <Text style={{ color: "green" }}>Green Day</Text>
+    <Text style={{ fontWeight: "bold" }}> tonight!</Text>
+  </Text>
+</Trans>
+```
+
+Will be extracted as:
+
+```text
+"<0><1>Concert of </1><2>Green Day</2><3> tonight!</3></0>"
+```
+
+📘 [Nested Components Guide](https://lingui.dev/tutorials/react-native#nesting-components)
+
+---
+
+## Managing Locales
+
+### Adding a New Language
+
+1. Add your locale to [`lingui.config.js`](/lingui.config.js):
+
+   ```ts
+   export default defineConfig({
+     locales: ["en-FI", "fi", "<lang>"], // Add your language code here
+   });
+   ```
+
+2. Run:
+
+   ```bash
+   npm run i18n:extract
+   ```
+
+   This creates a new folder and `messages.po` file under `src/locales/<lang>`.
+
+3. Update your language switcher in `i18n.tsx` to include the new locale.
+
+---
+
+### Removing a Language
+
+1. Remove the locale from [`lingui.config.js`](/lingui.config.js):
+
+   ```ts
+   locales: ['en-FI', 'fi'], // Remove your locale
+   ```
+
+2. Then:
+
+   - Run `npm run i18n:extract`
+   - Delete the `src/locales/<lang>` folder
+   - Update `i18n.tsx` accordingly
