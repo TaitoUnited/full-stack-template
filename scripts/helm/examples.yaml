@@ -301,9 +301,7 @@ full-stack:
           cpuLimit: 800m
           memoryRequest: 512Mi
           memoryLimit: 1024Mi
-          args:
-            - ./cli.sh
-            - createPost
+          shellCommand: ./cli.sh createPost
           secret:
             JOB_SECRET: ${taito_project}-${taito_env}-job.secret
           env:
@@ -324,10 +322,7 @@ full-stack:
         - name: schedulerjob
           schedule: "0 2 * * *"
           concurrencyPolicy: Replace # Forbid, Replace, or Allow
-          args:
-            - /bin/sh
-            - -c
-            - curl -sS -H "X-Secret:$$SCHEDULER_SECRET" http://${taito_project}-${taito_target_env}-server:8080/posts?offset=0&limit=1
+          shellCommand: curl -sS -H "X-Secret:$$SCHEDULER_SECRET" http://${taito_project}-${taito_target_env}-server:8080/posts?offset=0&limit=1
 
 # ----------------------------------------------------------
 # External services (dedicated IP address, any port)

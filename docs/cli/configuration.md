@@ -137,9 +137,7 @@ Create a cli command (see server/cli.sh and server/src/cli.ts) that you can exec
       - name: examplejob
         schedule: "30 2 * * *"
         concurrencyPolicy: Forbid  # Forbid or Allow
-        args:
-          - ./cli.sh
-          - createPost
+        shellCommand: ./cli.sh createPost
 ```
 
 If you are using serverless functions instead of Kubernetes, add command handler in server/src/function.ts, and schedule it on terraform.yaml:
