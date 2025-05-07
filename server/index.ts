@@ -1,4 +1,4 @@
-import { log } from '~/utils/log';
+import { log } from './src/utils/log';
 import { setupServer } from '~/setup/setup';
 import { initSentry } from '~/setup/sentry';
 import { server } from '~/setup/server';

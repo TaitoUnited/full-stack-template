@@ -18,9 +18,9 @@ export default defineConfig({
      * before running the tests.
      */
     isolate: mode === 'unit',
-    setupFiles: mode === 'api' ? './src/test/setup-api-tests.ts' : undefined,
+    setupFiles: mode === 'api' ? './test/setup-api-tests.ts' : undefined,
     alias: {
-      '~/': new URL('./src/', import.meta.url).pathname,
+      '~/': new URL('./', import.meta.url).pathname,
     },
   },
 });

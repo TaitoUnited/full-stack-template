@@ -4,8 +4,8 @@ import { DrizzlePostgreSQLAdapter } from '@lucia-auth/adapter-drizzle';
 
 import { config } from './config';
 import { getDb } from '~/db';
-import { sessionTable } from '~/domain/session/session.db';
-import { userTable } from '~/domain/user/user.db';
+import { sessionTable } from '~/src/session/session.db';
+import { userTable } from '~/src/user/user.db';
 
 let lucia: Lucia | null = null;
 
