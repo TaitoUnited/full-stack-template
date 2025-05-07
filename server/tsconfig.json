@@ -18,18 +18,26 @@
     "strict": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": false,
-    "typeRoots": ["./src/types", "./node_modules/@types"],
+    "typeRoots": ["types", "./node_modules/@types"],
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"]
+      "~/*": ["./*"]
     },
     "plugins": [
       {
         "name": "gql.tada/ts-plugin",
         "schema": "./shared/schema.gql",
-        "tadaOutputLocation": "./src/test/graphql-test-env.d.ts"
+        "tadaOutputLocation": "./test/graphql-test-env.d.ts"
       }
     ]
   },
-  "include": ["index.ts", "shared/**/*.ts", "src/**/*.ts"]
+  "include": [
+    "index.ts",
+    "db/**/*.ts",
+    "setup/**/*.ts",
+    "shared/**/*.ts",
+    "src/**/*.ts",
+    "test/**/*.ts",
+    "types/**/*.ts"
+  ]
 }
