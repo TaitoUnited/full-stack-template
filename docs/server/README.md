@@ -7,42 +7,41 @@ You can also see all the major changes between the old and new server in the rel
 
 ### Main project structure
 
-All business logic for the server is located under the `/src` folder.
-Under the `/src` folder we have the following subfolders:
+The server app is structured in a way that allows co-locating domain-specific code
+together while keeping the generic code in a separate folder.
 
-- `/src/setup` all the setup code for the http server and GraphQL/REST API.
+- `/setup` all the setup code for the http server and GraphQL/REST API.
   - Setup code is code that is run once when the server starts.
-- `/src/test` unit and api integration test setup and utilities.
+- `/test` unit and api integration test setup and utilities.
   - Note that actual tests are co-located with the code they are testing.
-- `/src/types` global types and interfaces for 3rd party libraries.
+- `/types` global types and interfaces for 3rd party libraries.
+- `/db` for database client setup, migrations, and seed data.
+- `/src` for domain-driven architecture, see below.
 - `/src/utils` for common utility functions.
-- `/src/db` for database client setup, migrations, and seed data.
-- `/src/domain` for domain-driven architecture, see below.
 
 ### Domain-driven architecture
 
 Prefer domain-driven architecture where each part of a domain or a feature are
 co-located in the folder structure. You should place these domain-specific
-things under `/src/domain/name-of-domain` folder. This way you can
+things under `/src/name-of-domain` folder. This way you can
 easily find all the related code and tests for a specific domain or feature.
 
 Here is an example how you could structure your code:
 
 ```text
 src/
-  domain/
-    user/
-      user.resolver.ts
-      user.service.ts
-      user.db.ts
-      user.test.unit.ts
-      user.test.api.ts
-    product/
-      product.resolver.ts
-      product.service.ts
-      product.db.ts
-      product.test.unit.ts
-      product.test.api.ts
+  user/
+    user.resolver.ts
+    user.service.ts
+    user.db.ts
+    user.test.unit.ts
+    user.test.api.ts
+  product/
+    product.resolver.ts
+    product.service.ts
+    product.db.ts
+    product.test.unit.ts
+    product.test.api.ts
 ```
 
 As you can see from the example above, each domain folder contains all the
@@ -140,10 +139,10 @@ Note how you can use the `@sinclair/typebox` library to define the request and
 response schema for the route. This way you can ensure that the request and
 response data is correctly validated and type checked.
 
-Finally, you need to register the new routes in the `/src/setup/setup.ts` file:
+Finally, you need to register the new routes in the `/setup/setup.ts` file:
 
 ```typescript
-import { postRoutes } from "~/domain/post/post.routes";
+import { postRoutes } from "~/post/post.routes";
 
 export async function setupServer(server: ServerInstance) {
   // ...
