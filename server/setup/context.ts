@@ -1,17 +1,16 @@
 import type Bunyan from 'bunyan';
 import { fastifyPlugin } from 'fastify-plugin';
-import { Lucia } from 'lucia';
+import { Lucia, Session } from 'lucia';
 import { v4 as uuidv4 } from 'uuid';
 
-import { type ServerInstance } from './server';
-import type { Session } from '~/src/utils/authentication';
-import { log } from '~/src/utils/log';
-import { getAuth } from '~/src/utils/authentication';
-import { getStringHeader } from '~/src/utils/request';
 import { DrizzleDb, getDb } from '~/db';
-import { AuthenticatedRestContext } from './rest/types';
-import { AuthenticatedGraphQLContext } from './graphql/types';
+import { getAuth } from '~/src/utils/authentication';
 import { Role } from '~/src/utils/authorisation';
+import { log } from '~/src/utils/log';
+import { getStringHeader } from '~/src/utils/request';
+import { AuthenticatedGraphQLContext } from './graphql/types';
+import { AuthenticatedRestContext } from './rest/types';
+import { type ServerInstance } from './server';
 
 export type OriginApi = 'graphql' | 'rest';
 export type Context = {

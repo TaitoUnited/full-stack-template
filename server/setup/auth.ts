@@ -1,11 +1,11 @@
+import cookie from '@fastify/cookie';
 import { FastifyReply, FastifyRequest, RouteGenericInterface } from 'fastify';
 import { fastifyPlugin } from 'fastify-plugin';
-import cookie from '@fastify/cookie';
 
-import { type ServerInstance } from './server';
 import { organisationController } from '~/src/organisation/organisation.controller';
 import { hasValidSession } from '~/src/utils/authentication';
 import { AuthenticatedRESTRequest } from './rest/types';
+import { type ServerInstance } from './server';
 
 export const authPlugin = fastifyPlugin(async (server: ServerInstance) => {
   // Adds cookie helpers to the server instance
