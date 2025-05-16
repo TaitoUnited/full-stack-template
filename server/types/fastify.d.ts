@@ -1,23 +1,8 @@
-import type Bunyan from 'bunyan';
-import type { Lucia, Session } from 'lucia';
-
-import type { DrizzleDb } from '../db/index';
-import type { Role } from '~/src/utils/authorisation';
-import { OriginApi } from '~/setup/context';
+import type { Context } from '~/setup/context';
 
 declare module 'fastify' {
   interface FastifyRequest {
-    ctx: {
-      db: DrizzleDb;
-      auth: Lucia;
-      log: Bunyan;
-      user: null | { id: string };
-      session: null | Session;
-      requestId: string;
-      organisationId: null | string;
-      originApi: OriginApi;
-      userOrganisations: { id: string; role: Role }[];
-    };
+    ctx: Context;
   }
 
   interface FastifyInstance {

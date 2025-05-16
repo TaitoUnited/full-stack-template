@@ -21,9 +21,7 @@ export async function postRoutes(server: ServerInstance) {
       },
     },
     handler: withAuth(async (request) => {
-      const posts = await postController.getPosts(request.ctx, {
-        organisationId: request.ctx.organisationId,
-      });
+      const posts = await postController.getPosts(request.ctx);
 
       return posts.map((post) => ({
         id: post.id,

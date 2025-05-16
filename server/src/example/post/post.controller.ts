@@ -1,3 +1,4 @@
+import { AuthenticatedContext } from '~/setup/context';
 import {
   checkOrganisationMembership,
   hasValidOrganisationRole,
@@ -5,7 +6,6 @@ import {
 } from '~/src/utils/authorisation';
 import { GraphQLError } from '~/src/utils/error';
 import { postService } from './post.service';
-import { AuthenticatedContext } from '~/setup/context';
 
 async function getPosts(ctx: AuthenticatedContext, search?: string | null) {
   checkOrganisationMembership(ctx);

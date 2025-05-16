@@ -1,6 +1,6 @@
 import { builder } from '~/setup/graphql/builder';
-import { User } from '../../user/user.resolver';
 import { userController } from '../../user/user.controller';
+import { User } from '../../user/user.resolver';
 import { postController } from './post.controller';
 
 const Post = builder.simpleObject('Post', {
@@ -20,10 +20,7 @@ export function setupResolvers() {
       nullable: true,
       args: { id: t.arg.string() },
       resolve: async (_, args, ctx) => {
-        return postController.getPost(ctx, {
-          id: args.id,
-          organisationId: ctx.organisationId,
-        });
+        return postController.getPost(ctx, args.id);
       },
     })
   );

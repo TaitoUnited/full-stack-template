@@ -2,10 +2,9 @@ import SchemaBuilder from '@pothos/core';
 import ScopeAuthPlugin from '@pothos/plugin-scope-auth';
 import SimpleObjectsPlugin from '@pothos/plugin-simple-objects';
 
-import { type GraphQlContext } from './server';
 import { hasValidSession } from '~/src/utils/authentication';
 import { GraphQLError } from '~/src/utils/error';
-import { AuthenticatedGraphQLContext } from './types';
+import { AuthenticatedGraphQLContext, GraphQlContext } from './types';
 
 export const builder = new SchemaBuilder<{
   Context: GraphQlContext;

@@ -1,7 +1,7 @@
 import { AuthenticatedContext } from '~/setup/context';
+import { GraphQlContext } from '~/setup/graphql/types';
 import { checkOrganisationMembership } from '../utils/authorisation';
 import { userService } from './user.service';
-import { GraphQlContext } from '~/setup/graphql/server';
 
 async function getOrgUsers(ctx: AuthenticatedContext) {
   checkOrganisationMembership(ctx);
