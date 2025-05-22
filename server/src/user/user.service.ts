@@ -37,7 +37,7 @@ function updateUserLastLogin(ctx: GraphQlContext, userId: string) {
   return userDao.updateUserLastLogin(ctx.db, userId);
 }
 
-export const userController = {
+export const userService = {
   getOrgUsers,
   getOrgUser,
   getUser,

@@ -2,7 +2,7 @@ import cookie from '@fastify/cookie';
 import { FastifyReply, FastifyRequest, RouteGenericInterface } from 'fastify';
 import { fastifyPlugin } from 'fastify-plugin';
 
-import { organisationController } from '~/src/organisation/organisation.controller';
+import { organisationService } from '~/src/organisation/organisation.service';
 import { hasValidSession } from '~/src/utils/authentication';
 import { AuthenticatedRESTRequest } from './rest/types';
 import { type ServerInstance } from './server';
@@ -55,7 +55,7 @@ export const authPlugin = fastifyPlugin(async (server: ServerInstance) => {
      */
     if (user) {
       const userOrganisations =
-        await organisationController.getUserOrganisationsWithRoles(
+        await organisationService.getUserOrganisationsWithRoles(
           request.ctx,
           user.id
         );

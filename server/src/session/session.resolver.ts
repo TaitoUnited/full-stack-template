@@ -2,7 +2,7 @@ import { config } from '~/src/utils/config';
 import { builder } from '~/setup/graphql/builder';
 import { GraphQLError } from '~/src/utils/error';
 import { User } from '../user/user.resolver';
-import { userController } from '../user/user.controller';
+import { userService } from '../user/user.service';
 import * as sessionDao from './session.dao';
 
 export function setupResolvers() {
@@ -11,7 +11,7 @@ export function setupResolvers() {
       type: User,
       nullable: true,
       resolve: async (_, __, ctx) => {
-        return userController.getUser(ctx, ctx.user.id);
+        return userService.getUser(ctx, ctx.user.id);
       },
     })
   );

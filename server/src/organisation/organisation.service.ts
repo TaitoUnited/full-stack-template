@@ -16,7 +16,7 @@ async function getUserOrganisationsWithRoles(ctx: Context, userId: string) {
   return await organisationDao.getUserOrganisationsWithRoles(ctx.db, userId);
 }
 
-export const organisationController = {
+export const organisationService = {
   getOrganisation,
   getUserOrganisations,
   getUserOrganisationsWithRoles,

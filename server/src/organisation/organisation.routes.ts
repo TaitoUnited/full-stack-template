@@ -2,7 +2,7 @@ import { Type } from '@sinclair/typebox';
 
 import { withAuth } from '~/setup/auth';
 import { ServerInstance } from '~/setup/server';
-import { organisationController } from './organisation.controller';
+import { organisationService } from './organisation.service';
 
 export async function organisationRoutes(server: ServerInstance) {
   server.route({
@@ -19,7 +19,7 @@ export async function organisationRoutes(server: ServerInstance) {
       },
     },
     handler: withAuth(async (request) => {
-      const organisations = await organisationController.getUserOrganisations(
+      const organisations = await organisationService.getUserOrganisations(
         request.ctx,
         request.ctx.user?.id as string
       );

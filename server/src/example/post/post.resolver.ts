@@ -1,7 +1,7 @@
 import { builder } from '~/setup/graphql/builder';
-import { userController } from '../../user/user.controller';
+import { userService } from '../../user/user.service';
 import { User } from '../../user/user.resolver';
-import { postController } from './post.controller';
+import { postService } from './post.service';
 
 const Post = builder.simpleObject('Post', {
   fields: (t) => ({
@@ -20,7 +20,7 @@ export function setupResolvers() {
       nullable: true,
       args: { id: t.arg.string() },
       resolve: async (_, args, ctx) => {
-        return postController.getPost(ctx, args.id);
+        return postService.getPost(ctx, args.id);
       },
     })
   );
@@ -30,7 +30,7 @@ export function setupResolvers() {
       type: User,
       nullable: true,
       resolve: async (parent, _, ctx) => {
-        return userController.getOrgUser(ctx, parent.authorId);
+        return userService.getOrgUser(ctx, parent.authorId);
       },
     })
   );
@@ -40,7 +40,7 @@ export function setupResolvers() {
       type: [Post],
       args: { search: t.arg.string({ required: false }) },
       resolve: async (_, args, ctx) => {
-        return postController.getPosts(ctx, args.search);
+        return postService.getPosts(ctx, args.search);
       },
     })
   );
@@ -50,7 +50,7 @@ export function setupResolvers() {
       type: Post,
       args: { title: t.arg.string(), content: t.arg.string() },
       resolve: async (_, args, ctx) => {
-        return postController.createPost(ctx, {
+        return postService.createPost(ctx, {
           ...args,
           authorId: ctx.user.id,
         });

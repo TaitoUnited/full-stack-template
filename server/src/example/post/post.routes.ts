@@ -2,7 +2,7 @@ import { Type } from '@sinclair/typebox';
 
 import { withAuth } from '~/setup/auth';
 import { type ServerInstance } from '~/setup/server';
-import { postController } from '~/src/example/post/post.controller';
+import { postService } from '~/src/example/post/post.service';
 
 export async function postRoutes(server: ServerInstance) {
   server.route({
@@ -21,7 +21,7 @@ export async function postRoutes(server: ServerInstance) {
       },
     },
     handler: withAuth(async (request) => {
-      const posts = await postController.getPosts(request.ctx);
+      const posts = await postService.getPosts(request.ctx);
 
       return posts.map((post) => ({
         id: post.id,

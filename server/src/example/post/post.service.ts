@@ -49,7 +49,7 @@ async function createPost(
   });
 }
 
-export const postController = {
+export const postService = {
   getPosts,
   getPost,
   createPost,

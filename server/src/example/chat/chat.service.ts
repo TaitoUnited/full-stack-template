@@ -8,6 +8,6 @@ async function getChatMessages(ctx: AuthenticatedContext, userId: string) {
   return await chatDao.getChatMessages(ctx.db, userId);
 }
 
-export const chatController = {
+export const chatService = {
   getChatMessages,
 };

@@ -1,5 +1,5 @@
 import { builder } from '~/setup/graphql/builder';
-import { userController } from './user.controller';
+import { userService } from './user.service';
 
 export const User = builder.simpleObject('User', {
   fields: (t) => ({
@@ -16,7 +16,7 @@ export function setupResolvers() {
       nullable: true,
       args: { id: t.arg.string() },
       resolve: async (_, args, ctx) => {
-        return userController.getOrgUser(ctx, args.id);
+        return userService.getOrgUser(ctx, args.id);
       },
     })
   );
@@ -26,7 +26,7 @@ export function setupResolvers() {
       type: [User],
       args: { search: t.arg.string({ required: false }) },
       resolve: async (_, __, ctx) => {
-        return userController.getOrgUsers(ctx);
+        return userService.getOrgUsers(ctx);
       },
     })
   );
