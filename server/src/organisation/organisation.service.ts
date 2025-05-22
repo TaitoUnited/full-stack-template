@@ -3,7 +3,7 @@ import { eq } from 'drizzle-orm';
 import { type DrizzleDb } from '~/db';
 import { organisationTable, userOrganisationTable } from './organisation.db';
 
-export async function getOrganisation(db: DrizzleDb, id: string) {
+async function getOrganisation(db: DrizzleDb, id: string) {
   return db
     .select({ id: organisationTable.id, name: organisationTable.name })
     .from(organisationTable)
@@ -11,7 +11,7 @@ export async function getOrganisation(db: DrizzleDb, id: string) {
     .then((rows) => rows[0]);
 }
 
-export async function getUserOrganisations(db: DrizzleDb, userId: string) {
+async function getUserOrganisations(db: DrizzleDb, userId: string) {
   return db
     .select()
     .from(organisationTable)
@@ -22,10 +22,7 @@ export async function getUserOrganisations(db: DrizzleDb, userId: string) {
     .where(eq(userOrganisationTable.userId, userId));
 }
 
-export async function getUserOrganisationsWithRoles(
-  db: DrizzleDb,
-  userId: string
-) {
+async function getUserOrganisationsWithRoles(db: DrizzleDb, userId: string) {
   return db
     .select({
       organisationId: userOrganisationTable.organisationId,
@@ -34,3 +31,9 @@ export async function getUserOrganisationsWithRoles(
     .from(userOrganisationTable)
     .where(eq(userOrganisationTable.userId, userId));
 }
+
+export const organisationService = {
+  getOrganisation,
+  getUserOrganisations,
+  getUserOrganisationsWithRoles,
+};

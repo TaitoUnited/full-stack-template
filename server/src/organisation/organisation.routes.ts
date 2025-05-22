@@ -1,13 +1,13 @@
 import { Type } from '@sinclair/typebox';
 
+import { withAuth } from '~/setup/auth';
 import { ServerInstance } from '~/setup/server';
-import * as organisationService from './organisation.service';
+import { organisationController } from './organisation.controller';
 
 export async function organisationRoutes(server: ServerInstance) {
   server.route({
     method: 'GET',
     url: '/organisations',
-    preHandler: [server.ensureSession],
     schema: {
       response: {
         200: Type.Array(
@@ -18,9 +18,9 @@ export async function organisationRoutes(server: ServerInstance) {
         ),
       },
     },
-    handler: async (request) => {
-      const organisations = await organisationService.getUserOrganisations(
-        request.ctx.db,
+    handler: withAuth(async (request) => {
+      const organisations = await organisationController.getUserOrganisations(
+        request.ctx,
         request.ctx.user?.id as string
       );
 
@@ -28,6 +28,6 @@ export async function organisationRoutes(server: ServerInstance) {
         id: organisation.id,
         name: organisation.name,
       }));
-    },
+    }),
   });
 }

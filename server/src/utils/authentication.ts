@@ -39,6 +39,15 @@ export async function getAuth() {
   return lucia;
 }
 
+type SessionOut<SessionAttributes> = SessionAttributes & {
+  id: string;
+  fresh: boolean;
+};
+type Attributes = {
+  refreshToken: string | null;
+  refreshTokenExpiresAt: Date | null;
+};
+export type Session = SessionOut<Attributes>;
 export function hasValidSession(ctx: FastifyRequest['ctx']) {
   return !!ctx.user && !!ctx.session;
 }

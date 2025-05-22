@@ -1,16 +1,11 @@
-import type { Cookie, Lucia } from 'lucia';
+import type { Cookie } from 'lucia';
 
 import { type DrizzleDb } from '~/db';
 import { comparePassword } from '~/src/utils/password';
 import { isValidPassword, isValidEmail } from '~/src/utils/validation';
-import * as userService from '../user/user.service';
-import * as orgService from '../organisation/organisation.service';
-
-type LoginOptions = {
-  email: string;
-  password: string;
-  auth: Lucia; // Injected auth service from context
-};
+import { userService } from '../user/user.service';
+import { organisationService } from '../organisation/organisation.service';
+import { LoginOptions } from '~/types/login';
 
 /**
  * Cookie-based login with email and password.
@@ -89,7 +84,10 @@ async function validateLogin({
     throw new LoginError(401, 'Invalid credentials');
   }
 
-  const userOrganisations = await orgService.getUserOrganisations(db, user.id);
+  const userOrganisations = await organisationService.getUserOrganisations(
+    db,
+    user.id
+  );
 
   if (userOrganisations.length === 0) {
     throw new LoginError(401, 'User does not belong to any organisation');

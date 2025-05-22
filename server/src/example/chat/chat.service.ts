@@ -3,7 +3,7 @@ import { eq } from 'drizzle-orm';
 import { type DrizzleDb } from '~/db';
 import { chatMessageTable, chatTable } from './chat.db';
 
-export async function getChatMessages(db: DrizzleDb, userId: string) {
+async function getChatMessages(db: DrizzleDb, userId: string) {
   const [chat] = await db
     .select()
     .from(chatTable)
@@ -18,3 +18,7 @@ export async function getChatMessages(db: DrizzleDb, userId: string) {
 
   return messages;
 }
+
+export const chatService = {
+  getChatMessages,
+};

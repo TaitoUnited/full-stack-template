@@ -2,16 +2,16 @@ import { config } from '~/src/utils/config';
 import { builder } from '~/setup/graphql/builder';
 import { GraphQLError } from '~/src/utils/error';
 import { User } from '../user/user.resolver';
-import * as userService from '../user/user.service';
+import { userController } from '../user/user.controller';
 import * as sessionService from './session.service';
 
 export function setupResolvers() {
   builder.queryField('me', (t) =>
-    t.withAuth({ session: true }).field({
+    t.withAuth({ authenticated: true }).field({
       type: User,
       nullable: true,
       resolve: async (_, __, ctx) => {
-        return userService.getUser(ctx.db, ctx.user.id);
+        return userController.getUser(ctx, ctx.user.id);
       },
     })
   );

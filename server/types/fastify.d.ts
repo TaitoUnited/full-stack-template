@@ -3,6 +3,7 @@ import type { Lucia, Session } from 'lucia';
 
 import type { DrizzleDb } from '../db/index';
 import type { Role } from '~/src/utils/authorisation';
+import { OriginApi } from '~/setup/context';
 
 declare module 'fastify' {
   interface FastifyRequest {
@@ -14,6 +15,7 @@ declare module 'fastify' {
       session: null | Session;
       requestId: string;
       organisationId: null | string;
+      originApi: OriginApi;
       userOrganisations: { id: string; role: Role }[];
     };
   }

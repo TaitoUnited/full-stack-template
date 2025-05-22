@@ -1,6 +1,5 @@
 import { builder } from '~/setup/graphql/builder';
-import { GraphQLError } from '~/src/utils/error';
-import * as organisationService from './organisation.service';
+import { organisationController } from './organisation.controller';
 
 const Organisation = builder.simpleObject('Organisation', {
   fields: (t) => ({
@@ -16,24 +15,18 @@ export function setupResolvers() {
       nullable: true,
       args: { id: t.arg.string() },
       resolve: async (_, args, ctx) => {
-        if (!ctx.userOrganisations.some((org) => org.id === args.id)) {
-          throw GraphQLError.forbidden(
-            'You do not have access to this organisation'
-          );
-        }
-
-        return organisationService.getOrganisation(ctx.db, args.id);
+        return organisationController.getOrganisation(ctx, args.id);
       },
     })
   );
 
   builder.queryField('organisations', (t) =>
-    t.withAuth({ session: true }).field({
+    t.withAuth({ authenticated: true }).field({
       type: [Organisation],
       nullable: true,
       resolve: async (_, __, ctx) => {
-        const organisations = await organisationService.getUserOrganisations(
-          ctx.db,
+        const organisations = await organisationController.getUserOrganisations(
+          ctx,
           ctx.user.id
         );
 
