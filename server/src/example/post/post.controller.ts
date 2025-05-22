@@ -5,12 +5,12 @@ import {
   hasValidOrganisationRole,
   ROLES,
 } from '~/src/utils/authorisation';
-import { postService } from './post.service';
+import { postDao } from './post.dao';
 
 async function getPosts(ctx: AuthenticatedContext, search?: string | null) {
   checkOrganisationMembership(ctx);
 
-  return await postService.getPosts(ctx.db, {
+  return await postDao.getPosts(ctx.db, {
     organisationId: ctx.organisationId,
     search,
   });
@@ -19,7 +19,7 @@ async function getPosts(ctx: AuthenticatedContext, search?: string | null) {
 async function getPost(ctx: AuthenticatedContext, id: string) {
   checkOrganisationMembership(ctx);
 
-  return await postService.getPost(ctx.db, {
+  return await postDao.getPost(ctx.db, {
     organisationId: ctx.organisationId,
     id,
   });
@@ -43,7 +43,7 @@ async function createPost(
     });
   }
 
-  return await postService.createPost(ctx.db, {
+  return await postDao.createPost(ctx.db, {
     ...values,
     organisationId: ctx.organisationId,
   });

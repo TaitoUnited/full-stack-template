@@ -3,7 +3,7 @@ import { builder } from '~/setup/graphql/builder';
 import { GraphQLError } from '~/src/utils/error';
 import { User } from '../user/user.resolver';
 import { userController } from '../user/user.controller';
-import * as sessionService from './session.service';
+import * as sessionDao from './session.dao';
 
 export function setupResolvers() {
   builder.queryField('me', (t) =>
@@ -31,7 +31,7 @@ export function setupResolvers() {
       },
       resolve: async (_, args, ctx) => {
         const { cookie } = await wrapLogin(
-          sessionService.login(ctx.db, { auth: ctx.auth, ...args })
+          sessionDao.login(ctx.db, { auth: ctx.auth, ...args })
         );
 
         ctx.reply.setCookie(cookie.name, cookie.value, cookie.attributes);
@@ -78,7 +78,7 @@ export function setupResolvers() {
       },
       resolve: async (_, args, ctx) => {
         const { sessionId } = await wrapLogin(
-          sessionService.tokenLogin(ctx.db, { auth: ctx.auth, ...args })
+          sessionDao.tokenLogin(ctx.db, { auth: ctx.auth, ...args })
         );
 
         return { sessionId };
@@ -128,7 +128,7 @@ async function wrapLogin<T>(loginPromise: Promise<T>) {
 
   if (result.status === 'rejected') {
     if (
-      result.reason instanceof sessionService.LoginError &&
+      result.reason instanceof sessionDao.LoginError &&
       result.reason.name === 'LoginError'
     ) {
       const { status, message } = result.reason;

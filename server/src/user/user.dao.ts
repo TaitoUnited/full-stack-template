@@ -56,7 +56,7 @@ function updateUserLastLogin(db: DrizzleDb, userId: string) {
     .where(eq(userTable.id, userId));
 }
 
-export const userService = {
+export const userDao = {
   getOrgUsers,
   getOrgUser,
   getUser,

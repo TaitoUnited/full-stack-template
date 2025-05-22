@@ -32,7 +32,7 @@ async function getUserOrganisationsWithRoles(db: DrizzleDb, userId: string) {
     .where(eq(userOrganisationTable.userId, userId));
 }
 
-export const organisationService = {
+export const organisationDao = {
   getOrganisation,
   getUserOrganisations,
   getUserOrganisationsWithRoles,

@@ -19,6 +19,6 @@ async function getChatMessages(db: DrizzleDb, userId: string) {
   return messages;
 }
 
-export const chatService = {
+export const chatDao = {
   getChatMessages,
 };

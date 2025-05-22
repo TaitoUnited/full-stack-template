@@ -56,7 +56,7 @@ async function createPost(
     .then((rows) => rows[0]!);
 }
 
-export const postService = {
+export const postDao = {
   getPosts,
   getPost,
   createPost,

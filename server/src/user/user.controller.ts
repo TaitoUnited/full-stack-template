@@ -1,12 +1,12 @@
 import { AuthenticatedContext } from '~/setup/context';
 import { GraphQlContext } from '~/setup/graphql/types';
 import { checkOrganisationMembership } from '../utils/authorisation';
-import { userService } from './user.service';
+import { userDao } from './user.dao';
 
 async function getOrgUsers(ctx: AuthenticatedContext) {
   checkOrganisationMembership(ctx);
 
-  return await userService.getOrgUsers(ctx.db, {
+  return await userDao.getOrgUsers(ctx.db, {
     organisationId: ctx.organisationId,
   });
 }
@@ -19,22 +19,22 @@ async function getOrgUser(
 
   checkOrganisationMembership(ctx);
 
-  return await userService.getOrgUser(ctx.db, {
+  return await userDao.getOrgUser(ctx.db, {
     id,
     organisationId: ctx.organisationId,
   });
 }
 
 async function getUser(ctx: GraphQlContext, id: string) {
-  return await userService.getUser(ctx.db, id);
+  return await userDao.getUser(ctx.db, id);
 }
 
 function getUserByEmail(ctx: GraphQlContext, email: string) {
-  return userService.getUserByEmail(ctx.db, email);
+  return userDao.getUserByEmail(ctx.db, email);
 }
 
 function updateUserLastLogin(ctx: GraphQlContext, userId: string) {
-  return userService.updateUserLastLogin(ctx.db, userId);
+  return userDao.updateUserLastLogin(ctx.db, userId);
 }
 
 export const userController = {
