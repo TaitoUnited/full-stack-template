@@ -3,7 +3,7 @@ import { builder } from '~/setup/graphql/builder';
 import { GraphQLError } from '~/src/utils/error';
 import { User } from '../user/user.resolver';
 import { userService } from '../user/user.service';
-import * as sessionDao from './session.dao';
+import { sessionDao } from './session.dao';
 
 export function setupResolvers() {
   builder.queryField('me', (t) =>

@@ -11,7 +11,7 @@ import { LoginOptions } from '~/types/login';
  * Cookie-based login with email and password.
  * This should be used for web apps.
  */
-export async function login(
+async function login(
   db: DrizzleDb,
   { email, password, auth }: LoginOptions
 ): Promise<{ cookie: Cookie }> {
@@ -28,7 +28,7 @@ export async function login(
  * Token-based login with email and password.
  * This should be used for mobile apps.
  */
-export async function tokenLogin(
+async function tokenLogin(
   db: DrizzleDb,
   { email, password, auth }: LoginOptions
 ) {
@@ -95,3 +95,9 @@ async function validateLogin({
 
   return user;
 }
+
+export const sessionDao = {
+  login,
+  tokenLogin,
+  LoginError,
+};

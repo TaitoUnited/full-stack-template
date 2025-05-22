@@ -2,7 +2,7 @@ import { Type } from '@sinclair/typebox';
 
 import { type ServerInstance } from '~/setup/server';
 import { ApiRouteError } from '~/src/utils/error';
-import * as sessionDao from './session.dao';
+import { sessionDao } from './session.dao';
 
 export async function sessionRoutes(server: ServerInstance) {
   server.route({
