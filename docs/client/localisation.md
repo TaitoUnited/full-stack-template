@@ -16,7 +16,7 @@ You can find the LinguiJS configuration in [`lingui.config.js`](/client/lingui.c
 
 1. Run the following command to extract all translatable strings from your source code:
 
-   ```bash
+   ```sh
    npm run i18n:extract
    ```
 
@@ -25,23 +25,24 @@ You can find the LinguiJS configuration in [`lingui.config.js`](/client/lingui.c
 2. Open the relevant `messages.po` file in a text editor and add your translations. For example:
 
    ```po
-   #: src/app/(auth)/landing.tsx:74
-   #: src/app/(auth)/signup.tsx:55
-   msgid "Create an account"
-   msgstr "Luo tili"
+   #: src/routes/login/login.route.tsx
+   msgid "Login"
+   msgstr "Kirjaudu sisään"
    ```
+
+````
 
 3. Re-run the extract command to validate your translations and ensure files are properly updated:
 
-   ```bash
+   ```sh
    npm run i18n:extract
-   ```
+````
 
 ---
 
 ### Compiling Translations
 
-Compilation is done automatically by the [Vite](/client/vite.config.js) Lingui plugin. It compiles `.po` files into `.js` files for use in your app.
+Compilation is done automatically by [Vite](/client/vite.config.js) Lingui plugin. It compiles `.po` files into `.js` files for use in your app.
 
 ---
 
@@ -57,7 +58,7 @@ import { Trans } from "@lingui/react/macro";
 
 Then run:
 
-```bash
+```sh
 npm run i18n:extract
 ```
 
@@ -93,7 +94,7 @@ export function SearchInput({
 
 Then extract the translations:
 
-```bash
+```sh
 npm run i18n:extract
 ```
 
@@ -157,7 +158,7 @@ Will be extracted as:
 
 2. Run:
 
-   ```bash
+   ```sh
    npm run i18n:extract
    ```
 
