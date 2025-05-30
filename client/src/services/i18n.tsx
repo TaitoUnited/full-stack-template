@@ -6,12 +6,12 @@ import { I18nProvider as AriaProvider } from 'react-aria-components';
 
 import { storage } from '~/utils/storage';
 
-export type Locale = 'fi' | 'en';
+export type Locale = 'fi' | 'en-FI';
 
-export const SUPPORTED_LOCALES: Locale[] = ['fi', 'en'];
-export const DEFAULT_LOCALE: Locale = 'en';
+export const SUPPORTED_LOCALES: Locale[] = ['fi', 'en-FI'];
+export const DEFAULT_LOCALE: Locale = 'en-FI';
 export const LOCALE_LABEL: { [locale in Locale]: string } = {
-  en: 'English',
+  'en-FI': 'English',
   fi: 'Suomi',
 };
 

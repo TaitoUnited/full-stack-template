@@ -27,8 +27,8 @@ import './preview.css';
 
 import { I18nProvider, type Locale, useI18n } from '../src/services/i18n';
 
-i18n.load('en', {});
-i18n.activate('en');
+i18n.load('en-FI', {});
+i18n.activate('en-FI');
 
 function RenderStory() {
   const storyFn = useContext(CurrentStoryContext);
@@ -116,7 +116,7 @@ export const globalTypes = {
     toolbar: {
       icon: 'globe',
       items: [
-        { value: 'en', title: 'English' },
+        { value: 'en-FI', title: 'English' },
         { value: 'fi', title: 'Finnish' },
       ],
       showName: true,

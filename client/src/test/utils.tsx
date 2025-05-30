@@ -11,7 +11,7 @@ afterEach(() => {
   cleanup();
 });
 
-const locale = storage.get('locale') || 'en';
+const locale = storage.get('locale') || 'en-FI';
 i18n.load(locale, {});
 i18n.activate(locale);
 

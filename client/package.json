@@ -17,8 +17,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "analyze": "ANALYZE=true npm run build && source-map-explorer 'build/assets/*.js' --no-border-checks",
-    "lang:add-locale": "lingui add-locale",
-    "lang:extract": "lingui extract",
+    "i18n:extract": "lingui extract --clean",
     "uikit:preview": "storybook dev -p 6006",
     "uikit:build": "storybook build",
     "design-system:sync": "npm-run-all -s design-system:tokenize design-system:codegen design-system:format",
@@ -32,7 +31,7 @@
   "dependencies": {
     "@apollo/client": "3.12.6",
     "@internationalized/date": "3.7.0",
-    "@lingui/react": "5.1.2",
+    "@lingui/react": "5.3.1",
     "@loadable/component": "5.16.4",
     "@sentry/browser": "8.48.0",
     "@tanstack/react-router": "1.97.1",
@@ -59,8 +58,9 @@
     "@eslint-react/eslint-plugin": "1.23.2",
     "@eslint/compat": "1.2.4",
     "@eslint/js": "9.17.0",
-    "@lingui/cli": "5.1.2",
-    "@lingui/vite-plugin": "5.1.2",
+    "@lingui/cli": "5.3.1",
+    "@lingui/format-po": "5.3.1",
+    "@lingui/vite-plugin": "5.3.1",
     "@optimize-lodash/rollup-plugin": "5.0.0",
     "@pandacss/dev": "0.51.1",
     "@rollup/plugin-strip": "3.0.4",
@@ -115,73 +115,5 @@
   "engines": {
     "node": ">=18.16",
     "npm": ">=9.5"
-  },
-  "lingui": {
-    "sourceLocale": "en",
-    "locales": [
-      "en",
-      "fi"
-    ],
-    "catalogs": [
-      {
-        "path": "src/locales/{locale}/messages",
-        "include": [
-          "src"
-        ]
-      }
-    ],
-    "format": "po"
-  },
-  "figmage": {
-    "outDir": "src/styled-system/tokens",
-    "tokenize": {
-      "tokens": [
-        {
-          "name": "colors",
-          "type": "color"
-        },
-        {
-          "name": "typography",
-          "type": "text"
-        },
-        {
-          "name": "shadows",
-          "type": "drop-shadow"
-        },
-        {
-          "name": "spacing",
-          "type": "width",
-          "nodeName": "Figmage - Spacing"
-        },
-        {
-          "name": "radii",
-          "type": "radius",
-          "nodeName": "Figmage - Radii"
-        },
-        {
-          "name": "icons",
-          "type": "svg",
-          "nodeName": "Figmage - Icons"
-        }
-      ]
-    },
-    "codegen": {
-      "defaults": {
-        "filetype": "ts",
-        "tokenCase": "camel"
-      },
-      "spacing": {
-        "filetype": "json",
-        "tokenCase": "lower"
-      },
-      "icons": {
-        "filetype": "svg",
-        "filename": "icon-sprite",
-        "sprite": {
-          "writeIds": true,
-          "spriteDir": "assets"
-        }
-      }
-    }
   }
 }

@@ -1,0 +1,52 @@
+{
+  "outDir": "src/styled-system/tokens",
+  "tokenize": {
+    "tokens": [
+      {
+        "name": "colors",
+        "type": "color"
+      },
+      {
+        "name": "typography",
+        "type": "text"
+      },
+      {
+        "name": "shadows",
+        "type": "drop-shadow"
+      },
+      {
+        "name": "spacing",
+        "type": "width",
+        "nodeName": "Figmage - Spacing"
+      },
+      {
+        "name": "radii",
+        "type": "radius",
+        "nodeName": "Figmage - Radii"
+      },
+      {
+        "name": "icons",
+        "type": "svg",
+        "nodeName": "Figmage - Icons"
+      }
+    ]
+  },
+  "codegen": {
+    "defaults": {
+      "filetype": "ts",
+      "tokenCase": "camel"
+    },
+    "spacing": {
+      "filetype": "json",
+      "tokenCase": "lower"
+    },
+    "icons": {
+      "filetype": "svg",
+      "filename": "icon-sprite",
+      "sprite": {
+        "writeIds": true,
+        "spriteDir": "assets"
+      }
+    }
+  }
+}
