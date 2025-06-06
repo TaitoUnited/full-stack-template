@@ -2,10 +2,9 @@ import SchemaBuilder from '@pothos/core';
 import ScopeAuthPlugin from '@pothos/plugin-scope-auth';
 import SimpleObjectsPlugin from '@pothos/plugin-simple-objects';
 
-import { type GraphQlContext } from './server';
-import { hasValidOrganisation } from '~/src/utils/authorisation';
 import { hasValidSession } from '~/src/utils/authentication';
 import { GraphQLError } from '~/src/utils/error';
+import { AuthenticatedGraphQLContext, GraphQlContext } from './types';
 
 export const builder = new SchemaBuilder<{
   Context: GraphQlContext;
@@ -13,13 +12,9 @@ export const builder = new SchemaBuilder<{
   DefaultInputFieldRequiredness: true;
   AuthScopes: {
     authenticated: boolean;
-    session: boolean;
-    organisation: boolean;
   };
   AuthContexts: {
-    authenticated: AuthContext<'user' | 'session' | 'organisationId'>;
-    session: AuthContext<'user' | 'session'>;
-    organisation: AuthContext<'organisationId'>;
+    authenticated: AuthenticatedGraphQLContext;
   };
   Scalars: {
     Date: { Input: Date; Output: Date };
@@ -72,29 +67,9 @@ export const builder = new SchemaBuilder<{
      * ```
      */
     authScopes: async (ctx) => ({
-      /**
-       * Note that you should mostly use the combined `authenticated` scope
-       * in your resolvers, but you can also use the individual scopes if needed
-       * eg. when a query should only be available to users with a session but
-       * they have not yet selected an active organisation.
-       */
-      authenticated: hasValidSession(ctx) && hasValidOrganisation(ctx),
-      session: hasValidSession(ctx),
-      organisation: hasValidOrganisation(ctx),
+      authenticated: hasValidSession(ctx),
     }),
   },
 });
 
 export type SchemaBuilder = typeof builder;
-
-// Helpers
-
-type NonNullableFields<T, K extends keyof T = keyof T> = Omit<T, K> & {
-  [P in K]: NonNullable<T[P]>;
-};
-
-// Mark the fields that are guaranteed to be present in the context
-type AuthContext<T extends keyof GraphQlContext> = NonNullableFields<
-  GraphQlContext,
-  T
->;

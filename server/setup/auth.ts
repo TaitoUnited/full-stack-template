@@ -1,10 +1,11 @@
-import { fastifyPlugin } from 'fastify-plugin';
 import cookie from '@fastify/cookie';
+import { FastifyReply, FastifyRequest, RouteGenericInterface } from 'fastify';
+import { fastifyPlugin } from 'fastify-plugin';
 
-import { type ServerInstance } from './server';
-import { getUserOrganisationsWithRoles } from '~/src/organisation/organisation.service';
+import { organisationController } from '~/src/organisation/organisation.controller';
 import { hasValidSession } from '~/src/utils/authentication';
-import { hasValidOrganisation } from '~/src/utils/authorisation';
+import { AuthenticatedRESTRequest } from './rest/types';
+import { type ServerInstance } from './server';
 
 export const authPlugin = fastifyPlugin(async (server: ServerInstance) => {
   // Adds cookie helpers to the server instance
@@ -53,10 +54,11 @@ export const authPlugin = fastifyPlugin(async (server: ServerInstance) => {
      * for the user in the request context.
      */
     if (user) {
-      const userOrganisations = await getUserOrganisationsWithRoles(
-        request.ctx.db,
-        user.id
-      );
+      const userOrganisations =
+        await organisationController.getUserOrganisationsWithRoles(
+          request.ctx,
+          user.id
+        );
 
       request.ctx.user = user;
       request.ctx.userOrganisations = userOrganisations.map((row) => ({
@@ -65,34 +67,26 @@ export const authPlugin = fastifyPlugin(async (server: ServerInstance) => {
       }));
     }
   });
+});
 
-  /**
-   * Authenticate the request.
-   *
-   * These will be available via `server.authenticate|etc` and can be used to
-   * protect routes by adding a `onRequest: [server.{ensureSession,authenticate,etc}]`,
-   * option to the route definition when creating new routes with `server.route`.
-   */
-
-  // @ts-expect-error - `decorate` has type issues...
-  server.decorate('ensureSession', async (request, reply) => {
+/**
+ * Authenticate a REST api request. Use when defining new routes with `server.route` like so:
+ *
+ * server.route({
+ *   ...
+ *   handler: withAuth(async (request, reply) => {
+ *     ...
+ *   }),
+ * });
+ */
+export function withAuth<T extends RouteGenericInterface>(
+  handler: (req: AuthenticatedRESTRequest<T>, res: FastifyReply) => void
+) {
+  return async (request: FastifyRequest<T>, reply: FastifyReply) => {
     if (!hasValidSession(request.ctx)) {
       reply.code(401).send('Unauthorized');
     }
-  });
 
-  // @ts-expect-error - `decorate` has type issues...
-  server.decorate('ensureOrganisation', async (request, reply) => {
-    if (!hasValidOrganisation(request.ctx)) {
-      reply.code(401).send('Unauthorized');
-    }
-  });
-
-  // @ts-expect-error - `decorate` has type issues...
-  server.decorate('authenticate', async (request, reply) => {
-    // User is fully authenticated if they have a valid session and an organisation
-    if (!hasValidSession(request.ctx) || !hasValidOrganisation(request.ctx)) {
-      reply.code(401).send('Unauthorized');
-    }
-  });
-});
+    return handler(request as AuthenticatedRESTRequest<T>, reply);
+  };
+}

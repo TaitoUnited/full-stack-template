@@ -1,5 +1,25 @@
 import { GraphQLError as GraphQLErrorBase } from 'graphql';
 
+import type { OriginApi } from '~/setup/context';
+
+export function throwApiError(vars: {
+  message: string;
+  errorType: ApiErrorType;
+  originApi?: OriginApi;
+}) {
+  const { originApi = 'unknown', errorType, message } = vars;
+
+  switch (originApi) {
+    case 'graphql':
+      throw GraphQLError[errorType](message);
+    case 'rest':
+      throw ApiRouteError[errorType](message);
+    default:
+      throw ApiRouteError[errorType](message);
+  }
+}
+export type ApiErrorType = keyof typeof ApiRouteError;
+
 // GraphQL error
 export const GraphQLError = {
   badRequest: (message = 'Bad request') =>
@@ -13,6 +33,10 @@ export const GraphQLError = {
   forbidden: (message = 'Forbidden') =>
     new GraphQLErrorBase(message, {
       extensions: { code: 'FORBIDDEN', status: 403 },
+    }),
+  notFound: (message = 'Not found') =>
+    new GraphQLErrorBase(message, {
+      extensions: { code: 'NOT_FOUND', status: 404 },
     }),
   conflict: (message = 'Conflict') =>
     new GraphQLErrorBase(message, {

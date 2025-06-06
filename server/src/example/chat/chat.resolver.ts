@@ -1,7 +1,7 @@
 import { builder } from '~/setup/graphql/builder';
 import { User } from '../../user/user.resolver';
-import * as userService from '../../user/user.service';
-import * as chatService from './chat.service';
+import { userController } from '../../user/user.controller';
+import { chatController } from './chat.controller';
 
 const Message = builder.simpleObject('Message', {
   fields: (t) => ({
@@ -17,7 +17,7 @@ export function setupResolvers() {
     t.withAuth({ authenticated: true }).field({
       type: [Message],
       resolve: async (_, __, ctx) => {
-        return chatService.getChatMessages(ctx.db, ctx.user.id);
+        return chatController.getChatMessages(ctx, ctx.user.id);
       },
     })
   );
@@ -27,12 +27,7 @@ export function setupResolvers() {
       type: User,
       nullable: true,
       resolve: async (parent, _, ctx) => {
-        if (!parent.authorId) return null;
-
-        return userService.getOrgUser(ctx.db, {
-          id: parent.authorId,
-          organisationId: ctx.organisationId,
-        });
+        return userController.getOrgUser(ctx, parent.authorId);
       },
     })
   );

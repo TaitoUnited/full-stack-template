@@ -1,13 +1,13 @@
 import { Type } from '@sinclair/typebox';
 
+import { withAuth } from '~/setup/auth';
 import { type ServerInstance } from '~/setup/server';
-import * as postsService from '~/src/example/post/post.service';
+import { postController } from '~/src/example/post/post.controller';
 
 export async function postRoutes(server: ServerInstance) {
   server.route({
     method: 'GET',
     url: '/posts',
-    preHandler: [server.authenticate],
     schema: {
       response: {
         200: Type.Array(
@@ -20,10 +20,8 @@ export async function postRoutes(server: ServerInstance) {
         ),
       },
     },
-    handler: async (request) => {
-      const posts = await postsService.getPosts(request.ctx.db, {
-        organisationId: request.ctx.organisationId,
-      });
+    handler: withAuth(async (request) => {
+      const posts = await postController.getPosts(request.ctx);
 
       return posts.map((post) => ({
         id: post.id,
@@ -31,6 +29,6 @@ export async function postRoutes(server: ServerInstance) {
         content: post.content,
         createdAt: post.createdAt.toISOString(),
       }));
-    },
+    }),
   });
 }

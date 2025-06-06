@@ -32,12 +32,14 @@ Here is an example how you could structure your code:
 src/
   user/
     user.resolver.ts
+    user.controller.ts
     user.service.ts
     user.db.ts
     user.test.unit.ts
     user.test.api.ts
   product/
     product.resolver.ts
+    product.controller.ts
     product.service.ts
     product.db.ts
     product.test.unit.ts
@@ -48,7 +50,8 @@ As you can see from the example above, each domain folder contains all the
 related code and tests for that domain. We use filename suffixes to indicate
 the type of the file. The currently available suffixes are as follows:
 
-- `.resolver.ts` for GraphQL resolvers.
+- `.resolver.ts` for GraphQL resolvers and basic authentication.
+- `.controller.ts` for business logic and more fine-grained authentication.
 - `.service.ts` for database access.
 - `.db.ts` for database table schemas.
 - `.test.unit.ts` for unit tests.

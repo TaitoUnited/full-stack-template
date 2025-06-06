@@ -1,4 +1,3 @@
-import type { FastifyReply, FastifyRequest } from 'fastify';
 import { ApolloServer } from '@apollo/server';
 import {
   fastifyApolloDrainPlugin,
@@ -7,13 +6,10 @@ import {
 
 import { config } from '~/src/utils/config';
 import { type ServerInstance } from '../server';
-import { setupWebsocketServer } from './websocket';
 import { protection } from './protection';
 import { setupSchema } from './schema';
-
-export type GraphQlContext = FastifyRequest['ctx'] & {
-  reply: FastifyReply;
-};
+import { GraphQlContext } from './types';
+import { setupWebsocketServer } from './websocket';
 
 export async function setupGraphQL(server: ServerInstance) {
   const schema = setupSchema();
@@ -58,6 +54,11 @@ export async function setupGraphQL(server: ServerInstance) {
                * add it to the context as `_db` or similar.
                */
               db: tx,
+              /**
+               * Overwrite the operation context so that we know which operations
+               * occur in the context of a GraphQL request.
+               */
+              originApi: 'graphql',
             } satisfies GraphQlContext;
           },
         });

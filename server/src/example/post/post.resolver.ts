@@ -1,9 +1,7 @@
 import { builder } from '~/setup/graphql/builder';
-import { hasValidOrganisationRole } from '~/src/utils/authorisation';
-import { GraphQLError } from '~/src/utils/error';
+import { userController } from '../../user/user.controller';
 import { User } from '../../user/user.resolver';
-import * as userService from '../../user/user.service';
-import * as postService from './post.service';
+import { postController } from './post.controller';
 
 const Post = builder.simpleObject('Post', {
   fields: (t) => ({
@@ -22,10 +20,7 @@ export function setupResolvers() {
       nullable: true,
       args: { id: t.arg.string() },
       resolve: async (_, args, ctx) => {
-        return postService.getPost(ctx.db, {
-          id: args.id,
-          organisationId: ctx.organisationId,
-        });
+        return postController.getPost(ctx, args.id);
       },
     })
   );
@@ -35,10 +30,7 @@ export function setupResolvers() {
       type: User,
       nullable: true,
       resolve: async (parent, _, ctx) => {
-        return userService.getOrgUser(ctx.db, {
-          id: parent.authorId,
-          organisationId: ctx.organisationId,
-        });
+        return userController.getOrgUser(ctx, parent.authorId);
       },
     })
   );
@@ -48,10 +40,7 @@ export function setupResolvers() {
       type: [Post],
       args: { search: t.arg.string({ required: false }) },
       resolve: async (_, args, ctx) => {
-        return postService.getPosts(ctx.db, {
-          ...args,
-          organisationId: ctx.organisationId,
-        });
+        return postController.getPosts(ctx, args.search);
       },
     })
   );
@@ -61,14 +50,9 @@ export function setupResolvers() {
       type: Post,
       args: { title: t.arg.string(), content: t.arg.string() },
       resolve: async (_, args, ctx) => {
-        if (!hasValidOrganisationRole(ctx, 'admin', 'manager')) {
-          throw GraphQLError.forbidden();
-        }
-
-        return postService.createPost(ctx.db, {
+        return postController.createPost(ctx, {
           ...args,
           authorId: ctx.user.id,
-          organisationId: ctx.organisationId,
         });
       },
     })
