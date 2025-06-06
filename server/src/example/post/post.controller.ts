@@ -1,4 +1,4 @@
-import { throwApiError } from '~/setup/error';
+import { throwApiError } from '~/src/utils/error';
 import { AuthenticatedContext } from '~/setup/context';
 import {
   checkOrganisationMembership,
@@ -10,21 +10,19 @@ import { postService } from './post.service';
 async function getPosts(ctx: AuthenticatedContext, search?: string | null) {
   checkOrganisationMembership(ctx);
 
-  const params = {
+  return await postService.getPosts(ctx.db, {
     organisationId: ctx.organisationId,
     search,
-  };
-  return await postService.getPosts(ctx.db, params);
+  });
 }
 
 async function getPost(ctx: AuthenticatedContext, id: string) {
   checkOrganisationMembership(ctx);
 
-  const params = {
+  return await postService.getPost(ctx.db, {
     organisationId: ctx.organisationId,
     id,
-  };
-  return await postService.getPost(ctx.db, params);
+  });
 }
 
 async function createPost(
