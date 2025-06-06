@@ -1,10 +1,10 @@
+import { throwApiError } from '~/setup/error';
 import { AuthenticatedContext } from '~/setup/context';
 import {
   checkOrganisationMembership,
   hasValidOrganisationRole,
   ROLES,
 } from '~/src/utils/authorisation';
-import { GraphQLError } from '~/src/utils/error';
 import { postService } from './post.service';
 
 async function getPosts(ctx: AuthenticatedContext, search?: string | null) {
@@ -38,7 +38,11 @@ async function createPost(
   checkOrganisationMembership(ctx);
 
   if (!hasValidOrganisationRole(ctx, ROLES.ADMIN, ROLES.MANAGER)) {
-    throw GraphQLError.forbidden();
+    throwApiError({
+      originApi: ctx.originApi,
+      errorType: 'forbidden',
+      message: 'Creating posts only allowed for admin and manager roles',
+    });
   }
 
   return await postService.createPost(ctx.db, {
