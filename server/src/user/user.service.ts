@@ -6,7 +6,7 @@ import { userDao } from './user.dao';
 async function getOrgUsers(ctx: AuthenticatedContext) {
   checkOrganisationMembership(ctx);
 
-  return await userDao.getOrgUsers(ctx.db, {
+  return userDao.getOrgUsers(ctx.db, {
     organisationId: ctx.organisationId,
   });
 }
@@ -19,14 +19,14 @@ async function getOrgUser(
 
   checkOrganisationMembership(ctx);
 
-  return await userDao.getOrgUser(ctx.db, {
+  return userDao.getOrgUser(ctx.db, {
     id,
     organisationId: ctx.organisationId,
   });
 }
 
 async function getUser(ctx: GraphQlContext, id: string) {
-  return await userDao.getUser(ctx.db, id);
+  return userDao.getUser(ctx.db, id);
 }
 
 function getUserByEmail(ctx: GraphQlContext, email: string) {

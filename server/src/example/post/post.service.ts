@@ -10,7 +10,7 @@ import { postDao } from './post.dao';
 async function getPosts(ctx: AuthenticatedContext, search?: string | null) {
   checkOrganisationMembership(ctx);
 
-  return await postDao.getPosts(ctx.db, {
+  return postDao.getPosts(ctx.db, {
     organisationId: ctx.organisationId,
     search,
   });
@@ -19,7 +19,7 @@ async function getPosts(ctx: AuthenticatedContext, search?: string | null) {
 async function getPost(ctx: AuthenticatedContext, id: string) {
   checkOrganisationMembership(ctx);
 
-  return await postDao.getPost(ctx.db, {
+  return postDao.getPost(ctx.db, {
     organisationId: ctx.organisationId,
     id,
   });
@@ -43,7 +43,7 @@ async function createPost(
     });
   }
 
-  return await postDao.createPost(ctx.db, {
+  return postDao.createPost(ctx.db, {
     ...values,
     organisationId: ctx.organisationId,
   });

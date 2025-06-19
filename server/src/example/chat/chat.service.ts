@@ -5,7 +5,7 @@ import { AuthenticatedContext } from '~/setup/context';
 async function getChatMessages(ctx: AuthenticatedContext, userId: string) {
   checkOrganisationMembership(ctx);
 
-  return await chatDao.getChatMessages(ctx.db, userId);
+  return chatDao.getChatMessages(ctx.db, userId);
 }
 
 export const chatService = {
