@@ -1,59 +1,40 @@
-import { and, eq } from 'drizzle-orm';
+import { AuthenticatedContext } from '~/setup/context';
+import { GraphQlContext } from '~/setup/graphql/types';
+import { checkOrganisationMembership } from '../utils/authorisation';
+import { userDao } from './user.dao';
 
-import { type DrizzleDb } from '~/db';
-import { userTable } from './user.db';
-import { userOrganisationTable } from '../organisation/organisation.db';
+async function getOrgUsers(ctx: AuthenticatedContext) {
+  checkOrganisationMembership(ctx);
 
-async function getOrgUsers(db: DrizzleDb, params: { organisationId: string }) {
-  return db
-    .select({ id: userTable.id, name: userTable.name, email: userTable.email })
-    .from(userTable)
-    .innerJoin(
-      userOrganisationTable,
-      eq(userTable.id, userOrganisationTable.userId)
-    )
-    .where(eq(userOrganisationTable.organisationId, params.organisationId));
+  return userDao.getOrgUsers(ctx.db, {
+    organisationId: ctx.organisationId,
+  });
 }
 
 async function getOrgUser(
-  db: DrizzleDb,
-  params: { id: string; organisationId: string }
+  ctx: AuthenticatedContext,
+  id: string | null | undefined
 ) {
-  const [user] = await db
-    .select({ id: userTable.id, name: userTable.name, email: userTable.email })
-    .from(userTable)
-    .innerJoin(
-      userOrganisationTable,
-      eq(userTable.id, userOrganisationTable.userId)
-    )
-    .where(
-      and(
-        eq(userTable.id, params.id),
-        eq(userOrganisationTable.organisationId, params.organisationId)
-      )
-    );
+  if (!id) return null;
 
-  return user;
+  checkOrganisationMembership(ctx);
+
+  return userDao.getOrgUser(ctx.db, {
+    id,
+    organisationId: ctx.organisationId,
+  });
 }
 
-async function getUser(db: DrizzleDb, id: string) {
-  const [user] = await db
-    .select({ id: userTable.id, name: userTable.name, email: userTable.email })
-    .from(userTable)
-    .where(and(eq(userTable.id, id)));
-
-  return user;
+async function getUser(ctx: GraphQlContext, id: string) {
+  return userDao.getUser(ctx.db, id);
 }
 
-function getUserByEmail(db: DrizzleDb, email: string) {
-  return db.select().from(userTable).where(eq(userTable.email, email));
+function getUserByEmail(ctx: GraphQlContext, email: string) {
+  return userDao.getUserByEmail(ctx.db, email);
 }
 
-function updateUserLastLogin(db: DrizzleDb, userId: string) {
-  return db
-    .update(userTable)
-    .set({ lastLogin: new Date() })
-    .where(eq(userTable.id, userId));
+function updateUserLastLogin(ctx: GraphQlContext, userId: string) {
+  return userDao.updateUserLastLogin(ctx.db, userId);
 }
 
 export const userService = {

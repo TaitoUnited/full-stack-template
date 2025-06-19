@@ -1,59 +1,52 @@
-import { and, eq, ilike, desc } from 'drizzle-orm';
+import { throwApiError } from '~/src/utils/error';
+import { AuthenticatedContext } from '~/setup/context';
+import {
+  checkOrganisationMembership,
+  hasValidOrganisationRole,
+  ROLES,
+} from '~/src/utils/authorisation';
+import { postDao } from './post.dao';
 
-import { type DrizzleDb } from '~/db';
-import { postTable } from './post.db';
+async function getPosts(ctx: AuthenticatedContext, search?: string | null) {
+  checkOrganisationMembership(ctx);
 
-async function getPosts(
-  db: DrizzleDb,
-  params: {
-    organisationId?: string | null;
-    search?: string | null;
-  }
-) {
-  const organisationCondition = params.organisationId
-    ? eq(postTable.organisationId, params.organisationId)
-    : undefined;
-
-  const searchCondition = params.search
-    ? ilike(postTable.title, `%${params.search}%`)
-    : undefined;
-
-  return db
-    .select()
-    .from(postTable)
-    .where(and(organisationCondition, searchCondition))
-    .orderBy(desc(postTable.createdAt));
+  return postDao.getPosts(ctx.db, {
+    organisationId: ctx.organisationId,
+    search,
+  });
 }
 
-async function getPost(
-  db: DrizzleDb,
-  params: { id: string; organisationId?: string | null }
-) {
-  const organisationCondition = params.organisationId
-    ? eq(postTable.organisationId, params.organisationId)
-    : undefined;
+async function getPost(ctx: AuthenticatedContext, id: string) {
+  checkOrganisationMembership(ctx);
 
-  return db
-    .select()
-    .from(postTable)
-    .where(and(eq(postTable.id, params.id), organisationCondition))
-    .then((rows) => rows[0]);
+  return postDao.getPost(ctx.db, {
+    organisationId: ctx.organisationId,
+    id,
+  });
 }
 
 async function createPost(
-  db: DrizzleDb,
+  ctx: AuthenticatedContext,
   values: {
     title: string;
     content: string;
     authorId: string;
-    organisationId: string;
   }
 ) {
-  return db
-    .insert(postTable)
-    .values(values)
-    .returning()
-    .then((rows) => rows[0]!);
+  checkOrganisationMembership(ctx);
+
+  if (!hasValidOrganisationRole(ctx, ROLES.ADMIN, ROLES.MANAGER)) {
+    throwApiError({
+      originApi: ctx.originApi,
+      errorType: 'forbidden',
+      message: 'Creating posts only allowed for admin and manager roles',
+    });
+  }
+
+  return postDao.createPost(ctx.db, {
+    ...values,
+    organisationId: ctx.organisationId,
+  });
 }
 
 export const postService = {

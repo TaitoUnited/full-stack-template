@@ -1,22 +1,11 @@
-import { eq } from 'drizzle-orm';
+import { checkOrganisationMembership } from '~/src/utils/authorisation';
+import { chatDao } from './chat.dao';
+import { AuthenticatedContext } from '~/setup/context';
 
-import { type DrizzleDb } from '~/db';
-import { chatMessageTable, chatTable } from './chat.db';
+async function getChatMessages(ctx: AuthenticatedContext, userId: string) {
+  checkOrganisationMembership(ctx);
 
-async function getChatMessages(db: DrizzleDb, userId: string) {
-  const [chat] = await db
-    .select()
-    .from(chatTable)
-    .where(eq(chatTable.userId, userId));
-
-  if (!chat) return [];
-
-  const messages = await db
-    .select()
-    .from(chatMessageTable)
-    .where(eq(chatMessageTable.chatId, chat.id));
-
-  return messages;
+  return chatDao.getChatMessages(ctx.db, userId);
 }
 
 export const chatService = {

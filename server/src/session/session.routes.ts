@@ -2,7 +2,7 @@ import { Type } from '@sinclair/typebox';
 
 import { type ServerInstance } from '~/setup/server';
 import { ApiRouteError } from '~/src/utils/error';
-import * as sessionService from './session.service';
+import { sessionDao } from './session.dao';
 
 export async function sessionRoutes(server: ServerInstance) {
   server.route({
@@ -25,7 +25,7 @@ export async function sessionRoutes(server: ServerInstance) {
        * if an email exists in the system based on the response time.
        */
       const { cookie } = await wrapLogin(
-        sessionService.login(request.ctx.db, {
+        sessionDao.login(request.ctx.db, {
           auth: request.ctx.auth,
           email: request.body.email,
           password: request.body.password,
@@ -84,7 +84,7 @@ export async function sessionRoutes(server: ServerInstance) {
     },
     handler: async (request, reply) => {
       const { sessionId } = await wrapLogin(
-        sessionService.tokenLogin(request.ctx.db, {
+        sessionDao.tokenLogin(request.ctx.db, {
           auth: request.ctx.auth,
           email: request.body.email,
           password: request.body.password,
@@ -136,7 +136,7 @@ async function wrapLogin<T>(loginPromise: Promise<T>) {
 
   if (result.status === 'rejected') {
     if (
-      result.reason instanceof sessionService.LoginError &&
+      result.reason instanceof sessionDao.LoginError &&
       result.reason.name === 'LoginError'
     ) {
       const { status, message } = result.reason;

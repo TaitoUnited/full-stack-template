@@ -3,15 +3,15 @@ import type { Cookie } from 'lucia';
 import { type DrizzleDb } from '~/db';
 import { comparePassword } from '~/src/utils/password';
 import { isValidPassword, isValidEmail } from '~/src/utils/validation';
-import { userService } from '../user/user.service';
-import { organisationService } from '../organisation/organisation.service';
+import { userDao } from '../user/user.dao';
+import { organisationDao } from '../organisation/organisation.dao';
 import { LoginOptions } from '~/types/login';
 
 /**
  * Cookie-based login with email and password.
  * This should be used for web apps.
  */
-export async function login(
+async function login(
   db: DrizzleDb,
   { email, password, auth }: LoginOptions
 ): Promise<{ cookie: Cookie }> {
@@ -19,7 +19,7 @@ export async function login(
   const session = await auth.createSession(user.id, {});
   const cookie = auth.createSessionCookie(session.id);
 
-  await userService.updateUserLastLogin(db, user.id);
+  await userDao.updateUserLastLogin(db, user.id);
 
   return { cookie };
 }
@@ -28,14 +28,14 @@ export async function login(
  * Token-based login with email and password.
  * This should be used for mobile apps.
  */
-export async function tokenLogin(
+async function tokenLogin(
   db: DrizzleDb,
   { email, password, auth }: LoginOptions
 ) {
   const user = await validateLogin({ db, email, password });
   const session = await auth.createSession(user.id, {});
 
-  await userService.updateUserLastLogin(db, user.id);
+  await userDao.updateUserLastLogin(db, user.id);
 
   return { sessionId: session.id };
 }
@@ -69,7 +69,7 @@ async function validateLogin({
     throw new LoginError(400, 'Invalid email');
   }
 
-  const [user] = await userService.getUserByEmail(db, email);
+  const [user] = await userDao.getUserByEmail(db, email);
 
   if (!user) {
     throw new LoginError(401, 'Invalid credentials');
@@ -84,7 +84,7 @@ async function validateLogin({
     throw new LoginError(401, 'Invalid credentials');
   }
 
-  const userOrganisations = await organisationService.getUserOrganisations(
+  const userOrganisations = await organisationDao.getUserOrganisations(
     db,
     user.id
   );
@@ -95,3 +95,9 @@ async function validateLogin({
 
   return user;
 }
+
+export const sessionDao = {
+  login,
+  tokenLogin,
+  LoginError,
+};

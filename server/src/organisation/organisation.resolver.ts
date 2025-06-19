@@ -1,5 +1,5 @@
 import { builder } from '~/setup/graphql/builder';
-import { organisationController } from './organisation.controller';
+import { organisationService } from './organisation.service';
 
 const Organisation = builder.simpleObject('Organisation', {
   fields: (t) => ({
@@ -15,7 +15,7 @@ export function setupResolvers() {
       nullable: true,
       args: { id: t.arg.string() },
       resolve: async (_, args, ctx) => {
-        return organisationController.getOrganisation(ctx, args.id);
+        return organisationService.getOrganisation(ctx, args.id);
       },
     })
   );
@@ -25,7 +25,7 @@ export function setupResolvers() {
       type: [Organisation],
       nullable: true,
       resolve: async (_, __, ctx) => {
-        const organisations = await organisationController.getUserOrganisations(
+        const organisations = await organisationService.getUserOrganisations(
           ctx,
           ctx.user.id
         );

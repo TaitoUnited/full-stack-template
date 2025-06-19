@@ -1,35 +1,19 @@
-import { eq } from 'drizzle-orm';
+import { AuthenticatedContext, Context } from '~/setup/context';
+import { checkOrganisationMembership } from '../utils/authorisation';
+import { organisationDao } from './organisation.dao';
 
-import { type DrizzleDb } from '~/db';
-import { organisationTable, userOrganisationTable } from './organisation.db';
+async function getOrganisation(ctx: AuthenticatedContext, id: string) {
+  checkOrganisationMembership(ctx);
 
-async function getOrganisation(db: DrizzleDb, id: string) {
-  return db
-    .select({ id: organisationTable.id, name: organisationTable.name })
-    .from(organisationTable)
-    .where(eq(organisationTable.id, id))
-    .then((rows) => rows[0]);
+  return organisationDao.getOrganisation(ctx.db, id);
 }
 
-async function getUserOrganisations(db: DrizzleDb, userId: string) {
-  return db
-    .select()
-    .from(organisationTable)
-    .innerJoin(
-      userOrganisationTable,
-      eq(organisationTable.id, userOrganisationTable.organisationId)
-    )
-    .where(eq(userOrganisationTable.userId, userId));
+async function getUserOrganisations(ctx: AuthenticatedContext, userId: string) {
+  return organisationDao.getUserOrganisations(ctx.db, userId);
 }
 
-async function getUserOrganisationsWithRoles(db: DrizzleDb, userId: string) {
-  return db
-    .select({
-      organisationId: userOrganisationTable.organisationId,
-      role: userOrganisationTable.role,
-    })
-    .from(userOrganisationTable)
-    .where(eq(userOrganisationTable.userId, userId));
+async function getUserOrganisationsWithRoles(ctx: Context, userId: string) {
+  return organisationDao.getUserOrganisationsWithRoles(ctx.db, userId);
 }
 
 export const organisationService = {
