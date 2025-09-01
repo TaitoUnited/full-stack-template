@@ -148,7 +148,7 @@ taito clean:npm                         # Delete node_modules directories
 taito clean                             # Clean everything
 ```
 
-The commands mentioned above work also for server environments (`f-NAME`, `dev`, `test`, `uat`, `stag`, `canary`, `prod`). Some examples for dev environment:
+The commands mentioned above work also for cloud environments (`f-NAME`, `dev`, `test`, `uat`, `stag`, `canary`, `prod`). Some examples for dev environment:
 
 ```sh
 taito auth:dev                          # Authenticate to dev
