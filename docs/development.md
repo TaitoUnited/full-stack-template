@@ -17,26 +17,11 @@ Table of contents:
 
 ## Quick start
 
-> [!TIP]
-> Make sure your cloud auth is still in effect with `taito auth:dev` and start application in a cleaned and initialized local environment with a single command: `taito develop`. This is essentially the same thing as running `taito env apply --clean`, `taito start --clean`, and `taito init`. If the application fails to start, run `taito trouble` to see troubleshooting.
+First make sure your cloud auth is in effect with `taito auth:dev`. Then start the application in a cleaned and initialized local environment with a single command: `taito develop`. From there on you can start the application with `taito start` instead of running `taito develop`, which executes a full initialization in addition to starting the application. If the application fails to start, run `taito trouble` to see troubleshooting.
 
-In case you need some secrets from dev, make sure your cloud authentication is still in effect:
+> The `taito develop` command runs `taito env apply --clean`, `taito start --clean`, and `taito init` commands under the hood. You can run these commands also separately, if you want to initialize only specific parts of the project.
 
-```sh
-taito auth:dev
-```
-
-Create local environment by installing some libraries and generating secrets (add `--clean` to recreate clean environment):
-
-```sh
-taito env apply
-```
-
-Make sure that everything has been initialized (e.g database, generated schemas) (add `--clean` to make a clean reinit):
-
-```sh
-taito init
-```
+## Essential commands
 
 Show user accounts and other information that you can use to log in:
 
@@ -75,12 +60,26 @@ taito uikit
 taito open uikit
 ```
 
+Some other useful links:
+
+```sh
+taito open git
+taito open builds
+```
+
 Access database:
 
 ```sh
 taito db connect                        # access using a command-line tool
 taito db proxy                          # access using a database GUI tool look docker-compose.yaml for database user credentials
 taito db import: ./database/file.sql    # import a sql script to database
+```
+
+Update secret values of local environment:
+
+```sh
+taito auth:dev [--reset]                # Make sure your cloud authentication is still in effect as secret default values are read from dev.
+taito secret rotate [NAME]              # Update all secrets or specific secret (TODO: alias 'taito secret update')
 ```
 
 Run tests:
