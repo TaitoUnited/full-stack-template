@@ -77,6 +77,8 @@ taito db import: ./database/file.sql    # import a sql script to database
 
 Update secret values of local environment:
 
+> TIP: See [Define a secret](https://taitounited.github.io/taito-cli/tutorial/06-env-variables-and-secrets/#64-define-a-secret) chapter on how to add a new secret definition.
+
 ```sh
 taito auth:dev [--reset]                # Make sure your cloud authentication is still in effect as secret default values are read from dev.
 taito secret rotate [NAME]              # Update all secrets or specific secret (TODO: alias 'taito secret update')
