@@ -3,10 +3,8 @@ import { Trans, useLingui } from '@lingui/react/macro';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { type FormEvent, useState } from 'react';
 
+import { DocumentTitle } from '~/components/common/document-title';
 import { CreatePostMutation } from '~/graphql/post/mutations';
-import { useDocumentTitle } from '~/hooks/use-document-title';
-import { RouteError } from '~/routes/route-error';
-import { RouteSpinner } from '~/routes/route-spinner';
 import { styled } from '~/styled-system/jsx';
 import { Button } from '~/uikit/button';
 import { Dialog } from '~/uikit/dialog';
@@ -17,8 +15,6 @@ import { toast } from '~/uikit/toaster';
 
 export const Route = createFileRoute('/_app/$workspaceId/posts_/create')({
   component: PostCreateRoute,
-  errorComponent: () => <RouteError />,
-  pendingComponent: () => <RouteSpinner />,
 });
 
 export default function PostCreateRoute() {
@@ -60,65 +56,66 @@ export default function PostCreateRoute() {
     }
   }
 
-  useDocumentTitle(t`New blog post`);
-
   return (
-    <Dialog
-      placement="middle"
-      isOpen
-      onOpenChange={() =>
-        navigate({
-          to: `/$workspaceId/posts`,
-          params: {
-            workspaceId: params.workspaceId,
-          },
-        })
-      }
-    >
-      <Dialog.Header title={t`New blog post`} />
-      <Dialog.Body>
-        <Wrapper>
-          <form onSubmit={handleSubmit}>
-            <Stack direction="column" gap="$regular">
-              <TextInput
-                label={t`Title`}
-                name="title"
-                data-testid="subject-field"
-                value={formValues.title}
-                onInput={handleChange}
-                minLength={5}
-                maxLength={500}
-              />
+    <>
+      <DocumentTitle title={t`New blog post`} />
+      <Dialog
+        placement="middle"
+        isOpen
+        onOpenChange={() =>
+          navigate({
+            to: `/$workspaceId/posts`,
+            params: {
+              workspaceId: params.workspaceId,
+            },
+          })
+        }
+      >
+        <Dialog.Header title={t`New blog post`} />
+        <Dialog.Body>
+          <Wrapper>
+            <form onSubmit={handleSubmit}>
+              <Stack direction="column" gap="$regular">
+                <TextInput
+                  label={t`Title`}
+                  name="title"
+                  data-testid="subject-field"
+                  value={formValues.title}
+                  onInput={handleChange}
+                  minLength={5}
+                  maxLength={500}
+                />
 
-              <TextArea
-                label={t`Content`}
-                name="content"
-                data-testid="content-field"
-                value={formValues.content}
-                onInput={handleChange}
-                rows={4}
-              />
+                <TextArea
+                  label={t`Content`}
+                  name="content"
+                  data-testid="content-field"
+                  value={formValues.content}
+                  onInput={handleChange}
+                  rows={4}
+                />
 
-              <Button
-                type="submit"
-                variant="filled"
-                color="primary"
-                isLoading={createPostState.loading}
-                isDisabled={submitDisabled}
-                style={{ alignSelf: 'flex-end' }}
-                data-testid="submit-post"
-              >
-                {createPostState.loading ? (
-                  <Trans>Creating</Trans>
-                ) : (
-                  <Trans>Create</Trans>
-                )}
-              </Button>
-            </Stack>
-          </form>
-        </Wrapper>
-      </Dialog.Body>
-    </Dialog>
+                <Button
+                  type="submit"
+                  variant="filled"
+                  color="primary"
+                  isLoading={createPostState.loading}
+                  isDisabled={submitDisabled}
+                  style={{ alignSelf: 'flex-end' }}
+                  data-testid="submit-post"
+                >
+                  {createPostState.loading ? (
+                    <Trans>Creating</Trans>
+                  ) : (
+                    <Trans>Create</Trans>
+                  )}
+                </Button>
+              </Stack>
+            </form>
+          </Wrapper>
+        </Dialog.Body>
+      </Dialog>
+    </>
   );
 }
 

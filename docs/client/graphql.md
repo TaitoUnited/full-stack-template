@@ -13,10 +13,10 @@ The Apollo instance is inititiated in the [`client/src/graphql/client.ts`](/clie
 #### Example
 
 ```ts
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, InMemoryCache } from "@apollo/client";
 
 export const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql',
+  uri: "http://localhost:4000/graphql",
   cache: new InMemoryCache(),
 });
 ```
@@ -32,8 +32,8 @@ The gql.tada configuration is defined in the [`gql.ts`](/client/src/graphql/gql.
 #### Example
 
 ```ts
-import { initGraphQLTada } from 'gql.tada';
-import type { myIntrospection } from './myIntrospection';
+import { initGraphQLTada } from "gql.tada";
+import type { myIntrospection } from "./myIntrospection";
 
 export const graphql = initGraphQLTada<{
   introspection: typeof myIntrospection;
@@ -61,7 +61,7 @@ npm run generate:graphql
 You can use the generated types and hooks in your components to ensure type safety and autocompletion.
 
 ```tsx
-import { graphql, useQuery } from '~/graphql';
+import { graphql, useQuery } from "~/graphql";
 
 const GET_KITTENS = graphql(/* GraphQL */ `
   query GetKittens {
@@ -81,7 +81,7 @@ const KittensComponent = () => {
 
   return (
     <ul>
-      {data.kittens.map(kitten => (
+      {data.kittens.map((kitten) => (
         <li key={kitten.id}>{kitten.name}</li>
       ))}
     </ul>
@@ -102,7 +102,7 @@ import { PostListQuery } from '~/graphql/post/queries';
 export const Route = createFileRoute('/_app/$workspaceId/posts')({
   component: PostListRoute,
   errorComponent: () => <RouteError />,
-  pendingComponent: () => <RouteSpinner />,
+  pendingComponent: () => <RoutePending />,
   loader: async ({ context }) => ({
     queryRef: context.preloadQuery(PostListQuery),
   }),

@@ -6,6 +6,9 @@ import {
 import { createRouter } from '@tanstack/react-router';
 
 import { routeTree } from './route-tree.gen';
+import { NotFoundUnauthenticated } from './routes/not-found/not-found-unauthenticated';
+import { RouteError } from './routes/route-error';
+import { RoutePending } from './routes/route-pending';
 
 let __router__: ReturnType<typeof setupRouter>;
 
@@ -21,6 +24,12 @@ export function setupRouter(apolloClient: ApolloClient<NormalizedCacheObject>) {
     defaultPreload: 'intent',
     defaultPreloadStaleTime: 0,
     context: { apolloClient, preloadQuery },
+    scrollRestoration: true,
+    defaultErrorComponent: RouteError,
+    defaultPendingComponent: RoutePending,
+    defaultNotFoundComponent: NotFoundUnauthenticated,
+    defaultPendingMs: 1000, // ms to wait until showing the pending component
+    defaultPendingMinMs: 500, // show pending component for at least this long
   });
 
   __router__ = router;

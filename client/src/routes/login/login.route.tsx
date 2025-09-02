@@ -2,7 +2,7 @@ import { Trans, useLingui } from '@lingui/react/macro';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { type FormEvent, useState } from 'react';
 
-import { useDocumentTitle } from '~/hooks/use-document-title';
+import { DocumentTitle } from '~/components/common/document-title';
 import { login, useAuthStore } from '~/stores/auth-store';
 import { styled } from '~/styled-system/jsx';
 import { Button } from '~/uikit/button';
@@ -22,7 +22,6 @@ export const Route = createFileRoute('/login')({
 
 function LoginRoute() {
   const { t } = useLingui();
-  useDocumentTitle(t`Login`);
 
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const authStatus = useAuthStore(state => state.status);
@@ -45,47 +44,50 @@ function LoginRoute() {
   }
 
   return (
-    <Wrapper>
-      <LoginForm onSubmit={handleSubmit}>
-        <Stack direction="column" gap="$large">
-          <Text variant="headingXl">
-            <Trans>Login</Trans>
-          </Text>
+    <>
+      <DocumentTitle title={t`Login`} />
+      <Wrapper>
+        <LoginForm onSubmit={handleSubmit}>
+          <Stack direction="column" gap="$large">
+            <Text variant="headingXl">
+              <Trans>Login</Trans>
+            </Text>
 
-          <Stack direction="column" gap="$regular">
-            <TextInput
-              label={t`Email`}
-              name="email"
-              icon="mail"
-              value={credentials.email}
-              onInput={handleChange}
-            />
-            <TextInput
-              label={t`Password`}
-              name="password"
-              type="password"
-              icon="fingerprint"
-              value={credentials.password}
-              onInput={handleChange}
-            />
-            <Button
-              type="submit"
-              size="large"
-              variant="filled"
-              color="primary"
-              isLoading={authStatus === 'logging-in'}
-              data-testid="login"
-            >
-              {authStatus === 'logging-in' ? (
-                <Trans>Logging in</Trans>
-              ) : (
-                <Trans>Submit</Trans>
-              )}
-            </Button>
+            <Stack direction="column" gap="$regular">
+              <TextInput
+                label={t`Email`}
+                name="email"
+                icon="mail"
+                value={credentials.email}
+                onInput={handleChange}
+              />
+              <TextInput
+                label={t`Password`}
+                name="password"
+                type="password"
+                icon="fingerprint"
+                value={credentials.password}
+                onInput={handleChange}
+              />
+              <Button
+                type="submit"
+                size="large"
+                variant="filled"
+                color="primary"
+                isLoading={authStatus === 'logging-in'}
+                data-testid="login"
+              >
+                {authStatus === 'logging-in' ? (
+                  <Trans>Logging in</Trans>
+                ) : (
+                  <Trans>Submit</Trans>
+                )}
+              </Button>
+            </Stack>
           </Stack>
-        </Stack>
-      </LoginForm>
-    </Wrapper>
+        </LoginForm>
+      </Wrapper>
+    </>
   );
 }
 

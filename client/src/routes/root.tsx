@@ -6,7 +6,6 @@ import type {
 import {
   createRootRouteWithContext,
   Outlet,
-  ScrollRestoration,
   useRouter,
 } from '@tanstack/react-router';
 import { lazy } from 'react';
@@ -50,7 +49,6 @@ function RootComponent() {
       useHref={to => router.buildLocation({ to }).href}
     >
       <Outlet />
-      <ScrollRestoration />
       <RouterDevTools />
     </AriaRouterProvider>
   );

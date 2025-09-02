@@ -1,11 +1,9 @@
 import { Trans } from '@lingui/react/macro';
 import { createFileRoute } from '@tanstack/react-router';
 
+import { DocumentTitle } from '~/components/common/document-title';
 import { type ResultOf, useReadQuery } from '~/graphql';
 import { PostQuery } from '~/graphql/post/queries';
-import { useDocumentTitle } from '~/hooks/use-document-title';
-import { RouteError } from '~/routes/route-error';
-import { RouteSpinner } from '~/routes/route-spinner';
 import { css } from '~/styled-system/css';
 import { Breadcrumbs } from '~/uikit/breadcrumbs';
 
@@ -13,8 +11,6 @@ import { PostDetails } from './post-details';
 
 export const Route = createFileRoute('/_app/$workspaceId/posts_/$id')({
   component: PostRoute,
-  errorComponent: () => <RouteError />,
-  pendingComponent: () => <RouteSpinner />,
   loader: async ({ context, params }) => ({
     postQueryRef: context.preloadQuery(PostQuery, {
       variables: { id: params.id },
@@ -38,23 +34,25 @@ function PostPage({
 }: {
   post: NonNullable<ResultOf<typeof PostQuery>['post']>;
 }) {
-  useDocumentTitle(post.title);
-
   return (
-    <div className={css({ flex: 1 })}>
-      <Breadcrumbs>
-        <Breadcrumbs.Item to="/$workspaceId/posts">
-          <Trans>Blog</Trans>
-        </Breadcrumbs.Item>
-        <Breadcrumbs.Item>{post.title}</Breadcrumbs.Item>
-      </Breadcrumbs>
+    <>
+      <DocumentTitle title={post.title} />
 
-      <PostDetails
-        createdAt={post.createdAt}
-        author={post.author?.name ?? 'Unknown'}
-        subject={post.title}
-        content={post.content}
-      />
-    </div>
+      <div className={css({ flex: 1 })}>
+        <Breadcrumbs>
+          <Breadcrumbs.Item to="/$workspaceId/posts">
+            <Trans>Blog</Trans>
+          </Breadcrumbs.Item>
+          <Breadcrumbs.Item>{post.title}</Breadcrumbs.Item>
+        </Breadcrumbs>
+
+        <PostDetails
+          createdAt={post.createdAt}
+          author={post.author?.name ?? 'Unknown'}
+          subject={post.title}
+          content={post.content}
+        />
+      </div>
+    </>
   );
 }

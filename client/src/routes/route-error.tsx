@@ -1,14 +1,13 @@
 import { captureException } from '@sentry/browser';
+import type { ErrorComponentProps } from '@tanstack/react-router';
 import { useEffect } from 'react';
 
 import { ErrorView } from '~/components/common/error-view';
 import { config } from '~/constants/config';
 import { styled } from '~/styled-system/jsx';
 
-// See: https://reactrouter.com/en/main/route/error-element
-export function RouteError() {
-  const error = null;
-
+// See: https://tanstack.com/router/latest/docs/framework/react/api/router/errorComponentComponent#errorcomponent-returns
+export function RouteError({ error }: ErrorComponentProps) {
   useEffect(() => {
     if (error) {
       console.log('Root route error', error);
