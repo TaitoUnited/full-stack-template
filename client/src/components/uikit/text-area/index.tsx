@@ -78,7 +78,6 @@ export function TextArea({
         <AriaTextArea
           id={id}
           rows={rows}
-          // eslint-disable-next-line react-compiler/react-compiler
           ref={mergeRefs([innerRef, ref])}
           placeholder={placeholder}
           className={inputBaseStyles()}
