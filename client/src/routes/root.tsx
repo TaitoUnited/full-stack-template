@@ -1,8 +1,5 @@
-import type {
-  ApolloClient,
-  NormalizedCacheObject,
-  PreloadQueryFunction,
-} from '@apollo/client';
+import type { ApolloClient } from '@apollo/client';
+import type { PreloadQueryFunction } from '@apollo/client/react';
 import {
   createRootRouteWithContext,
   Outlet,
@@ -18,7 +15,7 @@ import { InternalErrorUnauthenticated } from './internal-error/internal-error-un
 import { NotFoundUnauthenticated } from './not-found/not-found-unauthenticated';
 
 type RouterContext = {
-  apolloClient: ApolloClient<NormalizedCacheObject>;
+  apolloClient: ApolloClient;
   preloadQuery: PreloadQueryFunction;
 };
 
