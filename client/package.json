@@ -46,7 +46,7 @@
     "react-aria": "3.43.1",
     "react-aria-components": "1.12.1",
     "react-dom": "19.1.1",
-    "react-merge-refs": "3.0.2",
+    "react-merge-refs": "2.1.1",
     "react-stately": "3.41.0",
     "react-use-measure": "2.1.7",
     "sonner": "2.0.7",

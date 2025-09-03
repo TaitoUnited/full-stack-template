@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 import { useMemo } from 'react';
 import {
-  UNSTABLE_ListLayout,
-  UNSTABLE_Virtualizer,
+  Virtualizer as AriaVirtualizer,
+  ListLayout,
 } from 'react-aria-components';
 
 import { BEST_GUESS_LISTBOX_ITEM_HEIGHT } from './common';
@@ -17,7 +17,7 @@ export function Virtualizer({
   estimatedRowHeight?: number;
 }) {
   const layout = useMemo(() => {
-    return new UNSTABLE_ListLayout({
+    return new ListLayout({
       estimatedRowHeight: estimatedRowHeight || BEST_GUESS_LISTBOX_ITEM_HEIGHT,
     });
   }, []);
@@ -26,7 +26,5 @@ export function Virtualizer({
     return children;
   }
 
-  return (
-    <UNSTABLE_Virtualizer layout={layout}>{children}</UNSTABLE_Virtualizer>
-  );
+  return <AriaVirtualizer layout={layout}>{children}</AriaVirtualizer>;
 }
