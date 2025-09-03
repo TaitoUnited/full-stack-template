@@ -13,10 +13,10 @@ The Sentry configuration is managed through the [`constants/config.ts`](/client/
 export const config = {
   SENTRY_DSN: process.env.SENTRY_DSN,
   ERROR_REPORTING_ENABLED:
-    currentEnv === 'prod' &&
+    currentEnv === "prod" &&
     import.meta.env.PROD &&
     !!process.env.SENTRY_DSN &&
-    process.env.SENTRY_DSN.startsWith('https'),
+    process.env.SENTRY_DSN.startsWith("https"),
   // Other configuration settings...
 };
 ```
@@ -37,14 +37,14 @@ By default, any routing errors are captured and reported using Sentry. The [`Rou
 You can add Sentry error reporting to other components by calling `captureException` with the error object. The following example demonstrates how to capture an exception in a component:
 
 ```jsx
-import { captureException } from '@sentry/browser';
+import { captureException } from "@sentry/browser";
 
 function MyComponent() {
   const handleClick = () => {
     try {
       // Code that may throw an error
     } catch (error) {
-      console.error('Error occurred:', error);
+      console.error("Error occurred:", error);
       if (config.ERROR_REPORTING_ENABLED) {
         captureException(error);
       }

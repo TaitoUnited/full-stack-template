@@ -11,7 +11,7 @@ import * as sizes from './src/styled-system/tokens/sizes';
 import * as radii from './src/styled-system/tokens/radii';
 import * as typography from './src/styled-system/tokens/typography';
 
-const isProd = process.env.NODE_ENV === 'production';
+const rootFontSize = 16;
 
 export default defineConfig({
   importMap: '~/styled-system',
@@ -19,8 +19,7 @@ export default defineConfig({
   // The output directory for your css system
   outdir: './src/styled-system/generated',
 
-  // Minify css in non-dev mode
-  minify: isProd,
+  poll: true,
 
   // Don't use non-standard CSS properties
   shorthands: false,
@@ -70,11 +69,17 @@ export default defineConfig({
       },
       sizes: {
         none: { value: '0rem' },
-        ...helpers.transformNumberTokens(sizes, value => `${value / 16}rem`),
+        ...helpers.transformNumberTokens(
+          sizes,
+          value => `${value / rootFontSize}rem`
+        ),
       },
       spacing: {
         none: { value: '0rem' },
-        ...helpers.transformNumberTokens(spacing, value => `${value / 16}rem`),
+        ...helpers.transformNumberTokens(
+          spacing,
+          value => `${value / rootFontSize}rem`
+        ),
       },
     },
 

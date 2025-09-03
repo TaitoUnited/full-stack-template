@@ -1,24 +1,28 @@
-import { Trans } from '@lingui/react/macro';
+import { Trans, useLingui } from '@lingui/react/macro';
 
+import { DocumentTitle } from '~/components/common/document-title';
 import { Link } from '~/components/navigation/link';
-import { useDocumentTitle } from '~/hooks/use-document-title';
 import { Stack } from '~/uikit/stack';
 import { Text } from '~/uikit/text';
 
 export function NotFoundAuthenticated() {
-  useDocumentTitle('404');
+  const { t } = useLingui();
 
   return (
-    <Stack direction="column" gap="$medium">
-      <Text variant="headingXl">
-        <Trans>404</Trans>
-      </Text>
+    <>
+      <DocumentTitle title={t`Page not found`} />
 
-      <Text variant="leadBold">
-        <Trans>Page not found</Trans>
-      </Text>
+      <Stack direction="column" gap="$medium">
+        <Text variant="headingXl">
+          <Trans>404</Trans>
+        </Text>
 
-      <Link to="/">Back to home</Link>
-    </Stack>
+        <Text variant="leadBold">
+          <Trans>Page not found</Trans>
+        </Text>
+
+        <Link to="/">Back to home</Link>
+      </Stack>
+    </>
   );
 }

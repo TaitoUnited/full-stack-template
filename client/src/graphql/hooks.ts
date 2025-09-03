@@ -64,7 +64,17 @@ export function useSuspenseQuery<
    */
   const suspending = useSpinDelay(!equal(variables, options?.variables));
 
-  useWindowFocusRefetching(result.refetch);
+  /**
+   * TODO: figure out if it possible to do refetching on window focus
+   * with suspense queries. We previously used `startTransition` to prevent
+   * the fallback from showing when refetching the query but that caused some
+   * extremely weird bugs with other usages of `usaDeferredValue` in the app.
+   * Basically whenever we refetched any suspense queries all other deferred
+   * values would just completely break and any memoed components that used
+   * those values would never re-trigger their `useEffect` hooks.
+   * No idea what the solution is yet so it's better to disable refetching for now.
+   */
+  // useWindowFocusRefetching(result.refetch);
 
   return { ...result, suspending };
 }

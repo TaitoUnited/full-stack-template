@@ -5,7 +5,7 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 import pandaCss from '@pandacss/dev/postcss';
 import { lingui } from '@lingui/vite-plugin';
 import { defineConfig } from 'vite';
-import { ViteFaviconsPlugin } from 'vite-plugin-favicon2';
+import favicons from '@peterek/vite-plugin-favicons';
 import { splashScreen } from 'vite-plugin-splash-screen';
 import { watchAndRun } from 'vite-plugin-watch-and-run';
 import { optimizeLodashImports } from '@optimize-lodash/rollup-plugin';
@@ -14,13 +14,14 @@ import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 import { routeConfig } from './src/route-config';
 import { iconSpritesheet } from './plugins/icon-spritesheet-plugin';
 
+const IS_CI = Boolean(process.env.CI || process.env.taito_mode === 'ci');
 const ANALYZE = !!process.env.ANALYZE;
 const OUT_DIR = path.resolve(__dirname, ANALYZE ? 'build' : '../../build');
 const DEV_HOST = process.env.DEV_BINDADDR || '127.0.0.1';
 const DEV_PORT = process.env.DEV_PORT || '3000';
 const PUBLIC_HOST = process.env.DOCKER_HOST ? '192.168.99.100' : 'localhost';
 const PUBLIC_PORT = process.env.COMMON_PUBLIC_PORT || DEV_PORT;
-const CACHE_DIR = process.env.CI ? '.vite' : '.vite/ci';
+const CACHE_DIR = IS_CI ? '.vite' : '.vite/ci';
 
 export default defineConfig(({ mode }) => ({
   publicDir: 'assets',
@@ -74,33 +75,29 @@ export default defineConfig(({ mode }) => ({
       autoCodeSplitting: true,
       quoteStyle: 'single',
       semicolons: true,
+      target: 'react',
     }),
     iconSpritesheet(),
-    // Generate favicons only on production since it slows down the dev build
-    mode === 'production' &&
-      ViteFaviconsPlugin({
-        inject: true,
-        logo: 'assets/icon.png',
-        favicons: {
-          appName: 'Taito app',
-          appShortName: 'Taito',
-          appDescription: 'Taito fullstack template app',
-          developerName: 'Taito United',
-          developerURL: 'https://github.com/TaitoUnited',
-          lang: 'fi',
-          background: '#ffffff',
-          theme_color: '#2b2b2b',
-          display: 'standalone',
-          start_url: '.',
-          icons: {
-            // Don't include unnecessary icons
-            coast: false,
-            yandex: false,
-            windows: false,
-            appleStartup: false,
-          },
-        },
-      }),
+    favicons('assets/icon.png', {
+      appName: 'Taito app',
+      appShortName: 'Taito',
+      appDescription: 'Taito fullstack template app',
+      developerName: 'Taito United',
+      developerURL: 'https://github.com/TaitoUnited',
+      lang: 'fi',
+      background: '#ffffff',
+      theme_color: '#2b2b2b',
+      display: 'standalone',
+      start_url: '.',
+      icons: {
+        android: true,
+        appleIcon: true,
+        // Don't include unnecessary icons
+        appleStartup: false,
+        windows: false,
+        yandex: false,
+      },
+    }),
     tsconfigPaths(),
     react({
       exclude: /\.stories\.(t|j)sx?$/, // Exclude Storybook stories

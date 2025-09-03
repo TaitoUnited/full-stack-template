@@ -167,7 +167,6 @@ export function MultiSelectCombobox({
       >
         <InputBase
           className={inputBaseStyles()}
-          // eslint-disable-next-line react-compiler/react-compiler
           ref={mergeRefs([measureRef, wrapperRef])}
           hasIcon={!!icon}
           aria-invalid={validation.type === 'error'}

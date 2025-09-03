@@ -3,8 +3,8 @@ import { createFileRoute } from '@tanstack/react-router';
 import { orderBy, random, range } from 'lodash';
 import { useState } from 'react';
 
+import { DocumentTitle } from '~/components/common/document-title';
 import { FeatureGate } from '~/components/feature-flags/feature-gate';
-import { useDocumentTitle } from '~/hooks/use-document-title';
 import { isFeatureEnabled } from '~/services/feature-flags';
 import { styled } from '~/styled-system/jsx';
 import { Card } from '~/uikit/card';
@@ -19,7 +19,6 @@ export const Route = createFileRoute('/_app/$workspaceId/')({
 
 export default function HomeRoute() {
   const { t } = useLingui();
-  useDocumentTitle(t`Home`);
 
   const featureEnabled = isFeatureEnabled('feature-1');
 
@@ -75,67 +74,71 @@ export default function HomeRoute() {
   ];
 
   return (
-    <Stack direction="column" gap="$xl">
-      <Stack direction="column" gap="$regular">
-        <Text variant="headingXl">
-          <Trans>Home</Trans>
-        </Text>
+    <>
+      <DocumentTitle title={t`Home`} />
 
-        <Text variant="headingM" color="textMuted" lineHeight={1.5}>
-          <Trans>Welcome to Taito Fullstack Template!</Trans>
-        </Text>
+      <Stack direction="column" gap="$xl">
+        <Stack direction="column" gap="$regular">
+          <Text variant="headingXl">
+            <Trans>Home</Trans>
+          </Text>
 
-        <Text variant="body" color="textMuted" lineHeight={1.5}>
-          <Trans>
-            This React app contains the necessary building blocks that you need
-            to get your project started. You can freely alter any aspect of the
-            template to fit your needs better.
-          </Trans>
-        </Text>
-      </Stack>
+          <Text variant="headingM" color="textMuted" lineHeight={1.5}>
+            <Trans>Welcome to Taito Fullstack Template!</Trans>
+          </Text>
 
-      <Stack direction="column" gap="$medium">
-        <Text variant="headingL">
-          <Trans>Examples</Trans>
-        </Text>
+          <Text variant="body" color="textMuted" lineHeight={1.5}>
+            <Trans>
+              This React app contains the necessary building blocks that you
+              need to get your project started. You can freely alter any aspect
+              of the template to fit your needs better.
+            </Trans>
+          </Text>
+        </Stack>
 
-        <Text variant="body" color="textMuted" lineHeight={1.5}>
-          <Trans>
-            In the sidebar you can browse through some example pages. (TODO: add
-            more examples)
-          </Trans>
-        </Text>
-      </Stack>
+        <Stack direction="column" gap="$medium">
+          <Text variant="headingL">
+            <Trans>Examples</Trans>
+          </Text>
 
-      <Stack direction="column" gap="$medium">
-        <Text variant="headingL">
-          <Trans>Features</Trans>
-        </Text>
+          <Text variant="body" color="textMuted" lineHeight={1.5}>
+            <Trans>
+              In the sidebar you can browse through some example pages. (TODO:
+              add more examples)
+            </Trans>
+          </Text>
+        </Stack>
 
-        <Cards>
-          {features.map(feature => (
-            <Card key={feature.title}>
-              <Stack direction="column" gap="$regular">
-                <Stack direction="row" gap="$xs" align="center">
-                  <Icon name={feature.icon} size={24} color="text" />
-                  <Text variant="headingM">{feature.title}</Text>
+        <Stack direction="column" gap="$medium">
+          <Text variant="headingL">
+            <Trans>Features</Trans>
+          </Text>
+
+          <Cards>
+            {features.map(feature => (
+              <Card key={feature.title}>
+                <Stack direction="column" gap="$regular">
+                  <Stack direction="row" gap="$xs" align="center">
+                    <Icon name={feature.icon} size={24} color="text" />
+                    <Text variant="headingM">{feature.title}</Text>
+                  </Stack>
+
+                  <Text variant="body" color="textMuted" lineHeight={1.6}>
+                    {feature.description}
+                  </Text>
                 </Stack>
+              </Card>
+            ))}
+          </Cards>
+        </Stack>
 
-                <Text variant="body" color="textMuted" lineHeight={1.6}>
-                  {feature.description}
-                </Text>
-              </Stack>
-            </Card>
-          ))}
-        </Cards>
+        <Card>
+          <SortableTable />
+        </Card>
+
+        <FeatureGate feature="feature-1">Hello from feature 1!</FeatureGate>
       </Stack>
-
-      <Card>
-        <SortableTable />
-      </Card>
-
-      <FeatureGate feature="feature-1">Hello from feature 1!</FeatureGate>
-    </Stack>
+    </>
   );
 }
 

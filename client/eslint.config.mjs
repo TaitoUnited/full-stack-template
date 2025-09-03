@@ -49,6 +49,8 @@ export default pluginTS.config(
     files: ['**/*.{ts,tsx}'],
     ...pluginReact.configs['recommended-typescript'],
   },
+  pluginReactCompiler.configs.recommended,
+  pluginReactHooks.configs['recommended-latest'],
   {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
@@ -65,10 +67,6 @@ export default pluginTS.config(
           project: './tsconfig.json',
         },
       },
-    },
-    plugins: {
-      'react-hooks': pluginReactHooks,
-      'react-compiler': pluginReactCompiler,
     },
     rules: {
       'react-compiler/react-compiler': 'error',
@@ -168,6 +166,7 @@ export default pluginTS.config(
         'error',
         { fixStyle: 'inline-type-imports' },
       ],
+      '@typescript-eslint/consistent-type-imports': 'error',
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/explicit-member-accessibility': 'off',
