@@ -13,13 +13,13 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/uikit/multi-select/index.tsx
 #: src/components/uikit/async-select/index.tsx
+#: src/components/uikit/multi-select/index.tsx
 msgid "{numSelected} selected"
 msgstr ""
 
-#: src/routes/not-found/not-found-unauthenticated.tsx
 #: src/routes/not-found/not-found-authenticated.tsx
+#: src/routes/not-found/not-found-unauthenticated.tsx
 msgid "404"
 msgstr ""
 
@@ -35,10 +35,10 @@ msgstr "Saavutettvasuus"
 msgid "Authentication"
 msgstr "Autentikaatio"
 
+#: src/components/navigation/sidebar.tsx
 #: src/routes/post-list/post-list.route.tsx
 #: src/routes/post-list/post-list.route.tsx
 #: src/routes/post/post.route.tsx
-#: src/components/navigation/sidebar.tsx
 msgid "Blog"
 msgstr "Blogi"
 
@@ -46,13 +46,13 @@ msgstr "Blogi"
 msgid "Change language"
 msgstr ""
 
-#: src/components/uikit/partials/select-actions.tsx
 #: src/components/uikit/multi-select-combobox/index.tsx
+#: src/components/uikit/partials/select-actions.tsx
 msgid "Clear"
 msgstr ""
 
-#: src/components/uikit/date-range-picker/index.tsx
 #: src/components/uikit/date-picker/index.tsx
+#: src/components/uikit/date-range-picker/index.tsx
 msgid "Clear date"
 msgstr ""
 
@@ -128,8 +128,8 @@ msgstr ""
 msgid "Feature flags"
 msgstr ""
 
-#: src/routes/feature-3.route.tsx
 #: src/components/navigation/sidebar.tsx
+#: src/routes/feature-3.route.tsx
 msgid "Feature Flags"
 msgstr ""
 
@@ -145,15 +145,20 @@ msgstr "Riittävää saavutettavuutta tulisi vaatia jokaiselta sovellukselta. T�
 msgid "Having dark mode support is a common ask from users nowadays. This template has a ready-to-use theming setup with light and dark themes that can be easily modified to conform to the client's branding. Try to toggle the theme in the top right corner."
 msgstr "Nykyaikana monet käyttäjät odottavat sovelluksen tukevan tummaa tilaa. Tässä templatessa on määriteltynä valmiiksi sekä vaalea että tumma teema, joita pystyy helposti muokkamaan sopimaan asikkaan brändiin. Yritä vaihta teemaa oikeasta yläkulmasta."
 
-#: src/routes/home/home.route.tsx
-#: src/routes/home/home.route.tsx
 #: src/components/navigation/sidebar.tsx
+#: src/routes/home/home.route.tsx
+#: src/routes/home/home.route.tsx
 msgid "Home"
 msgstr "Koti"
 
 #: src/routes/home/home.route.tsx
 msgid "In the sidebar you can browse through some example pages. (TODO: add more examples)"
 msgstr "Sivuvalikosta voit selata erinäisiä esimerkkisivuja läpi. (TODO: lisää enemmän esimerkkejä)"
+
+#: src/routes/internal-error/internal-error-authenticated.tsx
+#: src/routes/internal-error/internal-error-unauthenticated.tsx
+msgid "Internal error"
+msgstr ""
 
 #: src/routes/home/home.route.tsx
 msgid "Internationalization"
@@ -225,13 +230,15 @@ msgstr ""
 msgid "No results found."
 msgstr ""
 
-#: src/components/uikit/date-range-picker/index.tsx
 #: src/components/uikit/date-picker/index.tsx
+#: src/components/uikit/date-range-picker/index.tsx
 msgid "Open date picker"
 msgstr ""
 
-#: src/routes/not-found/not-found-unauthenticated.tsx
 #: src/routes/not-found/not-found-authenticated.tsx
+#: src/routes/not-found/not-found-authenticated.tsx
+#: src/routes/not-found/not-found-unauthenticated.tsx
+#: src/routes/not-found/not-found-unauthenticated.tsx
 msgid "Page not found"
 msgstr ""
 
@@ -239,8 +246,8 @@ msgstr ""
 msgid "Password"
 msgstr "Salasana"
 
-#: src/routes/internal-error/internal-error-unauthenticated.tsx
 #: src/routes/internal-error/internal-error-authenticated.tsx
+#: src/routes/internal-error/internal-error-unauthenticated.tsx
 msgid "Please try to refresh the page"
 msgstr ""
 
@@ -280,9 +287,9 @@ msgstr ""
 msgid "Skeleton Placeholders"
 msgstr "Luurankosisältö"
 
-#: src/routes/internal-error/internal-error-unauthenticated.tsx
-#: src/routes/internal-error/internal-error-authenticated.tsx
 #: src/components/uikit/async-select/index.tsx
+#: src/routes/internal-error/internal-error-authenticated.tsx
+#: src/routes/internal-error/internal-error-unauthenticated.tsx
 msgid "Something went wrong"
 msgstr ""
 
@@ -306,9 +313,9 @@ msgstr "Aloitusruutu"
 msgid "Submit"
 msgstr "Lähetä"
 
-#: src/routes/theming/theming.route.tsx
-#: src/routes/theming/theming.route.tsx
 #: src/components/navigation/sidebar.tsx
+#: src/routes/theming/theming.route.tsx
+#: src/routes/theming/theming.route.tsx
 msgid "Theming"
 msgstr "Teemoitus"
 

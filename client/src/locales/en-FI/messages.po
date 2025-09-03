@@ -13,13 +13,13 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/uikit/multi-select/index.tsx
 #: src/components/uikit/async-select/index.tsx
+#: src/components/uikit/multi-select/index.tsx
 msgid "{numSelected} selected"
 msgstr "{numSelected} selected"
 
-#: src/routes/not-found/not-found-unauthenticated.tsx
 #: src/routes/not-found/not-found-authenticated.tsx
+#: src/routes/not-found/not-found-unauthenticated.tsx
 msgid "404"
 msgstr "404"
 
@@ -35,10 +35,10 @@ msgstr "Accessibility"
 msgid "Authentication"
 msgstr "Authentication"
 
+#: src/components/navigation/sidebar.tsx
 #: src/routes/post-list/post-list.route.tsx
 #: src/routes/post-list/post-list.route.tsx
 #: src/routes/post/post.route.tsx
-#: src/components/navigation/sidebar.tsx
 msgid "Blog"
 msgstr "Blog"
 
@@ -46,13 +46,13 @@ msgstr "Blog"
 msgid "Change language"
 msgstr "Change language"
 
-#: src/components/uikit/partials/select-actions.tsx
 #: src/components/uikit/multi-select-combobox/index.tsx
+#: src/components/uikit/partials/select-actions.tsx
 msgid "Clear"
 msgstr "Clear"
 
-#: src/components/uikit/date-range-picker/index.tsx
 #: src/components/uikit/date-picker/index.tsx
+#: src/components/uikit/date-range-picker/index.tsx
 msgid "Clear date"
 msgstr "Clear date"
 
@@ -128,8 +128,8 @@ msgstr "Failed to logout"
 msgid "Feature flags"
 msgstr "Feature flags"
 
-#: src/routes/feature-3.route.tsx
 #: src/components/navigation/sidebar.tsx
+#: src/routes/feature-3.route.tsx
 msgid "Feature Flags"
 msgstr "Feature Flags"
 
@@ -145,15 +145,20 @@ msgstr "Good accessibility is a something that should be expected from every app
 msgid "Having dark mode support is a common ask from users nowadays. This template has a ready-to-use theming setup with light and dark themes that can be easily modified to conform to the client's branding. Try to toggle the theme in the top right corner."
 msgstr "Having dark mode support is a common ask from users nowadays. This template has a ready-to-use theming setup with light and dark themes that can be easily modified to conform to the client's branding. Try to toggle the theme in the top right corner."
 
-#: src/routes/home/home.route.tsx
-#: src/routes/home/home.route.tsx
 #: src/components/navigation/sidebar.tsx
+#: src/routes/home/home.route.tsx
+#: src/routes/home/home.route.tsx
 msgid "Home"
 msgstr "Home"
 
 #: src/routes/home/home.route.tsx
 msgid "In the sidebar you can browse through some example pages. (TODO: add more examples)"
 msgstr "In the sidebar you can browse through some example pages. (TODO: add more examples)"
+
+#: src/routes/internal-error/internal-error-authenticated.tsx
+#: src/routes/internal-error/internal-error-unauthenticated.tsx
+msgid "Internal error"
+msgstr "Internal error"
 
 #: src/routes/home/home.route.tsx
 msgid "Internationalization"
@@ -225,13 +230,15 @@ msgstr "No options found"
 msgid "No results found."
 msgstr "No results found."
 
-#: src/components/uikit/date-range-picker/index.tsx
 #: src/components/uikit/date-picker/index.tsx
+#: src/components/uikit/date-range-picker/index.tsx
 msgid "Open date picker"
 msgstr "Open date picker"
 
-#: src/routes/not-found/not-found-unauthenticated.tsx
 #: src/routes/not-found/not-found-authenticated.tsx
+#: src/routes/not-found/not-found-authenticated.tsx
+#: src/routes/not-found/not-found-unauthenticated.tsx
+#: src/routes/not-found/not-found-unauthenticated.tsx
 msgid "Page not found"
 msgstr "Page not found"
 
@@ -239,8 +246,8 @@ msgstr "Page not found"
 msgid "Password"
 msgstr "Password"
 
-#: src/routes/internal-error/internal-error-unauthenticated.tsx
 #: src/routes/internal-error/internal-error-authenticated.tsx
+#: src/routes/internal-error/internal-error-unauthenticated.tsx
 msgid "Please try to refresh the page"
 msgstr "Please try to refresh the page"
 
@@ -280,9 +287,9 @@ msgstr "Show password"
 msgid "Skeleton Placeholders"
 msgstr "Skeleton Placeholders"
 
-#: src/routes/internal-error/internal-error-unauthenticated.tsx
-#: src/routes/internal-error/internal-error-authenticated.tsx
 #: src/components/uikit/async-select/index.tsx
+#: src/routes/internal-error/internal-error-authenticated.tsx
+#: src/routes/internal-error/internal-error-unauthenticated.tsx
 msgid "Something went wrong"
 msgstr "Something went wrong"
 
@@ -306,9 +313,9 @@ msgstr "Splash Screen"
 msgid "Submit"
 msgstr "Submit"
 
-#: src/routes/theming/theming.route.tsx
-#: src/routes/theming/theming.route.tsx
 #: src/components/navigation/sidebar.tsx
+#: src/routes/theming/theming.route.tsx
+#: src/routes/theming/theming.route.tsx
 msgid "Theming"
 msgstr "Theming"
 
