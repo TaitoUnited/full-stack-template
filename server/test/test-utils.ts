@@ -2,13 +2,12 @@ import { AuthenticatedGraphQLContext } from '~/setup/graphql/types';
 import { log } from '~/src/utils/log';
 
 /**
- * Create a GraphQL request context with the given user role and workspace for integration tests.
+ * Create a GraphQL request context with the given user role and organisation for integration tests.
  * The returned context doesn't include the `auth`, `reply`, and `session` objects
  * as they are not needed for controller tests.
  */
 export async function makeTestContext(options: {
   user: 'admin' | 'manager' | 'viewer';
-  workspaceId?: string;
 }): Promise<AuthenticatedGraphQLContext> {
   const db = globalThis.testDb;
   const user = globalThis.testData.users[options.user || 'admin'];

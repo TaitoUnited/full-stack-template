@@ -5,12 +5,12 @@ const mode = process.env.MODE || 'unit';
 
 /**
  * Use a naming convention to determine which kind tests to run.
- * Use `.test.api.ts` for API integration tests and `.test.unit.ts` for unit tests and `.test.integration.ts` for testing services.
+ * Use `.test.(rest|graphql).api.ts` for API integration tests and `.test.unit.ts` for unit tests and `.test.integration.ts` for testing services.
  * These tests are separated because they have different requirements
  * for setting up the environment and running the tests.
  */
 const include = {
-  api: ['**/*.test.api.ts'],
+  api: ['**/*.test.(rest|graphql).api.ts'],
   unit: ['**/*.test.unit.ts'],
   integration: ['**/*.test.integration.ts'],
 };
