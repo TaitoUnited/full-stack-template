@@ -11,7 +11,7 @@ import * as sizes from './src/styled-system/tokens/sizes';
 import * as radii from './src/styled-system/tokens/radii';
 import * as typography from './src/styled-system/tokens/typography';
 
-const rootFontSize = 14;
+const rootFontSize = 16;
 
 export default defineConfig({
   importMap: '~/styled-system',
