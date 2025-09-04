@@ -4,7 +4,9 @@
   "scripts": {
     "test:unit": "MODE=unit vitest run",
     "test:unit:watch": "MODE=unit vitest watch",
-    "test": "MODE=api vitest run",
+    "test:unit:update": "vitest run --update",
+    "test:integration": "MODE=integration vitest run",
+    "test:api": "MODE=api vitest run",
     "start": "npm run start:dev",
     "start:dev": "NODE_ENV=development tsx watch index.ts --inspect=0.0.0.0:9229 | bunyan -o short -l debug",
     "lint": "eslint './src/**/*.ts' --quiet",
@@ -74,7 +76,7 @@
     "tsx": "4.17.0",
     "typescript": "5.5.4",
     "typescript-eslint": "8.2.0",
-    "vitest": "2.0.5"
+    "vitest": "3.0.3"
   },
   "engines": {
     "node": ">=20"

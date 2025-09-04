@@ -1,5 +1,5 @@
-import { beforeAll } from 'vitest';
 import { eq } from 'drizzle-orm';
+import type { GlobalSetupContext } from 'vitest/node';
 
 import {
   organisationTable,
@@ -7,80 +7,69 @@ import {
 } from '~/src/organisation/organisation.db';
 import { userTable } from '~/src/user/user.db';
 import { sessionTable } from '~/src/session/session.db';
-import { DrizzleDb, getDb } from '~/db';
+import { DrizzleDb } from '~/db';
 import { hashPassword } from '~/src/utils/password';
 import { ROLES, Role } from '~/src/utils/authorisation';
 import { graphql, client } from '~/test/graphql-test-client';
+import { closeTestDb, getTestDb } from './setup-test-db';
+import { TestData, TestUser } from './setup-types';
 
 /**
  * Setup shared test data for API integration tests.
  * This should only include data that is required for any test to run,
  * such as organisations, logged in users, etc.
  */
-beforeAll(async () => {
-  if (globalThis.testData) return; // skip if already setup
+export default async function setup({ provide }: GlobalSetupContext) {
+  console.log('Setting up test data for API integration tests...');
+  try {
+    const db = await getTestDb();
 
-  const db = await getDb();
+    const organisation = await createOrFindOrganisation(
+      db,
+      'API integration test organisation'
+    );
 
-  const organisation = await createOrFindOrganisation(
-    db,
-    'API integration test organisation'
-  );
+    const [admin, manager, viewer] = await Promise.all([
+      setupUser(db, { role: ROLES.ADMIN, organisationId: organisation.id }),
+      setupUser(db, { role: ROLES.MANAGER, organisationId: organisation.id }),
+      setupUser(db, { role: ROLES.VIEWER, organisationId: organisation.id }),
+    ]);
 
-  const [admin, manager, viewer] = await Promise.all([
-    setupUser(db, { role: ROLES.ADMIN, organisationId: organisation.id }),
-    setupUser(db, { role: ROLES.MANAGER, organisationId: organisation.id }),
-    setupUser(db, { role: ROLES.VIEWER, organisationId: organisation.id }),
-  ]);
+    const testData: TestData = {
+      organisation,
+      users: { admin, manager, viewer },
+    };
 
-  globalThis.testData = {
-    organisation,
-    users: { admin, manager, viewer },
-  };
+    // `provide` makes `testData` available with `inject()`
+    provide('testData', testData);
 
-  // Delete test data in the cleanup phase (after all tests have run)
-  return async () => {
-    if (globalThis.testData) {
-      const { organisation, users } = globalThis.testData;
+    // Delete test data in the cleanup phase (after all tests have run)
+    return async () => {
+      console.log('Deleting global test data for API integration tests...');
 
-      for (const user of Object.values(users)) {
-        await cleanupUser(db, user);
+      try {
+        for (const user of Object.values(testData.users)) {
+          await cleanupUser(db, user);
+        }
+        await db
+          .delete(organisationTable)
+          .where(eq(organisationTable.id, organisation.id));
+      } catch (error) {
+        console.error('Error during test data cleanup:', error);
+      } finally {
+        await closeTestDb();
       }
-      await db
-        .delete(organisationTable)
-        .where(eq(organisationTable.id, organisation.id));
-    }
-  };
-});
-
-// Types
-
-type TestUser = {
-  id: string;
-  email: string;
-  password: string;
-  sessionId: string;
-};
-
-type TestData = {
-  organisation: {
-    id: string;
-  };
-  users: {
-    admin: TestUser;
-    manager: TestUser;
-    viewer: TestUser;
-  };
-};
-
-/* eslint-disable no-var */
-declare global {
-  var testData: TestData;
+    };
+  } catch (error) {
+    console.error('Failed to setup test data:', error);
+    await closeTestDb();
+    throw error; // Re-throw to fail the setup
+  }
 }
 
 // Helpers
 
-const testPassword = 'wWAoQPsZRwa28XsqNrEuUa4iJf';
+const testPassword = 'password';
 
 async function setupUser(
   db: DrizzleDb,
@@ -125,6 +114,7 @@ async function setupUser(
     email: user.email,
     password: testPassword,
     sessionId: loginResult.loginToken.sessionId,
+    role: data.role,
   };
 }
 
