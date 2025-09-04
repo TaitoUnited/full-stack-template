@@ -15,19 +15,129 @@
 #   once merged. This is useful, if you know that your database migrations include
 #   breaking changes. Note that you shouldn't use this label anymore, once the
 #   application has been released to production.
+#
+# - "PR - high resources": The pull-request environment has multiple server replicas
+#   and higher cpu/mem resource limits than a normal PR environment. You can fine
+#   tune these settings in scripts/helm-pr-high-resources.yaml.
 
 name: CI/CD Pipeline
 on:
   push:
     branches: ["dev", "test", "qa", "demo", "stag", "canary", "prod"]
   pull_request:
+    types: [opened, reopened, synchronize, labeled]
     branches:
       - dev
 
+env:
+  NODE_VERSION: "22.12.0"
+
 jobs:
+  changes:
+    name: Check changes
+    runs-on: ${{ vars.BUILD_RUNS_ON || 'gcp-proto-vm' }}
+    outputs:
+      client: ${{ github.event_name != 'pull_request' && 'true' || steps.filter.outputs.client }}
+      server: ${{ github.event_name != 'pull_request' && 'true' || steps.filter.outputs.server }}
+      playwright: ${{ github.event_name != 'pull_request' && 'true' || steps.filter.outputs.playwright }}
+      any: ${{ github.event_name != 'pull_request' && 'true' || steps.filter.outputs.any }}
+    steps:
+      - uses: dorny/paths-filter@v3
+        id: filter
+        if: github.event_name == 'pull_request'
+        with:
+          filters: |
+            client: &client
+              - client/**
+              - shared/**
+              - '!**/*.md'
+            server: &server
+              - server/**
+              - shared/**
+              - '!**/*.md'
+            playwright: &playwright
+              - playwright/**
+              - '!**/*.md'
+            any:
+              - *client
+              - *server
+              - *playwright
+
+  pr-checks:
+    name: PR checks
+    runs-on: ${{ vars.BUILD_RUNS_ON || 'gcp-proto-vm' }}
+    needs: changes
+    if: github.event_name == 'pull_request'
+    strategy:
+      matrix:
+        path: [client, server, playwright]
+    steps:
+      - name: Checkout repository
+        if: needs.changes.outputs[matrix.path] == 'true'
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        if: needs.changes.outputs[matrix.path] == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Cache node modules
+        if: needs.changes.outputs[matrix.path] == 'true'
+        id: cache-npm
+        uses: actions/cache@v4
+        with:
+          path: ${{ matrix.path }}/node_modules
+          key: ${{ runner.os }}-${{ matrix.path }}-node-${{ env.NODE_VERSION }}-${{ hashFiles(format('{0}/package-lock.json', matrix.path)) }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.path }}-node-${{ env.NODE_VERSION }}-
+            ${{ runner.os }}-${{ matrix.path }}-node-
+
+      - name: Install dependencies
+        if: steps.cache-npm.outputs.cache-hit != 'true' && needs.changes.outputs[matrix.path] == 'true'
+        working-directory: ${{ matrix.path }}
+        run: npm ci
+
+      - name: Codegen
+        if: matrix.path != 'playwright' && needs.changes.outputs[matrix.path] == 'true'
+        working-directory: ${{ matrix.path }}
+        run: npm run generate
+
+      - name: Check translations
+        if: matrix.path == 'client' && needs.changes.outputs[matrix.path] == 'true'
+        working-directory: ${{ matrix.path }}
+        run: npm run translations:validate
+
+      - name: Lint
+        if: needs.changes.outputs[matrix.path] == 'true'
+        working-directory: ${{ matrix.path }}
+        run: npm run lint
+
+      - name: Typecheck
+        if: needs.changes.outputs[matrix.path] == 'true'
+        working-directory: ${{ matrix.path }}
+        run: npm run typecheck
+
+      - name: Check formatting
+        if: needs.changes.outputs[matrix.path] == 'true'
+        working-directory: ${{ matrix.path }}
+        run: npm run format:check
+
+      - name: Unit test
+        if: matrix.path == 'client' && needs.changes.outputs.client == 'true'
+        working-directory: ${{ matrix.path }}
+        run: npm run test:unit # server unit tests are run in test-server job
+
+      - name: Ensure build
+        if: matrix.path != 'playwright' && needs.changes.outputs[matrix.path] == 'true'
+        working-directory: ${{ matrix.path }}
+        run: npm run build
+
   prepare-storybook:
     name: Prepare storybook
-    runs-on: ${{ vars.BUILD_RUNS_ON || 'TODO_DEFAULT_RUNNER' }}
+    needs: changes
+    if: needs.changes.outputs.client == 'true'
+    runs-on: ${{ vars.BUILD_RUNS_ON || 'gcp-proto-vm' }}
     timeout-minutes: 15
     environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
     env:
@@ -57,9 +167,15 @@ jobs:
             ./client
             Dockerfile.storybook
 
+  # NOTE: if client, server, or playwright have changes we need to prepare all
+  # of them as changes in any of them forces us to rerun Playwright tests
+  # which rely on the client and server being prepared and deployed etc.
+
   prepare-client:
     name: Prepare client
-    runs-on: ${{ vars.BUILD_RUNS_ON || 'TODO_DEFAULT_RUNNER' }}
+    needs: changes
+    if: needs.changes.outputs.any == 'true'
+    runs-on: ${{ vars.BUILD_RUNS_ON || 'gcp-proto-vm' }}
     timeout-minutes: 15
     environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
     env:
@@ -83,7 +199,9 @@ jobs:
 
   prepare-server:
     name: Prepare server
-    runs-on: ${{ vars.BUILD_RUNS_ON || 'TODO_DEFAULT_RUNNER' }}
+    needs: changes
+    if: needs.changes.outputs.any == 'true'
+    runs-on: ${{ vars.BUILD_RUNS_ON || 'gcp-proto-vm' }}
     timeout-minutes: 15
     environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
     env:
@@ -109,7 +227,9 @@ jobs:
 
   prepare-playwright:
     name: Prepare playwright
-    runs-on: ${{ vars.BUILD_RUNS_ON || 'TODO_DEFAULT_RUNNER' }}
+    needs: changes
+    if: needs.changes.outputs.any == 'true'
+    runs-on: ${{ vars.BUILD_RUNS_ON || 'gcp-proto-vm' }}
     timeout-minutes: 15
     environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
     env:
@@ -120,25 +240,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - uses: dorny/paths-filter@v3
-        id: changes
-        with:
-          filters: |
-            any:
-              - client/**
-              - server/**
-              - shared/**
-              - playwright/**
-
       # TODO: Remove this hack
       - name: Set Google credentials
-        if: steps.changes.outputs.any == 'true'
         run: |
           mkdir -p ./tmp
           printf "%s" '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_SECRET }}' > "$GOOGLE_APPLICATION_CREDENTIALS"
 
       - name: Prepare playwright container image for deployment
-        if: steps.changes.outputs.any == 'true'
         uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
         with:
           args: artifact prepare:playwright:${{env.ENV}} ${{ env.IMAGE_TAG }}
@@ -146,7 +254,7 @@ jobs:
   deploy:
     name: Deploy
     needs: [prepare-client, prepare-server, prepare-storybook]
-    runs-on: ${{ vars.DEPLOYMENT_RUNS_ON || 'TODO_DEFAULT_RUNNER' }}
+    runs-on: ${{ vars.DEPLOYMENT_RUNS_ON || 'gcp-proto-vm' }}
     timeout-minutes: 7
     environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
     permissions:
@@ -197,12 +305,13 @@ jobs:
         uses: mshick/add-pr-comment@v2
         with:
           message: |
-            Your application is now running at https://TODO-${{env.ENV}}.mydomain.com
+            Your application is now running at https://xx-${{env.ENV}}.proto.taitodev.com
 
   test-playwright:
     name: Test playwright
-    needs: [deploy, prepare-playwright]
-    runs-on: ${{ vars.TEST_RUNS_ON || 'TODO_DEFAULT_RUNNER' }}
+    needs: [changes, deploy, prepare-playwright]
+    if: needs.changes.outputs.any == 'true'
+    runs-on: ${{ vars.TEST_RUNS_ON || 'gcp-proto-vm' }}
     timeout-minutes: 15
     environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
     env:
@@ -213,25 +322,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - uses: dorny/paths-filter@v3
-        id: changes
-        with:
-          filters: |
-            any:
-              - client/**
-              - server/**
-              - shared/**
-              - playwright/**
-
       # TODO: Remove this hack
       - name: Set Google credentials
-        if: steps.changes.outputs.any == 'true'
         run: |
           mkdir -p ./tmp
           printf "%s" '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_SECRET }}' > "$GOOGLE_APPLICATION_CREDENTIALS"
 
       - name: Run tests
-        if: steps.changes.outputs.any == 'true'
         uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
         with:
           args: test:playwright:${{env.ENV}}
@@ -240,9 +337,10 @@ jobs:
           IMAGE_TAG: ${{ env.IMAGE_TAG }}
           DOCKER_HOST_PATH: ${{ runner.workspace }}/./${{ github.event.repository.name }}
           COMPOSE_PROJECT_NAME: ${{ runner.name }}
+          CI: true
 
       - name: Upload playwright logs
-        if: always() && steps.changes.outputs.any == 'true'
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: playwright-results
@@ -250,8 +348,9 @@ jobs:
 
   test-server:
     name: Test server
-    needs: [deploy]
-    runs-on: ${{ vars.TEST_RUNS_ON || 'TODO_DEFAULT_RUNNER' }}
+    needs: [changes, deploy]
+    if: needs.changes.outputs.server == 'true'
+    runs-on: ${{ vars.TEST_RUNS_ON || 'gcp-proto-vm' }}
     timeout-minutes: 15
     environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
     env:
@@ -262,23 +361,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - uses: dorny/paths-filter@v3
-        id: changes
-        with:
-          filters: |
-            server:
-              - server/**
-              - shared/**
-
       # TODO: Remove this hack
       - name: Set Google credentials
-        if: steps.changes.outputs.server == 'true'
         run: |
           mkdir -p ./tmp
           printf "%s" '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_SECRET }}' > "$GOOGLE_APPLICATION_CREDENTIALS"
 
       - name: Run tests
-        if: steps.changes.outputs.server == 'true'
         uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
         with:
           args: test:server:${{env.ENV}}
@@ -287,12 +376,13 @@ jobs:
           IMAGE_TAG: ${{ env.IMAGE_TAG }}
           DOCKER_HOST_PATH: ${{ runner.workspace }}/./${{ github.event.repository.name }}
           COMPOSE_PROJECT_NAME: ${{ runner.name }}
+          CI: true
 
   stop:
     name: Stop
     if: ${{ github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'PR - has env') }}
     needs: [test-playwright, test-server]
-    runs-on: ${{ vars.DEPLOYMENT_RUNS_ON || 'TODO_DEFAULT_RUNNER' }}
+    runs-on: ${{ vars.DEPLOYMENT_RUNS_ON || 'gcp-proto-vm' }}
     timeout-minutes: 7
     environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
     env:
@@ -317,7 +407,7 @@ jobs:
     name: Release
     if: ${{ github.event_name != 'pull_request' }}
     needs: [test-playwright, test-server]
-    runs-on: ${{ vars.BUILD_RUNS_ON || 'TODO_DEFAULT_RUNNER' }}
+    runs-on: ${{ vars.BUILD_RUNS_ON || 'gcp-proto-vm' }}
     timeout-minutes: 7
     environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
     env:
@@ -364,9 +454,9 @@ jobs:
   auto-merge:
     name: Auto-merge
     # NOTE: Define source branches automatically to be merged here, for example: fromJson('["dev", "test"]')
-    if: ${{ contains(fromJson('[]'), github.ref_name) && github.event_name != 'pull_request' }}
+    if: contains(fromJson('[]'), github.ref_name) && github.event_name != 'pull_request'
     needs: [release]
-    runs-on: ${{ vars.BUILD_RUNS_ON || 'TODO_DEFAULT_RUNNER' }}
+    runs-on: ${{ vars.BUILD_RUNS_ON || 'gcp-proto-vm' }}
     timeout-minutes: 3
     environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
     env:
