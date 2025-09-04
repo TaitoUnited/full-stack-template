@@ -63,6 +63,10 @@ export async function verifyAuth() {
     fetchPolicy: 'cache-first',
   });
 
+  if (!data) {
+    throw new Error('Failed to fetch user');
+  }
+
   let authenticated = false;
 
   if (data.me) {

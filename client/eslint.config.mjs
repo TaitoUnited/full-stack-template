@@ -144,7 +144,7 @@ export default pluginTS.config(
           message: 'Please use the @lingui/react/macro instead.',
         },
         {
-          name: '@apollo/client',
+          name: '@apollo/client/react',
           importNames: ['useQuery', 'useSuspenseQuery', 'useReadQuery', 'gql'],
           message:
             'Please use GraphQL related hooks and utils from ~/graphql alias.',

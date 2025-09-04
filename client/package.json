@@ -29,7 +29,7 @@
     "generate:styled-system": "panda codegen --clean"
   },
   "dependencies": {
-    "@apollo/client": "3.12.6",
+    "@apollo/client": "4.0.4",
     "@internationalized/date": "3.9.0",
     "@lingui/react": "5.4.1",
     "@loadable/component": "5.16.7",
@@ -49,6 +49,7 @@
     "react-merge-refs": "2.1.1",
     "react-stately": "3.41.0",
     "react-use-measure": "2.1.7",
+    "rxjs": "7.8.2",
     "sonner": "2.0.7",
     "spin-delay": "2.0.1",
     "zod": "4.1.5",

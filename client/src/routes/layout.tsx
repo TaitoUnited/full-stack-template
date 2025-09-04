@@ -26,6 +26,10 @@ export const Route = createFileRoute('/_app')({
       fetchPolicy: 'cache-first',
     });
 
+    if (!data) {
+      throw new Error('Failed to fetch organisations');
+    }
+
     // Select the current workspace before rendering the app
     const workspaces = data.organisations;
     const workspaceIdStored = workspaceIdStore.getState().workspaceId;

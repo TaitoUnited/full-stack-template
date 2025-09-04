@@ -1,8 +1,5 @@
-import {
-  type ApolloClient,
-  createQueryPreloader,
-  type NormalizedCacheObject,
-} from '@apollo/client';
+import { type ApolloClient } from '@apollo/client';
+import { createQueryPreloader } from '@apollo/client/react';
 import { createRouter } from '@tanstack/react-router';
 
 import { routeTree } from './route-tree.gen';
@@ -16,7 +13,7 @@ export function getRouter() {
   return __router__;
 }
 
-export function setupRouter(apolloClient: ApolloClient<NormalizedCacheObject>) {
+export function setupRouter(apolloClient: ApolloClient) {
   const preloadQuery = createQueryPreloader(apolloClient);
 
   const router = createRouter({

@@ -1,6 +1,6 @@
 import './index.css';
 
-import { ApolloProvider } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client/react';
 import loadable from '@loadable/component';
 import { RouterProvider } from '@tanstack/react-router';
 import { createRoot } from 'react-dom/client';

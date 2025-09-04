@@ -1,12 +1,12 @@
 import {
   ApolloClient,
   ApolloLink,
-  from,
+  CombinedGraphQLErrors,
   HttpLink,
   InMemoryCache,
-  type NormalizedCacheObject,
+  ServerError,
 } from '@apollo/client';
-import { onError } from '@apollo/client/link/error';
+import { ErrorLink } from '@apollo/client/link/error';
 
 import { config } from '~/constants/config';
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '~/services/i18n';
@@ -15,7 +15,7 @@ import { workspaceIdStore } from '~/stores/workspace-store';
 import { toast } from '~/uikit/toaster';
 import { storage } from '~/utils/storage';
 
-let __apolloClient__: ApolloClient<NormalizedCacheObject>;
+let __apolloClient__: ApolloClient;
 
 export function getApolloClient() {
   return __apolloClient__;
@@ -43,18 +43,16 @@ export function setupApolloClient() {
     return forward(operation);
   });
 
-  const requestLinks = from([headersLink, httpLink]);
+  const requestLinks = ApolloLink.from([headersLink, httpLink]);
 
   // https://www.apollographql.com/docs/react/networking/advanced-http-networking#customizing-response-logic
-  const logoutLink = onError(({ graphQLErrors, networkError }) => {
+  const logoutLink = new ErrorLink(({ error }) => {
     const isNetworkAuthError =
-      networkError &&
-      'statusCode' in networkError &&
-      networkError.statusCode === 401;
+      ServerError.is(error) && error.statusCode === 401;
 
     const isGraphQLAuthError =
-      graphQLErrors &&
-      graphQLErrors.some(error => error.extensions?.code === 'UNAUTHORIZED');
+      CombinedGraphQLErrors.is(error) &&
+      error.errors.some(error => error.extensions?.code === 'UNAUTHORIZED');
 
     /**
      * Automatically log out the user if the session has expired and session
@@ -70,7 +68,7 @@ export function setupApolloClient() {
   const apolloClient = new ApolloClient({
     link: logoutLink.concat(requestLinks),
     cache,
-    connectToDevTools: process.env.NODE_ENV === 'development',
+
     devtools: {
       enabled: process.env.NODE_ENV === 'development',
     },

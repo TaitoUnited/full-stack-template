@@ -1,16 +1,15 @@
 /* eslint-disable no-restricted-imports */
+import type {
+  DocumentNode,
+  OperationVariables,
+  TypedDocumentNode,
+} from '@apollo/client';
 import {
-  type DocumentNode,
-  type NoInfer,
-  type OperationVariables,
-  type QueryHookOptions,
   type QueryRef,
-  type SuspenseQueryHookOptions,
-  type TypedDocumentNode,
   useQuery as useApolloQuery,
   useReadQuery as useApolloReadQuery,
   useSuspenseQuery as useApolloSuspenseQuery,
-} from '@apollo/client';
+} from '@apollo/client/react';
 import { equal } from '@wry/equality';
 import { startTransition, useDeferredValue, useRef } from 'react';
 import { useSpinDelay } from 'spin-delay';
@@ -21,13 +20,13 @@ import { useWindowFocusEffect } from '~/hooks/use-window-focus';
  * Enhance `useQuery` hook to add support for refetching data on window focus.
  */
 export function useQuery<
-  TData = any,
+  TData = unknown,
   TVariables extends OperationVariables = OperationVariables,
 >(
   query: DocumentNode | TypedDocumentNode<TData, TVariables>,
-  options?: QueryHookOptions<NoInfer<TData>, NoInfer<TVariables>>
+  options?: useApolloQuery.Options<NoInfer<TData>, NoInfer<TVariables>>
 ) {
-  const result = useApolloQuery<TData, TVariables>(query, options);
+  const result = useApolloQuery<TData, TVariables>(query, options!);
 
   useWindowFocusRefetching(result.refetch);
 
@@ -48,12 +47,12 @@ export function useSuspenseQuery<
   TVariables extends OperationVariables = OperationVariables,
 >(
   query: DocumentNode | TypedDocumentNode<TData, TVariables>,
-  options?: SuspenseQueryHookOptions<NoInfer<TData>, NoInfer<TVariables>>
+  options?: useApolloSuspenseQuery.Options<NoInfer<TVariables>>
 ) {
   const variables = useDeferredValue(options?.variables);
 
   const result = useApolloSuspenseQuery<TData, TVariables>(query, {
-    ...options,
+    ...options!,
     variables,
   });
 
