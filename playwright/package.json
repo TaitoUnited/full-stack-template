@@ -6,6 +6,9 @@
     "pretty-quick": "pretty-quick",
     "lint": "tsc --noEmit && eslint 'tests/**/*.ts'",
     "lint-fix": "eslint 'tests/**/*.{ts,tsx}' --fix",
+    "format:check": "prettier --check './src/**/*.{ts,tsx}'",
+    "format:write": "prettier --write './src/**/*.{ts,tsx}'",
+    "typecheck": "tsc --noEmit",
     "playwright:test": "playwright test",
     "playwright:debug": "playwright test --debug",
     "playwright:ui": "playwright test --ui"
