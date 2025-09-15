@@ -1,15 +1,15 @@
 import { GraphQLError as GraphQLErrorBase } from 'graphql';
 
-import type { OriginApi } from '~/setup/context';
+import type { Initiator } from '~/setup/context';
 
 export function throwApiError(vars: {
   message: string;
   errorType: ApiErrorType;
-  originApi?: OriginApi;
+  initiator?: Initiator;
 }) {
-  const { originApi = 'unknown', errorType, message } = vars;
+  const { initiator = 'unknown', errorType, message } = vars;
 
-  switch (originApi) {
+  switch (initiator) {
     case 'graphql':
       throw GraphQLError[errorType](message);
     case 'rest':

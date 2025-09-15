@@ -37,7 +37,7 @@ async function createPost(
 
   if (!hasValidOrganisationRole(ctx, ROLES.ADMIN, ROLES.MANAGER)) {
     throwApiError({
-      originApi: ctx.originApi,
+      initiator: ctx.initiator,
       errorType: 'forbidden',
       message: 'Creating posts only allowed for admin and manager roles',
     });

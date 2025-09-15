@@ -21,7 +21,7 @@ export function checkOrganisationMembership(
 ): asserts ctx is ContextWithOrganisation {
   if (!ctx.organisationId) {
     throwApiError({
-      originApi: ctx.originApi,
+      initiator: ctx.initiator,
       errorType: 'badRequest',
       message: 'Missing organisationId in request header',
     });
@@ -32,7 +32,7 @@ export function checkOrganisationMembership(
     : false;
   if (!isMember) {
     throwApiError({
-      originApi: ctx.originApi,
+      initiator: ctx.initiator,
       errorType: 'forbidden',
       message: 'User is not member of given organisation',
     });

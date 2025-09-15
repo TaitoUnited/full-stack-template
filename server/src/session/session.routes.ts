@@ -50,12 +50,12 @@ export async function sessionRoutes(server: ServerInstance) {
       },
     },
     handler: async (request, reply) => {
-      if (!request.ctx.session) {
+      if (!request.ctx.user?.session) {
         reply.code(200).send({ status: 'OK' });
         return;
       }
 
-      await request.ctx.auth.invalidateSession(request.ctx.session.id);
+      await request.ctx.auth.invalidateSession(request.ctx.user.session.id);
 
       const cookie = request.ctx.auth.createBlankSessionCookie();
 
@@ -106,12 +106,12 @@ export async function sessionRoutes(server: ServerInstance) {
       },
     },
     handler: async (request, reply) => {
-      if (!request.ctx.session) {
+      if (!request.ctx.user?.session) {
         reply.code(200).send({ status: 'OK' });
         return;
       }
 
-      await request.ctx.auth.invalidateSession(request.ctx.session.id);
+      await request.ctx.auth.invalidateSession(request.ctx.user.session.id);
 
       reply.code(200).send({ status: 'OK' });
     },

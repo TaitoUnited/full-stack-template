@@ -25,4 +25,11 @@ export const sessionTable = pgTable('session', {
     withTimezone: true,
     mode: 'date',
   }).notNull(),
+  refreshToken: text('refresh_token'),
+  refreshTokenExpiresAt: timestamp('refresh_token_expires_at', {
+    withTimezone: true,
+    mode: 'date',
+  }),
 });
+
+export type DBSession = typeof sessionTable.$inferSelect;

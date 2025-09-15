@@ -1,7 +1,7 @@
-import { Lucia } from 'lucia';
+import { Authenticator } from '~/src/utils/authentication';
 
 export type LoginOptions = {
   email: string;
   password: string;
-  auth: Lucia; // Injected auth service from context
+  auth: Authenticator; // Injected auth service from context
 };
