@@ -1,41 +1,41 @@
-import cookie from '@fastify/cookie';
-import { FastifyReply, FastifyRequest, RouteGenericInterface } from 'fastify';
+import type {
+  FastifyReply,
+  FastifyRequest,
+  RouteGenericInterface,
+} from 'fastify';
 import { fastifyPlugin } from 'fastify-plugin';
 
+import { type ServerInstance } from '../server';
 import { organisationService } from '~/src/organisation/organisation.service';
-import { hasValidSession } from '~/src/utils/authentication';
-import { AuthenticatedRESTRequest } from './rest/types';
-import { type ServerInstance } from './server';
+import { AuthenticatedGraphQLRequest } from '../graphql/types';
 
-export const authPlugin = fastifyPlugin(async (server: ServerInstance) => {
-  // Adds cookie helpers to the server instance
-  await server.register(cookie);
-
+export const uiAuthPlugin = fastifyPlugin(async (server: ServerInstance) => {
   server.addHook('preHandler', async (request, reply) => {
-    const { auth } = request.ctx;
+    const { auth, log } = request.ctx;
+
+    request.ctx.__authenticator__ = 'auth.ui';
+    log.info('Using "ui" authenticator');
 
     /**
-     * Read the session ID from the cookie or the Authorization header depending
-     * on whether the request is coming from a browser or a mobile app client.
+     * Read the session ID from the cookie or the Authorization header
      */
     const sessionId =
       auth.readSessionCookie(request.headers.cookie ?? '') ||
       auth.readBearerToken(request.headers.authorization ?? '');
 
+    // TODO: Implement refresh cycle: when the session is expired or close to expiring, refresh the OAuth tokens if
+    // therefresh token is still valid and create a new session. Sessions already hold the refresh tokens, they are
+    // just not utilised yet.
+
+    // Session expired, clear request.ctx
     if (!sessionId) {
       request.ctx.user = null;
-      request.ctx.session = null;
       return;
     }
 
     const { session, user } = await auth.validateSession(sessionId);
 
-    /**
-     * Extend the session cookie if the session is fresh.
-     * TODO: how do we extend the session for mobile clients?
-     * Do we for example update the `expiresAt` of the session in the database?
-     * https://github.com/lucia-auth/lucia/discussions/652
-     */
+    // Extend the session cookie if the session is fresh.
     if (session && session.fresh) {
       const cookie = auth.createSessionCookie(session.id);
       reply.setCookie(cookie.name, cookie.value, cookie.attributes);
@@ -45,9 +45,10 @@ export const authPlugin = fastifyPlugin(async (server: ServerInstance) => {
     if (!session) {
       const cookie = auth.createBlankSessionCookie();
       reply.setCookie(cookie.name, cookie.value, cookie.attributes);
-    }
 
-    request.ctx.session = session;
+      // No further action
+      return;
+    }
 
     /**
      * Populate the available organisations with the associated role
@@ -65,28 +66,22 @@ export const authPlugin = fastifyPlugin(async (server: ServerInstance) => {
         id: row.organisationId,
         role: row.role,
       }));
+      request.ctx.user!.session = session;
     }
   });
 });
 
 /**
- * Authenticate a REST api request. Use when defining new routes with `server.route` like so:
- *
- * server.route({
- *   ...
- *   handler: withAuth(async (request, reply) => {
- *     ...
- *   }),
- * });
+ * Ensure that context has user set.
  */
-export function withAuth<T extends RouteGenericInterface>(
-  handler: (req: AuthenticatedRESTRequest<T>, res: FastifyReply) => void
+export function withUser<T extends RouteGenericInterface>(
+  handler: (req: AuthenticatedGraphQLRequest<T>, res: FastifyReply) => void
 ) {
   return async (request: FastifyRequest<T>, reply: FastifyReply) => {
-    if (!hasValidSession(request.ctx)) {
-      reply.code(401).send('Unauthorized');
+    if (!request.ctx.__authenticator__ || !request.ctx.user) {
+      return reply.code(401).send('Unauthorized');
     }
 
-    return handler(request as AuthenticatedRESTRequest<T>, reply);
+    return handler(request as AuthenticatedGraphQLRequest<T>, reply);
   };
 }

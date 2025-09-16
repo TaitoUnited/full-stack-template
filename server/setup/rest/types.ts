@@ -5,7 +5,7 @@ import type { Context } from '../context';
 
 export type AuthenticatedRestContext = NonNullableFields<
   Context,
-  'user' | 'session'
+  '__authenticator__'
 >;
 
 export type AuthenticatedRESTRequest<T extends RouteGenericInterface> =

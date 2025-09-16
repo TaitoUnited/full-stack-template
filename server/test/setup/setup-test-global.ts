@@ -78,7 +78,7 @@ async function setupUser(
   // Create user
   const user = await createOrFindUser(db, {
     name: `API integration test ${data.role}`,
-    email: `${data.role}@test.com`,
+    email: `${data.role}@test-data.com`,
   });
 
   // Add user to organisation

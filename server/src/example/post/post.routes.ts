@@ -1,6 +1,6 @@
 import { Type } from '@sinclair/typebox';
 
-import { withAuth } from '~/setup/auth';
+import { withUser } from '~/setup/auth';
 import { type ServerInstance } from '~/setup/server';
 import { postService } from '~/src/example/post/post.service';
 
@@ -20,7 +20,7 @@ export async function postRoutes(server: ServerInstance) {
         ),
       },
     },
-    handler: withAuth(async (request) => {
+    handler: withUser(async (request) => {
       const posts = await postService.getPosts(request.ctx);
 
       return posts.map((post) => ({

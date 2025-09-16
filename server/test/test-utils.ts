@@ -24,11 +24,12 @@ export async function makeTestContext(options: {
         role: user.role,
       },
     ],
-    originApi: 'graphql',
+    initiator: 'graphql',
     // We don't need to mock these for controller tests
-    session: {} as any,
     auth: {} as any,
     reply: {} as any,
+    error: {} as any,
+    __authenticator__: 'test',
   };
 
   return context;

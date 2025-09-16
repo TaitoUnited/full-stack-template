@@ -1,11 +1,10 @@
-import type { Cookie } from 'lucia';
-
 import { type DrizzleDb } from '~/db';
 import { comparePassword } from '~/src/utils/password';
 import { isValidPassword, isValidEmail } from '~/src/utils/validation';
 import { userDao } from '../user/user.dao';
 import { organisationDao } from '../organisation/organisation.dao';
 import { LoginOptions } from '~/types/login';
+import { Cookie } from '../utils/authentication';
 
 /**
  * Cookie-based login with email and password.
@@ -16,7 +15,10 @@ async function login(
   { email, password, auth }: LoginOptions
 ): Promise<{ cookie: Cookie }> {
   const user = await validateLogin({ db, email, password });
-  const session = await auth.createSession(user.id, {});
+  const session = await auth.createSession(user.id, {
+    refreshToken: null,
+    refreshTokenExpiresAt: null,
+  });
   const cookie = auth.createSessionCookie(session.id);
 
   await userDao.updateUserLastLogin(db, user.id);
@@ -33,7 +35,10 @@ async function tokenLogin(
   { email, password, auth }: LoginOptions
 ) {
   const user = await validateLogin({ db, email, password });
-  const session = await auth.createSession(user.id, {});
+  const session = await auth.createSession(user.id, {
+    refreshToken: null,
+    refreshTokenExpiresAt: null,
+  });
 
   await userDao.updateUserLastLogin(db, user.id);
 

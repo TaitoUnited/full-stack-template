@@ -31,7 +31,10 @@ export function setupResolvers() {
       },
       resolve: async (_, args, ctx) => {
         const { cookie } = await wrapLogin(
-          sessionDao.login(ctx.db, { auth: ctx.auth, ...args })
+          sessionDao.login(ctx.db, {
+            auth: ctx.auth,
+            ...args,
+          })
         );
 
         ctx.reply.setCookie(cookie.name, cookie.value, cookie.attributes);
@@ -49,11 +52,11 @@ export function setupResolvers() {
         }),
       }),
       resolve: async (_, __, ctx) => {
-        if (!ctx.session) {
+        if (!ctx.user?.session) {
           return { status: 'OK' };
         }
 
-        await ctx.auth.invalidateSession(ctx.session.id);
+        await ctx.auth.invalidateSession(ctx.user.session.id);
         const cookie = ctx.auth.createBlankSessionCookie();
 
         ctx.reply.clearCookie(cookie.name, cookie.attributes);
@@ -94,11 +97,11 @@ export function setupResolvers() {
         }),
       }),
       resolve: async (_, __, ctx) => {
-        if (!ctx.session) {
+        if (!ctx.user?.session) {
           return { status: 'OK' };
         }
 
-        await ctx.auth.invalidateSession(ctx.session.id);
+        await ctx.auth.invalidateSession(ctx.user.session.id);
 
         return { status: 'OK' };
       },

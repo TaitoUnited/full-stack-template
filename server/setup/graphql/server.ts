@@ -58,7 +58,7 @@ export async function setupGraphQL(server: ServerInstance) {
                * Overwrite the operation context so that we know which operations
                * occur in the context of a GraphQL request.
                */
-              originApi: 'graphql',
+              initiator: 'graphql',
             } satisfies GraphQlContext;
           },
         });

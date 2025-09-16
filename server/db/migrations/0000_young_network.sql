@@ -47,7 +47,9 @@ CREATE TABLE IF NOT EXISTS "session" (
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL,
 	"user_id" uuid NOT NULL,
-	"expires_at" timestamp with time zone NOT NULL
+	"expires_at" timestamp with time zone NOT NULL,
+	"refresh_token" text,
+	"refresh_token_expires_at" timestamp with time zone
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "user" (
