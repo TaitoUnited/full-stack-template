@@ -4,7 +4,7 @@ import { config } from '~/src/utils/config';
 import { type ServerInstance } from './server';
 
 // TODO: A more generic way to allow requests from non-browser without a origin header
-const noOriginEndpoints = ['/v1/global-registry/inbound'];
+const noOriginEndpoints: string[] = [];
 
 export const csrfPlugin = fastifyPlugin(async (server: ServerInstance) => {
   server.addHook('preHandler', (request, reply, done) => {

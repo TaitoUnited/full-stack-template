@@ -11,13 +11,7 @@ import { AuthenticatedGraphQLContext } from './graphql/types';
 import { AuthenticatedRestContext } from './rest/types';
 import { type ServerInstance } from './server';
 
-export type Initiator =
-  | 'graphql'
-  | 'rest'
-  | 'management-api'
-  | 'test'
-  | 'seed'
-  | 'unknown';
+export type Initiator = 'graphql' | 'rest' | 'test' | 'seed' | 'unknown';
 
 export type Context = {
   log: Bunyan;
