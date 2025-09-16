@@ -10,6 +10,5 @@ export const publicAuthPlugin = fastifyPlugin(
       request.ctx.user = null;
       request.ctx.log = request.ctx.log.child({ userId: 'public' });
     });
-    console.log('Registered public (allowed) auth plugin');
   }
 );

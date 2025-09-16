@@ -41,15 +41,11 @@ export async function setupServer(server: ServerInstance) {
 
   await server.register(composeFastifyPlugins(auth.ui, setupGraphQL));
 
-  console.log('registering auth.allowed for infra routes');
   await server.register(composeFastifyPlugins(auth.allowed, infraRoutes)); // health checks, etc.
 
   // NOTE: if you are using GraphQL for all your API endpoints, you can remove these:
-  console.log('registering auth.allowed for session routes');
   await server.register(composeFastifyPlugins(auth.allowed, sessionRoutes)); // login, logout, etc.
-  console.log('registering auth.ui for post routes');
   await server.register(composeFastifyPlugins(auth.ui, postRoutes));
-  console.log('registering auth.ui for organisation routes');
   await server.register(composeFastifyPlugins(auth.ui, organisationRoutes));
 
   await server.register(disableNotAuthenticated);
