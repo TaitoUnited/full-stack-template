@@ -30,8 +30,7 @@ export const uiAuthPlugin = fastifyPlugin(async (server: ServerInstance) => {
     // Session expired, clear request.ctx
     if (!sessionId) {
       request.ctx.user = null;
-
-      return reply.status(403).send();
+      return;
     }
 
     const { session, user } = await auth.validateSession(sessionId);
@@ -47,10 +46,8 @@ export const uiAuthPlugin = fastifyPlugin(async (server: ServerInstance) => {
       const cookie = auth.createBlankSessionCookie();
       reply.setCookie(cookie.name, cookie.value, cookie.attributes);
 
-      reply.status(403).send();
-
       // No further action
-      return reply;
+      return;
     }
 
     /**
@@ -69,8 +66,7 @@ export const uiAuthPlugin = fastifyPlugin(async (server: ServerInstance) => {
         id: row.organisationId,
         role: row.role,
       }));
-    } else {
-      return reply.status(403).send();
+      request.ctx.user!.session = session;
     }
   });
 });

@@ -5,7 +5,7 @@ import { sessionRoutes } from '~/src/session/session.routes';
 import { postRoutes } from '~/src/example/post/post.routes';
 import { config } from '~/src/utils/config';
 import { log } from '~/src/utils/log';
-import { auth } from './auth';
+import { auth, disableNotAuthenticated } from './auth';
 import { contextPlugin } from './context';
 import { type ServerInstance } from './server';
 import { setupErrorHandler } from './error';
@@ -39,7 +39,7 @@ export async function setupServer(server: ServerInstance) {
    */
   setupErrorHandler(server);
 
-  await setupGraphQL(server);
+  await server.register(composeFastifyPlugins(auth.ui, setupGraphQL));
 
   console.log('registering auth.allowed for infra routes');
   await server.register(composeFastifyPlugins(auth.allowed, infraRoutes)); // health checks, etc.
@@ -51,6 +51,8 @@ export async function setupServer(server: ServerInstance) {
   await server.register(composeFastifyPlugins(auth.ui, postRoutes));
   console.log('registering auth.ui for organisation routes');
   await server.register(composeFastifyPlugins(auth.ui, organisationRoutes));
+
+  await server.register(disableNotAuthenticated);
 
   server.listen(
     { port: config.API_PORT, host: config.API_BINDADDR },

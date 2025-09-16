@@ -31,7 +31,10 @@ export function setupResolvers() {
       },
       resolve: async (_, args, ctx) => {
         const { cookie } = await wrapLogin(
-          sessionDao.login(ctx.db, { auth: ctx.auth, ...args })
+          sessionDao.login(ctx.db, {
+            auth: ctx.auth,
+            ...args,
+          })
         );
 
         ctx.reply.setCookie(cookie.name, cookie.value, cookie.attributes);

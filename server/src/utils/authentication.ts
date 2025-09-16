@@ -6,36 +6,6 @@ import { config } from './config';
 import { DrizzleDb } from '~/db';
 import { DBSession, sessionTable } from '~/src/session/session.db';
 
-// export async function getAuth() {
-//   if (lucia) return lucia;
-
-//   const db = await getDb();
-//   const adapter = new DrizzlePostgreSQLAdapter(db, sessionTable, userTable);
-
-//   /**
-//    * See configuration options here:
-//    * https://lucia-auth.com/basics/configuration
-//    */
-//   lucia = new Lucia(adapter, {
-//     // Note that session expirations are automatically extended for active users
-//     sessionExpiresIn: new TimeSpan(2, 'w'), // 2 weeks
-//     sessionCookie: {
-//       name: config.SESSION_COOKIE,
-//       attributes: {
-//         secure: config.COMMON_ENV !== 'local',
-//         domain: config.COMMON_DOMAIN,
-//         path: '/',
-//       },
-//     },
-//     // Only expose the user ID in the session
-//     getUserAttributes: (attributes) => ({
-//       id: attributes.id,
-//     }),
-//   });
-
-//   return lucia;
-// }
-
 type SessionOut<SessionAttributes> = SessionAttributes & {
   id: string;
   fresh: boolean;
