@@ -1,30 +1,38 @@
 import { fastifyPlugin } from 'fastify-plugin';
-import { verifyRequestOrigin } from 'lucia';
 
-import { ServerInstance } from './server';
-import { log } from '~/src/utils/log';
 import { config } from '~/src/utils/config';
+import { type ServerInstance } from './server';
+
+// TODO: A more generic way to allow requests from non-browser without a origin header
+const noOriginEndpoints = ['/v1/global-registry/inbound'];
 
 export const csrfPlugin = fastifyPlugin(async (server: ServerInstance) => {
   server.addHook('preHandler', (request, reply, done) => {
     if (request.method === 'GET') return done();
 
-    const originHeader = request.headers.origin ?? null;
     const hostHeader = ((request.headers['X-Forwarded-Host'] ||
       request.headers.host) ??
       null) as string | null;
+
+    let originHeader = request.headers.origin ?? null;
+    if (!originHeader && noOriginEndpoints.includes(request.url)) {
+      originHeader = config.COMMON_URL ?? null;
+    }
 
     if (
       !originHeader ||
       !hostHeader ||
       !config.COMMON_URL ||
-      !verifyRequestOrigin(originHeader, [config.COMMON_URL])
+      originHeader !== config.COMMON_URL
     ) {
-      log.error('Invalid origin', {
-        originHeader,
-        hostHeader,
-        commonUrl: config.COMMON_URL,
-      });
+      request.ctx.log.error(
+        {
+          originHeader,
+          hostHeader,
+          commonUrl: config.COMMON_URL,
+        },
+        'Invalid origin'
+      );
 
       return reply.status(403).send('Invalid origin');
     }
