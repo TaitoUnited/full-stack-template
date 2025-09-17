@@ -2,14 +2,14 @@
   "name": "full-stack-template-worker",
   "private": true,
   "scripts": {
-    "test:unit": "jest --rootDir=src --passWithNoTests -t",
-    "test": "jest --rootDir=test --passWithNoTests -t",
     "start": "npm run start:dev",
     "start:dev": "NODE_ENV=development ts-node-dev --respawn --inspect=0.0.0.0:9229 -- index.ts | bunyan -l debug",
-    "lint": "tsc -p . --noEmit && eslint './src/**/*.ts' --ignore-path .eslintignore --quiet",
-    "build:test": "tsc --build tsconfig.test.json",
+    "start:prod": "NODE_ENV=production npm run build:prod && node build/index.js",
     "build": "NODE_ENV=production tsc --build tsconfig.json",
-    "start:prod": "NODE_ENV=production npm run build:prod && node build/index.js"
+    "build:test": "tsc --build tsconfig.test.json",
+    "test:unit": "jest --rootDir=src --passWithNoTests -t",
+    "test": "jest --rootDir=test --passWithNoTests -t",
+    "lint": "tsc -p . --noEmit && eslint './src/**/*.ts' --ignore-path .eslintignore --quiet"
   },
   "dependencies": {
     "@hapi/boom": "10.0.1",

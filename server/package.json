@@ -2,13 +2,15 @@
   "name": "full-stack-template-server",
   "private": true,
   "scripts": {
+    "start": "npm run start:dev",
+    "start:dev": "NODE_ENV=development tsx watch index.ts --inspect=0.0.0.0:9229 | bunyan -o short -l debug",
+    "start:prod": "NODE_ENV=production npm run build:prod && node --experimental-require-module build/index.js",
+    "build": "NODE_ENV=production tsc --build tsconfig.json && tsc-alias -p tsconfig.json",
     "test:unit": "MODE=unit vitest run",
     "test:unit:watch": "MODE=unit vitest watch",
     "test:unit:update": "vitest run --update",
     "test:integration": "MODE=integration vitest run",
     "test:api": "MODE=api vitest run",
-    "start": "npm run start:dev",
-    "start:dev": "NODE_ENV=development tsx watch index.ts --inspect=0.0.0.0:9229 | bunyan -o short -l debug",
     "lint": "eslint './src/**/*.ts' --quiet",
     "typecheck": "tsc -p . --noEmit",
     "format:check": "prettier --check './src/**/*.{ts,tsx}'",
@@ -19,9 +21,7 @@
     "db:seed": "tsx ./db/seed/index.ts",
     "generate": "npm-run-all -p generate:*",
     "generate:graphql": "gql.tada generate output",
-    "graphql:check": "gql.tada check",
-    "build": "NODE_ENV=production tsc --build tsconfig.json && tsc-alias -p tsconfig.json",
-    "start:prod": "NODE_ENV=production npm run build:prod && node --experimental-require-module build/index.js"
+    "graphql:check": "gql.tada check"
   },
   "dependencies": {
     "@apollo/server": "4.11.0",
