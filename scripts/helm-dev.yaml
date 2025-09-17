@@ -2,16 +2,17 @@
 
 full-stack:
   services:
-    storybook:
-      paths:
-        - path: /storybook
-          basicAuthEnabled: true
-          rewriteTarget: /
-          defaultCSPDisabled: true
-          annotations:
-            nginx.ingress.kubernetes.io/configuration-snippet: |
-              more_set_headers "Content-Security-Policy: frame-ancestors 'self'";
-              rewrite ^(/storybook)$ /storybook/ permanent;
+    # TODO: enable once build works
+    # storybook:
+    #   paths:
+    #     - path: /storybook
+    #       basicAuthEnabled: true
+    #       rewriteTarget: /
+    #       defaultCSPDisabled: true
+    #       annotations:
+    #         nginx.ingress.kubernetes.io/configuration-snippet: |
+    #           more_set_headers "Content-Security-Policy: frame-ancestors 'self'";
+    #           rewrite ^(/storybook)$ /storybook/ permanent;
 
     server:
       # More resources needed to avoid additional latency on concurrent tests
