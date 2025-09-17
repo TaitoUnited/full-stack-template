@@ -15,11 +15,12 @@ const test = base.extend<{ organisation: { id: string; name: string } }>({
 
 test.describe('Posts', () => {
   test('should submit new post', async ({ request, page, organisation }) => {
-    await page.goto('/blog');
+    await page.goto('/');
+    await page.getByTestId('navigate-to-blog').click();
     const random = Math.floor(Math.random() * 100000000);
 
-    await page.getByRole('button', { name: 'New post' }).click();
-
+    await page.getByTestId('post-create-link').click();
+    
     await page.getByLabel('Title').fill(`subject-${random}`);
     await page.getByLabel('Content').fill(`content-${random}`);
     await page.getByTestId('submit-post').click();
