@@ -5,7 +5,7 @@ import { test as base, expect } from '@playwright/test';
  */
 const test = base.extend<{ organisation: { id: string; name: string } }>({
   organisation: async ({ request }, use) => {
-    const res = await request.get('http://localhost:9999/api/organisations');
+    const res = await request.get('/api/organisations');
 
     const orgs = await res.json();
 
