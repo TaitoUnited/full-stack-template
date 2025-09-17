@@ -25,7 +25,6 @@ services:
     networks:
       - default
     ports:
-      - "8080"
       # WARNING: Do not ever remove the 127.0.0.1 as on some systems Docker host ports are exposed outside the Firewall!
       - "127.0.0.1:9997:9997" # For lazy compilation
     volumes:
@@ -58,8 +57,6 @@ services:
     restart: unless-stopped
     networks:
       - default
-    ports:
-      - "8080"
     volumes:
       - "./client:/develop:delegated"
       - "./shared:/develop/shared:delegated"
@@ -99,7 +96,6 @@ services:
     networks:
       - default
     ports:
-      - "8080"
       # WARNING: Do not ever remove the 127.0.0.1 as on some systems Docker host ports are exposed outside the Firewall!
       - "127.0.0.1:4229:9229"
     volumes:
@@ -161,7 +157,6 @@ services:
     networks:
       - default
     ports:
-      - "8080"
       # WARNING: Do not ever remove the 127.0.0.1 as on some systems Docker host ports are exposed outside the Firewall!
       - "127.0.0.1:5229:9229"
     volumes:
@@ -241,8 +236,6 @@ services:
     restart: unless-stopped
     networks:
       - default
-    ports:
-      - "6379"
     secrets:
       - REDIS_PASSWORD
     environment:
@@ -280,8 +273,7 @@ services:
     networks:
       - default
     ports:
-      - "9000"
-      - "8888:8888"
+      - "127.0.0.1:8888:8888"
     environment:
       MINIO_ROOT_USER: minio
       MINIO_ROOT_PASSWORD: ${taito_default_password}
@@ -295,7 +287,7 @@ services:
   #   image: dpage/pgadmin4
   #   restart: unless-stopped
   #   ports:
-  #     - "8081:80"
+  #     - "127.0.0.1:8081:80"
   #   environment:
   #     PGADMIN_DEFAULT_EMAIL: admin@admin.com
   #     PGADMIN_DEFAULT_PASSWORD: root
@@ -305,7 +297,7 @@ services:
   #   image: sosedoff/pgweb
   #   restart: unless-stopped
   #   ports:
-  #     - "8081:8081"
+  #     - "127.0.0.1:8081:8081"
   #   command: pgweb --bind=0.0.0.0 --listen=8080 --prefix pgweb --url postgres://${db_database_app_username}:${taito_default_password}@full-stack-template-database:${db_database_port}/${db_database_name}?sslmode=disable
 
 secrets:

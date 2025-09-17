@@ -81,8 +81,6 @@ services:
     healthcheck:
       test: (echo > /dev/tcp/localhost/5432) &> /dev/null || exit 1
       start_period: 10s
-    ports:
-      - "5432"
     volumes:
       - "${DOCKER_HOST_PATH:-.}/:/project:delegated"
       - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/cicd-proxy-serviceaccount.key:/run/secrets/CICD_PROXY_SERVICEACCOUNT_KEY" # For GitHub Actions # For GCP
@@ -143,8 +141,6 @@ services:
   #   healthcheck:
   #     test: (echo > /dev/tcp/localhost/6379) &> /dev/null || exit 1
   #     start_period: 10s
-  #   ports:
-  #     - "6379"
   #   volumes:
   #     - "${DOCKER_HOST_PATH:-.}/:/project:delegated"
   #     - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/cicd-proxy-serviceaccount.key:/run/secrets/CICD_PROXY_SERVICEACCOUNT_KEY" # For GitHub Actions # For GCP
