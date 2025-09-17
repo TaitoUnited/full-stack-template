@@ -1,182 +1,484 @@
+# Tips for PR environments:
+#
+# You can use the following preconfigured labels to adjust the pull request:
+#
+# - "PR - has env": The pull request environment is left running after the CI/CD pipeline
+#   execution. This is useful if you need to get feedback from designers, customers, or
+#   testing personnel.
+#
+# - "PR - use dev db": The pull request uses dev database instead of it's own
+#   database. This is useful, if testing personnel does testing in pull request
+#   environments and they want to preserve data while hopping between the
+#   pull-requests.
+#
+# - "PR - db recreate": The pull-request will recreate the target env (dev) database
+#   once merged. This is useful, if you know that your database migrations include
+#   breaking changes. Note that you shouldn't use this label anymore, once the
+#   application has been released to production.
+#
+# - "PR - high resources": The pull-request environment has multiple server replicas
+#   and higher cpu/mem resource limits than a normal PR environment. You can fine
+#   tune these settings in scripts/helm-pr-high-resources.yaml.
+
 name: CI/CD Pipeline
 on:
   push:
+    branches: ["dev", "test", "qa", "demo", "stag", "canary", "prod"]
+  pull_request:
+    types: [opened, reopened, synchronize, labeled]
     branches:
       - dev
-      - test
-      - uat
-      - stag
-      - canary
-      - prod
-      - master
-      - main
+
+env:
+  NODE_VERSION: "22.12.0"
 
 jobs:
-  pipeline:
-    name: Pipeline
-    runs-on: ubuntu-latest
-    timeout-minutes: 50
-    container:
-      image: ${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-      options: --privileged -v /etc/hosts:/tmp/etchosts # For VPN
-      env:
-        taito_mode: ci
-        taito_image: ${_TEMPLATE_DEFAULT_TAITO_IMAGE}
-        taito_ci_phases:
-        IMAGE_TAG: ${{ github.sha }}
-        DOCKER_HOST_PATH: /home/runner/work/full-stack-template/full-stack-template
-        # NOTE: Cloud credentials can and should be overridden with env prefix (e.g. DEV_GOOGLE_APPLICATION_CREDENTIALS)
-        # TODO: Use GitHub actions environments instead of prefix
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} # For AWS
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # For AWS
-        AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }} # For Azure
-        AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }} # For Azure
-        GOOGLE_APPLICATION_CREDENTIALS: ./tmp/GOOGLE_APPLICATION_CREDENTIALS # For GCP
+  changes:
+    name: Check changes
+    runs-on: ${{ vars.BUILD_RUNS_ON || 'gcp-proto-vm' }}
+    outputs:
+      client: ${{ github.event_name != 'pull_request' && 'true' || steps.filter.outputs.client }}
+      server: ${{ github.event_name != 'pull_request' && 'true' || steps.filter.outputs.server }}
+      playwright: ${{ github.event_name != 'pull_request' && 'true' || steps.filter.outputs.playwright }}
+      any: ${{ github.event_name != 'pull_request' && 'true' || steps.filter.outputs.any }}
     steps:
-      # NOTE: GitHub actions runs all jobs on separate virtual machines by
-      # default. Currently all steps are run in a single job to avoid pulling
-      # Taito CLI image multiple times. However, if you are using a self-hosted
-      # runner to execute the build, you could run these as separate jobs
-      # (see bitbucket-pipelines.yml as an example).
+      - uses: dorny/paths-filter@v3
+        id: filter
+        if: github.event_name == 'pull_request'
+        with:
+          filters: |
+            client: &client
+              - client/**
+              - shared/**
+              - '!**/*.md'
+            server: &server
+              - server/**
+              - shared/**
+              - '!**/*.md'
+            playwright: &playwright
+              - playwright/**
+              - '!**/*.md'
+            any:
+              - *client
+              - *server
+              - *playwright
 
-      # Init
-      - name: Check out the repo
-        uses: actions/checkout@v2
-      - name: Set environment
-        run: echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
-      - name: Set authentication based on environment
+  pr-checks:
+    name: PR checks
+    runs-on: ${{ vars.BUILD_RUNS_ON || 'gcp-proto-vm' }}
+    needs: changes
+    if: github.event_name == 'pull_request'
+    strategy:
+      matrix:
+        path: [client, server, playwright]
+    steps:
+      - name: Checkout repository
+        if: needs.changes.outputs[matrix.path] == 'true'
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        if: needs.changes.outputs[matrix.path] == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Cache node modules
+        if: needs.changes.outputs[matrix.path] == 'true'
+        id: cache-npm
+        uses: actions/cache@v4
+        with:
+          path: ${{ matrix.path }}/node_modules
+          key: ${{ runner.os }}-${{ matrix.path }}-node-${{ env.NODE_VERSION }}-${{ hashFiles(format('{0}/package-lock.json', matrix.path)) }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.path }}-node-${{ env.NODE_VERSION }}-
+            ${{ runner.os }}-${{ matrix.path }}-node-
+
+      - name: Install dependencies
+        if: steps.cache-npm.outputs.cache-hit != 'true' && needs.changes.outputs[matrix.path] == 'true'
+        working-directory: ${{ matrix.path }}
+        run: npm ci
+
+      - name: Codegen
+        if: matrix.path != 'playwright' && needs.changes.outputs[matrix.path] == 'true'
+        working-directory: ${{ matrix.path }}
+        run: npm run generate
+
+      - name: Check translations
+        if: matrix.path == 'client' && needs.changes.outputs[matrix.path] == 'true'
+        working-directory: ${{ matrix.path }}
+        run: npm run translations:validate
+
+      - name: Lint
+        if: needs.changes.outputs[matrix.path] == 'true'
+        working-directory: ${{ matrix.path }}
+        run: npm run lint
+
+      - name: Typecheck
+        if: needs.changes.outputs[matrix.path] == 'true'
+        working-directory: ${{ matrix.path }}
+        run: npm run typecheck
+
+      - name: Check formatting
+        if: needs.changes.outputs[matrix.path] == 'true'
+        working-directory: ${{ matrix.path }}
+        run: npm run format:check
+
+      - name: Unit test
+        if: matrix.path == 'client' && needs.changes.outputs.client == 'true'
+        working-directory: ${{ matrix.path }}
+        run: npm run test:unit # server unit tests are run in test-server job
+
+      - name: Ensure build
+        if: matrix.path != 'playwright' && needs.changes.outputs[matrix.path] == 'true'
+        working-directory: ${{ matrix.path }}
+        run: npm run build
+
+  prepare-storybook:
+    name: Prepare storybook
+    needs: changes
+    if: needs.changes.outputs.client == 'true'
+    runs-on: ${{ vars.BUILD_RUNS_ON || 'gcp-proto-vm' }}
+    timeout-minutes: 15
+    environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: ./tmp/GOOGLE_APPLICATION_CREDENTIALS
+      ENV: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.ref_name }}
+      IMAGE_TAG: ${{ github.sha }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # TODO: Remove this hack
+      - name: Set Google credentials
         run: |
           mkdir -p ./tmp
-          if [ ! -z "${{ secrets[format('{0}_AWS_ACCESS_KEY_ID', env.BRANCH)] }}" ]; then # For AWS
-            echo "AWS_ACCESS_KEY_ID=${{ secrets[format('{0}_AWS_ACCESS_KEY_ID', env.BRANCH)] }}" >> $GITHUB_ENV # For AWS
-            echo "AWS_SECRET_ACCESS_KEY=${{ secrets[format('{0}_AWS_SECRET_ACCESS_KEY', env.BRANCH)] }}" >> $GITHUB_ENV # For AWS
-          fi # For AWS
-          if [ ! -z "${{ secrets[format('{0}_AZURE_CLIENT_ID', env.BRANCH)] }}" ]; then # For Azure
-            echo "AZURE_CLIENT_ID=${{ secrets[format('{0}_AZURE_CLIENT_ID', env.BRANCH)] }}" >> $GITHUB_ENV # For Azure
-            echo "AZURE_CLIENT_SECRET=${{ secrets[format('{0}_AZURE_CLIENT_SECRET', env.BRANCH)] }}" >> $GITHUB_ENV # For Azure
-          fi # For Azure
-          printf "%s" '${{ secrets[format('{0}_GOOGLE_APPLICATION_CREDENTIALS_SECRET', env.BRANCH)] }}' > "$GOOGLE_APPLICATION_CREDENTIALS" # For GCP
-          if [ ! -s "$GOOGLE_APPLICATION_CREDENTIALS" ]; then # For GCP
-            printf "%s" '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_SECRET }}' > "$GOOGLE_APPLICATION_CREDENTIALS" # For GCP
-          fi # For GCP
+          printf "%s" '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_SECRET }}' > "$GOOGLE_APPLICATION_CREDENTIALS"
 
-      # GitHub Container Registry login
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
+      - name: Prepare Storybook container image for deployment
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          args: >
+            artifact
+            prepare:storybook:${{env.ENV}}
+            ${{ env.IMAGE_TAG }}
+            ""
+            false
+            ./client
+            ./client
+            Dockerfile.storybook
 
-      # Configure Kubernetes API
-      - name: Set Kubernetes API host if BRANCH_KUBE_API_* or KUBE_API_* are configured
-        env:
-          KUBE_API_HOST: ${{ secrets['KUBE_API_HOST'] }}
-          KUBE_API_IP: ${{ secrets['KUBE_API_IP'] }}
-          BRANCH_KUBE_API_HOST: ${{ secrets[format('{0}_KUBE_API_HOST', env.BRANCH)] }}
-          BRANCH_KUBE_API_IP: ${{ secrets[format('{0}_KUBE_API_IP', env.BRANCH)] }}
+  # NOTE: if client, server, or playwright have changes we need to prepare all
+  # of them as changes in any of them forces us to rerun Playwright tests
+  # which rely on the client and server being prepared and deployed etc.
+
+  prepare-client:
+    name: Prepare client
+    needs: changes
+    if: needs.changes.outputs.any == 'true'
+    runs-on: ${{ vars.BUILD_RUNS_ON || 'gcp-proto-vm' }}
+    timeout-minutes: 15
+    environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: ./tmp/GOOGLE_APPLICATION_CREDENTIALS
+      ENV: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.ref_name }}
+      IMAGE_TAG: ${{ github.sha }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # TODO: Remove this hack
+      - name: Set Google credentials
         run: |
-          if [ ! -z "${BRANCH_KUBE_API_HOST}" ]; then
-            echo "${BRANCH_KUBE_API_IP} ${BRANCH_KUBE_API_HOST}" >> /tmp/etchosts
-          elif [ ! -z "${KUBE_API_HOST}" ]; then
-            echo "${KUBE_API_IP} ${KUBE_API_HOST}" >> /tmp/etchosts
-          fi
+          mkdir -p ./tmp
+          printf "%s" '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_SECRET }}' > "$GOOGLE_APPLICATION_CREDENTIALS"
 
-      # Configure bastion host
-      - name: Set bastion host ssh if BRANCH_BASTION_SSH_* or BASTION_SSH_* are configured
-        env:
-          BASTION_SSH_KEY: ${{ secrets['BASTION_SSH_KEY'] }}
-          BASTION_SSH_KEY_PUB: ${{ secrets['BASTION_SSH_KEY_PUB'] }}
-          BASTION_SSH_CONFIG: ${{ secrets['BASTION_SSH_CONFIG'] }}
-          BASTION_SSH_KNOWN_HOSTS: ${{ secrets['BASTION_SSH_KNOWN_HOSTS'] }}
-          BRANCH_BASTION_SSH_KEY: ${{ secrets[format('{0}_BASTION_SSH_KEY', env.BRANCH)] }}
-          BRANCH_BASTION_SSH_KEY_PUB: ${{ secrets[format('{0}_BASTION_SSH_KEY_PUB', env.BRANCH)] }}
-          BRANCH_BASTION_SSH_CONFIG: ${{ secrets[format('{0}_BASTION_SSH_CONFIG', env.BRANCH)] }}
-          BRANCH_BASTION_SSH_KNOWN_HOSTS: ${{ secrets[format('{0}_BASTION_SSH_KNOWN_HOSTS', env.BRANCH)] }}
-        run: |
-          mkdir -p /etc/ssh
-          mkdir -p /root/.ssh
-          if [ ! -z "${BRANCH_BASTION_SSH_KEY_PUB}" ]; then
-            echo "Using BRANCH_BASTION_SSH_KEY"
-            echo "$BRANCH_BASTION_SSH_KEY" > /etc/ssh/bastion_key
-            echo "$BRANCH_BASTION_SSH_KEY_PUB" > /etc/ssh/bastion_key.pub
-            echo "$BRANCH_BASTION_SSH_CONFIG" >> /etc/ssh/ssh_config
-            echo "$BRANCH_BASTION_SSH_KNOWN_HOSTS" >> /etc/ssh/known_hosts
-            echo "$BRANCH_BASTION_SSH_KNOWN_HOSTS" >> /root/.ssh/known_hosts
-            chmod 700 /etc/ssh/bastion_key
-          elif [ ! -z "${BASTION_SSH_KEY_PUB}" ]; then
-            echo "Using BASTION_SSH_KEY"
-            echo "$BASTION_SSH_KEY" > /etc/ssh/bastion_key
-            echo "$BASTION_SSH_KEY_PUB" > /etc/ssh/bastion_key.pub
-            echo "$BASTION_SSH_CONFIG" >> /etc/ssh/ssh_config
-            echo "$BASTION_SSH_KNOWN_HOSTS" >> /etc/ssh/known_hosts
-            echo "$BASTION_SSH_KNOWN_HOSTS" >> /root/.ssh/known_hosts
-            chmod 700 /etc/ssh/bastion_key
-          fi
-
-      # Start VPN
-      - name: Start VPN if BRANCH_OVPN_* or OVPN_* are configured
-        env:
-          OVPN_FILE: ${{ secrets['OVPN_FILE'] }}
-          OVPN_PASSWORD: ${{ secrets['OVPN_PASSWORD'] }}
-          BRANCH_OVPN_FILE: ${{ secrets[format('{0}_OVPN_FILE', env.BRANCH)] }}
-          BRANCH_OVPN_PASSWORD: ${{ secrets[format('{0}_OVPN_PASSWORD', env.BRANCH)] }}
-        run: |
-          mkdir -p tmp
-          if [ ! -z "${BRANCH_OVPN_PASSWORD}" ]; then
-            echo "Starting VPN using BRANCH_OVPN_FILE"
-            echo "$BRANCH_OVPN_FILE" > tmp/vpn.ovpn
-            echo "$BRANCH_OVPN_PASSWORD" > tmp/vpn.password
-          elif [ ! -z "${OVPN_PASSWORD}" ]; then
-            echo "Starting VPN using OVPN_FILE"
-            echo "$OVPN_FILE" > tmp/vpn.ovpn
-            echo "$OVPN_PASSWORD" > tmp/vpn.password
-          fi
-          if [ -f tmp/vpn.ovpn ]; then
-            echo "askpass tmp/vpn.password" >> tmp/vpn.ovpn
-            openvpn --daemon --config tmp/vpn.ovpn
-            echo "Sleeping 10 seconds"
-            sleep 10
-          fi
-
-      # Prepare build
-      - run: taito build prepare:$BRANCH $IMAGE_TAG
-
-      # Prepare artifacts for deployment
-      # TODO: Should be run parallel
-      - run: taito artifact prepare:admin:$BRANCH $IMAGE_TAG
-      - run: taito artifact prepare:client:$BRANCH $IMAGE_TAG
-      - run: taito artifact prepare:server:$BRANCH $IMAGE_TAG
-      - run: taito artifact prepare:worker:$BRANCH $IMAGE_TAG
-      - run: taito artifact prepare:www:$BRANCH $IMAGE_TAG
-
-      # Deploy changes to target environment
-      - run: taito db deploy:$BRANCH
-      - run: taito deployment deploy:$BRANCH $IMAGE_TAG
-
-      # Test and verify deployment
-      - run: taito deployment wait:$BRANCH
-      - run: taito test:$BRANCH
-      - run: taito deployment verify:$BRANCH
-
-      # Release artifacts
-      # TODO: Should be run parallel
-      - run: taito artifact release:admin:$BRANCH $IMAGE_TAG
-      - run: taito artifact release:client:$BRANCH $IMAGE_TAG
-      - run: taito artifact release:server:$BRANCH $IMAGE_TAG
-      - run: taito artifact release:worker:$BRANCH $IMAGE_TAG
-      - run: taito artifact release:www:$BRANCH $IMAGE_TAG
-
-      # Release build
-      - run: taito build release:$BRANCH
-
-      # Notify
-      - name: Notify slack fail
-        if: failure()
-        uses: voxmedia/github-action-slack-notify-build@v1
+      - name: Prepare client container image for deployment
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
         with:
-          channel_id: builds # TODO: project channel name
-          status: FAILED
-          color: danger
+          args: artifact prepare:client:${{env.ENV}} ${{ env.IMAGE_TAG }}
+
+  prepare-server:
+    name: Prepare server
+    needs: changes
+    if: needs.changes.outputs.any == 'true'
+    runs-on: ${{ vars.BUILD_RUNS_ON || 'gcp-proto-vm' }}
+    timeout-minutes: 15
+    environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: ./tmp/GOOGLE_APPLICATION_CREDENTIALS
+      ENV: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.ref_name }}
+      # Server image is always needed during deployment when running db migrations using server container image
+      taito_ci_pull_always: true
+      IMAGE_TAG: ${{ github.sha }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # TODO: Remove this hack
+      - name: Set Google credentials
+        run: |
+          mkdir -p ./tmp
+          printf "%s" '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_SECRET }}' > "$GOOGLE_APPLICATION_CREDENTIALS"
+
+      - name: Prepare server container image for deployment
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: artifact prepare:server:${{env.ENV}} ${{ env.IMAGE_TAG }}
+
+  prepare-playwright:
+    name: Prepare playwright
+    needs: changes
+    if: needs.changes.outputs.any == 'true'
+    runs-on: ${{ vars.BUILD_RUNS_ON || 'gcp-proto-vm' }}
+    timeout-minutes: 15
+    environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: ./tmp/GOOGLE_APPLICATION_CREDENTIALS
+      ENV: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.ref_name }}
+      IMAGE_TAG: ${{ github.sha }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # TODO: Remove this hack
+      - name: Set Google credentials
+        run: |
+          mkdir -p ./tmp
+          printf "%s" '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_SECRET }}' > "$GOOGLE_APPLICATION_CREDENTIALS"
+
+      - name: Prepare playwright container image for deployment
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: artifact prepare:playwright:${{env.ENV}} ${{ env.IMAGE_TAG }}
+
+  deploy:
+    name: Deploy
+    needs: [prepare-client, prepare-server, prepare-storybook]
+    runs-on: ${{ vars.DEPLOYMENT_RUNS_ON || 'gcp-proto-vm' }}
+    timeout-minutes: 7
+    environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
+    permissions:
+      contents: read
+      pull-requests: write
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: ./tmp/GOOGLE_APPLICATION_CREDENTIALS
+      ENV: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.ref_name }}
+      IMAGE_TAG: ${{ github.sha }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # TODO: Remove this hack
+      - name: Set Google credentials
+        run: |
+          mkdir -p ./tmp
+          printf "%s" '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_SECRET }}' > "$GOOGLE_APPLICATION_CREDENTIALS"
+
+      - name: Always recreate database for PR environments
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: db recreate:${{env.ENV}}
+
+      - name: Deploy database migrations
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: db deploy:${{env.ENV}}
         env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
+          taito_image: ghcr.io/taitounited/taito-cli:ci-gcp-dev
+          IMAGE_TAG: ${{ env.IMAGE_TAG }}
+          DOCKER_HOST_PATH: ${{ runner.workspace }}/./${{ github.event.repository.name }}
+          COMPOSE_PROJECT_NAME: ${{ runner.name }}
+
+      - name: Deploy the application
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: deployment deploy:${{env.ENV}} ${{env.IMAGE_TAG}} ${{ format('"{0}"', join(github.event.pull_request.labels.*.name, '" "')) }}
+
+      - name: Wait for application to start after deployment
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: deployment wait:${{env.ENV}}
+
+      - name: Add PR environment url on PR as comment
+        if: ${{ github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'PR - has env')}}
+        uses: mshick/add-pr-comment@v2
+        with:
+          message: |
+            Your application is now running at https://xx-${{env.ENV}}.proto.taitodev.com
+
+  test-playwright:
+    name: Test playwright
+    needs: [changes, deploy, prepare-playwright]
+    if: needs.changes.outputs.any == 'true'
+    runs-on: ${{ vars.TEST_RUNS_ON || 'gcp-proto-vm' }}
+    timeout-minutes: 15
+    environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: ./tmp/GOOGLE_APPLICATION_CREDENTIALS
+      ENV: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.ref_name }}
+      IMAGE_TAG: ${{ github.sha }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # TODO: Remove this hack
+      - name: Set Google credentials
+        run: |
+          mkdir -p ./tmp
+          printf "%s" '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_SECRET }}' > "$GOOGLE_APPLICATION_CREDENTIALS"
+
+      - name: Run tests
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: test:playwright:${{env.ENV}}
+        env:
+          taito_image: ghcr.io/taitounited/taito-cli:ci-gcp-dev
+          IMAGE_TAG: ${{ env.IMAGE_TAG }}
+          DOCKER_HOST_PATH: ${{ runner.workspace }}/./${{ github.event.repository.name }}
+          COMPOSE_PROJECT_NAME: ${{ runner.name }}
+          CI: true
+
+      - name: Upload playwright logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-results
+          path: playwright/test-results
+
+  test-server:
+    name: Test server
+    needs: [changes, deploy]
+    if: needs.changes.outputs.server == 'true'
+    runs-on: ${{ vars.TEST_RUNS_ON || 'gcp-proto-vm' }}
+    timeout-minutes: 15
+    environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: ./tmp/GOOGLE_APPLICATION_CREDENTIALS
+      ENV: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.ref_name }}
+      IMAGE_TAG: ${{ github.sha }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # TODO: Remove this hack
+      - name: Set Google credentials
+        run: |
+          mkdir -p ./tmp
+          printf "%s" '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_SECRET }}' > "$GOOGLE_APPLICATION_CREDENTIALS"
+
+      - name: Run tests
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: test:server:${{env.ENV}}
+        env:
+          taito_image: ghcr.io/taitounited/taito-cli:ci-gcp-dev
+          IMAGE_TAG: ${{ env.IMAGE_TAG }}
+          DOCKER_HOST_PATH: ${{ runner.workspace }}/./${{ github.event.repository.name }}
+          COMPOSE_PROJECT_NAME: ${{ runner.name }}
+          CI: true
+
+  stop:
+    name: Stop
+    if: ${{ github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'PR - has env') }}
+    needs: [test-playwright, test-server]
+    runs-on: ${{ vars.DEPLOYMENT_RUNS_ON || 'gcp-proto-vm' }}
+    timeout-minutes: 7
+    environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: ./tmp/GOOGLE_APPLICATION_CREDENTIALS
+      ENV: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.ref_name }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # TODO: Remove this hack
+      - name: Set Google credentials
+        run: |
+          mkdir -p ./tmp
+          printf "%s" '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_SECRET }}' > "$GOOGLE_APPLICATION_CREDENTIALS"
+
+      - name: Stop the PR environment
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: stop:${{env.ENV}}
+
+  release:
+    name: Release
+    if: ${{ github.event_name != 'pull_request' }}
+    needs: [test-playwright, test-server]
+    runs-on: ${{ vars.BUILD_RUNS_ON || 'gcp-proto-vm' }}
+    timeout-minutes: 7
+    environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
+    env:
+      GOOGLE_APPLICATION_CREDENTIALS: ./tmp/GOOGLE_APPLICATION_CREDENTIALS
+      ENV: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || github.ref_name }}
+      IMAGE_TAG: ${{ github.sha }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # TODO: Remove this hack
+      - name: Set Google credentials
+        run: |
+          mkdir -p ./tmp
+          printf "%s" '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_SECRET }}' > "$GOOGLE_APPLICATION_CREDENTIALS"
+
+      - name: Release client image artifact
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: artifact release:client:${{env.ENV}} ${{ env.IMAGE_TAG }}
+
+      - name: Release server image artifact
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: artifact release:server:${{env.ENV}} ${{ env.IMAGE_TAG }}
+
+      - name: Release build
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: build release:${{env.ENV}}
+
+      # TODO: enable once you get docker based git operations working on CI/CD
+      # - name: Make a git tag for release
+      #   uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+      #   with:
+      #     args: tag ${{env.ENV}}-${{ env.IMAGE_TAG }}
+      #   if: ${{ github.event_name != 'pull_request' }}
+
+  # NOTE: You can use this to release changes automatically to the next application
+  # environment. However, releasing every single PR automatically all the way to
+  # production is discouraged to avoid any unnecessary disruption or performance
+  # degradation (e.g. because of cache invalidation). You should bundle multiple
+  # changes into one production release instead.
+  auto-merge:
+    name: Auto-merge
+    # NOTE: Define source branches automatically to be merged here, for example: fromJson('["dev", "test"]')
+    if: contains(fromJson('[]'), github.ref_name) && github.event_name != 'pull_request'
+    needs: [release]
+    runs-on: ${{ vars.BUILD_RUNS_ON || 'gcp-proto-vm' }}
+    timeout-minutes: 3
+    environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
+    env:
+      ENV: ${{ github.ref_name }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Merge to the next application environment
+        uses: docker://ghcr.io/taitounited/taito-cli:ci-gcp-dev
+        with:
+          args: env merge:${{env.ENV}}
+
+  # TODO: notify
+  # notify:
+  # - name: Notify slack fail
+  #   if: failure()
+  #   timeout-minutes: 2
+  #   uses: voxmedia/github-action-slack-notify-build@v1
+  #   with:
+  #     channel_id: builds # TODO: project channel name
+  #     status: FAILED
+  #     color: danger
+  #   env:
+  #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}

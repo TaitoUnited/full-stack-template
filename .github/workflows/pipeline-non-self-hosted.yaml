@@ -1,0 +1,182 @@
+name: CI/CD Pipeline
+on:
+  push:
+    branches:
+      - dev
+      - test
+      - uat
+      - stag
+      - canary
+      - prod
+      - master
+      - main
+
+jobs:
+  pipeline:
+    name: Pipeline
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    container:
+      image: ${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+      options: --privileged -v /etc/hosts:/tmp/etchosts # For VPN
+      env:
+        taito_mode: ci
+        taito_image: ${_TEMPLATE_DEFAULT_TAITO_IMAGE}
+        taito_ci_phases:
+        IMAGE_TAG: ${{ github.sha }}
+        DOCKER_HOST_PATH: /home/runner/work/full-stack-template/full-stack-template
+        # NOTE: Cloud credentials can and should be overridden with env prefix (e.g. DEV_GOOGLE_APPLICATION_CREDENTIALS)
+        # TODO: Use GitHub actions environments instead of prefix
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }} # For AWS
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # For AWS
+        AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }} # For Azure
+        AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }} # For Azure
+        GOOGLE_APPLICATION_CREDENTIALS: ./tmp/GOOGLE_APPLICATION_CREDENTIALS # For GCP
+    steps:
+      # NOTE: GitHub actions runs all jobs on separate virtual machines by
+      # default. Currently all steps are run in a single job to avoid pulling
+      # Taito CLI image multiple times. However, if you are using a self-hosted
+      # runner to execute the build, you could run these as separate jobs
+      # (see bitbucket-pipelines.yml as an example).
+
+      # Init
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Set environment
+        run: echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
+      - name: Set authentication based on environment
+        run: |
+          mkdir -p ./tmp
+          if [ ! -z "${{ secrets[format('{0}_AWS_ACCESS_KEY_ID', env.BRANCH)] }}" ]; then # For AWS
+            echo "AWS_ACCESS_KEY_ID=${{ secrets[format('{0}_AWS_ACCESS_KEY_ID', env.BRANCH)] }}" >> $GITHUB_ENV # For AWS
+            echo "AWS_SECRET_ACCESS_KEY=${{ secrets[format('{0}_AWS_SECRET_ACCESS_KEY', env.BRANCH)] }}" >> $GITHUB_ENV # For AWS
+          fi # For AWS
+          if [ ! -z "${{ secrets[format('{0}_AZURE_CLIENT_ID', env.BRANCH)] }}" ]; then # For Azure
+            echo "AZURE_CLIENT_ID=${{ secrets[format('{0}_AZURE_CLIENT_ID', env.BRANCH)] }}" >> $GITHUB_ENV # For Azure
+            echo "AZURE_CLIENT_SECRET=${{ secrets[format('{0}_AZURE_CLIENT_SECRET', env.BRANCH)] }}" >> $GITHUB_ENV # For Azure
+          fi # For Azure
+          printf "%s" '${{ secrets[format('{0}_GOOGLE_APPLICATION_CREDENTIALS_SECRET', env.BRANCH)] }}' > "$GOOGLE_APPLICATION_CREDENTIALS" # For GCP
+          if [ ! -s "$GOOGLE_APPLICATION_CREDENTIALS" ]; then # For GCP
+            printf "%s" '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_SECRET }}' > "$GOOGLE_APPLICATION_CREDENTIALS" # For GCP
+          fi # For GCP
+
+      # GitHub Container Registry login
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Configure Kubernetes API
+      - name: Set Kubernetes API host if BRANCH_KUBE_API_* or KUBE_API_* are configured
+        env:
+          KUBE_API_HOST: ${{ secrets['KUBE_API_HOST'] }}
+          KUBE_API_IP: ${{ secrets['KUBE_API_IP'] }}
+          BRANCH_KUBE_API_HOST: ${{ secrets[format('{0}_KUBE_API_HOST', env.BRANCH)] }}
+          BRANCH_KUBE_API_IP: ${{ secrets[format('{0}_KUBE_API_IP', env.BRANCH)] }}
+        run: |
+          if [ ! -z "${BRANCH_KUBE_API_HOST}" ]; then
+            echo "${BRANCH_KUBE_API_IP} ${BRANCH_KUBE_API_HOST}" >> /tmp/etchosts
+          elif [ ! -z "${KUBE_API_HOST}" ]; then
+            echo "${KUBE_API_IP} ${KUBE_API_HOST}" >> /tmp/etchosts
+          fi
+
+      # Configure bastion host
+      - name: Set bastion host ssh if BRANCH_BASTION_SSH_* or BASTION_SSH_* are configured
+        env:
+          BASTION_SSH_KEY: ${{ secrets['BASTION_SSH_KEY'] }}
+          BASTION_SSH_KEY_PUB: ${{ secrets['BASTION_SSH_KEY_PUB'] }}
+          BASTION_SSH_CONFIG: ${{ secrets['BASTION_SSH_CONFIG'] }}
+          BASTION_SSH_KNOWN_HOSTS: ${{ secrets['BASTION_SSH_KNOWN_HOSTS'] }}
+          BRANCH_BASTION_SSH_KEY: ${{ secrets[format('{0}_BASTION_SSH_KEY', env.BRANCH)] }}
+          BRANCH_BASTION_SSH_KEY_PUB: ${{ secrets[format('{0}_BASTION_SSH_KEY_PUB', env.BRANCH)] }}
+          BRANCH_BASTION_SSH_CONFIG: ${{ secrets[format('{0}_BASTION_SSH_CONFIG', env.BRANCH)] }}
+          BRANCH_BASTION_SSH_KNOWN_HOSTS: ${{ secrets[format('{0}_BASTION_SSH_KNOWN_HOSTS', env.BRANCH)] }}
+        run: |
+          mkdir -p /etc/ssh
+          mkdir -p /root/.ssh
+          if [ ! -z "${BRANCH_BASTION_SSH_KEY_PUB}" ]; then
+            echo "Using BRANCH_BASTION_SSH_KEY"
+            echo "$BRANCH_BASTION_SSH_KEY" > /etc/ssh/bastion_key
+            echo "$BRANCH_BASTION_SSH_KEY_PUB" > /etc/ssh/bastion_key.pub
+            echo "$BRANCH_BASTION_SSH_CONFIG" >> /etc/ssh/ssh_config
+            echo "$BRANCH_BASTION_SSH_KNOWN_HOSTS" >> /etc/ssh/known_hosts
+            echo "$BRANCH_BASTION_SSH_KNOWN_HOSTS" >> /root/.ssh/known_hosts
+            chmod 700 /etc/ssh/bastion_key
+          elif [ ! -z "${BASTION_SSH_KEY_PUB}" ]; then
+            echo "Using BASTION_SSH_KEY"
+            echo "$BASTION_SSH_KEY" > /etc/ssh/bastion_key
+            echo "$BASTION_SSH_KEY_PUB" > /etc/ssh/bastion_key.pub
+            echo "$BASTION_SSH_CONFIG" >> /etc/ssh/ssh_config
+            echo "$BASTION_SSH_KNOWN_HOSTS" >> /etc/ssh/known_hosts
+            echo "$BASTION_SSH_KNOWN_HOSTS" >> /root/.ssh/known_hosts
+            chmod 700 /etc/ssh/bastion_key
+          fi
+
+      # Start VPN
+      - name: Start VPN if BRANCH_OVPN_* or OVPN_* are configured
+        env:
+          OVPN_FILE: ${{ secrets['OVPN_FILE'] }}
+          OVPN_PASSWORD: ${{ secrets['OVPN_PASSWORD'] }}
+          BRANCH_OVPN_FILE: ${{ secrets[format('{0}_OVPN_FILE', env.BRANCH)] }}
+          BRANCH_OVPN_PASSWORD: ${{ secrets[format('{0}_OVPN_PASSWORD', env.BRANCH)] }}
+        run: |
+          mkdir -p tmp
+          if [ ! -z "${BRANCH_OVPN_PASSWORD}" ]; then
+            echo "Starting VPN using BRANCH_OVPN_FILE"
+            echo "$BRANCH_OVPN_FILE" > tmp/vpn.ovpn
+            echo "$BRANCH_OVPN_PASSWORD" > tmp/vpn.password
+          elif [ ! -z "${OVPN_PASSWORD}" ]; then
+            echo "Starting VPN using OVPN_FILE"
+            echo "$OVPN_FILE" > tmp/vpn.ovpn
+            echo "$OVPN_PASSWORD" > tmp/vpn.password
+          fi
+          if [ -f tmp/vpn.ovpn ]; then
+            echo "askpass tmp/vpn.password" >> tmp/vpn.ovpn
+            openvpn --daemon --config tmp/vpn.ovpn
+            echo "Sleeping 10 seconds"
+            sleep 10
+          fi
+
+      # Prepare build
+      - run: taito build prepare:$BRANCH $IMAGE_TAG
+
+      # Prepare artifacts for deployment
+      # TODO: Should be run parallel
+      - run: taito artifact prepare:admin:$BRANCH $IMAGE_TAG
+      - run: taito artifact prepare:client:$BRANCH $IMAGE_TAG
+      - run: taito artifact prepare:server:$BRANCH $IMAGE_TAG
+      - run: taito artifact prepare:worker:$BRANCH $IMAGE_TAG
+      - run: taito artifact prepare:www:$BRANCH $IMAGE_TAG
+
+      # Deploy changes to target environment
+      - run: taito db deploy:$BRANCH
+      - run: taito deployment deploy:$BRANCH $IMAGE_TAG
+
+      # Test and verify deployment
+      - run: taito deployment wait:$BRANCH
+      - run: taito test:$BRANCH
+      - run: taito deployment verify:$BRANCH
+
+      # Release artifacts
+      # TODO: Should be run parallel
+      - run: taito artifact release:admin:$BRANCH $IMAGE_TAG
+      - run: taito artifact release:client:$BRANCH $IMAGE_TAG
+      - run: taito artifact release:server:$BRANCH $IMAGE_TAG
+      - run: taito artifact release:worker:$BRANCH $IMAGE_TAG
+      - run: taito artifact release:www:$BRANCH $IMAGE_TAG
+
+      # Release build
+      - run: taito build release:$BRANCH
+
+      # Notify
+      - name: Notify slack fail
+        if: failure()
+        uses: voxmedia/github-action-slack-notify-build@v1
+        with:
+          channel_id: builds # TODO: project channel name
+          status: FAILED
+          color: danger
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_NOTIFICATIONS_BOT_TOKEN }}
