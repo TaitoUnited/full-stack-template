@@ -232,7 +232,7 @@ services:
 
   full-stack-template-redis:
     container_name: full-stack-template-redis
-    image: bitnamilegacy/redis:6.0 # TODO: use some other non-root image: https://github.com/bitnami/charts/issues/35164
+    image: bitnamilegacy/redis:8.2 # TODO: use some other non-root image: https://github.com/bitnami/charts/issues/35164
     restart: unless-stopped
     networks:
       - default
