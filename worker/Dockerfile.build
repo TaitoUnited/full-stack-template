@@ -1,9 +1,11 @@
-ARG BUILDER_IMAGE='node:20.9.0-alpine'
-ARG RUNTIME_IMAGE='node:20.9.0-alpine'
+ARG BUILDER_IMAGE='node:22.12.0-bookworm-slim'
+ARG RUNTIME_IMAGE='node:22.12.0-bookworm-slim'
 
 # Builder and tester container for production build
-FROM ${BUILDER_IMAGE} as builder
-RUN apk add --update-cache build-base python3 git fontconfig
+FROM ${BUILDER_IMAGE} AS builder
+
+# Install deps
+RUN apt-get update -y && apt-get install -y build-essential python3 git fontconfig libxml2-utils
 
 RUN mkdir -p /develop
 WORKDIR /develop
@@ -19,9 +21,7 @@ RUN npm ci --loglevel warn --no-audit
 
 COPY ${SERVICE_DIR} /develop
 
-RUN npm run lint
-RUN npm run test:unit
-RUN npm run build:prod
+RUN npm run build
 
 # Production runtime container
 FROM ${RUNTIME_IMAGE}

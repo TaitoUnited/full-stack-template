@@ -30,8 +30,8 @@ RUN npm run uikit:build
 FROM ${RUNTIME_IMAGE}
 ARG BUILD_VERSION
 LABEL version=${BUILD_VERSION} \
-    company=gs1 \
-    project=gs1-ursa \
+    company=companyname \
+    project=full-stack-template \
     role=storybook
 RUN mkdir -p /service
 WORKDIR /service
