@@ -20,7 +20,7 @@
     "generate": "npm-run-all -p generate:*",
     "generate:graphql": "gql.tada generate output",
     "graphql:check": "gql.tada check",
-    "build:prod": "NODE_ENV=production tsc --build tsconfig.json && tsc-alias -p tsconfig.json",
+    "build": "NODE_ENV=production tsc --build tsconfig.json && tsc-alias -p tsconfig.json",
     "start:prod": "NODE_ENV=production npm run build:prod && node --experimental-require-module build/index.js"
   },
   "dependencies": {
