@@ -191,11 +191,6 @@ if [[ $template_default_provider != "gcp" ]] &&
   sed -i '/-serviceaccount/d' scripts/taito/project.sh 2> /dev/null || :
 fi
 
-# Disable network policy for now as it doesn't work correctly (TODO: remove)
-if [[ -f ./scripts/helm.yaml ]]; then
-  sed -i "s/networkPolicyEnabled: true/networkPolicyEnabled: false/" ./scripts/helm.yaml
-fi
-
 # HACK: remove old cluster settings
 if [[ $template_default_zone == "gcloud-temp1" ]]; then
   sed -i 's/taito_ci_namespace_id=$taito_resource_namespace/taito_ci_namespace_id=$taito_zone/' ./scripts/taito/config/main.sh
