@@ -144,7 +144,7 @@ services:
     container_name: full-stack-template-${taito_env}-redis
     labels:
       full-stack-template-${taito_env}-autoheal: "true"
-    image: bitnami/redis:6.0
+    image: bitnamilegacy/redis:6.0 # TODO: use some other non-root image: https://github.com/bitnami/charts/issues/35164
     restart: unless-stopped
     healthcheck:
       << : *default-healthcheck
