@@ -7,7 +7,7 @@ const readSecretSync = (filename: string) => {
   let value: string | null = null;
   try {
     value = fs.readFileSync(filename, 'utf8');
-  } catch (err) {
+  } catch {
     // ignore error
   }
   return value;
@@ -15,9 +15,8 @@ const readSecretSync = (filename: string) => {
 
 const password =
   readSecretSync('/run/secrets/TEST_USER_PASSWORD') ??
-  readSecretSync(
-    '../secrets/local/full-stack-template-local-test.userPassword'
-  );
+  readSecretSync('../secrets/local/pge-rx-local-test.userPassword') ??
+  'password';
 
 setup('authenticate', async ({ page }) => {
   // Check that password was found
@@ -27,7 +26,7 @@ setup('authenticate', async ({ page }) => {
 
   // Template has no auth checking
   await page.getByLabel('Email', { exact: true }).fill('admin@test.com');
-  await page.getByLabel('Password', { exact: true }).fill('password');
+  await page.getByLabel('Password', { exact: true }).fill(password);
   await page.getByTestId('login').click();
 
   // Check that entering app was successful

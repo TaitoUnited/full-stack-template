@@ -20,7 +20,7 @@ test.describe('Posts', () => {
     const random = Math.floor(Math.random() * 100000000);
 
     await page.getByTestId('post-create-link').click();
-    
+
     await page.getByLabel('Title').fill(`subject-${random}`);
     await page.getByLabel('Content').fill(`content-${random}`);
     await page.getByTestId('submit-post').click();
