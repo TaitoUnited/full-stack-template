@@ -1,4 +1,4 @@
-ARG BUILDER_IMAGE='mcr.microsoft.com/playwright:v1.41.1-jammy'
+ARG BUILDER_IMAGE='mcr.microsoft.com/playwright:v1.48.2-jammy'
 
 FROM ${BUILDER_IMAGE} as builder
 

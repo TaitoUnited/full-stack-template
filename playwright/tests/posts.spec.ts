@@ -5,7 +5,7 @@ import { test as base, expect } from '@playwright/test';
  */
 const test = base.extend<{ organisation: { id: string; name: string } }>({
   organisation: async ({ request }, use) => {
-    const res = await request.get('http://localhost:9999/api/organisations');
+    const res = await request.get('/api/organisations');
 
     const orgs = await res.json();
 
@@ -15,10 +15,11 @@ const test = base.extend<{ organisation: { id: string; name: string } }>({
 
 test.describe('Posts', () => {
   test('should submit new post', async ({ request, page, organisation }) => {
-    await page.goto('/blog');
+    await page.goto('/');
+    await page.getByTestId('navigate-to-blog').click();
     const random = Math.floor(Math.random() * 100000000);
 
-    await page.getByRole('button', { name: 'New post' }).click();
+    await page.getByTestId('post-create-link').click();
 
     await page.getByLabel('Title').fill(`subject-${random}`);
     await page.getByLabel('Content').fill(`content-${random}`);

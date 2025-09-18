@@ -1,16 +1,18 @@
 {
   "compilerOptions": {
-    "target": "es2017",
-    "module": "commonjs",
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleDetection": "force",
+    "moduleResolution": "Bundler",
     "strict": true,
     "esModuleInterop": true,
     "typeRoots": ["./node_modules/@types"],
-    "sourceMap": true,
+    "sourceMap": false,
     "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "skipLibCheck": true,
     "strictNullChecks": true,
-    "strictPropertyInitialization": false,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "strictPropertyInitialization": false
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "playwright.config.ts"]
 }
