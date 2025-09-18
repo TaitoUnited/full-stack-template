@@ -16,12 +16,12 @@ msgstr ""
 #: src/components/uikit/async-select/index.tsx
 #: src/components/uikit/multi-select/index.tsx
 msgid "{numSelected} selected"
-msgstr ""
+msgstr "{numSelected} valittu"
 
 #: src/routes/not-found/not-found-authenticated.tsx
 #: src/routes/not-found/not-found-unauthenticated.tsx
 msgid "404"
-msgstr ""
+msgstr "404"
 
 #: src/routes/home/home.route.tsx
 msgid "A minimal design system provides a set of UI kit components that adhere to certain design principles backed by a set of design tokens. This template defines a comprehensive set of design tokens for things like colors, typography, spacing, etc. in a globally available theme object. Additionally, the design system incorporates a UI kit that is browsable in Storybook."
@@ -44,29 +44,29 @@ msgstr "Blogi"
 
 #: src/components/common/lang-menu-button.tsx
 msgid "Change language"
-msgstr ""
+msgstr "Vaihda kieltä"
 
 #: src/components/uikit/multi-select-combobox/index.tsx
 #: src/components/uikit/partials/select-actions.tsx
 msgid "Clear"
-msgstr ""
+msgstr "Tyhjennä"
 
 #: src/components/uikit/date-picker/index.tsx
 #: src/components/uikit/date-range-picker/index.tsx
 msgid "Clear date"
-msgstr ""
+msgstr "Tyhjennä päivämäärä"
 
 #: src/components/uikit/partials/select-filter-input.tsx
 msgid "Clear search filter"
-msgstr ""
+msgstr "Tyhjennä hakusuodatin"
 
 #: src/components/uikit/dialog/index.tsx
 msgid "Close"
-msgstr ""
+msgstr "Sulje"
 
 #: src/components/uikit/partials/select-actions.tsx
 msgid "Confirm"
-msgstr ""
+msgstr "Vahvista"
 
 #: src/routes/post-create/post-create.route.tsx
 msgid "Content"
@@ -74,19 +74,19 @@ msgstr "Sisältö"
 
 #: src/components/uikit/date-picker/index.tsx
 msgid "Copied to clipboard"
-msgstr ""
+msgstr "Kopioitu leikepöydälle"
 
 #: src/components/uikit/date-picker/index.tsx
 msgid "Copy date"
-msgstr ""
+msgstr "Kopioi päivämäärä"
 
 #: src/components/uikit/date-picker/index.tsx
 msgid "Could not copy date"
-msgstr ""
+msgstr "Päivämäärän kopiointi epäonnistui"
 
 #: src/components/uikit/date-picker/index.tsx
 msgid "Could not paste \"{clipboardText}\" as a date"
-msgstr ""
+msgstr "\"{clipboardText}\" ei ole päivämäärä"
 
 #: src/routes/post-create/post-create.route.tsx
 msgid "Create"
@@ -118,20 +118,20 @@ msgstr "Blogikirjoituksen luominen epäonnistui"
 
 #: src/routes/login/login.route.tsx
 msgid "Failed to login"
-msgstr ""
+msgstr "Kirjautuminen epäonnistui"
 
 #: src/components/navigation/sidebar.tsx
 msgid "Failed to logout"
-msgstr ""
+msgstr "Uloskirjautuminen epäonnistui"
 
 #: src/routes/feature-3.route.tsx
 msgid "Feature flags"
-msgstr ""
+msgstr "Toiminnallisuusliput"
 
 #: src/components/navigation/sidebar.tsx
 #: src/routes/feature-3.route.tsx
 msgid "Feature Flags"
-msgstr ""
+msgstr "Toiminnallisuusliput"
 
 #: src/routes/home/home.route.tsx
 msgid "Features"
@@ -158,7 +158,7 @@ msgstr "Sivuvalikosta voit selata erinäisiä esimerkkisivuja läpi. (TODO: lis�
 #: src/routes/internal-error/internal-error-authenticated.tsx
 #: src/routes/internal-error/internal-error-unauthenticated.tsx
 msgid "Internal error"
-msgstr ""
+msgstr "Sisäinen virhe"
 
 #: src/routes/home/home.route.tsx
 msgid "Internationalization"
@@ -212,11 +212,11 @@ msgstr "Uusi blogikirjoitus lisätty"
 
 #: src/routes/post-list/post-list.route.tsx
 msgid "New post"
-msgstr ""
+msgstr "Uusi postaus"
 
 #: src/components/uikit/multi-select/index.tsx
 msgid "No matching options."
-msgstr ""
+msgstr "Ei vastaavia vaihtoehtoja."
 
 #: src/routes/home/home.route.tsx
 msgid "No one likes looking at a blank screen. This template implements a traditional Single-Page-Application which means that the initial JS bundle has to downloaded before the app can render. A nice looking splash screen can be shown until the app is ready to render making the app loading UX more pleasant."
@@ -224,23 +224,23 @@ msgstr "Kukaan ei tykkää katsoa tyhjää ruutua. Tämä template toteuttaa per
 
 #: src/components/uikit/async-select/index.tsx
 msgid "No options found"
-msgstr ""
+msgstr "Vaihtoehtoja ei löytynyt"
 
 #: src/components/uikit/multi-select-combobox/index.tsx
 msgid "No results found."
-msgstr ""
+msgstr "Tuloksia ei löytynyt."
 
 #: src/components/uikit/date-picker/index.tsx
 #: src/components/uikit/date-range-picker/index.tsx
 msgid "Open date picker"
-msgstr ""
+msgstr "Avaa päivämäärävalitsin"
 
 #: src/routes/not-found/not-found-authenticated.tsx
 #: src/routes/not-found/not-found-authenticated.tsx
 #: src/routes/not-found/not-found-unauthenticated.tsx
 #: src/routes/not-found/not-found-unauthenticated.tsx
 msgid "Page not found"
-msgstr ""
+msgstr "Sivua ei löytynyt"
 
 #: src/routes/login/login.route.tsx
 msgid "Password"
@@ -249,7 +249,7 @@ msgstr "Salasana"
 #: src/routes/internal-error/internal-error-authenticated.tsx
 #: src/routes/internal-error/internal-error-unauthenticated.tsx
 msgid "Please try to refresh the page"
-msgstr ""
+msgstr "Yritä ladata sivu uudelleen"
 
 #: src/routes/home/home.route.tsx
 msgid "Practically every app needs to have a way to log in the user. This template provides a barebones authentication setup that should be extended to have a real way to log in the user either with a cookie or JWT based authentication method."
@@ -257,11 +257,11 @@ msgstr "Lähestulkoon jokainen sovellus tarvitsee tavan kirjata käyttäjän sis
 
 #: src/components/common/error-view.tsx
 msgid "Reload page"
-msgstr ""
+msgstr "Lataa sivu uudelleen"
 
 #: src/components/uikit/chip/index.tsx
 msgid "Remove"
-msgstr ""
+msgstr "Poista"
 
 #: src/components/common/error-view.tsx
 msgid "Report an error"
@@ -273,15 +273,15 @@ msgstr "Sivujen esilataus"
 
 #: src/components/uikit/partials/select-filter-input.tsx
 msgid "Search options"
-msgstr ""
+msgstr "Hakuvalinnat"
 
 #: src/components/uikit/multi-select-combobox/index.tsx
 msgid "Search results"
-msgstr ""
+msgstr "Hakutulokset"
 
 #: src/components/uikit/text-input/index.tsx
 msgid "Show password"
-msgstr ""
+msgstr "Näytä salasana"
 
 #: src/routes/home/home.route.tsx
 msgid "Skeleton Placeholders"
@@ -291,11 +291,11 @@ msgstr "Luurankosisältö"
 #: src/routes/internal-error/internal-error-authenticated.tsx
 #: src/routes/internal-error/internal-error-unauthenticated.tsx
 msgid "Something went wrong"
-msgstr ""
+msgstr "Jotain meni vikaan"
 
 #: src/components/common/error-view.tsx
 msgid "Something went wrong!"
-msgstr ""
+msgstr "Jotain meni vikaan!"
 
 #: src/routes/home/home.route.tsx
 msgid "Speed is one of the most important aspects of a good UX. This template introduces a pattern for preloading route's data and code-split code in order to make page transitions feel instant."
@@ -321,7 +321,7 @@ msgstr "Teemoitus"
 
 #: src/routes/feature-3.route.tsx
 msgid "This page is only accessible when <0>feature-3</0> is enabled in session."
-msgstr ""
+msgstr "Tää sivu on näkyvissä vain kun <0>feature-3</0> on päällä istunnossa."
 
 #: src/routes/home/home.route.tsx
 msgid "This React app contains the necessary building blocks that you need to get your project started. You can freely alter any aspect of the template to fit your needs better."
@@ -333,7 +333,7 @@ msgstr "Tämä vuosi"
 
 #: src/routes/post-create/post-create.route.tsx
 msgid "Title"
-msgstr ""
+msgstr "Otsikko"
 
 #: src/components/uikit/date-range-picker/predefined-ranges.tsx
 msgid "Today"
@@ -341,7 +341,7 @@ msgstr "Tämä päivä"
 
 #: src/components/uikit/multi-select-combobox/index.tsx
 msgid "Type to search"
-msgstr ""
+msgstr "Kirjoita hakeaksesi"
 
 #: src/routes/home/home.route.tsx
 msgid "Welcome to Taito Fullstack Template!"
@@ -353,4 +353,4 @@ msgstr "Eilinen"
 
 #: src/routes/feature-3.route.tsx
 msgid "You can enable features via the feature flag manager widget."
-msgstr ""
+msgstr "Voit kääntää toiminnallisuuksia päälle toiminnallisuuslippu-widgetin avulla."
