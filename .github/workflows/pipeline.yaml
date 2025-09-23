@@ -25,9 +25,13 @@ on:
   push:
     branches: ["dev", "test", "qa", "demo", "stag", "canary", "prod"]
   pull_request:
-    types: [opened, reopened, synchronize, labeled]
+    types: [opened, reopened, synchronize]
     branches:
       - dev
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   NODE_VERSION: "22.12.0"
@@ -255,7 +259,7 @@ jobs:
     name: Deploy
     needs: [prepare-client, prepare-server, prepare-storybook]
     runs-on: ${{ vars.DEPLOYMENT_RUNS_ON || 'gcp-proto-vm' }}
-    timeout-minutes: 7
+    timeout-minutes: 10
     environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
     permissions:
       contents: read
@@ -305,14 +309,14 @@ jobs:
         uses: mshick/add-pr-comment@v2
         with:
           message: |
-            Your application is now running at https://xx-${{env.ENV}}.proto.taitodev.com
+            Your application is now running at https://${{ github.event.repository.name }}-${{env.ENV}}.proto.taitodev.com
 
   test-playwright:
     name: Test playwright
-    needs: [changes, deploy, prepare-playwright]
+    needs: [changes, deploy, prepare-playwright, test-server] # Run E2E tests after server tests
     if: needs.changes.outputs.any == 'true'
     runs-on: ${{ vars.TEST_RUNS_ON || 'gcp-proto-vm' }}
-    timeout-minutes: 15
+    timeout-minutes: 20
     environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
     env:
       GOOGLE_APPLICATION_CREDENTIALS: ./tmp/GOOGLE_APPLICATION_CREDENTIALS

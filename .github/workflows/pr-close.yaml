@@ -8,7 +8,7 @@ on:
 jobs:
   stop:
     name: Stop
-    runs-on: ${{ vars.DEPLOYMENT_RUNS_ON || 'TODO_DEFAULT_RUNNER' }}
+    runs-on: ${{ vars.DEPLOYMENT_RUNS_ON || 'gcp-proto-vm' }}
     timeout-minutes: 10
     environment: ${{ github.event_name == 'pull_request' && 'pr' || github.ref_name }}
     if: ${{ ! endsWith(github.head_ref, '-no-env') }}
