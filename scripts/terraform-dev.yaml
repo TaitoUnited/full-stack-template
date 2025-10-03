@@ -7,5 +7,5 @@ settings:
         - allowedOrigins:
             - https://${taito_domain}
             - http://localhost:9999
-          allowedMethods: ["HEAD", "GET"]
+          allowedMethods: ["HEAD", "GET", "PUT"]
 # END
