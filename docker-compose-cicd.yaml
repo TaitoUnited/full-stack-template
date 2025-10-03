@@ -173,3 +173,4 @@ secrets:
 
 networks:
   cicd:
+    name: full-stack-template-${taito_env}-cicd
