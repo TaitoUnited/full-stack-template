@@ -14,6 +14,17 @@ You can use either monorepo or multirepo approach with this template. If you are
 
 [//]: # "TEMPLATE NOTE END"
 
+## Specs-Driven Development
+
+This template includes a specs-driven development workflow powered by Cursor AI. Here's how to use it:
+
+- **Generate a feature**: Say "let's generate a client feature" or "let's generate a server feature" to start the feature description generation flow
+- **Implement a feature**: Say "let's implement feature X" (where X is the feature name) to start the interactive implementation flow
+- **Run tests**: Say "run tests" to execute all test suites (client unit tests, server tests, and E2E tests)
+- **Push to git**: Say "push to git" to commit and push changes following project conventions
+
+See example feature descriptions in `server/features/example-feature.md` and `client/features/example-feature.md` for reference.
+
 # Project title
 
 Short description of the project: vision, purpose, company, etc.
