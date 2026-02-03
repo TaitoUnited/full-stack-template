@@ -126,7 +126,13 @@ After layout is approved, implement user interactions, data fetching, and behavi
    - Integration tests (component + GraphQL + state)
    - Accessibility tests (ARIA, keyboard navigation)
    - Error handling tests
-   - E2E tests (if applicable)
+   - **E2E tests (Playwright)**: Full user workflows, critical paths, and integration scenarios
+     - E2E tests are **required** for client features that involve:
+       - User interactions (clicks, form submissions, navigation)
+       - Data fetching and display
+       - Multi-step workflows
+       - Critical user paths
+     - E2E tests are located in `/playwright/tests/` and use `.spec.ts` naming convention
 3. **Present the test plan to the user**
 
 4. **Automatically validate test plan**:
@@ -148,6 +154,12 @@ Once the user has accepted the test plan:
    - Integration tests
    - Accessibility tests
    - Error handling tests
+   - **E2E tests (Playwright)**: Located in `/playwright/tests/` with `.spec.ts` extension
+     - Test critical user workflows end-to-end
+     - Verify interactions work with real data and API integration
+     - Test error states and recovery flows
+     - Test pagination, filtering, and data display accuracy
+     - Test state transitions (loading, error, empty, success)
 
 2. **Automatically verify test coverage**:
    - **MUST run** `/check-test-coverage` skill on the generated tests

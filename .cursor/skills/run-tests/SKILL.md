@@ -90,7 +90,7 @@ This script automatically:
 
 **Before running Playwright tests**:
 1. Check if the full app stack is running:
-   - Client: `curl http://localhost:5173` or check port 5173
+   - Client: `curl http://localhost:3000` or check port 3000
    - Server: `curl http://localhost:4000/api/healthz` or `curl http://localhost:8016/api/healthz` or check ports 4000/8016
    - Database: `docker ps | grep autoklinikka-parts-database`
 
