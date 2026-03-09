@@ -128,6 +128,7 @@ class Auth<SessionAttributes> {
     return {
       secure: config.COMMON_ENV !== 'local',
       domain: config.COMMON_DOMAIN,
+      httpOnly: true,
       path: '/',
       maxAge: 8 * 3_600,
     };
