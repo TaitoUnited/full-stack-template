@@ -150,7 +150,7 @@ locals {
 
 module "gcp" {
   source  = "TaitoUnited/project-resources/google"
-  version = "3.14.1"
+  version = "4.3.0"
 
   create_container_image_repositories = var.taito_env == "dev"
 
