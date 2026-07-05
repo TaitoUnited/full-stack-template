@@ -150,7 +150,7 @@ locals {
 
 module "gcp" {
   source  = "TaitoUnited/project-resources/google"
-  version = "4.3.0"
+  version = "4.4.0"
 
   create_container_image_repositories = var.taito_env == "dev"
 
@@ -194,6 +194,9 @@ module "gcp" {
   create_uptime_checks           = var.taito_uptime_provider == "gcp"
   uptime_channels                = local.taito_uptime_channels
   uptime_project_id              = var.taito_uptime_namespace_id
+
+  # Certificate
+  certificate_map                = var.kubernetes_name != "" ? "${var.kubernetes_name}-gateway" : ""
 
   # Additional resources as a json file
   resources                      = local.resources
