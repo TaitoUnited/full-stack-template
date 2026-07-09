@@ -1,0 +1,228 @@
+# Cursor Rules
+
+## Single Task Per Session
+
+**CRITICAL**: Always work on a **single task** in a single agent session. Do not mix multiple tasks or switch between tasks during a session.
+
+### Task Types
+
+Tasks are categorized by:
+1. **Task Type**: Feature generation OR Implementation
+2. **Target**: Backend (server) OR Frontend (client)
+
+### Valid Task Combinations
+
+- **Backend Feature Generation**: Generate a feature description for server-side features
+- **Backend Implementation**: Implement a server-side feature
+- **Frontend Feature Generation**: Generate a feature description for client-side features
+- **Frontend Implementation**: Implement a client-side feature
+
+### Task Boundaries
+
+- **Feature Generation**: Create or update feature description files only
+  - Backend: `server/features/*.md`
+  - Frontend: `client/features/*.md`
+- **Implementation**: Generate code, tests, and related files based on feature descriptions
+  - Backend: Server code in `server/src/`, tests, migrations, etc.
+  - Frontend: Client code in `client/src/`, tests, routes, components, etc.
+
+### Session Rules
+
+1. **One task per session**: Complete one task before starting another
+2. **No task switching**: Do not switch between feature generation and implementation in the same session
+3. **No target switching**: Do not switch between backend and frontend in the same session
+4. **Complete before new task**: Finish the current task completely before starting a new one
+
+## Documentation Structure
+
+### Backend Documentation
+
+Backend-specific documentation is located in `server/`:
+- `server/architecture.md` - Server architecture patterns and conventions
+- `server/flow.md` - Feature implementation flow
+- `server/feature-generation-flow.md` - Feature description generation process
+- `server/testing.md` - Testing patterns
+- `server/postprocess.md` - Post-implementation quality checklist
+
+### Frontend Documentation
+
+Frontend-specific documentation is located in `client/`:
+- `client/architecture.md` - Client architecture patterns and conventions
+- `client/flow.md` - Feature implementation flow
+- `client/feature-generation-flow.md` - Feature description generation process
+- `client/testing.md` - Testing patterns
+- `client/postprocess.md` - Post-implementation quality checklist
+
+### When to Use Which Documentation
+
+- **Backend tasks**: Reference `server/*.md` files
+- **Frontend tasks**: Reference `client/*.md` files
+- **Feature generation**: Follow `*feature-generation-flow.md` for the appropriate target
+- **Implementation**: Follow `*flow.md` and `*architecture.md` for the appropriate target
+
+## Task Identification
+
+When starting a session, clearly identify:
+1. **Task type**: Feature generation OR Implementation
+2. **Target**: Backend OR Frontend
+3. **Feature name**: If implementing, the feature name from the feature description
+
+Example task identification:
+- "Generate backend feature description for user authentication"
+- "Implement frontend feature: post-list (from client/features/post-list.md)"
+- "Generate frontend feature description for comment system"
+- "Implement backend feature: comment creation (from server/features/comment.md)"
+
+## Workflow
+
+### Feature Generation Workflow
+
+1. Identify target (backend or frontend)
+2. Follow the appropriate `*feature-generation-flow.md`
+3. Generate sections one by one, getting user confirmation
+4. Save feature description in appropriate `features/` folder
+5. **Session ends** - Do not proceed to implementation
+
+### Implementation Workflow
+
+1. **Check git branch**: Run `git status` - if on `dev` or `master`, create a new branch from `dev` first (see Git Workflow section below)
+2. Identify target (backend or frontend)
+3. Read the feature description from `features/` folder
+4. Follow the appropriate `*flow.md` (see Documentation Structure section for file locations)
+5. Reference `*architecture.md` for patterns
+6. Generate code, tests, and related files
+7. Follow `*postprocess.md` for quality checks
+8. **Session ends** - Do not start new features
+
+## Automatic Validation and Verification
+
+**CRITICAL**: The following validations run automatically at specific workflow points. Do not skip or make them conditional.
+
+### Feature Generation Workflow - Automatic Validations
+
+After completing Step 3 (Finalize Feature Description) and before saving the feature spec:
+
+1. **ALWAYS run** `/validate-feature-spec` skill on the completed spec file
+2. **ALWAYS launch** `spec-validator` subagent (using Cursor's agent system) in background for comprehensive validation
+3. **ALWAYS address** any validation issues before saving the spec
+4. Only save the spec file after validation passes or warnings are addressed
+
+**Note**: If validation fails or subagent cannot be launched, report the error and ask user for guidance before proceeding.
+
+### Implementation Workflow - Automatic Validations
+
+After test plan generation (Step 1 for backend, Step 5 for frontend) and before proceeding to test generation:
+
+1. **ALWAYS launch** `test-plan-validator` subagent to validate test plan against feature spec
+2. **ALWAYS address** any test plan issues before proceeding to test generation
+
+After test generation (Step 2 for backend, Step 6 for frontend) and before proceeding to next step:
+
+1. **ALWAYS run** `/check-test-coverage` skill on the generated tests
+2. **ALWAYS verify** test coverage matches the test plan from the feature spec
+3. **ALWAYS address** any missing test coverage before proceeding
+
+After feature implementation completion (Step 4 for backend, Step 4 for frontend):
+
+1. **ALWAYS run** `/verify-implementation` skill on the completed implementation
+2. **ALWAYS launch** `implementation-verifier` subagent for independent verification
+3. **ALWAYS run** `/check-architecture-compliance` skill to verify architecture patterns
+4. **ALWAYS address** any verification issues before considering implementation complete
+
+### Validation Execution Rules
+
+- **Never skip validations**: All validations must run automatically, not conditionally
+- **Never ask user permission**: Run validations automatically as part of the workflow
+- **Always address issues**: Fix validation issues before proceeding to next step
+- **Always report results**: Show validation results to user, but don't wait for approval to run them
+- **Error handling**: If a validation skill or subagent fails to run:
+  - Report the error to the user
+  - Attempt to proceed with manual validation if possible
+  - If critical validation cannot run, ask user for guidance before proceeding
+
+## Git Workflow
+
+**CRITICAL**: Follow git workflow conventions defined in [`git-workflow.md`](./git-workflow.md).
+
+### Before Starting New Implementation
+
+1. **ALWAYS check current branch**: Run `git status` to see current branch
+2. **If on dev or master**: **ALWAYS create a new branch** from dev before starting work:
+   - `git checkout -b feature/feature-name dev`
+   - Use descriptive feature name in kebab-case
+3. **Never commit directly** to `dev` or `master` when starting new implementations
+
+### When User Requests Git Push
+
+1. **ALWAYS check current branch** with `git status`
+2. **If on dev or master**: Create a new branch from dev first
+3. **ALWAYS verify pre-commit requirements** (from `git-workflow.md`):
+   - All build errors are fixed
+   - All linter errors are fixed
+   - Code follows project conventions
+4. **ALWAYS follow** commit message conventions from `git-workflow.md`
+5. **ALWAYS use** `/git-workflow` skill for git operations
+
+The `dev` and `master` branches are not protected. Development happens mostly by branching out from `dev`.
+
+## Running the App (Port Blocking)
+
+**"Running the app" always means running both the client and server in dev mode**, not a production build or preview.
+
+- **Client**: Run `npm start` in the `client/` directory (starts Vite dev server)
+- **Server**: Run `npm start` in the `server/` directory (starts the development server with database)
+
+Both should be running simultaneously for full application functionality. The server's `npm start` script handles database setup automatically.
+
+### Automatic App Startup
+
+**CRITICAL**: **NEVER ask the user to start the app**. Always start it automatically when needed.
+
+**When the app needs to be running**:
+- Testing (E2E tests, API tests against live server)
+- Layout iteration (comparing browser to Figma)
+- Debugging (inspecting running application)
+- Live checks (verifying implementation against running server)
+- Any task that requires the application to be accessible
+
+**Automatic startup procedure**:
+
+1. **Check if app is already running**:
+   - Check if client dev server is accessible (e.g., `curl http://localhost:5173` or check if port 5173 is in use)
+   - Check if server is accessible:
+     - Docker containers: `curl http://localhost:8016/api/healthz` (default docker-compose port)
+     - Direct npm start: `curl http://localhost:4000/api/healthz` (default dev server port)
+   - Check if Docker containers are running: `docker ps | grep autoklinikka-parts`
+
+2. **If not running, start automatically**:
+   - **Preferred method**: Run `npm start` from project root (starts everything via docker-compose, uses port 8016)
+   - **Alternative method (Individual services)**:
+     - Start database: `cd server && npm run dev:db:start` (if needed)
+     - Start server: `cd server && npm start` (in background, uses port 4000)
+     - Start client: `cd client && npm start` (in background, uses port 5173)
+
+3. **Wait for services to be ready**:
+   - Wait for client to be accessible at `http://localhost:5173`
+   - Wait for server health endpoint:
+     - Docker: `http://localhost:8016/api/healthz`
+     - Direct npm: `http://localhost:4000/api/healthz`
+   - Use short incremental waits (2-3 seconds) with health checks rather than long fixed delays
+
+4. **Never ask the user**: If the app is not running and you need it, start it automatically. Do not prompt the user to start it.
+
+**Background execution**: When starting the app, run commands in the background (`is_background: true`) so they don't block other operations. The app will continue running for subsequent operations.
+
+**Error handling**: If the app fails to start, report the error and suggest troubleshooting steps, but do not ask the user to start it manually.
+
+## Important Notes
+
+- **Never mix tasks**: Do not generate a feature description and then implement it in the same session
+- **Never mix targets**: Do not work on both backend and frontend in the same session
+- **Complete workflows**: Follow the complete workflow for the task type (generation or implementation)
+- **Reference documentation**: Always reference the appropriate documentation files for patterns and conventions
+- **Git workflow**: Always follow `git-workflow.md` conventions and use `/git-workflow` skill for git operations
+- **Feature spec updates**: During implementation, feature specs can be updated if security, scalability, or performance concerns are identified (see flow files for details)
+- **Test plans**: Test plans are presented as normal text output (not saved as `.md` files) and validated against feature specs
+- **Subagent launch**: Subagents (`spec-validator`, `test-plan-validator`, `implementation-verifier`) are launched using Cursor's agent system
+- **Session ends**: When a workflow completes, wait for the user's next instruction rather than starting new work
+- **Ask for clarification**: If the task is unclear, ask the user to clarify before proceeding
