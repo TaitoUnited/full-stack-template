@@ -1,4 +1,4 @@
-import { test as setup, expect } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import * as fs from 'fs';
 
 const authFile = '.auth/user.json';
@@ -18,7 +18,8 @@ const password =
   readSecretSync('../secrets/local/pge-rx-local-test.userPassword') ??
   'password';
 
-setup('authenticate', async ({ page }) => {
+// Setup
+test('authenticate', async ({ page }) => {
   // Check that password was found
   // expect(password).not.toBeFalsy();
 
