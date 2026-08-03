@@ -1,6 +1,6 @@
 {
+  "type": "module",
   "name": "full-stack-template-server",
-  "private": true,
   "scripts": {
     "start": "npm run start:dev",
     "start:dev": "NODE_ENV=development tsx watch index.ts --inspect=0.0.0.0:9229 | bunyan -o short -l debug",
@@ -13,8 +13,8 @@
     "test:api": "MODE=api vitest run",
     "lint": "eslint './src/**/*.ts' --quiet",
     "typecheck": "tsc -p . --noEmit",
-    "format:check": "prettier --check './src/**/*.{ts,tsx}'",
-    "format:write": "prettier --write './src/**/*.{ts,tsx}'",
+    "format:check": "oxfmt --check './src/**/*.{ts,tsx}'",
+    "format:write": "oxfmt './src/**/*.{ts,tsx}'",
     "db:migrate": "tsx ./db/migrate.ts",
     "db:migrate:drop": "drizzle-kit drop",
     "db:migrate:generate": "drizzle-kit generate",
@@ -73,7 +73,7 @@
     "gql.tada": "1.8.6",
     "graphql-request": "6.1.0",
     "npm-run-all": "4.1.5",
-    "prettier": "3.3.3",
+    "oxfmt": "0.61.0",
     "tsc-alias": "1.8.10",
     "tsx": "4.17.0",
     "typescript": "5.5.4",
@@ -81,6 +81,7 @@
     "vitest": "3.0.3"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22",
+    "npm": ">=10"
   }
 }
