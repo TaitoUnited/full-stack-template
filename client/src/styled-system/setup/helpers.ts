@@ -6,7 +6,13 @@ export function transformNumberTokens(
 ) {
   return Object.entries(tokens).reduce<Record<string, { value: string }>>(
     (acc, [key, value]) => {
-      acc[key] = { value: transformer(value) };
+      if (typeof value === 'number') {
+        acc[key] = { value: transformer(value) };
+      } else {
+        console.error(
+          `Expected a number for token "${key}", but got "${typeof value}".`
+        );
+      }
       return acc;
     },
     {}
@@ -59,18 +65,17 @@ export function transformColorsWithScheme(tokens: {
   light: Record<string, string>;
   dark: Record<string, string>;
 }) {
-  return Object.entries(tokens.light).reduce(
-    (acc, [key, value]) => {
-      acc[key] = {
-        value: {
-          _light: value,
-          _dark: tokens.dark[key] || value,
-        },
-      };
-      return acc;
-    },
-    {} as Record<string, { value: { _light: string; _dark: string } }>
-  );
+  return Object.entries(tokens.light).reduce<
+    Record<string, { value: { _light: string; _dark: string } }>
+  >((acc, [key, value]) => {
+    acc[key] = {
+      value: {
+        _light: value,
+        _dark: tokens.dark[key] ?? value,
+      },
+    };
+    return acc;
+  }, {});
 }
 
 type Shadow = {
@@ -82,7 +87,7 @@ type Shadow = {
 };
 
 export function transformShadows(tokens: Record<string, Shadow>) {
-  return Object.entries(tokens).reduce(
+  return Object.entries(tokens).reduce<Record<string, { value: string }>>(
     (acc, [key, value]) => {
       // Due to the way shadows are named in Figma we need to remove the leading
       // "shadow" from the key: "shadowLarge" -> "large"
@@ -90,6 +95,6 @@ export function transformShadows(tokens: Record<string, Shadow>) {
       acc[name] = { value: value.boxShadow };
       return acc;
     },
-    {} as Record<string, { value: string }>
+    {}
   );
 }

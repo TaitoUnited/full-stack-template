@@ -47,7 +47,7 @@ function StackBase({
   ref,
   ...rest
 }: Props) {
-  const Element = as || 'div';
+  const Element = as ?? 'div';
 
   const className = css({
     gap,

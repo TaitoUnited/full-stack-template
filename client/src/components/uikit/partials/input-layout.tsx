@@ -44,7 +44,7 @@ export function InputLayout({
       <Stack direction="column" gap="$xs">
         {children}
 
-        {(description ||
+        {(description ??
           (validation.message && validation.type !== 'valid')) && (
           <Stack direction="column" gap="$xxs">
             {!!description && <DescriptionText>{description}</DescriptionText>}

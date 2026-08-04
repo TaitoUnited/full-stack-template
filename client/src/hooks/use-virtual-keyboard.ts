@@ -9,7 +9,7 @@ export function useVirtualKeyboard() {
 
     if (visualViewport) {
       function onResize() {
-        const focusedElement = document.activeElement as HTMLElement | null;
+        const focusedElement = document.activeElement;
 
         // Bail if no element is focused as that also means no input is focused
         if (!focusedElement) return;

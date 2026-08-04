@@ -36,7 +36,7 @@ function defaultOptions(options: ToasterOptions | undefined) {
     icon: options?.icon ? (
       <Icon
         name={options.icon}
-        color={options.iconColor || 'currentColor'}
+        color={options.iconColor ?? 'currentColor'}
         size={24}
       />
     ) : undefined,

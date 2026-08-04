@@ -13,7 +13,7 @@ export const appEnvironments = [
 
 export type AppEnv = (typeof appEnvironments)[number];
 
-const subdomain = window.location.hostname.split('.')[0] || '';
+const subdomain = window.location.hostname.split('.')[0] ?? '';
 const subdomainParts = subdomain.split('-');
 const envSuffix = subdomainParts[subdomainParts.length - 1] as AppEnv;
 const currentEnv = appEnvironments.includes(envSuffix) ? envSuffix : 'prod';
