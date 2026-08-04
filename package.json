@@ -33,7 +33,7 @@
     "taito-host-lint:admin": "cd admin && echo DISABLED: lint disabled from admin until updated or removed",
     "taito-host-lint:client": "cd client && npm-run-all lint typecheck",
     "taito-host-lint:server": "cd server && npm-run-all lint typecheck",
-    "taito-host-lint:worker": "cd worker && npm-run-all lint",
+    "taito-host-lint:worker": "cd worker && npm-run-all lint typecheck",
     "taito-host-lint:www": "cd www && npm-run-all lint",
     "taito-host-test-unit": "echo Running unit tests locally && npm-run-all -p -c taito-host-test-unit:admin taito-host-test-unit:client taito-host-test-unit:server taito-host-test-unit:worker taito-host-test-unit:www ",
     "taito-host-test-unit:admin": "cd admin && echo DISABLED: unit test disabled from admin until updated or removed",
