@@ -1,4 +1,4 @@
-/* oxlint-disable */
+/* eslint-disable */
 /* prettier-ignore */
 
 export type introspection_types = {
