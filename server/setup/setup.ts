@@ -39,16 +39,14 @@ export async function setupServer(server: ServerInstance) {
    */
   setupErrorHandler(server);
 
+  // oxlint-disable typescript/no-misused-promises typescript/strict-void-return
   await server.register(composeFastifyPlugins(auth.ui, setupGraphQL));
-
   await server.register(composeFastifyPlugins(auth.allowed, infraRoutes)); // health checks, etc.
-
-  // NOTE: if you are using GraphQL for all your API endpoints, you can remove these:
   await server.register(composeFastifyPlugins(auth.allowed, sessionRoutes)); // login, logout, etc.
   await server.register(composeFastifyPlugins(auth.ui, postRoutes));
   await server.register(composeFastifyPlugins(auth.ui, organisationRoutes));
-
   await server.register(disableNotAuthenticated);
+  // oxlint-enable typescript/no-misused-promises typescript/strict-void-return
 
   server.listen(
     { port: config.API_PORT, host: config.API_BINDADDR },
@@ -56,7 +54,6 @@ export async function setupServer(server: ServerInstance) {
       if (err) {
         console.error(err);
         server.log.error(err);
-        // eslint-disable-next-line n/no-process-exit
         process.exit(1);
       }
 

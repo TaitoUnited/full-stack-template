@@ -1,3 +1,5 @@
+/* oxlint-disable typescript/no-unsafe-assignment typescript/no-unsafe-member-access */
+
 import { Pool, type PoolClient, type PoolConfig } from 'pg';
 import { drizzle } from 'drizzle-orm/node-postgres';
 
@@ -40,7 +42,7 @@ async function getTestDbPool() {
     port: config.DATABASE_PORT,
     database: config.DATABASE_NAME,
     user: config.DATABASE_USER,
-    password: secrets.DATABASE_PASSWORD || '',
+    password: secrets.DATABASE_PASSWORD ?? '',
     ssl: getDatabaseSSL(config, secrets),
 
     // Test-optimized pool settings

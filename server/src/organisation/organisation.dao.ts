@@ -3,7 +3,7 @@ import { eq } from 'drizzle-orm';
 import { type DrizzleDb } from '~/db';
 import { organisationTable, userOrganisationTable } from './organisation.db';
 
-async function getOrganisation(db: DrizzleDb, id: string) {
+function getOrganisation(db: DrizzleDb, id: string) {
   return db
     .select({ id: organisationTable.id, name: organisationTable.name })
     .from(organisationTable)
@@ -11,7 +11,7 @@ async function getOrganisation(db: DrizzleDb, id: string) {
     .then((rows) => rows[0]);
 }
 
-async function getUserOrganisations(db: DrizzleDb, userId: string) {
+function getUserOrganisations(db: DrizzleDb, userId: string) {
   return db
     .select()
     .from(organisationTable)
@@ -22,7 +22,7 @@ async function getUserOrganisations(db: DrizzleDb, userId: string) {
     .where(eq(userOrganisationTable.userId, userId));
 }
 
-async function getUserOrganisationsWithRoles(db: DrizzleDb, userId: string) {
+function getUserOrganisationsWithRoles(db: DrizzleDb, userId: string) {
   return db
     .select({
       organisationId: userOrganisationTable.organisationId,

@@ -6,7 +6,7 @@ import { config } from '~/src/utils/config';
 import { getStoragesById } from '~/src/utils/storage';
 import { type ServerInstance } from './server';
 
-export async function infraRoutes(server: ServerInstance) {
+export function infraRoutes(server: ServerInstance) {
   server.route({
     method: 'GET',
     url: '/config',
@@ -17,7 +17,7 @@ export async function infraRoutes(server: ServerInstance) {
         }),
       },
     },
-    handler: async () => {
+    handler: () => {
       return {
         data: {
           APP_VERSION: config.APP_VERSION,
@@ -55,7 +55,7 @@ export async function infraRoutes(server: ServerInstance) {
         200: Type.Object({ status: Type.String() }),
       },
     },
-    handler: async () => {
+    handler: () => {
       return { status: 'OK' };
     },
   });

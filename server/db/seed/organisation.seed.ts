@@ -77,7 +77,7 @@ export async function seed(
 
 // Helpers
 
-async function createOrganisation(
+function createOrganisation(
   db: DrizzleDb,
   name: string
 ): Promise<Organisation> {

@@ -1,4 +1,5 @@
-import { hash, verify, Options } from '@node-rs/argon2';
+import type { Options } from '@node-rs/argon2';
+import { hash, verify } from '@node-rs/argon2';
 
 /**
  * Recommended minimum parameters by Lucia:
@@ -11,13 +12,10 @@ const options: Options = {
   parallelism: 1,
 };
 
-export async function hashPassword(password: string) {
+export function hashPassword(password: string) {
   return hash(password, options);
 }
 
-export async function comparePassword(args: {
-  password: string;
-  hash: string;
-}) {
+export function comparePassword(args: { password: string; hash: string }) {
   return verify(args.hash, args.password, options);
 }

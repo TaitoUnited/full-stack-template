@@ -12,13 +12,13 @@ export const auth = {
   basic,
 };
 
-export const disableNotAuthenticated = fastifyPlugin(async (server) => {
+export const disableNotAuthenticated = fastifyPlugin((server) => {
   /**
    * NOTE: purpose of this is to make tests fail in case of
    * incomplete authentication configuration.
    * This SHOULD NOT be considered a safety measure!
    */
-  server.addHook('onSend', async (request, reply) => {
+  server.addHook('onSend', (request, reply) => {
     const { log, __authenticator__, error } = request.ctx;
 
     if (error) {

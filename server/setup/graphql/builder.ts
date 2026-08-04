@@ -4,7 +4,7 @@ import SimpleObjectsPlugin from '@pothos/plugin-simple-objects';
 
 import { hasValidSession } from '~/src/utils/authentication';
 import { GraphQLError } from '~/src/utils/error';
-import { AuthenticatedGraphQLContext, GraphQlContext } from './types';
+import type { AuthenticatedGraphQLContext, GraphQlContext } from './types';
 
 export const builder = new SchemaBuilder<{
   Context: GraphQlContext;
@@ -66,7 +66,7 @@ export const builder = new SchemaBuilder<{
      * );
      * ```
      */
-    authScopes: async (ctx) => ({
+    authScopes: (ctx) => ({
       authenticated: hasValidSession(ctx),
     }),
   },

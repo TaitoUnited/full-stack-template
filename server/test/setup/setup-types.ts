@@ -1,4 +1,4 @@
-import { Role } from '~/src/utils/authorisation';
+import type { Role } from '~/src/utils/authorisation';
 
 export type TestUser = {
   id: string;
@@ -20,6 +20,7 @@ export type TestData = {
 };
 
 declare module 'vitest' {
+  // oxlint-disable-next-line typescript/consistent-type-definitions
   export interface ProvidedContext {
     testData: TestData;
   }

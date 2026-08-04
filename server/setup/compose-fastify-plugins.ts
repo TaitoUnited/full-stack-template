@@ -1,5 +1,4 @@
 import type {
-  FastifyInstance,
   FastifyPluginCallback,
   FastifyPluginOptions,
   FastifyRegisterOptions,
@@ -7,10 +6,7 @@ import type {
 
 import type { ServerInstance } from './server';
 
-type ServerBase =
-  ServerInstance extends FastifyInstance<infer Base> ? Base : never;
-
-type RawPlugin = FastifyPluginCallback<any, ServerBase>;
+type RawPlugin = FastifyPluginCallback<any>;
 type Plugin =
   | RawPlugin
   | { plugin: RawPlugin; opts: FastifyRegisterOptions<FastifyPluginOptions> };

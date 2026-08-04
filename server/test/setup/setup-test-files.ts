@@ -1,8 +1,10 @@
+/* oxlint-disable typescript/no-unnecessary-condition */
+
 import { beforeAll, inject } from 'vitest';
 
 import { type DrizzleDb } from '~/db';
 import { getTestDb } from './setup-test-db';
-import { TestData } from './setup-types';
+import type { TestData } from './setup-types';
 
 /**
  * This file exists to make the test data initialised in setup-api-tests.ts
@@ -14,7 +16,7 @@ import { TestData } from './setup-types';
 
 const injectedTestData = inject('testData');
 
-/* eslint-disable no-var */
+/* oxlint-disable no-var */
 declare global {
   var testData: TestData;
   var testDb: DrizzleDb;

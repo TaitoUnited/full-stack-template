@@ -2,8 +2,8 @@
   "compilerOptions": {
     "lib": ["es2022"],
     "target": "es2022",
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "preserve",
+    "moduleResolution": "bundler",
     "moduleDetection": "force",
     "esModuleInterop": true,
     "isolatedModules": true,
@@ -19,7 +19,6 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": false,
     "typeRoots": ["types", "./node_modules/@types"],
-    "baseUrl": ".",
     "paths": {
       "~/*": ["./*"]
     },

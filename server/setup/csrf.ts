@@ -6,13 +6,15 @@ import { type ServerInstance } from './server';
 // TODO: A more generic way to allow requests from non-browser without a origin header
 const noOriginEndpoints: string[] = [];
 
-export const csrfPlugin = fastifyPlugin(async (server: ServerInstance) => {
+export const csrfPlugin = fastifyPlugin((server: ServerInstance) => {
   server.addHook('preHandler', (request, reply, done) => {
-    if (request.method === 'GET') return done();
+    if (request.method === 'GET') {
+      done();
+      return;
+    }
 
-    const hostHeader = ((request.headers['X-Forwarded-Host'] ||
-      request.headers.host) ??
-      null) as string | null;
+    const hostHeader =
+      request.headers['X-Forwarded-Host'] ?? request.headers.host ?? null;
 
     let originHeader = request.headers.origin ?? null;
     if (!originHeader && noOriginEndpoints.includes(request.url)) {

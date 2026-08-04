@@ -1,3 +1,6 @@
+/* oxlint-disable node/no-process-env */
+/* oxlint-disable typescript/no-unnecessary-condition typescript/no-unsafe-argument typescript/no-unsafe-assignment typescript/no-unsafe-call typescript/no-unsafe-member-access typescript/no-unsafe-return typescript/no-unsafe-type-assertion */
+
 import { promises as fsPromises } from 'fs';
 import { isIP } from 'net';
 import {
@@ -9,18 +12,28 @@ const secretManagerClient: SecretsManagerClient = new SecretsManagerClient({
   region: process.env.SECRET_REGION,
 });
 
+function getNonEmptyEnvironmentValue(value: string | undefined) {
+  if (!value) {
+    return undefined;
+  }
+
+  return value;
+}
+
 export async function readAwsSecret(secretId: string, isBase64Encoded = false) {
   try {
     const data = await secretManagerClient.send(
       new GetSecretValueCommand({ SecretId: secretId })
     );
 
-    return data && data.SecretString
+    return data?.SecretString
       ? isBase64Encoded
         ? Buffer.from(data.SecretString, 'base64').toString('ascii')
         : data.SecretString
       : null;
-  } catch (_) {}
+  } catch (_) {
+    // Missing or inaccessible optional secrets are handled by the null return.
+  }
 
   return null;
 }
@@ -28,7 +41,9 @@ export async function readAwsSecret(secretId: string, isBase64Encoded = false) {
 export async function readFile(path?: string | null) {
   try {
     return path ? (await fsPromises.readFile(path)).toString() : null;
-  } catch (_) {}
+  } catch (_) {
+    // Missing or inaccessible optional files are handled by the null return.
+  }
 
   return null;
 }
@@ -53,15 +68,18 @@ export async function readSecret(
   isFileSecret = false,
   altFilePath?: string | null
 ) {
+  // Empty environment and secret values must fall through to the next source.
+  /* oxlint-disable typescript/prefer-nullish-coalescing */
   const value =
     process.env[secret] ||
     (process.env[`${secret}_SECRETID`] &&
       (await readAwsSecret(
-        process.env[`${secret}_SECRETID`] as string,
+        process.env[`${secret}_SECRETID`]!,
         isFileSecret
       ))) ||
     (await readFile(`/run/secrets/${secret}`)) ||
     (await readFile(altFilePath));
+  /* oxlint-enable typescript/prefer-nullish-coalescing */
 
   if (!value) {
     console.warn(`WARNING: Failed to read secret ${secret}`);
@@ -82,7 +100,7 @@ export const config = {
   COMMON_SUFFIX: process.env.COMMON_SUFFIX,
   COMMON_DOMAIN: process.env.COMMON_DOMAIN,
   COMMON_IMAGE_TAG: process.env.COMMON_IMAGE_TAG,
-  COMMON_ENV: process.env.COMMON_ENV || 'local', // local | dev | test | stag | prod
+  COMMON_ENV: getNonEmptyEnvironmentValue(process.env.COMMON_ENV) ?? 'local', // local | dev | test | stag | prod
   COMMON_URL: process.env.COMMON_URL,
   COMMON_PUBLIC_PORT: process.env.COMMON_PUBLIC_PORT
     ? parseInt(process.env.COMMON_PUBLIC_PORT, 10)
@@ -98,15 +116,16 @@ export const config = {
     ? `${process.env.BUILD_VERSION}+local`
     : `${process.env.BUILD_VERSION}+${process.env.BUILD_IMAGE_TAG}`,
   API_PORT: process.env.API_PORT ? parseInt(process.env.API_PORT, 10) : 4000,
-  API_BINDADDR: process.env.API_BINDADDR || '127.0.0.1',
-  BASE_PATH: process.env.BASE_PATH || '/api',
+  API_BINDADDR:
+    getNonEmptyEnvironmentValue(process.env.API_BINDADDR) ?? '127.0.0.1',
+  BASE_PATH: getNonEmptyEnvironmentValue(process.env.BASE_PATH) ?? '/api',
   API_DOCS_ENABLED: process.env.API_DOCS_ENABLED?.toString() === 'true',
   API_PLAYGROUND_ENABLED:
     process.env.API_PLAYGROUND_ENABLED?.toString() === 'true',
 
   // Cache
-  CACHE_HOST: process.env.CACHE_HOST as string,
-  CACHE_PORT: parseInt(process.env.CACHE_PORT as string, 10),
+  CACHE_HOST: process.env.CACHE_HOST!,
+  CACHE_PORT: parseInt(process.env.CACHE_PORT!, 10),
 
   // Sentry
   SENTRY_DSN: process.env.SENTRY_DSN,
@@ -135,17 +154,18 @@ export const config = {
     : 6379,
 
   // Storage
-  BUCKET_ENDPOINT: process.env.BUCKET_ENDPOINT || undefined,
+  BUCKET_ENDPOINT: getNonEmptyEnvironmentValue(process.env.BUCKET_ENDPOINT),
   BUCKET_REGION: process.env.BUCKET_REGION,
-  BUCKET_BUCKET: process.env.BUCKET_BUCKET as string,
-  BUCKET_GCP_PROJECT_ID: process.env.BUCKET_GCP_PROJECT_ID as string,
-  BUCKET_BROWSE_URL: process.env.BUCKET_BROWSE_URL as string,
-  BUCKET_DOWNLOAD_URL: process.env.BUCKET_DOWNLOAD_URL as string,
+  BUCKET_BUCKET: process.env.BUCKET_BUCKET!,
+  BUCKET_GCP_PROJECT_ID: process.env.BUCKET_GCP_PROJECT_ID!,
+  BUCKET_BROWSE_URL: process.env.BUCKET_BROWSE_URL!,
+  BUCKET_DOWNLOAD_URL: process.env.BUCKET_DOWNLOAD_URL!,
   BUCKET_KEY_ID: process.env.BUCKET_KEY_ID,
   BUCKET_FORCE_PATH_STYLE: Boolean(process.env.BUCKET_FORCE_PATH_STYLE),
 
   // Locale
-  DEFAULT_LOCALE: process.env.DEFAULT_LOCALE || 'fi',
+  DEFAULT_LOCALE:
+    getNonEmptyEnvironmentValue(process.env.DEFAULT_LOCALE) ?? 'fi',
 
   // Logging
   COMMON_LOG_LEVEL: process.env.COMMON_LOG_LEVEL,
@@ -155,7 +175,19 @@ export const config = {
   SESSION_COOKIE: 'session',
 };
 
-let secrets: any = null;
+type Secrets = {
+  SERVICE_ACCOUNT_KEY: string | null;
+  DATABASE_PASSWORD: string | null;
+  DATABASE_SSL_CA: string | null;
+  DATABASE_SSL_CERT: string | null;
+  DATABASE_SSL_KEY: string | null;
+  REDIS_PASSWORD: string | null;
+  BUCKET_KEY_SECRET: string | null;
+  SESSION_SECRET: string | null;
+  EXAMPLE_SECRET: string | null;
+};
+
+let secrets: Secrets | null = null;
 
 export async function getSecrets() {
   if (secrets) {
@@ -173,44 +205,44 @@ export async function getSecrets() {
     DATABASE_SSL_CA:
       useClientCert || useServerCert
         ? await readSecret('DATABASE_SSL_CA', true)
-        : undefined,
+        : null,
     DATABASE_SSL_CERT: useClientCert
       ? await readSecret('DATABASE_SSL_CERT', true)
-      : undefined,
+      : null,
     DATABASE_SSL_KEY: useClientCert
       ? await readSecret('DATABASE_SSL_KEY', true)
-      : undefined,
+      : null,
     REDIS_PASSWORD: await readSecret('REDIS_PASSWORD'),
     BUCKET_KEY_SECRET: await readSecret('BUCKET_KEY_SECRET'),
     SESSION_SECRET: await readMandatorySecret('SESSION_SECRET'),
     EXAMPLE_SECRET: await readMandatorySecret('EXAMPLE_SECRET'),
   };
 
-  if (!secrets) {
-    secrets = s;
-  }
+  secrets ??= s;
 
   return secrets;
 }
 
-export function getDatabaseSSL(config: any, secrets: any) {
+export function getDatabaseSSL(runtimeConfig: any, runtimeSecrets: any) {
   const ssl =
-    config.DATABASE_SSL_ENABLED && config.DATABASE_SSL_CLIENT_CERT_ENABLED
+    runtimeConfig.DATABASE_SSL_ENABLED &&
+    runtimeConfig.DATABASE_SSL_CLIENT_CERT_ENABLED
       ? {
-          ca: secrets.DATABASE_SSL_CA,
-          cert: secrets.DATABASE_SSL_CERT,
-          key: secrets.DATABASE_SSL_KEY,
+          ca: runtimeSecrets.DATABASE_SSL_CA,
+          cert: runtimeSecrets.DATABASE_SSL_CERT,
+          key: runtimeSecrets.DATABASE_SSL_KEY,
         }
-      : config.DATABASE_SSL_ENABLED && config.DATABASE_SSL_SERVER_CERT_ENABLED
-        ? { ca: secrets.DATABASE_SSL_CA }
-        : config.DATABASE_SSL_ENABLED
+      : runtimeConfig.DATABASE_SSL_ENABLED &&
+          runtimeConfig.DATABASE_SSL_SERVER_CERT_ENABLED
+        ? { ca: runtimeSecrets.DATABASE_SSL_CA }
+        : runtimeConfig.DATABASE_SSL_ENABLED
           ? { rejectUnauthorized: false } // TODO: remove once AWSCA check works
           : false;
 
   // Skip hostname check if SSL is enabled but HOST is IP or proxy
   return ssl !== false &&
-    (isIP(config.DATABASE_HOST) ||
-      config.DATABASE_HOST?.indexOf('proxy') !== -1)
+    (isIP(runtimeConfig.DATABASE_HOST) ||
+      runtimeConfig.DATABASE_HOST?.indexOf('proxy') !== -1)
     ? { ...ssl, checkServerIdentity: () => undefined }
     : ssl;
 }

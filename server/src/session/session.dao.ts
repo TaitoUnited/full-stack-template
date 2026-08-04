@@ -3,8 +3,8 @@ import { comparePassword } from '~/src/utils/password';
 import { isValidPassword, isValidEmail } from '~/src/utils/validation';
 import { userDao } from '../user/user.dao';
 import { organisationDao } from '../organisation/organisation.dao';
-import { LoginOptions } from '~/types/login';
-import { Cookie } from '../utils/authentication';
+import type { LoginOptions } from '~/types/login';
+import type { Cookie } from '../utils/authentication';
 
 /**
  * Cookie-based login with email and password.
@@ -48,9 +48,9 @@ async function tokenLogin(
 // Helpers
 
 export class LoginError extends Error {
-  status: number;
+  public status: number;
 
-  constructor(status: number, message: string) {
+  public constructor(status: number, message: string) {
     super(message);
     this.name = 'LoginError';
     this.status = status;

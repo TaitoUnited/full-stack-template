@@ -4,7 +4,7 @@ import { type ServerInstance } from '~/setup/server';
 import { ApiRouteError } from '~/src/utils/error';
 import { sessionDao } from './session.dao';
 
-export async function sessionRoutes(server: ServerInstance) {
+export function sessionRoutes(server: ServerInstance) {
   server.route({
     method: 'POST',
     url: '/login',
@@ -131,7 +131,9 @@ async function wrapLogin<T>(loginPromise: Promise<T>) {
    */
   const [result] = await Promise.allSettled([
     loginPromise,
-    new Promise((resolve) => setTimeout(resolve, 2000)),
+    new Promise((resolve) => {
+      setTimeout(resolve, 2000);
+    }),
   ]);
 
   if (result.status === 'rejected') {

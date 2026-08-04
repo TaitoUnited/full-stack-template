@@ -20,4 +20,4 @@ async function seedDb() {
   console.log('Database seed done!');
 }
 
-seedDb();
+void seedDb();

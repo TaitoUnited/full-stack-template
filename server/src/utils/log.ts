@@ -1,5 +1,8 @@
+/* oxlint-disable typescript/no-unsafe-argument typescript/no-unsafe-assignment typescript/no-unsafe-member-access typescript/no-unsafe-return typescript/no-unsafe-type-assertion */
+
 import bunyan from 'bunyan';
-import { Transform, TransformCallback, TransformOptions } from 'stream';
+import type { TransformCallback, TransformOptions } from 'stream';
+import { Transform } from 'stream';
 
 import { config } from './config';
 
@@ -16,7 +19,7 @@ const allowedHeaders = ['user-agent', 'referer', 'x-real-ip'];
 
 // Adds Stackdriver severity level to log entries
 class StackdriverStream extends Transform {
-  constructor(options: TransformOptions, output: NodeJS.WritableStream) {
+  public constructor(options: TransformOptions, output: NodeJS.WritableStream) {
     super({
       ...options,
       objectMode: true,
@@ -24,7 +27,7 @@ class StackdriverStream extends Transform {
     this.pipe(output);
   }
 
-  override _transform(
+  public override _transform(
     chunk: {
       level: number;
       severity: string;
@@ -40,7 +43,7 @@ class StackdriverStream extends Transform {
     _: string,
     callback: TransformCallback
   ) {
-    chunk.severity = stackdriverSeverityByBunyanLevel[chunk.level] || 'INFO';
+    chunk.severity = stackdriverSeverityByBunyanLevel[chunk.level] ?? 'INFO';
 
     chunk.labels = {
       ...chunk.labels,
@@ -70,10 +73,10 @@ class StackdriverStream extends Transform {
       if (chunk.req.headers) {
         const filteredHeaders = Object.keys(chunk.req.headers)
           .filter((key) => allowedHeaders.includes(key))
-          .reduce((h, key) => {
+          .reduce<any>((h, key) => {
             h[key] = (chunk.req as any).headers[key];
             return h;
-          }, {} as any);
+          }, {});
         chunk.req.headers = filteredHeaders;
       }
     }

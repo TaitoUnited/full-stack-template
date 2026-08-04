@@ -1,4 +1,6 @@
-import { AuthenticatedGraphQLContext } from '~/setup/graphql/types';
+/* oxlint-disable typescript/no-unnecessary-condition typescript/no-unsafe-assignment typescript/no-unsafe-type-assertion */
+
+import type { AuthenticatedGraphQLContext } from '~/setup/graphql/types';
 import { log } from '~/src/utils/log';
 
 /**
@@ -6,7 +8,7 @@ import { log } from '~/src/utils/log';
  * The returned context doesn't include the `auth`, `reply`, and `session` objects
  * as they are not needed for controller tests.
  */
-export async function makeTestContext(options: {
+export function makeTestContext(options: {
   user: 'admin' | 'manager' | 'viewer';
 }): Promise<AuthenticatedGraphQLContext> {
   const db = globalThis.testDb;
@@ -32,5 +34,5 @@ export async function makeTestContext(options: {
     __authenticator__: 'test',
   };
 
-  return context;
+  return Promise.resolve(context);
 }

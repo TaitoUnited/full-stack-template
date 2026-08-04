@@ -1,4 +1,7 @@
-import { S3Client, S3ClientConfig } from '@aws-sdk/client-s3';
+/* oxlint-disable typescript/no-unsafe-assignment typescript/no-unsafe-member-access */
+
+import type { S3ClientConfig } from '@aws-sdk/client-s3';
+import { S3Client } from '@aws-sdk/client-s3';
 // import { Bucket, Storage } from '@google-cloud/storage';
 
 import { config, getSecrets } from './config';
@@ -21,7 +24,8 @@ function getStorageBucketInfo(options: {
   s3Params: S3ClientConfig;
 }): StorageBucketInfo {
   const s3 = new S3Client(options.s3Params);
-  const endpoint = options.s3Params.endpoint?.toString() || null;
+  // oxlint-disable-next-line typescript/no-base-to-string
+  const endpoint = options.s3Params.endpoint?.toString();
 
   return {
     bucketName: options.bucketName,
@@ -29,13 +33,12 @@ function getStorageBucketInfo(options: {
     // Client for S3 operations
     s3,
     // Client for signing S3 urls
-    s3signer:
-      endpoint && endpoint.startsWith('http://')
-        ? new S3Client({
-            ...options.s3Params,
-            endpoint: `http://localhost:${config.COMMON_PUBLIC_PORT}`,
-          })
-        : s3,
+    s3signer: endpoint?.startsWith('http://')
+      ? new S3Client({
+          ...options.s3Params,
+          endpoint: `http://localhost:${config.COMMON_PUBLIC_PORT}`,
+        })
+      : s3,
     // OPTIONAL: Client for GCS specific operations
     /*
     gcs:
@@ -61,28 +64,26 @@ export async function getStoragesById() {
 
   const secrets = await getSecrets();
 
-  if (!storagesById) {
-    storagesById = {
-      bucket: getStorageBucketInfo({
-        bucketName: config.BUCKET_BUCKET,
-        gcpProjectId: config.BUCKET_GCP_PROJECT_ID,
-        gcpServiceAccountKey: secrets.SERVICE_ACCOUNT_KEY,
-        s3Params: {
-          forcePathStyle: config.BUCKET_FORCE_PATH_STYLE,
-          endpoint: config.BUCKET_ENDPOINT,
-          region: config.BUCKET_REGION,
-          credentials:
-            config.BUCKET_KEY_ID && secrets.BUCKET_KEY_SECRET
-              ? {
-                  accessKeyId: config.BUCKET_KEY_ID,
-                  secretAccessKey: secrets.BUCKET_KEY_SECRET,
-                }
-              : undefined,
-        },
-      }),
-      // NOTE: Add additional storage buckets here
-    };
-  }
+  storagesById ??= {
+    bucket: getStorageBucketInfo({
+      bucketName: config.BUCKET_BUCKET,
+      gcpProjectId: config.BUCKET_GCP_PROJECT_ID,
+      gcpServiceAccountKey: secrets.SERVICE_ACCOUNT_KEY,
+      s3Params: {
+        forcePathStyle: config.BUCKET_FORCE_PATH_STYLE,
+        endpoint: config.BUCKET_ENDPOINT,
+        region: config.BUCKET_REGION,
+        credentials:
+          config.BUCKET_KEY_ID && secrets.BUCKET_KEY_SECRET
+            ? {
+                accessKeyId: config.BUCKET_KEY_ID,
+                secretAccessKey: secrets.BUCKET_KEY_SECRET,
+              }
+            : undefined,
+      },
+    }),
+    // NOTE: Add additional storage buckets here
+  };
 
   return storagesById;
 }

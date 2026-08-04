@@ -15,8 +15,8 @@ export function setupErrorHandler(server: ServerInstance) {
     if (error instanceof ApiRouteErrorBase && error.name === 'ApiRouteError') {
       const data = {
         requestId: request.ctx.requestId,
-        status: error.status ?? 500,
-        message: error.message ?? 'Internal Server Error',
+        status: error.status,
+        message: error.message,
         data: error.data,
       };
 
@@ -29,7 +29,7 @@ export function setupErrorHandler(server: ServerInstance) {
     reply.status(error.statusCode ?? 500).send({
       requestId: request.ctx.requestId,
       status: error.statusCode ?? 500,
-      message: error.message ?? 'Internal Server Error',
+      message: error.message,
     });
   });
 }

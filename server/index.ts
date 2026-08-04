@@ -9,7 +9,8 @@ initSentry();
 setupServer(server)
   .then(() => {
     log.info('Server setup complete');
+    return undefined;
   })
-  .catch((error) => {
+  .catch((error: unknown) => {
     log.error(error, 'Server setup failed');
   });

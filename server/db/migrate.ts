@@ -18,4 +18,4 @@ async function migrateDb() {
   console.log('Migrations done.');
 }
 
-migrateDb();
+void migrateDb();

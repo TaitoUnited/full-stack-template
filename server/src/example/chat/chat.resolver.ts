@@ -16,7 +16,7 @@ export function setupResolvers() {
   builder.queryField('chat', (t) =>
     t.withAuth({ authenticated: true }).field({
       type: [Message],
-      resolve: async (_, __, ctx) => {
+      resolve: (_, __, ctx) => {
         return chatService.getChatMessages(ctx, ctx.user.id);
       },
     })
@@ -26,7 +26,7 @@ export function setupResolvers() {
     t.withAuth({ authenticated: true }).field({
       type: User,
       nullable: true,
-      resolve: async (parent, _, ctx) => {
+      resolve: (parent, _, ctx) => {
         return userService.getOrgUser(ctx, parent.authorId);
       },
     })

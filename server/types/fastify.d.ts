@@ -1,3 +1,5 @@
+/* oxlint-disable typescript/consistent-type-definitions */
+
 import type { Context } from '~/setup/context';
 
 declare module 'fastify' {

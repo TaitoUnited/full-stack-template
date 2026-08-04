@@ -15,7 +15,7 @@ export function setupResolvers() {
       type: User,
       nullable: true,
       args: { id: t.arg.string() },
-      resolve: async (_, args, ctx) => {
+      resolve: (_, args, ctx) => {
         return userService.getOrgUser(ctx, args.id);
       },
     })
@@ -25,7 +25,7 @@ export function setupResolvers() {
     t.withAuth({ authenticated: true }).field({
       type: [User],
       args: { search: t.arg.string({ required: false }) },
-      resolve: async (_, __, ctx) => {
+      resolve: (_, __, ctx) => {
         return userService.getOrgUsers(ctx);
       },
     })

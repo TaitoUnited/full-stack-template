@@ -37,6 +37,7 @@ export function setupSchema() {
    * We can use this file to generate TypeScript types for our queries and mutations.
    */
   if (config.COMMON_ENV === 'local' && config.NODE_ENV === 'development') {
+    // oxlint-disable-next-line node/no-sync
     fs.writeFileSync(
       path.join(__dirname, '../../../shared/schema.gql'),
       printSchema(lexicographicSortSchema(schema))

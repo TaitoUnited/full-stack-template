@@ -1,6 +1,6 @@
-import { AuthenticatedContext } from '~/setup/context';
+import type { AuthenticatedContext } from '~/setup/context';
 import { throwApiError } from './error';
-import { NonNullableField } from './types';
+import type { NonNullableField } from './types';
 
 export const ROLES = {
   ADMIN: 'admin',
