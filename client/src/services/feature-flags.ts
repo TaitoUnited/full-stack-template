@@ -8,6 +8,7 @@ const featureConfig = {
 
 export type Feature = keyof typeof featureConfig;
 
+// oxlint-disable-next-line typescript/no-unsafe-type-assertion
 export const features = Object.keys(
   featureConfig
 ) as (keyof typeof featureConfig)[];
@@ -38,6 +39,7 @@ export function disableFeatureInSession(feature: Feature) {
 
 export function setupFeatureFlags() {
   const params = new URLSearchParams(document.location.search);
+  // TODO: use Zod here to validate the feature flags passed via query params?
   const paramsFeatures = params.getAll('feature-flags') as Feature[];
 
   paramsFeatures

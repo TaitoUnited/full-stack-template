@@ -9,7 +9,7 @@ import {
 import { ErrorLink } from '@apollo/client/link/error';
 
 import { config } from '~/constants/config';
-import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '~/services/i18n';
+import { DEFAULT_LOCALE, LOCALE_SCHEMA } from '~/services/i18n';
 import { logout } from '~/stores/auth-store';
 import { workspaceIdStore } from '~/stores/workspace-store';
 import { toast } from '~/uikit/toaster';
@@ -27,13 +27,12 @@ export function setupApolloClient() {
   const httpLink = new HttpLink({ uri: `${config.API_URL}/graphql` });
 
   const headersLink = new ApolloLink((operation, forward) => {
-    const locales = SUPPORTED_LOCALES;
-    const locale = storage.get('locale');
+    const locale = storage.get('locale', LOCALE_SCHEMA) ?? DEFAULT_LOCALE;
 
     operation.setContext((context: any) => {
       const headers = {
         ...context.headers,
-        'Accept-Language': locales.includes(locale) ? locale : DEFAULT_LOCALE,
+        'Accept-Language': locale,
         'x-organisation-id': workspaceIdStore.getState().workspaceId,
       };
 

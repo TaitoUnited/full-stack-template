@@ -1,32 +1,32 @@
-import { i18n } from '@lingui/core';
+import { i18n, type Messages } from '@lingui/core';
 import { I18nProvider as LinguiProvider } from '@lingui/react';
 import { useLingui } from '@lingui/react/macro';
 import { type ReactNode } from 'react';
 import { I18nProvider as AriaProvider } from 'react-aria-components';
+import { z } from 'zod';
 
 import { storage } from '~/utils/storage';
 
-export type Locale = 'fi' | 'en-FI';
+export const LOCALE_SCHEMA = z.enum(['fi', 'en-FI']);
+export type Locale = z.infer<typeof LOCALE_SCHEMA>;
 
-export const SUPPORTED_LOCALES: Locale[] = ['fi', 'en-FI'];
+export const SUPPORTED_LOCALES = LOCALE_SCHEMA.options;
 export const DEFAULT_LOCALE: Locale = 'en-FI';
 export const LOCALE_LABEL: { [locale in Locale]: string } = {
   'en-FI': 'English',
   fi: 'Suomi',
 };
 
-async function loadMessages(locale: Locale) {
+// oxlint-disable
+async function loadMessages(locale: Locale): Promise<Messages> {
   // @vite-ignore
-  const { messages } = await import(`../locales/${locale}/messages.po`); // Vite cannot analyze dynamic imports
+  const { messages } = await import(`../locales/${locale}/messages.po`);
   return messages;
 }
+// oxlint-enable
 
 export async function setupMessages() {
-  const persistedLocale = storage.get('locale');
-
-  const locale: Locale = SUPPORTED_LOCALES.includes(persistedLocale)
-    ? persistedLocale
-    : DEFAULT_LOCALE;
+  const locale = storage.get('locale', LOCALE_SCHEMA) ?? DEFAULT_LOCALE;
 
   const messages = await loadMessages(locale);
 

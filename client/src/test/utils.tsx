@@ -4,6 +4,7 @@ import { I18nProvider } from '@lingui/react';
 import { cleanup, render, type RenderOptions } from '@testing-library/react';
 import { type ReactElement } from 'react';
 import { afterEach } from 'vitest';
+import { LOCALE_SCHEMA } from '~/services/i18n';
 
 import { storage } from '~/utils/storage';
 
@@ -11,7 +12,7 @@ afterEach(() => {
   cleanup();
 });
 
-const locale = storage.get('locale') ?? 'en-FI';
+const locale = storage.get('locale', LOCALE_SCHEMA) ?? 'en-FI';
 i18n.load(locale, {});
 i18n.activate(locale);
 
