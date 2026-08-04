@@ -109,7 +109,6 @@ export const config = {
   RUN_AS_FUNCTION: process.env.RUN_AS_FUNCTION === 'true',
 
   // Basic
-  ROOT_PATH: __dirname,
   APP_NAME: 'full-stack-template-server',
   DEBUG: Boolean(process.env.COMMON_DEBUG),
   APP_VERSION: !process.env.BUILD_IMAGE_TAG

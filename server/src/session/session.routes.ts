@@ -4,7 +4,7 @@ import { type ServerInstance } from '~/setup/server';
 import { ApiRouteError } from '~/src/utils/error';
 import { sessionDao } from './session.dao';
 
-export function sessionRoutes(server: ServerInstance) {
+export async function sessionRoutes(server: ServerInstance) {
   server.route({
     method: 'POST',
     url: '/login',

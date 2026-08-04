@@ -6,7 +6,7 @@ import { withUser } from '~/setup/auth';
 import type { ServerInstance } from '~/setup/server';
 import { organisationService } from './organisation.service';
 
-export function organisationRoutes(server: ServerInstance) {
+export async function organisationRoutes(server: ServerInstance) {
   server.route({
     method: 'GET',
     url: '/organisations',

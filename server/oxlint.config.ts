@@ -25,9 +25,15 @@ function config() {
       ...nodeRules,
       ...promiseRules,
       ...unicornRules,
+      ...tsRuleOverrides,
     },
   });
 }
+
+const tsRuleOverrides: DummyRuleMap = {
+  // Fastify uses async functions for hooks, but they don't need to await anything.
+  'typescript/require-await': 'off',
+};
 
 const coreRules: DummyRuleMap = {
   'constructor-super': 'error',
@@ -131,7 +137,7 @@ const coreRules: DummyRuleMap = {
   'prefer-spread': 'error',
   'prefer-template': 'error',
   radix: 'error',
-  'require-await': 'error',
+  'require-await': 'off',
 };
 
 const oxcRules: DummyRuleMap = {

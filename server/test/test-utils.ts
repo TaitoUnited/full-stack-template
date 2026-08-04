@@ -8,7 +8,7 @@ import { log } from '~/src/utils/log';
  * The returned context doesn't include the `auth`, `reply`, and `session` objects
  * as they are not needed for controller tests.
  */
-export function makeTestContext(options: {
+export async function makeTestContext(options: {
   user: 'admin' | 'manager' | 'viewer';
 }): Promise<AuthenticatedGraphQLContext> {
   const db = globalThis.testDb;
@@ -34,5 +34,5 @@ export function makeTestContext(options: {
     __authenticator__: 'test',
   };
 
-  return Promise.resolve(context);
+  return context;
 }

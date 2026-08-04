@@ -15,7 +15,7 @@ export const Route = createFileRoute('/login')({
   component: LoginRoute,
   beforeLoad: ({ context }) => {
     if (context.authenticated) {
-      return redirect({ to: '/' });
+      redirect({ to: '/', throw: true });
     }
   },
 });

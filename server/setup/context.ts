@@ -27,7 +27,6 @@ export type Context = {
 
   // Populated in authPlugin, after authentication
   user: null | { id: string; session?: Session };
-
   userOrganisations: { id: string; role: Role }[];
 };
 
@@ -36,10 +35,16 @@ export type AuthenticatedContext =
   | AuthenticatedRestContext
   | AuthenticatedGraphQLContext;
 
-export const contextPlugin = fastifyPlugin((server: ServerInstance) => {
-  server.addHook('onRequest', async (request) => {
-    request.ctx.log = log;
+export const contextPlugin = fastifyPlugin(async (server: ServerInstance) => {
+  server.addHook('onRequest', async (request, reply) => {
+    reply.header('X-Request-Id', request.id);
+
+    // oxlint-disable-next-line typescript/no-unnecessary-condition
+    request.ctx = request.ctx || {};
+
     const db = await getDb();
+
+    request.ctx.log = log;
     request.ctx.db = db;
     request.ctx.auth = getAuth(db);
     request.ctx.requestId = uuidv4();

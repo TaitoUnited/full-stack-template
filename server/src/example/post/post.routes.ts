@@ -4,7 +4,7 @@ import { withUser } from '~/setup/auth';
 import { type ServerInstance } from '~/setup/server';
 import { postService } from '~/src/example/post/post.service';
 
-export function postRoutes(server: ServerInstance) {
+export async function postRoutes(server: ServerInstance) {
   server.route({
     method: 'GET',
     url: '/posts',

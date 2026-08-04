@@ -18,12 +18,12 @@ export function setupWebsocketServer(
 
   // Proper shutdown for the WebSocket server
   const websocketPlugin: ApolloServerPlugin = {
-    serverWillStart() {
-      return Promise.resolve({
+    async serverWillStart() {
+      return {
         async drainServer() {
           await serverCleanup.dispose();
         },
-      });
+      };
     },
   };
 

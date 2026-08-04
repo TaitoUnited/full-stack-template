@@ -44,8 +44,8 @@ export async function setupGraphQL(server: ServerInstance) {
        */
       return request.ctx.db.transaction((tx) => {
         const handler = fastifyApolloHandler(apolloServer, {
-          context: () => {
-            return Promise.resolve({
+          context: async () => {
+            return {
               ...request.ctx,
               reply,
               /**
@@ -59,7 +59,7 @@ export async function setupGraphQL(server: ServerInstance) {
                * occur in the context of a GraphQL request.
                */
               initiator: 'graphql',
-            } satisfies GraphQlContext);
+            } satisfies GraphQlContext;
           },
         });
 

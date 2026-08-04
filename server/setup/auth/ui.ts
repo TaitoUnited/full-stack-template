@@ -9,7 +9,7 @@ import { type ServerInstance } from '../server';
 import { organisationService } from '~/src/organisation/organisation.service';
 import type { AuthenticatedGraphQLRequest } from '../graphql/types';
 
-export const uiAuthPlugin = fastifyPlugin((server: ServerInstance) => {
+export const uiAuthPlugin = fastifyPlugin(async (server: ServerInstance) => {
   server.addHook('preHandler', async (request, reply) => {
     const { auth, log } = request.ctx;
 

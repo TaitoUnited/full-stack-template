@@ -131,7 +131,7 @@ const coreRules: DummyRuleMap = {
   'prefer-spread': 'error',
   'prefer-template': 'error',
   radix: 'error',
-  'require-await': 'error',
+  'require-await': 'off',
 };
 
 const oxcRules: DummyRuleMap = {
