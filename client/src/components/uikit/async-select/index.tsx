@@ -219,7 +219,7 @@ function AsyncSelectOptions({
         <AsyncSelectEmpty>
           <Text variant="body">{emptyMessage}</Text>
         </AsyncSelectEmpty>
-      ) : list.items ? (
+      ) : (
         <AsyncSelectOptionsList
           items={list.items}
           actions={actions}
@@ -229,7 +229,7 @@ function AsyncSelectOptions({
           hiddenLabel={hiddenLabel}
           labelledby={labelledby}
         />
-      ) : null}
+      )}
     </AsyncSelectDialog>
   );
 }
@@ -295,8 +295,17 @@ function AsyncSelectOptionsList({
         items={items}
         selectionMode={selectionMode}
         selectedKeys={selectedOptions}
-        // We don't support the `'all'` selection value
-        onSelectionChange={selection => handleSelect(selection as Set<string>)}
+        onSelectionChange={selection => {
+          if (selection !== 'all') {
+            handleSelect(
+              new Set(
+                [...selection].filter(
+                  (key): key is string => typeof key === 'string'
+                )
+              )
+            );
+          }
+        }}
         className={asyncSelectListBoxStyles}
         data-testid="async-select-options"
         aria-labelledby={labelledby}

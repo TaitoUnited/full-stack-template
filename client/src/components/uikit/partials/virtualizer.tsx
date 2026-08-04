@@ -18,7 +18,7 @@ export function Virtualizer({
 }) {
   const layout = useMemo(() => {
     return new ListLayout({
-      estimatedRowHeight: estimatedRowHeight ?? BEST_GUESS_LISTBOX_ITEM_HEIGHT,
+      estimatedRowSize: estimatedRowHeight ?? BEST_GUESS_LISTBOX_ITEM_HEIGHT,
     });
   }, [estimatedRowHeight]);
 

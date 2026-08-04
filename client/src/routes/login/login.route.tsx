@@ -15,7 +15,7 @@ export const Route = createFileRoute('/login')({
   component: LoginRoute,
   beforeLoad: ({ context }) => {
     if (context.authenticated) {
-      throw redirect({ to: '/' });
+      return redirect({ to: '/' });
     }
   },
 });
@@ -47,7 +47,7 @@ function LoginRoute() {
     <>
       <DocumentTitle title={t`Login`} />
       <Wrapper>
-        <LoginForm onSubmit={handleSubmit}>
+        <LoginForm onSubmit={event => void handleSubmit(event)}>
           <Stack direction="column" gap="$large">
             <Text variant="headingXl">
               <Trans>Login</Trans>

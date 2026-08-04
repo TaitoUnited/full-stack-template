@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { useEffectEvent } from './use-effect-event';
+import { useStableCallback } from './use-stable-callback';
 
 export function useWindowFocusState() {
   const [isFocused, setFocused] = useState(true);
@@ -21,7 +21,7 @@ export function useWindowFocusState() {
 }
 
 export function useWindowFocusEffect(callback: () => void) {
-  const stableCallback = useEffectEvent(callback);
+  const stableCallback = useStableCallback(callback);
 
   useEffect(() => {
     function handler() {

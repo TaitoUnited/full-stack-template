@@ -1,6 +1,6 @@
 import { type RefObject, useEffect } from 'react';
 
-import { useEffectEvent } from './use-effect-event';
+import { useStableCallback } from './use-stable-callback';
 
 /**
  * Listen for events on a target element without having to worry about
@@ -26,7 +26,7 @@ export function useEventListener<K extends keyof DocumentEventMap>({
     ? (event: DocumentEventMap[K]) => void
     : never;
 }) {
-  const stableHandler = useEffectEvent(handler);
+  const stableHandler = useStableCallback(handler);
 
   useEffect(() => {
     if (!enabled) return;
@@ -41,12 +41,16 @@ export function useEventListener<K extends keyof DocumentEventMap>({
 
     if (!target) return;
 
-    target.addEventListener(event, stableHandler);
+    function handleEvent(eventObject: Event) {
+      // The registered event name guarantees the corresponding event type.
+      // oxlint-disable-next-line typescript/no-unsafe-type-assertion
+      stableHandler(eventObject as DocumentEventMap[K]);
+    }
+
+    target.addEventListener(event, handleEvent);
 
     return () => {
-      if (target) {
-        target.removeEventListener(event, stableHandler);
-      }
+      target.removeEventListener(event, handleEvent);
     };
   }, [enabled]);
 }

@@ -14,7 +14,7 @@ export const Route = createFileRoute('/_app')({
   component: Layout,
   beforeLoad: async ({ context, params }) => {
     if (!context.authenticated) {
-      throw redirect({ to: '/login' });
+      return redirect({ to: '/login' });
     }
 
     /**
@@ -33,7 +33,10 @@ export const Route = createFileRoute('/_app')({
     // Select the current workspace before rendering the app
     const workspaces = data.organisations;
     const workspaceIdStored = workspaceIdStore.getState().workspaceId;
-    const workspaceIdParam = (params as any).workspaceId;
+    const workspaceIdParam =
+      'workspaceId' in params && typeof params.workspaceId === 'string'
+        ? params.workspaceId
+        : undefined;
     const workspaceIdFallback = workspaces?.[0]?.id;
     const workspaceId = workspaces?.find(w => w.id === workspaceIdParam)?.id;
 
@@ -44,14 +47,14 @@ export const Route = createFileRoute('/_app')({
     if (!workspaceId && !workspaceIdFallback) {
       await logout();
       workspaceIdStore.setState({ workspaceId: '' });
-      throw redirect({ to: '/login' });
+      return redirect({ to: '/login' });
     } else if (!workspaceId && workspaceIdFallback) {
       /**
        * If workspace from URL params was not found but the user has workspaces,
        * redirect to the first workspace as a fallback.
        */
       workspaceIdStore.setState({ workspaceId: workspaceIdFallback });
-      throw redirect({
+      return redirect({
         to: `/$workspaceId`,
         params: { workspaceId: workspaceIdFallback },
       });

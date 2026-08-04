@@ -29,14 +29,12 @@ export function setupApolloClient() {
   const headersLink = new ApolloLink((operation, forward) => {
     const locale = storage.get('locale', LOCALE_SCHEMA) ?? DEFAULT_LOCALE;
 
-    operation.setContext((context: any) => {
-      const headers = {
-        ...context.headers,
+    operation.setContext({
+      headers: {
+        ...getContextHeaders(operation.getContext()),
         'Accept-Language': locale,
         'x-organisation-id': workspaceIdStore.getState().workspaceId,
-      };
-
-      return { headers };
+      },
     });
 
     return forward(operation);
@@ -60,7 +58,9 @@ export function setupApolloClient() {
     if (isNetworkAuthError || isGraphQLAuthError) {
       logout()
         .then(() => toast.info(`Your session has expired!`)) // TODO: Translate?
-        .catch(e => console.log('Failed to logout', e)); // this should never happen...
+        .catch((logoutError: unknown) =>
+          console.log('Failed to logout', logoutError)
+        ); // this should never happen...
     }
   });
 
@@ -76,4 +76,18 @@ export function setupApolloClient() {
   __apolloClient__ = apolloClient;
 
   return apolloClient;
+}
+
+function getContextHeaders(context: unknown): Record<string, unknown> {
+  if (
+    typeof context !== 'object' ||
+    context === null ||
+    !('headers' in context) ||
+    typeof context.headers !== 'object' ||
+    context.headers === null
+  ) {
+    return {};
+  }
+
+  return { ...context.headers };
 }

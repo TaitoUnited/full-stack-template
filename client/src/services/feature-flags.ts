@@ -39,12 +39,13 @@ export function disableFeatureInSession(feature: Feature) {
 
 export function setupFeatureFlags() {
   const params = new URLSearchParams(document.location.search);
-  // TODO: use Zod here to validate the feature flags passed via query params?
-  const paramsFeatures = params.getAll('feature-flags') as Feature[];
+  const paramsFeatures = params
+    .getAll('feature-flags')
+    .filter((feature): feature is Feature =>
+      features.some(knownFeature => knownFeature === feature)
+    );
 
-  paramsFeatures
-    .filter(feature => features.includes(feature))
-    .forEach(feature => enableFeatureInSession(feature));
+  paramsFeatures.forEach(feature => enableFeatureInSession(feature));
 }
 
 function getFeatureSessionKey(feature: Feature) {

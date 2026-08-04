@@ -25,7 +25,10 @@ async function init() {
   const apolloClient = setupApolloClient();
   const router = setupRouter(apolloClient);
 
-  await Promise.allSettled([loadRemoteConfig(), setupMessages()]);
+  await Promise.allSettled([
+    Promise.resolve(loadRemoteConfig()),
+    setupMessages(),
+  ]);
 
   createRoot(document.getElementById('app')!).render(
     <ApolloProvider client={apolloClient}>
@@ -37,4 +40,4 @@ async function init() {
   );
 }
 
-init();
+void init();

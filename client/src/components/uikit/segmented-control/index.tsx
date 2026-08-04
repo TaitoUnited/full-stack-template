@@ -40,8 +40,10 @@ export function SegmentedControl({
 }: Props) {
   function handleChange(values: Set<Key>) {
     // React Aria uses `Set` which is kindah annoying...
-    const val = Array.from(values)[0] as string;
-    onChange(val);
+    const val = Array.from(values)[0];
+    if (typeof val === 'string') {
+      onChange(val);
+    }
   }
 
   return (

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { type output, type ZodType } from 'zod';
 
 type FetchState<T> = {
   data: T;
@@ -18,27 +19,31 @@ type FetchState<T> = {
  * This hook uses standard `fetch` API which performs a GET request and thus
  * allows the browser to cache the response when needed.
  */
-export function useFetch<T>(params: {
+export function useFetch<Schema extends ZodType>(params: {
   url: string;
-  initialData: T;
+  schema: Schema;
+  initialData: output<Schema>;
   enabled?: boolean;
-}): FetchState<T>;
-export function useFetch<T>(params: {
+}): FetchState<output<Schema>>;
+export function useFetch<Schema extends ZodType>(params: {
   url: string;
-  initialData?: T;
+  schema: Schema;
+  initialData?: output<Schema>;
   enabled?: boolean;
-}): FetchState<T | undefined>;
-export function useFetch<T>({
+}): FetchState<output<Schema> | undefined>;
+export function useFetch<Schema extends ZodType>({
   url,
-  initialData = undefined,
+  schema,
+  initialData,
   enabled = true,
 }: {
   url: string;
-  initialData?: T;
+  schema: Schema;
+  initialData?: output<Schema>;
   enabled?: boolean;
 }) {
   const [state, setState] = useState<{
-    data?: T;
+    data?: output<Schema>;
     status: 'initial' | 'loading' | 'success' | 'error';
   }>({
     data: initialData,
@@ -53,16 +58,18 @@ export function useFetch<T>({
         const response = await fetch(url, { signal });
 
         if (response.ok) {
-          const newData = await response.json();
+          const responseBody: unknown = await response.json();
+          const newData = schema.parse(responseBody);
           setState({ data: newData, status: 'success' });
         } else {
           setState(p => ({ ...p, status: 'error' }));
         }
-      } catch (err: any) {
+      } catch (error) {
         // Ignore abort errors
-        if (err.name === 'AbortError') return;
+        if (error instanceof DOMException && error.name === 'AbortError')
+          return;
 
-        console.error('Error fetching data:', err);
+        console.error('Error fetching data:', error);
         setState(p => ({ ...p, status: 'error' }));
       }
     }

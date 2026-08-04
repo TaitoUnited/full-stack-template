@@ -1,6 +1,6 @@
 import { type RefObject, useEffect } from 'react';
 
-import { useEffectEvent } from './use-effect-event';
+import { useStableCallback } from './use-stable-callback';
 
 /**
  * Detects if the user clicks outside of a DOM element.
@@ -14,21 +14,24 @@ export function useDetectOutsideClick({
   enabled?: boolean;
   handler: () => void;
 }) {
-  const stableHandler = useEffectEvent(handler);
+  const stableHandler = useStableCallback(handler);
 
   useEffect(() => {
     if (!enabled) return;
 
-    function handleClickOutside(event: any) {
+    function handleClickOutside(event: MouseEvent) {
+      const eventTarget = event.target;
+      if (!(eventTarget instanceof Node)) return;
+
       let isOutside = true;
 
       if (Array.isArray(ref)) {
         ref.forEach(r => {
-          if (r.current && r.current.contains(event.target)) {
+          if (r.current?.contains(eventTarget)) {
             isOutside = false;
           }
         });
-      } else if (ref.current && ref.current.contains(event.target)) {
+      } else if (ref.current?.contains(eventTarget)) {
         isOutside = false;
       }
 

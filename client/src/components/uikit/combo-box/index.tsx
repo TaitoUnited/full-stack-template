@@ -73,8 +73,12 @@ export function ComboBox({
       aria-label={hiddenLabel}
       isInvalid={validation.type === 'error'}
       className={cx(inputWrapperStyles({ labelPosition }), rest.className)}
-      selectedKey={value}
-      onSelectionChange={val => onChange?.(val as string)}
+      value={value}
+      onChange={val => {
+        if (typeof val === 'string') {
+          onChange?.(val);
+        }
+      }}
       menuTrigger="focus"
     >
       <InputLayout

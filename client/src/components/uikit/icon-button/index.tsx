@@ -1,5 +1,9 @@
 import { type CSSProperties, type Ref } from 'react';
-import { Button, type ButtonProps } from 'react-aria-components';
+import {
+  Button,
+  type ButtonProps,
+  composeRenderProps,
+} from 'react-aria-components';
 
 import { cva, cx, type RecipeVariantProps } from '~/styled-system/css';
 import { token } from '~/styled-system/tokens';
@@ -69,20 +73,22 @@ export function IconButton({
 
   const _size = typeof size === 'number' ? size : sizeEnumToNumber[size];
 
-  const _style = {
-    ...style,
+  const iconButtonStyles: CSSProperties = {
     width: _size,
     height: _size,
     '--color-muted': colorMuted,
     '--color-text': colorText,
     '--color': colorValue,
-  } as CSSProperties;
+  };
 
   return (
     <Tooltip content={label} placement={tooltipPlacement}>
       <Button
         ref={ref}
-        style={_style}
+        style={composeRenderProps(style, previousStyle => ({
+          ...previousStyle,
+          ...iconButtonStyles,
+        }))}
         className={_className}
         aria-label={label}
         {...rest}

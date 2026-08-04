@@ -88,7 +88,7 @@ export function Sidebar() {
               icon="logout"
               iconPlacement="end"
               isLoading={authStatus === 'logging-out'}
-              onPress={handleLogout}
+              onPress={() => void handleLogout()}
             >
               {authStatus === 'logging-out' ? (
                 <Trans>Logging out</Trans>

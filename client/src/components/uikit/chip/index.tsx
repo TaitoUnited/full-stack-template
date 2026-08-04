@@ -1,7 +1,10 @@
 import { useLingui } from '@lingui/react/macro';
 import type { ComponentProps, CSSProperties, ReactNode } from 'react';
 import type { PressEvent } from 'react-aria-components';
-import { Button as AriaButton } from 'react-aria-components';
+import {
+  Button as AriaButton,
+  composeRenderProps,
+} from 'react-aria-components';
 
 import { css, cva, cx } from '~/styled-system/css';
 import { styled } from '~/styled-system/jsx';
@@ -43,10 +46,21 @@ export function Chip({
   ...rest
 }: ChipProps) {
   const { t } = useLingui();
-  const _style = {
-    ...style,
-    ...getChipStyles({ color: variantToColor[variant], toggled: !!toggled }),
-  };
+
+  const resolvedChipStyles = getChipStyles({
+    color: variantToColor[variant],
+    toggled: !!toggled,
+  });
+
+  const chipStyle = composeRenderProps(style, previousStyle => ({
+    ...previousStyle,
+    ...resolvedChipStyles,
+  }));
+
+  const staticChipStyle =
+    typeof style === 'function'
+      ? resolvedChipStyles
+      : { ...style, ...resolvedChipStyles };
 
   const content = <ChipContent>{children}</ChipContent>;
 
@@ -55,7 +69,7 @@ export function Chip({
     return (
       <AriaButton
         {...rest}
-        style={_style}
+        style={chipStyle}
         className={cx(chipStyles({ toggleable: true, toggled }), className)}
         onPress={onToggle}
       >
@@ -65,7 +79,7 @@ export function Chip({
   }
 
   return (
-    <div style={_style} className={cx(chipStyles(), className)}>
+    <div style={staticChipStyle} className={cx(chipStyles(), className)}>
       {!!icon && (
         <Icon
           size={16}

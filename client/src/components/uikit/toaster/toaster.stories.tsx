@@ -70,7 +70,7 @@ export default {
   ],
 } satisfies Meta<typeof Toaster>;
 
-type Story = StoryObj<typeof Toaster>;
+type Story = StoryObj<ToastOptionsProps>;
 
 const toastVariants = [
   'success',
@@ -129,7 +129,11 @@ function ToastOptions({
           toast.action('Delete all the toasts', {
             action: {
               label: 'Delete',
-              onClick: () => toasts.forEach(t => toast.dismiss(t.id)),
+              onClick: () => {
+                toasts.forEach(t => {
+                  toast.dismiss(t.id);
+                });
+              },
             },
           });
         }}
@@ -196,5 +200,5 @@ type ToastOptionsProps = {
 };
 
 export const Default: Story = {
-  render: args => <ToastOptions {...(args as ToastOptionsProps)} />,
+  render: args => <ToastOptions {...args} />,
 };

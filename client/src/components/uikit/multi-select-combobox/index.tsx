@@ -134,10 +134,9 @@ export function MultiSelectCombobox({
     );
   }
 
-  const filteredItems =
-    items?.filter(o =>
-      o.label.toLowerCase().includes(inputValue.toLowerCase())
-    ) ?? [];
+  const filteredItems = items.filter(o =>
+    o.label.toLowerCase().includes(inputValue.toLowerCase())
+  );
 
   useDetectOutsideClick({
     ref: [wrapperRef, listBoxRef],
@@ -193,7 +192,7 @@ export function MultiSelectCombobox({
                 removeValue(option);
               }}
             >
-              {items?.find(o => o.value === option)?.label}
+              {items.find(o => o.value === option)?.label}
             </Chip>
           ))}
           <Input
@@ -255,9 +254,14 @@ export function MultiSelectCombobox({
           aria-label={t`Search results`}
           selectionMode="multiple"
           onSelectionChange={val => {
+            if (val === 'all') {
+              onChange(items.map(item => item.value));
+              return;
+            }
+
             // Replace with all new values but keep their order related to items list
             const newSelectedItems = items
-              .filter(o => [...val].includes(o.value))
+              .filter(o => val.has(o.value))
               .map(o => o.value);
             onChange(newSelectedItems);
           }}

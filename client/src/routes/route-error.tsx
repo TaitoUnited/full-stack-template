@@ -9,14 +9,12 @@ import { styled } from '~/styled-system/jsx';
 // See: https://tanstack.com/router/latest/docs/framework/react/api/router/errorComponentComponent#errorcomponent-returns
 export function RouteError({ error }: ErrorComponentProps) {
   useEffect(() => {
-    if (error) {
-      console.log('Root route error', error);
+    console.log('Root route error', error);
 
-      if (config.ERROR_REPORTING_ENABLED) {
-        captureException(error);
-      } else {
-        console.log('Not sending error reports for this enviroment!');
-      }
+    if (config.ERROR_REPORTING_ENABLED) {
+      captureException(error);
+    } else {
+      console.log('Not sending error reports for this enviroment!');
     }
   }, [error]);
 

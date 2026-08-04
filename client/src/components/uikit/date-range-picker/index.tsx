@@ -87,7 +87,7 @@ export function DateRangePicker<T extends DateValue>({
   const handleDateChange = useCallback(
     (dateRange: DateRange | null) => {
       if (dateRange) {
-        onChange?.(dateRange);
+        onChange(dateRange);
       }
       setViewMode('day');
       setIsOpen(false);
@@ -102,7 +102,7 @@ export function DateRangePicker<T extends DateValue>({
 
   const onSelectRange = useCallback(
     async (range: DateRange) => {
-      onChange?.(range);
+      onChange(range);
       await sleep(250);
       setIsOpen(false);
     },
@@ -146,7 +146,7 @@ export function DateRangePicker<T extends DateValue>({
               label={t`Clear date`}
               size={24}
               slot={null} // Explicit null slot disables RAC props from parent -> doesn't open the dialog
-              onPress={() => onChange?.(null)}
+              onPress={() => onChange(null)}
             />
           )}
           <IconButton

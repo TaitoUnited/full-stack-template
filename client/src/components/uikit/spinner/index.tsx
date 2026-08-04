@@ -20,16 +20,14 @@ export function Spinner({ color, size, style, className }: Props) {
     <Root
       className={className}
       size={size}
-      style={
-        {
-          ...style,
-          '--border-size': '2px',
-          color:
-            color === 'currentColor'
-              ? 'currentColor'
-              : token.var(`$colors.${color}`),
-        } as CSSProperties
-      }
+      style={{
+        ...style,
+        '--border-size': '2px',
+        color:
+          color === 'currentColor'
+            ? 'currentColor'
+            : token.var(`$colors.${color}`),
+      }}
     />
   );
 }

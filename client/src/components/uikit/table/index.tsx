@@ -2,6 +2,7 @@ import type { ComponentProps } from 'react';
 import type { ColumnProps } from 'react-aria-components';
 import {
   Column as AriaColumn,
+  composeRenderProps,
   Table as AriaTable,
   Cell,
   Row,
@@ -35,9 +36,11 @@ export function Table({
       <AriaTable
         {...props}
         aria-label={label}
-        className={cx(
-          tableStyles({ striped: rowStyle === 'striped' }),
-          className as string
+        className={composeRenderProps(className, previousClassName =>
+          cx(
+            tableStyles({ striped: rowStyle === 'striped' }),
+            previousClassName
+          )
         )}
       >
         {children}
