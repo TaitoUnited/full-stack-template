@@ -74,7 +74,6 @@
     "@testing-library/jest-dom": "6.8.0",
     "@testing-library/react": "16.3.0",
     "@testing-library/user-event": "14.6.1",
-    "@types/eslint__js": "8.42.3",
     "@types/loadable__component": "5.13.9",
     "@types/lodash": "4.17.14",
     "@types/node": "24.3.0",

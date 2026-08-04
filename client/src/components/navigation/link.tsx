@@ -35,7 +35,7 @@ function LinkBaseComponent({ ref, ...props }: LinkProps) {
 
 export const LinkBase = createLink(LinkBaseComponent);
 
-// eslint-disable-next-line func-style
+// oxlint-disable-next-line func-style
 export const Link: LinkComponent<typeof LinkBaseComponent> = props => {
   return <LinkBase preload="intent" {...props} />;
 };
