@@ -13,10 +13,7 @@ import { useEffectEvent } from './use-effect-event';
  * @param eventName Which event to listen for, eg. 'mouseup', 'scroll', etc.
  * @param handler The event handler function to call when the event is triggered.
  */
-export function useEventListener<
-  K extends keyof DocumentEventMap,
-  T extends (...args: any[]) => any,
->({
+export function useEventListener<K extends keyof DocumentEventMap>({
   enabled = true,
   ref,
   event,
@@ -25,7 +22,9 @@ export function useEventListener<
   enabled?: boolean;
   ref: Document | RefObject<HTMLElement | null>;
   event: K;
-  handler: T;
+  handler: DocumentEventMap[K] extends Event
+    ? (event: DocumentEventMap[K]) => void
+    : never;
 }) {
   const stableHandler = useEffectEvent(handler);
 
@@ -45,8 +44,9 @@ export function useEventListener<
     target.addEventListener(event, stableHandler);
 
     return () => {
-      if (!target) return;
-      target.removeEventListener(event, stableHandler);
+      if (target) {
+        target.removeEventListener(event, stableHandler);
+      }
     };
   }, [enabled]);
 }

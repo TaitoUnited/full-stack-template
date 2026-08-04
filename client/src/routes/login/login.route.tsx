@@ -13,7 +13,7 @@ import { toast } from '~/uikit/toaster';
 
 export const Route = createFileRoute('/login')({
   component: LoginRoute,
-  beforeLoad: async ({ context }) => {
+  beforeLoad: ({ context }) => {
     if (context.authenticated) {
       throw redirect({ to: '/' });
     }

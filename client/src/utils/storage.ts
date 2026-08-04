@@ -13,7 +13,7 @@ export const storage = {
     localStorage.setItem(prefixedKey(key), JSON.stringify(value));
   },
 
-  get: (key: StorageKey) => {
+  get: <T = unknown>(key: StorageKey): T | null => {
     try {
       const value = localStorage.getItem(prefixedKey(key));
       return value ? JSON.parse(value) : null;

@@ -1,7 +1,7 @@
-// eslint-disable-next-line
+// oxlint-disable-next-line
 export const noop = () => {};
 
-// eslint-disable-next-line
+// oxlint-disable-next-line
 export const noopWithArgs = (...args: any[]) => {};
 
 export function genId() {

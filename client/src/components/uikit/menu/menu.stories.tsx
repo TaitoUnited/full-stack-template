@@ -1,3 +1,4 @@
+// oxlint-disable no-alert
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
@@ -82,9 +83,9 @@ const languages = [
 
 export const Selection: Story = {
   render: () => {
-    // eslint-disable-next-line
+    // oxlint-disable-next-line
     const [selectedProfile, setSelectedProfile] = useState(profiles[0]!.id);
-    // eslint-disable-next-line
+    // oxlint-disable-next-line
     const [selectedLanguage, setSelectedLanguage] = useState(languages[0]!.id);
 
     return (

@@ -95,9 +95,9 @@ export function DateRangePicker<T extends DateValue>({
     [onChange]
   );
 
-  const handlePopoverStateChange = useCallback((isOpen: boolean) => {
-    setIsOpen(isOpen);
-    if (!isOpen) setViewMode('day');
+  const handlePopoverStateChange = useCallback((open: boolean) => {
+    setIsOpen(open);
+    if (!open) setViewMode('day');
   }, []);
 
   const onSelectRange = useCallback(
@@ -268,9 +268,9 @@ export function DateRangePicker<T extends DateValue>({
                         {day => <CalendarHeaderCell>{day}</CalendarHeaderCell>}
                       </CalendarGridHeader>
                       <CalendarGridBody>
-                        {date => (
+                        {cellDate => (
                           <CalendarCell
-                            date={date}
+                            date={cellDate}
                             data-testid="date-picker-calendar-cell"
                           />
                         )}

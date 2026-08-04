@@ -1,3 +1,6 @@
+// @ts-expect-error: css
+import './preview.css';
+
 import { i18n } from '@lingui/core';
 import { useLingui } from '@lingui/react/macro';
 import { type Preview } from '@storybook/react';
@@ -11,19 +14,13 @@ import {
   useRouter,
   useRouterState,
 } from '@tanstack/react-router';
-import React, {
-  createContext,
-  type ReactNode,
-  useContext,
-  useEffect,
-} from 'react';
+import React, { createContext, type ReactNode, use, useEffect } from 'react';
 import { OverlayProvider } from 'react-aria';
 import {
   I18nProvider as AriaI18nProvider,
   RouterProvider as ReactAriaRouterProvider,
 } from 'react-aria-components';
 import { type Globals } from 'storybook/internal/types';
-import './preview.css';
 
 import { I18nProvider, type Locale, useI18n } from '../src/services/i18n';
 
@@ -31,7 +28,7 @@ i18n.load('en-FI', {});
 i18n.activate('en-FI');
 
 function RenderStory() {
-  const storyFn = useContext(CurrentStoryContext);
+  const storyFn = use(CurrentStoryContext);
   if (!storyFn) {
     throw new Error('Storybook root not found');
   }
@@ -79,7 +76,7 @@ function LocaleProvider({
   const { changeLocale } = useI18n();
 
   useEffect(() => {
-    changeLocale(locale);
+    void changeLocale(locale);
   }, [locale]);
 
   return <>{children}</>;
@@ -98,7 +95,8 @@ function StoryDecorator({
     <RouterContextProvider router={storyRouter}>
       <AriaRouterProvider>
         <I18nProvider>
-          <LocaleProvider locale={locale}>
+          {/* oxlint-disable-next-line typescript/no-unsafe-type-assertion */}
+          <LocaleProvider locale={locale as Locale}>
             <AriaLocaleProvider>
               <OverlayProvider>{children}</OverlayProvider>
             </AriaLocaleProvider>
@@ -142,7 +140,7 @@ function AriaRouterProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   return (
     <ReactAriaRouterProvider
-      navigate={to => router.navigate({ to })}
+      navigate={to => void router.navigate({ to })}
       useHref={to => router.buildLocation({ to }).href}
     >
       {children}
@@ -151,8 +149,10 @@ function AriaRouterProvider({ children }: { children: React.ReactNode }) {
 }
 
 function AriaLocaleProvider({ children }: { children: ReactNode }) {
-  const { i18n } = useLingui();
-  return <AriaI18nProvider locale={i18n.locale}>{children}</AriaI18nProvider>;
+  const { i18n: linguiI18n } = useLingui();
+  return (
+    <AriaI18nProvider locale={linguiI18n.locale}>{children}</AriaI18nProvider>
+  );
 }
 
 export default preview;

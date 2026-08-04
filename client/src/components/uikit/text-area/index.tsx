@@ -49,7 +49,7 @@ export function TextArea({
   function resizeTextArea() {
     if (innerRef.current && autoResize) {
       innerRef.current.style.height = 'auto';
-      innerRef.current.style.height = innerRef.current.scrollHeight + 'px';
+      innerRef.current.style.height = `${innerRef.current.scrollHeight}px`;
     }
   }
 

@@ -64,7 +64,10 @@ function PageLayoutSlot({
       throw new Error(`PageLayoutSlot: slot "${slot}" not found`);
     }
 
-    setElement(slotElement);
+    if (element !== slotElement) {
+      // oxlint-disable-next-line
+      setElement(slotElement);
+    }
   }, [slot]);
 
   if (!element) {

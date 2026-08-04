@@ -257,7 +257,7 @@ export function MultiSelectCombobox({
           onSelectionChange={val => {
             // Replace with all new values but keep their order related to items list
             const newSelectedItems = items
-              ?.filter(o => [...val].includes(o.value))
+              .filter(o => [...val].includes(o.value))
               .map(o => o.value);
             onChange(newSelectedItems);
           }}

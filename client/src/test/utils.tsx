@@ -1,4 +1,4 @@
-/* eslint-disable import/export */
+/* oxlint-disable import/export */
 import { i18n } from '@lingui/core';
 import { I18nProvider } from '@lingui/react';
 import { cleanup, render, type RenderOptions } from '@testing-library/react';
@@ -11,7 +11,7 @@ afterEach(() => {
   cleanup();
 });
 
-const locale = storage.get('locale') || 'en-FI';
+const locale = storage.get('locale') ?? 'en-FI';
 i18n.load(locale, {});
 i18n.activate(locale);
 

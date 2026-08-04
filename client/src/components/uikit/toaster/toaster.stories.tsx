@@ -7,6 +7,7 @@ import { toast, Toaster, type ToasterOptions } from '.';
 import { Button } from '../button';
 import { type IconName } from '../icon';
 import { Stack } from '../stack';
+import { sleep } from '~/utils/promise';
 
 export default {
   title: 'Toaster',
@@ -141,12 +142,12 @@ function ToastOptions({
         onPress={() => {
           toast.promise(
             (async () => {
-              await new Promise(resolve => setTimeout(resolve, 1000));
+              await sleep(1000);
               return 'Post';
             })(),
             {
               loading: 'Loading...',
-              success: (data: string = 'Test') => {
+              success: (data: string) => {
                 return `${data} has been successfully created`;
               },
               error: 'Post could not be created',
@@ -165,12 +166,12 @@ function ToastOptions({
         onPress={() => {
           toast.promise(
             (async () => {
-              await new Promise(resolve => setTimeout(resolve, 1000));
+              await sleep(1000);
               throw new Error('Error');
             })(),
             {
               loading: 'Loading...',
-              success: (data: string = 'Test') => {
+              success: (data: string) => {
                 return `${data} has been successfully created`;
               },
               error: 'Post could not be created',

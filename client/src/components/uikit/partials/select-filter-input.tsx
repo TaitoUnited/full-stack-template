@@ -28,7 +28,7 @@ export function SelectFilterInput({
       <Icon name="search" size={20} color="textMuted" />
 
       <Input
-        // eslint-disable-next-line jsx-a11y/no-autofocus
+        // oxlint-disable-next-line jsx-a11y/no-autofocus
         autoFocus
         value={inputValue}
         onChange={e => onInputChange(e.target.value)}

@@ -200,7 +200,7 @@ function AsyncSelectOptions({
       <SelectFilterInput
         isLoading={list.loadingState === 'filtering'}
         inputValue={list.filterText}
-        onInputChange={list.setFilterText}
+        onInputChange={v => list.setFilterText(v)}
       />
 
       {list.loadingState === 'loading' ? (
@@ -271,11 +271,11 @@ function AsyncSelectOptionsList({
     actions?.confirm && (internalSelected.size > 0 || value.size > 0)
   );
 
-  function handleSelect(value: Props['value']) {
+  function handleSelect(val: Props['value']) {
     if (isConfirmationRequired) {
-      setInternalSelected(value);
+      setInternalSelected(val);
     } else {
-      onChange(value);
+      onChange(val);
     }
   }
 

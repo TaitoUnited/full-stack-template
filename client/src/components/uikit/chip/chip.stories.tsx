@@ -17,6 +17,7 @@ export const Removable: StoryObj<typeof Chip> = {
   args: {
     children: 'Removable Chip',
     removable: true,
+    // oxlint-disable-next-line no-alert
     onRemove: () => alert('Chip removed'),
   },
 };

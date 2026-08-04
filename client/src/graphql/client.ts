@@ -52,7 +52,7 @@ export function setupApolloClient() {
 
     const isGraphQLAuthError =
       CombinedGraphQLErrors.is(error) &&
-      error.errors.some(error => error.extensions?.code === 'UNAUTHORIZED');
+      error.errors.some(err => err.extensions?.code === 'UNAUTHORIZED');
 
     /**
      * Automatically log out the user if the session has expired and session

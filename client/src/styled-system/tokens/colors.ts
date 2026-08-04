@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* oxlint-disable */
 export const brand = {
   "brand": "#009a48",
   "brandContrast": "#066531",

@@ -70,7 +70,7 @@ export function useFetch<T>({
     if (enabled) {
       const abortController = new AbortController();
 
-      fetchData(abortController.signal);
+      void fetchData(abortController.signal);
 
       return () => {
         abortController.abort();

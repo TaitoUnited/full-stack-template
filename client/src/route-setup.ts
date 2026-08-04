@@ -36,7 +36,7 @@ export function setupRouter(apolloClient: ApolloClient) {
 
 declare module '@tanstack/react-router' {
   // Register must be an interface to correctly override types
-  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+  // oxlint-disable-next-line @typescript-eslint/consistent-type-definitions
   interface Register {
     router: ReturnType<typeof setupRouter>;
   }

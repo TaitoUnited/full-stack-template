@@ -35,14 +35,14 @@ export async function setupMessages() {
 }
 
 export function useI18n() {
-  const { i18n } = useLingui();
-  const currentLocale = i18n.locale as Locale;
+  const { i18n: i18nInstance } = useLingui();
+  const currentLocale = i18nInstance.locale as Locale;
 
   async function changeLocale(locale: Locale) {
     try {
       const newMessages = await loadMessages(locale);
-      i18n.load(locale, newMessages);
-      i18n.activate(locale);
+      i18nInstance.load(locale, newMessages);
+      i18nInstance.activate(locale);
       storage.set('locale', locale);
     } catch (error) {
       console.log(`> Failed to load messages for locale: ${locale}`, error);

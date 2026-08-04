@@ -10,6 +10,6 @@ export function randomNumBetween(min: number, max: number) {
   return Math.floor(Math.random() * max) + min;
 }
 
-export function isNumeric(n: any) {
-  return !isNaN(parseFloat(n)) && isFinite(n);
+export function isNumeric(n: unknown): n is number {
+  return !isNaN(parseFloat(String(n))) && isFinite(Number(n));
 }

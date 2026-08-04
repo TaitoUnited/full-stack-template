@@ -33,8 +33,9 @@ export const config = {
 /**
  * Load remote config from a remote server
  */
-export async function loadRemoteConfig() {
+export function loadRemoteConfig() {
   try {
+    // TODO: Implement remote config loading logic here
     return null;
   } catch (error) {
     console.error('Failed to load remote config', error);

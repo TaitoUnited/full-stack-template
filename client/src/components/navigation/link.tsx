@@ -1,62 +1,43 @@
-import type { LinkComponent } from '@tanstack/react-router';
-import { createLink } from '@tanstack/react-router';
+import { createLink, type LinkComponent } from '@tanstack/react-router';
+import { type CSSProperties, type Ref } from 'react';
 import {
-  type AnchorHTMLAttributes,
-  type CSSProperties,
-  type ReactNode,
-  type Ref,
-} from 'react';
-import {
-  mergeProps,
-  useFocusRing,
-  useHover,
-  useLink,
-  useObjectRef,
-} from 'react-aria';
+  // oxlint-disable-next-line no-restricted-imports
+  Link as RACLink,
+  type LinkProps as RACLinkProps,
+} from 'react-aria-components';
 
 import { css, cx } from '~/styled-system/css';
 import { mapToAriaProps } from '~/utils/aria';
 
-type LinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
+type LinkProps = Omit<RACLinkProps, 'className' | 'style'> & {
   ref?: Ref<HTMLAnchorElement>;
-  children?: ReactNode;
   className?: string;
   style?: CSSProperties;
 };
 
-function LinkBase({ ref, ...props }: LinkProps) {
-  const objectRef = useObjectRef(ref);
-
+function LinkBaseComponent({ ref, ...props }: LinkProps) {
   /**
-   * Tanstack Router passes regular DOM event handler props, eg. `onClick`,
+   * Tanstack Router passes regular DOM event handler props, eg. `onMouseDown`,
    * to this component so we need to map them to React Aria supported props,
-   * eg. `onPress` (otherwise React Aria will complain).
+   * eg. `onPressStart` (otherwise React Aria will complain).
    */
   const ariaProps = mapToAriaProps(props);
-  const { isPressed, linkProps } = useLink(ariaProps, objectRef);
-  const { isHovered, hoverProps } = useHover(ariaProps);
-  const { isFocusVisible, isFocused, focusProps } = useFocusRing(ariaProps);
 
   return (
-    // eslint-disable-next-line jsx-a11y/anchor-has-content
-    <a
-      {...mergeProps(linkProps, hoverProps, focusProps, props)}
-      ref={objectRef}
-      data-hovered={isHovered || undefined}
-      data-pressed={isPressed || undefined}
-      data-focus-visible={isFocusVisible || undefined}
-      data-focused={isFocused || undefined}
+    <RACLink
+      ref={ref}
       className={cx(linkStyles, props.className)}
-      style={props.style}
+      {...props}
+      {...ariaProps}
     />
   );
 }
 
-const CreatedLinkComponent = createLink(LinkBase);
+export const LinkBase = createLink(LinkBaseComponent);
 
 // eslint-disable-next-line func-style
-export const Link: LinkComponent<typeof LinkBase> = props => {
-  return <CreatedLinkComponent preload={'intent'} {...props} />;
+export const Link: LinkComponent<typeof LinkBaseComponent> = props => {
+  return <LinkBase preload="intent" {...props} />;
 };
 
 const linkStyles = css({
