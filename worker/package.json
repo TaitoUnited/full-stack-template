@@ -3,7 +3,7 @@
   "name": "full-stack-template-worker",
   "scripts": {
     "start": "npm run start:dev",
-    "start:dev": "NODE_ENV=development ts-node-dev --respawn --inspect=0.0.0.0:9229 -- index.ts | bunyan -l debug",
+    "start:dev": "NODE_ENV=development tsx watch --inspect=0.0.0.0:9229 index.ts | bunyan -l debug",
     "start:prod": "NODE_ENV=production npm run build:prod && node build/index.js",
     "build": "NODE_ENV=production tsc --build tsconfig.json",
     "build:test": "tsc --build tsconfig.test.json",
@@ -48,7 +48,7 @@
     "oxfmt": "0.61.0",
     "oxlint": "1.76.0",
     "oxlint-tsgolint": "7.0.2001",
-    "ts-node-dev": "2.0.0",
+    "tsx": "4.17.0",
     "typescript": "7.0.2",
     "vitest": "3.0.3"
   },
