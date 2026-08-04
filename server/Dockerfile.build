@@ -48,6 +48,7 @@ COPY --from=builder /develop/db/migrations ./db/migrations
 
 # Delete development libraries and create node user if it doesn't exist
 RUN npm prune --production && \
+    npm pkg set type=commonjs && \
     addgroup -S -g 74839 node || \
     adduser -S -u 74276 -s /bin/false node || \
     addgroup node node || \

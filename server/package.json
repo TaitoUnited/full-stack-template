@@ -5,7 +5,7 @@
     "start": "npm run start:dev",
     "start:dev": "NODE_ENV=development tsx watch index.ts --inspect=0.0.0.0:9229 | bunyan -o short -l debug",
     "start:prod": "NODE_ENV=production npm run build:prod && node --experimental-require-module build/index.js",
-    "build": "NODE_ENV=production tsc -p tsconfig.json --module commonjs --moduleResolution node10 && tsc-alias -p tsconfig.json",
+    "build": "NODE_ENV=production tsc -p tsconfig.json --module commonjs --moduleResolution bundler && tsc-alias -p tsconfig.json",
     "test:unit": "MODE=unit vitest run",
     "test:unit:watch": "MODE=unit vitest watch",
     "test:unit:update": "vitest run --update",
