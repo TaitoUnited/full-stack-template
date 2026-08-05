@@ -42,16 +42,6 @@ full-stack:
       COMMON_ENV: ${taito_target_env}
 
   services:
-    admin:
-      paths:
-        - path: /admin
-      cpuRequest: 2m
-      memoryRequest: 2Mi
-      env:
-        REPLACE_BASE_PATH: /admin
-        REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/${taito_build_image_tag}/admin
-        REPLACE_ASSETS_DOMAIN: ${taito_cdn_domain}
-
     client:
       paths:
         - path: /
@@ -185,13 +175,3 @@ full-stack:
         - ip: public
       image: andrewgaul/s3proxy
       # TODO: Setup s3proxy for Azure
-
-    www:
-      paths:
-        - path: /docs
-      cpuRequest: 2m
-      memoryRequest: 2Mi
-      env:
-        REPLACE_BASE_PATH: /docs
-        REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/${taito_build_image_tag}/docs
-        REPLACE_ASSETS_DOMAIN: ${taito_cdn_domain}

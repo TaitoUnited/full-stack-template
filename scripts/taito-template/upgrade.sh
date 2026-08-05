@@ -12,8 +12,6 @@ export ingress_port
 ingress_port=$(get_randomized_port ":80\"")
 export db_port
 db_port=$(get_randomized_port ":5432\"\|:3306\"")
-export www_port
-www_port=$(get_randomized_port ":8080\"")
 export server_debug_port
 server_debug_port=$(get_randomized_port ":9229\"")
 

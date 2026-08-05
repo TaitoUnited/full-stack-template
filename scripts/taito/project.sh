@@ -26,7 +26,7 @@ taito_environments="${template_default_environments}"
 
 if [[ ${taito_deployment_platforms} == *"docker"* ]] ||
    [[ ${taito_deployment_platforms} == *"kubernetes"* ]]; then
-  taito_containers=" admin client redis server storage worker www pgweb "
+  taito_containers=" client redis server storage worker pgweb "
   if [[ ${taito_env} == "local" ]]; then
     taito_containers="${taito_containers} database "
   else
@@ -35,7 +35,7 @@ if [[ ${taito_deployment_platforms} == *"docker"* ]] ||
 else
   taito_functions=" server worker "
 fi
-taito_static_contents=" admin client www "
+taito_static_contents=" client "
 taito_databases=" database "
 taito_networks="default"
 
@@ -113,15 +113,10 @@ taito_secret_hints="
 # 'taito project generate'. Configuration instructions: TODO
 
 link_urls="
-  * admin[:ENV]=$taito_app_url/admin/ Administration GUI (:ENV)
   * client[:ENV]=$taito_app_url Web application GUI (:ENV)
   * server[:ENV]=$taito_app_url/api/uptimez Server API status (:ENV)
   * apidocs[:ENV]=$taito_app_url/api/docs REST API docs (:ENV)
   * graphql[:ENV]=$taito_app_url/api GraphQL Playground (:ENV)
-  * www[:ENV]=$taito_app_url/docs Website (:ENV)
   * git=https://$taito_vc_repository_url Git repository
   * uikit=http://localhost:6006 UI kit in Storybook
 "
-
-# TODO: Temporary hack for https://github.com/gatsbyjs/gatsby/issues/3721
-link_urls=${link_urls/:9999\/docs/:7463/}

@@ -109,7 +109,6 @@ taito playwright-debug                  # run tests with a visible browser windo
 Start shell on a container:
 
 ```sh
-taito shell:admin
 taito shell:client
 taito shell:server
 ```
@@ -140,7 +139,6 @@ taito generate:server                   # Generate for server
 Cleaning:
 
 ```sh
-taito clean:admin                       # Remove admin container image
 taito clean:client                      # Remove client container image
 taito clean:server                      # Remove server container image
 taito clean:database                    # TODO: does not work
@@ -156,7 +154,6 @@ taito env apply:dev                     # Create the dev environment
 taito push                              # Push changes to current branch (dev)
 taito open builds:dev                   # Show build status and build logs
 taito open client:dev                   # Open client GUI in browser
-taito open admin:dev                    # Open admin GUI in browser
 taito info:dev                          # Show info
 taito status:dev                        # Show status of dev environment
 taito logs:server:dev                   # Tail logs of server container
