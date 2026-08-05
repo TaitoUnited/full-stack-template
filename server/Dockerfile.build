@@ -47,12 +47,11 @@ RUN mkdir -p /service/db/migrations
 COPY --from=builder /develop/db/migrations ./db/migrations
 
 # Delete development libraries and create node user if it doesn't exist
-RUN npm prune --production && \
-    npm pkg set type=commonjs && \
-    addgroup -S -g 74839 node || \
-    adduser -S -u 74276 -s /bin/false node || \
-    addgroup node node || \
-    su node -s /bin/sh -c "node --version"
+RUN npm prune --omit=dev && \
+    (addgroup -S -g 74839 node || \
+     adduser -S -u 74276 -s /bin/false node || \
+     addgroup node node || \
+     su node -s /bin/sh -c "node --version")
 
 ENV BUILD_VERSION ${BUILD_VERSION}
 ENV NODE_ENV production
@@ -61,4 +60,4 @@ ENV BASE_PATH /api
 # Run as "node" user. Numeric user id required for pod security admission.
 USER 1000
 EXPOSE 8080
-CMD ["node", "./index.js"]
+CMD ["node", "--enable-source-maps", "./index.js"]
