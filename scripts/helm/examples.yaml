@@ -3,12 +3,6 @@
 # ----------------------------------------------------------
 
   services:
-    admin:
-      paths:
-        - path: /admin
-      cpuRequest: 2m
-      memoryRequest: 2Mi
-
     server:
       paths:
         - path: /api

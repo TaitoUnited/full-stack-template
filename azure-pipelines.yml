@@ -46,11 +46,9 @@ jobs:
 
       # prepare artifacts
       - bash: |
-          taito artifact prepare:admin:$(Build.SourceBranchName) $(Build.SourceVersion)
           taito artifact prepare:client:$(Build.SourceBranchName) $(Build.SourceVersion)
           taito artifact prepare:server:$(Build.SourceBranchName) $(Build.SourceVersion)
           taito artifact prepare:worker:$(Build.SourceBranchName) $(Build.SourceVersion)
-          taito artifact prepare:www:$(Build.SourceBranchName) $(Build.SourceVersion)
         displayName: prepare artifacts
 
       # deploy
@@ -68,11 +66,9 @@ jobs:
 
       # release artifacts
       - bash: |
-          taito artifact release:admin:$(Build.SourceBranchName) $(Build.SourceVersion)
           taito artifact release:client:$(Build.SourceBranchName) $(Build.SourceVersion)
           taito artifact release:server:$(Build.SourceBranchName) $(Build.SourceVersion)
           taito artifact release:worker:$(Build.SourceBranchName) $(Build.SourceVersion)
-          taito artifact release:www:$(Build.SourceBranchName) $(Build.SourceVersion)
         displayName: release artifacts
 
       # release

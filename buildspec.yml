@@ -17,11 +17,9 @@ phases:
   build:
     commands:
       # Prepare artifacts for deployment (TODO: can be executed parallel)
-      - taito artifact prepare:admin:$ENV $IMAGE_TAG
       - taito artifact prepare:client:$ENV $IMAGE_TAG
       - taito artifact prepare:server:$ENV $IMAGE_TAG
       - taito artifact prepare:worker:$ENV $IMAGE_TAG
-      - taito artifact prepare:www:$ENV $IMAGE_TAG
       # Deploy changes to target environment
       - taito db deploy:$ENV
       - taito deployment deploy:$ENV $IMAGE_TAG
@@ -30,10 +28,8 @@ phases:
       - taito test:$ENV
       - taito deployment verify:$ENV
       # Release artifacts (TODO: can be executed parallel)
-      - taito artifact release:admin:$ENV $IMAGE_TAG
       - taito artifact release:client:$ENV $IMAGE_TAG
       - taito artifact release:server:$ENV $IMAGE_TAG
       - taito artifact release:worker:$ENV $IMAGE_TAG
-      - taito artifact release:www:$ENV $IMAGE_TAG
       # Release build
       - taito build release:$ENV

@@ -65,17 +65,9 @@ Open the application on browser:
 
 http://localhost:9999
 
-Open admin GUI in browser:
-
-http://localhost:9999/admin
-
 Open server API in browser:
 
 http://localhost:9999/api/healthz
-
-Open www site in browser:
-
-http://localhost:7463/docs
 
 Connect to database using password `secret1234`:
 

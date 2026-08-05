@@ -102,19 +102,15 @@ steps:
       - "-c"
       - |
         taito build prepare:$BRANCH_NAME $COMMIT_SHA
-        taito artifact prepare:admin:$BRANCH_NAME $COMMIT_SHA
         taito artifact prepare:client:$BRANCH_NAME $COMMIT_SHA
         taito artifact prepare:server:$BRANCH_NAME $COMMIT_SHA
         taito artifact prepare:worker:$BRANCH_NAME $COMMIT_SHA
-        taito artifact prepare:www:$BRANCH_NAME $COMMIT_SHA
         taito db deploy:$BRANCH_NAME
         taito deployment deploy:$BRANCH_NAME $COMMIT_SHA
         taito deployment wait:$BRANCH_NAME
         taito test:$BRANCH_NAME
         taito deployment verify:$BRANCH_NAME
-        taito artifact release:admin:$BRANCH_NAME $COMMIT_SHA
         taito artifact release:client:$BRANCH_NAME $COMMIT_SHA
         taito artifact release:server:$BRANCH_NAME $COMMIT_SHA
         taito artifact release:worker:$BRANCH_NAME $COMMIT_SHA
-        taito artifact release:www:$BRANCH_NAME $COMMIT_SHA
         taito build release:$BRANCH_NAME

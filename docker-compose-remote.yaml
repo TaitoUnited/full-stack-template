@@ -36,27 +36,6 @@ services:
     volumes:
       - "./docker-nginx.conf:/etc/nginx/nginx.conf:delegated"
 
-  full-stack-template-${taito_env}-admin:
-    container_name: full-stack-template-${taito_env}-admin
-    labels:
-      full-stack-template-${taito_env}-autoheal: "true"
-    image: ${taito_container_registry}/admin:${taito_build_image_tag}
-    deploy:
-       replicas: 1    
-    restart: unless-stopped
-    healthcheck: *default-healthcheck
-    logging: *default-logging
-    networks:
-      - default
-    environment:
-      # Paths
-      REPLACE_BASE_PATH: /admin
-      REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/${taito_build_image_tag}/admin
-      REPLACE_ASSETS_DOMAIN: '${taito_cdn_domain}'
-      # Common variables
-      COMMON_COMPANY: companyname
-      COMMON_PROJECT: full-stack-template
-
   full-stack-template-${taito_env}-client:
     container_name: full-stack-template-${taito_env}-client
     labels:
@@ -121,24 +100,6 @@ services:
       BUCKET_BUCKET: bucket
       BUCKET_KEY_ID: minio
       BUCKET_FORCE_PATH_STYLE: 'true'
-
-  full-stack-template-${taito_env}-www:
-    container_name: full-stack-template-${taito_env}-www
-    labels:
-      full-stack-template-${taito_env}-autoheal: "true"
-    image: ${taito_container_registry}/www:${taito_build_image_tag}
-    deploy:
-       replicas: 1    
-    restart: unless-stopped
-    healthcheck: *default-healthcheck
-    logging: *default-logging
-    networks:
-      - default
-    environment:
-      # Paths
-      REPLACE_BASE_PATH: /docs
-      REPLACE_ASSETS_PATH: ${taito_cdn_project_path}/${taito_build_image_tag}/www
-      REPLACE_ASSETS_DOMAIN: '${taito_cdn_domain}'
 
   full-stack-template-${taito_env}-redis:
     container_name: full-stack-template-${taito_env}-redis

@@ -23,20 +23,10 @@ settings:
           - name: ${taito_altdomain}
 
   services:
-    admin:
-      type: static
-      path: /admin
-      uptimePath: /admin
-
     client:
       type: static
       path: ""
       uptimePath: ""
-
-    www:
-      type: static
-      path: /docs
-      uptimePath: /docs
 
     server:
       type: function

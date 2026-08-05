@@ -33,14 +33,6 @@ pipelines:
             - taitoflag_images_exist
       # Prepare artifacts in parallel
       - parallel:
-          - step: # admin prepare
-              script:
-                - export taito_mode=ci
-                # - export taito_ci_phases=build
-                - taito artifact prepare:admin:$BITBUCKET_BRANCH $BITBUCKET_COMMIT true
-              artifacts:
-                - admin.docker
-                - admin-tester.docker
           - step: # client prepare
               script:
                 - export taito_mode=ci
@@ -65,14 +57,6 @@ pipelines:
               artifacts:
                 - worker.docker
                 - worker-tester.docker
-          - step: # www prepare
-              script:
-                - export taito_mode=ci
-                # - export taito_ci_phases=build
-                - taito artifact prepare:www:$BITBUCKET_BRANCH $BITBUCKET_COMMIT true
-              artifacts:
-                - www.docker
-                - www-tester.docker
       # Deploy the changes to target environment
       - step:
           script:
@@ -104,11 +88,6 @@ pipelines:
           #   - [ $BITBUCKET_EXIT_CODE != 0 ] && taito db revert:$BITBUCKET_BRANCH $BITBUCKET_COMMIT || :
       # Release artifacts (push previously built container images with a new tag)
       - parallel:
-          - step: # admin release
-              script:
-                - export taito_mode=ci
-                # - export taito_ci_phases=build
-                - taito artifact release:admin:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
           - step: # client release
               script:
                 - export taito_mode=ci
@@ -124,11 +103,6 @@ pipelines:
                 - export taito_mode=ci
                 # - export taito_ci_phases=build
                 - taito artifact release:worker:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
-          - step: # www release
-              script:
-                - export taito_mode=ci
-                # - export taito_ci_phases=build
-                - taito artifact release:www:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
       # Release build
       - step:
           script:
@@ -152,14 +126,6 @@ pipelines:
 #         - taitoflag_images_exist
 #   # Prepare artifacts in parallel
 #   - parallel:
-#     - step: # admin prepare
-#         script:
-#           - export taito_mode=ci
-#           - export taito_ci_phases=deploy,test,release
-#           - taito artifact prepare:admin:$BITBUCKET_BRANCH $BITBUCKET_COMMIT true
-#         artifacts:
-#           - admin.docker
-#           - admin-tester.docker
 #     - step: # client prepare
 #         script:
 #           - export taito_mode=ci
@@ -184,14 +150,6 @@ pipelines:
 #         artifacts:
 #           - worker.docker
 #           - worker-tester.docker
-#     - step: # www prepare
-#         script:
-#           - export taito_mode=ci
-#           - export taito_ci_phases=deploy,test,release
-#           - taito artifact prepare:www:$BITBUCKET_BRANCH $BITBUCKET_COMMIT true
-#         artifacts:
-#           - www.docker
-#           - www-tester.docker
 #   # Deploy the changes to target environment
 #   - step:
 #       script:
@@ -216,11 +174,6 @@ pipelines:
 #         # # TODO: revert deployment on fail
 #   # Release artifacts (push previously built container images with a new tag)
 #   - parallel:
-#     - step: # admin release
-#         script:
-#           - export taito_mode=ci
-#           - export taito_ci_phases=deploy,test,release
-#           - taito artifact release:admin:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
 #     - step: # client release
 #         script:
 #           - export taito_mode=ci
@@ -236,11 +189,6 @@ pipelines:
 #           - export taito_mode=ci
 #           - export taito_ci_phases=deploy,test,release
 #           - taito artifact release:worker:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
-#     - step: # www release
-#         script:
-#           - export taito_mode=ci
-#           - export taito_ci_phases=deploy,test,release
-#           - taito artifact release:www:$BITBUCKET_BRANCH $BITBUCKET_COMMIT
 #   # Release build
 #   - step:
 #       script:
