@@ -9,7 +9,7 @@ import {
 import { ErrorLink } from '@apollo/client/link/error';
 
 import { config } from '~/constants/config';
-import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from '~/services/i18n';
+import { DEFAULT_LOCALE, LOCALE_SCHEMA } from '~/services/i18n';
 import { logout } from '~/stores/auth-store';
 import { workspaceIdStore } from '~/stores/workspace-store';
 import { toast } from '~/uikit/toaster';
@@ -27,17 +27,14 @@ export function setupApolloClient() {
   const httpLink = new HttpLink({ uri: `${config.API_URL}/graphql` });
 
   const headersLink = new ApolloLink((operation, forward) => {
-    const locales = SUPPORTED_LOCALES;
-    const locale = storage.get('locale');
+    const locale = storage.get('locale', LOCALE_SCHEMA) ?? DEFAULT_LOCALE;
 
-    operation.setContext((context: any) => {
-      const headers = {
-        ...context.headers,
-        'Accept-Language': locales.includes(locale) ? locale : DEFAULT_LOCALE,
+    operation.setContext({
+      headers: {
+        ...getContextHeaders(operation.getContext()),
+        'Accept-Language': locale,
         'x-organisation-id': workspaceIdStore.getState().workspaceId,
-      };
-
-      return { headers };
+      },
     });
 
     return forward(operation);
@@ -52,7 +49,7 @@ export function setupApolloClient() {
 
     const isGraphQLAuthError =
       CombinedGraphQLErrors.is(error) &&
-      error.errors.some(error => error.extensions?.code === 'UNAUTHORIZED');
+      error.errors.some(err => err.extensions?.code === 'UNAUTHORIZED');
 
     /**
      * Automatically log out the user if the session has expired and session
@@ -61,7 +58,9 @@ export function setupApolloClient() {
     if (isNetworkAuthError || isGraphQLAuthError) {
       logout()
         .then(() => toast.info(`Your session has expired!`)) // TODO: Translate?
-        .catch(e => console.log('Failed to logout', e)); // this should never happen...
+        .catch((logoutError: unknown) =>
+          console.log('Failed to logout', logoutError)
+        ); // this should never happen...
     }
   });
 
@@ -77,4 +76,18 @@ export function setupApolloClient() {
   __apolloClient__ = apolloClient;
 
   return apolloClient;
+}
+
+function getContextHeaders(context: unknown): Record<string, unknown> {
+  if (
+    typeof context !== 'object' ||
+    context === null ||
+    !('headers' in context) ||
+    typeof context.headers !== 'object' ||
+    context.headers === null
+  ) {
+    return {};
+  }
+
+  return { ...context.headers };
 }

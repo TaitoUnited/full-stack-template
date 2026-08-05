@@ -3,7 +3,7 @@ import { and, eq, ilike, desc } from 'drizzle-orm';
 import { type DrizzleDb } from '~/db';
 import { postTable } from './post.db';
 
-async function getPosts(
+function getPosts(
   db: DrizzleDb,
   params: {
     organisationId?: string | null;
@@ -25,7 +25,7 @@ async function getPosts(
     .orderBy(desc(postTable.createdAt));
 }
 
-async function getPost(
+function getPost(
   db: DrizzleDb,
   params: { id: string; organisationId?: string | null }
 ) {
@@ -40,7 +40,7 @@ async function getPost(
     .then((rows) => rows[0]);
 }
 
-async function createPost(
+function createPost(
   db: DrizzleDb,
   values: {
     title: string;

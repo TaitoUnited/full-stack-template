@@ -4,7 +4,7 @@ import { type DrizzleDb } from '~/db';
 import { userTable } from './user.db';
 import { userOrganisationTable } from '../organisation/organisation.db';
 
-async function getOrgUsers(db: DrizzleDb, params: { organisationId: string }) {
+function getOrgUsers(db: DrizzleDb, params: { organisationId: string }) {
   return db
     .select({ id: userTable.id, name: userTable.name, email: userTable.email })
     .from(userTable)

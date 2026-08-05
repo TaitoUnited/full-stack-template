@@ -14,7 +14,7 @@ export function RoutePending() {
    */
   useEffect(() => {
     return () => {
-      hideSplashScreen();
+      void hideSplashScreen();
     };
   }, []);
 

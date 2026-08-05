@@ -8,6 +8,7 @@ const featureConfig = {
 
 export type Feature = keyof typeof featureConfig;
 
+// oxlint-disable-next-line typescript/no-unsafe-type-assertion
 export const features = Object.keys(
   featureConfig
 ) as (keyof typeof featureConfig)[];
@@ -38,11 +39,13 @@ export function disableFeatureInSession(feature: Feature) {
 
 export function setupFeatureFlags() {
   const params = new URLSearchParams(document.location.search);
-  const paramsFeatures = params.getAll('feature-flags') as Feature[];
+  const paramsFeatures = params
+    .getAll('feature-flags')
+    .filter((feature): feature is Feature =>
+      features.some(knownFeature => knownFeature === feature)
+    );
 
-  paramsFeatures
-    .filter(feature => features.includes(feature))
-    .forEach(feature => enableFeatureInSession(feature));
+  paramsFeatures.forEach(feature => enableFeatureInSession(feature));
 }
 
 function getFeatureSessionKey(feature: Feature) {

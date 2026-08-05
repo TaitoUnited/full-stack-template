@@ -131,7 +131,9 @@ async function wrapLogin<T>(loginPromise: Promise<T>) {
    */
   const [result] = await Promise.allSettled([
     loginPromise,
-    new Promise((resolve) => setTimeout(resolve, 2000)),
+    new Promise((resolve) => {
+      setTimeout(resolve, 2000);
+    }),
   ]);
 
   if (result.status === 'rejected') {

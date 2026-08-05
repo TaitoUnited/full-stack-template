@@ -7,12 +7,13 @@ import { type ServerInstance } from './server';
 const noOriginEndpoints: string[] = [];
 
 export const csrfPlugin = fastifyPlugin(async (server: ServerInstance) => {
-  server.addHook('preHandler', (request, reply, done) => {
-    if (request.method === 'GET') return done();
+  server.addHook('preHandler', async (request, reply) => {
+    if (request.method === 'GET') {
+      return;
+    }
 
-    const hostHeader = ((request.headers['X-Forwarded-Host'] ||
-      request.headers.host) ??
-      null) as string | null;
+    const hostHeader =
+      request.headers['X-Forwarded-Host'] ?? request.headers.host ?? null;
 
     let originHeader = request.headers.origin ?? null;
     if (!originHeader && noOriginEndpoints.includes(request.url)) {
@@ -36,7 +37,5 @@ export const csrfPlugin = fastifyPlugin(async (server: ServerInstance) => {
 
       return reply.status(403).send('Invalid origin');
     }
-
-    done();
   });
 });

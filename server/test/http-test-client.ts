@@ -1,3 +1,5 @@
+/* oxlint-disable node/no-process-env */
+
 import ky from 'ky';
 
 import { config } from '~/src/utils/config';

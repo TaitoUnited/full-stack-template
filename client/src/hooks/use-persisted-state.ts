@@ -1,19 +1,25 @@
 import { useMemo, useState } from 'react';
+import { type ZodType } from 'zod';
 
 import { storage } from '~/utils/storage';
 
-export function usePersistedState<T>(key: Parameters<typeof storage.get>[0]) {
-  const [state, setState] = useState<null | T>(() => {
-    return storage.get(key);
+type PersistedValue = string | Record<string, unknown>;
+
+export function usePersistedState<Value extends PersistedValue>(
+  key: Parameters<typeof storage.get>[0],
+  schema: ZodType<Value>
+) {
+  const [state, setState] = useState<null | Value>(() => {
+    return storage.get(key, schema);
   });
 
   return useMemo(
     () =>
       [
         state,
-        (value: T) => {
+        (value: Value) => {
           setState(value);
-          storage.set(key, value as any);
+          storage.set(key, value);
         },
       ] as const,
     [key, state]

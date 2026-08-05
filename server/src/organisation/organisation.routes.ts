@@ -1,7 +1,9 @@
+/* oxlint-disable typescript/no-unnecessary-condition */
+
 import { Type } from '@sinclair/typebox';
 
 import { withUser } from '~/setup/auth';
-import { ServerInstance } from '~/setup/server';
+import type { ServerInstance } from '~/setup/server';
 import { organisationService } from './organisation.service';
 
 export async function organisationRoutes(server: ServerInstance) {
@@ -21,7 +23,7 @@ export async function organisationRoutes(server: ServerInstance) {
     handler: withUser(async (request) => {
       const organisations = await organisationService.getUserOrganisations(
         request.ctx,
-        request.ctx.user?.id as string
+        request.ctx.user?.id
       );
 
       return organisations.map(({ organisation }) => ({

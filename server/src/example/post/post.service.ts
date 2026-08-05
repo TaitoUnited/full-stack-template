@@ -1,5 +1,5 @@
 import { throwApiError } from '~/src/utils/error';
-import { AuthenticatedContext } from '~/setup/context';
+import type { AuthenticatedContext } from '~/setup/context';
 import {
   checkOrganisationMembership,
   hasValidOrganisationRole,
@@ -7,7 +7,7 @@ import {
 } from '~/src/utils/authorisation';
 import { postDao } from './post.dao';
 
-async function getPosts(ctx: AuthenticatedContext, search?: string | null) {
+function getPosts(ctx: AuthenticatedContext, search?: string | null) {
   checkOrganisationMembership(ctx);
 
   return postDao.getPosts(ctx.db, {
@@ -16,7 +16,7 @@ async function getPosts(ctx: AuthenticatedContext, search?: string | null) {
   });
 }
 
-async function getPost(ctx: AuthenticatedContext, id: string) {
+function getPost(ctx: AuthenticatedContext, id: string) {
   checkOrganisationMembership(ctx);
 
   return postDao.getPost(ctx.db, {
@@ -25,7 +25,7 @@ async function getPost(ctx: AuthenticatedContext, id: string) {
   });
 }
 
-async function createPost(
+function createPost(
   ctx: AuthenticatedContext,
   values: {
     title: string;

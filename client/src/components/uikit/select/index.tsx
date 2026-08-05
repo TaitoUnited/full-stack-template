@@ -75,8 +75,12 @@ export function Select({
       ref={ref}
       isInvalid={isInvalid}
       className={cx(inputWrapperStyles({ labelPosition }), rest.className)}
-      selectedKey={value}
-      onSelectionChange={val => onChange?.(val as string)}
+      value={value}
+      onChange={val => {
+        if (typeof val === 'string') {
+          onChange?.(val);
+        }
+      }}
     >
       <InputLayout
         label={label}

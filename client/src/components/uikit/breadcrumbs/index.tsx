@@ -18,7 +18,7 @@ import { styled } from '~/styled-system/jsx';
 
 import { Icon } from '../icon';
 
-type Props = BreadcrumbsProps<any> & {
+type Props = BreadcrumbsProps<unknown> & {
   ref?: Ref<HTMLOListElement>;
   children?: ReactNode;
 };
@@ -32,11 +32,11 @@ function BreadcrumbList({ ref, children, onAction, ...rest }: Props) {
       {...rest}
     >
       {Children.map(children, (child, index) => {
-        if (isValidElement(child)) {
+        if (isValidElement<BreadcrumbItemProps>(child)) {
           return cloneElement(child, {
             // We use this prop to determine if we should render a separator
             isLast: index === Children.count(children) - 1,
-          } as any); // TODO: fix type?
+          });
         }
         return null;
       })}
@@ -49,6 +49,7 @@ type BreadcrumbItemProps = BreadcrumbProps & {
   to?: LinkProps['to'];
   target?: string;
   children?: ReactNode;
+  isLast?: boolean;
 };
 
 function BreadcrumbItem({
@@ -56,8 +57,6 @@ function BreadcrumbItem({
   children,
   to,
   target,
-  // @ts-expect-error This prop is only used internally and passed down from
-  // the Breadcrumbs component to determine if we should render a separator
   isLast = false,
   ...rest
 }: BreadcrumbItemProps) {

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-import { useEffectEvent } from './use-effect-event';
+import { useStableCallback } from './use-stable-callback';
 
 /**
  * Hook to run a callback when a shortcut combination is pressed
@@ -8,7 +8,7 @@ import { useEffectEvent } from './use-effect-event';
  * @param callback Callback to run when keys are pressed
  */
 export function useShortcut(shortcut: string, callback: () => any) {
-  const stableCallback = useEffectEvent(callback);
+  const stableCallback = useStableCallback(callback);
 
   useEffect(() => {
     let pressedKeys: string[] = [];

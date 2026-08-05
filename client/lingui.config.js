@@ -1,4 +1,4 @@
-import { defineConfig } from '@lingui/cli'; // eslint-disable-line import/no-unresolved
+import { defineConfig } from '@lingui/cli';
 import { formatter } from '@lingui/format-po';
 
 export default defineConfig({

@@ -23,7 +23,7 @@ export const workspaceIdStore = create<WorkspaceStore>()(
       setWorkspaceId: (id: string) => {
         set({ workspaceId: id });
         // Reset Apollo cache to refetch queries with new workspace id
-        getApolloClient().resetStore();
+        void getApolloClient().resetStore();
       },
     }),
     {

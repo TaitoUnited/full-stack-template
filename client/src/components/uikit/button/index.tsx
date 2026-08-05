@@ -3,6 +3,7 @@ import { type CSSProperties, memo, type ReactNode, type Ref } from 'react';
 import {
   Button as AriaButton,
   type ButtonProps as AriaButtonProps,
+  composeRenderProps,
 } from 'react-aria-components';
 
 import { Link } from '~/components/navigation/link';
@@ -49,10 +50,7 @@ export function Button({
   variant,
   ...rest
 }: ButtonProps) {
-  const _style = {
-    ...style,
-    ...getButtonStyles({ color, icon, iconPlacement }),
-  };
+  const buttonStyles = getButtonStyles({ color, icon, iconPlacement });
 
   const _className = cx(buttonStyle({ size, variant, isDisabled }), className);
 
@@ -60,7 +58,10 @@ export function Button({
     <AriaButton
       {...rest}
       ref={ref}
-      style={_style}
+      style={composeRenderProps(style, previousStyle => ({
+        ...previousStyle,
+        ...buttonStyles,
+      }))}
       className={_className}
       isDisabled={isDisabled}
       // Disable the onPress but don't apply disable styles to the button
@@ -144,6 +145,7 @@ function LinkButtonBase({
       to={to}
       style={_style}
       className={_className}
+      // oxlint-disable-next-line typescript/no-unsafe-type-assertion
       {...(rest as any)}
     >
       {buttonContent}

@@ -17,7 +17,7 @@ export async function infraRoutes(server: ServerInstance) {
         }),
       },
     },
-    handler: async () => {
+    handler: () => {
       return {
         data: {
           APP_VERSION: config.APP_VERSION,
@@ -55,7 +55,7 @@ export async function infraRoutes(server: ServerInstance) {
         200: Type.Object({ status: Type.String() }),
       },
     },
-    handler: async () => {
+    handler: () => {
       return { status: 'OK' };
     },
   });

@@ -1,5 +1,4 @@
 import fs from 'fs';
-import path from 'path';
 import { printSchema, lexicographicSortSchema } from 'graphql';
 import { DateTimeISOResolver } from 'graphql-scalars';
 
@@ -37,8 +36,9 @@ export function setupSchema() {
    * We can use this file to generate TypeScript types for our queries and mutations.
    */
   if (config.COMMON_ENV === 'local' && config.NODE_ENV === 'development') {
+    // oxlint-disable-next-line node/no-sync
     fs.writeFileSync(
-      path.join(__dirname, '../../../shared/schema.gql'),
+      new URL('../../shared/schema.gql', import.meta.url),
       printSchema(lexicographicSortSchema(schema))
     );
   }

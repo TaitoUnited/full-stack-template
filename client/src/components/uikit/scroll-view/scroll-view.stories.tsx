@@ -38,7 +38,7 @@ function Content() {
       }}
     >
       {Array.from({ length: 100 }).map((_, index) => (
-        // eslint-disable-next-line @eslint-react/no-array-index-key
+        // oxlint-disable-next-line react-x/no-array-index-key
         <li key={index} style={{ height: 100, background: '#eee' }} />
       ))}
     </ul>

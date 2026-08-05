@@ -13,13 +13,13 @@ export const appEnvironments = [
 
 export type AppEnv = (typeof appEnvironments)[number];
 
-const subdomain = window.location.hostname.split('.')[0] || '';
+const subdomain = window.location.hostname.split('.')[0] ?? '';
 const subdomainParts = subdomain.split('-');
-const envSuffix = subdomainParts[subdomainParts.length - 1] as AppEnv;
-const currentEnv = appEnvironments.includes(envSuffix) ? envSuffix : 'prod';
+const envSuffix = subdomainParts[subdomainParts.length - 1];
+const currentEnv = appEnvironments.find(env => env === envSuffix) ?? 'prod';
 
 export const config = {
-  ENV: currentEnv as AppEnv,
+  ENV: currentEnv,
   IS_DEV: import.meta.env.DEV,
   API_URL: process.env.API_URL,
   SENTRY_DSN: process.env.SENTRY_DSN,
@@ -33,8 +33,9 @@ export const config = {
 /**
  * Load remote config from a remote server
  */
-export async function loadRemoteConfig() {
+export function loadRemoteConfig() {
   try {
+    // TODO: Implement remote config loading logic here
     return null;
   } catch (error) {
     console.error('Failed to load remote config', error);

@@ -8,8 +8,8 @@ import {
   Header as AriaHeader,
   Menu as AriaMenu,
   MenuItem as AriaMenuItem,
-  Section as AriaSection,
-  type SectionProps as AriaSectionProps,
+  MenuSection as AriaMenuSection,
+  type MenuSectionProps as AriaMenuSectionProps,
   Separator as AriaSeparator,
   type MenuItemProps,
   type MenuProps,
@@ -103,7 +103,7 @@ function Item({
   );
 }
 
-type SectionProps = AriaSectionProps<any> &
+type SectionProps = AriaMenuSectionProps<unknown> &
   RefAttributes<HTMLElement> & {
     title: ReactNode;
     children: ReactNode;
@@ -189,7 +189,7 @@ const MenuSectionHeader = styled(AriaHeader, {
   },
 });
 
-const MenuSection = styled(AriaSection, {
+const MenuSection = styled(AriaMenuSection, {
   base: {
     display: 'flex',
     flexDirection: 'column',

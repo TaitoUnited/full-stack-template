@@ -1,14 +1,13 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "baseUrl": "./",
     "esModuleInterop": true,
-    "target": "ES2022",
+    "target": "esnext",
     "jsx": "react-jsx",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "module": "ES2022",
+    "module": "esnext",
     "moduleDetection": "force",
-    "moduleResolution": "Bundler",
+    "moduleResolution": "bundler",
     "isolatedModules": true,
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
@@ -23,11 +22,11 @@
     "strictPropertyInitialization": false,
     "types": ["vitest/globals"],
     "paths": {
-      "~/styled-system/*": ["src/styled-system/generated/*"],
-      "~/graphql": ["src/graphql/index.ts"],
-      "~/uikit/*": ["src/components/uikit/*"],
-      "~/design-tokens/*": ["src/styled-system/tokens/*"],
-      "~/*": ["src/*"]
+      "~/styled-system/*": ["./src/styled-system/generated/*"],
+      "~/graphql": ["./src/graphql/index.ts"],
+      "~/uikit/*": ["./src/components/uikit/*"],
+      "~/design-tokens/*": ["./src/styled-system/tokens/*"],
+      "~/*": ["./src/*"]
     },
     "plugins": [
       {

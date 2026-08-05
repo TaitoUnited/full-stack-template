@@ -1,1 +1,1 @@
-export * from "./src/server";
+import './src/server';

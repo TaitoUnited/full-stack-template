@@ -8,11 +8,19 @@ export const Route = createFileRoute('/_app/')({
     const workspaceId = workspaceIdStore.getState().workspaceId;
 
     if (workspaceId) {
-      throw redirect({ to: `/$workspaceId`, params: { workspaceId } });
-    } else {
-      await logout();
-      throw redirect({ to: '/login' });
+      redirect({
+        to: `/$workspaceId`,
+        params: { workspaceId },
+        throw: true,
+      });
     }
+
+    await logout();
+
+    redirect({
+      to: '/login',
+      throw: true,
+    });
   },
   // TODO: maybe implement some view for users that don't yet have workspaces?
 });

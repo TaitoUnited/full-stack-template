@@ -14,7 +14,7 @@ export function setupResolvers() {
       type: Organisation,
       nullable: true,
       args: { id: t.arg.string() },
-      resolve: async (_, args, ctx) => {
+      resolve: (_, args, ctx) => {
         return organisationService.getOrganisation(ctx, args.id);
       },
     })

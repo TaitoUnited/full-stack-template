@@ -1,3 +1,5 @@
+import { type output, type ZodType } from 'zod';
+
 // Add keys here so that we get strong typings for the storage key value pairs
 const STORAGE_KEYS = ['locale'] as const;
 const STORAGE_KEY_PREFIX = '@your-app-name/'; // Make sure to replace this with your app name
@@ -13,10 +15,18 @@ export const storage = {
     localStorage.setItem(prefixedKey(key), JSON.stringify(value));
   },
 
-  get: (key: StorageKey) => {
+  get: <Schema extends ZodType>(
+    key: StorageKey,
+    schema: Schema
+  ): output<Schema> | null => {
     try {
       const value = localStorage.getItem(prefixedKey(key));
-      return value ? JSON.parse(value) : null;
+      if (!value) {
+        return null;
+      }
+
+      const result = schema.safeParse(JSON.parse(value));
+      return result.success ? result.data : null;
     } catch (error) {
       console.log(`> Failed to get persisted item: ${key}`, error);
       return null;

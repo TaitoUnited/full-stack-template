@@ -1,4 +1,4 @@
-/* eslint-disable no-restricted-imports */
+/* oxlint-disable no-restricted-imports */
 import type {
   DocumentNode,
   OperationVariables,
@@ -11,10 +11,8 @@ import {
   useSuspenseQuery as useApolloSuspenseQuery,
 } from '@apollo/client/react';
 import { equal } from '@wry/equality';
-import { startTransition, useDeferredValue, useRef } from 'react';
+import { useDeferredValue } from 'react';
 import { useSpinDelay } from 'spin-delay';
-
-import { useWindowFocusEffect } from '~/hooks/use-window-focus';
 
 /**
  * Enhance `useQuery` hook to add support for refetching data on window focus.
@@ -27,8 +25,6 @@ export function useQuery<
   options?: useApolloQuery.Options<NoInfer<TData>, NoInfer<TVariables>>
 ) {
   const result = useApolloQuery<TData, TVariables>(query, options!);
-
-  useWindowFocusRefetching(result.refetch);
 
   return result;
 }
@@ -95,44 +91,4 @@ export function useReadQuery<TData>(queryRef: QueryRef<TData>) {
   const suspending = useSpinDelay(deferredQueryRef !== queryRef);
 
   return { ...result, suspending };
-}
-
-/**
- * Apollo doesn't provide a way to refetch queries when the browser window is
- * focused, eg. when user goes to another site and comes back.
- * https://github.com/apollographql/apollo-feature-requests/issues/422
- */
-function useWindowFocusRefetching(refetch: () => Promise<any>) {
-  const refetching = useRef(false);
-  const refetchedAt = useRef(new Date().getTime());
-  const refetchThreshold = 5000; // 5 seconds
-
-  useWindowFocusEffect(async () => {
-    const now = new Date().getTime();
-    const elapsed = now - refetchedAt.current;
-
-    // Don't refetch if the query was just fetched/refetched recently
-    if (elapsed < refetchThreshold) return;
-
-    // Prevent multiple refetches
-    if (refetching.current) return;
-
-    refetching.current = true;
-
-    console.log('Window refocused, refetching query...');
-
-    // Using `startTransition` prevents suspending the component
-    startTransition(() => {
-      // eslint-disable-next-line promise/catch-or-return
-      refetch()
-        .catch(error => {
-          console.log('Failed to refetch query', error);
-        })
-        .finally(() => {
-          console.log('Query refetched!');
-          refetchedAt.current = new Date().getTime();
-          refetching.current = false;
-        });
-    });
-  });
 }

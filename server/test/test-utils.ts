@@ -1,4 +1,6 @@
-import { AuthenticatedGraphQLContext } from '~/setup/graphql/types';
+/* oxlint-disable typescript/no-unnecessary-condition typescript/no-unsafe-assignment typescript/no-unsafe-type-assertion */
+
+import type { AuthenticatedGraphQLContext } from '~/setup/graphql/types';
 import { log } from '~/src/utils/log';
 
 /**

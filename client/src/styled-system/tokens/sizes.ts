@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* oxlint-disable */
 export const buttonHeightLarge = 44;
 export const buttonHeightMedium = 36;
 export const buttonHeightSmall = 32;

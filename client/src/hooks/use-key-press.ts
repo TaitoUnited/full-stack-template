@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { useEffectEvent } from './use-effect-event';
+import { useStableCallback } from './use-stable-callback';
 
 export function useKeyPressState(key: string): boolean {
   const [pressed, setPressed] = useState(false);
@@ -43,7 +43,7 @@ export function useKeyPressEvent({
   capture?: boolean;
   handler: (event: KeyboardEvent) => void;
 }) {
-  const stableHandler = useEffectEvent(handler);
+  const stableHandler = useStableCallback(handler);
 
   useEffect(() => {
     if (!enabled) return;

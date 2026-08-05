@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* oxlint-disable */
 export const full = 999;
 export const large = 32;
 export const medium = 16;

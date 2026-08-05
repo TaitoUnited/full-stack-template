@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* oxlint-disable */
 export const shadowLarge = {
   "boxShadow": "0px 16px 32px rgba(0, 0, 0, 0.12)",
   "offset": {

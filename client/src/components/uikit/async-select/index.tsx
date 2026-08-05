@@ -200,7 +200,7 @@ function AsyncSelectOptions({
       <SelectFilterInput
         isLoading={list.loadingState === 'filtering'}
         inputValue={list.filterText}
-        onInputChange={list.setFilterText}
+        onInputChange={v => list.setFilterText(v)}
       />
 
       {list.loadingState === 'loading' ? (
@@ -219,7 +219,7 @@ function AsyncSelectOptions({
         <AsyncSelectEmpty>
           <Text variant="body">{emptyMessage}</Text>
         </AsyncSelectEmpty>
-      ) : list.items ? (
+      ) : (
         <AsyncSelectOptionsList
           items={list.items}
           actions={actions}
@@ -229,7 +229,7 @@ function AsyncSelectOptions({
           hiddenLabel={hiddenLabel}
           labelledby={labelledby}
         />
-      ) : null}
+      )}
     </AsyncSelectDialog>
   );
 }
@@ -271,11 +271,11 @@ function AsyncSelectOptionsList({
     actions?.confirm && (internalSelected.size > 0 || value.size > 0)
   );
 
-  function handleSelect(value: Props['value']) {
+  function handleSelect(val: Props['value']) {
     if (isConfirmationRequired) {
-      setInternalSelected(value);
+      setInternalSelected(val);
     } else {
-      onChange(value);
+      onChange(val);
     }
   }
 
@@ -295,8 +295,17 @@ function AsyncSelectOptionsList({
         items={items}
         selectionMode={selectionMode}
         selectedKeys={selectedOptions}
-        // We don't support the `'all'` selection value
-        onSelectionChange={selection => handleSelect(selection as Set<string>)}
+        onSelectionChange={selection => {
+          if (selection !== 'all') {
+            handleSelect(
+              new Set(
+                [...selection].filter(
+                  (key): key is string => typeof key === 'string'
+                )
+              )
+            );
+          }
+        }}
         className={asyncSelectListBoxStyles}
         data-testid="async-select-options"
         aria-labelledby={labelledby}

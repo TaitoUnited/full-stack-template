@@ -19,7 +19,7 @@ export function LangMenuButton() {
         <Menu.Item
           key={locale}
           id={locale}
-          onAction={() => changeLocale(locale)}
+          onAction={() => void changeLocale(locale)}
         >
           {LOCALE_LABEL[locale]}
         </Menu.Item>

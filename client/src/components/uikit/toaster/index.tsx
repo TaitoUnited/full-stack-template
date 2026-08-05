@@ -1,4 +1,4 @@
-/* eslint-disable no-restricted-imports */
+/* oxlint-disable no-restricted-imports */
 import {
   toast as sonnerToast,
   Toaster as SonnerToaster,
@@ -36,7 +36,7 @@ function defaultOptions(options: ToasterOptions | undefined) {
     icon: options?.icon ? (
       <Icon
         name={options.icon}
-        color={options.iconColor || 'currentColor'}
+        color={options.iconColor ?? 'currentColor'}
         size={24}
       />
     ) : undefined,

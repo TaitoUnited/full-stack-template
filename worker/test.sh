@@ -4,7 +4,7 @@ export suite_name="${1}"
 export test_name="${2}"
 
 case $suite_name in
-  jest)
-    npm run test -- "${test_name}"
+  vitest)
+    npm run test -- --testNamePattern "${test_name}"
     ;;
 esac

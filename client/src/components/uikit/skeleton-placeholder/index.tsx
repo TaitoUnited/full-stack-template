@@ -11,8 +11,8 @@ type Props = {
   marginRight?: Spacing | number;
   marginBottom?: Spacing | number;
   marginLeft?: Spacing | number;
-  width?: Spacing | CSSProperties['width'];
-  height?: Spacing | CSSProperties['height'];
+  width?: CSSProperties['width'];
+  height?: CSSProperties['height'];
   style?: CSSProperties;
   borderRadius?: Radii | number;
   backgroundColor?: Color;

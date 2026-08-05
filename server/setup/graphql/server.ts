@@ -8,7 +8,7 @@ import { config } from '~/src/utils/config';
 import { type ServerInstance } from '../server';
 import { protection } from './protection';
 import { setupSchema } from './schema';
-import { GraphQlContext } from './types';
+import type { GraphQlContext } from './types';
 import { setupWebsocketServer } from './websocket';
 
 export async function setupGraphQL(server: ServerInstance) {
@@ -33,7 +33,7 @@ export async function setupGraphQL(server: ServerInstance) {
   server.route({
     url: '/graphql',
     method: ['GET', 'POST', 'OPTIONS'],
-    handler: async (request, reply) => {
+    handler: (request, reply) => {
       /**
        * Wrap the request in a transaction so that all resolvers share the same
        * database connection and don't overwhelm the database with connections
@@ -42,7 +42,7 @@ export async function setupGraphQL(server: ServerInstance) {
        * entire request which enables transaction isolation:
        * https://www.postgresql.org/docs/current/transaction-iso.html
        */
-      return request.ctx.db.transaction(async (tx) => {
+      return request.ctx.db.transaction((tx) => {
         const handler = fastifyApolloHandler(apolloServer, {
           context: async () => {
             return {
@@ -64,6 +64,7 @@ export async function setupGraphQL(server: ServerInstance) {
         });
 
         // Typing this is tricky and using `any` here is fine...
+        // oxlint-disable-next-line
         return (handler as any)(request, reply);
       });
     },

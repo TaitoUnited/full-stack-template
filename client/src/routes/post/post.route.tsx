@@ -11,7 +11,7 @@ import { PostDetails } from './post-details';
 
 export const Route = createFileRoute('/_app/$workspaceId/posts_/$id')({
   component: PostRoute,
-  loader: async ({ context, params }) => ({
+  loader: ({ context, params }) => ({
     postQueryRef: context.preloadQuery(PostQuery, {
       variables: { id: params.id },
     }),

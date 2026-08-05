@@ -7,6 +7,7 @@ import { toast, Toaster, type ToasterOptions } from '.';
 import { Button } from '../button';
 import { type IconName } from '../icon';
 import { Stack } from '../stack';
+import { sleep } from '~/utils/promise';
 
 export default {
   title: 'Toaster',
@@ -69,7 +70,7 @@ export default {
   ],
 } satisfies Meta<typeof Toaster>;
 
-type Story = StoryObj<typeof Toaster>;
+type Story = StoryObj<ToastOptionsProps>;
 
 const toastVariants = [
   'success',
@@ -128,7 +129,11 @@ function ToastOptions({
           toast.action('Delete all the toasts', {
             action: {
               label: 'Delete',
-              onClick: () => toasts.forEach(t => toast.dismiss(t.id)),
+              onClick: () => {
+                toasts.forEach(t => {
+                  toast.dismiss(t.id);
+                });
+              },
             },
           });
         }}
@@ -141,12 +146,12 @@ function ToastOptions({
         onPress={() => {
           toast.promise(
             (async () => {
-              await new Promise(resolve => setTimeout(resolve, 1000));
+              await sleep(1000);
               return 'Post';
             })(),
             {
               loading: 'Loading...',
-              success: (data: string = 'Test') => {
+              success: (data: string) => {
                 return `${data} has been successfully created`;
               },
               error: 'Post could not be created',
@@ -165,12 +170,12 @@ function ToastOptions({
         onPress={() => {
           toast.promise(
             (async () => {
-              await new Promise(resolve => setTimeout(resolve, 1000));
+              await sleep(1000);
               throw new Error('Error');
             })(),
             {
               loading: 'Loading...',
-              success: (data: string = 'Test') => {
+              success: (data: string) => {
                 return `${data} has been successfully created`;
               },
               error: 'Post could not be created',
@@ -195,5 +200,5 @@ type ToastOptionsProps = {
 };
 
 export const Default: Story = {
-  render: args => <ToastOptions {...(args as ToastOptionsProps)} />,
+  render: args => <ToastOptions {...args} />,
 };

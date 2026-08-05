@@ -1,7 +1,7 @@
-import { getDb } from '../index';
-import { seed as seedUsers } from './user.seed';
-import { seed as seedChat } from './chat.seed';
-import { seed as seedOrganisations } from './organisation.seed';
+import { getDb } from './index';
+import { seed as seedUsers } from './seed/user.seed';
+import { seed as seedChat } from './seed/chat.seed';
+import { seed as seedOrganisations } from './seed/organisation.seed';
 
 /**
  * This file is used to seed the database with initial data.
@@ -20,4 +20,4 @@ async function seedDb() {
   console.log('Database seed done!');
 }
 
-seedDb();
+void seedDb();

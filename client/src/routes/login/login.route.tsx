@@ -13,9 +13,9 @@ import { toast } from '~/uikit/toaster';
 
 export const Route = createFileRoute('/login')({
   component: LoginRoute,
-  beforeLoad: async ({ context }) => {
+  beforeLoad: ({ context }) => {
     if (context.authenticated) {
-      throw redirect({ to: '/' });
+      redirect({ to: '/', throw: true });
     }
   },
 });
@@ -47,7 +47,7 @@ function LoginRoute() {
     <>
       <DocumentTitle title={t`Login`} />
       <Wrapper>
-        <LoginForm onSubmit={handleSubmit}>
+        <LoginForm onSubmit={event => void handleSubmit(event)}>
           <Stack direction="column" gap="$large">
             <Text variant="headingXl">
               <Trans>Login</Trans>

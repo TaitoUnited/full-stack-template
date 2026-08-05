@@ -10,7 +10,7 @@ export function setupResolvers() {
     t.withAuth({ authenticated: true }).field({
       type: User,
       nullable: true,
-      resolve: async (_, __, ctx) => {
+      resolve: (_, __, ctx) => {
         return userService.getUser(ctx, ctx.user.id);
       },
     })
@@ -21,8 +21,8 @@ export function setupResolvers() {
   builder.mutationField('login', (t) =>
     t.field({
       type: builder.simpleObject('LoginResponse', {
-        fields: (t) => ({
-          status: t.string(),
+        fields: (field) => ({
+          status: field.string(),
         }),
       }),
       args: {
@@ -47,8 +47,8 @@ export function setupResolvers() {
   builder.mutationField('logout', (t) =>
     t.field({
       type: builder.simpleObject('LogoutResponse', {
-        fields: (t) => ({
-          status: t.string(),
+        fields: (field) => ({
+          status: field.string(),
         }),
       }),
       resolve: async (_, __, ctx) => {
@@ -71,8 +71,8 @@ export function setupResolvers() {
   builder.mutationField('loginToken', (t) =>
     t.field({
       type: builder.simpleObject('LoginTokenResponse', {
-        fields: (t) => ({
-          sessionId: t.string(),
+        fields: (field) => ({
+          sessionId: field.string(),
         }),
       }),
       args: {
@@ -92,8 +92,8 @@ export function setupResolvers() {
   builder.mutationField('logoutToken', (t) =>
     t.field({
       type: builder.simpleObject('LogoutTokenResponse', {
-        fields: (t) => ({
-          status: t.string(),
+        fields: (field) => ({
+          status: field.string(),
         }),
       }),
       resolve: async (_, __, ctx) => {
@@ -124,9 +124,9 @@ async function wrapLogin<T>(loginPromise: Promise<T>) {
    */
   const [result] = await Promise.allSettled([
     loginPromise,
-    new Promise((resolve) =>
-      setTimeout(resolve, config.COMMON_ENV === 'prod' ? 2000 : 10)
-    ),
+    new Promise((resolve) => {
+      setTimeout(resolve, config.COMMON_ENV === 'prod' ? 2000 : 10);
+    }),
   ]);
 
   if (result.status === 'rejected') {

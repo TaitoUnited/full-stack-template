@@ -172,9 +172,9 @@ function MultiSelectOptions({
 >) {
   const [inputValue, setInputValue] = useState('');
   const allowFiltering = items.length > 10;
-  const { contains } = useFilter({ sensitivity: 'base' });
+  const filter = useFilter({ sensitivity: 'base' });
   const visibleItems = allowFiltering
-    ? items.filter(item => contains(item.label, inputValue.trim()))
+    ? items.filter(item => filter.contains(item.label, inputValue.trim()))
     : items;
 
   return (
@@ -228,11 +228,11 @@ function MultiSelectOptionsList({
     actions?.confirm && (internalSelected.size > 0 || value.size > 0)
   );
 
-  function handleSelect(value: Props['value']) {
+  function handleSelect(val: Props['value']) {
     if (isConfirmationRequired) {
-      setInternalSelected(value);
+      setInternalSelected(val);
     } else {
-      onChange(value);
+      onChange(val);
     }
   }
 
@@ -252,8 +252,17 @@ function MultiSelectOptionsList({
         items={items}
         selectionMode="multiple"
         selectedKeys={selectedOptions}
-        // We don't support the `'all'` selection value
-        onSelectionChange={selection => handleSelect(selection as Set<string>)}
+        onSelectionChange={selection => {
+          if (selection !== 'all') {
+            handleSelect(
+              new Set(
+                [...selection].filter(
+                  (key): key is string => typeof key === 'string'
+                )
+              )
+            );
+          }
+        }}
         data-testid="multi-select-options"
         aria-labelledby={labelledby}
         aria-label={hiddenLabel}

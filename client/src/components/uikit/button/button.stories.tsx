@@ -155,7 +155,7 @@ function ButtonIconExample({
 
 export const Loading: Story = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // oxlint-disable-next-line react-hooks/rules-of-hooks
     const [isLoading, setLoading] = useState(false);
 
     return (

@@ -87,11 +87,7 @@ export function Sortable() {
     direction: 'ascending',
   });
 
-  const sorted = orderBy(
-    data,
-    sort?.column || 'name',
-    sort?.direction ? SORT_DIRECTION[sort.direction] : 'asc'
-  );
+  const sorted = orderBy(data, sort.column, SORT_DIRECTION[sort.direction]);
 
   return (
     <Wrapper>

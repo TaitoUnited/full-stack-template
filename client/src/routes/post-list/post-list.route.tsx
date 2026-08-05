@@ -14,7 +14,7 @@ import { PostListCard } from './post-list-card';
 
 export const Route = createFileRoute('/_app/$workspaceId/posts')({
   component: PostListRoute,
-  loader: async ({ context }) => ({
+  loader: ({ context }) => ({
     queryRef: context.preloadQuery(PostListQuery),
   }),
 });

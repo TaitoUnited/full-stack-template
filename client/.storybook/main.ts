@@ -14,9 +14,9 @@ const config: StorybookConfig = {
       },
     },
   },
-  async viteFinal(config) {
+  async viteFinal(conf) {
     const { mergeConfig } = await import('vite');
-    return mergeConfig(config, {
+    return mergeConfig(conf, {
       cacheDir: '.vite/storybook-cache',
     });
   },

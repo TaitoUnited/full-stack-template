@@ -81,7 +81,7 @@ export function DatePicker({
     setCopied(true);
     try {
       const valueInCopyFormat = valueToCopyFormat(value ?? '');
-      navigator.clipboard.writeText(valueInCopyFormat);
+      void navigator.clipboard.writeText(valueInCopyFormat);
     } catch (e) {
       console.error(e);
       toast(t`Could not copy date`, { icon: 'error' });
@@ -92,18 +92,18 @@ export function DatePicker({
 
   useEventListener({
     event: 'paste',
-    handler: (e: ClipboardEvent) => {
+    handler: (event: ClipboardEvent) => {
       let clipboardText: string | undefined;
       try {
-        clipboardText = e.clipboardData?.getData('text');
+        clipboardText = event.clipboardData?.getData('text');
         if (!clipboardText) throw new Error();
 
         const parsed = parseInputDate(clipboardText);
         if (!parsed) throw new Error();
 
         onChange?.(parsed);
-      } catch (e) {
-        console.error(e);
+      } catch (err) {
+        console.error(err);
         toast(t`Could not paste "${clipboardText}" as a date`, {
           icon: 'error',
         });
@@ -191,9 +191,9 @@ export function DatePicker({
       <DatePickerPopover
         data-testid="date-picker-popover"
         isOpen={isOpen}
-        onOpenChange={isOpen => {
-          setIsOpen(isOpen);
-          if (!isOpen) setViewMode('day');
+        onOpenChange={open => {
+          setIsOpen(open);
+          if (!open) setViewMode('day');
         }}
       >
         <DatePickerDialog>
@@ -279,9 +279,9 @@ export function DatePicker({
                       {day => <CalendarHeaderCell>{day}</CalendarHeaderCell>}
                     </CalendarGridHeader>
                     <CalendarGridBody>
-                      {date => (
+                      {cellDate => (
                         <CalendarCell
-                          date={date}
+                          date={cellDate}
                           data-testid="date-picker-calendar-cell"
                         />
                       )}

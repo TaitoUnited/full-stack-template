@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { organisationService } from './organisation.service';
 import { makeTestContext } from '~/test/test-utils';
 
-describe('orgainsation service', async () => {
+describe('orgainsation service', () => {
   it('return organisation', async () => {
     const ctx = await makeTestContext({ user: 'admin' });
 

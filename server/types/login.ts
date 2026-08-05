@@ -1,4 +1,4 @@
-import { Authenticator } from '~/src/utils/authentication';
+import type { Authenticator } from '~/src/utils/authentication';
 
 export type LoginOptions = {
   email: string;

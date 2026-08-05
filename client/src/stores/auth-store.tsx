@@ -28,7 +28,7 @@ export async function login(variables: { email: string; password: string }) {
 
     storage.clearAll();
     store.setState({ status: 'authenticated' });
-    router.navigate({ to: '/' });
+    void router.navigate({ to: '/' });
   } catch {
     store.setState({ status: 'unauthenticated' });
   }
@@ -86,7 +86,7 @@ export function useVerifyAuth() {
   console.log('authStatus', authStatus);
   useEffect(() => {
     if (authStatus === 'undetermined') {
-      verifyAuth();
+      void verifyAuth();
     }
   }, []);
 

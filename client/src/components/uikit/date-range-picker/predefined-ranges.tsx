@@ -26,9 +26,9 @@ export function PredefinedRanges({
             key={label}
             isCurrentRange={
               currentRange?.start.toString() === range.start.toString() &&
-              currentRange?.end.toString() === range.end.toString()
+              currentRange.end.toString() === range.end.toString()
             }
-            onPress={() => onSelectRange(range)}
+            onPress={() => void onSelectRange(range)}
           >
             {label}
           </PredefinedRange>

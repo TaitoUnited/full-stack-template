@@ -14,7 +14,9 @@ export function throwApiError(vars: {
       throw GraphQLError[errorType](message);
     case 'rest':
       throw ApiRouteError[errorType](message);
-    default:
+    case 'seed':
+    case 'test':
+    case 'unknown':
       throw ApiRouteError[errorType](message);
   }
 }
@@ -52,10 +54,10 @@ export const GraphQLError = {
 
 // TODO: rename this to eg. `ApiError` if your project only uses REST API
 export class ApiRouteErrorBase extends Error {
-  status: number;
-  data?: Record<string, any>;
+  public status: number;
+  public data?: Record<string, any>;
 
-  constructor(options: {
+  public constructor(options: {
     status: number;
     message: string;
     data?: Record<string, any>;

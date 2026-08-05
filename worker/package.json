@@ -1,15 +1,19 @@
 {
+  "type": "module",
   "name": "full-stack-template-worker",
-  "private": true,
   "scripts": {
     "start": "npm run start:dev",
-    "start:dev": "NODE_ENV=development ts-node-dev --respawn --inspect=0.0.0.0:9229 -- index.ts | bunyan -l debug",
+    "start:dev": "NODE_ENV=development tsx watch --inspect=0.0.0.0:9229 index.ts | bunyan -l debug",
     "start:prod": "NODE_ENV=production npm run build:prod && node build/index.js",
     "build": "NODE_ENV=production tsc --build tsconfig.json",
     "build:test": "tsc --build tsconfig.test.json",
-    "test:unit": "jest --rootDir=src --passWithNoTests -t",
-    "test": "jest --rootDir=test --passWithNoTests -t",
-    "lint": "tsc -p . --noEmit && eslint './src/**/*.ts' --ignore-path .eslintignore --quiet"
+    "test:unit": "vitest run src --passWithNoTests",
+    "test": "vitest run test --passWithNoTests",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "typecheck": "tsc -p . --noEmit",
+    "format:check": "oxfmt --check './src/**/*.{ts,tsx}'",
+    "format:write": "oxfmt './src/**/*.{ts,tsx}'"
   },
   "dependencies": {
     "@hapi/boom": "10.0.1",
@@ -30,7 +34,6 @@
   },
   "devDependencies": {
     "@types/bunyan": "1.8.11",
-    "@types/jest": "29.5.12",
     "@types/joi": "17.2.3",
     "@types/koa": "2.15.0",
     "@types/koa-joi-router": "8.0.7",
@@ -42,19 +45,15 @@
     "@types/showdown": "2.0.6",
     "@types/stack-trace": "0.0.33",
     "@types/uuid": "9.0.8",
-    "@typescript-eslint/eslint-plugin": "7.1.1",
-    "@typescript-eslint/parser": "7.1.1",
-    "eslint": "8.57.0",
-    "eslint-config-prettier": "9.1.0",
-    "eslint-config-standard": "17.1.0",
-    "eslint-plugin-import": "2.29.1",
-    "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-prettier": "5.1.3",
-    "eslint-plugin-promise": "6.1.1",
-    "jest": "29.7.0",
-    "prettier": "3.2.5",
-    "ts-jest": "29.1.2",
-    "ts-node-dev": "2.0.0",
-    "typescript": "5.3.3"
+    "oxfmt": "0.61.0",
+    "oxlint": "1.76.0",
+    "oxlint-tsgolint": "7.0.2001",
+    "tsx": "4.17.0",
+    "typescript": "7.0.2",
+    "vitest": "3.0.3"
+  },
+  "engines": {
+    "node": ">=22",
+    "npm": ">=10"
   }
 }

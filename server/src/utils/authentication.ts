@@ -1,10 +1,12 @@
 import { type FastifyRequest } from 'fastify';
-import cookie, { SerializeOptions } from '@fastify/cookie';
+import type { SerializeOptions } from '@fastify/cookie';
+import cookie from '@fastify/cookie';
 import { eq, sql } from 'drizzle-orm';
 
 import { config } from './config';
-import { DrizzleDb } from '~/db';
-import { DBSession, sessionTable } from '~/src/session/session.db';
+import type { DrizzleDb } from '~/db';
+import type { DBSession } from '~/src/session/session.db';
+import { sessionTable } from '~/src/session/session.db';
 
 type SessionOut<SessionAttributes> = SessionAttributes & {
   id: string;
@@ -28,19 +30,19 @@ type Attributes = {
 };
 
 class Auth<SessionAttributes> {
-  constructor(
+  public constructor(
     private readonly db: DrizzleDb,
     private readonly getSessionAttributes: (
       session: DBSession
     ) => SessionAttributes
   ) {}
 
-  readSessionCookie(cookieHeader: string): string | null {
+  public readSessionCookie(cookieHeader: string): string | null {
     const { [config.SESSION_COOKIE]: sessionId } = cookie.parse(cookieHeader);
     return sessionId ?? null;
   }
 
-  readBearerToken(authHeader: string): string | null {
+  public readBearerToken(authHeader: string): string | null {
     const result = /Bearer ([a-zA-Z0-9=+/]+)/.exec(authHeader);
     if (!result?.length) {
       return null;
@@ -48,7 +50,7 @@ class Auth<SessionAttributes> {
     return result[1] ?? null;
   }
 
-  async createSession(
+  public async createSession(
     userId: string,
     sessionData: SessionOptions
   ): Promise<SessionOut<SessionAttributes>> {
@@ -66,7 +68,7 @@ class Auth<SessionAttributes> {
     return this.formatSession(session);
   }
 
-  createSessionCookie(sessionId: string): Cookie {
+  public createSessionCookie(sessionId: string): Cookie {
     return {
       name: config.SESSION_COOKIE,
       value: sessionId,
@@ -74,7 +76,7 @@ class Auth<SessionAttributes> {
     };
   }
 
-  createBlankSessionCookie(): Cookie {
+  public createBlankSessionCookie(): Cookie {
     return {
       name: config.SESSION_COOKIE,
       value: '',
@@ -82,7 +84,7 @@ class Auth<SessionAttributes> {
     };
   }
 
-  async validateSession(sessionId: string) {
+  public async validateSession(sessionId: string) {
     const session = await this.fetchSession(sessionId);
 
     if (!session) {
@@ -97,7 +99,7 @@ class Auth<SessionAttributes> {
     };
   }
 
-  async invalidateSession(sessionId: string) {
+  public async invalidateSession(sessionId: string) {
     await this.db.delete(sessionTable).where(eq(sessionTable.id, sessionId));
   }
 
@@ -108,7 +110,7 @@ class Auth<SessionAttributes> {
     return Buffer.from(buffer).toString('base64');
   }
 
-  private async fetchSession(sessionId: string): Promise<DBSession | null> {
+  private fetchSession(sessionId: string): Promise<DBSession | null> {
     return this.db
       .select()
       .from(sessionTable)

@@ -19,7 +19,7 @@ export function setupResolvers() {
       type: Post,
       nullable: true,
       args: { id: t.arg.string() },
-      resolve: async (_, args, ctx) => {
+      resolve: (_, args, ctx) => {
         return postService.getPost(ctx, args.id);
       },
     })
@@ -29,7 +29,7 @@ export function setupResolvers() {
     t.withAuth({ authenticated: true }).field({
       type: User,
       nullable: true,
-      resolve: async (parent, _, ctx) => {
+      resolve: (parent, _, ctx) => {
         return userService.getOrgUser(ctx, parent.authorId);
       },
     })
@@ -39,7 +39,7 @@ export function setupResolvers() {
     t.withAuth({ authenticated: true }).field({
       type: [Post],
       args: { search: t.arg.string({ required: false }) },
-      resolve: async (_, args, ctx) => {
+      resolve: (_, args, ctx) => {
         return postService.getPosts(ctx, args.search);
       },
     })
@@ -49,7 +49,7 @@ export function setupResolvers() {
     t.withAuth({ authenticated: true }).field({
       type: Post,
       args: { title: t.arg.string(), content: t.arg.string() },
-      resolve: async (_, args, ctx) => {
+      resolve: (_, args, ctx) => {
         return postService.createPost(ctx, {
           ...args,
           authorId: ctx.user.id,

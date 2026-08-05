@@ -7,7 +7,7 @@ import { fastifyPlugin } from 'fastify-plugin';
 
 import { type ServerInstance } from '../server';
 import { organisationService } from '~/src/organisation/organisation.service';
-import { AuthenticatedGraphQLRequest } from '../graphql/types';
+import type { AuthenticatedGraphQLRequest } from '../graphql/types';
 
 export const uiAuthPlugin = fastifyPlugin(async (server: ServerInstance) => {
   server.addHook('preHandler', async (request, reply) => {
@@ -19,8 +19,10 @@ export const uiAuthPlugin = fastifyPlugin(async (server: ServerInstance) => {
     /**
      * Read the session ID from the cookie or the Authorization header
      */
+    // A blank cookie should fall back to a bearer token.
+
     const sessionId =
-      auth.readSessionCookie(request.headers.cookie ?? '') ||
+      auth.readSessionCookie(request.headers.cookie ?? '') ??
       auth.readBearerToken(request.headers.authorization ?? '');
 
     // TODO: Implement refresh cycle: when the session is expired or close to expiring, refresh the OAuth tokens if
@@ -36,7 +38,7 @@ export const uiAuthPlugin = fastifyPlugin(async (server: ServerInstance) => {
     const { session, user } = await auth.validateSession(sessionId);
 
     // Extend the session cookie if the session is fresh.
-    if (session && session.fresh) {
+    if (session?.fresh) {
       const cookie = auth.createSessionCookie(session.id);
       reply.setCookie(cookie.name, cookie.value, cookie.attributes);
     }
@@ -54,34 +56,37 @@ export const uiAuthPlugin = fastifyPlugin(async (server: ServerInstance) => {
      * Populate the available organisations with the associated role
      * for the user in the request context.
      */
-    if (user) {
-      const userOrganisations =
-        await organisationService.getUserOrganisationsWithRoles(
-          request.ctx,
-          user.id
-        );
+    const userOrganisations =
+      await organisationService.getUserOrganisationsWithRoles(
+        request.ctx,
+        user.id
+      );
 
-      request.ctx.user = user;
-      request.ctx.userOrganisations = userOrganisations.map((row) => ({
-        id: row.organisationId,
-        role: row.role,
-      }));
-      request.ctx.user!.session = session;
-    }
+    request.ctx.user = user;
+    request.ctx.userOrganisations = userOrganisations.map((row) => ({
+      id: row.organisationId,
+      role: row.role,
+    }));
+    request.ctx.user.session = session;
   });
 });
 
 /**
  * Ensure that context has user set.
  */
-export function withUser<T extends RouteGenericInterface>(
-  handler: (req: AuthenticatedGraphQLRequest<T>, res: FastifyReply) => void
+export function withUser<T extends RouteGenericInterface, Result>(
+  handler: (req: AuthenticatedGraphQLRequest<T>, res: FastifyReply) => Result
 ) {
-  return async (request: FastifyRequest<T>, reply: FastifyReply) => {
+  return async (
+    request: FastifyRequest<T>,
+    reply: FastifyReply
+  ): Promise<Awaited<Result> | void> => {
     if (!request.ctx.__authenticator__ || !request.ctx.user) {
-      return reply.code(401).send('Unauthorized');
+      reply.code(401).send('Unauthorized');
+      return;
     }
 
-    return handler(request as AuthenticatedGraphQLRequest<T>, reply);
+    // oxlint-disable-next-line typescript/no-unsafe-type-assertion
+    return await handler(request as AuthenticatedGraphQLRequest<T>, reply);
   };
 }

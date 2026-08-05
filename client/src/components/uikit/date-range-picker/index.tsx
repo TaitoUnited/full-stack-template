@@ -87,7 +87,7 @@ export function DateRangePicker<T extends DateValue>({
   const handleDateChange = useCallback(
     (dateRange: DateRange | null) => {
       if (dateRange) {
-        onChange?.(dateRange);
+        onChange(dateRange);
       }
       setViewMode('day');
       setIsOpen(false);
@@ -95,14 +95,14 @@ export function DateRangePicker<T extends DateValue>({
     [onChange]
   );
 
-  const handlePopoverStateChange = useCallback((isOpen: boolean) => {
-    setIsOpen(isOpen);
-    if (!isOpen) setViewMode('day');
+  const handlePopoverStateChange = useCallback((open: boolean) => {
+    setIsOpen(open);
+    if (!open) setViewMode('day');
   }, []);
 
   const onSelectRange = useCallback(
     async (range: DateRange) => {
-      onChange?.(range);
+      onChange(range);
       await sleep(250);
       setIsOpen(false);
     },
@@ -146,7 +146,7 @@ export function DateRangePicker<T extends DateValue>({
               label={t`Clear date`}
               size={24}
               slot={null} // Explicit null slot disables RAC props from parent -> doesn't open the dialog
-              onPress={() => onChange?.(null)}
+              onPress={() => onChange(null)}
             />
           )}
           <IconButton
@@ -268,9 +268,9 @@ export function DateRangePicker<T extends DateValue>({
                         {day => <CalendarHeaderCell>{day}</CalendarHeaderCell>}
                       </CalendarGridHeader>
                       <CalendarGridBody>
-                        {date => (
+                        {cellDate => (
                           <CalendarCell
-                            date={date}
+                            date={cellDate}
                             data-testid="date-picker-calendar-cell"
                           />
                         )}

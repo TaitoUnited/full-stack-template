@@ -1,5 +1,5 @@
 import { eq } from 'drizzle-orm';
-import type { GlobalSetupContext } from 'vitest/node';
+import type { TestProject } from 'vitest/node';
 
 import {
   organisationTable,
@@ -7,19 +7,20 @@ import {
 } from '~/src/organisation/organisation.db';
 import { userTable } from '~/src/user/user.db';
 import { sessionTable } from '~/src/session/session.db';
-import { DrizzleDb } from '~/db';
+import type { DrizzleDb } from '~/db';
 import { hashPassword } from '~/src/utils/password';
-import { ROLES, Role } from '~/src/utils/authorisation';
+import type { Role } from '~/src/utils/authorisation';
+import { ROLES } from '~/src/utils/authorisation';
 import { graphql, client } from '~/test/graphql-test-client';
 import { closeTestDb, getTestDb } from './setup-test-db';
-import { TestData, TestUser } from './setup-types';
+import type { TestData, TestUser } from './setup-types';
 
 /**
  * Setup shared test data for API integration tests.
  * This should only include data that is required for any test to run,
  * such as organisations, logged in users, etc.
  */
-export default async function setup({ provide }: GlobalSetupContext) {
+export default async function setup({ provide }: TestProject) {
   console.log('Setting up test data for API integration tests...');
   try {
     const db = await getTestDb();

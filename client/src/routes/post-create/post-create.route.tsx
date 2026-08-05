@@ -42,7 +42,7 @@ export default function PostCreateRoute() {
         refetchQueries: ['PostList'],
       });
 
-      navigate({
+      void navigate({
         to: `/$workspaceId/posts`,
         params: {
           workspaceId: params.workspaceId,
@@ -62,19 +62,19 @@ export default function PostCreateRoute() {
       <Dialog
         placement="middle"
         isOpen
-        onOpenChange={() =>
-          navigate({
+        onOpenChange={() => {
+          void navigate({
             to: `/$workspaceId/posts`,
             params: {
               workspaceId: params.workspaceId,
             },
-          })
-        }
+          });
+        }}
       >
         <Dialog.Header title={t`New blog post`} />
         <Dialog.Body>
           <Wrapper>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={event => void handleSubmit(event)}>
               <Stack direction="column" gap="$regular">
                 <TextInput
                   label={t`Title`}

@@ -1,9 +1,9 @@
-import { AuthenticatedContext } from '~/setup/context';
-import { GraphQlContext } from '~/setup/graphql/types';
+import type { AuthenticatedContext } from '~/setup/context';
+import type { GraphQlContext } from '~/setup/graphql/types';
 import { checkOrganisationMembership } from '../utils/authorisation';
 import { userDao } from './user.dao';
 
-async function getOrgUsers(ctx: AuthenticatedContext) {
+function getOrgUsers(ctx: AuthenticatedContext) {
   checkOrganisationMembership(ctx);
 
   return userDao.getOrgUsers(ctx.db, {
@@ -11,10 +11,7 @@ async function getOrgUsers(ctx: AuthenticatedContext) {
   });
 }
 
-async function getOrgUser(
-  ctx: AuthenticatedContext,
-  id: string | null | undefined
-) {
+function getOrgUser(ctx: AuthenticatedContext, id: string | null | undefined) {
   if (!id) return null;
 
   checkOrganisationMembership(ctx);
@@ -25,7 +22,7 @@ async function getOrgUser(
   });
 }
 
-async function getUser(ctx: GraphQlContext, id: string) {
+function getUser(ctx: GraphQlContext, id: string) {
   return userDao.getUser(ctx.db, id);
 }
 

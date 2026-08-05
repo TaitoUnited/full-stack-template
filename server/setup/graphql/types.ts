@@ -1,6 +1,10 @@
-import { FastifyReply, FastifyRequest, RouteGenericInterface } from 'fastify';
+import type {
+  FastifyReply,
+  FastifyRequest,
+  RouteGenericInterface,
+} from 'fastify';
 
-import { NonNullableFields } from '~/src/utils/types';
+import type { NonNullableFields } from '~/src/utils/types';
 
 export type GraphQlContext = FastifyRequest['ctx'] & {
   reply: FastifyReply;

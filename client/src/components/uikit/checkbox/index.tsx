@@ -1,6 +1,9 @@
 import { type Ref } from 'react';
 import { type AriaCheckboxProps } from 'react-aria';
-import { Checkbox as AriaCheckbox } from 'react-aria-components';
+import {
+  CheckboxButton as AriaCheckboxButton,
+  CheckboxField as AriaCheckboxField,
+} from 'react-aria-components';
 
 import { styled } from '~/styled-system/jsx';
 
@@ -17,54 +20,55 @@ export function Checkbox({
   ...rest
 }: Props & { ref?: Ref<HTMLLabelElement> }) {
   return (
-    <Wrapper
+    <AriaCheckboxField
       aria-labelledby={labelledby}
       aria-label={hiddenLabel}
-      ref={ref}
       {...rest}
     >
-      {state => {
-        return (
-          <Content>
-            <CheckmarkWrapper
-              isFocusVisible={state.isFocusVisible}
-              // data-focus-visible is part of react aria components spec
-              // and is used in Table to handle focus states
-              data-focus-visible={state.isFocusVisible}
-              isDisabled={state.isDisabled}
-              isInvalid={state.isInvalid}
-              state={
-                state.isIndeterminate
-                  ? 'indeterminate'
-                  : state.isSelected
-                    ? 'selected'
-                    : 'unselected'
-              }
-            >
-              {(state.isSelected || state.isIndeterminate) && (
-                <Checkmark aria-hidden>
-                  <Icon
-                    name={state.isIndeterminate ? 'remove' : 'check'}
-                    size={14}
-                    color="currentColor"
-                  />
-                </Checkmark>
-              )}
-            </CheckmarkWrapper>
+      <Wrapper ref={ref}>
+        {state => {
+          return (
+            <Content>
+              <CheckmarkWrapper
+                isFocusVisible={state.isFocusVisible}
+                // data-focus-visible is part of react aria components spec
+                // and is used in Table to handle focus states
+                data-focus-visible={state.isFocusVisible}
+                isDisabled={state.isDisabled}
+                isInvalid={state.isInvalid}
+                state={
+                  state.isIndeterminate
+                    ? 'indeterminate'
+                    : state.isSelected
+                      ? 'selected'
+                      : 'unselected'
+                }
+              >
+                {(state.isSelected || state.isIndeterminate) && (
+                  <Checkmark aria-hidden>
+                    <Icon
+                      name={state.isIndeterminate ? 'remove' : 'check'}
+                      size={14}
+                      color="currentColor"
+                    />
+                  </Checkmark>
+                )}
+              </CheckmarkWrapper>
 
-            {!!label && (
-              <CheckmarkLabel data-required={rest.isRequired}>
-                {label}
-              </CheckmarkLabel>
-            )}
-          </Content>
-        );
-      }}
-    </Wrapper>
+              {!!label && (
+                <CheckmarkLabel data-required={rest.isRequired}>
+                  {label}
+                </CheckmarkLabel>
+              )}
+            </Content>
+          );
+        }}
+      </Wrapper>
+    </AriaCheckboxField>
   );
 }
 
-const Wrapper = styled(AriaCheckbox, {
+const Wrapper = styled(AriaCheckboxButton, {
   base: {
     display: 'flex',
   },

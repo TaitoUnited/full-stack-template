@@ -1,5 +1,10 @@
 {
   "name": "full-stack-template",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TaitoUnited/full-stack-template.git"
+  },
+  "type": "module",
   "scripts": {
     "prepare": "if [ \"$taito_mode\" != 'ci' ]; then husky install; fi",
     "install-clean": "echo '# Nothing to cleanup'",
@@ -28,7 +33,7 @@
     "taito-host-lint:admin": "cd admin && echo DISABLED: lint disabled from admin until updated or removed",
     "taito-host-lint:client": "cd client && npm-run-all lint typecheck",
     "taito-host-lint:server": "cd server && npm-run-all lint typecheck",
-    "taito-host-lint:worker": "cd worker && npm-run-all lint",
+    "taito-host-lint:worker": "cd worker && npm-run-all lint typecheck",
     "taito-host-lint:www": "cd www && npm-run-all lint",
     "taito-host-test-unit": "echo Running unit tests locally && npm-run-all -p -c taito-host-test-unit:admin taito-host-test-unit:client taito-host-test-unit:server taito-host-test-unit:worker taito-host-test-unit:www ",
     "taito-host-test-unit:admin": "cd admin && echo DISABLED: unit test disabled from admin until updated or removed",
@@ -36,7 +41,7 @@
     "taito-host-test-unit:server": "cd server && npm-run-all 'test:unit {@}' --",
     "taito-host-test-unit:worker": "cd worker && npm-run-all 'test:unit {@}' --",
     "taito-host-test-unit:www": "cd www && npm-run-all 'test:unit {@}' --",
-    "taito-host-db-deploy": "if [ ${taito_env} = 'local' ]; then docker exec ${taito_project}-server sh -c 'npm run db:migrate && npm run db:seed'; else docker compose -f docker-compose-cicd.yaml run --rm ${taito_project}-server-cicd sh -c 'echo Sleeping... && sleep 30 && echo Done sleeping && npm run db:migrate && npm run db:seed'; fi",
+    "taito-host-db-deploy": "if [ ${taito_env} = 'local' ]; then docker exec ${taito_project}-server sh -c 'npm run db:migrate && npm run db:seed'; else docker compose -f docker-compose-cicd.yaml run --rm ${taito_project}-server-cicd sh -c 'echo Sleeping... && sleep 30 && echo Done sleeping && npm run db:migrate:ci && npm run db:seed:ci'; fi",
     "test": "npm-run-all test:server test:playwright",
     "test:server": "taito ${taito_options} util test:server:${taito_target_env}",
     "test:playwright": "if [ \"$taito_mode\" != 'ci' ]; then npm run taito-host-playwright; else taito ${taito_options} util test:playwright:${taito_target_env}; fi",
@@ -69,6 +74,15 @@
     "husky:pre-push": "if [ \"$taito_mode\" != 'ci' ]; then npm-run-all --parallel generate taito-host-lint taito-host-test-unit; fi",
     "release-pre:prod": "semantic-release --dry-run",
     "release-post:prod": "semantic-release --no-ci"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "17.6.6",
+    "@commitlint/config-conventional": "17.6.6",
+    "git-branch-is": "4.0.0",
+    "husky": "8.0.3",
+    "npm-run-all": "4.1.5",
+    "oxlint-tsgolint": "7.0.2001",
+    "semantic-release": "21.0.6"
   },
   "commitlint": {
     "extends": [
@@ -147,16 +161,8 @@
       ]
     }
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/TaitoUnited/full-stack-template.git"
-  },
-  "devDependencies": {
-    "@commitlint/cli": "~17.6.6",
-    "@commitlint/config-conventional": "~17.6.6",
-    "git-branch-is": "~4.0.0",
-    "husky": "~8.0.3",
-    "npm-run-all": "~4.1.5",
-    "semantic-release": "~21.0.6"
+  "engines": {
+    "node": ">=22",
+    "npm": ">=10"
   }
 }

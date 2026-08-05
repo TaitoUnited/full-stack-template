@@ -1,6 +1,7 @@
 import { type Ref } from 'react';
 import {
-  Radio as AriaRadio,
+  RadioButton as AriaRadioButton,
+  RadioField as AriaRadioField,
   RadioGroup as AriaRadioGroup,
   type RadioGroupProps,
 } from 'react-aria-components';
@@ -60,23 +61,25 @@ export function RadioGroup({
       >
         <Stack direction="column" gap="$xs">
           {options.map(option => (
-            <Radio
+            <RadioField
               key={option.value}
               value={option.value}
               data-value={option.value} // for E2E testing
             >
-              {state => (
-                <>
-                  <IconWrapper
-                    selected={state.isSelected}
-                    hovered={state.isHovered}
-                  >
-                    <IconInner selected={state.isSelected} />
-                  </IconWrapper>
-                  {option.label}
-                </>
-              )}
-            </Radio>
+              <Radio>
+                {state => (
+                  <>
+                    <IconWrapper
+                      selected={state.isSelected}
+                      hovered={state.isHovered}
+                    >
+                      <IconInner selected={state.isSelected} />
+                    </IconWrapper>
+                    {option.label}
+                  </>
+                )}
+              </Radio>
+            </RadioField>
           ))}
         </Stack>
       </InputLayout>
@@ -84,7 +87,13 @@ export function RadioGroup({
   );
 }
 
-const Radio = styled(AriaRadio, {
+const RadioField = styled(AriaRadioField, {
+  base: {
+    display: 'contents',
+  },
+});
+
+const Radio = styled(AriaRadioButton, {
   base: {
     display: 'flex',
     alignItems: 'center',

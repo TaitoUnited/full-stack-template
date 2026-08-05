@@ -39,7 +39,7 @@ function TextBase({
   color = 'text',
   ...rest
 }: Props) {
-  const Element = as || variantToElement[variant];
+  const Element = as ?? variantToElement[variant];
 
   return (
     <Element

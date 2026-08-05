@@ -42,7 +42,7 @@ function RootComponent() {
 
   return (
     <AriaRouterProvider
-      navigate={(to, options) => router.navigate({ to, ...options })}
+      navigate={(to, options) => void router.navigate({ to, ...options })}
       useHref={to => router.buildLocation({ to }).href}
     >
       <Outlet />
@@ -55,13 +55,13 @@ function RootComponent() {
 const TanStackRouterDevtools =
   process.env.NODE_ENV === 'production'
     ? () => null
-    : lazy(() =>
-        import('@tanstack/router-devtools').then(res => ({
-          default: res.TanStackRouterDevtools,
-        }))
-      );
+    : lazy(async () => {
+        const devtools = await import('@tanstack/router-devtools').then(
+          res => ({ default: res.TanStackRouterDevtools })
+        );
+        return devtools;
+      });
 
 function RouterDevTools() {
-  const enabled = false; // Enable if you need to debug the router
-  return enabled ? <TanStackRouterDevtools position="bottom-right" /> : null;
+  return <TanStackRouterDevtools position="bottom-right" />;
 }

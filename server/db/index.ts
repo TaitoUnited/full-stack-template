@@ -2,9 +2,9 @@ import { drizzle, type NodePgDatabase } from 'drizzle-orm/node-postgres';
 
 import { getDbPool } from './pool';
 
-let db: NodePgDatabase<Record<string, never>> | null = null;
+let db: NodePgDatabase | null = null;
 
-export type DrizzleDb = NodePgDatabase<Record<string, never>>;
+export type DrizzleDb = NodePgDatabase;
 
 export async function getDb() {
   if (db) return db;

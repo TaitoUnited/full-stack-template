@@ -22,7 +22,7 @@ export const All: Story = {
       }}
     >
       {ids.map((name, i) => (
-        // eslint-disable-next-line @eslint-react/no-array-index-key
+        // oxlint-disable-next-line react-x/no-array-index-key
         <Tooltip content={name} key={i}>
           <Tooltip.Trigger>
             <div

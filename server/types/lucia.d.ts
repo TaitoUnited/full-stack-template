@@ -1,3 +1,5 @@
+/* oxlint-disable typescript/consistent-type-definitions */
+
 import 'lucia';
 
 declare module 'lucia' {

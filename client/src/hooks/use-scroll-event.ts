@@ -1,6 +1,6 @@
 import { type RefObject, useEffect } from 'react';
 
-import { useEffectEvent } from './use-effect-event';
+import { useStableCallback } from './use-stable-callback';
 
 export function useResizeObserver({
   ref,
@@ -11,12 +11,16 @@ export function useResizeObserver({
   enabled?: boolean;
   handler: (entry: ResizeObserverEntry) => void;
 }) {
-  const stableHandler = useEffectEvent(handler);
+  const stableHandler = useStableCallback(handler);
 
   useEffect(() => {
     if (!enabled) return;
 
-    const observer = new ResizeObserver(([entry]) => stableHandler(entry));
+    const observer = new ResizeObserver(([entry]) => {
+      if (entry) {
+        stableHandler(entry);
+      }
+    });
 
     if (ref.current) {
       observer.observe(ref.current);
