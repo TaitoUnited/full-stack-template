@@ -1,5 +1,7 @@
 ---
 name: taito-cli
+alwaysApply: false
+applyTo: "**"
 description: Run local development tasks with Taito CLI (`taito`) — start/stop/restart the app, tail container logs, check status, open a shell in a container, run database migrations and queries, and run lint/tests. Use whenever working on a Taito project (one with taito-config.sh in its root) and you need to control the running app or its database.
 ---
 
