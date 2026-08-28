@@ -1,0 +1,136 @@
+---
+name: taito-cli
+alwaysApply: false
+applyTo: "**"
+description: Run local development tasks with Taito CLI (`taito`) — start/stop/restart the app, tail container logs, check status, open a shell in a container, run database migrations and queries, and run lint/tests. Use whenever working on a Taito project (one with taito-config.sh in its root) and you need to control the running app or its database.
+---
+
+# Taito CLI for local development
+
+`taito` wraps docker compose (locally) and cloud tooling (remotely) behind one command set.
+Run it from the **project root** — the directory containing `taito-config.sh`.
+
+## Rule: always target `:local`
+
+Command syntax is `taito COMMAND[:TARGET][:ENV] [ARGS]`, colon-delimited. **`ENV` defaults to
+`local` when omitted, but never rely on that — always write `:local` explicitly.**
+
+Never run a command against `dev`, `test`, `stag`, `prod`, or any other remote environment.
+Those touch shared infrastructure, real data, and deployments. If a task seems to need a
+remote environment, stop and ask the user to run it themselves.
+
+```
+taito logs:server:local     # correct
+taito logs:server           # works, but ambiguous — don't write this
+taito logs:server:dev       # NEVER
+```
+
+`TARGET` is a container. In this project: `client`, `server`, `worker`, `database`, `redis`,
+`storage`, `pgweb` (see `taito_containers` in `scripts/taito/project.sh`).
+
+## Blocking commands
+
+Several commands run in the foreground forever or wait for a TTY. Handle them explicitly:
+
+| Command | Behaviour | What to do |
+|---|---|---|
+| `taito start:local` | `docker compose up` in foreground | add `-b` to detach |
+| `taito logs:TARGET:local` | `docker logs -f`, follows forever | run in background, or wrap in `timeout` |
+| `taito shell:TARGET:local` | interactive shell | use `taito exec:TARGET:local CMD` instead |
+| `taito db connect:local` | interactive psql/pgcli | pipe SQL on stdin (see below) |
+| `taito db proxy:local` | long-running proxy | only for the user's GUI tools; don't run it |
+
+## Application control
+
+```bash
+taito start:local -b                  # start everything, detached
+taito start:local -b --clean --init   # rebuild images from scratch, then initialize
+taito start:server:local              # start just one container
+taito stop:local                      # stop all containers (data preserved)
+taito stop:server:local               # stop one container
+taito restart:local                   # restart all containers
+taito restart:server:local            # restart one container
+taito status:local                    # docker compose ps — what is up
+taito info:local                      # sign-in info / test accounts for the running app
+```
+
+`taito init:local` initializes database, storages, etc. after a start; add `--clean` to wipe
+existing data first. `taito start:local -b --init` does it as part of startup.
+
+After changing dependencies (`package.json`), run `taito install` on the host and then
+restart the affected container. After changing a secret, restart all containers.
+
+### Destructive — confirm with the user first
+
+```bash
+taito down:local        # stop and remove containers AND volumes (all local data lost)
+taito clean            # remove this project's local images and volumes (no :ENV suffix)
+taito db recreate:local # drop and recreate the database
+taito workspace kill    # kill every running container on the machine, all projects
+```
+
+`taito clean:TARGET` (with a target, e.g. `taito clean:server`) is different and
+safe: it rebuilds and restarts just that one container.
+
+## Logs
+
+`taito logs` follows output, so always bound it:
+
+```bash
+timeout 20 taito logs:server:local 2>&1 | tail -50   # recent output, then exit
+```
+
+or run it as a background command when you need to watch while doing something else.
+
+## Running commands inside a container
+
+```bash
+taito exec:server:local npm run something
+taito exec:server:local ls /app
+```
+
+## Database
+
+```bash
+taito db status:local                # connections and db status
+taito db import:local file.sql       # run a .sql file (path relative to project root)
+taito db dump:local dump.sql         # dump to a file
+taito db recreate:local              # drop and recreate (destructive — confirm first)
+```
+
+For ad-hoc queries, pipe SQL into `db connect` rather than starting an interactive session:
+
+```bash
+echo "select id, name from users limit 10;" | taito db connect:local
+cat query.sql | taito db connect:local
+```
+
+### Migrations
+
+This project uses **Drizzle**, not the sqitch-style `taito db add` / `taito db deploy`
+commands that generic Taito docs describe. The flow is:
+
+1. Edit the table schema in `server/src/<domain>/<entity>.db.ts`
+2. `cd server && npm run db:migrate:generate` — writes a file to `server/db/migrations`
+3. `taito exec:server:local npm run db:migrate` — apply it (server must be running)
+
+Drizzle has no rollback. To undo a migration that already ran, recreate the database
+(`taito db recreate:local`, then re-run migrations and seeds) — confirm with the user first.
+Seeds live in `server/db/seed/`. See `docs/database/migration.md`.
+
+## Quality checks
+
+```bash
+taito lint                  # lint everything
+taito unit                  # all unit tests
+taito unit:client           # unit tests of one container
+taito unit:client car       # a single test
+taito test:local            # integration / e2e tests against local
+taito code check:client     # code quality checks
+```
+
+## Discovering commands
+
+`taito -h` lists everything; `taito COMMAND -h` (e.g. `taito db -h`, `taito db dump -h`)
+gives details for one command or command group. Project-specific notes are in the project's
+own `help.txt` if present.
