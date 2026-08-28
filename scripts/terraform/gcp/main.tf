@@ -150,7 +150,7 @@ locals {
 
 module "gcp" {
   source  = "TaitoUnited/project-resources/google"
-  version = "4.4.0"
+  version = "4.5.3"
 
   create_container_image_repositories = var.taito_env == "dev"
 
@@ -184,6 +184,7 @@ module "gcp" {
   # CI/CD
   create_build_trigger           = var.taito_ci_provider == "gcp"
   cicd_project_id                = var.taito_ci_namespace_id
+  cicd_location                  = var.taito_provider_region
 
   # Log monitoring
   create_log_alert_metrics       = var.taito_logging_provider == "gcp"
