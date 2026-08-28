@@ -25,5 +25,9 @@ if [[ $taito_target_env == "canary" ]]; then
   taito_default_domain=$taito_project-$taito_target_env.$default_domain_prod
 fi
 
+# Enable uptime monitoring and releases
+taito_uptime_provider=${default_uptime_provider_prod}
+ci_exec_release=true
+
 # Temporarily allow building hotfix to prod by setting this to true
 ci_exec_build=false
