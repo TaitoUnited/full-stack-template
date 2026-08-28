@@ -25,6 +25,7 @@ steps:
     entrypoint: "bash"
     env:
       - build_id=$BUILD_ID
+      - build_location=$LOCATION
       - repo_name=$_REPO_NAME
       - branch_name=$BRANCH_NAME
     args:
@@ -36,11 +37,12 @@ steps:
         gcloud builds list \
           --format="table[no-heading](id)" \
           --ongoing \
+          --region "$${build_location}" \
           --filter=" \
             substitutions._REPO_NAME='$${repo_name}' AND \
             substitutions.BRANCH_NAME='$${branch_name}'" | \
           grep -v "$${build_id}" | \
-          xargs gcloud builds cancel 2> /dev/null || :
+          xargs gcloud builds cancel --region "$${build_location}" 2> /dev/null || :
 
   # ----------------------- Taito CLI ----------------------------------
 
