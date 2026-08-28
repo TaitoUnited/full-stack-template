@@ -87,6 +87,8 @@ locals {
   )
 
   namespace = {
+    certManagerNetworkPolicyEnabled = false
+    
     serviceAccounts = concat(
       try(local.orig.namespace.serviceAccounts, []),
       var.create_kubernetes_service_account
