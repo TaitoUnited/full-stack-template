@@ -19,15 +19,21 @@ full-stack:
   networkPolicyEnabled: true
 
   ingress:
-    class: nginx
-    namespace: ingress-nginx
+    class: gcp-gateway
+    name: external-http
+    namespace: gateway-infra
+    certManagerEnabled: false
+    # FOR old ingress-nginx
+    # class: nginx
+    # namespace: ingress-nginx
+    # certManagerEnabled: trure
+    # annotations:
+    #   nginx.ingress.kubernetes.io/configuration-snippet: |
+    #     proxy_set_header "X-Request-id $request_id";
     domains:
       - name: ${taito_domain}
         altDomains:
           - name: ${taito_altdomain}
-    annotations:
-      nginx.ingress.kubernetes.io/configuration-snippet: |
-        proxy_set_header "X-Request-id $request_id";
 
   serviceDefaults:
     # Auth and security
