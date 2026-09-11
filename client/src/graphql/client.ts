@@ -14,12 +14,7 @@ import { logout } from '~/stores/auth-store';
 import { workspaceIdStore } from '~/stores/workspace-store';
 import { toast } from '~/uikit/toaster';
 import { storage } from '~/utils/storage';
-
-let __apolloClient__: ApolloClient;
-
-export function getApolloClient() {
-  return __apolloClient__;
-}
+import { setApolloClient } from './apollo-client-store';
 
 export function setupApolloClient() {
   const cache = new InMemoryCache();
@@ -73,7 +68,7 @@ export function setupApolloClient() {
     },
   });
 
-  __apolloClient__ = apolloClient;
+  setApolloClient(apolloClient);
 
   return apolloClient;
 }

@@ -75,6 +75,7 @@ export function RadioGroup({
                     >
                       <IconInner selected={state.isSelected} />
                     </IconWrapper>
+
                     {option.label}
                   </>
                 )}

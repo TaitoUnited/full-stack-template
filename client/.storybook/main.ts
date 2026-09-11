@@ -20,6 +20,7 @@ const config: StorybookConfig = {
       cacheDir: '.vite/storybook-cache',
     });
   },
+
   docs: {
     autodocs: 'tag',
     defaultName: 'Docs',

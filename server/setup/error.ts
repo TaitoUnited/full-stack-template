@@ -4,7 +4,7 @@ import { type ServerInstance } from './server';
 import { ApiRouteErrorBase } from '~/src/utils/error';
 
 export function setupErrorHandler(server: ServerInstance) {
-  server.setErrorHandler(function (error, request, reply) {
+  server.setErrorHandler((error, request, reply) => {
     request.ctx.log.error(
       { error: { ...error, requestId: request.ctx.requestId } },
       `Unexpected error while handling request: ${error.message}`

@@ -106,6 +106,7 @@ export function MultiSelectCombobox({
           addValue(filteredItems[0].value);
           setInputValue('');
         }
+
         break;
       // Clear last value on Backspace or all values on ctrl/cmd + Backspace
       case 'Backspace':
@@ -117,6 +118,7 @@ export function MultiSelectCombobox({
             onChange(value.slice(0, -1));
           }
         }
+
         break;
     }
   }
@@ -184,6 +186,7 @@ export function MultiSelectCombobox({
               className={inputIconLeftStyles}
             />
           )}
+
           {value.map(option => (
             <Chip
               key={option}
@@ -195,6 +198,7 @@ export function MultiSelectCombobox({
               {items.find(o => o.value === option)?.label}
             </Chip>
           ))}
+
           <Input
             placeholder={placeholder ?? t`Type to search`}
             id={id ?? inputId}
@@ -210,6 +214,7 @@ export function MultiSelectCombobox({
             }}
             onKeyDown={onKeyDown}
           />
+
           <InputDecorations>
             {value.length > 0 && (
               <IconButton
@@ -223,6 +228,7 @@ export function MultiSelectCombobox({
                 }}
               />
             )}
+
             <ChevronButton
               onPress={() => {
                 setDialogOpen(!dialogOpen);
@@ -263,6 +269,7 @@ export function MultiSelectCombobox({
             const newSelectedItems = items
               .filter(o => val.has(o.value))
               .map(o => o.value);
+
             onChange(newSelectedItems);
           }}
           selectedKeys={value}

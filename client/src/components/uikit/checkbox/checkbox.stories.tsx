@@ -46,6 +46,7 @@ export const OuterLabel: Story = {
       <Text id="outer-label" variant="body">
         This label is connected via the `labelledby` prop
       </Text>
+
       <Checkbox labelledby="outer-label" />
     </Stack>
   ),

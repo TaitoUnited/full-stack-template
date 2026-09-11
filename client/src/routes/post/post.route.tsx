@@ -2,7 +2,8 @@ import { Trans } from '@lingui/react/macro';
 import { createFileRoute } from '@tanstack/react-router';
 
 import { DocumentTitle } from '~/components/common/document-title';
-import { type ResultOf, useReadQuery } from '~/graphql';
+import type { ResultOf } from '~/graphql/gql';
+import { useReadQuery } from '~/graphql/hooks';
 import { PostQuery } from '~/graphql/post/queries';
 import { css } from '~/styled-system/css';
 import { Breadcrumbs } from '~/uikit/breadcrumbs';
@@ -17,7 +18,8 @@ export const Route = createFileRoute('/_app/$workspaceId/posts_/$id')({
     }),
   }),
 });
-export default function PostRoute() {
+
+export function PostRoute() {
   const { postQueryRef } = Route.useLoaderData();
   const { post } = useReadQuery(postQueryRef).data;
 
@@ -43,6 +45,7 @@ function PostPage({
           <Breadcrumbs.Item to="/$workspaceId/posts">
             <Trans>Blog</Trans>
           </Breadcrumbs.Item>
+
           <Breadcrumbs.Item>{post.title}</Breadcrumbs.Item>
         </Breadcrumbs>
 

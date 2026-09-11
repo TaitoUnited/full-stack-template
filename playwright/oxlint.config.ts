@@ -1,7 +1,11 @@
 import { defineConfig } from 'oxlint';
 
+import commonConfig from '../.oxlintrc.json' with { type: 'json' };
+
 export default defineConfig({
-  plugins: ['typescript'],
+  // @ts-expect-error JSON files cannot be imported as `const`.
+  extends: [commonConfig],
+  plugins: ['import', 'typescript', 'unicorn'],
   env: {
     builtin: true,
   },
@@ -56,7 +60,15 @@ export default defineConfig({
     'no-unsafe-optional-chaining': 'error',
     'no-unused-labels': 'error',
     'no-unused-private-class-members': 'error',
-    'no-unused-vars': 'error',
+    'no-unused-vars': [
+      'error',
+      {
+        argsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
+        destructuredArrayIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+      },
+    ],
     'no-useless-backreference': 'error',
     'no-useless-catch': 'error',
     'no-useless-escape': 'error',
@@ -85,6 +97,12 @@ export default defineConfig({
     'typescript/triple-slash-reference': 'error',
   },
   overrides: [
+    {
+      files: ['*.config.ts'],
+      rules: {
+        'import/no-default-export': 'off',
+      },
+    },
     {
       files: ['tests/**/*.ts'],
       rules: {
@@ -119,6 +137,7 @@ export default defineConfig({
             argsIgnorePattern: '^_',
             caughtErrorsIgnorePattern: '^_',
             destructuredArrayIgnorePattern: '^_',
+            varsIgnorePattern: '^_',
           },
         ],
       },

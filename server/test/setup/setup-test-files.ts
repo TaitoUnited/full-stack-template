@@ -31,6 +31,7 @@ beforeAll(async () => {
   if (!globalThis.testData) {
     globalThis.testData = injectedTestData;
   }
+
   if (!globalThis.testDb) {
     const db = await getTestDb();
     globalThis.testDb = db;

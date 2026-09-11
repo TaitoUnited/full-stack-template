@@ -52,11 +52,13 @@ export function PopoverBase({
               d="M6.89443 10.2111L11.2764 1.44722C11.6088 0.782313 11.1253 8.7721e-07 10.382 8.12221e-07L1.61803 4.60539e-08C0.874652 -1.89346e-08 0.391155 0.782312 0.723606 1.44721L5.10557 10.2111C5.4741 10.9482 6.5259 10.9482 6.89443 10.2111Z"
               className="arrow-bg"
             />
+
             <path
               d="M1 1L6 11"
               className="arrow-stroke"
               strokeLinecap="round"
             />
+
             <path
               d="M11 1L6 11"
               className="arrow-stroke"
@@ -64,6 +66,7 @@ export function PopoverBase({
             />
           </svg>
         </PopoverArrow>
+
         <PopoverDialog>{content}</PopoverDialog>
       </AriaPopover>
     </DialogTrigger>

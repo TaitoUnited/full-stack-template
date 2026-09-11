@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { create } from 'zustand';
 
-import { getApolloClient } from '~/graphql';
+import { getApolloClient } from '~/graphql/apollo-client-store';
 import { LoginMutation, LogoutMutation } from '~/graphql/session/mutations';
 import { MeQuery } from '~/graphql/session/queries';
-import { getRouter } from '~/route-setup';
+import { getRouter } from '~/router-store';
 import { storage } from '~/utils/storage';
 
 type AuthState =

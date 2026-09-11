@@ -48,37 +48,41 @@ export function useScrollPosition(
 }
 
 function determineVerticalScrollPosition(element: HTMLElement): ScrollPosition {
-  if (element.scrollHeight > element.clientHeight) {
-    if (element.scrollTop === 0) {
-      return 'start';
-    } else if (
-      Math.ceil(element.scrollTop) + element.clientHeight >=
-      element.scrollHeight
-    ) {
-      return 'end';
-    } else {
-      return 'middle';
-    }
-  } else {
+  if (element.scrollHeight <= element.clientHeight) {
     return 'none';
   }
+
+  if (element.scrollTop === 0) {
+    return 'start';
+  }
+
+  if (
+    Math.ceil(element.scrollTop) + element.clientHeight >=
+    element.scrollHeight
+  ) {
+    return 'end';
+  }
+
+  return 'middle';
 }
 
 function determineHorisontalScrollPosition(
   element: HTMLElement
 ): ScrollPosition {
-  if (element.scrollWidth > element.clientWidth) {
-    if (element.scrollLeft === 0) {
-      return 'start';
-    } else if (
-      Math.ceil(element.scrollLeft) + element.clientWidth >=
-      element.scrollWidth
-    ) {
-      return 'end';
-    } else {
-      return 'middle';
-    }
-  } else {
+  if (element.scrollWidth <= element.clientWidth) {
     return 'none';
   }
+
+  if (element.scrollLeft === 0) {
+    return 'start';
+  }
+
+  if (
+    Math.ceil(element.scrollLeft) + element.clientWidth >=
+    element.scrollWidth
+  ) {
+    return 'end';
+  }
+
+  return 'middle';
 }

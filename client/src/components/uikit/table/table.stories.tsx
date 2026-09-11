@@ -37,6 +37,7 @@ export function Basic() {
           <Table.Column key="name" isRowHeader>
             Name
           </Table.Column>
+
           <Table.Column key="age">Age</Table.Column>
           <Table.Column key="location">Location</Table.Column>
         </Table.Header>
@@ -63,6 +64,7 @@ export function Striped() {
           <Table.Column key="name" isRowHeader>
             Name
           </Table.Column>
+
           <Table.Column key="age">Age</Table.Column>
           <Table.Column key="location">Location</Table.Column>
         </Table.Header>
@@ -101,9 +103,11 @@ export function Sortable() {
           <Table.Column key="name" allowsSorting isRowHeader>
             Name
           </Table.Column>
+
           <Table.Column key="age" allowsSorting>
             Age
           </Table.Column>
+
           <Table.Column key="location" allowsSorting>
             Location
           </Table.Column>

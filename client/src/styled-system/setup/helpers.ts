@@ -4,19 +4,20 @@ export function transformNumberTokens(
   tokens: Record<string, any>,
   transformer: (value: number) => string
 ) {
-  return Object.entries(tokens).reduce<Record<string, { value: string }>>(
-    (acc, [key, value]) => {
-      if (typeof value === 'number') {
-        acc[key] = { value: transformer(value) };
-      } else {
-        console.error(
-          `Expected a number for token "${key}", but got "${typeof value}".`
-        );
-      }
-      return acc;
-    },
-    {}
-  );
+  const transformed: Record<string, { value: string }> = {};
+
+  for (const [key, value] of Object.entries(tokens)) {
+    if (typeof value === 'number') {
+      transformed[key] = { value: transformer(value) };
+      continue;
+    }
+
+    console.error(
+      `Expected a number for token "${key}", but got "${typeof value}".`
+    );
+  }
+
+  return transformed;
 }
 
 export function transformColors(
@@ -43,39 +44,43 @@ type TextStyle = {
 };
 
 export function transformTypography(tokens: Record<string, TextStyle>) {
-  return Object.entries(tokens).reduce<Record<string, any>>(
-    (acc, [key, value]) => {
-      acc[`$${key}`] = {
-        value: {
-          fontFamily: value.fontFamily,
-          fontWeight: value.fontWeight,
-          fontSize: `${value.fontSize / 16}rem`,
-          textTransform: value.textTransform,
-          letterSpacing: value.letterSpacing,
-          lineHeight: value.lineHeight,
-        },
-      };
-      return acc;
-    },
-    {}
-  );
+  const transformed: Record<string, any> = {};
+
+  for (const [key, value] of Object.entries(tokens)) {
+    transformed[`$${key}`] = {
+      value: {
+        fontFamily: value.fontFamily,
+        fontWeight: value.fontWeight,
+        fontSize: `${value.fontSize / 16}rem`,
+        textTransform: value.textTransform,
+        letterSpacing: value.letterSpacing,
+        lineHeight: value.lineHeight,
+      },
+    };
+  }
+
+  return transformed;
 }
 
 export function transformColorsWithScheme(tokens: {
   light: Record<string, string>;
   dark: Record<string, string>;
 }) {
-  return Object.entries(tokens.light).reduce<
-    Record<string, { value: { _light: string; _dark: string } }>
-  >((acc, [key, value]) => {
-    acc[key] = {
+  const transformed: Record<
+    string,
+    { value: { _light: string; _dark: string } }
+  > = {};
+
+  for (const [key, value] of Object.entries(tokens.light)) {
+    transformed[key] = {
       value: {
         _light: value,
         _dark: tokens.dark[key] ?? value,
       },
     };
-    return acc;
-  }, {});
+  }
+
+  return transformed;
 }
 
 type Shadow = {
@@ -87,14 +92,14 @@ type Shadow = {
 };
 
 export function transformShadows(tokens: Record<string, Shadow>) {
-  return Object.entries(tokens).reduce<Record<string, { value: string }>>(
-    (acc, [key, value]) => {
-      // Due to the way shadows are named in Figma we need to remove the leading
-      // "shadow" from the key: "shadowLarge" -> "large"
-      const name = key.replace('shadow', '').toLowerCase();
-      acc[name] = { value: value.boxShadow };
-      return acc;
-    },
-    {}
-  );
+  const transformed: Record<string, { value: string }> = {};
+
+  for (const [key, value] of Object.entries(tokens)) {
+    // Due to the way shadows are named in Figma we need to remove the leading
+    // "shadow" from the key: "shadowLarge" -> "large"
+    const name = key.replace('shadow', '').toLowerCase();
+    transformed[name] = { value: value.boxShadow };
+  }
+
+  return transformed;
 }

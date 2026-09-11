@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import * as fs from 'fs';
+import * as fs from 'node:fs';
 
 const authFile = '.auth/user.json';
 

@@ -73,6 +73,7 @@ function LinksExample() {
       >
         Login
       </LinkButton>
+
       <LinkButton
         //@ts-expect-error - This route does not really exist
         to="/signup"
@@ -82,6 +83,7 @@ function LinksExample() {
       >
         Signup
       </LinkButton>
+
       <LinkButton
         //@ts-expect-error - This route does not really exist
         to="/logout"
@@ -92,6 +94,7 @@ function LinksExample() {
       >
         Logout
       </LinkButton>
+
       <Tooltip content="Test tooltip" placement="bottom">
         <LinkButton
           //@ts-expect-error - This route does not really exist
@@ -165,6 +168,7 @@ export const Loading: Story = {
           isSelected={isLoading}
           onChange={() => setLoading(p => !p)}
         />
+
         <Stack direction="row" gap="$medium" align="flex-start">
           {sizes.map(size => (
             <Button

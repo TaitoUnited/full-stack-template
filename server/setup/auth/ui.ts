@@ -67,6 +67,7 @@ export const uiAuthPlugin = fastifyPlugin(async (server: ServerInstance) => {
       id: row.organisationId,
       role: row.role,
     }));
+
     request.ctx.user.session = session;
   });
 });

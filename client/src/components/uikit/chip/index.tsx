@@ -89,6 +89,7 @@ export function Chip({
           aria-hidden
         />
       )}
+
       {content}
       {removable && (
         <IconButton

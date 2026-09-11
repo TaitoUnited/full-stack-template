@@ -8,10 +8,12 @@ import { z } from 'zod';
 import { storage } from '~/utils/storage';
 
 export const LOCALE_SCHEMA = z.enum(['fi', 'en-FI']);
+
 export type Locale = z.infer<typeof LOCALE_SCHEMA>;
 
 export const SUPPORTED_LOCALES = LOCALE_SCHEMA.options;
 export const DEFAULT_LOCALE: Locale = 'en-FI';
+
 export const LOCALE_LABEL: { [locale in Locale]: string } = {
   'en-FI': 'English',
   fi: 'Suomi',

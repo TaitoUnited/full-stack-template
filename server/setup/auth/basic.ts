@@ -23,6 +23,7 @@ export const basicAuthPlugin = fastifyPlugin(
         request.ctx.log.info(
           `authentication failed using "basic.${opts.initiator}"`
         );
+
         return reply.status(403).send();
       }
 

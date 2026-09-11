@@ -74,9 +74,9 @@ function toastPromise<T>(
   const { loading, success, error, ...rest } = options;
 
   return sonnerToast.promise(promise, {
-    loading: loading,
+    loading,
     success: data => success(data),
-    error: error,
+    error,
     ...defaultOptions({ ...rest }),
     icon: undefined, // Custom icon with loading state does not work, so we prevent it here
   });

@@ -59,6 +59,7 @@ const TanStackRouterDevtools =
         const devtools = await import('@tanstack/router-devtools').then(
           res => ({ default: res.TanStackRouterDevtools })
         );
+
         return devtools;
       });
 

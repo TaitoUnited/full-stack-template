@@ -7,6 +7,7 @@ import type {
 import type { ServerInstance } from './server';
 
 type RawPlugin = FastifyPluginCallback<any>;
+
 type Plugin =
   | RawPlugin
   | { plugin: RawPlugin; opts: FastifyRegisterOptions<FastifyPluginOptions> };

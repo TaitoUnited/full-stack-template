@@ -32,6 +32,7 @@ function RenderStory() {
   if (!storyFn) {
     throw new Error('Storybook root not found');
   }
+
   return storyFn();
 }
 
@@ -50,6 +51,7 @@ function NotFoundComponent(_props: NotFoundRouteProps) {
 }
 
 const storyPath = '/__story__';
+
 const storyRoute = createRoute({
   path: storyPath,
   getParentRoute: () => rootRoute,
@@ -59,6 +61,7 @@ const storyRoute = createRoute({
 const rootRoute = createRootRoute({
   notFoundComponent: NotFoundComponent,
 });
+
 rootRoute.addChildren([storyRoute]);
 
 export const storyRouter = createRouter({

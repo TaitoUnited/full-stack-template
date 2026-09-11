@@ -1,7 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
-import path from 'path';
-import url from 'url';
+import path from 'node:path';
+import url from 'node:url';
 
 const IS_CI = Boolean(process.env.CI || process.env.taito_mode === 'ci');
 const TEST_BASE_URL = process.env.TEST_BASE_URL;

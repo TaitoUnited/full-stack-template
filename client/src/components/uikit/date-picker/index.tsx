@@ -96,10 +96,14 @@ export function DatePicker({
       let clipboardText: string | undefined;
       try {
         clipboardText = event.clipboardData?.getData('text');
-        if (!clipboardText) throw new Error();
+        if (!clipboardText) {
+          throw new Error('Clipboard does not contain text.');
+        }
 
         const parsed = parseInputDate(clipboardText);
-        if (!parsed) throw new Error();
+        if (!parsed) {
+          throw new Error('Clipboard text is not a valid date.');
+        }
 
         onChange?.(parsed);
       } catch (err) {
@@ -155,6 +159,7 @@ export function DatePicker({
           <DateInput data-testid="date-picker-input">
             {segment => <DateInputSegment segment={segment} />}
           </DateInput>
+
           {clearable && value && (
             <IconButton
               icon="close"
@@ -166,6 +171,7 @@ export function DatePicker({
               }}
             />
           )}
+
           {copiable && value && (
             <IconButton
               icon={copied ? 'check' : 'copy'}
@@ -178,6 +184,7 @@ export function DatePicker({
               }}
             />
           )}
+
           <IconButton
             data-testid="date-picker-input-button"
             icon="calendarMonth"
@@ -218,6 +225,7 @@ export function DatePicker({
                             })
                           )}
                         </Text>
+
                         <Icon
                           name={
                             viewMode === 'month'
@@ -229,6 +237,7 @@ export function DatePicker({
                         />
                       </Stack>
                     </CalendarStateButton>
+
                     <CalendarStateButton
                       onClick={() => {
                         setViewMode(p => (p === 'year' ? 'day' : 'year'));
@@ -243,6 +252,7 @@ export function DatePicker({
                             year: 'numeric',
                           })}
                         </Text>
+
                         <Icon
                           name={
                             viewMode === 'year'
@@ -255,6 +265,7 @@ export function DatePicker({
                       </Stack>
                     </CalendarStateButton>
                   </Stack>
+
                   {viewMode === 'day' && (
                     <Stack direction="row" gap="$xxs">
                       <CalendarHeaderButton
@@ -263,6 +274,7 @@ export function DatePicker({
                       >
                         <Icon name="chevronLeft" color="text" size={22} />
                       </CalendarHeaderButton>
+
                       <CalendarHeaderButton
                         slot="next"
                         data-testid="date-picker-calendar-next"
@@ -278,6 +290,7 @@ export function DatePicker({
                     <CalendarGridHeader>
                       {day => <CalendarHeaderCell>{day}</CalendarHeaderCell>}
                     </CalendarGridHeader>
+
                     <CalendarGridBody>
                       {cellDate => (
                         <CalendarCell
@@ -288,12 +301,14 @@ export function DatePicker({
                     </CalendarGridBody>
                   </CalendarGrid>
                 )}
+
                 {viewMode === 'month' && (
                   <CalendarMonthGrid
                     state={date.state}
                     onChange={() => setViewMode('day')}
                   />
                 )}
+
                 {viewMode === 'year' && (
                   <CalendarYearGrid
                     state={date.state}
@@ -340,6 +355,7 @@ function parseInputDate(input: string): string | null {
       return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
     }
   }
+
   return null;
 }
 

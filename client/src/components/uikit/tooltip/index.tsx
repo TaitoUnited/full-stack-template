@@ -48,6 +48,7 @@ function TooltipBase({
             <path d="M0 0 L4 4 L8 0" />
           </svg>
         </TooltipArrow>
+
         {content}
       </TooltipContent>
     </AriaTooltipTrigger>

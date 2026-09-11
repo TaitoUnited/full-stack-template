@@ -115,6 +115,7 @@ function Section({ ref, title, children, ...rest }: SectionProps) {
       <MenuSectionHeader data-testid="menu-section-title">
         {title}
       </MenuSectionHeader>
+
       {children}
     </MenuSection>
   );

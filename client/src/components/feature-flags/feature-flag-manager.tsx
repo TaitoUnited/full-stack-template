@@ -17,7 +17,7 @@ import { IconButton } from '~/uikit/icon-button';
 import { Stack } from '~/uikit/stack';
 import { Text } from '~/uikit/text';
 
-export default function FeatureFlagManager() {
+export function FeatureFlagManager() {
   const [visible, setVisible] = useState(false);
 
   useShortcut('Meta+K', () => {
@@ -30,6 +30,7 @@ export default function FeatureFlagManager() {
 }
 
 const fixedFeatures = featureNames.filter(f => isFeatureEnabledInConfig(f));
+
 const togglableFeatures = featureNames.filter(
   f => !isFeatureEnabledInConfig(f)
 );
@@ -98,6 +99,7 @@ function FeatureFlagManagerWidget({ onClose }: { onClose: () => void }) {
               <Text variant="bodySmall" color="textMuted">
                 Enabled in config
               </Text>
+
               <div />
             </Separator>
 

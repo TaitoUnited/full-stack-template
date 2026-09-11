@@ -3,15 +3,10 @@ import { createQueryPreloader } from '@apollo/client/react';
 import { createRouter } from '@tanstack/react-router';
 
 import { routeTree } from './route-tree.gen';
+import { setRouter } from './router-store';
 import { NotFoundUnauthenticated } from './routes/not-found/not-found-unauthenticated';
 import { RouteError } from './routes/route-error';
 import { RoutePending } from './routes/route-pending';
-
-let __router__: ReturnType<typeof setupRouter>;
-
-export function getRouter() {
-  return __router__;
-}
 
 export function setupRouter(apolloClient: ApolloClient) {
   const preloadQuery = createQueryPreloader(apolloClient);
@@ -29,7 +24,7 @@ export function setupRouter(apolloClient: ApolloClient) {
     defaultPendingMinMs: 500, // show pending component for at least this long
   });
 
-  __router__ = router;
+  setRouter(router);
 
   return router;
 }

@@ -72,4 +72,4 @@ export const builder = new SchemaBuilder<{
   },
 });
 
-export type SchemaBuilder = typeof builder;
+export type GraphQLSchemaBuilder = typeof builder;

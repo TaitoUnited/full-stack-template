@@ -38,6 +38,7 @@ function BreadcrumbList({ ref, children, onAction, ...rest }: Props) {
             isLast: index === Children.count(children) - 1,
           });
         }
+
         return null;
       })}
     </BreadcrumbContainer>
@@ -65,6 +66,7 @@ function BreadcrumbItem({
       <BreadcrumbLink data-testid="breadcrumbs-link" to={to} target={target}>
         {children}
       </BreadcrumbLink>
+
       {!isLast && (
         <Icon name="chevronRight" size={16} color="neutral1" aria-hidden />
       )}

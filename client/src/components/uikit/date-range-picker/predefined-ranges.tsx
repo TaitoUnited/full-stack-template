@@ -34,6 +34,7 @@ export function PredefinedRanges({
           </PredefinedRange>
         ))}
       </Grid>
+
       <PredefinedRangeSpacer />
     </Fragment>
   );

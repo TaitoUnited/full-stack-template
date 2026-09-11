@@ -7,16 +7,19 @@ import { createRoot } from 'react-dom/client';
 
 import { Providers } from '~/components/common/providers';
 import { config, loadRemoteConfig } from '~/constants/config';
-import { setupApolloClient } from '~/graphql';
+import { setupApolloClient } from '~/graphql/client';
 import { setupFeatureFlags } from '~/services/feature-flags';
 import { setupMessages } from '~/services/i18n';
 import { setupErrorReporting } from '~/services/reporting';
 
 import { setupRouter } from './route-setup';
 
-const FeatureFlagManager = loadable(
-  () => import('~/components/feature-flags/feature-flag-manager')
-);
+const FeatureFlagManager = loadable(async () => {
+  const { FeatureFlagManager: FeatureFlagManagerComponent } =
+    await import('~/components/feature-flags/feature-flag-manager');
+
+  return { default: FeatureFlagManagerComponent };
+});
 
 async function init() {
   setupErrorReporting();

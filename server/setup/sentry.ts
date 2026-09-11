@@ -22,6 +22,7 @@ export function initSentry() {
     log.info('Skipping sentry init (DSN not set up)', {
       dsn: config.SENTRY_DSN,
     });
+
     return;
   }
 

@@ -28,6 +28,7 @@ export function SelectItem({ label, description, render }: Props) {
           </Text>
         )}
       </Stack>
+
       <SelectedIcon />
     </Stack>
   );

@@ -1,4 +1,5 @@
 import { defineConfig, type DummyRuleMap } from 'oxlint';
+
 import commonConfig from '../.oxlintrc.json' with { type: 'json' };
 
 function config() {
@@ -16,6 +17,10 @@ function config() {
       'unicorn',
     ],
     jsPlugins: [
+      {
+        name: 'full-stack-template-client',
+        specifier: './plugins/oxlint-plugin-template.js',
+      },
       'eslint-plugin-lingui',
       'eslint-plugin-react-x',
       'eslint-plugin-react-jsx',
@@ -29,6 +34,7 @@ function config() {
     },
     ignorePatterns: [
       'node_modules',
+      'plugins',
       'shared',
       'assets',
       'build',
@@ -52,6 +58,19 @@ function config() {
       ...reactRules,
       ...unicornRules,
     },
+    overrides: [
+      {
+        files: [
+          '**/*.stories.tsx',
+          '.storybook/main.ts',
+          '.storybook/preview.tsx',
+          '*.config.ts',
+        ],
+        rules: {
+          'import/no-default-export': 'off',
+        },
+      },
+    ],
   });
 }
 
@@ -114,6 +133,7 @@ const coreRules: DummyRuleMap = {
       argsIgnorePattern: '^_',
       caughtErrorsIgnorePattern: '^_',
       destructuredArrayIgnorePattern: '^_',
+      varsIgnorePattern: '^_',
     },
   ],
   'no-useless-backreference': 'error',
@@ -378,9 +398,37 @@ const promiseRules: DummyRuleMap = {
 };
 
 const reactRules: DummyRuleMap = {
+  // React dependency-array rules report false positives for intentional effects.
   'react/exhaustive-deps': 'off',
-  'react/react-compiler': 'error',
+  'react/exhaustive-effect-dependencies': 'off',
+  'react/error-boundaries': 'error',
+  'react/globals': 'error',
+  'react/immutability': 'error',
+  'react/incompatible-library': 'error',
+  'react/preserve-manual-memoization': 'error',
+  'react/purity': 'error',
+  'react/refs': 'error',
+  'react/set-state-in-effect': 'error',
+  'react/set-state-in-render': 'error',
+  'react/static-components': 'error',
+  'react/use-memo': 'error',
+  'react/memo-dependencies': 'error',
+  'react/unsupported-syntax': 'error',
+  'react/void-use-memo': 'error',
+  'react/no-deriving-state-in-effects': 'error',
+  'react/capitalized-calls': 'error',
   'react/rules-of-hooks': 'error',
+  'full-stack-template-client/no-extra-empty-lines': 'error',
+  'full-stack-template-client/no-function-deps-in-effect': 'error',
+  'full-stack-template-client/no-positional-func-args': 'error',
+  'full-stack-template-client/padding-after-block': 'error',
+  'full-stack-template-client/padding-after-function': 'error',
+  'full-stack-template-client/padding-after-multiline-statement': 'error',
+  'full-stack-template-client/padding-after-multiline-variable': 'error',
+  'full-stack-template-client/padding-between-jsx-siblings': 'error',
+  'full-stack-template-client/padding-between-top-level-declarations': 'error',
+  'react/jsx-boolean-value': ['error', 'never'],
+  'react/self-closing-comp': ['error', { component: true, html: false }],
   'react-jsx/no-children-prop': 'error',
   'react-jsx/no-children-prop-with-children': 'error',
   'react-jsx/no-comment-textnodes': 'error',

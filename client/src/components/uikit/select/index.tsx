@@ -129,6 +129,7 @@ export function Select({
             {/* In cases like these, render props are preferred for perf reasons.
              * Ref: https://react-spectrum.adobe.com/react-stately/collections.html#why-not-array-map
              */}
+
             {(option: SelectOption) => (
               <ListBoxItem
                 id={option.value}

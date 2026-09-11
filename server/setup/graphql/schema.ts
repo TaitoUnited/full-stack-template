@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'node:fs';
 import { printSchema, lexicographicSortSchema } from 'graphql';
 import { DateTimeISOResolver } from 'graphql-scalars';
 

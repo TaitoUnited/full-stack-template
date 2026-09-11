@@ -19,6 +19,7 @@ describe('Organisation API', () => {
     const testOrganisation = organisations?.find(
       (org) => org.id === globalThis.testData.organisation.id
     );
+
     expect(testOrganisation).toBeDefined();
     expect(testOrganisation?.name).toBe('API integration test organisation');
   });

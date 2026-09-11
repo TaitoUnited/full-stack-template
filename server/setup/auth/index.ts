@@ -35,11 +35,13 @@ export const disableNotAuthenticated = fastifyPlugin(async (server) => {
         'X-RequestId': request.id,
         'content-type': 'text/plain',
       });
+
       reply.raw.write(
         'Request was not authenticated!!\n' +
           'If you see this, you should fix your authentication code.\n\n' +
           `Original status: ${status}\n`
       );
+
       reply.raw.end();
     } else {
       log.trace(`Request was authenticated using "${__authenticator__}"`);

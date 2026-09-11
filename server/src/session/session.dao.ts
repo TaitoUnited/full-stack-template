@@ -19,6 +19,7 @@ async function login(
     refreshToken: null,
     refreshTokenExpiresAt: null,
   });
+
   const cookie = auth.createSessionCookie(session.id);
 
   await userDao.updateUserLastLogin(db, user.id);
@@ -81,7 +82,7 @@ async function validateLogin({
   }
 
   const validPassword = await comparePassword({
-    password: password,
+    password,
     hash: user.passwordHash,
   });
 

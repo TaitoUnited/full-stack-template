@@ -17,7 +17,7 @@ export const Route = createFileRoute('/_app/$workspaceId/')({
   component: HomeRoute,
 });
 
-export default function HomeRoute() {
+export function HomeRoute() {
   const { t } = useLingui();
 
   const featureEnabled = isFeatureEnabled('feature-1');
@@ -173,9 +173,11 @@ function SortableTable() {
         <Table.Column key="name" allowsSorting isRowHeader>
           Name
         </Table.Column>
+
         <Table.Column key="age" allowsSorting>
           Age
         </Table.Column>
+
         <Table.Column key="location" allowsSorting>
           Location
         </Table.Column>

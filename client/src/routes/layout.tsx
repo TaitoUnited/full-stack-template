@@ -37,6 +37,7 @@ export const Route = createFileRoute('/_app')({
       'workspaceId' in params && typeof params.workspaceId === 'string'
         ? params.workspaceId
         : undefined;
+
     const workspaceIdFallback = workspaces?.[0]?.id;
     const workspaceId = workspaces?.find(w => w.id === workspaceIdParam)?.id;
 
@@ -73,6 +74,7 @@ export const Route = createFileRoute('/_app')({
     }
   },
 });
+
 function Layout() {
   return (
     <PageLayout>

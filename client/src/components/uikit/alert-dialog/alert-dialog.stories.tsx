@@ -41,6 +41,7 @@ function Example() {
           <Text variant="body">
             Dropping the database can be fun but dangerous.
           </Text>
+
           <Text variant="bodySemiBold">Make sure you have backups!</Text>
         </Stack>
       ),

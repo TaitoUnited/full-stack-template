@@ -1,6 +1,6 @@
 import { describe, it, vi } from 'vitest';
 
-describe('infra', function infra() {
+describe('infra', () => {
   // EXAMPLE: You can increase API timeout for slow API calls
   vi.setConfig({ testTimeout: 5000 });
 

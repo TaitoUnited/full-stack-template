@@ -17,7 +17,7 @@ export const Route = createFileRoute('/_app/$workspaceId/posts_/create')({
   component: PostCreateRoute,
 });
 
-export default function PostCreateRoute() {
+export function PostCreateRoute() {
   const { t } = useLingui();
   const params = Route.useParams();
   const [formValues, setFormValues] = useState({ title: '', content: '' });

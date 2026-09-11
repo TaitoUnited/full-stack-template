@@ -1,4 +1,5 @@
 import { defineConfig, type DummyRuleMap } from 'oxlint';
+
 import commonConfig from '../.oxlintrc.json' with { type: 'json' };
 
 function config() {
@@ -14,10 +15,16 @@ function config() {
       'typescript',
       'unicorn',
     ],
+    jsPlugins: [
+      {
+        name: 'full-stack-template-server',
+        specifier: './plugins/oxlint-plugin-template.js',
+      },
+    ],
     env: {
       builtin: true,
     },
-    ignorePatterns: ['node_modules', 'build', 'shared'],
+    ignorePatterns: ['node_modules', 'build', 'plugins', 'shared'],
     rules: {
       ...coreRules,
       ...oxcRules,
@@ -25,8 +32,36 @@ function config() {
       ...nodeRules,
       ...promiseRules,
       ...unicornRules,
+      'full-stack-template-server/no-extra-empty-lines': 'error',
+      'full-stack-template-server/no-positional-func-args': 'error',
+      'full-stack-template-server/padding-after-block': 'error',
+      'full-stack-template-server/padding-after-function': 'error',
+      'full-stack-template-server/padding-after-multiline-statement': 'error',
+      'full-stack-template-server/padding-after-multiline-variable': 'error',
+      'full-stack-template-server/padding-between-top-level-declarations': 'error',
       ...tsRuleOverrides,
     },
+    overrides: [
+      {
+        files: ['src/**/*.ts'],
+        rules: {
+          'no-console': 'error',
+        },
+      },
+      {
+        // Configuration loads before the application logger and must not import it.
+        files: ['src/utils/config.ts'],
+        rules: {
+          'no-console': 'off',
+        },
+      },
+      {
+        files: ['**/*.config.ts', '**/*.config.mts', 'test/setup/setup-test-global.ts'],
+        rules: {
+          'import/no-default-export': 'off',
+        },
+      },
+    ],
   });
 }
 
@@ -94,6 +129,7 @@ const coreRules: DummyRuleMap = {
       argsIgnorePattern: '^_',
       caughtErrorsIgnorePattern: '^_',
       destructuredArrayIgnorePattern: '^_',
+      varsIgnorePattern: '^_',
     },
   ],
   'no-useless-backreference': 'error',

@@ -1,8 +1,8 @@
 /* oxlint-disable node/no-process-env */
 /* oxlint-disable typescript/no-unnecessary-condition typescript/no-unsafe-argument typescript/no-unsafe-assignment typescript/no-unsafe-call typescript/no-unsafe-member-access typescript/no-unsafe-return typescript/no-unsafe-type-assertion */
 
-import { promises as fsPromises } from 'fs';
-import { isIP } from 'net';
+import { promises as fsPromises } from 'node:fs';
+import { isIP } from 'node:net';
 import {
   SecretsManagerClient,
   GetSecretValueCommand,
@@ -14,7 +14,7 @@ const secretManagerClient: SecretsManagerClient = new SecretsManagerClient({
 
 function getNonEmptyEnvironmentValue(value: string | undefined) {
   if (!value) {
-    return undefined;
+    return;
   }
 
   return value;
@@ -48,12 +48,16 @@ export async function readFile(path?: string | null) {
   return null;
 }
 
-export async function readMandatorySecret(
-  secret: string,
+export async function readMandatorySecret({
+  secret,
   isFileSecret = false,
-  altFilePath?: string | null
-) {
-  const value = await readSecret(secret, isFileSecret, altFilePath);
+  altFilePath,
+}: {
+  secret: string;
+  isFileSecret?: boolean;
+  altFilePath?: string | null;
+}) {
+  const value = await readSecret({ secret, isFileSecret, altFilePath });
 
   // QUICK FIX: all secrets not set when running drizzle migrations
   // if (!value) {
@@ -63,11 +67,15 @@ export async function readMandatorySecret(
   return value;
 }
 
-export async function readSecret(
-  secret: string,
+export async function readSecret({
+  secret,
   isFileSecret = false,
-  altFilePath?: string | null
-) {
+  altFilePath,
+}: {
+  secret: string;
+  isFileSecret?: boolean;
+  altFilePath?: string | null;
+}) {
   // Empty environment and secret values must fall through to the next source.
   /* oxlint-disable typescript/prefer-nullish-coalescing */
   const value =
@@ -79,6 +87,7 @@ export async function readSecret(
       ))) ||
     (await readFile(`/run/secrets/${secret}`)) ||
     (await readFile(altFilePath));
+
   /* oxlint-enable typescript/prefer-nullish-coalescing */
 
   if (!value) {
@@ -195,26 +204,26 @@ export async function getSecrets() {
 
   // Secrets
   const s = {
-    SERVICE_ACCOUNT_KEY: await readSecret(
-      'SERVICE_ACCOUNT_KEY',
-      true,
-      '/serviceaccount/key'
-    ),
-    DATABASE_PASSWORD: await readSecret('DATABASE_PASSWORD'),
+    SERVICE_ACCOUNT_KEY: await readSecret({
+      secret: 'SERVICE_ACCOUNT_KEY',
+      isFileSecret: true,
+      altFilePath: '/serviceaccount/key',
+    }),
+    DATABASE_PASSWORD: await readSecret({ secret: 'DATABASE_PASSWORD' }),
     DATABASE_SSL_CA:
       useClientCert || useServerCert
-        ? await readSecret('DATABASE_SSL_CA', true)
+        ? await readSecret({ secret: 'DATABASE_SSL_CA', isFileSecret: true })
         : null,
     DATABASE_SSL_CERT: useClientCert
-      ? await readSecret('DATABASE_SSL_CERT', true)
+      ? await readSecret({ secret: 'DATABASE_SSL_CERT', isFileSecret: true })
       : null,
     DATABASE_SSL_KEY: useClientCert
-      ? await readSecret('DATABASE_SSL_KEY', true)
+      ? await readSecret({ secret: 'DATABASE_SSL_KEY', isFileSecret: true })
       : null,
-    REDIS_PASSWORD: await readSecret('REDIS_PASSWORD'),
-    BUCKET_KEY_SECRET: await readSecret('BUCKET_KEY_SECRET'),
-    SESSION_SECRET: await readMandatorySecret('SESSION_SECRET'),
-    EXAMPLE_SECRET: await readMandatorySecret('EXAMPLE_SECRET'),
+    REDIS_PASSWORD: await readSecret({ secret: 'REDIS_PASSWORD' }),
+    BUCKET_KEY_SECRET: await readSecret({ secret: 'BUCKET_KEY_SECRET' }),
+    SESSION_SECRET: await readMandatorySecret({ secret: 'SESSION_SECRET' }),
+    EXAMPLE_SECRET: await readMandatorySecret({ secret: 'EXAMPLE_SECRET' }),
   };
 
   secrets ??= s;

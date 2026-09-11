@@ -116,6 +116,7 @@ export function ComboBox({
             {/* In cases like these, render props are preferred for perf reasons.
              * Ref: https://react-spectrum.adobe.com/react-stately/collections.html#why-not-array-map
              */}
+
             {(option: ComboBoxOption) => (
               <ListBoxItem
                 id={option.value}

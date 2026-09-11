@@ -31,7 +31,7 @@ export function InputLayout({
 }) {
   return (
     <>
-      <div className={labelContainerStyles({ labelPosition: labelPosition })}>
+      <div className={labelContainerStyles({ labelPosition })}>
         <Label
           {...labelProps}
           className={labelStyles}

@@ -17,6 +17,7 @@ export async function fetchStarWarsCharacter({
     `https://swapi.py4e.com/api/people/?search=${filterText}`,
     { signal }
   );
+
   const responseBody: unknown = await response.json();
   const result = starWarsResponseSchema.parse(responseBody).results;
 

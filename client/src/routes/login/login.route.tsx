@@ -61,6 +61,7 @@ function LoginRoute() {
                 value={credentials.email}
                 onInput={handleChange}
               />
+
               <TextInput
                 label={t`Password`}
                 name="password"
@@ -69,6 +70,7 @@ function LoginRoute() {
                 value={credentials.password}
                 onInput={handleChange}
               />
+
               <Button
                 type="submit"
                 size="large"

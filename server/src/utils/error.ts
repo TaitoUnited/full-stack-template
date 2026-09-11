@@ -20,6 +20,7 @@ export function throwApiError(vars: {
       throw ApiRouteError[errorType](message);
   }
 }
+
 export type ApiErrorType = keyof typeof ApiRouteError;
 
 // GraphQL error

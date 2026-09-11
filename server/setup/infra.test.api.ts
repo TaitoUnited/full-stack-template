@@ -8,6 +8,7 @@ describe('infra', () => {
       const response = await client
         .get('config')
         .json<{ data: { APP_VERSION: string } }>();
+
       expect(typeof response.data.APP_VERSION).toBe('string');
     });
 

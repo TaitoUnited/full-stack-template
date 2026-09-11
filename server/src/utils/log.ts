@@ -1,8 +1,8 @@
 /* oxlint-disable typescript/no-unsafe-argument typescript/no-unsafe-assignment typescript/no-unsafe-member-access typescript/no-unsafe-return typescript/no-unsafe-type-assertion */
 
 import bunyan from 'bunyan';
-import type { TransformCallback, TransformOptions } from 'stream';
-import { Transform } from 'stream';
+import type { TransformCallback, TransformOptions } from 'node:stream';
+import { Transform } from 'node:stream';
 
 import { config } from './config';
 
@@ -24,6 +24,7 @@ class StackdriverStream extends Transform {
       ...options,
       objectMode: true,
     });
+
     this.pipe(output);
   }
 
@@ -71,12 +72,14 @@ class StackdriverStream extends Transform {
       messageParts.push(`request=${chunk.req.method} ${chunk.req.url}`);
 
       if (chunk.req.headers) {
-        const filteredHeaders = Object.keys(chunk.req.headers)
-          .filter((key) => allowedHeaders.includes(key))
-          .reduce<any>((h, key) => {
-            h[key] = (chunk.req as any).headers[key];
-            return h;
-          }, {});
+        const filteredHeaders: Record<string, unknown> = {};
+
+        for (const [key, value] of Object.entries(chunk.req.headers)) {
+          if (allowedHeaders.includes(key)) {
+            filteredHeaders[key] = value;
+          }
+        }
+
         chunk.req.headers = filteredHeaders;
       }
     }

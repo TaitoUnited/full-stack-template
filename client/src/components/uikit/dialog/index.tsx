@@ -92,6 +92,7 @@ function DialogHeader({
           children
         )}
       </Heading>
+
       <IconButton
         label={t`Close`}
         icon="close"

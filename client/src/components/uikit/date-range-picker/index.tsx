@@ -40,7 +40,7 @@ import { Stack } from '../stack';
 import { Text } from '../text';
 import { PredefinedRanges } from './predefined-ranges';
 
-type DateRangePicker<T extends DateValue> = Omit<
+type Props<T extends DateValue> = Omit<
   FormComponentProps<DateRangePickerProps<T>>,
   'value' | 'onChange'
 > & {
@@ -76,7 +76,7 @@ export function DateRangePicker<T extends DateValue>({
   maxValue,
   onChange,
   ...rest
-}: DateRangePicker<T>) {
+}: Props<T>) {
   const { t, i18n } = useLingui();
   const inputContext = useInputContext();
   const labelPosition = labelPositionProp ?? inputContext.labelPosition;
@@ -89,6 +89,7 @@ export function DateRangePicker<T extends DateValue>({
       if (dateRange) {
         onChange(dateRange);
       }
+
       setViewMode('day');
       setIsOpen(false);
     },
@@ -133,13 +134,16 @@ export function DateRangePicker<T extends DateValue>({
             <DateInput data-testid="date-range-picker-input-start" slot="start">
               {segment => <DateInputSegment segment={segment} />}
             </DateInput>
+
             <Text variant="body" as="span">
               {' - '}
             </Text>
+
             <DateInput data-testid="date-range-picker-input-end" slot="end">
               {segment => <DateInputSegment segment={segment} />}
             </DateInput>
           </Stack>
+
           {clearable && value && (
             <IconButton
               icon="close"
@@ -149,6 +153,7 @@ export function DateRangePicker<T extends DateValue>({
               onPress={() => onChange(null)}
             />
           )}
+
           <IconButton
             data-testid="date-picker-input-button"
             icon="calendarMonth"
@@ -175,6 +180,7 @@ export function DateRangePicker<T extends DateValue>({
                 onSelectRange={onSelectRange}
               />
             )}
+
             <RangeCalendar
               data-testid="date-range-picker-calendar"
               firstDayOfWeek="mon"
@@ -207,6 +213,7 @@ export function DateRangePicker<T extends DateValue>({
                               })
                             )}
                           </Text>
+
                           <Icon
                             name={
                               viewMode === 'month'
@@ -218,6 +225,7 @@ export function DateRangePicker<T extends DateValue>({
                           />
                         </Stack>
                       </CalendarStateButton>
+
                       <CalendarStateButton
                         onClick={() => {
                           setViewMode(p => (p === 'year' ? 'day' : 'year'));
@@ -232,6 +240,7 @@ export function DateRangePicker<T extends DateValue>({
                               year: 'numeric',
                             })}
                           </Text>
+
                           <Icon
                             name={
                               viewMode === 'year'
@@ -244,6 +253,7 @@ export function DateRangePicker<T extends DateValue>({
                         </Stack>
                       </CalendarStateButton>
                     </Stack>
+
                     {viewMode === 'day' && (
                       <Stack direction="row" gap="$xxs">
                         <CalendarHeaderButton
@@ -252,6 +262,7 @@ export function DateRangePicker<T extends DateValue>({
                         >
                           <Icon name="chevronLeft" color="text" size={22} />
                         </CalendarHeaderButton>
+
                         <CalendarHeaderButton
                           slot="next"
                           data-testid="date-picker-calendar-next"
@@ -267,6 +278,7 @@ export function DateRangePicker<T extends DateValue>({
                       <CalendarGridHeader>
                         {day => <CalendarHeaderCell>{day}</CalendarHeaderCell>}
                       </CalendarGridHeader>
+
                       <CalendarGridBody>
                         {cellDate => (
                           <CalendarCell
@@ -277,12 +289,14 @@ export function DateRangePicker<T extends DateValue>({
                       </CalendarGridBody>
                     </CalendarGrid>
                   )}
+
                   {viewMode === 'month' && (
                     <CalendarMonthGrid
                       state={date.state}
                       onChange={() => setViewMode('day')}
                     />
                   )}
+
                   {viewMode === 'year' && (
                     <CalendarYearGrid
                       state={date.state}

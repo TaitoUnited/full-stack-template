@@ -123,6 +123,7 @@ function ToastOptions({
           Show {variant} toast
         </Button>
       ))}
+
       <Button
         variant="filled"
         onPress={() => {
@@ -140,6 +141,7 @@ function ToastOptions({
       >
         Show action toast
       </Button>
+
       <Button
         variant="filled"
         color="success"
@@ -164,6 +166,7 @@ function ToastOptions({
       >
         Show successfull promise toast
       </Button>
+
       <Button
         variant="filled"
         color="error"

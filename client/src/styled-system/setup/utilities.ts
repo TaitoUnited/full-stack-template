@@ -26,6 +26,7 @@ export const $focusRing: PropertyConfig = {
     if (!value) {
       return {};
     }
+
     return {
       outline: `2px solid ${token('$colors.focusRing')}`,
     };
@@ -41,6 +42,7 @@ export const $hoverHighlight: PropertyConfig = {
         position: 'relative',
       };
     }
+
     return {
       position: 'relative',
       '&:after': {
@@ -71,6 +73,7 @@ export const $pressHighlight: PropertyConfig = {
         position: 'relative',
       };
     }
+
     return {
       position: 'relative',
       '&:after': {
@@ -99,6 +102,7 @@ export const $pressOpacity: PropertyConfig = {
     if (!value) {
       return {};
     }
+
     return {
       opacity: 1,
       transition: 'opacity 50ms linear',
@@ -116,6 +120,7 @@ export const $truncate: PropertyConfig = {
     if (!value) {
       return {};
     }
+
     return {
       overflow: 'hidden',
       'text-overflow': 'ellipsis',
@@ -131,6 +136,7 @@ export const $fadeIn: PropertyConfig = {
     if (typeof duration !== 'number') {
       return {};
     }
+
     return {
       opacity: 0,
       animation: `fadeIn ${duration}ms forwards`,
@@ -189,6 +195,7 @@ export const $customScrollbar: PropertyConfig = {
     if (!value) {
       return {};
     }
+
     return {
       /**
        * Use transparent grey colors so that the scrollbar is also visible

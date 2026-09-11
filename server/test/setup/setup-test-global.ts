@@ -52,6 +52,7 @@ export default async function setup({ provide }: TestProject) {
         for (const user of Object.values(testData.users)) {
           await cleanupUser(db, user);
         }
+
         await db
           .delete(organisationTable)
           .where(eq(organisationTable.id, organisation.id));
@@ -131,6 +132,7 @@ async function cleanupUser(db: DrizzleDb, user: TestUser) {
     { email: user.email, password: testPassword },
     { Authorization: `Bearer ${user.sessionId}` }
   );
+
   // Logout mutation only expires the session, so we need to delete it manually
   await db.delete(sessionTable).where(eq(sessionTable.userId, user.id));
   await db.delete(userTable).where(eq(userTable.id, user.id));

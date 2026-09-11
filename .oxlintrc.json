@@ -3,6 +3,15 @@
     "typeAware": true
   },
   "rules": {
+    "react/jsx-curly-brace-presence": [
+      "warn",
+      {
+        "props": "never",
+        "children": "never",
+        "propElementValues": "always"
+      }
+    ],
+
     "typescript/unbound-method": "off",
     "typescript/prefer-readonly-parameter-types": "off",
     "typescript/promise-function-async": "off",
@@ -10,6 +19,20 @@
     "typescript/strict-boolean-expressions": "off",
     "typescript/no-explicit-any": "off",
     "typescript/consistent-return": "off",
+    "no-else-return": ["error", { "allowElseIf": false }],
+    "object-shorthand": "error",
+    "prefer-arrow-callback": "error",
+    "import/no-cycle": "error",
+    "import/no-default-export": "error",
+    "import/no-self-import": "error",
+    "unicorn/error-message": "error",
+    "unicorn/no-array-reduce": ["error", { "allowSimpleOperations": true }],
+    "unicorn/no-useless-undefined": [
+      "error",
+      { "checkArguments": false, "checkArrowFunctionBody": false }
+    ],
+    "unicorn/prefer-node-protocol": "error",
+    "unicorn/throw-new-error": "error",
     "typescript/await-thenable": "error",
     "typescript/ban-ts-comment": "error",
     "typescript/consistent-type-definitions": ["error", "type"],
@@ -65,14 +88,21 @@
     "typescript/no-unsafe-assignment": "error",
     "typescript/no-unsafe-call": "error",
     "typescript/no-unsafe-enum-comparison": "error",
-    "typescript/no-unsafe-member-access": "error",
+    "typescript/no-unsafe-member-access": ["error", { "allowOptionalChaining": true }],
     "typescript/no-unsafe-return": "error",
     "typescript/no-unsafe-type-assertion": "error",
     "typescript/non-nullable-type-assertion-style": "error",
     "typescript/only-throw-error": "error",
     "typescript/prefer-find": "error",
     "typescript/prefer-includes": "error",
-    "typescript/prefer-nullish-coalescing": "error",
+    "typescript/prefer-nullish-coalescing": [
+      "error",
+      {
+        "ignorePrimitives": {
+          "string": true
+        }
+      }
+    ],
     "typescript/prefer-optional-chain": "error",
     "typescript/prefer-promise-reject-errors": "error",
     "typescript/prefer-readonly": "error",

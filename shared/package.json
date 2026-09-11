@@ -1,5 +1,6 @@
 {
   "name": "full-stack-template-shared",
   "private": true,
+  "type": "module",
   "dependencies": {}
 }

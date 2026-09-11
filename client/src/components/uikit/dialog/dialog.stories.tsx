@@ -75,6 +75,7 @@ function DialogExample({
                 <Text variant="headingL" as="span">
                   Custom dialog title!
                 </Text>
+
                 <Text variant="bodySmall">
                   This is a description for the header.
                 </Text>
@@ -92,6 +93,7 @@ function DialogExample({
               value={inputValue}
               onChange={setInputValue}
             />
+
             <Text variant="body" lineHeight={1.5}>
               Branding product management partner network advisor equity
               monetization sales business-to-consumer buzz facebook client
@@ -114,6 +116,7 @@ function DialogExample({
               >
                 Cancel
               </Button>
+
               <Button
                 variant="filled"
                 color="primary"

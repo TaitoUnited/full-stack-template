@@ -26,6 +26,14 @@ function config() {
       ...promiseRules,
       ...unicornRules,
     },
+    overrides: [
+      {
+        files: ['*.config.ts'],
+        rules: {
+          'import/no-default-export': 'off',
+        },
+      },
+    ],
   });
 }
 
@@ -88,6 +96,7 @@ const coreRules: DummyRuleMap = {
       argsIgnorePattern: '^_',
       caughtErrorsIgnorePattern: '^_',
       destructuredArrayIgnorePattern: '^_',
+      varsIgnorePattern: '^_',
     },
   ],
   'no-useless-backreference': 'error',

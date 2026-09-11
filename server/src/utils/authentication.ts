@@ -47,6 +47,7 @@ class Auth<SessionAttributes> {
     if (!result?.length) {
       return null;
     }
+
     return result[1] ?? null;
   }
 

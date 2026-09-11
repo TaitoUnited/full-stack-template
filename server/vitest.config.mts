@@ -53,6 +53,7 @@ const isolate: Record<TestMode, boolean> = {
   api: false,
   integration: false,
 };
+
 console.log('mode:', mode);
 export default defineConfig({
   test: {

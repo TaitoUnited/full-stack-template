@@ -2,7 +2,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-import { getApolloClient } from '~/graphql';
+import { getApolloClient } from '~/graphql/apollo-client-store';
 
 export type WorkspaceStore = {
   workspaceId: string;

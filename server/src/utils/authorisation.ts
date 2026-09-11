@@ -30,6 +30,7 @@ export function checkOrganisationMembership(
   const isMember = ctx.organisationId
     ? ctx.userOrganisations.some((org) => org.id === ctx.organisationId)
     : false;
+
   if (!isMember) {
     throwApiError({
       initiator: ctx.initiator,

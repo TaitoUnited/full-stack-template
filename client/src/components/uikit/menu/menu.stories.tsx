@@ -22,9 +22,11 @@ export const Default: Story = {
       <Menu.Item onAction={() => alert('copy')} id="copy">
         Copy
       </Menu.Item>
+
       <Menu.Item onAction={() => alert('cut')} id="cut">
         Cut
       </Menu.Item>
+
       <Menu.Item onAction={() => alert('paste')} id="paste">
         Paste
       </Menu.Item>
@@ -39,13 +41,16 @@ export const Sections: Story = {
         <Menu.Item onAction={() => alert('copy')} id="copy">
           Copy
         </Menu.Item>
+
         <Menu.Item onAction={() => alert('cut')} id="cut">
           Cut
         </Menu.Item>
+
         <Menu.Item onAction={() => alert('paste')} id="paste">
           Paste
         </Menu.Item>
       </Menu.Section>
+
       <Menu.Separator />
       <Menu.Section title="Delete">
         <Menu.Item onAction={() => alert('delete')} id="delete">

@@ -1,4 +1,5 @@
-import { test, expect, Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
 /**
  * Initial page-load of SPA application with goto() might be slow,
@@ -12,7 +13,7 @@ test.describe.serial('Main pages', () => {
 
   test.beforeAll(async ({ browser }) => {
     page = await browser.newPage();
-    page.goto('');
+    await page.goto('');
   });
 
   test.afterAll(async () => {
