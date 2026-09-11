@@ -13,12 +13,12 @@ import { Route as layoutRouteImport } from './routes/layout';
 import { Route as loginLoginDotrouteRouteImport } from './routes/login/login.route';
 import { Route as indexRouteImport } from './routes/index';
 import { Route as workspaceWorkspaceDotrouteRouteImport } from './routes/workspace/workspace.route';
-import { Route as themingThemingDotrouteRouteImport } from './routes/theming/theming.route';
-import { Route as postListPostListDotrouteRouteImport } from './routes/post-list/post-list.route';
-import { Route as feature3DotrouteRouteImport } from './routes/feature-3.route';
 import { Route as homeHomeDotrouteRouteImport } from './routes/home/home.route';
-import { Route as postCreatePostCreateDotrouteRouteImport } from './routes/post-create/post-create.route';
+import { Route as feature3DotrouteRouteImport } from './routes/feature-3.route';
+import { Route as postListPostListDotrouteRouteImport } from './routes/post-list/post-list.route';
+import { Route as themingThemingDotrouteRouteImport } from './routes/theming/theming.route';
 import { Route as postPostDotrouteRouteImport } from './routes/post/post.route';
+import { Route as postCreatePostCreateDotrouteRouteImport } from './routes/post-create/post-create.route';
 
 const layoutRoute = layoutRouteImport.update({
   id: '/_app',
@@ -40,9 +40,14 @@ const workspaceWorkspaceDotrouteRoute =
     path: '/$workspaceId',
     getParentRoute: () => layoutRoute,
   } as any);
-const themingThemingDotrouteRoute = themingThemingDotrouteRouteImport.update({
-  id: '/theming',
-  path: '/theming',
+const homeHomeDotrouteRoute = homeHomeDotrouteRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => workspaceWorkspaceDotrouteRoute,
+} as any);
+const feature3DotrouteRoute = feature3DotrouteRouteImport.update({
+  id: '/feature-3',
+  path: '/feature-3',
   getParentRoute: () => workspaceWorkspaceDotrouteRoute,
 } as any);
 const postListPostListDotrouteRoute =
@@ -51,38 +56,33 @@ const postListPostListDotrouteRoute =
     path: '/posts',
     getParentRoute: () => workspaceWorkspaceDotrouteRoute,
   } as any);
-const feature3DotrouteRoute = feature3DotrouteRouteImport.update({
-  id: '/feature-3',
-  path: '/feature-3',
+const themingThemingDotrouteRoute = themingThemingDotrouteRouteImport.update({
+  id: '/theming',
+  path: '/theming',
   getParentRoute: () => workspaceWorkspaceDotrouteRoute,
 } as any);
-const homeHomeDotrouteRoute = homeHomeDotrouteRouteImport.update({
-  id: '/',
-  path: '/',
+const postPostDotrouteRoute = postPostDotrouteRouteImport.update({
+  id: '/posts_/$id',
+  path: '/posts_/$id',
   getParentRoute: () => workspaceWorkspaceDotrouteRoute,
 } as any);
 const postCreatePostCreateDotrouteRoute =
   postCreatePostCreateDotrouteRouteImport.update({
     id: '/posts_/create',
-    path: '/posts/create',
+    path: '/posts_/create',
     getParentRoute: () => workspaceWorkspaceDotrouteRoute,
   } as any);
-const postPostDotrouteRoute = postPostDotrouteRouteImport.update({
-  id: '/posts_/$id',
-  path: '/posts/$id',
-  getParentRoute: () => workspaceWorkspaceDotrouteRoute,
-} as any);
 
 export interface FileRoutesByFullPath {
   '/login': typeof loginLoginDotrouteRoute;
-  '/$workspaceId': typeof workspaceWorkspaceDotrouteRouteWithChildren;
   '/': typeof indexRoute;
+  '/$workspaceId': typeof workspaceWorkspaceDotrouteRouteWithChildren;
   '/$workspaceId/': typeof homeHomeDotrouteRoute;
   '/$workspaceId/feature-3': typeof feature3DotrouteRoute;
   '/$workspaceId/posts': typeof postListPostListDotrouteRoute;
   '/$workspaceId/theming': typeof themingThemingDotrouteRoute;
-  '/$workspaceId/posts/$id': typeof postPostDotrouteRoute;
-  '/$workspaceId/posts/create': typeof postCreatePostCreateDotrouteRoute;
+  '/$workspaceId/posts_/$id': typeof postPostDotrouteRoute;
+  '/$workspaceId/posts_/create': typeof postCreatePostCreateDotrouteRoute;
 }
 export interface FileRoutesByTo {
   '/login': typeof loginLoginDotrouteRoute;
@@ -91,8 +91,8 @@ export interface FileRoutesByTo {
   '/$workspaceId/feature-3': typeof feature3DotrouteRoute;
   '/$workspaceId/posts': typeof postListPostListDotrouteRoute;
   '/$workspaceId/theming': typeof themingThemingDotrouteRoute;
-  '/$workspaceId/posts/$id': typeof postPostDotrouteRoute;
-  '/$workspaceId/posts/create': typeof postCreatePostCreateDotrouteRoute;
+  '/$workspaceId/posts_/$id': typeof postPostDotrouteRoute;
+  '/$workspaceId/posts_/create': typeof postCreatePostCreateDotrouteRoute;
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport;
@@ -111,14 +111,14 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
     | '/login'
-    | '/$workspaceId'
     | '/'
+    | '/$workspaceId'
     | '/$workspaceId/'
     | '/$workspaceId/feature-3'
     | '/$workspaceId/posts'
     | '/$workspaceId/theming'
-    | '/$workspaceId/posts/$id'
-    | '/$workspaceId/posts/create';
+    | '/$workspaceId/posts_/$id'
+    | '/$workspaceId/posts_/create';
   fileRoutesByTo: FileRoutesByTo;
   to:
     | '/login'
@@ -127,8 +127,8 @@ export interface FileRouteTypes {
     | '/$workspaceId/feature-3'
     | '/$workspaceId/posts'
     | '/$workspaceId/theming'
-    | '/$workspaceId/posts/$id'
-    | '/$workspaceId/posts/create';
+    | '/$workspaceId/posts_/$id'
+    | '/$workspaceId/posts_/create';
   id:
     | '__root__'
     | '/login'
@@ -153,7 +153,7 @@ declare module '@tanstack/react-router' {
     '/_app': {
       id: '/_app';
       path: '';
-      fullPath: '';
+      fullPath: '/';
       preLoaderRoute: typeof layoutRouteImport;
       parentRoute: typeof rootRouteImport;
     };
@@ -178,18 +178,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof workspaceWorkspaceDotrouteRouteImport;
       parentRoute: typeof layoutRoute;
     };
-    '/_app/$workspaceId/theming': {
-      id: '/_app/$workspaceId/theming';
-      path: '/theming';
-      fullPath: '/$workspaceId/theming';
-      preLoaderRoute: typeof themingThemingDotrouteRouteImport;
-      parentRoute: typeof workspaceWorkspaceDotrouteRoute;
-    };
-    '/_app/$workspaceId/posts': {
-      id: '/_app/$workspaceId/posts';
-      path: '/posts';
-      fullPath: '/$workspaceId/posts';
-      preLoaderRoute: typeof postListPostListDotrouteRouteImport;
+    '/_app/$workspaceId/': {
+      id: '/_app/$workspaceId/';
+      path: '/';
+      fullPath: '/$workspaceId/';
+      preLoaderRoute: typeof homeHomeDotrouteRouteImport;
       parentRoute: typeof workspaceWorkspaceDotrouteRoute;
     };
     '/_app/$workspaceId/feature-3': {
@@ -199,25 +192,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof feature3DotrouteRouteImport;
       parentRoute: typeof workspaceWorkspaceDotrouteRoute;
     };
-    '/_app/$workspaceId/': {
-      id: '/_app/$workspaceId/';
-      path: '/';
-      fullPath: '/$workspaceId/';
-      preLoaderRoute: typeof homeHomeDotrouteRouteImport;
+    '/_app/$workspaceId/posts': {
+      id: '/_app/$workspaceId/posts';
+      path: '/posts';
+      fullPath: '/$workspaceId/posts';
+      preLoaderRoute: typeof postListPostListDotrouteRouteImport;
       parentRoute: typeof workspaceWorkspaceDotrouteRoute;
     };
-    '/_app/$workspaceId/posts_/create': {
-      id: '/_app/$workspaceId/posts_/create';
-      path: '/posts/create';
-      fullPath: '/$workspaceId/posts/create';
-      preLoaderRoute: typeof postCreatePostCreateDotrouteRouteImport;
+    '/_app/$workspaceId/theming': {
+      id: '/_app/$workspaceId/theming';
+      path: '/theming';
+      fullPath: '/$workspaceId/theming';
+      preLoaderRoute: typeof themingThemingDotrouteRouteImport;
       parentRoute: typeof workspaceWorkspaceDotrouteRoute;
     };
     '/_app/$workspaceId/posts_/$id': {
       id: '/_app/$workspaceId/posts_/$id';
-      path: '/posts/$id';
-      fullPath: '/$workspaceId/posts/$id';
+      path: '/posts_/$id';
+      fullPath: '/$workspaceId/posts_/$id';
       preLoaderRoute: typeof postPostDotrouteRouteImport;
+      parentRoute: typeof workspaceWorkspaceDotrouteRoute;
+    };
+    '/_app/$workspaceId/posts_/create': {
+      id: '/_app/$workspaceId/posts_/create';
+      path: '/posts_/create';
+      fullPath: '/$workspaceId/posts_/create';
+      preLoaderRoute: typeof postCreatePostCreateDotrouteRouteImport;
       parentRoute: typeof workspaceWorkspaceDotrouteRoute;
     };
   }

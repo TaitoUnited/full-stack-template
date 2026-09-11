@@ -1,12 +1,28 @@
+import type { TypeBoxTypeProvider } from '@fastify/type-provider-typebox';
 import type {
   FastifyPluginCallback,
+  FastifyPluginAsync,
   FastifyPluginOptions,
   FastifyRegisterOptions,
+  RawServerDefault,
 } from 'fastify';
+import type { Logger } from 'pino';
 
 import type { ServerInstance } from './server';
 
-type RawPlugin = FastifyPluginCallback<any>;
+type RawPlugin =
+  | FastifyPluginCallback<
+      FastifyPluginOptions,
+      RawServerDefault,
+      TypeBoxTypeProvider,
+      Logger
+    >
+  | FastifyPluginAsync<
+      FastifyPluginOptions,
+      RawServerDefault,
+      TypeBoxTypeProvider,
+      Logger
+    >;
 
 type Plugin =
   | RawPlugin

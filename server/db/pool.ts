@@ -28,3 +28,14 @@ export async function getDbPool() {
 
   return dbPool;
 }
+
+/** Close the shared database pool during Fastify shutdown. */
+export async function closeDbPool() {
+  if (!dbPool) {
+    return;
+  }
+
+  const pool = dbPool;
+  dbPool = null;
+  await pool.end();
+}

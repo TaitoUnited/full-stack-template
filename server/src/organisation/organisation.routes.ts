@@ -1,6 +1,6 @@
 /* oxlint-disable typescript/no-unnecessary-condition */
 
-import { Type } from '@sinclair/typebox';
+import { Type } from 'typebox';
 
 import { withUser } from '~/setup/auth';
 import type { ServerInstance } from '~/setup/server';

@@ -5,31 +5,49 @@ import { ApiRouteErrorBase } from '~/src/utils/error';
 
 export function setupErrorHandler(server: ServerInstance) {
   server.setErrorHandler((error, request, reply) => {
+    const normalizedError =
+      error instanceof Error ? error : new Error(String(error));
+
     request.ctx.log.error(
-      { error: { ...error, requestId: request.ctx.requestId } },
-      `Unexpected error while handling request: ${error.message}`
+      { err: normalizedError },
+      `Unexpected error while handling request: ${request.method} ${request.url}`
     );
 
-    Sentry.captureException(error);
+    Sentry.captureException(normalizedError, {
+      tags: { requestId: request.ctx.requestId },
+    });
 
-    if (error instanceof ApiRouteErrorBase && error.name === 'ApiRouteError') {
+    if (
+      normalizedError instanceof ApiRouteErrorBase &&
+      normalizedError.name === 'ApiRouteError'
+    ) {
       const data = {
         requestId: request.ctx.requestId,
-        status: error.status,
-        message: error.message,
-        data: error.data,
+        status: normalizedError.status,
+        message: normalizedError.message,
+        data: normalizedError.data,
       };
 
       reply.status(data.status).send(data);
       return;
     }
 
-    // TODO: do we need to handle GraphQL errors here?
+    const errorStatusCode =
+      'statusCode' in normalizedError &&
+      typeof normalizedError.statusCode === 'number'
+        ? normalizedError.statusCode
+        : 500;
 
-    reply.status(error.statusCode ?? 500).send({
+    const statusCode = errorStatusCode < 500 ? errorStatusCode : 500;
+    const message =
+      statusCode < 500 ? normalizedError.message : 'Internal server error';
+
+    request.ctx.error = normalizedError;
+
+    reply.status(statusCode).send({
       requestId: request.ctx.requestId,
-      status: error.statusCode ?? 500,
-      message: error.message,
+      status: statusCode,
+      message,
     });
   });
 }

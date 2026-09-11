@@ -1,13 +1,12 @@
-import type Bunyan from 'bunyan';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import type { FastifyBaseLogger } from 'fastify';
 import { fastifyPlugin } from 'fastify-plugin';
-import { v4 as uuidv4 } from 'uuid';
 
 import type { DrizzleDb } from '~/db';
-import { getDb } from '~/db';
+import { closeDbPool, getDbPool } from '~/db/pool';
 import type { Authenticator, Session } from '~/src/utils/authentication';
 import { getAuth } from '~/src/utils/authentication';
 import type { Role } from '~/src/utils/authorisation';
-import { log } from '~/src/utils/log';
 import { getStringHeader } from '~/src/utils/request';
 import type { AuthenticatedGraphQLContext } from './graphql/types';
 import type { AuthenticatedRestContext } from './rest/types';
@@ -16,7 +15,7 @@ import { type ServerInstance } from './server';
 export type Initiator = 'graphql' | 'rest' | 'test' | 'seed' | 'unknown';
 
 export type Context = {
-  log: Bunyan;
+  log: FastifyBaseLogger;
   db: DrizzleDb;
   auth: Authenticator;
   requestId: string;
@@ -36,23 +35,25 @@ export type AuthenticatedContext =
   | AuthenticatedGraphQLContext;
 
 export const contextPlugin = fastifyPlugin(async (server: ServerInstance) => {
+  const pool = await getDbPool();
+  const db = drizzle(pool);
+
   server.addHook('onRequest', async (request, reply) => {
     reply.header('X-Request-Id', request.id);
 
-    // oxlint-disable-next-line typescript/no-unnecessary-condition
-    request.ctx = request.ctx || {};
-
-    const db = await getDb();
-
-    request.ctx.log = log;
-    request.ctx.db = db;
-    request.ctx.auth = getAuth(db);
-    request.ctx.requestId = uuidv4();
-    request.ctx.organisationId = getStringHeader(request, 'x-organisation-id');
-    request.ctx.initiator = 'rest';
-
-    // These will be populated by the auth plugin
-    request.ctx.user = null;
-    request.ctx.userOrganisations = [];
+    request.ctx = {
+      log: request.log.child({ requestId: request.id }),
+      db,
+      auth: getAuth(db),
+      requestId: request.id,
+      organisationId: getStringHeader(request, 'x-organisation-id'),
+      initiator: 'rest',
+      __authenticator__: null,
+      error: null,
+      user: null,
+      userOrganisations: [],
+    };
   });
+
+  server.addHook('onClose', closeDbPool);
 });

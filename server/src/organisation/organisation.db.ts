@@ -37,7 +37,5 @@ export const userOrganisationTable = pgTable(
       .notNull()
       .references(() => organisationTable.id, { onDelete: 'cascade' }),
   },
-  (table) => ({
-    pk: primaryKey({ columns: [table.userId, table.organisationId] }),
-  })
+  (table) => [primaryKey({ columns: [table.userId, table.organisationId] })]
 );

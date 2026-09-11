@@ -1,18 +1,11 @@
-import { log } from './src/utils/log';
-import { setupServer } from '~/setup/setup';
-import { initSentry } from '~/setup/sentry';
+// This must be the first import so Sentry can instrument subsequently loaded modules.
+import '~/setup/instrument';
+import { log } from '~/setup/log';
 import { server } from '~/setup/server';
+import { setupServer } from '~/setup/setup';
 
-// Sentry should be initialized as early as possible.
-initSentry();
-
-async function startServer() {
-  try {
-    await setupServer(server);
-    log.info('Server setup complete');
-  } catch (error) {
+setupServer(server)
+  .then(() => log.info('Server setup complete'))
+  .catch((error: unknown) => {
     log.error(error, 'Server setup failed');
-  }
-}
-
-void startServer();
+  });

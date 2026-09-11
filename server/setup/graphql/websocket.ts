@@ -1,7 +1,7 @@
 import { WebSocketServer } from 'ws';
 import type { GraphQLSchema } from 'graphql';
 import type { ApolloServerPlugin } from '@apollo/server';
-import { useServer } from 'graphql-ws/lib/use/ws';
+import { useServer } from 'graphql-ws/use/ws';
 
 import { type ServerInstance } from '../server';
 

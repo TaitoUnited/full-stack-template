@@ -1,6 +1,7 @@
 import { migrate } from 'drizzle-orm/node-postgres/migrator';
 
 import { getDb } from '.';
+import { closeDbPool } from './pool';
 
 /**
  * This file is used to execute Drizzle DB migrations
@@ -9,13 +10,17 @@ import { getDb } from '.';
 async function migrateDb() {
   console.log('Running Drizzle database migrations...');
 
-  const db = await getDb();
+  try {
+    const db = await getDb();
 
-  console.log('Drizzle initialized');
+    console.log('Drizzle initialized');
 
-  await migrate(db, { migrationsFolder: 'db/migrations' });
+    await migrate(db, { migrationsFolder: 'db/migrations' });
 
-  console.log('Migrations done.');
+    console.log('Migrations done.');
+  } finally {
+    await closeDbPool();
+  }
 }
 
 void migrateDb();

@@ -1,5 +1,5 @@
 import { HeadBucketCommand } from '@aws-sdk/client-s3';
-import { Type } from '@sinclair/typebox';
+import { Type } from 'typebox';
 import { sql } from 'drizzle-orm';
 
 import { config } from '~/src/utils/config';
