@@ -5,7 +5,7 @@ import {
   Outlet,
   useRouter,
 } from '@tanstack/react-router';
-import { lazy } from 'react';
+import { lazy, Suspense } from 'react';
 import { RouterProvider as AriaRouterProvider } from 'react-aria-components';
 import { hideSplashScreen } from 'vite-plugin-splash-screen/runtime';
 
@@ -46,23 +46,23 @@ function RootComponent() {
       useHref={to => router.buildLocation({ to }).href}
     >
       <Outlet />
-      <RouterDevTools />
+      {RouterDevtools ? (
+        <Suspense fallback={null}>
+          <RouterDevtools position="bottom-right" />
+        </Suspense>
+      ) : null}
     </AriaRouterProvider>
   );
 }
 
 // Lazy load in development
-const TanStackRouterDevtools =
+const RouterDevtools =
   process.env.NODE_ENV === 'production'
-    ? () => null
+    ? null
     : lazy(async () => {
-        const devtools = await import('@tanstack/router-devtools').then(
+        const devtools = await import('@tanstack/react-router-devtools').then(
           res => ({ default: res.TanStackRouterDevtools })
         );
 
         return devtools;
       });
-
-function RouterDevTools() {
-  return <TanStackRouterDevtools position="bottom-right" />;
-}
