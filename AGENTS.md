@@ -62,7 +62,7 @@ The pipeline (`cloudbuild.yaml`, `.github/workflows/pipeline.yaml`, or whichever
 
 ## Conventions
 
-Development happens on `dev` and `feature/*`, hotfixes on `hotfix/*`; a husky pre-commit hook blocks direct commits to environment branches. Commit messages follow Conventional Commits — `semantic-release` derives the production version and release notes from them. Pre-push runs generate, lint and unit tests. Linting and formatting is oxlint / oxfmt.
+Development happens on `dev` and `feature/*`, hotfixes on `hotfix/*`; a husky pre-commit hook blocks direct commits to environment branches and a commit-msg hook enforces Conventional Commits. `semantic-release` derives the production version and release notes from them. Run the relevant `npm run verify` command before handoff; linting and formatting use oxlint / oxfmt.
 
 ## Further reading
 
