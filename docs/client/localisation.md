@@ -17,7 +17,7 @@ You can find the LinguiJS configuration in [`lingui.config.js`](/client/lingui.c
 1. Run the following command to extract all translatable strings from your source code:
 
    ```sh
-   npm run i18n:extract
+   npm run translations:extract
    ```
 
    This updates each language’s `messages.po` file with new or modified strings.
@@ -35,7 +35,7 @@ You can find the LinguiJS configuration in [`lingui.config.js`](/client/lingui.c
 3. Re-run the extract command to validate your translations and ensure files are properly updated:
 
    ```sh
-   npm run i18n:extract
+   npm run translations:extract
 ````
 
 ---
@@ -59,7 +59,7 @@ import { Trans } from "@lingui/react/macro";
 Then run:
 
 ```sh
-npm run i18n:extract
+npm run translations:extract
 ```
 
 This updates all `messages.po` files with the new string.
@@ -95,7 +95,7 @@ export function SearchInput({
 Then extract the translations:
 
 ```sh
-npm run i18n:extract
+npm run translations:extract
 ```
 
 ---
@@ -148,7 +148,7 @@ Will be extracted as:
 
 ### Adding a New Language
 
-1. Add your locale to [`lingui.config.js`](/lingui.config.js):
+1. Add your locale to [`lingui.config.js`](/client/lingui.config.js):
 
    ```ts
    export default defineConfig({
@@ -159,7 +159,7 @@ Will be extracted as:
 2. Run:
 
    ```sh
-   npm run i18n:extract
+   npm run translations:extract
    ```
 
    This creates a new folder and `messages.po` file under `src/locales/<lang>`.
@@ -170,7 +170,7 @@ Will be extracted as:
 
 ### Removing a Language
 
-1. Remove the locale from [`lingui.config.js`](/lingui.config.js):
+1. Remove the locale from [`lingui.config.js`](/client/lingui.config.js):
 
    ```ts
    locales: ['en-FI', 'fi'], // Remove your locale
@@ -178,6 +178,6 @@ Will be extracted as:
 
 2. Then:
 
-   - Run `npm run i18n:extract`
+   - Run `npm run translations:extract`
    - Delete the `src/locales/<lang>` folder
    - Update `i18n.tsx` accordingly

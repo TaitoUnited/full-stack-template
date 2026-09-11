@@ -1,5 +1,18 @@
 # Full-Stack Template
 
+## Technical documentation
+
+This template's reusable implementation and operational guidance lives here:
+
+- [Development](development.md)
+- [Code style](code-style.md)
+- [Configuration and secrets](configuration/secrets.md)
+- [Client](client/README.md), [server](server/README.md), [database](database/README.md), and [testing](testing/README.md)
+- [Deployment and CI/CD](deployment/README.md)
+- [Taito CLI configuration](cli/configuration.md) and [infrastructure](cli/infrastructure.md)
+
+Repository-local AI guidance in [`.agents/skills`](../.agents/skills) links back to these documents. Adapt this product-facing template section after creating a project from the template.
+
 ## Overview
 
 > TODO: Give a short overview of the project. What is the purpose of the project? Who is the client? If there are multiple repositories, make sure to list them here.

@@ -5,9 +5,10 @@
     "install:clean": "rm -rf node_modules && npm install",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
-    "format:check": "oxfmt --check './tests/**/*.{ts,tsx}'",
-    "format:write": "oxfmt './tests/**/*.{ts,tsx}'",
+    "format:check": "oxfmt --check",
+    "format:write": "oxfmt",
     "typecheck": "tsc --noEmit",
+    "verify": "npm-run-all -p lint typecheck format:check",
     "playwright:test": "playwright test",
     "playwright:debug": "playwright test --debug",
     "playwright:ui": "playwright test --ui"
@@ -17,6 +18,7 @@
     "@types/node": "22.8.0",
     "dotenv": "16.4.5",
     "eslint-plugin-playwright": "2.11.0",
+    "npm-run-all": "4.1.5",
     "oxfmt": "0.67.0",
     "oxlint": "1.82.0",
     "typescript": "7.0.2"

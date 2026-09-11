@@ -1,5 +1,7 @@
 # Server
 
+See [architecture](architecture.md), [authentication and authorization](authentication-authorization.md), [GraphQL](graphql.md), [REST](rest-api.md), [storage](storage.md), [integrations](integrations.md), and [observability](observability.md) for implementation guidance.
+
 Looking for the old server instructions? See the old server docs [here](/docs/other/alternatives.md#full-stack-template--server-old).
 You can also see all the major changes between the old and new server in the related [PR](https://github.com/TaitoUnited/full-stack-template/pull/174) description.
 

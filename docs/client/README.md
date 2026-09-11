@@ -1,6 +1,9 @@
 # Full-Stack Template | Client
 
-This repository provides a client-side template for building full-stack applications. Below are links to detailed documentation for each aspect of the template.
+The client is a React and Vite SPA. It uses TanStack Router for navigation,
+Apollo Client and gql.tada for GraphQL, Panda CSS for styling, and Lingui for
+localisation. Keep product-specific UI and workflow guidance in the consuming
+application; these documents describe the reusable template conventions.
 
 ---
 
@@ -18,3 +21,6 @@ This repository provides a client-side template for building full-stack applicat
 ---
 
 For detailed explanations on specific topics, refer to the individual documentation files linked above.
+
+For AI-assisted changes, select the matching repository-local guidance in
+[`.agents/skills`](../../.agents/skills) before editing the relevant area.

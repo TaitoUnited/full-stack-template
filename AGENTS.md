@@ -4,6 +4,12 @@ This is a Taito project: a full-stack app whose local development, infrastructur
 
 The real documentation is in `docs/` — this file is only an index. Start at `docs/development.md`.
 
+## AI guidance
+
+Reusable, repository-local AI guidance lives in `.agents/skills/<skill-name>/SKILL.md`. Before changing an area that has a matching skill, read that skill and the referenced documentation. Keep skills generic and grounded in this repository's actual paths, commands, and architecture; application-specific vocabulary, credentials, and external-account procedures belong in the consuming application's documentation instead.
+
+When adding a skill, use a lowercase hyphenated directory name and a concise `SKILL.md` with YAML `name` and `description`. Put stable, detailed guidance in `docs/` and link to it from the skill rather than duplicating it. Do not add generated output, credentials, or customer/domain policy to template skills.
+
 ## Stack and layout
 
 | Path | What it is |
@@ -23,7 +29,7 @@ Local containers (`taito_containers` in `scripts/taito/project.sh`): `client`, `
 
 ## Local development
 
-Starting, stopping, logs, shells, database access and tests all go through Taito CLI — read `.claude/skills/taito-cli/SKILL.md` before running any `taito` command, and always use an explicit `:local` target. `docs/development.md` has the full command reference.
+Starting, stopping, logs, shells, database access and tests all go through Taito CLI — read `.agents/skills/taito-local/SKILL.md` before running any `taito` command, and always use an explicit `:local` target. `docs/development.md` has the full command reference.
 
 Database migrations are Drizzle: edit `server/src/<domain>/<entity>.db.ts`, generate a migration with `npm run db:migrate:generate` in `server/`, apply it with `taito exec:server:local npm run db:migrate`. Details in `docs/database/migration.md`.
 

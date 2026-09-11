@@ -25,7 +25,7 @@ This command runs the following scripts, that you can run individually if you wa
 
 - `design-system:tokenize`: This script will tokenize the Figma file and generate a `tokens.json` file in the `src/styled-system/tokens` folder of your project. This file contains all the tokens of the Figma file.
 
-- `design-system:codegen`: This script will generate the design system code based on the `tokens.json` file. It will generate files in the `src/design-system/tokens` folder of your project that you can then use in your app.
+- `design-system:codegen`: This script will generate the design system code based on the `tokens.json` file. It writes the generated token files under `src/styled-system/tokens` for use in the app.
 
 - `design-system:format`: This script will format the `src/styled-system/tokens/*.ts` files using [Prettier](https://prettier.io/).
 

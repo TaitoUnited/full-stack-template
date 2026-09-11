@@ -1,5 +1,7 @@
 # Testing
 
+Use [client testing](client.md), [server testing](server.md), [E2E testing](e2e.md), and [verification commands](verification.md) to choose the right test boundary and command.
+
 <!-- TODO: Write global testing intro -->
 
 ## Server
