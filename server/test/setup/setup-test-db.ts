@@ -1,40 +1,15 @@
-/* oxlint-disable typescript/no-unsafe-assignment typescript/no-unsafe-member-access */
+import { type PoolConfig, Pool } from 'pg';
 
-import { Pool, type PoolClient, type PoolConfig } from 'pg';
-import { drizzle } from 'drizzle-orm/node-postgres';
-
-import type { DrizzleDb } from '~/db';
 import { config, getSecrets, getDatabaseSSL } from '~/src/utils/config';
 
-let poolRefCount = 0;
 let globalTestPool: Pool | null = null;
-let globalTestDb: { db: DrizzleDb; client: PoolClient } | null = null;
 
-export async function getTestDb(): Promise<DrizzleDb> {
-  if (!globalTestDb) {
-    const pool = await getTestDbPool();
-    const client = await pool.connect();
-    globalTestDb = { db: drizzle(client), client };
-  }
-
-  return globalTestDb.db;
+export async function getTestDbPool(): Promise<Pool> {
+  globalTestPool ??= await initializeTestDbPool();
+  return globalTestPool;
 }
 
-export async function closeTestDb() {
-  if (globalTestDb) {
-    globalTestDb.client.release();
-    globalTestDb = null;
-  }
-
-  await releaseTestDbPool();
-}
-
-async function getTestDbPool() {
-  if (globalTestPool) {
-    poolRefCount++;
-    return globalTestPool;
-  }
-
+async function initializeTestDbPool() {
   const secrets = await getSecrets();
 
   const testPoolConfig: PoolConfig = {
@@ -61,17 +36,15 @@ async function getTestDbPool() {
     console.error('Test database pool error:', err);
   });
 
-  poolRefCount++;
   return globalTestPool;
 }
 
-export async function releaseTestDbPool() {
-  if (poolRefCount > 0) {
-    poolRefCount--;
+export async function closeTestDbPool() {
+  if (!globalTestPool) {
+    return;
   }
 
-  if (poolRefCount === 0 && globalTestPool) {
-    await globalTestPool.end();
-    globalTestPool = null;
-  }
+  const pool = globalTestPool;
+  globalTestPool = null;
+  await pool.end();
 }

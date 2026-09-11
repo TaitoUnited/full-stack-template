@@ -11,7 +11,7 @@ of the controller without having to worry about the HTTP routing layer.
 You can run integration tests with the following command:
 
 ```sh
-taito test:server integration
+taito test:server:local integration
 ```
 
 ## API tests
@@ -22,5 +22,5 @@ requests and checking the response data.
 You can run them the following command:
 
 ```sh
-taito test:server api
+taito test:server:local api
 ```

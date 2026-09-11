@@ -19,15 +19,18 @@ the target filename suffix: `.test.unit.ts`, `.test.integration.ts`, or `.test.a
 All three types of tests should be co-located with the code they are testing.
 
 > [!IMPORTANT]
-> All tests are run inside a Docker container. This means that you need to have
-> the application stack running with `taito start` before you can run the tests.
+> Tests are run inside the Taito-managed server test target. Unit tests need no
+> runtime dependencies. Integration and API tests create, migrate, and drop a
+> disposable database for each run; API tests also start an isolated server on a
+> random port. The local database service must be available, but tests do not use
+> an already-running application server or the application database.
 
 We run all tests in the CI pipeline but you can also run them locally with taito CLI.
 
 You can run all tests with the following command:
 
 ```sh
-taito test:server
+taito test:server:local
 ```
 
 <!-- TODO: links -->

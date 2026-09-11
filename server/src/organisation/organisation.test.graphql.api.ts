@@ -21,7 +21,7 @@ describe('Organisation API', () => {
     );
 
     expect(testOrganisation).toBeDefined();
-    expect(testOrganisation?.name).toBe('API integration test organisation');
+    expect(testOrganisation?.name).toBe('Server test organisation');
   });
 
   it('should return a single organisation', async () => {
@@ -39,6 +39,6 @@ describe('Organisation API', () => {
 
     const { organisation } = data;
     expect(organisation?.id).toBe(globalThis.testData.organisation.id);
-    expect(organisation?.name).toBe('API integration test organisation');
+    expect(organisation?.name).toBe('Server test organisation');
   });
 });

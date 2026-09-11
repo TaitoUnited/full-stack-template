@@ -3,7 +3,6 @@ import type { Role } from '~/src/utils/authorisation';
 export type TestUser = {
   id: string;
   email: string;
-  password: string;
   sessionId: string;
   role: Role;
 };

@@ -1,11 +1,12 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect } from 'vitest';
 
 import { organisationService } from './organisation.service';
+import { test } from '~/test/setup/db-fixture';
 import { makeTestContext } from '~/test/test-utils';
 
-describe('orgainsation service', () => {
-  it('return organisation', async () => {
-    const ctx = await makeTestContext({ user: 'admin' });
+describe('organisation service', () => {
+  test('returns organisation', async ({ db }) => {
+    const ctx = makeTestContext({ db, user: 'admin' });
 
     const data = await organisationService.getOrganisation(
       ctx,

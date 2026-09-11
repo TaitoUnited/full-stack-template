@@ -1,22 +1,23 @@
 /* oxlint-disable typescript/no-unnecessary-condition typescript/no-unsafe-assignment typescript/no-unsafe-type-assertion */
 
 import type { AuthenticatedGraphQLContext } from '~/setup/graphql/types';
+import type { DrizzleDb } from '~/db';
+import { getAuth } from '~/src/utils/authentication';
 import { log } from '~/src/utils/log';
 
 /**
- * Create a GraphQL request context with the given user role and organisation for integration tests.
- * The returned context doesn't include the `auth`, `reply`, and `session` objects
- * as they are not needed for controller tests.
+ * Creates an authenticated GraphQL context backed by the integration-test
+ * database. Transport-only reply behavior is intentionally not configured.
  */
-export async function makeTestContext(options: {
+export function makeTestContext(options: {
+  db: DrizzleDb;
   user: 'admin' | 'manager' | 'viewer';
-}): Promise<AuthenticatedGraphQLContext> {
-  const db = globalThis.testDb;
-  const user = globalThis.testData.users[options.user || 'admin'];
+}): AuthenticatedGraphQLContext {
+  const user = globalThis.testData.users[options.user];
 
   const context: AuthenticatedGraphQLContext = {
     log,
-    db,
+    db: options.db,
     requestId: 'test-request-id',
     user: { id: user.id },
     organisationId: globalThis.testData.organisation.id,
@@ -27,10 +28,9 @@ export async function makeTestContext(options: {
       },
     ],
     initiator: 'graphql',
-    // We don't need to mock these for controller tests
-    auth: {} as any,
+    auth: getAuth(options.db),
     reply: {} as any,
-    error: {} as any,
+    error: null,
     __authenticator__: 'test',
   };
 

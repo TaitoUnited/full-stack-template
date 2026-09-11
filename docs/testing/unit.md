@@ -9,7 +9,7 @@ the unit tests for all user related testable units like utility functions.
 You can run unit tests with the following command:
 
 ```sh
-taito test:server unit
+taito test:server:local unit
 ```
 
 ## Component Tests
