@@ -12,7 +12,6 @@
 # b) Containers that act as a proxy to provide access to database or
 #    internal services. Typically Taito CLI image is used as a proxy.
 
-version: '3.8'
 services:
   # TODO: update also playwright setup located in the playwright folder
   full-stack-template-playwright-cicd:
@@ -79,8 +78,11 @@ services:
         cd /project
         taito db proxy:${taito_env} 5432
     healthcheck:
-      test: (echo > /dev/tcp/localhost/5432) &> /dev/null || exit 1
-      start_period: 10s
+      test: (echo > /dev/tcp/localhost/5432) &> /dev/null || exit 1
+      interval: 2s
+      timeout: 2s
+      retries: 30
+      start_period: 5s
     volumes:
       - "${DOCKER_HOST_PATH:-.}/:/project:delegated"
       - "${DOCKER_HOST_PATH:-.}/tmp/secrets/${taito_env}/cicd-proxy-serviceaccount.key:/run/secrets/CICD_PROXY_SERVICEACCOUNT_KEY" # For GitHub Actions # For GCP

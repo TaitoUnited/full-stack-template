@@ -5,7 +5,7 @@
     "start": "npm run start:dev",
     "start:dev": "NODE_ENV=development tsx watch index.ts --inspect=0.0.0.0:9229 | bunyan -o short -l debug",
     "start:prod": "NODE_ENV=production npm run build && node --enable-source-maps ../build/index.js",
-    "build": "NODE_ENV=production esbuild index.ts db/migrate.ts db/seed.ts --bundle --platform=node --format=esm --packages=external --target=node22 --sourcemap --outbase=. --outdir=../build",
+    "build": "NODE_ENV=production esbuild index.ts db/migrate.ts db/seed.ts --bundle --platform=node --format=esm --packages=external --target=node24.19.0 --sourcemap --outbase=. --outdir=../build",
     "test:unit": "MODE=unit vitest run",
     "test:unit:watch": "MODE=unit vitest watch",
     "test:unit:update": "vitest run --update",
@@ -78,7 +78,7 @@
     "vitest": "3.0.3"
   },
   "engines": {
-    "node": ">=22",
+    "node": ">=24",
     "npm": ">=10"
   }
 }

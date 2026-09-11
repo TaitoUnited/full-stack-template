@@ -46,7 +46,7 @@ For more details on how to customize it, check the [Figmage README](https://gith
 
 ## How to use the design system
 
-To ensure consistency across the application, we have developed a [UI Kit](../src/components/uikit/) containing reusable components. These components, such as text elements, buttons, and other UI elements, are designed to leverage the design system directly.
+To ensure consistency across the application, we have developed a [UI Kit](../../client/src/components/uikit/) containing reusable components. These components, such as text elements, buttons, and other UI elements, are designed to leverage the design system directly.
 
 Always use the UI Kit components in the app to maintain consistency. This approach ensures that any changes made to the design system in Figma are automatically reflected in the app after running the sync command.
 

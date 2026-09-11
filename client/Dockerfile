@@ -1,5 +1,5 @@
 # Builder, tester and runtime container for local development
-ARG BUILDER_IMAGE='node:22.12.0-bookworm-slim'
+ARG BUILDER_IMAGE='node:24.19.0-bookworm-slim'
 
 FROM ${BUILDER_IMAGE}
 
@@ -24,4 +24,4 @@ RUN mkdir -p .vite
 ENV DEV_PORT 8080
 ENV DEV_BINDADDR 0.0.0.0
 EXPOSE 8080
-CMD npm install; rm -rf .vite/*; npm run generate; npm run start
+CMD npm install; rm -rf .vite/*; npm run start

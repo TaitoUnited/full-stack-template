@@ -8,6 +8,7 @@ Taito drives builds, deployments, and infrastructure. Application deployment and
 | --- | --- |
 | Select a branch, PR, or shared-resource environment | [environments](environments.md) |
 | Understand CI ownership and checks | [CI systems](ci-systems.md) |
+| Configure cleanup for closed PR environments | [PR environment cleanup](pr-environment-cleanup.md) |
 | Change stage ordering, environment mapping, or CI inputs | [pipeline changes](pipeline-changes.md) |
 | Change Helm, Terraform, or a persistent cloud resource | [infrastructure](infrastructure.md) |
 | Investigate a failed or incomplete deployment | [diagnostics](diagnostics.md) |

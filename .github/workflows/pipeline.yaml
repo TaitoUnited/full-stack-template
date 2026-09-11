@@ -34,7 +34,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NODE_VERSION: "22.12.0"
+  NODE_VERSION: "24.19.0"
 
 jobs:
   changes:
@@ -44,9 +44,10 @@ jobs:
       client: ${{ github.event_name != 'pull_request' && 'true' || steps.filter.outputs.client }}
       server: ${{ github.event_name != 'pull_request' && 'true' || steps.filter.outputs.server }}
       playwright: ${{ github.event_name != 'pull_request' && 'true' || steps.filter.outputs.playwright }}
+      guidance: ${{ github.event_name != 'pull_request' && 'true' || steps.filter.outputs.guidance }}
       any: ${{ github.event_name != 'pull_request' && 'true' || steps.filter.outputs.any }}
     steps:
-      - uses: dorny/paths-filter@v3
+      - uses: dorny/paths-filter@v4.0.1
         id: filter
         if: github.event_name == 'pull_request'
         with:
@@ -62,6 +63,13 @@ jobs:
             playwright: &playwright
               - playwright/**
               - '!**/*.md'
+            guidance:
+              - .agents/**
+              - .claude/skills/**
+              - docs/**
+              - AGENTS.md
+              - scripts/validate-agent-guidance.mjs
+              - package.json
             any:
               - *client
               - *server
@@ -78,64 +86,43 @@ jobs:
     steps:
       - name: Checkout repository
         if: needs.changes.outputs[matrix.path] == 'true'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6.0.2
 
       - name: Setup Node.js
         if: needs.changes.outputs[matrix.path] == 'true'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: ${{ matrix.path }}/package-lock.json
+
+      - name: Install dependencies
+        if: needs.changes.outputs[matrix.path] == 'true'
+        working-directory: ${{ matrix.path }}
+        run: npm ci --prefer-offline --no-audit --no-fund
+
+      - name: Verify package
+        if: needs.changes.outputs[matrix.path] == 'true'
+        working-directory: ${{ matrix.path }}
+        run: npm run verify
+
+  verify-guidance:
+    name: Verify agent guidance
+    needs: changes
+    if: github.event_name == 'pull_request' && needs.changes.outputs.guidance == 'true'
+    runs-on: ${{ vars.BUILD_RUNS_ON || 'gcp-proto-vm' }}
+    timeout-minutes: 2
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6.0.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6.4.0
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Cache node modules
-        if: needs.changes.outputs[matrix.path] == 'true'
-        id: cache-npm
-        uses: actions/cache@v4
-        with:
-          path: ${{ matrix.path }}/node_modules
-          key: ${{ runner.os }}-${{ matrix.path }}-node-${{ env.NODE_VERSION }}-${{ hashFiles(format('{0}/package-lock.json', matrix.path)) }}
-          restore-keys: |
-            ${{ runner.os }}-${{ matrix.path }}-node-${{ env.NODE_VERSION }}-
-            ${{ runner.os }}-${{ matrix.path }}-node-
-
-      - name: Install dependencies
-        if: steps.cache-npm.outputs.cache-hit != 'true' && needs.changes.outputs[matrix.path] == 'true'
-        working-directory: ${{ matrix.path }}
-        run: npm ci
-
-      - name: Codegen
-        if: matrix.path != 'playwright' && needs.changes.outputs[matrix.path] == 'true'
-        working-directory: ${{ matrix.path }}
-        run: npm run generate
-
-      - name: Check translations
-        if: matrix.path == 'client' && needs.changes.outputs[matrix.path] == 'true'
-        working-directory: ${{ matrix.path }}
-        run: npm run translations:validate
-
-      - name: Lint
-        if: needs.changes.outputs[matrix.path] == 'true'
-        working-directory: ${{ matrix.path }}
-        run: npm run lint
-
-      - name: Typecheck
-        if: needs.changes.outputs[matrix.path] == 'true'
-        working-directory: ${{ matrix.path }}
-        run: npm run typecheck
-
-      - name: Check formatting
-        if: needs.changes.outputs[matrix.path] == 'true'
-        working-directory: ${{ matrix.path }}
-        run: npm run format:check
-
-      - name: Unit test
-        if: matrix.path == 'client' && needs.changes.outputs.client == 'true'
-        working-directory: ${{ matrix.path }}
-        run: npm run test:unit # server unit tests are run in test-server job
-
-      - name: Ensure build
-        if: matrix.path != 'playwright' && needs.changes.outputs[matrix.path] == 'true'
-        working-directory: ${{ matrix.path }}
-        run: npm run build
+      - name: Validate agent guidance
+        run: npm run verify:guidance
 
   prepare-storybook:
     name: Prepare storybook

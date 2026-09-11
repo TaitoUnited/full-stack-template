@@ -1,4 +1,4 @@
-ARG BUILDER_IMAGE='node:22.12.0-bookworm-slim'
+ARG BUILDER_IMAGE='node:24.19.0-bookworm-slim'
 
 # Builder, tester and runtime container for local development
 # NOTE: npm libraries are installed inside container to speed up build

@@ -11,7 +11,7 @@ Table of contents:
 
 ## Prerequisites
 
-- [Node.js (LTS version)](https://nodejs.org/)
+- [Node.js 24.19.0](https://nodejs.org/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 - [PostgreSQL client](https://wiki.postgresql.org/wiki/PostgreSQL_Clients)
 - [Sqitch](https://sqitch.org/)

@@ -1,5 +1,5 @@
 # Builder and tester container for production build
-ARG BUILDER_IMAGE='node:22.12.0-bookworm-slim'
+ARG BUILDER_IMAGE='node:24.19.0-bookworm-slim'
 ARG RUNTIME_IMAGE='nginx:stable-alpine'
 
 FROM ${BUILDER_IMAGE} as builder

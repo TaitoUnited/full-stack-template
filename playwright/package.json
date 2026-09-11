@@ -14,7 +14,7 @@
     "playwright:ui": "playwright test --ui"
   },
   "devDependencies": {
-    "@playwright/test": "1.48.2",
+    "@playwright/test": "1.62.1",
     "@types/node": "22.8.0",
     "dotenv": "16.4.5",
     "eslint-plugin-playwright": "2.11.0",
@@ -24,7 +24,7 @@
     "typescript": "7.0.2"
   },
   "engines": {
-    "node": ">=22",
+    "node": ">=24",
     "npm": ">=10"
   }
 }

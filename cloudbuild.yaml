@@ -7,11 +7,13 @@ timeout: 3000s
 
 options:
   logging: CLOUD_LOGGING_ONLY
-  # You can give CI/CD more cpu/mem with machineType
-  # machineType: E2_HIGHCPU_8
+  # Artifact builds run concurrently; keep enough CPU available for all four.
+  machineType: E2_HIGHCPU_8
 
 substitutions:
   _REPO_NAME: full-stack-template
+  # Set by pull-request triggers. Empty for branch pushes.
+  _PR_NUMBER: ""
   _IMAGE_REGISTRY: eu.gcr.io/$PROJECT_ID
   _TAITO_CI_PHASES:
   _VC_TOKEN:
@@ -28,10 +30,15 @@ steps:
       - build_location=$LOCATION
       - repo_name=$_REPO_NAME
       - branch_name=$BRANCH_NAME
+      - pr_number=${_PR_NUMBER}
     args:
       - "-c"
       - |
-        export taito_target_env="$${branch_name//master/prod}"
+        if [[ -n "$${pr_number}" ]]; then
+          export taito_target_env="pr-$${pr_number}"
+        else
+          export taito_target_env="$${branch_name//master/prod}"
+        fi
         source ./taito-config.sh
         echo "- Cancel all previous ongoing builds targetting the same branch"
         gcloud builds list \
@@ -40,6 +47,7 @@ steps:
           --region "$${build_location}" \
           --filter=" \
             substitutions._REPO_NAME='$${repo_name}' AND \
+            substitutions._PR_NUMBER='$${pr_number}' AND \
             substitutions.BRANCH_NAME='$${branch_name}'" | \
           grep -v "$${build_id}" | \
           xargs gcloud builds cancel --region "$${build_location}" 2> /dev/null || :
@@ -51,7 +59,12 @@ steps:
   - id: build-prepare
     waitFor: ["-"]
     name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
-    args: ["build-prepare:$BRANCH_NAME", "$COMMIT_SHA"]
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        if [[ -n "${_PR_NUMBER}" ]]; then DEPLOY_ENV="pr-${_PR_NUMBER}"; else DEPLOY_ENV="$BRANCH_NAME"; fi
+        taito build-prepare:$$DEPLOY_ENV "$COMMIT_SHA"
     env:
       - taito_mode=ci
       - taito_ci_phases=${_TAITO_CI_PHASES}
@@ -62,7 +75,12 @@ steps:
   - id: artifact-prepare-client
     waitFor: ["build-prepare"]
     name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
-    args: ["artifact-prepare:client:$BRANCH_NAME", "$COMMIT_SHA"]
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        if [[ -n "${_PR_NUMBER}" ]]; then DEPLOY_ENV="pr-${_PR_NUMBER}"; else DEPLOY_ENV="$BRANCH_NAME"; fi
+        taito artifact-prepare:client:$$DEPLOY_ENV "$COMMIT_SHA"
     env:
       - taito_mode=ci
       - taito_ci_phases=${_TAITO_CI_PHASES}
@@ -70,7 +88,12 @@ steps:
   - id: artifact-prepare-playwright
     waitFor: ["build-prepare"]
     name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
-    args: ["artifact-prepare:playwright:$BRANCH_NAME", "$COMMIT_SHA"]
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        if [[ -n "${_PR_NUMBER}" ]]; then DEPLOY_ENV="pr-${_PR_NUMBER}"; else DEPLOY_ENV="$BRANCH_NAME"; fi
+        taito artifact-prepare:playwright:$$DEPLOY_ENV "$COMMIT_SHA"
     env:
       - taito_mode=ci
       - taito_ci_phases=${_TAITO_CI_PHASES}
@@ -78,7 +101,12 @@ steps:
   - id: artifact-prepare-server
     waitFor: ["build-prepare"]
     name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
-    args: ["artifact-prepare:server:$BRANCH_NAME", "$COMMIT_SHA"]
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        if [[ -n "${_PR_NUMBER}" ]]; then DEPLOY_ENV="pr-${_PR_NUMBER}"; else DEPLOY_ENV="$BRANCH_NAME"; fi
+        taito artifact-prepare:server:$$DEPLOY_ENV "$COMMIT_SHA"
     env:
       - taito_mode=ci
       - taito_ci_phases=${_TAITO_CI_PHASES}
@@ -87,16 +115,45 @@ steps:
   - id: artifact-prepare-worker
     waitFor: ["build-prepare"]
     name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
-    args: ["artifact-prepare:worker:$BRANCH_NAME", "$COMMIT_SHA"]
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        if [[ -n "${_PR_NUMBER}" ]]; then DEPLOY_ENV="pr-${_PR_NUMBER}"; else DEPLOY_ENV="$BRANCH_NAME"; fi
+        taito artifact-prepare:worker:$$DEPLOY_ENV "$COMMIT_SHA"
     env:
       - taito_mode=ci
       - taito_ci_phases=${_TAITO_CI_PHASES}
 
   # Deploy to target environment
 
-  - id: db-deploy
+  # A PR gets an isolated database before its migrations are applied. Branch
+  # environments retain their existing database and skip this step.
+  - id: db-recreate
+    waitFor: ["build-prepare"]
     name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
-    args: ["db-deploy:$BRANCH_NAME"]
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        if [[ -n "${_PR_NUMBER}" ]]; then
+          taito db-recreate:pr-${_PR_NUMBER}
+        else
+          echo "No PR database to recreate for $BRANCH_NAME"
+        fi
+    env:
+      - taito_mode=ci
+      - taito_ci_phases=${_TAITO_CI_PHASES}
+
+  - id: db-deploy
+    waitFor: ["artifact-prepare-server", "db-recreate"]
+    name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        if [[ -n "${_PR_NUMBER}" ]]; then DEPLOY_ENV="pr-${_PR_NUMBER}"; else DEPLOY_ENV="$BRANCH_NAME"; fi
+        taito db-deploy:$$DEPLOY_ENV
     env:
       - taito_mode=ci
       - taito_ci_phases=${_TAITO_CI_PHASES}
@@ -104,8 +161,14 @@ steps:
       - IMAGE_TAG=$COMMIT_SHA
 
   - id: deployment-deploy
+    waitFor: ["artifact-prepare-client", "artifact-prepare-server", "artifact-prepare-worker", "db-deploy"]
     name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
-    args: ["deployment-deploy:$BRANCH_NAME", "$COMMIT_SHA"]
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        if [[ -n "${_PR_NUMBER}" ]]; then DEPLOY_ENV="pr-${_PR_NUMBER}"; else DEPLOY_ENV="$BRANCH_NAME"; fi
+        taito deployment-deploy:$$DEPLOY_ENV "$COMMIT_SHA"
     env:
       - taito_mode=ci
       - taito_ci_phases=${_TAITO_CI_PHASES}
@@ -113,15 +176,29 @@ steps:
   # Test and verify deployment
 
   - id: deployment-wait
+    waitFor: ["deployment-deploy"]
     name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
-    args: ["deployment-wait:$BRANCH_NAME"]
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        if [[ -n "${_PR_NUMBER}" ]]; then DEPLOY_ENV="pr-${_PR_NUMBER}"; else DEPLOY_ENV="$BRANCH_NAME"; fi
+        taito deployment-wait:$$DEPLOY_ENV
     env:
       - taito_mode=ci
       - taito_ci_phases=${_TAITO_CI_PHASES}
 
   - id: test
+    # Playwright is a test dependency, not a deployment dependency. Waiting
+    # here lets its image build overlap the application deployment.
+    waitFor: ["artifact-prepare-playwright", "deployment-wait"]
     name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
-    args: ["test:$BRANCH_NAME"]
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        if [[ -n "${_PR_NUMBER}" ]]; then DEPLOY_ENV="pr-${_PR_NUMBER}"; else DEPLOY_ENV="$BRANCH_NAME"; fi
+        taito test:$$DEPLOY_ENV
     env:
       - taito_mode=ci
       - taito_ci_phases=${_TAITO_CI_PHASES}
@@ -129,8 +206,14 @@ steps:
       - IMAGE_TAG=$COMMIT_SHA
 
   - id: deployment-verify
+    waitFor: ["test"]
     name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
-    args: ["deployment-verify:$BRANCH_NAME"]
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        if [[ -n "${_PR_NUMBER}" ]]; then DEPLOY_ENV="pr-${_PR_NUMBER}"; else DEPLOY_ENV="$BRANCH_NAME"; fi
+        taito deployment-verify:$$DEPLOY_ENV
     env:
       - taito_mode=ci
       - taito_ci_phases=${_TAITO_CI_PHASES}
@@ -140,7 +223,12 @@ steps:
   - id: artifact-release-client
     waitFor: ["deployment-verify"]
     name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
-    args: ["artifact-release:client:$BRANCH_NAME", "$COMMIT_SHA"]
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        if [[ -n "${_PR_NUMBER}" ]]; then DEPLOY_ENV="pr-${_PR_NUMBER}"; else DEPLOY_ENV="$BRANCH_NAME"; fi
+        taito artifact-release:client:$$DEPLOY_ENV "$COMMIT_SHA"
     env:
       - taito_mode=ci
       - taito_ci_phases=${_TAITO_CI_PHASES}
@@ -148,7 +236,12 @@ steps:
   - id: artifact-release-playwright
     waitFor: ["deployment-verify"]
     name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
-    args: ["artifact-release:playwright:$BRANCH_NAME", "$COMMIT_SHA"]
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        if [[ -n "${_PR_NUMBER}" ]]; then DEPLOY_ENV="pr-${_PR_NUMBER}"; else DEPLOY_ENV="$BRANCH_NAME"; fi
+        taito artifact-release:playwright:$$DEPLOY_ENV "$COMMIT_SHA"
     env:
       - taito_mode=ci
       - taito_ci_phases=${_TAITO_CI_PHASES}
@@ -156,7 +249,12 @@ steps:
   - id: artifact-release-server
     waitFor: ["deployment-verify"]
     name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
-    args: ["artifact-release:server:$BRANCH_NAME", "$COMMIT_SHA"]
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        if [[ -n "${_PR_NUMBER}" ]]; then DEPLOY_ENV="pr-${_PR_NUMBER}"; else DEPLOY_ENV="$BRANCH_NAME"; fi
+        taito artifact-release:server:$$DEPLOY_ENV "$COMMIT_SHA"
     env:
       - taito_mode=ci
       - taito_ci_phases=${_TAITO_CI_PHASES}
@@ -164,7 +262,12 @@ steps:
   - id: artifact-release-worker
     waitFor: ["deployment-verify"]
     name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
-    args: ["artifact-release:worker:$BRANCH_NAME", "$COMMIT_SHA"]
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        if [[ -n "${_PR_NUMBER}" ]]; then DEPLOY_ENV="pr-${_PR_NUMBER}"; else DEPLOY_ENV="$BRANCH_NAME"; fi
+        taito artifact-release:worker:$$DEPLOY_ENV "$COMMIT_SHA"
     env:
       - taito_mode=ci
       - taito_ci_phases=${_TAITO_CI_PHASES}
@@ -172,8 +275,14 @@ steps:
   # Release build
 
   - id: build-release
+    waitFor: ["artifact-release-client", "artifact-release-playwright", "artifact-release-server", "artifact-release-worker"]
     name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
-    args: ["build-release:$BRANCH_NAME"]
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        if [[ -n "${_PR_NUMBER}" ]]; then DEPLOY_ENV="pr-${_PR_NUMBER}"; else DEPLOY_ENV="$BRANCH_NAME"; fi
+        taito build-release:$$DEPLOY_ENV
     env:
       - taito_mode=ci
       - taito_ci_phases=${_TAITO_CI_PHASES}

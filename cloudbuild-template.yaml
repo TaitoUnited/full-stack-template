@@ -2,6 +2,8 @@ timeout: 3000s
 
 substitutions:
   _REPO_NAME: full-stack-template
+  # Set by pull-request triggers. Empty for branch pushes.
+  _PR_NUMBER: ""
   _IMAGE_REGISTRY: eu.gcr.io/$PROJECT_ID
   _TAITO_CI_PHASES:
   _TEMPLATE_DEFAULT_TAITO_IMAGE:
@@ -101,16 +103,18 @@ steps:
     args:
       - "-c"
       - |
-        taito build prepare:$BRANCH_NAME $COMMIT_SHA
-        taito artifact prepare:client:$BRANCH_NAME $COMMIT_SHA
-        taito artifact prepare:server:$BRANCH_NAME $COMMIT_SHA
-        taito artifact prepare:worker:$BRANCH_NAME $COMMIT_SHA
-        taito db deploy:$BRANCH_NAME
-        taito deployment deploy:$BRANCH_NAME $COMMIT_SHA
-        taito deployment wait:$BRANCH_NAME
-        taito test:$BRANCH_NAME
-        taito deployment verify:$BRANCH_NAME
-        taito artifact release:client:$BRANCH_NAME $COMMIT_SHA
-        taito artifact release:server:$BRANCH_NAME $COMMIT_SHA
-        taito artifact release:worker:$BRANCH_NAME $COMMIT_SHA
-        taito build release:$BRANCH_NAME
+        if [[ -n "${_PR_NUMBER}" ]]; then DEPLOY_ENV="pr-${_PR_NUMBER}"; else DEPLOY_ENV="$BRANCH_NAME"; fi
+        taito build prepare:$$DEPLOY_ENV "$COMMIT_SHA"
+        taito artifact prepare:client:$$DEPLOY_ENV "$COMMIT_SHA"
+        taito artifact prepare:server:$$DEPLOY_ENV "$COMMIT_SHA"
+        taito artifact prepare:worker:$$DEPLOY_ENV "$COMMIT_SHA"
+        if [[ -n "${_PR_NUMBER}" ]]; then taito db recreate:$$DEPLOY_ENV; fi
+        taito db deploy:$$DEPLOY_ENV
+        taito deployment deploy:$$DEPLOY_ENV "$COMMIT_SHA"
+        taito deployment wait:$$DEPLOY_ENV
+        taito test:$$DEPLOY_ENV
+        taito deployment verify:$$DEPLOY_ENV
+        taito artifact release:client:$$DEPLOY_ENV "$COMMIT_SHA"
+        taito artifact release:server:$$DEPLOY_ENV "$COMMIT_SHA"
+        taito artifact release:worker:$$DEPLOY_ENV "$COMMIT_SHA"
+        taito build release:$$DEPLOY_ENV

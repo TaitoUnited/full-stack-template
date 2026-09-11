@@ -4,7 +4,7 @@ This file has been copied from [FULL-STACK-TEMPLATE](https://github.com/TaitoUni
 
 ## Prerequisites
 
-- [Node.js (LTS version)](https://nodejs.org/)
+- [Node.js 24.19.0](https://nodejs.org/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 - [Taito CLI](https://taitounited.github.io/taito-cli/) (or see [TAITOLESS.md](TAITOLESS.md))
 - Some editor plugins depending on technology (e.g. [ESLint](https://eslint.org/docs/user-guide/integrations#editors) and [Prettier](https://prettier.io/docs/en/editors.html) for JavaScript/TypeScript)

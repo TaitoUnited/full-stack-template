@@ -38,7 +38,8 @@ function config() {
       'full-stack-template-server/padding-after-function': 'error',
       'full-stack-template-server/padding-after-multiline-statement': 'error',
       'full-stack-template-server/padding-after-multiline-variable': 'error',
-      'full-stack-template-server/padding-between-top-level-declarations': 'error',
+      'full-stack-template-server/padding-between-top-level-declarations':
+        'error',
       ...tsRuleOverrides,
     },
     overrides: [
@@ -56,7 +57,11 @@ function config() {
         },
       },
       {
-        files: ['**/*.config.ts', '**/*.config.mts', 'test/setup/setup-test-global.ts'],
+        files: [
+          '**/*.config.ts',
+          '**/*.config.mts',
+          'test/setup/setup-test-global.ts',
+        ],
         rules: {
           'import/no-default-export': 'off',
         },

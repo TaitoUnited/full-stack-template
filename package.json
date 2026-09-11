@@ -23,6 +23,12 @@
     "generate": "npm-run-all generate:server generate:client ",
     "generate:client": "if [ ${taito_env} = 'local' ] && [ -f ./client/generate.sh ]; then (cd client && ./generate.sh); else echo Nothing to generate; fi",
     "generate:server": "if [ ${taito_env} = 'local' ] && [ -f ./server/generate.sh ]; then (cd server && ./generate.sh); else echo Nothing to generate; fi",
+    "verify": "npm-run-all -p verify:client verify:server verify:playwright verify:worker",
+    "verify:client": "npm --prefix client run verify",
+    "verify:server": "npm --prefix server run verify",
+    "verify:playwright": "npm --prefix playwright run verify",
+    "verify:worker": "npm --prefix worker run verify",
+    "verify:guidance": "node ./scripts/validate-agent-guidance.mjs",
     "info:local": "yes | printf '\nUsers:\nadmin@test.com / password\nuser@test.com / password\n'",
     "info": "yes | taito ${taito_options} secret show:${taito_env} basic-auth && npm run info:local",
     "taito-host-init": "taito -z ${taito_options} init:${taito_env} && taito db deploy && npm-run-all import-db-data generate",
@@ -152,7 +158,7 @@
     }
   },
   "engines": {
-    "node": ">=22",
+    "node": ">=24",
     "npm": ">=10"
   }
 }

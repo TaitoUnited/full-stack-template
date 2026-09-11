@@ -61,12 +61,8 @@
           "name": "chat_message_chat_id_chat_id_fk",
           "tableFrom": "chat_message",
           "tableTo": "chat",
-          "columnsFrom": [
-            "chat_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["chat_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -74,12 +70,8 @@
           "name": "chat_message_author_id_user_id_fk",
           "tableFrom": "chat_message",
           "tableTo": "user",
-          "columnsFrom": [
-            "author_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["author_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -125,12 +117,8 @@
           "name": "chat_user_id_user_id_fk",
           "tableFrom": "chat",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -140,9 +128,7 @@
         "chat_user_id_unique": {
           "name": "chat_user_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "user_id"
-          ]
+          "columns": ["user_id"]
         }
       }
     },
@@ -202,12 +188,8 @@
           "name": "post_author_id_user_id_fk",
           "tableFrom": "post",
           "tableTo": "user",
-          "columnsFrom": [
-            "author_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["author_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -215,12 +197,8 @@
           "name": "post_organisation_id_organisation_id_fk",
           "tableFrom": "post",
           "tableTo": "organisation",
-          "columnsFrom": [
-            "organisation_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["organisation_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -308,12 +286,8 @@
           "name": "user_organisation_user_id_user_id_fk",
           "tableFrom": "user_organisation",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -321,12 +295,8 @@
           "name": "user_organisation_organisation_id_organisation_id_fk",
           "tableFrom": "user_organisation",
           "tableTo": "organisation",
-          "columnsFrom": [
-            "organisation_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["organisation_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -334,10 +304,7 @@
       "compositePrimaryKeys": {
         "user_organisation_user_id_organisation_id_pk": {
           "name": "user_organisation_user_id_organisation_id_pk",
-          "columns": [
-            "user_id",
-            "organisation_id"
-          ]
+          "columns": ["user_id", "organisation_id"]
         }
       },
       "uniqueConstraints": {}
@@ -397,12 +364,8 @@
           "name": "session_user_id_user_id_fk",
           "tableFrom": "session",
           "tableTo": "user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -475,9 +438,7 @@
         "user_email_unique": {
           "name": "user_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       }
     }

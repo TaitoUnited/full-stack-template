@@ -39,6 +39,9 @@ taito_static_contents=" client "
 taito_databases=" database "
 taito_networks="default"
 
+# Reuse dependency and build layers from previously published images in CI.
+taito_ci_pull_docker_cache=true
+
 # Buckets
 taito_buckets=" bucket "
 st_bucket_name="$taito_project-$taito_env"

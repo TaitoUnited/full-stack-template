@@ -1,0 +1,114 @@
+timeout: 900s
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+# This configuration is invoked by an external pull-request-close trigger; it
+# is not run by the normal branch/PR deployment trigger.
+substitutions:
+  _PR_ACTION: ""
+  _PR_NUMBER: ""
+  # Passed by the webhook trigger and used by its repository CEL filter.
+  _REPOSITORY: ""
+  _REPO_NAME: full-stack-template
+  _TAITO_CI_PHASES:
+
+steps:
+  # A PR can close while a deployment build is still running. Cancel it first,
+  # otherwise that build could recreate the environment after teardown.
+  - id: cancel-pr-deployment
+    name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: "bash"
+    env:
+      - current_build_id=$BUILD_ID
+      - build_location=$LOCATION
+      - pr_action=${_PR_ACTION}
+      - pr_number=${_PR_NUMBER}
+      - repository=${_REPOSITORY}
+      - repo_name=${_REPO_NAME}
+    args:
+      - "-c"
+      - |
+        set -Eeuo pipefail
+
+        if [[ "$${pr_action}" != "closed" ]]; then
+          echo "Ignoring an event outside the PR cleanup scope."
+          exit 0
+        fi
+
+        if [[ ! "$${pr_number}" =~ ^[1-9][0-9]*$$ ]]; then
+          echo "Refusing cleanup: PR number must be a positive integer."
+          exit 1
+        fi
+
+        if [[ -z "$${repository}" ]]; then
+          echo "Refusing cleanup: repository payload is required."
+          exit 1
+        fi
+
+        list_deployment_builds() {
+          gcloud builds list \
+            --ongoing \
+            --region "$${build_location}" \
+            --format="value(id)" \
+            --filter="substitutions._REPO_NAME='$${repo_name}' AND substitutions._PR_NUMBER='$${pr_number}'" | \
+            grep -v "^$${current_build_id}$$" || :
+        }
+
+        stable_checks=0
+        for ((attempt = 1; attempt <= 60; attempt++)); do
+          mapfile -t deployment_build_ids < <(list_deployment_builds)
+
+          if (( $${#deployment_build_ids[@]} == 0 )); then
+            ((stable_checks += 1))
+            if (( stable_checks >= 3 )); then
+              echo "No ongoing deployment build remains for pr-$${pr_number}."
+              break
+            fi
+          else
+            stable_checks=0
+            for deployment_build_id in "$${deployment_build_ids[@]}"; do
+              echo "Cancelling PR deployment build $${deployment_build_id}."
+              gcloud builds cancel "$${deployment_build_id}" \
+                --region "$${build_location}" \
+                --quiet || :
+            done
+          fi
+
+          sleep 2
+        done
+
+        mapfile -t deployment_build_ids < <(list_deployment_builds)
+        if (( $${#deployment_build_ids[@]} != 0 )); then
+          echo "Refusing teardown while a PR deployment build is still ongoing."
+          exit 1
+        fi
+
+  - id: cleanup-pr-environment
+    waitFor: ["cancel-pr-deployment"]
+    name: "${_TEMPLATE_DEFAULT_TAITO_IMAGE}"
+    entrypoint: "bash"
+    env:
+      - taito_mode=ci
+      - taito_ci_phases=${_TAITO_CI_PHASES}
+      - pr_action=${_PR_ACTION}
+      - pr_number=${_PR_NUMBER}
+    args:
+      - "-c"
+      - |
+        set -Eeuo pipefail
+
+        if [[ "$${pr_action}" != "closed" ]]; then
+          echo "Ignoring an event outside the PR cleanup scope."
+          exit 0
+        fi
+
+        if [[ ! "$${pr_number}" =~ ^[1-9][0-9]*$$ ]]; then
+          echo "Refusing cleanup: PR number must be a positive integer."
+          exit 1
+        fi
+
+        DEPLOY_ENV="pr-$${pr_number}"
+        echo "Cleaning up $${DEPLOY_ENV}."
+        taito stop:$${DEPLOY_ENV}
+        taito db drop:$${DEPLOY_ENV}
