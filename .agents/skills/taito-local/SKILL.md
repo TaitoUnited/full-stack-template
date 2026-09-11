@@ -1,6 +1,6 @@
 ---
 name: taito-local
-description: Work safely with Taito CLI local-development commands and project configuration.
+description: Use for explicitly local Taito start, stop, logs, shell, database, migration, and test operations. Do not use for non-local Taito commands, remote deployment, or remote infrastructure mutations.
 ---
 
 # Taito CLI for local development

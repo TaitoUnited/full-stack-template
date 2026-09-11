@@ -4,4 +4,6 @@ Setup modules compose transports, authentication, request context, logging, and 
 
 Keep dependency direction one-way: transports may depend on services, services on DAOs, and DAOs on database definitions. Avoid domain modules reaching into setup code and do not introduce cross-domain barrels that hide ownership or create cycles.
 
-Keep resolvers thin and test domain behavior through integration tests. Pass the request context into authorization-aware services and preserve the request-scoped database handle so transactions and tests remain effective.
+Keep resolvers thin and test domain behavior through integration tests. Pass the request context into authorization-aware services and preserve the request-scoped database handle so transactions and tests remain effective. Do not add a controller layer unless the architecture is intentionally changed consistently across the project.
+
+Use direct lookup names such as `getById` for a primary-key or exact-criterion retrieval; reserve `find*` for a genuine search. Keep domain imports colocated and explicit so ownership and dependency direction remain visible.

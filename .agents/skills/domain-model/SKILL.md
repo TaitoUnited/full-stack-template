@@ -1,13 +1,13 @@
 ---
 name: domain-model
-description: Model generic application concepts and business rules with clear ownership and testable boundaries.
+description: Use for canonical vocabulary, ownership, privacy boundaries, and cross-layer domain concepts. Do not use for a narrow implementation change that introduces no domain term or business-rule decision.
 ---
 
 # Domain model
 
-Read [server architecture](../../../docs/server/architecture.md) and [code style](../../../docs/code-style.md).
+Read [domain model](../../../docs/domain-model.md) before introducing or materially changing a cross-layer concept.
 
 - Keep business rules in the domain service layer, not transport handlers or database plumbing.
 - Name concepts consistently across the schema, API, persistence, and UI; document any new generic term in the consuming application.
-- Keep domain-specific policy out of this reusable template guidance.
-
+- When a concept has an ownership, privacy, or authorization boundary, make that boundary explicit before introducing its schema or API representation.
+- Keep the template generic: application-specific vocabulary and policies belong in the consuming application's domain documentation.

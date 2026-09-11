@@ -5,3 +5,5 @@ Configure container workloads and ingress in `scripts/helm.yaml`; configure pers
 - Review which change is application deployment versus persistent infrastructure before editing.
 - Keep local Docker Compose, Helm, Terraform, and secret wiring aligned when introducing a container, environment value, secret, database, bucket, or queue.
 - Validate rendered configuration and the affected package locally. For remote resource changes, prepare `taito env apply:ENV` for the user rather than executing it.
+
+For any user-run apply, state the chosen environment, required authentication, expected resource lifecycle change, verification, and recovery route. Do not hide a destructive replacement, data migration, or credential-impacting change inside a general infrastructure update.

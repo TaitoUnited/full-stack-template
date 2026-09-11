@@ -2,10 +2,9 @@
 
 ## Technical documentation
 
-This template's reusable implementation and operational guidance lives here:
-
 - [Development](development.md)
-- [Code style](code-style.md)
+- [Domain model](domain-model.md)
+- [Code style and readability](code-style.md)
 - [Configuration and secrets](configuration/secrets.md)
 - [Client](client/README.md), [server](server/README.md), [database](database/README.md), and [testing](testing/README.md)
 - [Deployment and CI/CD](deployment/README.md)
