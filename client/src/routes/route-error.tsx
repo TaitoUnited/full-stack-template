@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 import { ErrorView } from '~/components/common/error-view';
 import { config } from '~/constants/config';
-import { styled } from '~/styled-system/jsx';
+import { styled } from '~/design-system/jsx';
 
 // See: https://tanstack.com/router/latest/docs/framework/react/api/router/errorComponentComponent#errorcomponent-returns
 export function RouteError({ error }: ErrorComponentProps) {

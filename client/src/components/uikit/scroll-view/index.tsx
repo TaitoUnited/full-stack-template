@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode } from 'react';
 
-import { styled } from '~/styled-system/jsx';
+import { styled } from '~/design-system/jsx';
 
 type Props = HTMLAttributes<HTMLDivElement> & {
   children: ReactNode;

@@ -13,8 +13,8 @@ import useMeasure from 'react-use-measure';
 
 import { useDetectOutsideClick } from '~/hooks/use-detect-outside-click';
 import { useKeyPressEvent } from '~/hooks/use-key-press';
-import { css, cx } from '~/styled-system/css';
-import { styled } from '~/styled-system/jsx';
+import { css, cx } from '~/design-system/css';
+import { styled } from '~/design-system/jsx';
 
 import { Chip } from '../chip';
 import { Icon, type IconName } from '../icon';

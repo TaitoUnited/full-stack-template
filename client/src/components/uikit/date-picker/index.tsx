@@ -20,8 +20,8 @@ import {
 } from 'react-aria-components';
 
 import { useEventListener } from '~/hooks/use-event-listener';
-import { cx } from '~/styled-system/css';
-import { styled } from '~/styled-system/jsx';
+import { cx } from '~/design-system/css';
+import { styled } from '~/design-system/jsx';
 
 import { Button } from '../button';
 import { Icon } from '../icon';

@@ -9,5 +9,5 @@ echo
 echo "Generating GraphQL code for client"
 npm run generate:graphql
 
-echo "Generating styled system"
-npm run generate:styled-system
+echo "Generating design system"
+npm run generate:design-system

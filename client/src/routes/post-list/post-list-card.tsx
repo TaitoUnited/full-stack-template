@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 
-import { styled } from '~/styled-system/jsx';
+import { styled } from '~/design-system/jsx';
 import { Icon } from '~/uikit/icon';
 import { Stack } from '~/uikit/stack';
 import { Text } from '~/uikit/text';

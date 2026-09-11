@@ -5,7 +5,7 @@ import { type FormEvent, useState } from 'react';
 
 import { DocumentTitle } from '~/components/common/document-title';
 import { CreatePostMutation } from '~/graphql/post/mutations';
-import { styled } from '~/styled-system/jsx';
+import { styled } from '~/design-system/jsx';
 import { Button } from '~/uikit/button';
 import { Dialog } from '~/uikit/dialog';
 import { Stack } from '~/uikit/stack';

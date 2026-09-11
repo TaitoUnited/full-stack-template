@@ -4,7 +4,7 @@ import { type FormEvent, useState } from 'react';
 
 import { DocumentTitle } from '~/components/common/document-title';
 import { login, useAuthStore } from '~/stores/auth-store';
-import { styled } from '~/styled-system/jsx';
+import { styled } from '~/design-system/jsx';
 import { Button } from '~/uikit/button';
 import { Stack } from '~/uikit/stack';
 import { Text } from '~/uikit/text';

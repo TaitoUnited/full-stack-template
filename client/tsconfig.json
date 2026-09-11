@@ -22,10 +22,10 @@
     "strictPropertyInitialization": false,
     "types": ["vitest/globals"],
     "paths": {
-      "~/styled-system/*": ["./src/styled-system/generated/*"],
+      "~/design-system/*": ["./src/design-system/generated/*"],
       "~/graphql": ["./src/graphql/index.ts"],
       "~/uikit/*": ["./src/components/uikit/*"],
-      "~/design-tokens/*": ["./src/styled-system/tokens/*"],
+      "~/design-tokens/*": ["./src/design-system/tokens/*"],
       "~/*": ["./src/*"]
     },
     "plugins": [
@@ -36,7 +36,7 @@
       }
     ]
   },
-  "include": ["shared", "src", "styled-system"],
+  "include": ["shared", "src"],
   "exclude": [
     "node_modules",
     "assets",

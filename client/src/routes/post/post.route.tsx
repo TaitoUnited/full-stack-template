@@ -5,7 +5,7 @@ import { DocumentTitle } from '~/components/common/document-title';
 import type { ResultOf } from '~/graphql/gql';
 import { useReadQuery } from '~/graphql/hooks';
 import { PostQuery } from '~/graphql/post/queries';
-import { css } from '~/styled-system/css';
+import { css } from '~/design-system/css';
 import { Breadcrumbs } from '~/uikit/breadcrumbs';
 
 import { PostDetails } from './post-details';

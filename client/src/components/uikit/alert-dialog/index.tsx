@@ -7,8 +7,8 @@ import {
 } from 'react-aria-components';
 import { create } from 'zustand';
 
-import { css } from '~/styled-system/css';
-import { styled } from '~/styled-system/jsx';
+import { css } from '~/design-system/css';
+import { styled } from '~/design-system/jsx';
 
 import { Button, type ButtonProps } from '../button';
 

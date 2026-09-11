@@ -2,7 +2,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 
-import { styled } from '~/styled-system/jsx';
+import { styled } from '~/design-system/jsx';
 import { Icon } from '~/uikit/icon';
 import { IconButton } from '~/uikit/icon-button';
 import { Stack } from '~/uikit/stack';

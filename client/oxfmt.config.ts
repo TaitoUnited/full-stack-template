@@ -11,8 +11,8 @@ export default defineConfig({
   sortPackageJson: false,
   ignorePatterns: [
     'src/graphql/generated.d.ts',
-    'src/styled-system/generated/**/*',
-    'src/styled-system/tokens/**/*',
+    'src/design-system/generated/**/*',
+    'src/design-system/tokens/**/*',
     'src/route-tree.gen.ts',
   ],
 });

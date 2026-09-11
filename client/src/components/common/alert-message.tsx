@@ -1,4 +1,4 @@
-import { styled } from '~/styled-system/jsx';
+import { styled } from '~/design-system/jsx';
 import { Icon, type IconName } from '~/uikit/icon';
 import { Stack } from '~/uikit/stack';
 import { Text } from '~/uikit/text';

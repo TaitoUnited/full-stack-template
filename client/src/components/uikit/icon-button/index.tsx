@@ -5,8 +5,8 @@ import {
   composeRenderProps,
 } from 'react-aria-components';
 
-import { cva, cx, type RecipeVariantProps } from '~/styled-system/css';
-import { token } from '~/styled-system/tokens';
+import { cva, cx, type RecipeVariantProps } from '~/design-system/css';
+import { token } from '~/design-system/tokens';
 
 import { Icon, type IconName } from '../icon';
 import { Tooltip } from '../tooltip';

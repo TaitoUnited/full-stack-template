@@ -1,23 +1,23 @@
 import { defineConfig } from '@pandacss/dev';
 
-import { keyframes } from './src/styled-system/setup/keyframes';
-import { globalCss } from './src/styled-system/setup/global';
-import * as helpers from './src/styled-system/setup/helpers';
-import * as utilities from './src/styled-system/setup/utilities';
-import * as shadows from './src/styled-system/tokens/shadows';
-import * as colors from './src/styled-system/tokens/colors';
-import * as spacing from './src/styled-system/tokens/spacing.json';
-import * as sizes from './src/styled-system/tokens/sizes';
-import * as radii from './src/styled-system/tokens/radii';
-import * as typography from './src/styled-system/tokens/typography';
+import { keyframes } from './src/design-system/setup/keyframes';
+import { globalCss } from './src/design-system/setup/global';
+import * as helpers from './src/design-system/setup/helpers';
+import * as utilities from './src/design-system/setup/utilities';
+import * as shadows from './src/design-system/tokens/shadows';
+import * as colors from './src/design-system/tokens/colors';
+import * as spacing from './src/design-system/tokens/spacing.json';
+import * as sizes from './src/design-system/tokens/sizes';
+import * as radii from './src/design-system/tokens/radii';
+import * as typography from './src/design-system/tokens/typography';
 
 const rootFontSize = 16;
 
 export default defineConfig({
-  importMap: '~/styled-system',
+  importMap: '~/design-system',
 
   // The output directory for your css system
-  outdir: './src/styled-system/generated',
+  outdir: './src/design-system/generated',
 
   poll: true,
 
@@ -32,7 +32,7 @@ export default defineConfig({
 
   // Files to exclude
   exclude: [
-    './src/styled-system/**/*',
+    './src/design-system/**/*',
     './src/locales/**/*',
     './src/images/**/*',
     './src/graphql/**/*',

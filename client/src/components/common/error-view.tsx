@@ -2,7 +2,7 @@ import { Trans } from '@lingui/react/macro';
 import { showReportDialog } from '@sentry/browser';
 
 import { config } from '~/constants/config';
-import { styled } from '~/styled-system/jsx';
+import { styled } from '~/design-system/jsx';
 import { Button } from '~/uikit/button';
 import { Stack } from '~/uikit/stack';
 import { Text } from '~/uikit/text';

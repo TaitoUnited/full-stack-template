@@ -13,8 +13,8 @@ import {
 import { useAsyncList } from 'react-stately';
 import useMeasure from 'react-use-measure';
 
-import { css, cx } from '~/styled-system/css';
-import { styled } from '~/styled-system/jsx';
+import { css, cx } from '~/design-system/css';
+import { styled } from '~/design-system/jsx';
 import { InputLayout } from '~/uikit/partials/input-layout';
 
 import { Icon, type IconName } from '../icon';

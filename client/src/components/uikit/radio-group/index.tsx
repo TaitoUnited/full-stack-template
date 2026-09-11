@@ -6,8 +6,8 @@ import {
   type RadioGroupProps,
 } from 'react-aria-components';
 
-import { cx } from '~/styled-system/css';
-import { styled } from '~/styled-system/jsx';
+import { cx } from '~/design-system/css';
+import { styled } from '~/design-system/jsx';
 
 import {
   type FormComponentProps,

@@ -5,7 +5,7 @@ import {
   CheckboxField as AriaCheckboxField,
 } from 'react-aria-components';
 
-import { styled } from '~/styled-system/jsx';
+import { styled } from '~/design-system/jsx';
 
 import { Icon } from '../icon';
 import type { PropsWithLabelOptions } from '../partials/common';

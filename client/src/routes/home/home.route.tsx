@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { DocumentTitle } from '~/components/common/document-title';
 import { FeatureGate } from '~/components/feature-flags/feature-gate';
 import { isFeatureEnabled } from '~/services/feature-flags';
-import { styled } from '~/styled-system/jsx';
+import { styled } from '~/design-system/jsx';
 import { Card } from '~/uikit/card';
 import { Icon, type IconName } from '~/uikit/icon';
 import { Stack } from '~/uikit/stack';

@@ -6,9 +6,9 @@ import {
   composeRenderProps,
 } from 'react-aria-components';
 
-import { css, cva, cx } from '~/styled-system/css';
-import { styled } from '~/styled-system/jsx';
-import { token } from '~/styled-system/tokens';
+import { css, cva, cx } from '~/design-system/css';
+import { styled } from '~/design-system/jsx';
+import { token } from '~/design-system/tokens';
 
 import { Icon, type IconName } from '../icon';
 import { IconButton } from '../icon-button';

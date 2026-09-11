@@ -3,8 +3,8 @@ import { type LinkProps } from '@tanstack/react-router';
 
 import { isFeatureEnabled } from '~/services/feature-flags';
 import { logout, useAuthStore } from '~/stores/auth-store';
-import { styled } from '~/styled-system/jsx';
-import { stack } from '~/styled-system/patterns';
+import { styled } from '~/design-system/jsx';
+import { stack } from '~/design-system/patterns';
 import { Button } from '~/uikit/button';
 import { Icon, type IconName } from '~/uikit/icon';
 import { Text } from '~/uikit/text';

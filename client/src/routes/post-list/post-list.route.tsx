@@ -6,7 +6,7 @@ import { Link } from '~/components/navigation/link';
 import { LinkButton } from '~/components/uikit/button';
 import { useReadQuery } from '~/graphql/hooks';
 import { PostListQuery } from '~/graphql/post/queries';
-import { stack } from '~/styled-system/patterns';
+import { stack } from '~/design-system/patterns';
 import { Stack } from '~/uikit/stack';
 import { Text } from '~/uikit/text';
 

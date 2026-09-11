@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { hideSplashScreen } from 'vite-plugin-splash-screen/runtime';
 
-import { css } from '~/styled-system/css';
-import { styled } from '~/styled-system/jsx';
+import { css } from '~/design-system/css';
+import { styled } from '~/design-system/jsx';
 import { Spinner } from '~/uikit/spinner';
 
 export function RoutePending() {

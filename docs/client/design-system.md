@@ -10,7 +10,7 @@ We use [Figmage](https://github.com/Temzasse/figmage#readme) to generate our des
 
 3. Get the **file id** of the Figma file. You can find it in the URL of the Figma file. For example, if the URL is `https://www.figma.com/design/ORN2KQBsniJ0508iC9PXZK/Taito-Design-Template`, then the **file id** is `ORN2KQBsniJ0508iC9PXZK`.
 
-4. Create a `.env` file in the `styled-system` folder and paste your access token and the file id there. You can use the `.env.example` file as a template.
+4. Create `client/src/design-system/.env` and paste your access token and the file id there. Use `client/src/design-system/.example.env` as a template.
 
    ```env
    FIGMA_ACCESS_TOKEN="xxxxx-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx"
@@ -23,11 +23,11 @@ You can generate the design system by running the script `design-system:sync` fr
 
 This command runs the following scripts, that you can run individually if you want to:
 
-- `design-system:tokenize`: This script will tokenize the Figma file and generate a `tokens.json` file in the `src/styled-system/tokens` folder of your project. This file contains all the tokens of the Figma file.
+- `design-system:tokenize`: This script will tokenize the Figma file and generate a `tokens.json` file in the `src/design-system/tokens` folder of your project. This file contains all the tokens of the Figma file.
 
-- `design-system:codegen`: This script will generate the design system code based on the `tokens.json` file. It writes the generated token files under `src/styled-system/tokens` for use in the app.
+- `design-system:codegen`: This script will generate the design system code based on the `tokens.json` file. It writes the generated token files under `src/design-system/tokens` for use in the app.
 
-- `design-system:format`: This script will format the `src/styled-system/tokens/*.ts` files using [Prettier](https://prettier.io/).
+- `design-system:format`: This script will format the `src/design-system/tokens/*.ts` files using [Prettier](https://prettier.io/).
 
 ## How to customize what is generated
 

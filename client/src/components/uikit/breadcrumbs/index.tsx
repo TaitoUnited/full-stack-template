@@ -14,7 +14,7 @@ import {
 } from 'react-aria-components';
 
 import { Link } from '~/components/navigation/link';
-import { styled } from '~/styled-system/jsx';
+import { styled } from '~/design-system/jsx';
 
 import { Icon } from '../icon';
 

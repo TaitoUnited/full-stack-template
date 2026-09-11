@@ -1,7 +1,7 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 
 import { DocumentTitle } from '~/components/common/document-title';
-import { styled } from '~/styled-system/jsx';
+import { styled } from '~/design-system/jsx';
 import { Stack } from '~/uikit/stack';
 import { Text } from '~/uikit/text';
 

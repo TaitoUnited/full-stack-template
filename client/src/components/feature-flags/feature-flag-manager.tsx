@@ -9,8 +9,8 @@ import {
   isFeatureEnabledInConfig,
   isFeatureEnabledInSession,
 } from '~/services/feature-flags';
-import { styled } from '~/styled-system/jsx';
-import { stack } from '~/styled-system/patterns';
+import { styled } from '~/design-system/jsx';
+import { stack } from '~/design-system/patterns';
 import { Button } from '~/uikit/button';
 import { Checkbox } from '~/uikit/checkbox';
 import { IconButton } from '~/uikit/icon-button';

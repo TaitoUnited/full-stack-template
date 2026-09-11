@@ -1,6 +1,6 @@
 import type { HTMLAttributes, ReactNode, Ref } from 'react';
 
-import { css, cx } from '~/styled-system/css';
+import { css, cx } from '~/design-system/css';
 
 type Props = HTMLAttributes<HTMLDivElement> & {
   ref?: Ref<any>;

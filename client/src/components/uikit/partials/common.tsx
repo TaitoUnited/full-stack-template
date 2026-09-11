@@ -2,7 +2,7 @@ import type { CSSProperties, ReactNode } from 'react';
 import { createContext, use } from 'react';
 import { Text as AriaText } from 'react-aria-components';
 
-import { css, cva, cx } from '~/styled-system/css';
+import { css, cva, cx } from '~/design-system/css';
 
 import { Icon } from '../icon';
 import { Stack } from '../stack';

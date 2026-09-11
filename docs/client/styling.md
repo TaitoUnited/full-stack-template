@@ -16,19 +16,19 @@ Read more about the benefits of Panda [here](https://panda-css.com/docs/overview
 
 ## Setup
 
-Panda CSS works by generating the styling library, called **styled system**, from a [configuration file](https://panda-css.com/docs/references/config) (`panda.config.ts`). This styled system is what is used in the client app code instead of importing things from the Panda CSS package directly.
+Panda CSS works by generating the styling library, called **design system**, from a [configuration file](https://panda-css.com/docs/references/config) (`panda.config.ts`). This design system is what is used in the client app code instead of importing things from the Panda CSS package directly.
 
-> ⚠️ Whenever you make changes to the Panda CSS setup (any file under `/styled-system/setup/`) you need regenerate the styled system with `npm run generate:styled-system`!
+> ⚠️ Whenever you make changes to the Panda CSS setup (any file under `/design-system/setup/`) you need regenerate the design system with `npm run generate:design-system`!
 >
 > Note that this is done automatically on dev server startup and before production build!
 
 ## Usage
 
-The generated styled system exposes a few styling utilities from which `css` and `styled` are the most commonly useful.
+The generated design system exposes a few styling utilities from which `css` and `styled` are the most commonly useful.
 
 ```tsx
-import { css } from '~/styled-system/css';
-import { styled } from '~/styled-system/jsx';
+import { css } from '~/design-system/css';
+import { styled } from '~/design-system/jsx';
 
 function Example() {
   return (
@@ -63,7 +63,7 @@ const Comp = styled('div', {
 If you want to define styles without having to name things you can prefer using the `css()` inline to apply the generated classname directly to the element:
 
 ```tsx
-import { css } from '~/styled-system/css';
+import { css } from '~/design-system/css';
 
 function Example() {
   return (
@@ -80,7 +80,7 @@ Panda also exposes other utilities like [`cx`](https://panda-css.com/docs/concep
 > ℹ️ Panda CSS allows you to use the `styled` helper in another way which however is not recommended due to how it negatively affects the JS bundle size:
 
 ```tsx
-import { styled } from '~/styled-system/jsx';
+import { styled } from '~/design-system/jsx';
 
 function Example() {
   return (

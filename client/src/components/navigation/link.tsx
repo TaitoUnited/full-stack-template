@@ -6,7 +6,7 @@ import {
   type LinkProps as RACLinkProps,
 } from 'react-aria-components';
 
-import { css, cx } from '~/styled-system/css';
+import { css, cx } from '~/design-system/css';
 import { mapToAriaProps } from '~/utils/aria';
 
 type LinkProps = Omit<RACLinkProps, 'className' | 'style'> & {

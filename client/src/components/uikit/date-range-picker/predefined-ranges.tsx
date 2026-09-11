@@ -3,7 +3,7 @@ import { useLingui } from '@lingui/react/macro';
 import { Fragment } from 'react';
 import { type DateRange } from 'react-aria';
 
-import { Grid, Spacer, styled } from '~/styled-system/jsx';
+import { Grid, Spacer, styled } from '~/design-system/jsx';
 
 import { Button } from '../button';
 

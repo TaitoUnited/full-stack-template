@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react';
 
-import { styled } from '~/styled-system/jsx';
+import { styled } from '~/design-system/jsx';
 
 import { Sidebar } from '../navigation/sidebar';
 import { Toolbar } from '../navigation/toolbar';

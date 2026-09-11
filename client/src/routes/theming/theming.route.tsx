@@ -3,7 +3,7 @@ import { createFileRoute } from '@tanstack/react-router';
 
 import { AlertMessage } from '~/components/common/alert-message';
 import { DocumentTitle } from '~/components/common/document-title';
-import { styled } from '~/styled-system/jsx';
+import { styled } from '~/design-system/jsx';
 import { Stack } from '~/uikit/stack';
 import { Text } from '~/uikit/text';
 

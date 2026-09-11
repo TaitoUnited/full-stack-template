@@ -5,14 +5,14 @@ import {
   type ToasterProps,
 } from 'sonner';
 
-import { type ColorToken } from '~/styled-system/tokens';
-import { type StyledSystemToken } from '~/utils/styled-system';
+import { type ColorToken } from '~/design-system/tokens';
+import { type DesignSystemToken } from '~/utils/design-system';
 
 import { Icon, type IconName } from '../icon';
 
 export type ToasterOptions = ToasterProps & {
   icon?: IconName;
-  iconColor?: StyledSystemToken<ColorToken> | 'currentColor';
+  iconColor?: DesignSystemToken<ColorToken> | 'currentColor';
 };
 
 // Customize global toast options here

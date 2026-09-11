@@ -1,9 +1,9 @@
 import { type CSSProperties, type HTMLAttributes, memo } from 'react';
 
 import { type Typography } from '~/design-tokens/types';
-import { cva, cx } from '~/styled-system/css';
-import { type ColorToken, token } from '~/styled-system/tokens';
-import { type StyledSystemToken } from '~/utils/styled-system';
+import { cva, cx } from '~/design-system/css';
+import { type ColorToken, token } from '~/design-system/tokens';
+import { type DesignSystemToken } from '~/utils/design-system';
 
 type AllowedElement =
   | 'h1'
@@ -22,7 +22,7 @@ type AllowedElement =
 
 type Props = HTMLAttributes<HTMLSpanElement> & {
   variant: Typography;
-  color?: StyledSystemToken<ColorToken>;
+  color?: DesignSystemToken<ColorToken>;
   align?: CSSProperties['textAlign'];
   lineHeight?: CSSProperties['lineHeight'];
   as?: AllowedElement;

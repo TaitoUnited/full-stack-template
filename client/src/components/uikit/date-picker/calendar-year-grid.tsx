@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { CalendarGrid } from 'react-aria-components';
 import type { CalendarState, RangeCalendarState } from 'react-stately';
 
-import { styled } from '~/styled-system/jsx';
+import { styled } from '~/design-system/jsx';
 
 /**
  * A Year grid that changes react aria component calendar state when a year is selected

@@ -1,11 +1,11 @@
 import { type CSSProperties, memo, type ReactNode, type Ref } from 'react';
 
-import { css } from '~/styled-system/css';
+import { css } from '~/design-system/css';
 import {
   type BreakpointToken,
   type SpacingToken,
-} from '~/styled-system/tokens';
-import { type StyledSystemToken } from '~/utils/styled-system';
+} from '~/design-system/tokens';
+import { type DesignSystemToken } from '~/utils/design-system';
 
 type AllowedElement =
   | 'div'
@@ -19,7 +19,7 @@ type AllowedElement =
   | 'ol'
   | 'li';
 
-type Breakpoint = 'base' | StyledSystemToken<BreakpointToken>;
+type Breakpoint = 'base' | DesignSystemToken<BreakpointToken>;
 type ResponsiveValue<T> = T | { [key in Breakpoint]?: T };
 
 type Props = {

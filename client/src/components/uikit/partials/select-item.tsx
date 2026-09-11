@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { Text } from 'react-aria-components';
 
-import { css } from '~/styled-system/css';
+import { css } from '~/design-system/css';
 
 import { Stack } from '../stack';
 import { SelectedIcon } from './common';

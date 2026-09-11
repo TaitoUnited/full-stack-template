@@ -2,14 +2,14 @@ import { type CSSProperties } from 'react';
 
 import './styles.css';
 
-import { styled } from '~/styled-system/jsx';
-import { type ColorToken, token } from '~/styled-system/tokens';
-import { type StyledSystemToken } from '~/utils/styled-system';
+import { styled } from '~/design-system/jsx';
+import { type ColorToken, token } from '~/design-system/tokens';
+import { type DesignSystemToken } from '~/utils/design-system';
 
 export type SpinnerSize = 'small' | 'normal' | 'medium' | 'large';
 
 type Props = {
-  color: StyledSystemToken<ColorToken> | 'currentColor';
+  color: DesignSystemToken<ColorToken> | 'currentColor';
   size?: SpinnerSize;
   className?: string;
   style?: CSSProperties;

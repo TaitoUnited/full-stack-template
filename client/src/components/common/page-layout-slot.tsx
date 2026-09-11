@@ -6,7 +6,7 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 
-import { styled } from '~/styled-system/jsx';
+import { styled } from '~/design-system/jsx';
 
 type SlotProps = {
   children: ReactNode;

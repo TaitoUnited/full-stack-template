@@ -45,8 +45,8 @@ function config() {
       '.storybook/vite.config.*',
       'src/graphql/generated.d.ts',
       'src/locales/',
-      'src/styled-system/generated/',
-      'src/styled-system/tokens/',
+      'src/design-system/generated/',
+      'src/design-system/tokens/',
     ],
     rules: {
       ...coreRules,
@@ -349,7 +349,7 @@ const importRules: DummyRuleMap = {
       message: 'Please use custom Link instead.',
     },
     {
-      name: '~/styled-system/jsx',
+      name: '~/design-system/jsx',
       importNames: ['Stack'],
       message: 'Please use custom Stack from uikit instead.',
     },

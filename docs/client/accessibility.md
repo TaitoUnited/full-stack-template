@@ -42,7 +42,7 @@ Our template includes a pre-built [UI Kit](/client/src/components/uikit/) featur
 ### 4. Provide Visual Feedback for Focus
 
 - Ensure that focused elements are clearly highlighted.
-- Use [Panda CSS utilities](/client/src/styled-system/setup/utilities.ts) like `$focusRing` to create visual feedback for focus.
+- Use [Panda CSS utilities](/client/src/design-system/setup/utilities.ts) like `$focusRing` to create visual feedback for focus.
 
 ### 5. Maintain Sufficient Color Contrast
 
