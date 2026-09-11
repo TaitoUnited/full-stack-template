@@ -166,9 +166,9 @@ function getButtonStyles({
   iconPlacement: ButtonIconPlacement;
 }) {
   return {
-    '--color-muted': token.var(`$colors.${color}Muted`),
-    '--color-text': token.var(`$colors.${color}Contrast`),
-    '--color': token.var(`$colors.${color}`),
+    '--color-muted': token.var(`colors.$${color}Muted`),
+    '--color-text': token.var(`colors.$${color}Contrast`),
+    '--color': token.var(`colors.$${color}`),
     // Visually balance the horizontal padding when an icon is present.
     '--padding-start-factor': icon && iconPlacement === 'start' ? 0.75 : 1,
     '--padding-end-factor': icon && iconPlacement === 'end' ? 0.75 : 1,
@@ -283,27 +283,27 @@ export const buttonStyle = cva({
         textStyle: '$bodySmallSemiBold',
         minHeight: '$buttonHeightSmall',
         paddingLeft:
-          'calc(token($spacing.small) * var(--padding-start-factor, 1))',
+          'calc(token(spacing.$small) * var(--padding-start-factor, 1))',
         paddingRight:
-          'calc(token($spacing.small) * var(--padding-end-factor, 1))',
+          'calc(token(spacing.$small) * var(--padding-end-factor, 1))',
       },
       normal: {
         gap: '$xxs',
         textStyle: '$bodySemiBold',
         minHeight: '$buttonHeightMedium',
         paddingLeft:
-          'calc(token($spacing.regular) * var(--padding-start-factor, 1))',
+          'calc(token(spacing.$regular) * var(--padding-start-factor, 1))',
         paddingRight:
-          'calc(token($spacing.regular) * var(--padding-end-factor, 1))',
+          'calc(token(spacing.$regular) * var(--padding-end-factor, 1))',
       },
       large: {
         gap: '$xs',
         textStyle: '$bodyLargeBold',
         minHeight: '$buttonHeightLarge',
         paddingLeft:
-          'calc(token($spacing.regular) * var(--padding-start-factor, 1))',
+          'calc(token(spacing.$regular) * var(--padding-start-factor, 1))',
         paddingRight:
-          'calc(token($spacing.regular) * var(--padding-end-factor, 1))',
+          'calc(token(spacing.$regular) * var(--padding-end-factor, 1))',
       },
     },
     isDisabled: {

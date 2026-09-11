@@ -67,7 +67,7 @@ const Wrapper = styled('label', {
     '&:focus-within': {
       '--outline-width': '2px',
       borderColor: 'transparent',
-      outline: 'var(--outline-width) solid token($colors.focusRing)',
+      outline: 'var(--outline-width) solid token(colors.$focusRing)',
     },
   },
 });

@@ -130,7 +130,7 @@ export const Selection: Story = {
 
         <Menu.Section title="Actions">
           <Menu.Item onAction={() => alert('logout')} id="logout">
-            <Stack direction="row" gap="$xs" align="center">
+            <Stack direction="row" gap="xs" align="center">
               <Icon name="logout" color="text" size={20} />
               <span>Logout</span>
             </Stack>
@@ -143,7 +143,7 @@ export const Selection: Story = {
 
 function ProfileMenuItem({ image, name }: { image: string; name: string }) {
   return (
-    <Stack direction="row" gap="$small" align="center">
+    <Stack direction="row" gap="small" align="center">
       <ProfileImage src={image} alt="" />
       <ProfileText>{name}</ProfileText>
     </Stack>

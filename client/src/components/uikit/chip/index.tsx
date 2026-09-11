@@ -115,11 +115,11 @@ function getChipStyles({
   toggled: boolean;
 }) {
   return {
-    '--color-muted': token.var(`$colors.${color}Muted`),
+    '--color-muted': token.var(`colors.$${color}Muted`),
     '--color-border': toggled
-      ? token.var(`$colors.${color}Contrast`)
-      : token.var(`$colors.${color}Muted`),
-    '--color-hover': token.var(`$colors.${color}MutedHover`),
+      ? token.var(`colors.$${color}Contrast`)
+      : token.var(`colors.$${color}Muted`),
+    '--color-hover': token.var(`colors.$${color}MutedHover`),
   } as CSSProperties;
 }
 

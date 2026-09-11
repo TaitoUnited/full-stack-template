@@ -1,11 +1,11 @@
-import { type CSSProperties, memo, type ReactNode, type Ref } from 'react';
+import { type CSSProperties, type ReactNode, type Ref } from 'react';
 
-import { css } from '~/design-system/css';
-import {
-  type BreakpointToken,
-  type SpacingToken,
-} from '~/design-system/tokens';
+import { cx } from '~/design-system/css';
+import { stack } from '~/design-system/patterns';
+import { type SpacingToken } from '~/design-system/tokens';
 import { type DesignSystemToken } from '~/utils/design-system';
+
+import { type ResponsiveProp } from '../../../design-system/responsive';
 
 type AllowedElement =
   | 'div'
@@ -19,50 +19,47 @@ type AllowedElement =
   | 'ol'
   | 'li';
 
-type Breakpoint = 'base' | DesignSystemToken<BreakpointToken>;
-type ResponsiveValue<T> = T | { [key in Breakpoint]?: T };
-
 type Props = {
   ref?: Ref<any>;
-  gap: ResponsiveValue<SpacingToken>;
-  direction?: ResponsiveValue<CSSProperties['flexDirection']>;
-  align?: ResponsiveValue<CSSProperties['alignItems']>;
-  justify?: ResponsiveValue<CSSProperties['justifyContent']>;
-  wrap?: ResponsiveValue<CSSProperties['flexWrap']>;
+  gap: ResponsiveProp<DesignSystemToken<SpacingToken>>;
+  direction?: ResponsiveProp<CSSProperties['flexDirection']>;
+  align?: ResponsiveProp<CSSProperties['alignItems']>;
+  justify?: ResponsiveProp<CSSProperties['justifyContent']>;
+  wrap?: ResponsiveProp<CSSProperties['flexWrap']>;
+  grow?: ResponsiveProp<CSSProperties['flexGrow']>;
   children: ReactNode;
   className?: string;
   style?: CSSProperties;
   as?: AllowedElement;
 };
 
-function StackBase({
+export function Stack({
   as,
   children,
+  className,
   style,
   gap,
   direction,
   align,
   justify,
   wrap,
+  grow,
   ref,
   ...rest
 }: Props) {
   const Element = as ?? 'div';
 
-  const className = css({
-    gap,
-    display: 'flex',
-    flexDirection: direction,
-    alignItems: align,
-    justifyContent: justify,
-    flexWrap: wrap,
-  });
-
   return (
-    <Element {...rest} ref={ref} className={className} style={style}>
+    <Element
+      {...rest}
+      ref={ref}
+      className={cx(
+        stack({ gap, direction, align, justify, wrap, grow }),
+        className
+      )}
+      style={style}
+    >
       {children}
     </Element>
   );
 }
-
-export const Stack = memo(StackBase);

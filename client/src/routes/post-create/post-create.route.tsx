@@ -75,7 +75,7 @@ export function PostCreateRoute() {
         <Dialog.Body>
           <Wrapper>
             <form onSubmit={event => void handleSubmit(event)}>
-              <Stack direction="column" gap="$regular">
+              <Stack direction="column" gap="regular">
                 <TextInput
                   label={t`Title`}
                   name="title"
@@ -121,7 +121,7 @@ export function PostCreateRoute() {
 
 const Wrapper = styled('div', {
   base: {
-    width: 'calc(100vw - token($spacing.large) * 2)',
+    width: 'calc(100vw - token(spacing.$large) * 2)',
     maxWidth: '500px',
     padding: '$large',
   },

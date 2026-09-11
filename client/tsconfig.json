@@ -36,13 +36,6 @@
       }
     ]
   },
-  "include": ["shared", "src"],
-  "exclude": [
-    "node_modules",
-    "assets",
-    "build",
-    "test",
-    ".storybook",
-    "__mocks__"
-  ]
+  "include": ["shared", "src", ".storybook"],
+  "exclude": ["node_modules", "assets", "build", "test", "__mocks__"]
 }

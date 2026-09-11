@@ -16,12 +16,12 @@ function Feature3Route() {
     <>
       <DocumentTitle title={t`Feature Flags`} />
 
-      <Stack direction="column" gap="$large">
+      <Stack direction="column" gap="large">
         <Text variant="headingXl">
           <Trans>Feature flags</Trans>
         </Text>
 
-        <Stack direction="column" gap="$regular">
+        <Stack direction="column" gap="regular">
           <Text variant="body" color="textMuted" lineHeight={1.5}>
             <Trans>
               This page is only accessible when <strong>feature-3</strong> is

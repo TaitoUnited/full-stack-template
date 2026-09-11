@@ -139,7 +139,7 @@ const dialogModalStyles = css({
 
   mdDown: {
     width: '100%',
-    maxWidth: 'calc(100vw - {$spacing.large})',
+    maxWidth: 'calc(100vw - {spacing.$large})',
   },
 });
 

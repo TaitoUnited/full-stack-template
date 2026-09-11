@@ -48,25 +48,25 @@ export function IconButton({
   let colorMuted: string;
 
   if (color === 'neutral') {
-    colorMuted = token.var('$colors.neutral5');
+    colorMuted = token.var('colors.$neutral5');
   } else {
-    colorMuted = token.var(`$colors.${color}Muted`);
+    colorMuted = token.var(`colors.$${color}Muted`);
   }
 
   let colorText: string;
 
   if (color === 'neutral') {
-    colorText = token.var('$colors.text');
+    colorText = token.var('colors.$text');
   } else {
-    colorText = token.var(`$colors.${color}Contrast`);
+    colorText = token.var(`colors.$${color}Contrast`);
   }
 
   let colorValue: string;
 
   if (color === 'neutral') {
-    colorValue = token.var('$colors.neutral1');
+    colorValue = token.var('colors.$neutral1');
   } else {
-    colorValue = token.var(`$colors.${color}`);
+    colorValue = token.var(`colors.$${color}`);
   }
 
   const _className = cx(styles({ variant }), className);

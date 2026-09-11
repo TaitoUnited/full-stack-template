@@ -30,7 +30,7 @@ export function PostListRoute() {
     <>
       <DocumentTitle title={t`Blog`} />
 
-      <Stack direction="column" gap="$large">
+      <Stack direction="column" gap="large">
         <Text variant="headingXl">
           <Trans>Blog</Trans>
         </Text>
@@ -52,7 +52,7 @@ export function PostListRoute() {
 
         {posts.length > 0 ? (
           <ul
-            className={stack({ gap: '$regular', alignItems: 'stretch' })}
+            className={stack({ gap: 'regular', alignItems: 'stretch' })}
             data-testid="post-list"
           >
             {posts.map(post => (

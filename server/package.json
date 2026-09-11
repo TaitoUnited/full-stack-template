@@ -22,7 +22,7 @@
     "db:migrate:ci": "node --enable-source-maps ./db/migrate.js",
     "db:migrate:drop": "drizzle-kit drop",
     "db:migrate:generate": "drizzle-kit generate",
-    "db:seed": "tsx ./db/seed/index.ts",
+    "db:seed": "tsx ./db/seed.ts",
     "db:seed:ci": "node --enable-source-maps ./db/seed.js",
     "generate": "npm-run-all -p generate:*",
     "generate:graphql": "gql.tada generate output",

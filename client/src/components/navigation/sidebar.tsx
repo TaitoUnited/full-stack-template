@@ -70,7 +70,7 @@ export function Sidebar() {
               <NavItemLink
                 to={to}
                 data-testid={testId}
-                className={stack({ direction: 'row', gap: '$small' })}
+                className={stack({ direction: 'row', gap: 'small' })}
                 preload="intent"
               >
                 <Icon name={icon} size={24} color="text" />

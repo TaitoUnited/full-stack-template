@@ -12,7 +12,7 @@ export function NotFoundAuthenticated() {
     <>
       <DocumentTitle title={t`Page not found`} />
 
-      <Stack direction="column" gap="$medium">
+      <Stack direction="column" gap="medium">
         <Text variant="headingXl">
           <Trans>404</Trans>
         </Text>

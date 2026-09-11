@@ -40,7 +40,7 @@ function Box({
 
 export const Default: Story = {
   args: {
-    gap: '$regular',
+    gap: 'regular',
     justify: 'center',
     children: Array.from({ length: 4 }, (_, index) => index + 1).map(index => (
       <Box key={index}>Box {index}</Box>
@@ -51,11 +51,12 @@ export const Default: Story = {
 export const ResponsiveGap: Story = {
   args: {
     gap: {
-      sm: '$xxs',
-      md: '$xs',
-      lg: '$small',
-      xl: '$medium',
-      '2xl': '$large',
+      base: 'regular',
+      sm: 'xxs',
+      md: 'xs',
+      lg: 'small',
+      xl: 'medium',
+      '2xl': 'large',
     },
     justify: 'center',
     children: Array.from({ length: 4 }, (_, index) => index + 1).map(index => (
@@ -67,7 +68,7 @@ export const ResponsiveGap: Story = {
 export const Direction: Story = {
   args: {
     direction: 'column',
-    gap: '$regular',
+    gap: 'regular',
     align: 'center',
     children: Array.from({ length: 4 }, (_, index) => index + 1).map(index => (
       <Box key={index}>Box {index}</Box>
@@ -77,8 +78,8 @@ export const Direction: Story = {
 
 export const ResponsiveDirection: Story = {
   args: {
-    direction: { base: 'column', md: 'row' },
-    gap: '$regular',
+    direction: { base: 'row', mdDown: 'column' },
+    gap: 'regular',
     justify: 'center',
     align: 'center',
     children: Array.from({ length: 4 }, (_, index) => index + 1).map(index => (
@@ -90,7 +91,7 @@ export const ResponsiveDirection: Story = {
 export const Alignment: Story = {
   args: {
     align: 'center',
-    gap: '$regular',
+    gap: 'regular',
     children: Array.from({ length: 4 }, (_, index) => index + 1).map(index => (
       <Box key={index} index={index}>
         Box {index}
@@ -102,7 +103,7 @@ export const Alignment: Story = {
 export const ResponsiveAlignment: Story = {
   args: {
     align: { base: 'flex-start', xl: 'center' },
-    gap: '$regular',
+    gap: 'regular',
     children: Array.from({ length: 4 }, (_, index) => index + 1).map(index => (
       <Box key={index} index={index}>
         Box {index}
@@ -114,7 +115,7 @@ export const ResponsiveAlignment: Story = {
 export const Justify: Story = {
   args: {
     justify: 'space-between',
-    gap: '$regular',
+    gap: 'regular',
     children: Array.from({ length: 4 }, (_, index) => index + 1).map(index => (
       <Box key={index}>Box {index}</Box>
     )),
@@ -125,7 +126,7 @@ export const ResponsiveJustify: Story = {
   args: {
     align: 'center',
     justify: { base: 'space-between', xl: 'space-around' },
-    gap: '$small',
+    gap: 'small',
     children: Array.from({ length: 4 }, (_, index) => index + 1).map(index => (
       <Box key={index}>Box {index}</Box>
     )),
@@ -135,7 +136,7 @@ export const ResponsiveJustify: Story = {
 export const Wrap: Story = {
   args: {
     wrap: 'wrap',
-    gap: '$regular',
+    gap: 'regular',
     children: Array.from({ length: 8 }, (_, index) => index + 1).map(index => (
       <Box key={index}>Box {index}</Box>
     )),
@@ -145,8 +146,19 @@ export const Wrap: Story = {
 export const ResponsiveWrap: Story = {
   args: {
     wrap: { base: 'nowrap', xl: 'wrap' },
-    gap: '$regular',
+    gap: 'regular',
     children: Array.from({ length: 8 }, (_, index) => index + 1).map(index => (
+      <Box key={index}>Box {index}</Box>
+    )),
+  },
+};
+
+export const ResponsiveGrow: Story = {
+  args: {
+    direction: 'row',
+    gap: 'regular',
+    grow: { base: 1, mdDown: 0 },
+    children: Array.from({ length: 3 }, (_, index) => index + 1).map(index => (
       <Box key={index}>Box {index}</Box>
     )),
   },
@@ -155,7 +167,7 @@ export const ResponsiveWrap: Story = {
 export const AsElement: Story = {
   args: {
     as: 'section',
-    gap: '$regular',
+    gap: 'regular',
     children: Array.from({ length: 4 }, (_, index) => index + 1).map(index => (
       <Box key={index}>Box {index}</Box>
     )),
@@ -164,7 +176,7 @@ export const AsElement: Story = {
 
 export const ComplexResponsive: Story = {
   args: {
-    gap: { base: '$regular', md: '$xl', xl: '$2xl' },
+    gap: { base: 'regular', md: 'xl', xl: '2xl' },
     direction: { base: 'column', md: 'row' },
     align: { base: 'flex-start', md: 'center', xl: 'flex-end' },
     justify: { base: 'flex-start', md: 'space-between', xl: 'space-around' },

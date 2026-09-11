@@ -13,7 +13,7 @@ export function InternalErrorAuthenticated() {
       <DocumentTitle title={t`Internal error`} />
 
       <Wrapper>
-        <Stack direction="column" gap="$medium">
+        <Stack direction="column" gap="medium">
           <Text variant="headingXl" align="center">
             <Trans>Something went wrong</Trans>
           </Text>

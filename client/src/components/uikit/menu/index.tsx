@@ -90,12 +90,7 @@ function Item({
 }) {
   return (
     <MenuItem ref={ref} data-testid="menu-item" {...rest}>
-      <Stack
-        direction="row"
-        gap="$small"
-        align="center"
-        justify="space-between"
-      >
+      <Stack direction="row" gap="small" align="center" justify="space-between">
         {children}
         <SelectedIcon />
       </Stack>

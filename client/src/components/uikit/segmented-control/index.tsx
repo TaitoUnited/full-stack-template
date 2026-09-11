@@ -78,7 +78,7 @@ const buttonGroupStyles = css({
   gap: '1px',
   width: 'fit-content',
   backgroundColor: '$neutral4',
-  borderRadius: 'calc({$radii.small} + var(--padding))',
+  borderRadius: 'calc({radii.$small} + var(--padding))',
   padding: 'var(--padding)',
 });
 

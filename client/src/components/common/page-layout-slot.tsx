@@ -85,7 +85,7 @@ const TopbarContent = styled('div', {
     paddingInline: '$regular',
     paddingBlock: '$xs',
     backgroundColor: '$surface',
-    borderBottom: '1px solid token($colors.line3)',
+    borderBottom: '1px solid token(colors.$line3)',
   },
 });
 
@@ -97,7 +97,7 @@ const LeftAsideContent = styled('div', {
     maxWidth: '300px',
     overflowY: 'auto',
     backgroundColor: '$surface',
-    borderRight: '1px solid token($colors.line3)',
+    borderRight: '1px solid token(colors.$line3)',
   },
 });
 
@@ -109,7 +109,7 @@ const RightAsideContent = styled('div', {
     maxWidth: '300px',
     overflowY: 'auto',
     backgroundColor: '$surface',
-    borderLeft: '1px solid token($colors.line3)',
+    borderLeft: '1px solid token(colors.$line3)',
   },
 });
 
@@ -121,6 +121,6 @@ const FooterContent = styled('div', {
     paddingInline: '$regular',
     paddingBlock: '$xs',
     backgroundColor: '$surface',
-    borderTop: '1px solid token($colors.line3)',
+    borderTop: '1px solid token(colors.$line3)',
   },
 });

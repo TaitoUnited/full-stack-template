@@ -48,12 +48,12 @@ function LoginRoute() {
       <DocumentTitle title={t`Login`} />
       <Wrapper>
         <LoginForm onSubmit={event => void handleSubmit(event)}>
-          <Stack direction="column" gap="$large">
+          <Stack direction="column" gap="large">
             <Text variant="headingXl">
               <Trans>Login</Trans>
             </Text>
 
-            <Stack direction="column" gap="$regular">
+            <Stack direction="column" gap="regular">
               <TextInput
                 label={t`Email`}
                 name="email"

@@ -208,13 +208,13 @@ export function DatePicker({
             {date => (
               <>
                 <CalendarHeader>
-                  <Stack gap="$xxs">
+                  <Stack gap="xxs">
                     <CalendarStateButton
                       onClick={() =>
                         setViewMode(p => (p === 'month' ? 'day' : 'month'))
                       }
                     >
-                      <Stack gap="$xxs" align="center">
+                      <Stack gap="xxs" align="center">
                         <Text variant="headingM">
                           {capitalize(
                             new Date(
@@ -243,7 +243,7 @@ export function DatePicker({
                         setViewMode(p => (p === 'year' ? 'day' : 'year'));
                       }}
                     >
-                      <Stack gap="$xxs" align="center">
+                      <Stack gap="xxs" align="center">
                         <Text variant="headingM">
                           {new Date(
                             date.state.focusedDate.year,
@@ -267,7 +267,7 @@ export function DatePicker({
                   </Stack>
 
                   {viewMode === 'day' && (
-                    <Stack direction="row" gap="$xxs">
+                    <Stack direction="row" gap="xxs">
                       <CalendarHeaderButton
                         slot="previous"
                         data-testid="date-picker-calendar-previous"
@@ -420,7 +420,7 @@ const DateInputSegment = styled(DateSegment, {
       color: '$textOnContrastingBg',
       backgroundColor: '$primary',
       // Extend the bg without changing the layout size
-      outline: '2px solid token($colors.primary)',
+      outline: '2px solid token(colors.$primary)',
     },
   },
 });

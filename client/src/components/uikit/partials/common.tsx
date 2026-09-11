@@ -25,7 +25,7 @@ const descriptionTextStyles = css({
 
 export function ErrorText({ children }: { children: ReactNode }) {
   return (
-    <Stack direction="row" gap="$xxs" align="center">
+    <Stack direction="row" gap="xxs" align="center">
       <Icon name="error" size={16} color="error" style={{ flexShrink: 0 }} />
       <AriaText slot="errorMessage" className={errorTextStyles}>
         {children}
@@ -126,7 +126,7 @@ export const inputBaseStyles = cva({
     '&:focus-within': {
       '--outline-width': '2px',
       borderColor: 'transparent',
-      outline: 'var(--outline-width) solid {$colors.focusRing}',
+      outline: 'var(--outline-width) solid {colors.$focusRing}',
     },
 
     '&[disabled], &:has([disabled])': {
@@ -144,7 +144,7 @@ export const inputBaseStyles = cva({
          &:has([aria-invalid="true"]),\
          &:has([data-invalid="true"])': {
       borderColor: 'transparent',
-      outline: 'var(--outline-width) solid {$colors.error}',
+      outline: 'var(--outline-width) solid {colors.$error}',
     },
   },
 });

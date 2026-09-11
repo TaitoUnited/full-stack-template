@@ -2,6 +2,7 @@ import { defineConfig } from '@pandacss/dev';
 
 import { keyframes } from './src/design-system/setup/keyframes';
 import { globalCss } from './src/design-system/setup/global';
+import { stackPattern, textPattern } from './src/design-system/setup/patterns';
 import * as helpers from './src/design-system/setup/helpers';
 import * as utilities from './src/design-system/setup/utilities';
 import * as shadows from './src/design-system/tokens/shadows';
@@ -12,6 +13,8 @@ import * as radii from './src/design-system/tokens/radii';
 import * as typography from './src/design-system/tokens/typography';
 
 const rootFontSize = 16;
+
+const isProd = process.env.NODE_ENV === 'production';
 
 export default defineConfig({
   importMap: '~/design-system',
@@ -26,6 +29,16 @@ export default defineConfig({
 
   // Whether to use css reset
   preflight: true,
+
+  hash: {
+    cssVar: false,
+    className: true,
+  },
+
+  minify: isProd,
+  clean: isProd,
+
+  presets: [],
 
   // Where to look for your Panda CSS declarations
   include: ['./src/**/*.{ts,tsx}'],
@@ -45,6 +58,19 @@ export default defineConfig({
   globalCss,
 
   utilities,
+
+  /**
+   * Certain UI components, such as `Stack` and `Text`, rely on these patterns
+   * for responsive prop handling, eg:
+   * `<Stack direction={{ base: 'row', mdDown: 'column' }} />`
+   * `<Text variant={{ base: 'body', mdDown: 'bodyS' }} />`
+   */
+  patterns: {
+    extend: {
+      stack: stackPattern,
+      text: textPattern,
+    },
+  },
 
   theme: {
     breakpoints: {
@@ -89,8 +115,11 @@ export default defineConfig({
   hooks: {
     'tokens:created': ({ configure }) => {
       configure({
-        // Add $ prefix to token names so that it is clear that they are tokens
-        formatTokenName: path => '$' + path.join('.'),
+        formatTokenName: path => {
+          const last = path[path.length - 1];
+          const rest = path.slice(0, -1);
+          return [...rest, `$${last}`].join('.');
+        },
       });
     },
   },

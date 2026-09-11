@@ -28,7 +28,7 @@ export const $focusRing: PropertyConfig = {
     }
 
     return {
-      outline: `2px solid ${token('$colors.focusRing')}`,
+      outline: `2px solid ${token('colors.$focusRing')}`,
     };
   },
 };

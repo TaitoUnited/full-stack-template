@@ -64,7 +64,7 @@ function FeatureFlagManagerWidget({ onClose }: { onClose: () => void }) {
   return (
     <Wrapper>
       <Widget>
-        <Stack direction="column" gap="$regular">
+        <Stack direction="column" gap="regular">
           <Text variant="headingM">Feature flags</Text>
 
           <Text variant="body" lineHeight={1.5}>
@@ -74,7 +74,7 @@ function FeatureFlagManagerWidget({ onClose }: { onClose: () => void }) {
         </Stack>
 
         {features.length > 0 && (
-          <ul className={stack({ direction: 'column', gap: '$regular' })}>
+          <ul className={stack({ direction: 'column', gap: 'regular' })}>
             {features.map(({ feature, enabled }) => (
               <li key={feature}>
                 <Checkbox
@@ -103,7 +103,7 @@ function FeatureFlagManagerWidget({ onClose }: { onClose: () => void }) {
               <div />
             </Separator>
 
-            <ul className={stack({ direction: 'column', gap: '$regular' })}>
+            <ul className={stack({ direction: 'column', gap: 'regular' })}>
               {fixedFeatures.map(feature => (
                 <li key={feature}>
                   <Checkbox

@@ -26,7 +26,7 @@ export function Spinner({ color, size, style, className }: Props) {
         color:
           color === 'currentColor'
             ? 'currentColor'
-            : token.var(`$colors.${color}`),
+            : token.var(`colors.$${color}`),
       }}
     />
   );

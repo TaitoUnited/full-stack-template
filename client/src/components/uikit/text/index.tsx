@@ -1,9 +1,15 @@
-import { type CSSProperties, type HTMLAttributes, memo } from 'react';
+import { type CSSProperties, type HTMLAttributes } from 'react';
 
 import { type Typography } from '~/design-tokens/types';
 import { cva, cx } from '~/design-system/css';
+import { text } from '~/design-system/patterns';
 import { type ColorToken, token } from '~/design-system/tokens';
 import { type DesignSystemToken } from '~/utils/design-system';
+
+import {
+  getResponsiveBaseValue,
+  type ResponsiveProp,
+} from '../../../design-system/responsive';
 
 type AllowedElement =
   | 'h1'
@@ -21,14 +27,16 @@ type AllowedElement =
   | 'sub';
 
 type Props = HTMLAttributes<HTMLSpanElement> & {
-  variant: Typography;
-  color?: DesignSystemToken<ColorToken>;
+  variant: ResponsiveProp<Typography>;
+  color?: DesignSystemToken<ColorToken> | 'currentColor';
   align?: CSSProperties['textAlign'];
   lineHeight?: CSSProperties['lineHeight'];
   as?: AllowedElement;
+  tabularNumeric?: boolean;
+  truncate?: boolean;
 };
 
-function TextBase({
+export function Text({
   as,
   align,
   children,
@@ -37,19 +45,26 @@ function TextBase({
   variant,
   style,
   color = 'text',
+  tabularNumeric,
+  truncate,
   ...rest
 }: Props) {
-  const Element = as ?? variantToElement[variant];
+  const baseVariant = getResponsiveBaseValue(variant);
+  const Element = as ?? variantToElement[baseVariant];
+
+  const colorStyle =
+    color === 'currentColor' ? 'currentColor' : token.var(`colors.$${color}`);
 
   return (
     <Element
       {...rest}
-      className={cx(styles({ variant }), className)}
+      className={cx(text({ variant }), styles({ truncate }), className)}
       style={{
         ...style,
         lineHeight,
         textAlign: align,
-        color: token.var(`$colors.${color}`),
+        color: colorStyle,
+        fontVariantNumeric: tabularNumeric ? 'tabular-nums' : undefined,
       }}
     >
       {children}
@@ -89,37 +104,19 @@ const styles = cva({
   base: {
     margin: '0px',
     maxWidth: '100%',
-    lineHeight: 1, // don't let text line height contribute to the whitespace
+    // Don't let text line height contribute to the whitespace.
+    lineHeight: 1,
+    // Trim extra whitespace from the top and bottom of the text box
+    textBoxTrim: 'trim-both',
+    textBoxEdge: 'cap alphabetic',
   },
   variants: {
-    variant: {
-      body: { textStyle: '$body' },
-      bodyBold: { textStyle: '$bodyBold' },
-      bodyExtraSmall: { textStyle: '$bodyExtraSmall' },
-      bodyExtraSmallBold: { textStyle: '$bodyExtraSmallBold' },
-      bodyLarge: { textStyle: '$bodyLarge' },
-      bodyLargeBold: { textStyle: '$bodyLargeBold' },
-      bodySemiBold: { textStyle: '$bodySemiBold' },
-      bodySmall: { textStyle: '$bodySmall' },
-      bodySmallBold: { textStyle: '$bodySmallBold' },
-      bodySmallSemiBold: { textStyle: '$bodySmallSemiBold' },
-      displayExtraSmall: { textStyle: '$displayExtraSmall' },
-      displayLarge: { textStyle: '$displayLarge' },
-      displaySmall: { textStyle: '$displaySmall' },
-      headingL: { textStyle: '$headingL' },
-      headingM: { textStyle: '$headingM' },
-      headingS: { textStyle: '$headingS' },
-      headingXl: { textStyle: '$headingXl' },
-      headingXxl: { textStyle: '$headingXxl' },
-      label: { textStyle: '$label' },
-      lead: { textStyle: '$lead' },
-      leadBold: { textStyle: '$leadBold' },
-      linkText: { textStyle: '$linkText' },
-      linkTextHover: { textStyle: '$linkTextHover' },
-      overlineRegular: { textStyle: '$overlineRegular' },
-      overlineSmall: { textStyle: '$overlineSmall' },
+    truncate: {
+      true: {
+        $truncate: true,
+        // Truncation doesn't play nice with text box trimming
+        textBoxTrim: '!none',
+      },
     },
   },
 });
-
-export const Text = memo(TextBase);

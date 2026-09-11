@@ -34,11 +34,11 @@ export function SkeletonPlaceholder({
       style={{
         width,
         height,
-        marginTop: typeof mt === 'string' ? token.var(`$spacing.${mt}`) : mt,
-        marginRight: typeof mr === 'string' ? token.var(`$spacing.${mr}`) : mr,
-        marginBottom: typeof mb === 'string' ? token.var(`$spacing.${mb}`) : mb,
-        marginLeft: typeof ml === 'string' ? token.var(`$spacing.${ml}`) : ml,
-        borderRadius: typeof br === 'string' ? token.var(`$radii.${br}`) : br,
+        marginTop: typeof mt === 'string' ? token.var(`spacing.$${mt}`) : mt,
+        marginRight: typeof mr === 'string' ? token.var(`spacing.$${mr}`) : mr,
+        marginBottom: typeof mb === 'string' ? token.var(`spacing.$${mb}`) : mb,
+        marginLeft: typeof ml === 'string' ? token.var(`spacing.$${ml}`) : ml,
+        borderRadius: typeof br === 'string' ? token.var(`radii.$${br}`) : br,
         flexGrow: width ? 0 : 1,
         ...style,
       }}
@@ -55,6 +55,6 @@ const Wrapper = styled('div', {
     backgroundSize: '800px 100%',
     backgroundColor: '$neutral5',
     backgroundImage:
-      'linear-gradient(to right, token($colors.neutral5) 0%, token($colors.neutral4) 20%, token($colors.neutral5) 40%, token($colors.neutral5) 100%)',
+      'linear-gradient(to right, token(colors.$neutral5) 0%, token(colors.$neutral4) 20%, token(colors.$neutral5) 40%, token(colors.$neutral5) 100%)',
   },
 });
