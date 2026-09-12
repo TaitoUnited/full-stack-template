@@ -3,7 +3,7 @@ import './preview.css';
 
 import { i18n } from '@lingui/core';
 import { useLingui } from '@lingui/react/macro';
-import { type Preview } from '@storybook/react';
+import type { Preview } from '@storybook/tanstack-react';
 import type { NotFoundRouteProps } from '@tanstack/react-router';
 import {
   createMemoryHistory,

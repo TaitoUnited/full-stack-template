@@ -11,7 +11,7 @@ export const Route = createFileRoute('/_app/$workspaceId/theming')({
   component: ThemingRoute,
 });
 
-export function ThemingRoute() {
+function ThemingRoute() {
   const { t } = useLingui();
 
   return (

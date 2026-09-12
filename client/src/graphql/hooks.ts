@@ -1,4 +1,4 @@
-/* oxlint-disable no-restricted-imports */
+/* oxlint-disable no-restricted-imports, typescript/no-deprecated -- This module is the typed boundary around Apollo's overloaded hook APIs. */
 import type {
   DocumentNode,
   OperationVariables,

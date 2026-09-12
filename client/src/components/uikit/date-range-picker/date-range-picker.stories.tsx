@@ -3,7 +3,7 @@ import {
   getLocalTimeZone,
   today,
 } from '@internationalized/date';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/tanstack-react';
 import { type ComponentProps, useState } from 'react';
 import { type DateRange } from 'react-aria';
 

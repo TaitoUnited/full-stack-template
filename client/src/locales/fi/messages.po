@@ -37,7 +37,6 @@ msgstr "Autentikaatio"
 
 #: src/components/navigation/sidebar.tsx
 #: src/routes/post-list/post-list.route.tsx
-#: src/routes/post-list/post-list.route.tsx
 #: src/routes/post/post.route.tsx
 msgid "Blog"
 msgstr "Blogi"
@@ -147,7 +146,6 @@ msgstr "Nykyaikana monet käyttäjät odottavat sovelluksen tukevan tummaa tilaa
 
 #: src/components/navigation/sidebar.tsx
 #: src/routes/home/home.route.tsx
-#: src/routes/home/home.route.tsx
 msgid "Home"
 msgstr "Koti"
 
@@ -189,7 +187,6 @@ msgid "Logging out"
 msgstr "Kirjaudutaan ulos"
 
 #: src/routes/login/login.route.tsx
-#: src/routes/login/login.route.tsx
 msgid "Login"
 msgstr "Kirjaudu sisään"
 
@@ -201,7 +198,6 @@ msgstr "Kirjaudu ulos"
 msgid "Most apps will require internationalization at some point in their lifetime. This template the necessary setup for multiple languages that are loaded lazily once selected. Try changing the language in the top right corner."
 msgstr "Useimmat sovellukset tarvitsevat kielistystä jossain vaiheessa elinkaartaan. Tämä template tarjoaa tarvittavan perustan laiskasti ladattaville kielistysmääritelmille. Yritä vaihtaa kieltä oikeasta yläkulmasta."
 
-#: src/routes/post-create/post-create.route.tsx
 #: src/routes/post-create/post-create.route.tsx
 msgid "New blog post"
 msgstr "Uusi blogikirjoitus"
@@ -236,8 +232,6 @@ msgid "Open date picker"
 msgstr "Avaa päivämäärävalitsin"
 
 #: src/routes/not-found/not-found-authenticated.tsx
-#: src/routes/not-found/not-found-authenticated.tsx
-#: src/routes/not-found/not-found-unauthenticated.tsx
 #: src/routes/not-found/not-found-unauthenticated.tsx
 msgid "Page not found"
 msgstr "Sivua ei löytynyt"
@@ -314,7 +308,6 @@ msgid "Submit"
 msgstr "Lähetä"
 
 #: src/components/navigation/sidebar.tsx
-#: src/routes/theming/theming.route.tsx
 #: src/routes/theming/theming.route.tsx
 msgid "Theming"
 msgstr "Teemoitus"

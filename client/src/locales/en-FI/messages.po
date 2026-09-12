@@ -37,7 +37,6 @@ msgstr "Authentication"
 
 #: src/components/navigation/sidebar.tsx
 #: src/routes/post-list/post-list.route.tsx
-#: src/routes/post-list/post-list.route.tsx
 #: src/routes/post/post.route.tsx
 msgid "Blog"
 msgstr "Blog"
@@ -147,7 +146,6 @@ msgstr "Having dark mode support is a common ask from users nowadays. This templ
 
 #: src/components/navigation/sidebar.tsx
 #: src/routes/home/home.route.tsx
-#: src/routes/home/home.route.tsx
 msgid "Home"
 msgstr "Home"
 
@@ -189,7 +187,6 @@ msgid "Logging out"
 msgstr "Logging out"
 
 #: src/routes/login/login.route.tsx
-#: src/routes/login/login.route.tsx
 msgid "Login"
 msgstr "Login"
 
@@ -201,7 +198,6 @@ msgstr "Logout"
 msgid "Most apps will require internationalization at some point in their lifetime. This template the necessary setup for multiple languages that are loaded lazily once selected. Try changing the language in the top right corner."
 msgstr "Most apps will require internationalization at some point in their lifetime. This template the necessary setup for multiple languages that are loaded lazily once selected. Try changing the language in the top right corner."
 
-#: src/routes/post-create/post-create.route.tsx
 #: src/routes/post-create/post-create.route.tsx
 msgid "New blog post"
 msgstr "New blog post"
@@ -236,8 +232,6 @@ msgid "Open date picker"
 msgstr "Open date picker"
 
 #: src/routes/not-found/not-found-authenticated.tsx
-#: src/routes/not-found/not-found-authenticated.tsx
-#: src/routes/not-found/not-found-unauthenticated.tsx
 #: src/routes/not-found/not-found-unauthenticated.tsx
 msgid "Page not found"
 msgstr "Page not found"
@@ -314,7 +308,6 @@ msgid "Submit"
 msgstr "Submit"
 
 #: src/components/navigation/sidebar.tsx
-#: src/routes/theming/theming.route.tsx
 #: src/routes/theming/theming.route.tsx
 msgid "Theming"
 msgstr "Theming"

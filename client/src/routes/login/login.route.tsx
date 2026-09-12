@@ -1,6 +1,6 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 import { createFileRoute, redirect } from '@tanstack/react-router';
-import { type FormEvent, useState } from 'react';
+import { type SyntheticEvent, useState } from 'react';
 
 import { DocumentTitle } from '~/components/common/document-title';
 import { login, useAuthStore } from '~/stores/auth-store';
@@ -27,13 +27,13 @@ function LoginRoute() {
   const authStatus = useAuthStore(state => state.status);
 
   function handleChange(
-    event: FormEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: SyntheticEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
     const { value, name } = event.currentTarget;
     setCredentials(p => ({ ...p, [name]: value }));
   }
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     try {
       event.preventDefault();
       await login(credentials);

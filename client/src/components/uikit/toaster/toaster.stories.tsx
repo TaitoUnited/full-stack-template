@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/tanstack-react';
 import { type ToasterProps, useSonner } from 'sonner';
 
 import { ids } from '~/design-tokens/icon-sprite-ids';

@@ -19,7 +19,7 @@ export const Route = createFileRoute('/_app/$workspaceId/posts')({
   }),
 });
 
-export function PostListRoute() {
+function PostListRoute() {
   const { t } = useLingui();
   const { queryRef } = Route.useLoaderData();
   const {
@@ -72,7 +72,7 @@ export function PostListRoute() {
 
         <div>
           <LinkButton
-            to="/$workspaceId/posts/create"
+            to="/$workspaceId/posts_/create"
             variant="filled"
             icon="add"
             data-testid="post-create-link"

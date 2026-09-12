@@ -1,5 +1,5 @@
 import { useLingui } from '@lingui/react/macro';
-import { capitalize } from 'lodash';
+import { capitalize } from 'es-toolkit';
 import { type Ref, useCallback, useState } from 'react';
 import {
   CalendarCell as AriaCalendarCell,

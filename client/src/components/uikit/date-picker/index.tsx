@@ -1,6 +1,6 @@
 import { parseDate } from '@internationalized/date';
 import { useLingui } from '@lingui/react/macro';
-import { capitalize } from 'lodash';
+import { capitalize } from 'es-toolkit';
 import { type Ref, useState } from 'react';
 import {
   CalendarCell as AriaCalendarCell,

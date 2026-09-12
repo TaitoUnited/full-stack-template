@@ -1,5 +1,5 @@
 import { useLingui } from '@lingui/react/macro';
-import { capitalize } from 'lodash';
+import { capitalize } from 'es-toolkit';
 import { useEffect, useRef } from 'react';
 import { CalendarGrid } from 'react-aria-components';
 import type { CalendarState, RangeCalendarState } from 'react-stately';

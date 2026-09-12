@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/tanstack-react';
 
 import { ids } from '~/design-tokens/icon-sprite-ids';
 import { Icon } from '~/uikit/icon';

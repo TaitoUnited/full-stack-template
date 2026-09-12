@@ -1,5 +1,5 @@
 // oxlint-disable no-alert
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/tanstack-react';
 import { useState } from 'react';
 
 import { styled } from '~/design-system/jsx';

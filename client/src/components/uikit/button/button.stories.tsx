@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/tanstack-react';
 import { useLocation } from '@tanstack/react-router';
-import { capitalize } from 'lodash';
+import { capitalize } from 'es-toolkit';
 import { type ComponentProps, useState } from 'react';
 
 import { Checkbox } from '~/uikit/checkbox';

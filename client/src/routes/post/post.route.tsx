@@ -19,7 +19,7 @@ export const Route = createFileRoute('/_app/$workspaceId/posts_/$id')({
   }),
 });
 
-export function PostRoute() {
+function PostRoute() {
   const { postQueryRef } = Route.useLoaderData();
   const { post } = useReadQuery(postQueryRef).data;
 

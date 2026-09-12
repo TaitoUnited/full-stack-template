@@ -1,5 +1,11 @@
 import { useLingui } from '@lingui/react/macro';
-import { type KeyboardEvent, useId, useRef, useState } from 'react';
+import {
+  type KeyboardEvent,
+  useCallback,
+  useId,
+  useRef,
+  useState,
+} from 'react';
 import type { ComboBoxProps } from 'react-aria-components';
 import {
   Button,
@@ -8,7 +14,6 @@ import {
   ListBoxItem,
   Popover,
 } from 'react-aria-components';
-import { mergeRefs } from 'react-merge-refs';
 import useMeasure from 'react-use-measure';
 
 import { useDetectOutsideClick } from '~/hooks/use-detect-outside-click';
@@ -89,6 +94,15 @@ export function MultiSelectCombobox({
   const [measureRef, dimensions] = useMeasure();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const listBoxRef = useRef<HTMLDivElement>(null);
+
+  const setWrapperRef = useCallback(
+    (element: HTMLDivElement | null) => {
+      measureRef(element);
+      wrapperRef.current = element;
+    },
+    [measureRef]
+  );
+
   const inputRef = useRef<HTMLInputElement>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
@@ -168,7 +182,7 @@ export function MultiSelectCombobox({
       >
         <InputBase
           className={inputBaseStyles()}
-          ref={mergeRefs([measureRef, wrapperRef])}
+          ref={setWrapperRef}
           hasIcon={!!icon}
           aria-invalid={validation.type === 'error'}
           onClick={() => {

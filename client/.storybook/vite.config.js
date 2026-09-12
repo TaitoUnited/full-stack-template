@@ -1,9 +1,9 @@
-import react from '@vitejs/plugin-react';
-import tsconfigPaths from 'vite-tsconfig-paths';
+import { lingui, linguiTransformerBabelPreset } from '@lingui/vite-plugin';
 import pandaCss from '@pandacss/dev/postcss';
-import { lingui } from '@lingui/vite-plugin';
+import babel from '@rolldown/plugin-babel';
+import react, { reactCompilerPreset } from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
-import { iconSpritesheet } from '../plugins/icon-spritesheet-plugin';
+import { iconSpritesheet } from '../plugins/icon-spritesheet-plugin.js';
 
 export default defineConfig(() => ({
   publicDir: 'assets',
@@ -15,10 +15,15 @@ export default defineConfig(() => ({
       plugins: [pandaCss()],
     },
   },
+  resolve: {
+    tsconfigPaths: true,
+  },
   plugins: [
     iconSpritesheet(),
-    tsconfigPaths(),
-    react({ babel: { plugins: ['macros'] } }),
     lingui(),
+    react(),
+    babel({
+      presets: [reactCompilerPreset(), linguiTransformerBabelPreset()],
+    }),
   ],
 }));

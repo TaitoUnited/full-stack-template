@@ -38,9 +38,6 @@ export function PopoverBase({
         ref={ref}
         offset={14}
         placement={placement}
-        // NOTE: enter/exit animations can be tricky with Framer Motion
-        // when using React Aria components, so we're using the animation
-        // helpers provided by React Aria with pure CSS animations instead.
         className={({ isEntering, isExiting }) =>
           cx(popoverStyles({ isEntering, isExiting }), className)
         }

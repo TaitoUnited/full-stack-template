@@ -1,4 +1,4 @@
-import { orderBy, random, range } from 'lodash';
+import { orderBy, random, range } from 'es-toolkit';
 import { useState } from 'react';
 
 import { styled } from '~/design-system/jsx';
@@ -89,7 +89,14 @@ export function Sortable() {
     direction: 'ascending',
   });
 
-  const sorted = orderBy(data, sort.column, SORT_DIRECTION[sort.direction]);
+  const sortColumn =
+    sort.column === 'name' ||
+    sort.column === 'age' ||
+    sort.column === 'location'
+      ? sort.column
+      : 'name';
+
+  const sorted = orderBy(data, [sortColumn], [SORT_DIRECTION[sort.direction]]);
 
   return (
     <Wrapper>

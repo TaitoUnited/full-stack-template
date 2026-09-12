@@ -7,7 +7,6 @@ import {
 } from 'react-aria-components';
 
 import { css, cx } from '~/design-system/css';
-import { mapToAriaProps } from '~/utils/aria';
 
 type LinkProps = Omit<RACLinkProps, 'className' | 'style'> & {
   ref?: Ref<HTMLAnchorElement>;
@@ -16,26 +15,14 @@ type LinkProps = Omit<RACLinkProps, 'className' | 'style'> & {
 };
 
 function LinkBaseComponent({ ref, ...props }: LinkProps) {
-  /**
-   * Tanstack Router passes regular DOM event handler props, eg. `onMouseDown`,
-   * to this component so we need to map them to React Aria supported props,
-   * eg. `onPressStart` (otherwise React Aria will complain).
-   */
-  const ariaProps = mapToAriaProps(props);
-
   return (
-    <RACLink
-      ref={ref}
-      className={cx(linkStyles, props.className)}
-      {...props}
-      {...ariaProps}
-    />
+    <RACLink ref={ref} className={cx(linkStyles, props.className)} {...props} />
   );
 }
 
 export const LinkBase = createLink(LinkBaseComponent);
 
-// oxlint-disable-next-line func-style
+// oxlint-disable-next-line no-restricted-imports
 export const Link: LinkComponent<typeof LinkBaseComponent> = props => {
   return <LinkBase preload="intent" {...props} />;
 };

@@ -1,7 +1,7 @@
 import { useMutation } from '@apollo/client/react';
 import { Trans, useLingui } from '@lingui/react/macro';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { type FormEvent, useState } from 'react';
+import { type SyntheticEvent, useState } from 'react';
 
 import { DocumentTitle } from '~/components/common/document-title';
 import { CreatePostMutation } from '~/graphql/post/mutations';
@@ -17,7 +17,7 @@ export const Route = createFileRoute('/_app/$workspaceId/posts_/create')({
   component: PostCreateRoute,
 });
 
-export function PostCreateRoute() {
+function PostCreateRoute() {
   const { t } = useLingui();
   const params = Route.useParams();
   const [formValues, setFormValues] = useState({ title: '', content: '' });
@@ -26,13 +26,13 @@ export function PostCreateRoute() {
   const navigate = useNavigate();
 
   function handleChange(
-    event: FormEvent<HTMLInputElement | HTMLTextAreaElement>
+    event: SyntheticEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
     const { value, name } = event.currentTarget;
     setFormValues(p => ({ ...p, [name]: value }));
   }
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
     if (submitDisabled) return;
 

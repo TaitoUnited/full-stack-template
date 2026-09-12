@@ -1,6 +1,6 @@
 import { Trans, useLingui } from '@lingui/react/macro';
 import { createFileRoute } from '@tanstack/react-router';
-import { orderBy, random, range } from 'lodash';
+import { orderBy, random, range } from 'es-toolkit';
 import { useState } from 'react';
 
 import { DocumentTitle } from '~/components/common/document-title';
@@ -17,7 +17,7 @@ export const Route = createFileRoute('/_app/$workspaceId/')({
   component: HomeRoute,
 });
 
-export function HomeRoute() {
+function HomeRoute() {
   const { t } = useLingui();
 
   const featureEnabled = isFeatureEnabled('feature-1');
@@ -160,7 +160,14 @@ function SortableTable() {
     direction: 'ascending',
   });
 
-  const sorted = orderBy(data, sort.column, SORT_DIRECTION[sort.direction]);
+  const sortColumn =
+    sort.column === 'name' ||
+    sort.column === 'age' ||
+    sort.column === 'location'
+      ? sort.column
+      : 'name';
+
+  const sorted = orderBy(data, [sortColumn], [SORT_DIRECTION[sort.direction]]);
 
   return (
     <Table

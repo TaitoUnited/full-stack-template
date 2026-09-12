@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react';
-import { capitalize } from 'lodash';
+import type { Meta, StoryObj } from '@storybook/tanstack-react';
+import { capitalize } from 'es-toolkit';
 import { type ComponentProps, useState } from 'react';
 
 import { Button } from '~/uikit/button';
@@ -54,7 +54,7 @@ function DialogExample({
   placement,
   kind,
 }: {
-  placement: ComponentProps<typeof Dialog>['placement'];
+  placement: NonNullable<ComponentProps<typeof Dialog>['placement']>;
   kind: 'full' | 'basic' | 'custom-header';
 }) {
   const [isOpen, setOpen] = useState(false);
