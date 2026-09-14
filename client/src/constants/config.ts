@@ -33,10 +33,11 @@ export const config = {
 /**
  * Load remote config from a remote server
  */
-export function loadRemoteConfig() {
+// oxlint-disable-next-line typescript/require-await
+export async function loadRemoteConfig() {
   try {
     // TODO: Implement remote config loading logic here
-    return null;
+    Object.assign(config, {});
   } catch (error) {
     console.error('Failed to load remote config', error);
   }

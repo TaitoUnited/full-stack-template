@@ -58,19 +58,17 @@ export async function verifyAuth() {
 
   const apolloClient = getApolloClient();
 
-  const { data } = await apolloClient.query({
-    query: MeQuery,
-    fetchPolicy: 'cache-first',
-  });
-
-  if (!data) {
-    throw new Error('Failed to fetch user');
-  }
-
   let authenticated = false;
 
-  if (data.me) {
-    authenticated = !!data.me.id;
+  try {
+    const { data } = await apolloClient.query({
+      query: MeQuery,
+      fetchPolicy: 'cache-first',
+    });
+
+    authenticated = Boolean(data?.me?.id);
+  } catch (_) {
+    // Ignore errors
   }
 
   authStore.setState({
@@ -83,7 +81,7 @@ export const authStore = store;
 
 export function useVerifyAuth() {
   const authStatus = useAuthStore(state => state.status);
-  console.log('authStatus', authStatus);
+
   useEffect(() => {
     if (authStatus === 'undetermined') {
       void verifyAuth();

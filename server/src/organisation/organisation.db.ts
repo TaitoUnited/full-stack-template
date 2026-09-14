@@ -6,8 +6,15 @@ import {
   primaryKey,
 } from 'drizzle-orm/pg-core';
 
-import { type Role } from '~/src/utils/authorisation';
 import { userTable } from '../user/user.db';
+
+export const ROLES = {
+  ADMIN: 'admin',
+  MANAGER: 'manager',
+  VIEWER: 'viewer',
+} as const;
+
+export type Role = (typeof ROLES)[keyof typeof ROLES];
 
 export const organisationTable = pgTable('organisation', {
   id: uuid('id').primaryKey().defaultRandom(),

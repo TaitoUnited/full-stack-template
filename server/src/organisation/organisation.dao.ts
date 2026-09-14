@@ -1,13 +1,25 @@
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 
 import { type DrizzleDb } from '~/db';
 import { organisationTable, userOrganisationTable } from './organisation.db';
 
-function getOrganisation(db: DrizzleDb, id: string) {
+function getOrganisation(
+  db: DrizzleDb,
+  options: { id: string; userId: string }
+) {
   return db
     .select({ id: organisationTable.id, name: organisationTable.name })
     .from(organisationTable)
-    .where(eq(organisationTable.id, id))
+    .innerJoin(
+      userOrganisationTable,
+      eq(organisationTable.id, userOrganisationTable.organisationId)
+    )
+    .where(
+      and(
+        eq(organisationTable.id, options.id),
+        eq(userOrganisationTable.userId, options.userId)
+      )
+    )
     .then((rows) => rows[0]);
 }
 
@@ -22,18 +34,7 @@ function getUserOrganisations(db: DrizzleDb, userId: string) {
     .where(eq(userOrganisationTable.userId, userId));
 }
 
-function getUserOrganisationsWithRoles(db: DrizzleDb, userId: string) {
-  return db
-    .select({
-      organisationId: userOrganisationTable.organisationId,
-      role: userOrganisationTable.role,
-    })
-    .from(userOrganisationTable)
-    .where(eq(userOrganisationTable.userId, userId));
-}
-
 export const organisationDao = {
   getOrganisation,
   getUserOrganisations,
-  getUserOrganisationsWithRoles,
 };

@@ -2,7 +2,6 @@ import cookie from '@fastify/cookie';
 import multipart from '@fastify/multipart';
 
 import { sessionRoutes } from '~/src/session/session.routes';
-import { postRoutes } from '~/src/example/post/post.routes';
 import { config } from '~/src/utils/config';
 import { auth, disableNotAuthenticated } from './auth';
 import { contextPlugin } from './context';
@@ -46,7 +45,6 @@ export async function setupServer(server: ServerInstance) {
   await server.register(composeFastifyPlugins(auth.ui, setupGraphQL));
   await server.register(composeFastifyPlugins(auth.allowed, infraRoutes)); // health checks, etc.
   await server.register(composeFastifyPlugins(auth.allowed, sessionRoutes)); // login, logout, etc.
-  await server.register(composeFastifyPlugins(auth.ui, postRoutes));
   await server.register(composeFastifyPlugins(auth.ui, organisationRoutes));
   await server.register(disableNotAuthenticated);
   // oxlint-enable typescript/no-misused-promises typescript/strict-void-return

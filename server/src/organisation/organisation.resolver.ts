@@ -25,10 +25,8 @@ export function setupResolvers() {
       type: [Organisation],
       nullable: true,
       resolve: async (_, __, ctx) => {
-        const organisations = await organisationService.getUserOrganisations(
-          ctx,
-          ctx.user.id
-        );
+        const organisations =
+          await organisationService.getUserOrganisations(ctx);
 
         return organisations.map(({ organisation }) => ({
           id: organisation.id,

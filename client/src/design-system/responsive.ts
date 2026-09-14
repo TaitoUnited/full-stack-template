@@ -1,4 +1,5 @@
-type Breakpoint = 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+import type { Breakpoint } from './tokens/breakpoints';
+
 type ResponsiveBreakpoint = Breakpoint | `${Breakpoint}Down`;
 
 type ResponsiveValues<Value> = {

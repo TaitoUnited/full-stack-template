@@ -1,6 +1,5 @@
 import { getDb } from './index';
 import { seed as seedUsers } from './seed/user.seed';
-import { seed as seedChat } from './seed/chat.seed';
 import { seed as seedOrganisations } from './seed/organisation.seed';
 
 /**
@@ -15,7 +14,6 @@ async function seedDb() {
 
   const users = await seedUsers(db);
   await seedOrganisations(db, { users });
-  await seedChat(db, { users });
 
   console.log('Database seed done!');
 }

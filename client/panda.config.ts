@@ -5,6 +5,7 @@ import { globalCss } from './src/design-system/setup/global';
 import { stackPattern, textPattern } from './src/design-system/setup/patterns';
 import * as helpers from './src/design-system/setup/helpers';
 import * as utilities from './src/design-system/setup/utilities';
+import { breakpoints } from './src/design-system/tokens/breakpoints';
 import * as shadows from './src/design-system/tokens/shadows';
 import * as colors from './src/design-system/tokens/colors';
 import * as spacing from './src/design-system/tokens/spacing.json';
@@ -73,13 +74,7 @@ export default defineConfig({
   },
 
   theme: {
-    breakpoints: {
-      sm: '640px',
-      md: '768px',
-      lg: '1024px',
-      xl: '1280px',
-      '2xl': '1536px',
-    },
+    breakpoints,
 
     keyframes,
 

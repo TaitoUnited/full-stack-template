@@ -1,8 +1,9 @@
 import { type DrizzleDb } from '../index';
 import { type UserSeed } from './user.seed';
-import { type Role, ROLES } from '~/src/utils/authorisation';
 import {
+  type Role,
   organisationTable,
+  ROLES,
   userOrganisationTable,
 } from '~/src/organisation/organisation.db';
 
@@ -23,12 +24,6 @@ export async function seed(
   console.log('Inserting organisations...');
 
   const { users } = data;
-
-  /**
-   * NOTE: we intentionally don't add the `user4` to any organisation
-   * so that we can test the case where a user is not part of any organisation.
-   * For example in such case the user should not be able to login to the app.
-   */
 
   const organisation1 = await createOrganisation(db, 'Taito United');
 

@@ -25,7 +25,6 @@ test('authenticate', async ({ page }) => {
 
   await page.goto('/');
 
-  // Template has no auth checking
   await page.getByLabel('Email', { exact: true }).fill('admin@test.com');
   await page.getByLabel('Password', { exact: true }).fill(password);
   await page.getByTestId('login').click();

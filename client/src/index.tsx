@@ -28,10 +28,8 @@ async function init() {
   const apolloClient = setupApolloClient();
   const router = setupRouter(apolloClient);
 
-  await Promise.allSettled([
-    Promise.resolve(loadRemoteConfig()),
-    setupMessages(),
-  ]);
+  // oxlint-disable-next-line typescript/await-thenable
+  await Promise.allSettled([loadRemoteConfig(), setupMessages()]);
 
   createRoot(document.getElementById('app')!).render(
     <ApolloProvider client={apolloClient}>

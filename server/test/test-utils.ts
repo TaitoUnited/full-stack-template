@@ -20,13 +20,6 @@ export function makeTestContext(options: {
     db: options.db,
     requestId: 'test-request-id',
     user: { id: user.id },
-    organisationId: globalThis.testData.organisation.id,
-    userOrganisations: [
-      {
-        id: globalThis.testData.organisation.id,
-        role: user.role,
-      },
-    ],
     initiator: 'graphql',
     auth: getAuth(options.db),
     reply: {} as any,

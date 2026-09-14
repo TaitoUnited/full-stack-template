@@ -22,7 +22,7 @@ function LinkBaseComponent({ ref, ...props }: LinkProps) {
 
 export const LinkBase = createLink(LinkBaseComponent);
 
-// oxlint-disable-next-line no-restricted-imports
+// oxlint-disable-next-line no-restricted-imports func-style
 export const Link: LinkComponent<typeof LinkBaseComponent> = props => {
   return <LinkBase preload="intent" {...props} />;
 };

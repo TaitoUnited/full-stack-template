@@ -22,8 +22,7 @@ export async function organisationRoutes(server: ServerInstance) {
     },
     handler: withUser(async (request) => {
       const organisations = await organisationService.getUserOrganisations(
-        request.ctx,
-        request.ctx.user?.id
+        request.ctx
       );
 
       return organisations.map(({ organisation }) => ({

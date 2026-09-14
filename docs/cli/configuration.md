@@ -77,7 +77,11 @@ taito open server:dev
 
 ## The example implementation
 
-The project template comes with a simple example implementation. Once you don't need the examples anymore, just remove everything related to posts. You may also want to remove all configurations and libraries related to either **REST API** or **GraphQL API** if you don't need both. Note that even if you mainly use GraphQL, you still might need some REST API endpoints for handling file uploads/downloads, etc.
+The project template intentionally ships without a product-domain implementation.
+Add domains that match the application you are building, and remove either the
+**REST API** or **GraphQL API** setup only if you know the application does not
+need it. Even GraphQL-first applications often need REST endpoints for file
+uploads or downloads.
 
 TIP: You can use the `taito dep check` command to prune unused dependencies from `package.json` files. NOTE: Many of the `devDependencies` and `~` references are actually in use even if reported unused by the tool. But all unused `dependencies` may usually be removed from package.json.
 
@@ -128,7 +132,10 @@ Changes you have made to containers or functions will be deployed automatically 
 
 ## Scheduled jobs
 
-Create a cli command (see server/cli.sh and server/src/cli.ts) that you can execute manually on local development with `taito exec:server ./cli.sh createPost`. Then schedule the cli command on helm.yaml to make it run on Kubernetes as a cron job:
+Create a CLI command (see `server/cli.sh` and `server/src/cli.ts`) that you can
+execute manually during local development with
+`taito exec:server:local ./cli.sh runScheduledTask`. Then schedule the command
+in `helm.yaml` to run it on Kubernetes as a cron job:
 
 ```yaml
   server:
@@ -137,7 +144,7 @@ Create a cli command (see server/cli.sh and server/src/cli.ts) that you can exec
       - name: examplejob
         schedule: "30 2 * * *"
         concurrencyPolicy: Forbid  # Forbid or Allow
-        shellCommand: ./cli.sh createPost
+        shellCommand: ./cli.sh runScheduledTask
 ```
 
 If you are using serverless functions instead of Kubernetes, add command handler in server/src/function.ts, and schedule it on terraform.yaml:

@@ -116,19 +116,16 @@ import { Type } from "@sinclair/typebox";
 
 import { type ServerInstance } from "~/setup/server";
 
-export async function postRoutes(server: ServerInstance) {
+export async function entityRoutes(server: ServerInstance) {
   server.route({
     method: "GET",
-    url: "/posts",
+    url: "/entities",
     onRequest: [server.authenticate],
     schema: {
       response: {
         200: Type.Array(
           Type.Object({
             id: Type.String(),
-            title: Type.String(),
-            content: Type.String(),
-            createdAt: Type.String(),
           })
         ),
       },
@@ -147,11 +144,11 @@ response data is correctly validated and type checked.
 Finally, you need to register the new routes in the `/setup/setup.ts` file:
 
 ```typescript
-import { postRoutes } from "~/post/post.routes";
+import { entityRoutes } from "~/src/<domain>/entity.routes";
 
 export async function setupServer(server: ServerInstance) {
   // ...
-  await server.register(postRoutes);
+  await server.register(entityRoutes);
   // ...
 }
 ```

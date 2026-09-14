@@ -34,7 +34,6 @@ export function clientWithUser(
   return new GraphQLClient(baseUrl, {
     headers: {
       Authorization: `Bearer ${sessionId}`,
-      'x-organisation-id': globalThis.testData.organisation.id,
       origin,
     },
   });

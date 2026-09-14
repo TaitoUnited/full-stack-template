@@ -1,6 +1,4 @@
 import { builder } from '~/setup/graphql/builder';
-import { userService } from './user.service';
-
 export const User = builder.simpleObject('User', {
   fields: (t) => ({
     id: t.string(),
@@ -8,26 +6,3 @@ export const User = builder.simpleObject('User', {
     email: t.string(),
   }),
 });
-
-export function setupResolvers() {
-  builder.queryField('user', (t) =>
-    t.withAuth({ authenticated: true }).field({
-      type: User,
-      nullable: true,
-      args: { id: t.arg.string() },
-      resolve: (_, args, ctx) => {
-        return userService.getOrgUser(ctx, args.id);
-      },
-    })
-  );
-
-  builder.queryField('users', (t) =>
-    t.withAuth({ authenticated: true }).field({
-      type: [User],
-      args: { search: t.arg.string({ required: false }) },
-      resolve: (_, __, ctx) => {
-        return userService.getOrgUsers(ctx);
-      },
-    })
-  );
-}

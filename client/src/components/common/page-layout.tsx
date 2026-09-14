@@ -1,84 +1,80 @@
-import { type ReactNode } from 'react';
+import { useLingui } from '@lingui/react/macro';
+import { type ReactNode, useState } from 'react';
 
 import { styled } from '~/design-system/jsx';
+import { IconButton } from '~/uikit/icon-button';
 
+import { MobileSidebar } from '../navigation/mobile-sidebar';
 import { Sidebar } from '../navigation/sidebar';
 import { Toolbar } from '../navigation/toolbar';
 
 export function PageLayout({ children }: { children: ReactNode }) {
+  const { t } = useLingui();
+  const [isMobileNavOpen, setMobileNavOpen] = useState(false);
+
   return (
     <Layout data-testid="page-layout">
       <Topbar data-page-layout-slot="topbar" data-testid="page-topbar">
-        <Toolbar />
+        <Toolbar>
+          <MobileNavigationToggle>
+            <IconButton
+              icon="menu"
+              label={t`Open navigation`}
+              onPress={() => setMobileNavOpen(true)}
+            />
+          </MobileNavigationToggle>
+        </Toolbar>
       </Topbar>
 
-      <LeftAside
-        data-page-layout-slot="left-aside"
-        data-testid="page-left-aside"
-      >
-        <Sidebar />
-      </LeftAside>
+      <MobileSidebar isOpen={isMobileNavOpen} onOpenChange={setMobileNavOpen} />
+      <Sidebar />
 
       <ContentScroller>
         <Content data-testid="page-content">{children}</Content>
       </ContentScroller>
-
-      <RightAside
-        data-page-layout-slot="right-aside"
-        data-testid="page-right-aside"
-      />
-
-      <Footer data-page-layout-slot="footer" data-testid="page-footer" />
     </Layout>
   );
 }
 
 const Layout = styled('div', {
   base: {
-    position: 'relative',
-    height: '100vh',
-    width: '100vw',
+    height: '100dvh',
+    width: '100%',
     backgroundColor: '$neutral5',
     display: 'grid',
-    gridTemplateColumns: 'auto auto 1fr auto',
-    gridTemplateRows: 'auto 1fr auto',
-    gridTemplateAreas: `
-      'sidebar topbar topbar topbar'
-      'sidebar left-aside content right-aside'
-      'sidebar footer footer footer'
-    `,
+    gridTemplateColumns: '240px minmax(0, 1fr)',
+    gridTemplateRows: 'auto minmax(0, 1fr)',
+    overflow: 'hidden',
+
+    mdDown: {
+      gridTemplateColumns: 'minmax(0, 1fr)',
+    },
   },
 });
 
 const Topbar = styled('div', {
   base: {
-    gridArea: 'topbar',
+    gridColumn: '1 / -1',
+    gridRow: '1',
     zIndex: 1,
   },
 });
 
-const LeftAside = styled('aside', {
+const MobileNavigationToggle = styled('div', {
   base: {
-    gridArea: 'left-aside',
-  },
-});
-
-const RightAside = styled('aside', {
-  base: {
-    gridArea: 'right-aside',
-  },
-});
-
-const Footer = styled('footer', {
-  base: {
-    gridArea: 'footer',
-    zIndex: 1,
+    display: 'none',
+    mdDown: {
+      display: 'block',
+    },
   },
 });
 
 const ContentScroller = styled('div', {
   base: {
-    gridArea: 'content',
+    gridColumn: '2',
+    gridRow: '2',
+    minWidth: 0,
+    minHeight: 0,
     flexGrow: 1,
     display: 'flex',
     flexDirection: 'column',
@@ -87,6 +83,10 @@ const ContentScroller = styled('div', {
     $customScrollbar: true,
     // Ensure the width doesn't jump around when the scrollbar appears/disappears
     scrollbarGutter: 'stable both-edges',
+
+    mdDown: {
+      gridColumn: '1',
+    },
   },
 });
 

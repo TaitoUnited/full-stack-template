@@ -4,11 +4,8 @@ import { DateTimeISOResolver } from 'graphql-scalars';
 
 import { builder } from './builder';
 import { config } from '~/src/utils/config';
-import * as user from '~/src/user/user.resolver';
 import * as session from '~/src/session/session.resolver';
 import * as organisation from '~/src/organisation/organisation.resolver';
-import * as post from '~/src/example/post/post.resolver';
-import * as chat from '~/src/example/chat/chat.resolver';
 
 export function setupSchema() {
   /**
@@ -25,9 +22,6 @@ export function setupSchema() {
   // Add resolvers for each entity
   organisation.setupResolvers();
   session.setupResolvers();
-  user.setupResolvers();
-  post.setupResolvers();
-  chat.setupResolvers();
 
   const schema = builder.toSchema();
 

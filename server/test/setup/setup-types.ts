@@ -1,10 +1,7 @@
-import type { Role } from '~/src/utils/authorisation';
-
 export type TestUser = {
   id: string;
   email: string;
   sessionId: string;
-  role: Role;
 };
 
 export type TestData = {
@@ -15,6 +12,7 @@ export type TestData = {
     admin: TestUser;
     manager: TestUser;
     viewer: TestUser;
+    unassigned: TestUser;
   };
 };
 

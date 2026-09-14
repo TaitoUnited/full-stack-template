@@ -1,76 +1,17 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
 import { PageLayout } from '~/components/common/page-layout';
-import { OrganisationsQuery } from '~/graphql/organisation/queries';
-import { logout } from '~/stores/auth-store';
-import { workspaceIdStore } from '~/stores/workspace-store';
 
-/**
- * Root layout is responsible for redirecting the user to the login page if
- * they are not authenticated and for selecting the current workspace before
- * rendering the app.
- */
+import { InternalErrorAuthenticated } from './internal-error/internal-error-authenticated';
+import { NotFoundAuthenticated } from './not-found/not-found-authenticated';
+
 export const Route = createFileRoute('/_app')({
   component: Layout,
-  beforeLoad: async ({ context, params }) => {
+  errorComponent: InternalErrorAuthenticated,
+  notFoundComponent: NotFoundAuthenticated,
+  beforeLoad: ({ context }) => {
     if (!context.authenticated) {
       redirect({ to: '/login', throw: true });
-    }
-
-    /**
-     * Note: root layout is run on every navigation so we don't want to fetch
-     * the workspaces every time but instead read them from the cache.
-     */
-    const { data } = await context.apolloClient.query({
-      query: OrganisationsQuery,
-      fetchPolicy: 'cache-first',
-    });
-
-    if (!data) {
-      throw new Error('Failed to fetch organisations');
-    }
-
-    // Select the current workspace before rendering the app
-    const workspaces = data.organisations;
-    const workspaceIdStored = workspaceIdStore.getState().workspaceId;
-    const workspaceIdParam =
-      'workspaceId' in params && typeof params.workspaceId === 'string'
-        ? params.workspaceId
-        : undefined;
-
-    const workspaceIdFallback = workspaces?.[0]?.id;
-    const workspaceId = workspaces?.find(w => w.id === workspaceIdParam)?.id;
-
-    /**
-     * If no matching workspace was found and the user has no workspaces,
-     * logout and redirect to the login page.
-     */
-    if (!workspaceId && !workspaceIdFallback) {
-      await logout();
-      workspaceIdStore.setState({ workspaceId: '' });
-      redirect({ to: '/login', throw: true });
-    } else if (!workspaceId && workspaceIdFallback) {
-      /**
-       * If workspace from URL params was not found but the user has workspaces,
-       * redirect to the first workspace as a fallback.
-       */
-      workspaceIdStore.setState({ workspaceId: workspaceIdFallback });
-      redirect({
-        to: `/$workspaceId`,
-        params: { workspaceId: workspaceIdFallback },
-        throw: true,
-      });
-    } else if (workspaceId !== workspaceIdStored) {
-      /**
-       * Otherwise if the workspace from URL params is different from
-       * the stored one, update the stored workspace.
-       */
-      workspaceIdStore.setState({ workspaceId });
-    } else {
-      /**
-       * If the workspace from URL params is the same as the stored one,
-       * do nothing and continue rendering the route tree.
-       */
     }
   },
 });

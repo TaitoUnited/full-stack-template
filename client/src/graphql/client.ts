@@ -10,11 +10,12 @@ import { ErrorLink } from '@apollo/client/link/error';
 
 import { config } from '~/constants/config';
 import { DEFAULT_LOCALE, LOCALE_SCHEMA } from '~/services/i18n';
-import { logout } from '~/stores/auth-store';
-import { workspaceIdStore } from '~/stores/workspace-store';
+import { authStore, logout } from '~/stores/auth-store';
 import { toast } from '~/uikit/toaster';
 import { storage } from '~/utils/storage';
 import { setApolloClient } from './apollo-client-store';
+import { i18n } from '@lingui/core';
+import { msg } from '@lingui/core/macro';
 
 export function setupApolloClient() {
   const cache = new InMemoryCache();
@@ -28,7 +29,6 @@ export function setupApolloClient() {
       headers: {
         ...getContextHeaders(operation.getContext()),
         'Accept-Language': locale,
-        'x-organisation-id': workspaceIdStore.getState().workspaceId,
       },
     });
 
@@ -46,13 +46,18 @@ export function setupApolloClient() {
       CombinedGraphQLErrors.is(error) &&
       error.errors.some(err => err.extensions?.code === 'UNAUTHORIZED');
 
+    const authState = authStore.getState();
+
     /**
      * Automatically log out the user if the session has expired and session
      * refreshing has failed on the server for some reason.
      */
-    if (isNetworkAuthError || isGraphQLAuthError) {
+    if (
+      authState.status === 'authenticated' &&
+      (isNetworkAuthError || isGraphQLAuthError)
+    ) {
       logout()
-        .then(() => toast.info(`Your session has expired!`)) // TODO: Translate?
+        .then(() => toast.info(i18n._(msg`Your session has expired!`)))
         .catch((logoutError: unknown) =>
           console.log('Failed to logout', logoutError)
         ); // this should never happen...

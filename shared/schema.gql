@@ -19,16 +19,7 @@ type LogoutTokenResponse {
   status: String!
 }
 
-type Message {
-  author: User
-  authorId: String
-  authorType: String!
-  content: String!
-  id: ID!
-}
-
 type Mutation {
-  createPost(content: String!, title: String!): Post!
   login(email: String!, password: String!): LoginResponse!
   loginToken(email: String!, password: String!): LoginTokenResponse!
   logout: LogoutResponse!
@@ -40,24 +31,10 @@ type Organisation {
   name: String!
 }
 
-type Post {
-  author: User
-  authorId: String!
-  content: String!
-  createdAt: Date!
-  id: String!
-  title: String!
-}
-
 type Query {
-  chat: [Message!]!
   me: User
   organisation(id: String!): Organisation
   organisations: [Organisation!]
-  post(id: String!): Post
-  posts(search: String): [Post!]!
-  user(id: String!): User
-  users(search: String): [User!]!
 }
 
 type User {

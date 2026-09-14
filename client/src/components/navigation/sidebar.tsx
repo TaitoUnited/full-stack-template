@@ -1,56 +1,31 @@
-import { Trans, useLingui } from '@lingui/react/macro';
-import { type LinkProps } from '@tanstack/react-router';
+import { useLingui } from '@lingui/react/macro';
 
-import { isFeatureEnabled } from '~/services/feature-flags';
-import { logout, useAuthStore } from '~/stores/auth-store';
+import { css } from '~/design-system/css';
 import { styled } from '~/design-system/jsx';
-import { stack } from '~/design-system/patterns';
+import { logout, useAuthStore } from '~/stores/auth-store';
 import { Button } from '~/uikit/button';
 import { Icon, type IconName } from '~/uikit/icon';
+import { Stack } from '~/uikit/stack';
 import { Text } from '~/uikit/text';
 import { toast } from '~/uikit/toaster';
 
 import { Link } from './link';
 
-export function Sidebar() {
+type Props = {
+  onNavigate?: () => void;
+};
+
+export function Sidebar({ onNavigate }: Props) {
+  return (
+    <Aside>
+      <SidebarContent onNavigate={onNavigate} />
+    </Aside>
+  );
+}
+
+export function SidebarContent({ onNavigate }: Props) {
   const { t } = useLingui();
   const authStatus = useAuthStore(state => state.status);
-  const feature3Enabled = isFeatureEnabled('feature-3');
-
-  const items: Array<{
-    label: string;
-    icon: IconName;
-    to: LinkProps['to'];
-    testId: string;
-  }> = [
-    {
-      label: t`Home`,
-      icon: 'homeFilled',
-      to: '/$workspaceId',
-      testId: 'navigate-to-home',
-    },
-    {
-      label: t`Blog`,
-      icon: 'document',
-      to: '/$workspaceId/posts',
-      testId: 'navigate-to-blog',
-    },
-    {
-      label: t`Theming`,
-      icon: 'eye',
-      to: '/$workspaceId/theming',
-      testId: 'navigate-to-theming',
-    },
-  ];
-
-  if (feature3Enabled) {
-    items.push({
-      label: t`Feature Flags`,
-      icon: 'save',
-      to: '/$workspaceId/feature-3',
-      testId: 'navigate-to-feature-flags',
-    });
-  }
 
   async function handleLogout() {
     try {
@@ -62,88 +37,153 @@ export function Sidebar() {
   }
 
   return (
-    <Wrapper>
-      <Nav>
-        <NavList>
-          {items.map(({ label, icon, to, testId }) => (
-            <li key={label}>
-              <NavItemLink
-                to={to}
-                data-testid={testId}
-                className={stack({ direction: 'row', gap: 'small' })}
-                preload="intent"
-              >
-                <Icon name={icon} size={24} color="text" />
-                <Text variant="body">{label}</Text>
-              </NavItemLink>
-            </li>
-          ))}
+    <Navigation aria-label={t`Navigation`}>
+      <NavItem
+        icon="homeFilled"
+        label={t`Dashboard`}
+        to="/"
+        onPress={onNavigate}
+      />
 
-          <div style={{ flex: 1 }} />
+      <ExampleNavItem
+        icon="document"
+        label={t`Example page`}
+        path="example"
+        testId="navigation-example-page"
+        onNavigate={onNavigate}
+      />
 
-          <Logout>
-            <Button
-              variant="outlined"
-              color="primary"
-              icon="logout"
-              iconPlacement="end"
-              isLoading={authStatus === 'logging-out'}
-              onPress={() => void handleLogout()}
-            >
-              {authStatus === 'logging-out' ? (
-                <Trans>Logging out</Trans>
-              ) : (
-                <Trans>Logout</Trans>
-              )}
-            </Button>
-          </Logout>
-        </NavList>
-      </Nav>
-    </Wrapper>
+      <ExampleNavItem
+        icon="settings"
+        label={t`Settings`}
+        path="settings"
+        testId="navigation-settings"
+        onNavigate={onNavigate}
+      />
+
+      <NavigationSpacer />
+      <Button
+        variant="outlined"
+        color="primary"
+        icon="logout"
+        iconPlacement="end"
+        isLoading={authStatus === 'logging-out'}
+        onPress={() => void handleLogout()}
+      >
+        {authStatus === 'logging-out' ? t`Logging out` : t`Logout`}
+      </Button>
+    </Navigation>
   );
 }
 
-const Wrapper = styled('div', {
+function NavItem({
+  icon,
+  label,
+  to,
+  onPress,
+}: {
+  icon: IconName;
+  label: string;
+  to: '/';
+  onPress?: () => void;
+}) {
+  return (
+    <Link
+      to={to}
+      activeOptions={{ exact: true }}
+      className={navItemStyles}
+      onPress={onPress}
+    >
+      <Stack direction="row" gap="small" align="center">
+        <Icon name={icon} size={20} color="currentColor" />
+        <Text variant="bodyBold" as="span">
+          {label}
+        </Text>
+      </Stack>
+    </Link>
+  );
+}
+
+function ExampleNavItem({
+  icon,
+  label,
+  path,
+  testId,
+  onNavigate,
+}: {
+  icon: IconName;
+  label: string;
+  path: string;
+  testId: string;
+  onNavigate?: () => void;
+}) {
+  return (
+    <Link
+      to="/$"
+      params={{ _splat: path }}
+      className={navItemStyles}
+      data-testid={testId}
+      onPress={onNavigate}
+    >
+      <Stack direction="row" gap="small" align="center">
+        <Icon name={icon} size={20} color="currentColor" />
+        <Text variant="bodyBold" as="span">
+          {label}
+        </Text>
+      </Stack>
+    </Link>
+  );
+}
+
+const Navigation = styled('nav', {
   base: {
-    height: '100%',
-    minWidth: '300px',
+    minWidth: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '$small',
+    flexGrow: 1,
+    padding: '$regular',
+  },
+});
+
+const Aside = styled('aside', {
+  base: {
+    minWidth: 0,
+    display: 'flex',
+    flexDirection: 'column',
     backgroundColor: '$surface',
-    borderRight: '1px solid $line3',
+    borderRightWidth: '1px',
+    borderRightColor: '$line3',
+    gridColumn: '1',
+    gridRow: '2',
+
+    mdDown: { display: 'none' },
   },
 });
 
-const Nav = styled('nav', {
-  base: {
-    height: '100%',
-  },
-});
+const navItemStyles = css({
+  display: 'block',
+  width: '100%',
+  color: '$textMuted',
+  textDecoration: 'none',
+  borderRadius: '$regular',
+  padding: '$small',
+  outline: 'none',
 
-const NavList = styled('ul', {
-  base: {
-    display: 'flex',
-    flexDirection: 'column',
-    height: '100%',
-    padding: '$xs',
+  '&[data-status="active"]': {
+    color: '$primary',
+    backgroundColor: '$primaryMuted',
   },
-});
-
-const NavItemLink = styled(Link, {
-  base: {
-    position: 'relative',
-    display: 'flex',
-    alignItems: 'center',
+  '&:hover': {
     color: '$text',
-    padding: '$regular',
-    borderRadius: '$small',
-    $hoverHighlight: true,
-    $pressOpacity: true,
+    backgroundColor: '$neutral5',
+  },
+  '&:focus-visible': {
+    outline: '2px solid {colors.$focusRing}',
+    outlineOffset: '-2px',
   },
 });
 
-const Logout = styled('li', {
-  base: {
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '$regular',
-  },
+const NavigationSpacer = styled('div', {
+  base: { flexGrow: 1 },
 });

@@ -1,23 +1,15 @@
-import type { AuthenticatedContext, Context } from '~/setup/context';
-import { checkOrganisationMembership } from '../utils/authorisation';
+import type { AuthenticatedContext } from '~/setup/context';
 import { organisationDao } from './organisation.dao';
 
 function getOrganisation(ctx: AuthenticatedContext, id: string) {
-  checkOrganisationMembership(ctx);
-
-  return organisationDao.getOrganisation(ctx.db, id);
+  return organisationDao.getOrganisation(ctx.db, { id, userId: ctx.user.id });
 }
 
-function getUserOrganisations(ctx: AuthenticatedContext, userId: string) {
-  return organisationDao.getUserOrganisations(ctx.db, userId);
-}
-
-function getUserOrganisationsWithRoles(ctx: Context, userId: string) {
-  return organisationDao.getUserOrganisationsWithRoles(ctx.db, userId);
+function getUserOrganisations(ctx: AuthenticatedContext) {
+  return organisationDao.getUserOrganisations(ctx.db, ctx.user.id);
 }
 
 export const organisationService = {
   getOrganisation,
   getUserOrganisations,
-  getUserOrganisationsWithRoles,
 };

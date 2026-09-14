@@ -1,39 +1,69 @@
+import { useLingui } from '@lingui/react/macro';
+import { type ReactNode } from 'react';
+
 import { LangMenuButton } from '~/components/common/lang-menu-button';
+import { css } from '~/design-system/css';
 import { styled } from '~/design-system/jsx';
 import { Stack } from '~/uikit/stack';
 import { Text } from '~/uikit/text';
 
 import logoImg from '../../images/logo.svg';
+import { BreadcrumbSlot } from './breadcrumbs';
+import { Link } from './link';
 
-export function Toolbar() {
+export function Toolbar({ children }: { children?: ReactNode }) {
+  const { t } = useLingui();
+
   return (
     <Wrapper>
-      <Stack direction="row" gap="regular" align="center">
+      <Link to="/" aria-label={t`Dashboard`} className={logoLinkStyles}>
         <LogoWrapper>
           <LogoImg src={logoImg} />
         </LogoWrapper>
 
-        <Text variant="bodyBold" color="brand">
-          Taito Fullstack Template
-        </Text>
-      </Stack>
+        <LogoText variant="bodyBold" color="brand">
+          Fullstack Template
+        </LogoText>
+      </Link>
 
-      <LangMenuButton />
+      <BreadcrumbSlot />
+
+      <Stack direction="row" gap="small" align="center">
+        <LangMenuButton />
+        {children}
+      </Stack>
     </Wrapper>
   );
 }
 
 const Wrapper = styled('header', {
   base: {
-    width: '100%',
     display: 'flex',
-    justifyContent: 'space-between',
+    flexDirection: 'row',
     alignItems: 'center',
-    padding: '$regular',
+    gap: '$regular',
+    gridColumn: '1 / -1',
+    gridRow: '1',
+    minHeight: '55px',
+    paddingInline: '$medium',
     backgroundColor: '$surface',
-    borderBottom: '1px solid',
-    borderColor: '$line3',
+    borderBottomWidth: '1px',
+    borderBottomColor: '$line3',
+    flexShrink: 0,
+
+    smDown: {
+      paddingInline: '$regular',
+    },
   },
+});
+
+const logoLinkStyles = css({
+  display: 'flex',
+  flexShrink: 0,
+  alignItems: 'center',
+  gap: '$regular',
+  color: '$text',
+  textDecoration: 'none',
 });
 
 const LogoWrapper = styled('div', {
@@ -52,5 +82,13 @@ const LogoImg = styled('img', {
   base: {
     height: '18px',
     width: 'auto',
+  },
+});
+
+const LogoText = styled(Text, {
+  base: {
+    smDown: {
+      display: 'none',
+    },
   },
 });

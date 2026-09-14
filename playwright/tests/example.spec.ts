@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test';
 
-test('has title', async ({ page }) => {
+test('shows the dashboard', async ({ page }) => {
   await page.goto('/');
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Home/);
+
+  await expect(page).toHaveTitle(/Dashboard/);
+  await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible();
 });

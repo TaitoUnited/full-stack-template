@@ -58,6 +58,7 @@ function LoginRoute() {
                 label={t`Email`}
                 name="email"
                 icon="mail"
+                autoComplete="email"
                 value={credentials.email}
                 onInput={handleChange}
               />
@@ -67,6 +68,7 @@ function LoginRoute() {
                 name="password"
                 type="password"
                 icon="fingerprint"
+                autoComplete="current-password"
                 value={credentials.password}
                 onInput={handleChange}
               />

@@ -97,22 +97,21 @@ You can preload a query in the router and pass it to the component using the `us
 
 ```tsx
 import { useReadQuery } from '~/graphql';
-import { PostListQuery } from '~/graphql/post/queries';
+import { MeQuery } from '~/graphql/session/queries';
 
-export const Route = createFileRoute('/_app/$workspaceId/posts')({
-  component: PostListRoute,
+export const Route = createFileRoute('/_app/')({
+  component: DashboardRoute,
   errorComponent: () => <RouteError />,
   pendingComponent: () => <RoutePending />,
   loader: async ({ context }) => ({
-    queryRef: context.preloadQuery(PostListQuery),
+    queryRef: context.preloadQuery(MeQuery),
   }),
 });
 
-export default function PostListRoute() {
-  const { t } = useLingui();
+export default function DashboardRoute() {
   const { queryRef } = Route.useLoaderData();
   const {
-    data: { posts },
+    data: { me },
   } = useReadQuery(queryRef);
 
   ...

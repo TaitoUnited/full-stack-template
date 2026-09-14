@@ -11,14 +11,8 @@
 import { Route as rootRouteImport } from './routes/root';
 import { Route as layoutRouteImport } from './routes/layout';
 import { Route as loginLoginDotrouteRouteImport } from './routes/login/login.route';
-import { Route as indexRouteImport } from './routes/index';
-import { Route as workspaceWorkspaceDotrouteRouteImport } from './routes/workspace/workspace.route';
 import { Route as homeHomeDotrouteRouteImport } from './routes/home/home.route';
-import { Route as feature3DotrouteRouteImport } from './routes/feature-3.route';
-import { Route as postListPostListDotrouteRouteImport } from './routes/post-list/post-list.route';
-import { Route as themingThemingDotrouteRouteImport } from './routes/theming/theming.route';
-import { Route as postPostDotrouteRouteImport } from './routes/post/post.route';
-import { Route as postCreatePostCreateDotrouteRouteImport } from './routes/post-create/post-create.route';
+import { Route as notFoundNotFoundDotrouteRouteImport } from './routes/not-found/not-found.route';
 
 const layoutRoute = layoutRouteImport.update({
   id: '/_app',
@@ -29,118 +23,41 @@ const loginLoginDotrouteRoute = loginLoginDotrouteRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any);
-const indexRoute = indexRouteImport.update({
+const homeHomeDotrouteRoute = homeHomeDotrouteRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => layoutRoute,
 } as any);
-const workspaceWorkspaceDotrouteRoute =
-  workspaceWorkspaceDotrouteRouteImport.update({
-    id: '/$workspaceId',
-    path: '/$workspaceId',
+const notFoundNotFoundDotrouteRoute =
+  notFoundNotFoundDotrouteRouteImport.update({
+    id: '/$',
+    path: '/$',
     getParentRoute: () => layoutRoute,
-  } as any);
-const homeHomeDotrouteRoute = homeHomeDotrouteRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => workspaceWorkspaceDotrouteRoute,
-} as any);
-const feature3DotrouteRoute = feature3DotrouteRouteImport.update({
-  id: '/feature-3',
-  path: '/feature-3',
-  getParentRoute: () => workspaceWorkspaceDotrouteRoute,
-} as any);
-const postListPostListDotrouteRoute =
-  postListPostListDotrouteRouteImport.update({
-    id: '/posts',
-    path: '/posts',
-    getParentRoute: () => workspaceWorkspaceDotrouteRoute,
-  } as any);
-const themingThemingDotrouteRoute = themingThemingDotrouteRouteImport.update({
-  id: '/theming',
-  path: '/theming',
-  getParentRoute: () => workspaceWorkspaceDotrouteRoute,
-} as any);
-const postPostDotrouteRoute = postPostDotrouteRouteImport.update({
-  id: '/posts_/$id',
-  path: '/posts_/$id',
-  getParentRoute: () => workspaceWorkspaceDotrouteRoute,
-} as any);
-const postCreatePostCreateDotrouteRoute =
-  postCreatePostCreateDotrouteRouteImport.update({
-    id: '/posts_/create',
-    path: '/posts_/create',
-    getParentRoute: () => workspaceWorkspaceDotrouteRoute,
   } as any);
 
 export interface FileRoutesByFullPath {
   '/login': typeof loginLoginDotrouteRoute;
-  '/': typeof indexRoute;
-  '/$workspaceId': typeof workspaceWorkspaceDotrouteRouteWithChildren;
-  '/$workspaceId/': typeof homeHomeDotrouteRoute;
-  '/$workspaceId/feature-3': typeof feature3DotrouteRoute;
-  '/$workspaceId/posts': typeof postListPostListDotrouteRoute;
-  '/$workspaceId/theming': typeof themingThemingDotrouteRoute;
-  '/$workspaceId/posts_/$id': typeof postPostDotrouteRoute;
-  '/$workspaceId/posts_/create': typeof postCreatePostCreateDotrouteRoute;
+  '/': typeof homeHomeDotrouteRoute;
+  '/$': typeof notFoundNotFoundDotrouteRoute;
 }
 export interface FileRoutesByTo {
   '/login': typeof loginLoginDotrouteRoute;
-  '/': typeof indexRoute;
-  '/$workspaceId': typeof homeHomeDotrouteRoute;
-  '/$workspaceId/feature-3': typeof feature3DotrouteRoute;
-  '/$workspaceId/posts': typeof postListPostListDotrouteRoute;
-  '/$workspaceId/theming': typeof themingThemingDotrouteRoute;
-  '/$workspaceId/posts_/$id': typeof postPostDotrouteRoute;
-  '/$workspaceId/posts_/create': typeof postCreatePostCreateDotrouteRoute;
+  '/': typeof homeHomeDotrouteRoute;
+  '/$': typeof notFoundNotFoundDotrouteRoute;
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport;
   '/login': typeof loginLoginDotrouteRoute;
   '/_app': typeof layoutRouteWithChildren;
-  '/_app/$workspaceId': typeof workspaceWorkspaceDotrouteRouteWithChildren;
-  '/_app/': typeof indexRoute;
-  '/_app/$workspaceId/': typeof homeHomeDotrouteRoute;
-  '/_app/$workspaceId/feature-3': typeof feature3DotrouteRoute;
-  '/_app/$workspaceId/posts': typeof postListPostListDotrouteRoute;
-  '/_app/$workspaceId/theming': typeof themingThemingDotrouteRoute;
-  '/_app/$workspaceId/posts_/$id': typeof postPostDotrouteRoute;
-  '/_app/$workspaceId/posts_/create': typeof postCreatePostCreateDotrouteRoute;
+  '/_app/': typeof homeHomeDotrouteRoute;
+  '/_app/$': typeof notFoundNotFoundDotrouteRoute;
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths:
-    | '/login'
-    | '/'
-    | '/$workspaceId'
-    | '/$workspaceId/'
-    | '/$workspaceId/feature-3'
-    | '/$workspaceId/posts'
-    | '/$workspaceId/theming'
-    | '/$workspaceId/posts_/$id'
-    | '/$workspaceId/posts_/create';
+  fullPaths: '/login' | '/' | '/$';
   fileRoutesByTo: FileRoutesByTo;
-  to:
-    | '/login'
-    | '/'
-    | '/$workspaceId'
-    | '/$workspaceId/feature-3'
-    | '/$workspaceId/posts'
-    | '/$workspaceId/theming'
-    | '/$workspaceId/posts_/$id'
-    | '/$workspaceId/posts_/create';
-  id:
-    | '__root__'
-    | '/login'
-    | '/_app'
-    | '/_app/$workspaceId'
-    | '/_app/'
-    | '/_app/$workspaceId/'
-    | '/_app/$workspaceId/feature-3'
-    | '/_app/$workspaceId/posts'
-    | '/_app/$workspaceId/theming'
-    | '/_app/$workspaceId/posts_/$id'
-    | '/_app/$workspaceId/posts_/create';
+  to: '/login' | '/' | '/$';
+  id: '__root__' | '/login' | '/_app' | '/_app/' | '/_app/$';
   fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
@@ -168,93 +85,27 @@ declare module '@tanstack/react-router' {
       id: '/_app/';
       path: '/';
       fullPath: '/';
-      preLoaderRoute: typeof indexRouteImport;
-      parentRoute: typeof layoutRoute;
-    };
-    '/_app/$workspaceId': {
-      id: '/_app/$workspaceId';
-      path: '/$workspaceId';
-      fullPath: '/$workspaceId';
-      preLoaderRoute: typeof workspaceWorkspaceDotrouteRouteImport;
-      parentRoute: typeof layoutRoute;
-    };
-    '/_app/$workspaceId/': {
-      id: '/_app/$workspaceId/';
-      path: '/';
-      fullPath: '/$workspaceId/';
       preLoaderRoute: typeof homeHomeDotrouteRouteImport;
-      parentRoute: typeof workspaceWorkspaceDotrouteRoute;
+      parentRoute: typeof layoutRoute;
     };
-    '/_app/$workspaceId/feature-3': {
-      id: '/_app/$workspaceId/feature-3';
-      path: '/feature-3';
-      fullPath: '/$workspaceId/feature-3';
-      preLoaderRoute: typeof feature3DotrouteRouteImport;
-      parentRoute: typeof workspaceWorkspaceDotrouteRoute;
-    };
-    '/_app/$workspaceId/posts': {
-      id: '/_app/$workspaceId/posts';
-      path: '/posts';
-      fullPath: '/$workspaceId/posts';
-      preLoaderRoute: typeof postListPostListDotrouteRouteImport;
-      parentRoute: typeof workspaceWorkspaceDotrouteRoute;
-    };
-    '/_app/$workspaceId/theming': {
-      id: '/_app/$workspaceId/theming';
-      path: '/theming';
-      fullPath: '/$workspaceId/theming';
-      preLoaderRoute: typeof themingThemingDotrouteRouteImport;
-      parentRoute: typeof workspaceWorkspaceDotrouteRoute;
-    };
-    '/_app/$workspaceId/posts_/$id': {
-      id: '/_app/$workspaceId/posts_/$id';
-      path: '/posts_/$id';
-      fullPath: '/$workspaceId/posts_/$id';
-      preLoaderRoute: typeof postPostDotrouteRouteImport;
-      parentRoute: typeof workspaceWorkspaceDotrouteRoute;
-    };
-    '/_app/$workspaceId/posts_/create': {
-      id: '/_app/$workspaceId/posts_/create';
-      path: '/posts_/create';
-      fullPath: '/$workspaceId/posts_/create';
-      preLoaderRoute: typeof postCreatePostCreateDotrouteRouteImport;
-      parentRoute: typeof workspaceWorkspaceDotrouteRoute;
+    '/_app/$': {
+      id: '/_app/$';
+      path: '/$';
+      fullPath: '/$';
+      preLoaderRoute: typeof notFoundNotFoundDotrouteRouteImport;
+      parentRoute: typeof layoutRoute;
     };
   }
 }
 
-interface workspaceWorkspaceDotrouteRouteChildren {
-  homeHomeDotrouteRoute: typeof homeHomeDotrouteRoute;
-  feature3DotrouteRoute: typeof feature3DotrouteRoute;
-  postListPostListDotrouteRoute: typeof postListPostListDotrouteRoute;
-  themingThemingDotrouteRoute: typeof themingThemingDotrouteRoute;
-  postPostDotrouteRoute: typeof postPostDotrouteRoute;
-  postCreatePostCreateDotrouteRoute: typeof postCreatePostCreateDotrouteRoute;
-}
-
-const workspaceWorkspaceDotrouteRouteChildren: workspaceWorkspaceDotrouteRouteChildren =
-  {
-    homeHomeDotrouteRoute: homeHomeDotrouteRoute,
-    feature3DotrouteRoute: feature3DotrouteRoute,
-    postListPostListDotrouteRoute: postListPostListDotrouteRoute,
-    themingThemingDotrouteRoute: themingThemingDotrouteRoute,
-    postPostDotrouteRoute: postPostDotrouteRoute,
-    postCreatePostCreateDotrouteRoute: postCreatePostCreateDotrouteRoute,
-  };
-
-const workspaceWorkspaceDotrouteRouteWithChildren =
-  workspaceWorkspaceDotrouteRoute._addFileChildren(
-    workspaceWorkspaceDotrouteRouteChildren,
-  );
-
 interface layoutRouteChildren {
-  workspaceWorkspaceDotrouteRoute: typeof workspaceWorkspaceDotrouteRouteWithChildren;
-  indexRoute: typeof indexRoute;
+  homeHomeDotrouteRoute: typeof homeHomeDotrouteRoute;
+  notFoundNotFoundDotrouteRoute: typeof notFoundNotFoundDotrouteRoute;
 }
 
 const layoutRouteChildren: layoutRouteChildren = {
-  workspaceWorkspaceDotrouteRoute: workspaceWorkspaceDotrouteRouteWithChildren,
-  indexRoute: indexRoute,
+  homeHomeDotrouteRoute: homeHomeDotrouteRoute,
+  notFoundNotFoundDotrouteRoute: notFoundNotFoundDotrouteRoute,
 };
 
 const layoutRouteWithChildren =

@@ -3,12 +3,13 @@ import type { TestProject } from 'vitest/node';
 
 import type { DrizzleDb } from '~/db';
 import {
+  type Role,
   organisationTable,
+  ROLES,
   userOrganisationTable,
 } from '~/src/organisation/organisation.db';
 import { userTable } from '~/src/user/user.db';
 import { getAuth } from '~/src/utils/authentication';
-import { type Role, ROLES } from '~/src/utils/authorisation';
 import { hashPassword } from '~/src/utils/password';
 
 import { closeTestDbPool, getTestDbPool } from './setup-test-db';
@@ -31,15 +32,28 @@ export default async function setup({ provide }: TestProject) {
       'Server test organisation'
     );
 
-    const [admin, manager, viewer] = await Promise.all([
-      setupUser(db, { role: ROLES.ADMIN, organisationId: organisation.id }),
-      setupUser(db, { role: ROLES.MANAGER, organisationId: organisation.id }),
-      setupUser(db, { role: ROLES.VIEWER, organisationId: organisation.id }),
+    const [admin, manager, viewer, unassigned] = await Promise.all([
+      setupUser(db, {
+        role: ROLES.ADMIN,
+        identifier: 'admin',
+        organisationId: organisation.id,
+      }),
+      setupUser(db, {
+        role: ROLES.MANAGER,
+        identifier: 'manager',
+        organisationId: organisation.id,
+      }),
+      setupUser(db, {
+        role: ROLES.VIEWER,
+        identifier: 'viewer',
+        organisationId: organisation.id,
+      }),
+      setupUser(db, { role: ROLES.VIEWER, identifier: 'unassigned' }),
     ]);
 
     const testData: TestData = {
       organisation,
-      users: { admin, manager, viewer },
+      users: { admin, manager, viewer, unassigned },
     };
 
     provide('testData', testData);
@@ -55,15 +69,15 @@ export default async function setup({ provide }: TestProject) {
 
 async function setupUser(
   db: DrizzleDb,
-  data: { organisationId: string; role: Role }
+  data: { identifier: string; organisationId?: string; role: Role }
 ): Promise<TestUser> {
   const password = 'server-test-password';
   const passwordHash = await hashPassword(password);
   const [user] = await db
     .insert(userTable)
     .values({
-      name: `Server test ${data.role}`,
-      email: `${data.role}@server-test-data.com`,
+      name: `Server test ${data.identifier}`,
+      email: `${data.identifier}@server-test-data.com`,
       passwordHash,
     })
     .returning({ id: userTable.id, email: userTable.email });
@@ -72,18 +86,20 @@ async function setupUser(
     throw new Error(`Failed to create server test ${data.role} user`);
   }
 
-  await db.insert(userOrganisationTable).values({
-    userId: user.id,
-    organisationId: data.organisationId,
-    role: data.role,
-  });
+  if (data.organisationId) {
+    await db.insert(userOrganisationTable).values({
+      userId: user.id,
+      organisationId: data.organisationId,
+      role: data.role,
+    });
+  }
 
   const session = await getAuth(db).createSession(user.id, {
     refreshToken: null,
     refreshTokenExpiresAt: null,
   });
 
-  return { ...user, sessionId: session.id, role: data.role };
+  return { ...user, sessionId: session.id };
 }
 
 async function createTestOrganisation(db: DrizzleDb, name: string) {

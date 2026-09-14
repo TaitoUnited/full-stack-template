@@ -2,7 +2,6 @@ import { type DrizzleDb } from '~/db';
 import { comparePassword } from '~/src/utils/password';
 import { isValidPassword, isValidEmail } from '~/src/utils/validation';
 import { userDao } from '../user/user.dao';
-import { organisationDao } from '../organisation/organisation.dao';
 import type { LoginOptions } from '~/types/login';
 import type { Cookie } from '../utils/authentication';
 
@@ -88,15 +87,6 @@ async function validateLogin({
 
   if (!validPassword) {
     throw new LoginError(401, 'Invalid credentials');
-  }
-
-  const userOrganisations = await organisationDao.getUserOrganisations(
-    db,
-    user.id
-  );
-
-  if (userOrganisations.length === 0) {
-    throw new LoginError(401, 'User does not belong to any organisation');
   }
 
   return user;

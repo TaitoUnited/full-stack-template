@@ -6,7 +6,6 @@ import type {
 import { fastifyPlugin } from 'fastify-plugin';
 
 import { type ServerInstance } from '../server';
-import { organisationService } from '~/src/organisation/organisation.service';
 import type { AuthenticatedGraphQLRequest } from '../graphql/types';
 
 export const uiAuthPlugin = fastifyPlugin(async (server: ServerInstance) => {
@@ -52,22 +51,7 @@ export const uiAuthPlugin = fastifyPlugin(async (server: ServerInstance) => {
       return;
     }
 
-    /**
-     * Populate the available organisations with the associated role
-     * for the user in the request context.
-     */
-    const userOrganisations =
-      await organisationService.getUserOrganisationsWithRoles(
-        request.ctx,
-        user.id
-      );
-
     request.ctx.user = user;
-    request.ctx.userOrganisations = userOrganisations.map((row) => ({
-      id: row.organisationId,
-      role: row.role,
-    }));
-
     request.ctx.user.session = session;
   });
 });
