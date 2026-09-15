@@ -73,6 +73,7 @@ async function setupUser(
 ): Promise<TestUser> {
   const password = 'server-test-password';
   const passwordHash = await hashPassword(password);
+
   const [user] = await db
     .insert(userTable)
     .values({

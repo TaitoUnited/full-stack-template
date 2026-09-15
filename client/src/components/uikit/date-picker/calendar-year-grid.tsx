@@ -23,6 +23,7 @@ export function CalendarYearGrid({
 
       // Scroll selected year into view
       const offset = selectedYearButtonRef.current.offsetTop;
+
       const selectedButtonHeight =
         selectedYearButtonRef.current.getBoundingClientRect().height;
 

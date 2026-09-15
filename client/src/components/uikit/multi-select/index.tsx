@@ -173,6 +173,7 @@ function MultiSelectOptions({
   const [inputValue, setInputValue] = useState('');
   const allowFiltering = items.length > 10;
   const filter = useFilter({ sensitivity: 'base' });
+
   const visibleItems = allowFiltering
     ? items.filter(item => filter.contains(item.label, inputValue.trim()))
     : items;

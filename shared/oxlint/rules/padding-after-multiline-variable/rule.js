@@ -8,11 +8,11 @@ export const rule = createRule({
   meta: {
     type: "layout",
     docs: {
-      description: "Require a blank line after multiline variable declarations.",
+      description: "Require a blank line adjacent to multiline variable declarations.",
     },
     fixable: "whitespace",
     messages: {
-      expected: "Add exactly one blank line after this multiline variable declaration.",
+      expected: "Add exactly one blank line next to this multiline variable declaration.",
     },
   },
   create(context) {
@@ -22,7 +22,15 @@ export const rule = createRule({
       for (let index = 0; index < statements.length - 1; index += 1) {
         const statement = statements[index];
 
-        if (!isVariableDeclaration(statement) || !isMultiline(statement)) {
+        const isMultilineVariable = isVariableDeclaration(statement) && isMultiline(statement);
+
+        // Other padding rules own boundaries after multiline statements.
+        const isNextMultilineVariable =
+          !isMultiline(statement) &&
+          isVariableDeclaration(statements[index + 1]) &&
+          isMultiline(statements[index + 1]);
+
+        if (!isMultilineVariable && !isNextMultilineVariable) {
           continue;
         }
 
@@ -31,6 +39,7 @@ export const rule = createRule({
           node: statement,
           nextNode: statements[index + 1],
           messageId: "expected",
+          reportNode: isMultilineVariable ? statement : statements[index + 1],
         });
       }
     }

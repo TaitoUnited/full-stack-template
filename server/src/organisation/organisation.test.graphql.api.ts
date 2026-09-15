@@ -16,6 +16,7 @@ describe('Organisation API', () => {
     );
 
     const { organisations } = data;
+
     const testOrganisation = organisations?.find(
       (org) => org.id === globalThis.testData.organisation.id
     );

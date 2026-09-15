@@ -47,6 +47,7 @@ export async function setupServer(server: ServerInstance) {
   await server.register(composeFastifyPlugins(auth.allowed, sessionRoutes)); // login, logout, etc.
   await server.register(composeFastifyPlugins(auth.ui, organisationRoutes));
   await server.register(disableNotAuthenticated);
+
   // oxlint-enable typescript/no-misused-promises typescript/strict-void-return
 
   const address = await server.listen({

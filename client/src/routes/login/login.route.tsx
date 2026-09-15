@@ -26,6 +26,7 @@ function LoginRoute() {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [hasLoginError, setHasLoginError] = useState(false);
   const authStatus = useAuthStore(state => state.status);
+
   const canSubmit =
     credentials.email.trim().length > 0 && credentials.password.length > 0;
 

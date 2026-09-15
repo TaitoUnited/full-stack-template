@@ -14,6 +14,7 @@ async function login(
   { email, password, auth }: LoginOptions
 ): Promise<{ cookie: Cookie }> {
   const user = await validateLogin({ db, email, password });
+
   const session = await auth.createSession(user.id, {
     refreshToken: null,
     refreshTokenExpiresAt: null,
@@ -35,6 +36,7 @@ async function tokenLogin(
   { email, password, auth }: LoginOptions
 ) {
   const user = await validateLogin({ db, email, password });
+
   const session = await auth.createSession(user.id, {
     refreshToken: null,
     refreshTokenExpiresAt: null,

@@ -39,6 +39,7 @@ export function setupErrorHandler(server: ServerInstance) {
         : 500;
 
     const statusCode = errorStatusCode < 500 ? errorStatusCode : 500;
+
     const message =
       statusCode < 500 ? normalizedError.message : 'Internal server error';
 

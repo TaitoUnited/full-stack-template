@@ -39,6 +39,7 @@ export async function setupMessages() {
 export function useI18n() {
   const { i18n: i18nInstance } = useLingui();
   const parsedLocale = LOCALE_SCHEMA.safeParse(i18nInstance.locale);
+
   const currentLocale = parsedLocale.success
     ? parsedLocale.data
     : DEFAULT_LOCALE;

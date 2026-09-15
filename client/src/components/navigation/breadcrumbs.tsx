@@ -40,6 +40,7 @@ type BreadcrumbsProps = {
 function BreadcrumbsRoot({ children }: BreadcrumbsProps) {
   const { t } = useLingui();
   const isNarrowScreen = useBreakpoint('mdDown');
+
   const portalTarget = useSyncExternalStore(
     subscribeToBreadcrumbSlot,
     getBreadcrumbSlot,

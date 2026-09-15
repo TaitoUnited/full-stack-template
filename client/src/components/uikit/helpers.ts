@@ -13,6 +13,7 @@ export async function fetchStarWarsCharacter({
   signal?: AbortSignal;
 }): Promise<{ value: string; label: string }[]> {
   await sleep(500); // add a bit extra delay to simulate network latency
+
   const response = await fetch(
     `https://swapi.py4e.com/api/people/?search=${filterText}`,
     { signal }

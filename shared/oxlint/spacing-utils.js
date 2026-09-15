@@ -25,7 +25,7 @@ const CLASS_METHOD_TYPES = new Set([
  * Comments on the previous line stay with the previous node. Other comments
  * stay with the following node.
  */
-export function requireBlankLineAfter({ context, node, nextNode, messageId }) {
+export function requireBlankLineAfter({ context, node, nextNode, messageId, reportNode = node }) {
   const sourceCode = getSourceCode(context);
 
   const { endAnchor, startAnchor } = getCommentAwareBoundary({
@@ -43,7 +43,7 @@ export function requireBlankLineAfter({ context, node, nextNode, messageId }) {
   }
 
   context.report({
-    node,
+    node: reportNode,
     messageId,
     fix(fixer) {
       return fixer.replaceTextRange(

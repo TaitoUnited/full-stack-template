@@ -37,6 +37,7 @@ export const server = Fastify({
   }),
   genReqId: (request) => {
     const requestIdHeader = request.headers['x-request-id'];
+
     const upstreamRequestId = Array.isArray(requestIdHeader)
       ? requestIdHeader[0]
       : requestIdHeader;
