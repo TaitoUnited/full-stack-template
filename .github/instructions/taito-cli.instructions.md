@@ -1,1 +1,1 @@
-../../.claude/skills/taito-cli/SKILL.md
+../../.agents/skills/taito-local/SKILL.md

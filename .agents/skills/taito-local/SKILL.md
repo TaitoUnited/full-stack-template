@@ -120,11 +120,11 @@ Seeds live in `server/db/seed/`. See `docs/database/migration.md`.
 
 ```bash
 taito lint                  # lint everything
-taito unit                  # all unit tests
-taito unit:client           # unit tests of one container
-taito unit:client car       # a single test
+taito test unit             # all unit tests
+taito test unit:client      # unit tests of one container
+taito test unit:client car  # a single test
 taito test:local            # integration / e2e tests against local
-taito code check:client     # code quality checks
+taito code check            # code quality checks
 ```
 
 ## Discovering commands
