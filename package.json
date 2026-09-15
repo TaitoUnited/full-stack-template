@@ -42,7 +42,7 @@
     "taito-host-test-unit:server": "cd server && npm-run-all 'test:unit {@}' --",
     "taito-host-test-unit:worker": "cd worker && npm-run-all 'test:unit {@}' --",
     "taito-host-db-deploy": "if [ ${taito_env} = 'local' ]; then docker exec ${taito_project}-server sh -c 'npm run db:migrate && npm run db:seed'; else docker compose -f docker-compose-cicd.yaml run --rm ${taito_project}-server-cicd sh -c 'echo Sleeping... && sleep 30 && echo Done sleeping && npm run db:migrate:ci && npm run db:seed:ci'; fi",
-    "taito-host-test": "npm-run-all test:server test:playwright",
+    "taito-host-test": "./scripts/test-local.sh",
     "taito-host-verify": "npm run verify",
     "test": "npm-run-all test:server test:playwright",
     "test:server": "taito ${taito_options} util test:server:${taito_target_env}",
