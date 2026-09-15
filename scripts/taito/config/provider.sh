@@ -105,7 +105,7 @@ case $taito_provider in
     gcp_db_proxy_enabled=false
     if [[ ${kubernetes_db_proxy_enabled} != "true" ]]; then
       gcp_db_proxy_enabled=true
-      taito_provider_db_proxy_secret=cloudsql-gserviceaccount.key
+      taito_provider_db_proxy_secret=cloudsql-client-serviceaccount.key
       taito_remote_secrets="
         $taito_remote_secrets
         $taito_provider_db_proxy_secret:copy/common
