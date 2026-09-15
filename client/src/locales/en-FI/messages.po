@@ -83,10 +83,6 @@ msgstr "Email"
 msgid "Example page"
 msgstr "Example page"
 
-#: src/routes/login/login.route.tsx
-msgid "Failed to login"
-msgstr "Failed to login"
-
 #: src/components/navigation/sidebar.tsx
 msgid "Failed to logout"
 msgstr "Failed to logout"
@@ -95,6 +91,10 @@ msgstr "Failed to logout"
 #: src/routes/internal-error/internal-error-unauthenticated.tsx
 msgid "Internal error"
 msgstr "Internal error"
+
+#: src/routes/login/login.route.tsx
+msgid "Invalid email or password."
+msgstr "Invalid email or password."
 
 #: src/components/uikit/date-range-picker/predefined-ranges.tsx
 msgid "Last 14 Days"

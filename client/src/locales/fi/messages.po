@@ -83,10 +83,6 @@ msgstr "Sähköposti"
 msgid "Example page"
 msgstr "Esimerkkisivu"
 
-#: src/routes/login/login.route.tsx
-msgid "Failed to login"
-msgstr "Kirjautuminen epäonnistui"
-
 #: src/components/navigation/sidebar.tsx
 msgid "Failed to logout"
 msgstr "Uloskirjautuminen epäonnistui"
@@ -95,6 +91,10 @@ msgstr "Uloskirjautuminen epäonnistui"
 #: src/routes/internal-error/internal-error-unauthenticated.tsx
 msgid "Internal error"
 msgstr "Sisäinen virhe"
+
+#: src/routes/login/login.route.tsx
+msgid "Invalid email or password."
+msgstr "Virheellinen sähköpostiosoite tai salasana."
 
 #: src/components/uikit/date-range-picker/predefined-ranges.tsx
 msgid "Last 14 Days"

@@ -29,8 +29,9 @@ export async function login(variables: { email: string; password: string }) {
     storage.clearAll();
     store.setState({ status: 'authenticated' });
     void router.navigate({ to: '/' });
-  } catch {
+  } catch (error) {
     store.setState({ status: 'unauthenticated' });
+    throw error;
   }
 }
 

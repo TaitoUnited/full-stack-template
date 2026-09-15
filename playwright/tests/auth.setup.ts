@@ -20,19 +20,28 @@ const password =
 
 // Setup
 test('authenticate', async ({ page }) => {
-  // Check that password was found
-  // expect(password).not.toBeFalsy();
-
   await page.goto('/');
 
+  const loginButton = page.getByTestId('login');
+  await expect(loginButton).toBeDisabled();
+
   await page.getByLabel('Email', { exact: true }).fill('admin@test.com');
+  await expect(loginButton).toBeDisabled();
+
+  await page.getByLabel('Password', { exact: true }).fill('invalid-password');
+  await expect(loginButton).toBeEnabled();
+  await loginButton.click();
+
+  await expect(page.getByRole('alert')).toHaveText(
+    'Invalid email or password.'
+  );
+
   await page.getByLabel('Password', { exact: true }).fill(password);
-  await page.getByTestId('login').click();
+  await expect(page.getByRole('alert')).toBeHidden();
+  await loginButton.click();
 
   // Check that entering app was successful
-  await expect(
-    page.getByText('Taito Fullstack Template').first()
-  ).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible();
 
   // Save browser state for reusing auth
   await page.context().storageState({ path: authFile });
