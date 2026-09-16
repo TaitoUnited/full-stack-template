@@ -123,7 +123,7 @@ taito lint                  # lint everything
 taito test unit             # all unit tests
 taito test unit:client      # unit tests of one container
 taito test unit:client car  # a single test
-taito test:local            # integration / e2e tests against local
+taito test:local            # e2e tests, needs a running stack (taito start)
 taito code check            # code quality checks
 ```
 
