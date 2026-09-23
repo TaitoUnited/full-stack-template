@@ -33,19 +33,15 @@ Short and concise is the key, for example:
 
 ## 🧪 Added tests?
 
-- [ ] 👍 Yes
-- [ ] 🙅 No, why not?
+- [ ] 👍 Tests added
 
-<!-- If no tests are added, tell us why. -->
+<!-- Leave the box unticked if no tests are added, and tell us why. -->
 
 ## 📄 Is documentation up-to-date?
 
-<!-- Have you added or updated documentation related to the changes? -->
+- [ ] 👍 Documentation is up to date
 
-- [ ] 👍 Yes
-- [ ] 🙅 No, why not?
-
-<!-- If changes don't affect documentation, remove this section. -->
+<!-- Leave the box unticked if documentation still needs a change, and tell us what is missing. If the changes don't affect documentation, remove this section. -->
 
 ## ✔️ Checklist
 
